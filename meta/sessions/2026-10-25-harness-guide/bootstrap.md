@@ -18,3 +18,7 @@ Filled in at arrival and committed with `prompt.md` as the session's first commi
 ## Deviations recorded at arrival
 
 - **Not pushed.** The drafting session had no push credentials. `prompt.md` and `bootstrap.md` were written against the bases above and handed to Emil. The first commit happens when the session runs with write access.
+
+## Correction after arrival (Claude, 2026-10-25)
+
+The "Not pushed" deviation above was true when written and is superseded here, not rewritten. Push access was granted after drafting. GATE 0 was committed as `2b06bfc` on branch `claude/harness-guide` and pushed. The branch row's `[OPEN]` resolves to `claude/harness-guide`. The Steward ground bundle remains `[OPEN]`.
