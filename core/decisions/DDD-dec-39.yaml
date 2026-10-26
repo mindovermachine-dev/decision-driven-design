@@ -20,7 +20,7 @@ resolution: |
   ## What files
 
   - spec/doc-format.md: the ddd:charter and ddd:doc schemas, the scope of the check, and the
-    warning classes W8-W14 (ruling 2).
+    warning classes W8-W15 (ruling 2; W15 at GATE 2, ruling 1).
   - A ddd:charter in the README of the root, core/, apparatus/, applications/, meta/,
     meta/sessions/, papers/, projections/, spec/ and migration/. papers/ and spec/ had no README.
   - The ddd:doc check in validate-core-order.py, as warnings only. A move to errors is a later
@@ -38,6 +38,13 @@ resolution: |
 
   A reformatted document replaces its old text in place and names it in supersedes. A basis may
   name held:<session-dir>/<item-id>; the check reports it as W13 until the filed claim replaces it.
+
+  ## Local bases (GATE 2, ruling 1)
+
+  A basis entry for a local claim or term carries the status it was read at, as ID@status. W11
+  fires when the claim or term file holds a different status; W15 fires on an entry without one.
+  Without this, W11 would see only upstream bases, and four of the seven promotions file here.
+  Local content movement while the status holds is not covered.
 
   ## What this decision does not do
 

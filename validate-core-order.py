@@ -37,10 +37,12 @@ Document format (spec/doc-format.md, DDD-dec-39) — warnings only:
   W8  governed document has no ddd:doc block
   W9  ddd:doc malformed (missing field, unknown status, status/basis mismatch)
   W10 basis entry resolves nowhere (not pinned upstream, not local canon)
-  W11 basis entry's pin moved at the ref (W5/W6): the document rests on a moved basis
+  W11 the document rests on a moved basis: an upstream pin moved (W5/W6), or a local
+      ID@status entry no longer matches the claim or term file
   W12 document pin differs from the repository pin
   W13 basis entry is held (held:<session-dir>/<item-id>), or names no such item
   W14 no ddd:charter governs the document's folder
+  W15 local claim or term in basis written without @status (W11 cannot see it move)
 
 Usage: python3 validate-core-order.py [core-dir]   (graph read from <core-dir>/graph/)
 Exit 1 on any error. Requires PyYAML.
@@ -400,18 +402,19 @@ def _block(regex, text):
 
 
 def _local_ids(repo_root: Path):
-    """Local canon ids a basis may name: this repo's terms, claims and decisions."""
-    ids = set()
+    """Local canon ids a basis may name -> their status (None for decisions, which carry none).
+    The status is what an `ID@status` basis entry is compared with (W11, GATE 2 ruling 1)."""
+    ids = {}
     for sub in ("claims", "decisions"):
         for f in (repo_root / "core" / sub).glob("*.yaml"):
             d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
             if isinstance(d, dict) and d.get("id"):
-                ids.add(d["id"])
+                ids[d["id"]] = None if sub == "decisions" else str(d.get("status", "") or "")
     for gf in (repo_root / "core" / "graph").glob("*.yaml"):
         d = yaml.safe_load(gf.read_text(encoding="utf-8")) or {}
         for e in (d.get("terms", []) or []) + (d.get("claims", []) or []):
             if e.get("id"):
-                ids.add(e["id"])
+                ids[e["id"]] = str(e.get("status", "") or "")
     return ids
 
 
@@ -506,15 +509,31 @@ def check_docs(repo_root: Path, warnings, moved=None):
                     f"W13 {rel}: rests on held result {b}" if found
                     else f"W13 {rel}: held reference {b} names no item in that session's records"
                 )
-            elif b in pinned:
-                if b in moved:
+                continue
+            bid, _, read_at = b.partition("@")
+            if bid in pinned:
+                if bid in moved:
                     warnings.append(
-                        f"W11 {rel}: rests on '{b}', whose pin moved at the ref (W5/W6) — "
+                        f"W11 {rel}: rests on '{bid}', whose pin moved at the ref (W5/W6) — "
                         f"re-read the basis and re-render, annotate or let stand"
                     )
-            elif b not in local:
-                note = " (an upstream decision cannot be pinned yet — S-8)" if b.startswith("DDD-dec-") else ""
-                warnings.append(f"W10 {rel}: basis '{b}' is not pinned upstream and not local canon{note}")
+            elif bid in local:
+                now = local[bid]
+                if now is None:
+                    continue  # a local decision: no status to read at
+                if not read_at:
+                    warnings.append(
+                        f"W15 {rel}: local basis '{bid}' has no @status — write '{bid}@{now}' "
+                        f"so W11 can see it move"
+                    )
+                elif read_at != now:
+                    warnings.append(
+                        f"W11 {rel}: rests on '{bid}' read at '{read_at}', but it is now '{now}' — "
+                        f"re-read the basis and re-render, annotate or let stand"
+                    )
+            else:
+                note = " (an upstream decision cannot be pinned yet — S-8)" if bid.startswith("DDD-dec-") else ""
+                warnings.append(f"W10 {rel}: basis '{bid}' is not pinned upstream and not local canon{note}")
 
     print(f"  docs      {governed} governed, {opened} with ddd:doc, {held_n} held basis entr(y/ies)")
 

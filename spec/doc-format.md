@@ -81,7 +81,7 @@ supersedes: baec167:apparatus/tool-contract.md
 | `reader` | yes | Who this document is for. Narrower than the folder's reader, or the same. |
 | `act` | yes | What they can do after reading it that they could not do before. |
 | `pin` | yes, unless `status: historical` | The upstream tag the document was written against. |
-| `basis` | yes; may be `[]` | What the document rests on. Each entry is one of: an upstream claim or term ID pinned in `graph/upstream.yaml`; a local claim, decision or term ID; or a held result, `held:<session-dir>/<item-id>`. |
+| `basis` | yes; may be `[]` | What the document rests on. Each entry is one of: an upstream claim or term ID pinned in `graph/upstream.yaml`; a local claim or term, written with the status it was read at, as `DDD-cost-04@projected`; a local decision ID; or a held result, `held:<session-dir>/<item-id>`. |
 | `status` | yes | `draft`, `current`, `held` or `historical` (below) |
 | `supersedes` | no | `<commit>:<path>` of the text this document replaced in place. |
 
@@ -96,17 +96,20 @@ supersedes: baec167:apparatus/tool-contract.md
 
 ## 5. The check
 
-`validate-core-order.py` checks every governed document. All findings are **warnings**. A move to errors is a later ruling, after roll-out.
+`validate-core-order.py` checks every governed document. All findings, W8 to W15, are **warnings**. A move to errors is a later ruling, after roll-out.
 
 | Code | Fires when |
 |---|---|
 | W8 | A governed document has no `ddd:doc` block. |
 | W9 | The block is malformed: a required field is missing or empty; `status` is not a registered value; `current` with a `held:` basis; `held` without one. |
 | W10 | A `basis` entry resolves nowhere: it is not pinned upstream and not a local claim, decision or term. An upstream *decision* fires this too, because decisions cannot yet be pinned (successor item S-8 of `2026-09-27-act-address-landing`). |
-| W11 | A `basis` entry is pinned, and its pin fires W5 (status moved) or W6 (content moved) at the ref. **The document rests on a moved basis.** |
+| W11 | **The document rests on a moved basis.** Either a `basis` entry is pinned upstream and its pin fires W5 (status moved) or W6 (content moved) at the ref, or it is local canon written `ID@status` and the claim or term file now holds a different status. |
 | W12 | The document's `pin` is not the repository's pin. |
 | W13 | A `basis` entry is `held:`. The warning names the held item, or says that no such item exists in that session's directory. |
 | W14 | No `ddd:charter` governs the document's folder. |
+| W15 | A `basis` entry names a local claim or term without `@status`, so W11 cannot see it move. |
+
+**Why local entries carry a status (GATE 2 ruling 1).** Upstream pins record a status and a content hash, so W11 sees an upstream basis move. Local canon records neither. `@status` gives a local entry the status half of a pin. Local *content* movement while the status holds (the W6 case) is not covered; it would need a hash per entry. Local decisions carry no status, and need no `@`.
 
 **W11 is what the opener adds over `ddd:ref`.** A `ddd:ref` marks a citation. W11 says which documents *rest* on a basis that moved. Pre-session ruling 2's falsifier tests exactly this: if, after roll-out, W11 stays silent on a document whose basis claim moved, the opener adds nothing and should become prose only.
 
@@ -116,4 +119,4 @@ supersedes: baec167:apparatus/tool-contract.md
 2. Name the reader and the act. If you cannot name the act, the document has no reason to exist yet.
 3. List the basis. If a result you need is not in canon, either cite the promotion that holds it or write the claim first.
 4. Set the status. Write the prose intro. Flag every projected or held basis where it is used.
-5. Run `python3 validate-core-order.py core/` and read the W8–W14 lines for your file.
+5. Run `python3 validate-core-order.py core/` and read the W8–W15 lines for your file.
