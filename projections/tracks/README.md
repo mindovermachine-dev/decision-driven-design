@@ -4,7 +4,8 @@
 worked decision that does not change.** A track is a projection like any other: filtered,
 re-registered, pinned, manifested.
 
-**[PROPOSED]** — 2026-08-18, `DDD-dec-27`. Emil ratifies.
+Filed 2026-08-18 under `DDD-dec-27` and ratified by Emil's acceptance; the `[PROPOSED]` banner
+that stood here was struck 2026-10-26 (`DDD-dec-40`).
 
 ## What a track is
 
@@ -61,4 +62,4 @@ canon and what would change that.
 
 | Track | Vocabulary | Worked decision | Status |
 |---|---|---|---|
-| `01-determination.md` | determinable, determinate, ground, actor, arrangement, commitment level, residual discretion, closure, assurance, escape, accountability | retry count, rungs 1–9; transcript retention period, rung 10 | **[PROPOSED]** — all ten rungs drafted; claim `DDD-track-01` |
+| `01-determination.md` | determinable, determinate, ground, actor, arrangement, commitment level, residual discretion, closure, assurance, escape, accountability | retry count, rungs 1–9; transcript retention period, rung 10 | Ratified (PR #24, 2026-08-18); claim `DDD-track-01`, projected |

@@ -32,7 +32,9 @@ test: |
 owner: none
 changed: v0.5 (2026-08-18, Track 1 session — filed with the track's rungs 6-10)
 notes: |
-  [PROPOSED] Filed at Gate 3 of the Track 1 session. Emil ratifies; nothing here is settled.
+  Filed at Gate 3 of the Track 1 session and ratified by Emil's acceptance of the Track 1
+  pull request (#24, merge e96aa89, 2026-08-18). Ratified means filed, not tested: the claim is projected and nothing here is
+  settled by the acceptance. The [PROPOSED] banner was struck 2026-10-26 (DDD-dec-40).
 
   ## Why this is one claim and not two
 

@@ -4,8 +4,10 @@
 constant while the words change.** Ten rungs. For software engineers; C#/.NET fluency assumed,
 framework vocabulary assumed absent.
 
-> **[PROPOSED] — all ten rungs drafted, Gate 3, 2026-08-18.** Nothing here is ratified. Emil
-> merges and ratifies; this document proposes.
+> **Ratified.** All ten rungs were drafted at Gate 3, 2026-08-18, and accepted by Emil's merge of
+> pull request #24 (e96aa89).
+> The `[PROPOSED]` banner that stood here was struck 2026-10-26 (`DDD-dec-40`). Ratified means
+> filed, not tested: the track's claim, `DDD-track-01`, is projected.
 
 ---
 

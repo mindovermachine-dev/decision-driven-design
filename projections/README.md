@@ -4,7 +4,8 @@
 layers `meta/way-of-working.md` §1 names — framework (canon, upstream), program (`meta/`),
 projections (here).
 
-**[PROPOSED] This tree is new as of 2026-08-18** (`DDD-dec-27`). It was prescribed by
+**This tree is new as of 2026-08-18** (`DDD-dec-27`, ratified; its `[PROPOSED]` banner struck
+2026-10-26 under `DDD-dec-40`). It was prescribed by
 `meta/way-of-working.md` §1 and written out in §5's repo-structure block from the beginning, and
 stood unbuilt through the split; the determination learning track is the first artifact that had
 nowhere else to live. Creating the directory realises the specification rather than extending it.
