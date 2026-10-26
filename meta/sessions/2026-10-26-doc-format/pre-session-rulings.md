@@ -24,3 +24,7 @@ Given by Emil in conversation on 2026-10-26, before the session opened. They are
 **Weakest point.** `basis` resolves only upstream claims and terms. Successor item S-8 already records that decisions cannot be pinned. A document resting on a decision would warn wrongly until S-8 lands.
 
 **Falsifier.** If, after roll-out, the check stays silent on a document whose basis claim has changed status since the pin, the check adds nothing over `ddd:ref`, and the opener should be prose only.
+
+## Ruling 2 — given (Emil, 2026-10-26)
+
+**Agreed as recommended.** Ruled. The recommendation above stands as the ruling, unchanged. Its weakest point (S-8) and its falsifier are carried into GATE 2. Emil also ruled to proceed to GATE 1.
