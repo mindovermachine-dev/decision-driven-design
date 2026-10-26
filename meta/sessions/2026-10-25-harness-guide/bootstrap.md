@@ -22,3 +22,7 @@ Filled in at arrival and committed with `prompt.md` as the session's first commi
 ## Correction after arrival (Claude, 2026-10-25)
 
 The "Not pushed" deviation above was true when written and is superseded here, not rewritten. Push access was granted after drafting. GATE 0 was committed as `2b06bfc` on branch `claude/harness-guide` and pushed. The branch row's `[OPEN]` resolves to `claude/harness-guide`. The Steward ground bundle remains `[OPEN]`.
+
+## Parked at GATE 0 (Claude, 2026-10-26)
+
+Emil ruled on 2026-10-26 that the doc format session (`2026-10-26-doc-format`, branch `claude/doc-format`) runs first. This session resumes at GATE 1 after that session closes. Its placement and its reading of `apparatus/tool-contract.md` are to be taken from the format that session rules.
