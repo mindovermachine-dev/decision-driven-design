@@ -25,3 +25,13 @@ is Emil's act, and no release in this session needs it.
 
 Decision ids: 39 is the next free id across both repositories (upstream holds up to 37, downstream
 38). The upstream guard ruling takes 39; the downstream session decision takes 40.
+
+## Session record
+
+| File | What |
+|---|---|
+| `prompt.md` | The charter, verbatim |
+| `pin-advance-prediction.md` | The firing predicted before the ref moved (`dbabbce`) |
+| `successor-items.md` | S-1, S-7, S-10 closed; S-2..S-6, S-8, S-9 carried; H-1..H-3 new |
+| `core/decisions/DDD-dec-40.yaml` | The ruling, and the open bump |
+| Upstream PR #26 | `DDD-dec-39`, the guard, the banners, `v5.15.2` proposed |

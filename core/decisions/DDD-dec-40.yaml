@@ -1,0 +1,88 @@
+format: 1
+id: DDD-dec-40
+kind: decision
+statement: |
+  The housekeeping ruling of 2026-10-26: every ratification banner that outlived its ratification is struck in both repositories; the upstream repo URL names its current owner; the six session-authored org and sim claims are ratified as projected with the claim file as their exposition; F-3 stays excluded from DDD-address-03 by design, provisional on T2b; stale upstream PR #3 is closed; and the upstream pin advances v5.15.1 -> v5.15.2, the first release cut under the release-head guard, with its firing predicted at nothing.
+principal: Emil
+made: 2026-10-26, housekeeping session; ruled as a whole ("agreed on all execute it") on the recommendations committed verbatim at meta/sessions/2026-10-26-housekeeping/prompt.md; Emil's acceptance of the downstream pull request is the ratification act, and the pin bumps to the tag on acceptance of upstream PR #26
+resolution: |
+  ## What the rundown found
+
+  Both repositories were clean and in sync at the pinned tag v5.15.1. No pull request was
+  open downstream; upstream held one, PR #3, stale since 2026-08-06 and conflicting. All 31
+  downstream claims but one were projected. What was waiting on Emil was rulings, not merges:
+  nine review flags, ten successor items from the act address landing, and a set of [PROPOSED]
+  banners whose ratification had already happened. The banners were the finding: every one of
+  them recorded a ratification act (PR #24 downstream, PR #15 upstream, 2026-08-18) that was
+  nine weeks old, and two sessions had booked them as freight and left them shut.
+
+  ## Rulings, by charter item
+
+  1. **Track 1 banners struck, downstream.** DDD-dec-27, DDD-dec-28, DDD-track-01,
+     projections/README.md, projections/tracks/README.md, projections/tracks/01-determination.md,
+     and the five pin-group markers in graph/upstream.yaml. Each now records the ratification
+     (PR #24, merge e96aa89) and the strike. Notes and prose only; nothing hashed moves.
+  2. **Track 1 banners struck, upstream.** DDD-dec-26 and DDD-frame-02, with DDD-frame-02's
+     duplicated word, in upstream PR #26, which proposes v5.15.2 (DDD-dec-39).
+  3. **The release-head guard, S-1.** Ruled and built upstream as DDD-dec-39: format 2 of the
+     release format, mandatory ratified_head, rule 7, the checker, both workflow hooks, and the
+     hit-list run before the class was chosen — both recorded misses fire, both controls pass.
+     v5.15.2 is its first instance.
+  4. **The repo URL, S-7.** graph/upstream.yaml names mindovermachine-dev. The old owner resolved
+     through a redirect; a redirect that lapses fires E12 on all 74 pins at once. Verified: the
+     checker resolves 74 pins through the new URL with nothing fired.
+  5. **Upstream PR #3 closed, S-10.** Closed with the ruling recorded in its comment and the
+     branch left in place. Anything still worth keeping is re-proposed against current canon.
+  6. **The six org/sim review flags.** DDD-org-01..04, DDD-sim-01, DDD-sim-02 carried
+     "UNVERIFIED — session-authored; Emil review" since v4.5. Ruled: ratified as projected; the
+     claim file is the claim's exposition; no core/ or meta/ prose document states them and none
+     is owed. The ruling changes no status and adds no evidence: a projected claim nobody has
+     tested is exactly what the status says. The three address flags (DDD-address-01 twice,
+     DDD-address-03 once) are NOT ruled here: they wait on S-3 and S-4, which are canon
+     authoring, and are ruled together when those land.
+  7. **T2b, S-2.** Not started, by the charter's own sequencing: its own session, after this
+     advance completes, so the test runs against a repository whose register is clean.
+  8. **F-3.** The replication case stays excluded from DDD-address-03 by design, as its region
+     already records, and is not filed as a sixth address claim. Provisional on T2b: if the slice
+     shows the replication case carrying the same escape shape, it is filed then with evidence.
+
+  ## The pin advance
+
+  Staged against upstream branch claude/release-head-guard per the DDD-dec-10/16/18/25/28/38
+  pattern, with the prediction committed first (pin-advance-prediction.md, dbabbce): E12 0 -
+  E13 0 - W5 0 - W6 0 - W7 1, unchanged, because PR #26's two canon edits are notes-only and
+  notes are outside the hashed fields. Staged preview at the branch: 74 pins resolved,
+  0 basis-loss, 0 content-drift, 1 shadowed id — every limb as predicted. The verification of
+  record is against the tag, on acceptance; the bump is the one act this session leaves open.
+
+  This is the first advance whose upstream release is guarded. If the guard refuses the cut
+  because the head moved, no tag exists to bump to, the fix is a new descriptor commit upstream,
+  and this prediction stands, since the canon it predicts over is unchanged.
+
+  ## Why banners are basis loss and not tidiness
+
+  A [PROPOSED] marker on a ratified object is a false statement of the object's status in the
+  file that governs it. A reader querying the file — which is what basis-as-query means — gets
+  "not ratified" back for an object the principal ratified nine weeks earlier. Two sessions saw
+  it and deferred it, which is how a false status becomes a standing one. The release misses
+  that S-1 remedies are the same shape in the other direction: there the record said less than
+  the world, here it said more.
+basedOn:
+  - DDD-dec-39
+  - DDD-dec-38
+  - DDD-dec-27
+  - DDD-dec-28
+  - DDD-agent-01
+notes: |
+  Filed from the housekeeping session (meta/sessions/2026-10-26-housekeeping/, arrival per
+  DDD-dec-20). Decision ids share one space across the two repositories: 39 is the upstream
+  ruling in the same session, 40 this one.
+
+  Not done, and why: S-5 (the Danish glossary rulings) is Emil's act and nothing here needs it;
+  S-8 (decision pinning) is low priority by Emil's ruling at the landing session and this
+  decision's basedOn DDD-dec-39 is, like DDD-dec-38's DDD-dec-37, an unpinned upstream decision;
+  S-3, S-4, S-6 and S-9 are canon authoring and are carried forward unchanged.
+
+  On closing this session, the bump: on Emil's acceptance of upstream PR #26, ref moves from the
+  branch to the tag v5.15.2, the checker is run with the hashes untouched so the zero firing is
+  observed rather than assumed, and the observation is recorded here as the verification.
