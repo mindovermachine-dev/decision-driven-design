@@ -270,8 +270,10 @@ basis:
   - term:determinable
   - term:arrangement
 notes: |
-  [PROPOSED] Drafted at Gate 2 and committed to the session branch before reporting, per the
-  session charter. Emil's acceptance is the ratification act.
+  Ratified. Drafted at Gate 2 and committed to the session branch before reporting, per the
+  session charter; Emil's acceptance of the Track 1 pull request (#24, merge e96aa89, 2026-08-18)
+  was the ratification act. The [PROPOSED] banner outlived it by nine weeks and was
+  struck 2026-10-26 on Emil's ruling at the housekeeping session (DDD-dec-40).
 
   Numbering: decisions share one id space across the principle repo and this one. 26 is the
   upstream session decision; 27 is this one.

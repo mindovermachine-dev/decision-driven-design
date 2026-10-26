@@ -6,7 +6,7 @@ statement: |
 principal: Emil
 made: 2026-08-18, Track 1 session (post-merge; upstream PR #15 merged as 9e92099, tagged v5.8.0)
 resolution: |
-  [PROPOSED] The advance, and what it fired.
+  The advance, and what it fired.
 
   ## The advance
 
@@ -62,7 +62,9 @@ basis:
   - DDD-agent-01
   - DDD-frame-02
 notes: |
-  [PROPOSED] Filed at the post-merge step of the Track 1 session. Emil ratifies.
+  Filed at the post-merge step of the Track 1 session and ratified by Emil's acceptance of the
+  Track 1 pull request (#24, merge e96aa89, 2026-08-18). The [PROPOSED] banners in resolution and notes were struck
+  2026-10-26 (DDD-dec-40).
 
   Numbering: decisions share one id space across the principle repo and this one. 26 was the
   upstream session decision, 27 this session's downstream decision, 28 this advance.
