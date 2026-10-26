@@ -1,5 +1,15 @@
 # apparatus/
 
+<!-- ddd:charter
+reader: implementers building tooling or a harness on the framework
+act: build a mechanism the canon licenses
+opener: ddd:doc
+authority: none
+exempt: []
+-->
+
+**Charter.** These documents are for implementers. They explain mechanisms; they are not canon. A result stated here that has no claim behind it is held, and says so (`meta/sessions/2026-10-26-doc-format/promotions.md`).
+
 Operational results that fall out of `core/`. These are the mechanisms — the parts you implement and
 enforce. Each depends on core; none is depended on *by* core.
 

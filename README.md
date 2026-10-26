@@ -1,5 +1,15 @@
 # Decision-Driven Design
 
+<!-- ddd:charter
+reader: anyone arriving at the repository
+act: orient, by finding what this repository holds and where to start
+opener: ddd:doc
+authority: none
+exempt: [LICENSE.md, CHANGELOG.md, CLAUDE.md]
+-->
+
+**Charter.** Root documents are for anyone arriving. Their act is to orient. The licence, the changelog and the agent guidance keep their own formats. Every document in this repository opens with its reader and act; `spec/doc-format.md` says how.
+
 **The software projection of the Conservation Principle of Determination Demand** — a theory of where
 determinations come from, what they cost, and which actor should make each one.
 

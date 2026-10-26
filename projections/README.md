@@ -1,5 +1,15 @@
 # projections/
 
+<!-- ddd:charter
+reader: the audience named in each projection's manifest
+act: learn or decide from a filtered, pinned view of canon
+opener: ddd:doc
+authority: none
+exempt: []
+-->
+
+**Charter.** Each projection is for the audience its manifest names. The `ddd:doc` block is the machine-readable part of that manifest. Projections are not canon.
+
 **Rendered views of the claim graph, each pinned to a canon version.** The third of the three
 layers `meta/way-of-working.md` §1 names — framework (canon, upstream), program (`meta/`),
 projections (here).

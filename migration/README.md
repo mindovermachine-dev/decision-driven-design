@@ -1,5 +1,15 @@
 # migration/ — repo split execution bundle
 
+<!-- ddd:charter
+reader: auditors of the repository split; no live reader
+act: trace how the split was executed
+opener: ddd:doc
+authority: none
+exempt: []
+-->
+
+**Charter.** A historical bundle. Its documents carry `status: historical`. Nobody acts on them now.
+
 Everything the kickoff prompt requires, landed on the execution branch. Contents:
 
 | File | Role |

@@ -1,5 +1,15 @@
 # core/
 
+<!-- ddd:charter
+reader: canon contributors, and agents citing canon by ID
+act: derive, cite and check a result against canon
+opener: ddd:contract
+authority: canon
+exempt: []
+-->
+
+**Charter.** This folder is canon. Its numbered documents open with `ddd:contract`; claims and decisions follow `spec/claim-format.md`. It is the only folder in this repository whose documents carry authority (`DDD-dec-39`).
+
 **This repository is the software projection.** The actor-general theory layer — the numbered core
 documents `00`–`12`, the canonical term graph, and the per-act reproduction assets — is **canon in
 the principle repository** (`actor-indexed-determination`) and lives there, not here. This directory

@@ -1,5 +1,15 @@
 # meta/sessions/
 
+<!-- ddd:charter
+reader: Emil and session agents
+act: run a session, and audit it against the charter it was given
+opener: convention:meta/sessions/README.md
+authority: none
+exempt: []
+-->
+
+**Charter.** Session records follow the convention below, not `ddd:doc`. They are for the principal and session agents, and they are not canon.
+
 Session arrival records. One directory per session, named `YYYY-MM-DD-<slug>/`, holding the
 **prompt** and its **bootstrap** as committed *before* the session ran.
 

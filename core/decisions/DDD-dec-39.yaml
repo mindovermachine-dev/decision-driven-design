@@ -1,0 +1,57 @@
+format: 1
+id: DDD-dec-39
+kind: decision
+statement: |
+  Only canon carries authority, and canon is upstream core/ and this repository's core/. Every other folder exists for a named reader doing a named act: its README carries a ddd:charter naming that reader and act, and each of its documents opens with a ddd:doc block naming its reader, act, pin, basis and status. A result stated outside canon with no claim behind it is held, and is cited as held until it is filed.
+principal: Emil
+made: 2026-10-26, doc format session (meta/sessions/2026-10-26-doc-format/); the principle and the session ruled before arrival (pre-session rulings 1 and 3), the placement and check at arrival (ruling 2), the reading of canon, dispositions, retention and held bases at GATE 1; filed at GATE 2
+resolution: |
+  [PROPOSED] until Emil accepts the session's PR.
+
+  ## The principle
+
+  Ruled before the session opened, in Emil's words: canon has the proper intro and references;
+  every other place has its own specific actors reading it, and must be readable by humans. At
+  GATE 1 Emil ruled which canon (reading A): upstream core/ and this repository's core/, which
+  holds documents 13-17 (filed as projection canon under DDD-dec-10, -11 and -13), claims,
+  decisions and terms. Reading B, upstream only, would have left software-specific results with
+  no canon to file in.
+
+  ## What files
+
+  - spec/doc-format.md: the ddd:charter and ddd:doc schemas, the scope of the check, and the
+    warning classes W8-W14 (ruling 2).
+  - A ddd:charter in the README of the root, core/, apparatus/, applications/, meta/,
+    meta/sessions/, papers/, projections/, spec/ and migration/. papers/ and spec/ had no README.
+  - The ddd:doc check in validate-core-order.py, as warnings only. A move to errors is a later
+    ruling, after roll-out (ruling 2).
+
+  ## Dispositions (GATE 1, ruling 2)
+
+  Seven results stated in apparatus/ and applications/ have no claim behind them. They are
+  registered as P-1 to P-7 in meta/sessions/2026-10-26-doc-format/promotions.md and are not filed
+  by this decision. Promote means filing in the canon that fits: upstream if actor-general, here
+  if software-specific. P-1 (an actor's own output is not ground) is first, because upstream
+  core/11 already relies on it in prose.
+
+  ## Retention and held bases (GATE 1, rulings 3 and 4)
+
+  A reformatted document replaces its old text in place and names it in supersedes. A basis may
+  name held:<session-dir>/<item-id>; the check reports it as W13 until the filed claim replaces it.
+
+  ## What this decision does not do
+
+  It changes no upstream canon and no pin. It does not change the canon document format. It does
+  not reformat any document; that is GATE 3 (pilot) and GATE 4 (roll-out).
+basedOn:
+  - DDD-agent-01
+  - DDD-dec-04
+  - DDD-dec-10
+notes: |
+  DDD-agent-01 is the reason for the check: a document that rests on a basis without naming it
+  cannot see that basis move. W11 is that claim applied to documents. Its test is pre-session
+  ruling 2's falsifier: if, after roll-out, W11 stays silent on a document whose basis claim moved,
+  the opener adds nothing over ddd:ref and should become prose only.
+
+  Known weakness, carried from ruling 2: upstream decisions cannot be pinned (S-8 of the act
+  address landing), so a document resting on one fires W10 wrongly until S-8 lands.

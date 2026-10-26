@@ -1,5 +1,15 @@
 # meta/
 
+<!-- ddd:charter
+reader: Emil and session agents
+act: rule on, audit and carry the programme's state
+opener: ddd:doc
+authority: none
+exempt: []
+-->
+
+**Charter.** These documents are for the principal and the agents working for him. They record the programme; they are not canon. Session records follow their own convention (`meta/sessions/README.md`).
+
 The honesty layer. Published as first-class documents, not hidden.
 
 - **lineage-and-limits** · full attribution to prior art (Tesler, Ashby, Brooks, Meyer, Kalman, Polanyi/Collins, Rice, Edelman & Gally); the corrections and retreats forced by external adversarial review; the open falsification debts, booked openly

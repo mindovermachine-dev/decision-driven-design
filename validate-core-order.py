@@ -33,6 +33,14 @@ Warnings:
   W7  a local term id shadows an id in the pinned upstream registry with no
       governing decision cited (DDD-dec-22); suppress by adding
       shadows_upstream: <decision-id> to the local entry
+Document format (spec/doc-format.md, DDD-dec-39) — warnings only:
+  W8  governed document has no ddd:doc block
+  W9  ddd:doc malformed (missing field, unknown status, status/basis mismatch)
+  W10 basis entry resolves nowhere (not pinned upstream, not local canon)
+  W11 basis entry's pin moved at the ref (W5/W6): the document rests on a moved basis
+  W12 document pin differs from the repository pin
+  W13 basis entry is held (held:<session-dir>/<item-id>), or names no such item
+  W14 no ddd:charter governs the document's folder
 
 Usage: python3 validate-core-order.py [core-dir]   (graph read from <core-dir>/graph/)
 Exit 1 on any error. Requires PyYAML.
@@ -270,9 +278,10 @@ def check_upstream(repo_root: Path, errors, warnings, local_ids=frozenset()):
         return
     graph, pins = resolve_upstream(upstream_yaml, errors, warnings)
     if graph is None:
-        return
+        return None
 
     pinned = {}
+    moved = set()  # pins whose status (W5) or content (W6) moved at the ref — read by W11
     for pin in pins:
         oid = pin.get("id", "")
         pinned[oid] = pin.get("status_at_pin", "")
@@ -283,6 +292,7 @@ def check_upstream(repo_root: Path, errors, warnings, local_ids=frozenset()):
         # W5: basis loss — upstream status moved since the pin was set
         up_status = graph[oid].get("status", "")
         if up_status and pin.get("status_at_pin") and up_status != pin["status_at_pin"]:
+            moved.add(oid)
             warnings.append(
                 f"W5 basis loss: '{oid}' is '{up_status}' upstream but pinned at "
                 f"'{pin['status_at_pin']}' — a decision basedOn it is escaped until the pin "
@@ -298,6 +308,7 @@ def check_upstream(repo_root: Path, errors, warnings, local_ids=frozenset()):
                 f"content_hash: {live_digest}"
             )
         elif pinned_digest != live_digest:
+            moved.add(oid)
             warnings.append(
                 f"W6 pinned content moved: '{oid}' is pinned at content_hash "
                 f"{pinned_digest} but resolves to {live_digest} at the ref — the statement or "
@@ -363,6 +374,149 @@ def check_upstream(repo_root: Path, errors, warnings, local_ids=frozenset()):
         f"{sum(1 for w in warnings if w.startswith('W6'))} content-drift, "
         f"{shadowed} shadowed id(s)"
     )
+    return moved
+
+
+# ---------------------------------------------------------------------------
+# Document format: ddd:charter / ddd:doc (W8–W14) — spec/doc-format.md, DDD-dec-39.
+# Warnings only, by ruling; a move to errors is a later ruling, after roll-out.
+# ---------------------------------------------------------------------------
+
+DOC_RE = re.compile(r"<!--\s*ddd:doc\s*(.*?)-->", re.DOTALL)
+CHARTER_RE = re.compile(r"<!--\s*ddd:charter\s*(.*?)-->", re.DOTALL)
+DOC_STATUSES = {"draft", "current", "held", "historical"}
+HELD_RE = re.compile(r"^held:([^/\s]+)/([^\s]+)$")
+
+
+def _block(regex, text):
+    m = regex.search(text)
+    if not m:
+        return None
+    try:
+        data = yaml.safe_load(m.group(1)) or {}
+    except yaml.YAMLError:
+        return {"__malformed__": True}
+    return data if isinstance(data, dict) else {"__malformed__": True}
+
+
+def _local_ids(repo_root: Path):
+    """Local canon ids a basis may name: this repo's terms, claims and decisions."""
+    ids = set()
+    for sub in ("claims", "decisions"):
+        for f in (repo_root / "core" / sub).glob("*.yaml"):
+            d = yaml.safe_load(f.read_text(encoding="utf-8")) or {}
+            if isinstance(d, dict) and d.get("id"):
+                ids.add(d["id"])
+    for gf in (repo_root / "core" / "graph").glob("*.yaml"):
+        d = yaml.safe_load(gf.read_text(encoding="utf-8")) or {}
+        for e in (d.get("terms", []) or []) + (d.get("claims", []) or []):
+            if e.get("id"):
+                ids.add(e["id"])
+    return ids
+
+
+def _charter_for(p: Path, repo_root: Path, cache):
+    """Nearest ddd:charter at or above the document's folder: (charter, readme_path) or (None, None)."""
+    d = p.parent
+    while True:
+        if d not in cache:
+            readme = d / "README.md"
+            ch = _block(CHARTER_RE, readme.read_text(encoding="utf-8")) if readme.is_file() else None
+            cache[d] = (ch, readme if ch is not None else None)
+        if cache[d][0] is not None:
+            return cache[d]
+        if d == repo_root or d.parent == d:
+            return None, None
+        d = d.parent
+
+
+def check_docs(repo_root: Path, warnings, moved=None):
+    """W8–W14 over every governed document (spec/doc-format.md §2)."""
+    upstream_yaml = repo_root / "graph" / "upstream.yaml"
+    if not upstream_yaml.is_file():
+        return
+    spec = yaml.safe_load(upstream_yaml.read_text(encoding="utf-8")) or {}
+    repo_pin = str(spec.get("upstream", {}).get("ref", ""))
+    pinned = load_pinned_ids(repo_root)
+    local = _local_ids(repo_root)
+    moved = moved or set()
+    cache, governed, opened, held_n = {}, 0, 0, 0
+
+    for p in sorted(repo_root.rglob("*.md")):
+        rel = p.relative_to(repo_root)
+        if any(part.startswith(".") for part in rel.parts) or rel.parts[0] == "core":
+            continue
+        text = p.read_text(encoding="utf-8")
+        if p.name == "README.md" and CHARTER_RE.search(text):
+            continue  # the README is the charter
+        charter, readme = _charter_for(p, repo_root, cache)
+        if charter is None:
+            warnings.append(f"W14 {rel}: no ddd:charter governs this folder")
+        else:
+            if charter.get("__malformed__"):
+                msg = f"W14 {readme.relative_to(repo_root)}: ddd:charter is not valid YAML"
+                if msg not in warnings:
+                    warnings.append(msg)
+            opener = str(charter.get("opener", ""))
+            if opener.startswith("convention:") or opener == "ddd:contract":
+                continue
+            if p.name in (charter.get("exempt") or []) and p.parent == readme.parent:
+                continue
+        governed += 1
+        doc = _block(DOC_RE, text)
+        if doc is None:
+            warnings.append(f"W8 {rel}: no ddd:doc block")
+            continue
+        opened += 1
+        if doc.get("__malformed__"):
+            warnings.append(f"W9 {rel}: ddd:doc block is not valid YAML")
+            continue
+        status = str(doc.get("status", "") or "")
+        for field in ("reader", "act", "status"):
+            if not str(doc.get(field, "") or "").strip():
+                warnings.append(f"W9 {rel}: ddd:doc has no '{field}'")
+        if status and status not in DOC_STATUSES:
+            warnings.append(f"W9 {rel}: status '{status}' is not one of {sorted(DOC_STATUSES)}")
+        pin = str(doc.get("pin", "") or "")
+        if not pin and status != "historical":
+            warnings.append(f"W9 {rel}: ddd:doc has no 'pin' (required unless status: historical)")
+        elif pin and repo_pin and pin != repo_pin:
+            warnings.append(f"W12 {rel}: written against {pin}; the repository pins {repo_pin}")
+        basis = doc.get("basis", [])
+        if basis is None:
+            basis = []
+        if not isinstance(basis, list):
+            warnings.append(f"W9 {rel}: 'basis' is not a list")
+            basis = []
+        held = [str(b) for b in basis if str(b).startswith("held:")]
+        if status == "current" and held:
+            warnings.append(f"W9 {rel}: status 'current' but basis has held entries")
+        if status == "held" and not held:
+            warnings.append(f"W9 {rel}: status 'held' but basis has no held entry")
+        for b in map(str, basis):
+            if b.startswith("held:"):
+                held_n += 1
+                m = HELD_RE.match(b)
+                sess = repo_root / "meta" / "sessions" / m.group(1) if m else None
+                found = bool(m) and sess.is_dir() and any(
+                    re.search(r"\|\s*" + re.escape(m.group(2)) + r"\s*\|", f.read_text(encoding="utf-8"))
+                    for f in sess.glob("*.md")
+                )
+                warnings.append(
+                    f"W13 {rel}: rests on held result {b}" if found
+                    else f"W13 {rel}: held reference {b} names no item in that session's records"
+                )
+            elif b in pinned:
+                if b in moved:
+                    warnings.append(
+                        f"W11 {rel}: rests on '{b}', whose pin moved at the ref (W5/W6) — "
+                        f"re-read the basis and re-render, annotate or let stand"
+                    )
+            elif b not in local:
+                note = " (an upstream decision cannot be pinned yet — S-8)" if b.startswith("DDD-dec-") else ""
+                warnings.append(f"W10 {rel}: basis '{b}' is not pinned upstream and not local canon{note}")
+
+    print(f"  docs      {governed} governed, {opened} with ddd:doc, {held_n} held basis entr(y/ies)")
 
 
 def main() -> int:
@@ -372,7 +526,8 @@ def main() -> int:
     # DDD fork: no numbered core docs here (canon is upstream). Run upstream checks only.
     if not docs:
         errors, warnings = [], []
-        check_upstream(repo_root, errors, warnings)
+        moved = check_upstream(repo_root, errors, warnings)
+        check_docs(repo_root, warnings, moved)
         for w in warnings:
             print(f"  warn  {w}")
         for e in errors:
@@ -519,7 +674,10 @@ def main() -> int:
                 )
 
     # ---- pass 4: cross-repo upstream resolution (E12/E13/W5) ---------------
-    check_upstream(repo_root, errors, warnings, local_ids=set(graph))
+    moved = check_upstream(repo_root, errors, warnings, local_ids=set(graph))
+
+    # ---- pass 5: document format, ddd:charter / ddd:doc (W8–W14) -----------
+    check_docs(repo_root, warnings, moved)
 
     for w in warnings:
         print(f"  warn  {w}")
