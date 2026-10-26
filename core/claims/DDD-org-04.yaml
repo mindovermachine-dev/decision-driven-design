@@ -16,4 +16,4 @@ breaks: |
 owner: none
 changed: v4.5
 notes: |
-  UNVERIFIED — session-authored; Emil review. Cross-domain retrodiction; no core/ or meta/ document states it. The reversal-cost/feedback-latency parameters are framework concepts (core/03, applications/sdlc) but their cross-industry predictive use is session-authored.
+  Ruled 2026-10-26 (DDD-dec-40): ratified as projected; this file is the claim's exposition, no core/ or meta/ prose document states it, and none is owed. Session-authored. Cross-domain retrodiction; no core/ or meta/ document states it. The reversal-cost/feedback-latency parameters are framework concepts (core/03, applications/sdlc) but their cross-industry predictive use is session-authored.
