@@ -1,216 +1,128 @@
 # The Tool Contract
 
-**Location:** proposed `apparatus/tool-contract.md`, or `applications/` if scoped to the local-agent
-harness specifically. Derives from the floor mechanism (`core/11`), the encode/verify split
-(`apparatus/encode-verify.md`), and tool surfaces (`apparatus/tool-surfaces.md`). It is the
-tool-level counterpart of foundations RFC 0005 — **the same ground-relation requirement, one altitude
-down.**
+<!-- ddd:doc
+reader: an engineer building the harness for a local agent
+act: specify what each tool response must declare, and bind a toolset to a task before the run
+pin: v5.15.1
+basis: [DDD-floor-01, term:governing-decision, term:admission-test, term:escape, term:judgment, term:encoded, term:closure, term:seam-identity, term:poisoned-ground, term:encode-verify-split, held:2026-10-26-doc-format/P-2, held:2026-10-26-doc-format/P-3, held:2026-10-26-doc-format/P-8, held:2026-10-26-doc-format/P-9, held:2026-10-26-doc-format/P-10]
+status: held
+supersedes: 5e649a1:apparatus/tool-contract.md
+-->
 
-**Scope, deliberately narrow.** In-process tools, invoked by a local agent, on a machine you control,
-with a harness that binds the toolset per task. **No server, no transport, no discovery, no capability
-negotiation.** Those exist to bridge a trust boundary between strangers; a local agent calling its own
-tools has no such boundary, and paying for one manufactures seam demand (`core/06`,
-`|D_comp| = |D_single| + |S|`) to buy interop it does not need.
+**This is for you if you are building the harness around a local agent:** the code that gives a model its tools, runs it on a task, and decides what to trust in what comes back.
 
----
+After reading it you will be able to do three things:
+1. Say what every tool response must declare, so the harness can tell a current fact from an expired one.
+2. Bind a toolset to a task **before the run**, and state which of the task's decisions are resolved, which are verified, and which nothing covers.
+3. Give the agent a way to stop when it needs a tool you did not give it.
 
-**Upstream basis.** This document is part of the software projection; it builds on the
-principle repo's canon (`actor-indexed-determination`). The `core/NN` references below resolve
-there, pinned at a version and a status in `graph/upstream.yaml`:
+**Scope.** In-process tools, called by a local agent, on a machine you control. There is no server, no transport, no discovery and no capability negotiation. Those exist to bridge trust between strangers, and a local agent calling its own tools has no strangers to bridge. Paying for that machinery adds a seam you do not need (`term:seam-identity`).
 
-<!-- ddd:ref id=term:seam-identity -->
-<!-- ddd:ref id=DDD-floor-01 -->
+**What this rests on.** Some of it is canon. Some of it is not yet, and is marked **held** where it is used.
 
-## 1. Ground first
-
-The organising claim, and the reason this document does not lead with tools:
-
-> **Tools act on ground. If the ground is not pinned, a tool's demand consequence is undefined —
-> because you cannot say what a call *resolves* without knowing what it resolved against.**
-
-A resolver that resolves against **stale** ground is not a resolver. It returns a confidently wrong
-answer *with a resolver's authority*, which is worse than an exporter — an exporter at least hands
-over raw material the actor might notice is wrong. That is poisoned ground
-(`apparatus/closure-principle.md`) wearing a resolver's costume, and it carries the worst signature:
-**confident, well-reasoned, catastrophic.**
-
-So the three classes of `apparatus/tool-surfaces.md` carry a precondition that must be stated
-plainly:
-
-> **The classes are only meaningful over pinned ground.** Unpinned, every class collapses toward
-> *exporter* — because the actor must hold open the question *"is this still true?"*, which is an open
-> decision the tool created by declining to answer it.
-
-### 1.1 The gap this addresses
-
-Current tool ecosystems specify **capability** — what may be called, with which arguments, over which
-transport — and specify **ground** not at all. The consequence is structural rather than incidental:
-
-> **Capability without ground relation is motion without traction.** You can have flawless capability
-> declaration over ground nobody pinned, and the actor still cannot distinguish a current fact from an
-> expired one.
-
-This is the same claim foundations RFC 0005 makes about the Context axis, at a different altitude:
-
-| Altitude | Claim |
+| Basis | Status |
 |---|---|
-| **RFC 0005** (WorkUnit) | a context fragment must declare its ground relation, or the C axis is not pinned |
-| **This contract** (tool call) | a tool response must declare its ground relation, or the call's demand consequence is undefined |
-
-One concept, two points in the stack.
-
----
-
-## 2. What a tool must declare
-
-Tools declare **only what tools can know.** The harness supplies the rest (§3). This division is
-forced: class depends on ⟨tool, task, consumption⟩ (`tool-surfaces.md` §3), and a tool does not know
-the task.
-
-### 2.1 Ground relation — per response, not per tool
-
-Every tool response declares the ground it depended on:
-
-- **controlled** — the tool (or the system it belongs to) is authoritative over what it returned.
-  It *is* the ground; it cannot be stale relative to a source of truth because it is the source of
-  truth.
-- **uncontrolled** — the response is a **reading** of ground owned elsewhere. True as of an
-  observation; may have drifted since.
-
-**Per response, not per tool.** Per-tool is simpler and wrong: a fetch tool hitting a local workspace
-file and the same tool hitting a remote URL touch different ground under one name. The declaration is
-therefore **runtime data on the response**, not static metadata on the tool.
-
-An uncontrolled response additionally carries:
-
-- **observed-at** — when the reading was taken.
-- **revalidation** — how to tell whether it still holds (§2.2).
-
-### 2.2 Revalidation — check by default
-
-> **Default: revalidate every call.** If checking is cheap, check. A local tool that can re-stat a
-> file, re-read an mtime, or compare a hash has no excuse for serving a cached claim.
-
-**TTL is an optimisation, not the norm**, and it must be justified per tool by the cost of checking.
-A TTL is a promise that ground will not move within a window — which is a claim about someone else's
-system, and therefore exactly the kind of encoded observation of uncontrolled ground that
-`encode-verify.md` warns is a belief with an expiry and no alarm on it.
-
-Where checking is expensive, prefer a **cheap validator** (etag, version, content hash, mtime) over a
-wall-clock TTL. A validator asks the source; a TTL guesses on its behalf.
-
-**A lapsed response is not a valid pin.** It may still be returned — but the harness must treat the
-decisions depending on it as **unpinned**, and the actor's attribution for them does not hold.
-
-### 2.3 Resolution — what the call decided
-
-Whether the response is an **answer** or **material**:
-
-- **resolved** — a decision was made authoritatively before the actor saw anything (a symbol lookup,
-  a typed query). The actor reads a fact.
-- **unresolved** — content handed over for the actor to interpret. Every structural inference the
-  actor must now perform is an **open decision this call created.**
-
-A tool returning unresolved content should say **what remains to be decided**, where it can. This is
-the difference between *"here are 4000 lines"* and *"here are 4000 lines; locating the relevant
-definition and determining its type are unresolved."* The second lets the harness count the open set;
-the first does not.
-
-### 2.4 Boundedness
-
-Whether the response size is **bounded**, and by what. Unbounded responses are the ground-exporter
-signature and the direct driver of the load term in `escape = open_residual × p_err(load)`
-(`core/11`). A tool that cannot bound its output must say so, so the harness can bound it at the call
-site or decline to bind the tool at all.
-
-### 2.5 Verdict
-
-Whether the call **supplies a closing predicate on the actor's own output** — a test result, a type
-check, a schema validation. This is the verifier class, and it is the only declaration that
-*subtracts* from the floor: it converts escape into retry (`core/11` §3).
-
-A verdict declares **what it checked** and, critically, **what it did not.** A test suite passing is a
-verdict on *the behaviour under test*, not on conventions, structure, or anything else. Overstating a
-verdict's scope is how a false sense of coverage is manufactured — and how decisions that are still
-open get treated as closed.
+| The floor mechanism: residual demand escapes where an actor is overloaded **and** the decision has no verifier (`DDD-floor-01`) | canon, reported |
+| Governing decision, admission test, escape, judgment and encoded stores, closure (upstream terms) | canon |
+| Poisoned ground, and the encode/verify split (upstream terms) | canon, but **not yet pinned** in this repository |
+| Control decides which side of the encode/verify split ground falls on (P-2) | **held** |
+| Tool classes: exporter, resolver, verifier (P-3) | **held** |
+| Classes need pinned ground (P-8); model-picked tools escape (P-9); a fixed toolset makes the open set computable (P-10) | **held** — results of this document, registered for filing |
 
 ---
 
-## 3. What the harness computes
+## The contract in one paragraph
 
-The harness supplies what tools cannot know, and it binds **before the run**.
+A tool response declares what ground it touched, whether that ground is controlled, and how to tell if it still holds. Only then is it meaningful to ask what the call resolved, what it left open and what it verified. Only then can a harness bind a toolset and state, before the run, exactly which decisions have nowhere to live.
 
-**Per task, at bind time:**
+---
 
-1. **Enumerate the governing decision set** for the task at its declared assurance level.
-2. **Bind a toolset**, and from the tools' declarations compute:
-   - which decisions are **resolved** by some bound tool,
-   - which are **verified** by some bound verdict,
-   - which remain **open** — the escape set (`core/11`: overflow ∩ open, the mechanism of
-     capacity-generated escape).
+## 1. What every tool response declares
+
+A tool declares only what a tool can know. It does not know the task, so it does not declare its own class; the harness works that out (§2).
+
+| Field | Values | Why the harness needs it |
+|---|---|---|
+| **Ground relation** | `controlled` or `uncontrolled` | A controlled response *is* the source of truth, so it cannot be stale. An uncontrolled one is a reading of something owned elsewhere, so it can. |
+| **Observed at** | a timestamp | Only for uncontrolled responses. When the reading was taken. |
+| **Revalidation** | how to check it still holds | Only for uncontrolled responses. See the rules below. |
+| **Resolution** | `resolved` or `unresolved` | Resolved: the tool made the decision, and the agent reads a fact (a symbol lookup, a typed query). Unresolved: the tool handed over material, and every inference the agent now makes is an open decision this call created. |
+| **Still to decide** | a short list | For unresolved responses, where the tool can say. "4000 lines; locating the definition and its type are unresolved" lets the harness count the open set. "4000 lines" does not. |
+| **Bounded** | yes, and by what; or no | Unbounded output is what overloads an agent. A tool that cannot bound its output says so, and the harness bounds it at the call site or does not bind the tool. |
+| **Verdict** | what it checked, and what it did not | Only for tools that check the agent's own output: tests, type checks, schema validation. These are the only declarations that reduce escape, because they turn an escape into a retry (`DDD-floor-01`). |
+
+**Four rules go with the table.**
+
+1. **Declare per response, not per tool.** The same `fetch` tool reading a workspace file and reading a remote URL touches different ground under one name. The declaration is runtime data on the response, not metadata on the tool.
+2. **Revalidate by default.** If checking is cheap, check on every call. A local tool that can re-stat a file, re-read an mtime or compare a hash has no excuse for serving a cached claim. Where checking is expensive, prefer a cheap validator (etag, version, content hash, mtime) to a time-to-live. A validator asks the source; a TTL guesses on its behalf. A TTL is a promise about someone else's system, an observation with an expiry and no alarm on it **(held: P-2)**.
+3. **A lapsed response is not a valid pin.** It may still be returned. But the harness treats every decision that depends on it as unpinned, and the agent's attribution for those decisions does not hold.
+4. **A verdict states its scope.** A passing test suite is a verdict on the behaviour under test. It says nothing about conventions or structure. Overstating a verdict's scope is how open decisions get treated as closed.
+
+---
+
+## 2. What the harness does before the run
+
+The harness supplies what tools cannot know, and it does so **at bind time, before the run**:
+
+1. **List the task's governing decisions** at its declared assurance level: the choices that, if varied, would move the outcome past tolerance (`term:admission-test`).
+2. **Bind a toolset.** From the tools' declarations, mark each decision:
+   - **resolved** — some bound tool decides it,
+   - **verified** — some bound verdict checks it,
+   - **open** — neither. This is the set that can escape (`DDD-floor-01`).
 3. **Freeze the binding.** The toolset is fixed for the run.
 
-### 3.1 The LLM never picks tools
+Show the open set to whoever owns the task before the run starts. Every decision on it has nowhere to live.
 
-**A governing decision, allocated correctly.** Tool selection passes the admission test: vary it and
-the outcome moves past tolerance. So it is demand, and it lands in a store.
+### Why the model never picks the tools
 
-If the **model** selects tools mid-run, that decision sits in the **judgment store** — per-run,
-resolved under load, and with **no verifier**, because no closing predicate on *"was that the right
-tool here?"* is available to the model at selection time. Open decision, made under load, unchecked:
-**the escape intersection exactly.**
+Choosing a tool is itself a governing decision. Vary it and the outcome moves, so it is demand, and something must carry it.
 
-Model-selected tools are therefore *structurally* escape-exposed. This is not a claim that models
-choose badly. It is that the choice **has no backstop**, so it escapes when the run is loaded —
-which is precisely when it matters.
+- **If the model picks tools mid-run**, that choice is made in the judgment store: per run, under load, and with nothing to check it, because no test of "was that the right tool here?" exists at the moment of choosing. An open decision, made under load, unchecked, is exactly where escape happens. **(held: P-9)** This is not a claim that models choose badly. It is that the choice has no backstop, so it fails when the run is loaded, which is when it matters.
+- **If the harness binds the toolset**, the same decision moves to the encoded store: made once, before the act, against the task's decision set, and reused across runs.
 
-Harness binding moves the same decision to the **encoded store**: resolved once, before the act,
-against the task's decision set, amortising across runs.
+There is a second reason, and it is the stronger one. **A fixed toolset makes the open set computable before the run. (held: P-10)** If the model may add tools mid-run, the open set moves while you watch, and you can only observe it afterwards. Binding is what makes the analysis in step 2 possible at all.
 
-And there is a second reason, arguably stronger:
+### Why ground comes first
 
-> **A fixed toolset makes the open set computable.** Bound at assembly time, the harness can enumerate
-> exactly which decisions remain unverified *before the run starts*. If the model may add tools
-> mid-run, the open set is a moving target and can only be observed after the fact. **Binding is what
-> makes the analysis possible at all** — not merely safer.
+Everything in §1 starts with the ground relation, for a reason. A tool that resolves against stale ground still answers with a resolver's authority, and the answer is confidently wrong. That is poisoned ground (`term:poisoned-ground`) dressed as a resolver. It is worse than handing over raw material, because raw material at least invites a second look.
 
-This also extends the frozen-bundle discipline (a WorkUnit is fully resolved with no callbacks) from
-context to capability.
-
-### 3.2 The insufficiency path — the load-bearing edge case
-
-Fixed binding gives up genuine adaptivity: the task may turn out to need something the harness did not
-anticipate. **The framework's answer is that surfacing this is correct**, but it only works if the path
-exists.
-
-> **An unanticipated tool need is an unanticipated decision.** The actor must be able to declare *"this
-> task requires a capability I was not given"* and **stop** — routing the decision to a human, rather
-> than improvising with what it has.
-
-Without this path the model will improvise, and the escape you prevented at bind time reappears one
-level down — now disguised as a completed run. **The refusal path is not a nicety; it is what keeps
-binding honest.**
+So the tool classes only mean something over pinned ground. **(held: P-8)** Unpinned, every tool behaves like an exporter: the agent must keep asking "is this still true?", and that question is an open decision the tool created by declining to answer it.
 
 ---
 
-## 4. What is deliberately absent
+## 3. When the agent needs a tool you did not bind
 
-- **No server, transport, or lifecycle.** Solved problems, for a problem this scope does not have.
-- **No discovery or capability negotiation.** The harness knows the tools at build time; it wrote them.
-- **No dynamic tool loading.** See §3.1.
-- **No tool-declared class.** Tools declare facts about themselves; the harness computes class by
-  composing those with the task (`tool-surfaces.md` §3).
+A fixed binding gives up some adaptivity. The task may need something you did not anticipate. **An unanticipated tool need is an unanticipated decision**, and surfacing it is the correct outcome, but only if there is a path for it.
 
-**What is kept from the protocol lineage**, because it is demand-routing rather than distribution
-machinery: an equivalent of **elicitation** (route an unresolvable decision to a human — §3.2) and an
-equivalent of **sampling** (route a decision to a model actor across a seam, `core/06`). Those two are
-the parts a demand-aware design would have invented independently.
+Give the agent a way to declare "this task needs a capability I was not given", and to **stop**. The decision goes to a human. Without this path the agent improvises with what it has, and the escape you prevented at bind time comes back one level down, disguised as a completed run. The refusal path is what keeps binding honest.
 
 ---
 
-## 5. The one line
+## 4. What this contract leaves out, deliberately
 
-> **Pin the ground first: a tool response declares what ground it touched, whether that ground is
-> controlled, and how to tell if it still holds. Only then is it meaningful to ask what the call
-> resolved, what it left open, and what it verified — and only then can a harness bind a toolset and
-> state, before the run, exactly which decisions have nowhere to live.**
+| Left out | Why |
+|---|---|
+| Server, transport, lifecycle | Solved problems, for a problem this scope does not have |
+| Discovery and capability negotiation | The harness knows its tools at build time; it wrote them |
+| Dynamic tool loading | See §2: the model never picks the tools |
+| Tool-declared class | Class depends on the tool, the task and how the output is used (held: P-3). The harness computes it. |
+
+Two things are kept from the protocol lineage, because they route decisions rather than distribute tools:
+- **Elicitation:** route a decision the agent cannot make to a human (§3).
+- **Sampling:** route a decision to another model across a seam (`term:seam-identity`).
+
+**Related.** Foundations RFC 0005 makes the same requirement one level up: a context fragment must declare its ground relation, as a tool response must here. The RFC lives outside this repository.
+
+---
+
+## Worked example
+
+A local agent is asked "which services read the config key `retry.max`?". It has three tools.
+
+| Tool | Ground | Resolution | Bounded | Verdict |
+|---|---|---|---|---|
+| `grep_repo` (searches the workspace) | controlled | unresolved: "which matches are reads, not writes or comments, is still to decide" | yes, first 200 matches | — |
+| `config_service.get` (remote config service) | uncontrolled; observed at 10:02; revalidate by version number | resolved | yes | — |
+| `run_contract_tests` | controlled | resolved | yes | checks the services' config-loading tests; does **not** check services without tests |
+
+At bind time the harness lists the decisions: which files read the key; which services those files belong to; whether the remote value matters to the answer. It marks the file-to-service mapping as **open**: no bound tool resolves it, and no verdict checks it. It shows that before the run. If, mid-run, the agent finds a service whose config lives in a database it cannot read, it declares the missing capability and stops.
