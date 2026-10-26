@@ -20,6 +20,6 @@ New this session:
 
 | # | Item | What it needs |
 |---|---|---|
-| H-1 | **The bump.** `graph/upstream.yaml` is staged at `claude/release-head-guard`. | On Emil's acceptance of upstream PR #26: ref → `v5.15.2`, checker run with hashes untouched, observation recorded in `DDD-dec-40` against `pin-advance-prediction.md`. |
+| H-1 | **The bump.** | **Closed.** PR #26 merged (`084bce7`), `v5.15.2` cut under the guard, ref → `v5.15.2` with hashes untouched. Observed: 74 pins resolved against the pinned ref, 0 basis-loss, 0 content-drift, 1 shadowed id(s). Prediction held in every limb; recorded in `DDD-dec-40`. |
 | H-2 | **The three address review flags.** `DDD-address-01` (two), `DDD-address-03` (one). | Ruled together when S-3 and S-4 land. |
 | H-3 | **The org-03 / org-04 two-limb warnings.** The validator flags both statements as joining two limbs. | Adjudicate (split or keep) at the next canon session that touches the org set; not a housekeeping edit, since a split mints an id. |

@@ -83,6 +83,13 @@ notes: |
   decision's basedOn DDD-dec-39 is, like DDD-dec-38's DDD-dec-37, an unpinned upstream decision;
   S-3, S-4, S-6 and S-9 are canon authoring and are carried forward unchanged.
 
-  On closing this session, the bump: on Emil's acceptance of upstream PR #26, ref moves from the
-  branch to the tag v5.15.2, the checker is run with the hashes untouched so the zero firing is
-  observed rather than assumed, and the observation is recorded here as the verification.
+  The bump, verified. Emil accepted upstream PR #26 (merge 084bce7, 2026-10-26); the release
+  workflow cut v5.15.2 with the guard's gate passing at the cut — ratified_head 0849ab8, merge's
+  second parent 630475c, nothing but the descriptor between them — the guard's first live pass.
+  Ref advanced from the branch to the tag with the hashes untouched, so a firing would have been
+  observed rather than assumed:
+
+      PREDICTED  E12 0 - E13 0 - W5 0 - W6 0 - W7 1, unchanged
+      OBSERVED   74 pins resolved against the pinned ref, 0 basis-loss, 0 content-drift, 1 shadowed id(s); 0 errors, 0 warnings
+
+  The prediction held in every limb. Nothing to re-instrument. H-1 closes.

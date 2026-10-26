@@ -125,8 +125,12 @@ upstream:
   # Predicted firing, committed before this line moved
   # (meta/sessions/2026-10-26-housekeeping/pin-advance-prediction.md): E12 0 - E13 0 - W5 0 -
   # W6 0 - W7 1, unchanged. PR #26's two canon edits are notes-only, outside the hashed fields.
-  # No pins added, none removed.
-  ref: claude/release-head-guard    # staged; bumps to tag v5.15.2 on acceptance of upstream PR #26
+  # No pins added, none removed. Verified at the bump (PR #26 merged 084bce7, tagged v5.15.2 by
+  # the release workflow with the guard's first gate passing at the cut: ratified_head 0849ab8,
+  # second parent 630475c, descriptor only), ref advanced with the hashes untouched so a firing
+  # would have been observed rather than assumed: 74 pins resolved against the pinned ref, 0 basis-loss, 0 content-drift, 1 shadowed id(s).
+  # The prediction held in every limb. Nothing to re-instrument.
+  ref: v5.15.2                      # tag, never a branch
   # Five pin batches below carried a "[PROPOSED]" marker on their group comment. Each batch's
   # decision is filed and ratified (DDD-dec-27, -28, -34, -38); the markers were struck
   # 2026-10-26 (DDD-dec-40). The comments keep their dated reasoning.
