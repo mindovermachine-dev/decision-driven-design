@@ -1,0 +1,102 @@
+1. What each tool's responses must declare for this task
+
+The document says to declare these on each response, not once per tool (rule 1).
+
+read_file (a workspace file such as the manifest, the lockfile or the source)
+- Ground relation: controlled. The workspace file is the source of truth, so no "observed at" or revalidation fields are needed.
+- Revalidation: rule 2 still applies. The tool should re-stat the file or check its mtime or hash rather than serve a cached copy, especially after write_file has run.
+- Resolution: unresolved. It hands over raw text.
+- Still to decide, for example: "which line declares fastjson; whether there is a version constraint; whether a lockfile also pins it".
+- Bounded: yes, with a line or byte cap such as "first N lines". If the tool cannot bound its output, the harness caps it at the call site.
+- Verdict: none.
+
+list_dir
+- Ground relation: controlled.
+- Resolution: I would call it resolved for "which files exist here". It is unresolved for the question that matters, "which of these files declare dependencies".
+- Bounded: yes, with an entry cap.
+- Verdict: none.
+
+fetch_url (the registry's index page for fastjson)
+- Ground relation: uncontrolled. The registry is owned elsewhere.
+- Observed at: a timestamp.
+- Revalidation: a cheap validator such as an ETag, Last-Modified or a content hash, not a TTL.
+- Resolution: unresolved. It hands over a page of versions.
+- Still to decide: "which listed version is the latest; which versions are pre-releases or yanked; which are compatible with this project's runtime and other dependencies".
+- Bounded: probably not on its own, because index pages can be large. It must say so, and then the harness either bounds it (for example, versions only and truncated) or does not bind it.
+- Lapsed: if the response has lapsed, every decision that depends on "latest version" is unpinned (rule 3).
+
+run_tests
+- Ground relation: controlled. It runs against the workspace.
+- Resolution: resolved, meaning pass or fail is a fact.
+- Bounded: yes, a summary plus capped failure output.
+- Verdict: this is the only tool with one. It must state its scope. It checks the behaviour exercised by the project's test suite against whatever dependency version is actually installed when it runs. It does not check:
+  - code paths without tests;
+  - whether the chosen version is the latest;
+  - compatibility with other dependencies beyond what the tests exercise;
+  - lockfile consistency;
+  - conventions;
+  - whether the new version was actually installed before the tests ran.
+
+write_file
+- Ground relation: controlled.
+- Resolution: resolved, as in "the file now contains X".
+- Bounded: yes, a short acknowledgement.
+- Verdict: none.
+- It should return something the harness can use to revalidate later reads, such as a hash or mtime.
+
+2. Binding the toolset
+
+Bound and frozen for the run: read_file, list_dir, fetch_url (with a call-site bound on its output) and run_tests, all against the declarations above. I would cap write_file to the workspace.
+
+Governing decisions, and how each is marked:
+
+a) Where fastjson's version is declared (manifest, lockfile, or both).
+- Open. read_file and list_dir only export material.
+- run_tests checks it only indirectly, and only if the tests install from the manifest.
+
+b) Which version is "latest".
+- Open. fetch_url is unresolved and its ground is uncontrolled, so the decision needs revalidation.
+- Nothing verifies it.
+
+c) Which version is "compatible with this project".
+- Partially verified. run_tests covers behaviour under test only.
+- Constraints outside the tests are open: runtime version, peer dependencies, untested API usage.
+
+d) Whether the code needs changes for breaking API changes, and what those changes are.
+- Not resolved by any tool.
+- Verified only within test coverage. Anything outside it is open.
+
+e) Writing the new version into the right file(s).
+- Resolved in the narrow sense that write_file does the write.
+- Whether it is the right edit is decided under (a) and (c).
+
+f) Whether the new version is actually installed, or the lockfile regenerated, before the tests run.
+- Open, and I think it is the biggest gap.
+- No bound tool installs dependencies or regenerates a lockfile, and nothing verifies it.
+- If run_tests does not install, a passing suite may be a verdict on the old version. That is exactly the "overstated verdict scope" the document warns about.
+
+g) The tests are passing.
+- Resolved and verified by run_tests.
+
+h) Which tools to use.
+- Resolved by the harness at bind time, so the model never picks.
+
+Before the run I would show the task owner the open set: a, b, f, and the untested parts of c and d. I would also ask whether to add a package-manager or install tool, so that f becomes resolved before the binding is frozen.
+
+3. If the agent needs a capability I did not bind
+
+The agent declares it, for example: "this task needs a capability I was not given: run the package manager to install or resolve fastjson and regenerate the lockfile". It can also ask for something like "fetch the changelog or release notes", because the binding allows only the index page. Then it stops, and the decision goes to a human.
+
+The document calls this elicitation. The agent must not improvise, for example by hand-editing lockfile hashes or guessing compatibility from version numbers. It also must not add tools mid-run. Either would bring the escape back as a run that looks completed.
+
+4. Points where I was unsure
+
+- The document never says how a write tool fills in "Resolution". That field seems designed for reads. I guessed "resolved".
+- Rule 2 (revalidate a local file by re-stat or mtime) sits oddly next to "a controlled response cannot be stale". I took it to mean the tool must not serve a cached copy, but the two read as being in tension.
+- I couldn't tell whether list_dir counts as resolved or unresolved. It depends on which decision you mean, and the document says class depends on the task, but resolution is a per-response field the tool sets.
+- "Governing decisions ... at its declared assurance level" and "past tolerance" are used without saying how to set the assurance level or tolerance for a task like mine. So I could not be sure my decision list is complete or correctly cut.
+- I was unsure whether "verified" can be partial. The document only offers resolved, verified or open, but run_tests covers compatibility only partly. I split decisions into a verified part and an open part.
+- The document doesn't say who decides whether to bind fastjson's fetch_url at all when its output may be unbounded, or what "bounding at the call site" should look like for a web page.
+- Several terms are undefined for me: judgment store vs encoded store, poisoned ground, seam, exporter/resolver/verifier, pinned. Many of the rules are marked "held" (not yet settled), so I don't know how firm they are.
+- The document says to show the open set to "whoever owns the task", but not what happens if they reject the binding. For example, can I add a tool and rebind before the run?
+- The worked example says nothing about write tools, or about a verifier whose correctness depends on another open decision (my item f).
