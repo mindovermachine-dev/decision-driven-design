@@ -14,7 +14,10 @@
 
 format: upstream/v1
 upstream:
-  repo: https://github.com/Hafeok/actor-indexed-determination
+  # The repo moved to the mindovermachine-dev organisation at the transfer (2026-09). Until
+  # 2026-10-26 this line still named the old owner and resolved through GitHub's redirect; a
+  # redirect that lapses fires E12 on every pin at once. Changed by ruling (DDD-dec-40, S-7).
+  repo: https://github.com/mindovermachine-dev/actor-indexed-determination
   # Advanced v5.0.0 -> v5.2.0 on Emil's upstream acceptance (merge e86fd23, tagged v5.2.0);
   # the advance is recorded in core/decisions/DDD-dec-10.
   # Advanced v5.2.0 -> v5.3.0 on Emil's upstream acceptance of the Wave 2 PR (merge 1db6772,
@@ -117,6 +120,9 @@ upstream:
   # in every limb. After re-instrumenting DDD-frame-08: 74 pins, 0 basis-loss, 0 content-drift,
   # 1 shadowed id.
   ref: v5.15.1                      # tag, never a branch
+  # Five pin batches below carried a "[PROPOSED]" marker on their group comment. Each batch's
+  # decision is filed and ratified (DDD-dec-27, -28, -34, -38); the markers were struck
+  # 2026-10-26 (DDD-dec-40). The comments keep their dated reasoning.
   pins:
     # basis claims for DDD-dec-04 (the split decision itself rests on these)
     - id: DDD-frame-01
@@ -241,7 +247,7 @@ upstream:
     - id: DDD-hyp-05
       status_at_pin: projected
       content_hash: sha256:115bdd9e449d3929de9a96323e355503b950de3e001252e6dc0627bd7f041251
-    # [PROPOSED] Track 1 additions (2026-08-18, DDD-dec-27): the ids the determination track
+    # Track 1 additions (2026-08-18, DDD-dec-27): the ids the determination track
     # cites by ddd:ref in projections/tracks/01-determination.md. Pins added at the SAME ref
     # (v5.7.0) — no advance is proposed here, and none of these ids moved at Wave 3. Added
     # because W5 fires on a ddd:ref to an unpinned id anywhere under the repo root: a track
@@ -293,7 +299,7 @@ upstream:
     - id: DDD-frame-13
       status_at_pin: projected
       content_hash: sha256:4add58e0f47c0ff22bb752d6b78aef7f591a14b17d610cdb06677439e0b33276
-    # [PROPOSED] Track 1, Gate 3 additions (2026-08-18, DDD-dec-27): the ids rungs 6-10 cite by
+    # Track 1, Gate 3 additions (2026-08-18, DDD-dec-27): the ids rungs 6-10 cite by
     # ddd:ref, plus DDD-frame-08 for rung 4's accountable-principal row (flagged at Gate 2 as
     # stated without a citation; the citation is the fix). Same ref (v5.7.0), no advance.
     - id: DDD-frame-08
@@ -344,7 +350,7 @@ upstream:
     - id: DDD-ground-04
       status_at_pin: projected
       content_hash: sha256:36081b0a401d947f8b317b87bdc6879793c3a4476bfe0cdbe9bd3f2df6e4dd09
-    # [PROPOSED] The v5.8.0 mints (DDD-dec-28). Deliberately absent from the Gate 2/3 pin
+    # The v5.8.0 mints (DDD-dec-28). Deliberately absent from the Gate 2/3 pin
     # batches: they do not exist at v5.7.0, and pinning them there would have fired E12.
     - id: term:commitment-level
       status_at_pin: draft
@@ -352,7 +358,7 @@ upstream:
     - id: term:residual-discretion
       status_at_pin: draft
       content_hash: sha256:9bbe31e3a02fd3cee70ad42d560268943cd136aa1c0d389ec081d7af0c579340
-    # [PROPOSED] Paper A revision (2026-08-30), added at the v5.12.0 advance. Four nodes the
+    # Paper A revision (2026-08-30), added at the v5.12.0 advance. Four nodes the
     # manuscript leans on that were NOT pinned, found by the Gate 1 status sweep rather than by
     # the instrument: DDD-measure-06 retires at v5.12.0 and fired NOTHING, because W5 only sees
     # ids that are pinned. The paper asserted it as **established** in three places and both
@@ -373,7 +379,7 @@ upstream:
     - id: DDD-measure-17
       status_at_pin: projected
       content_hash: sha256:164a18072145bc4a0cdb3c6e1ca8890fc64c1b36396c73be5ca8bd45c66114e5
-    # [PROPOSED] Act address landing (2026-09-28, DDD-dec-38), staged with the v5.15.0 advance.
+    # Act address landing (2026-09-28, DDD-dec-38), staged with the v5.15.0 advance.
     # DDD-ground-06 and term:act-address are the basis of DDD-address-01..05; they do not exist
     # before v5.15.0, so pinning them earlier would fire E12. DDD-ground-01 is DDD-dec-38's
     # basis and was unpinned (DDD-agent-01). Hashes taken at upstream cc0abf8.
