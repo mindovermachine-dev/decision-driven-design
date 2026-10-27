@@ -1,4 +1,7 @@
-// dpp/1 hash law (spec section 5.2) in JavaScript, written independently of the Python reference.
+// HASH-ONLY cross-check: the dpp/1 hash function (spec 5.2-5.3) in JavaScript, written independently of the
+// Python reference. It implements nothing else: not the input checks of 5.1 (it relies on the standard
+// parser, which accepts duplicate names and unpaired surrogates), not record validation, not the resolver,
+// not the walk. It is not a conformant reader.
 // Usage: node hash.js ../canonical/vectors.json
 const crypto = require("crypto"), fs = require("fs");
 
@@ -39,5 +42,5 @@ for (const v of JSON.parse(fs.readFileSync(process.argv[2], "utf8")).vectors.fil
   const ok = v.expect === "reject" ? got === null : got && got.canonical === v.canonical && got.hash === v.hash;
   if (!ok) { fail++; console.log("FAIL", v.name, got && got.hash); }
 }
-console.log(`javascript: ${n - fail}/${n} hash-law vectors pass`);
+console.log(`javascript (hash-only): ${n - fail}/${n} hash-law vectors pass`);
 process.exit(fail ? 1 : 0);

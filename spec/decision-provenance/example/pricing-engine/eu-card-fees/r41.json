@@ -1,0 +1,18 @@
+{
+  "protocol": "dpp/1",
+  "id": "eu-card-fees",
+  "version": "r41",
+  "system": "https://pricing.example.internal",
+  "statement": "EU card fee: 1.4% of the amount plus 25 minor units, in euro, rounded half-to-even.",
+  "by": "spiffe://example.internal/pricing-engine",
+  "attributedTo": "mailto:finance-ops@example.internal",
+  "at": "2026-07-01T06:00:00Z",
+  "why": "Fee schedule FS-2026-07 approved by finance; applied as configuration revision r41.",
+  "basedOn": [],
+  "org.example.pricing.rule": {
+    "percent": "1.4",
+    "fixedMinorUnits": "25",
+    "rounding": "half-even",
+    "currency": "EUR"
+  }
+}

@@ -1,4 +1,7 @@
-// dpp/1 hash law (spec section 5.2) in Go, written independently of the Python reference.
+// HASH-ONLY cross-check: the dpp/1 hash function (spec 5.2-5.3) in Go, written independently of the
+// Python reference. It implements nothing else: not the input checks of 5.1 (it relies on the standard
+// parser, which accepts duplicate names and unpaired surrogates), not record validation, not the resolver,
+// not the walk. It is not a conformant reader.
 // Usage: go run hash.go ../canonical/vectors.json
 package main
 
@@ -107,7 +110,7 @@ func main() {
 			fmt.Println("FAIL", v["name"], hash, err)
 		}
 	}
-	fmt.Printf("go: %d/%d hash-law vectors pass\n", n-fail, n)
+	fmt.Printf("go (hash-only): %d/%d hash-law vectors pass\n", n-fail, n)
 	if fail > 0 {
 		os.Exit(1)
 	}

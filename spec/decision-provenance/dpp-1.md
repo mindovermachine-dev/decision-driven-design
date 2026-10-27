@@ -71,7 +71,7 @@ name first; how it is resolved is §6.
 **Reference.** The string `id@version@system` naming exactly one version of one decision in one
 system (§4).
 
-**Pin.** The record hash (§5.3) of the referenced record, carried beside a reference so that a
+**Pin.** The record hash (§5.3) of the referenced record, carried in every reference object so that a
 reader can verify it received the content that was relied on.
 
 **Record hash.** SHA-256 over the canonical form of a record (§5), written `sha256:<hex>`.
@@ -336,13 +336,23 @@ Wherever a record holds references (`basedOn`, `supersedes`), each is a **refere
 ```
 
 - `ref` (REQUIRED): a reference by §4.1.
-- `hash` (OPTIONAL): a pin, the record hash (§5.3) of the referenced record as the referrer
-  obtained it: `sha256:` followed by 64 lowercase hexadecimal digits.
+- `hash` (REQUIRED): the pin, the record hash (§5.3) of the referenced record as the writer of
+  the reference obtained it: `sha256:` followed by 64 lowercase hexadecimal digits.
 
-A writer that obtained the referenced record by resolving it SHOULD include the pin. A writer that
-did not — an author typing references into an ADR by hand — MAY omit it. A pin lets a walker
-detect that the content it receives is not the content that was relied on (§7.3); an unpinned
-reference relies on the referenced system honouring §3.8.
+A reference object without `hash` is not a reference object, and a record containing one is not
+conformant (§3.6).
+
+**Who computes the pin.** The writer of the reference computes it: it resolves the referenced
+record (§6), applies the hash law to what it received (§5), and records the result. The walker
+recomputes it at every hop and compares (§7.3). The referenced system never computes it, stores it,
+or serves it: nothing in the resolver (§6) or in conformance (§8) involves a hash, so a directory
+of hand-written files remains a conformant system. A writer that cannot compute a hash itself (an
+author editing an ADR) uses any implementation of §5, such as the reference implementation, to
+obtain it.
+
+The pin is what makes a reference a reference to *content*: a walker detects any difference
+between the record it receives and the record that was relied on (§7.3), whether the referenced
+system broke §3.8, a mirror substituted a record, or the reference was mistyped.
 
 A reader MUST ignore members of a reference object other than `ref` and `hash`, and MUST include
 them in the canonical form.
@@ -358,7 +368,9 @@ operator of a system publishes one spelling of its identifier; records and refer
 ## 5. The hash law
 
 The hash law is the only behaviour every implementation shares. It is the function of §5.2 and
-§5.3: from a parsed record to its canonical form and record hash. §5.1 states the input on which the
+§5.3: from a parsed record to its canonical form and record hash. It is executed by the writers of
+references, to compute pins (§4.2), and by walkers, to check them (§7.3); a system that only holds
+and serves records never executes it. §5.1 states the input on which the
 function is defined; checking it is the reader's parser's job, and its results are the same in
 every language.
 
@@ -455,10 +467,12 @@ systems, or under two versions, has two different hashes. A copy of a record is 
   the insertion order, so `{"10":…,"9":…}` cannot be produced. A JavaScript implementation
   serialises objects itself; `JSON.stringify` remains correct for a single string. The suite has a
   vector for this.
-- Line counts, non-blank, for §5.2–5.3 only: 19 lines of Python in the reference implementation
-  (29 with §5.1's input checks); 26 lines of JavaScript and 65 lines of `gofmt`-formatted Go (51
-  excluding lines holding only a closing brace) in the suite's cross-checks, which test §5.2–5.3
-  and rely on their standard parsers for §5.1.
+- **Size budget.** The budget is stated as the size of the reference implementation
+  (`reference/dpp.py`, Python, standard library only): the hash law, with the input checks of
+  §5.1, is under fifty lines (30 non-blank lines: 19 for §5.2–5.3, 7 for §5.1 parsing, 4 for the error helper), and the whole
+  implementation, hash law, file-based resolver and walk, is under a hundred (99 lines). The
+  suite's JavaScript and Go programs are hash-only cross-checks (Appendix C); their sizes are not
+  a claim of this specification.
 
 ---
 
@@ -611,6 +625,62 @@ Resolving `id@version@system` has exactly one of three outcomes:
 "Not held" requires an answer from a conformant system. A `404` from a host whose descriptor
 cannot be obtained says nothing about decisions, and is "not reachable".
 
+### 6.9 Signalling "not held"
+
+A system signals "not held" in exactly one way per binding, and in no other:
+
+- **HTTPS:** status `404 Not Found` (or `410 Gone`) for `<base><id>/<version>.json`, while
+  `<base>system.json` answers `200` with its descriptor. The response body is ignored.
+- **Files:** no file at `<base><id>/<version>.json`, while `<base>system.json` is present.
+
+There is no "not held" record, error document, or field. A system MUST NOT signal "not held" with
+`200` and a body describing an error; a reader treats such a body as a record, finds it not
+conformant, and reports not reachable. A system that once held a record and has ceased to
+(§3.8) SHOULD answer `410`; a reader treats `404` and `410` alike. An application that is not a
+static file server (a tracker's plugin, a governance engine's endpoint) answers the same paths
+with the same status codes.
+
+An exchange in which ADR-0004 version 2 is not held by
+`https://git.example.internal/payments/docs/adr`:
+
+```
+GET /payments/docs/adr/system.json HTTP/1.1
+Host: git.example.internal
+Accept: application/json
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{"protocol":"dpp/1","system":"https://git.example.internal/payments/docs/adr"}
+
+GET /payments/docs/adr/ADR-0004/2.json HTTP/1.1
+Host: git.example.internal
+Accept: application/json
+
+HTTP/1.1 404 Not Found
+```
+
+The same system as files, with the same answer:
+
+```
+docs/adr/system.json          present: {"protocol":"dpp/1","system":"https://git.example.internal/payments/docs/adr"}
+docs/adr/ADR-0004/1.json      present
+docs/adr/ADR-0004/2.json      absent      -> ADR-0004@2 is not held
+```
+
+How the same `404` reads in other circumstances:
+
+| Descriptor request | Record request | Outcome |
+|---|---|---|
+| `200`, names the system | `404` / `410` | **not held** |
+| `200`, names another system | `404` | not reachable |
+| `404`, or not JSON | `404` | not reachable: no conformant system answered |
+| `401` / `403` | (not sent) | not reachable: refusal |
+| `200`, names the system | `403` | not reachable: refusal (or, if the system prefers not to disclose existence, it answers `404`, §11.6) |
+| no answer | (not sent) | not reachable |
+
+The chain fixture of the suite (Appendix C) contains this case as files.
+
 ---
 
 ## 7. The walk
@@ -626,7 +696,7 @@ always also in `basedOn`, §3.4.)
 
 | Result | Meaning — fixed |
 |---|---|
-| **held** | The system holding the reference answered with the record, it is conformant, and, if the hop carries a pin, its record hash equals the pin. |
+| **held** | The system holding the reference answered with the record, it is conformant, and its record hash equals the hop's pin. |
 | **not held** | The system answered, as a conformant system, that it does not hold the record. |
 | **not reachable** | No conformant answer was obtained: the system did not answer, refused, is not conformant, or answered with content that does not match the hop's pin. |
 
@@ -646,11 +716,17 @@ statement that the decision never existed (§11.6).
    be an empty map from reference strings to outcomes, and *X* an empty set.
 2. While *Q* is not empty, take a hop (*f*, *e*) from it, where *e* is a reference object.
    1. If *R* has no outcome for *e*.`ref`, resolve it (§6.8) and store the outcome in *R*.
-   2. The hop's result is the outcome in *R*, except that if the outcome is held, *e* has a `hash`,
-      and the record hash of the held record differs from it, the hop's result is not reachable.
+   2. The hop's result is the outcome in *R*, except that if the outcome is held and the record
+      hash of the held record (§5.3), computed by the walker, differs from *e*.`hash`, the hop's
+      result is not reachable.
    3. Report the hop (*f*, *e*.`ref`, result).
    4. If the result is held and *e*.`ref` is not in *X*, add it to *X* and add to *Q* one hop
       (*e*.`ref`, *b*) for each entry *b* of the record's `basedOn`.
+
+The starting reference object is the only one that may lack `hash` (a walker may be asked to start
+from `id@version@system` alone); its hop is then held without verification, and the walker SHOULD
+show the record hash it computed so that the start can be pinned. Every other hop comes from a
+record's `basedOn` and so carries a pin.
 
 Each reference is resolved at most once per walk and each held record expanded at most once, so a
 record reached along several paths appears once per referring record, all with the same outcome,
@@ -659,10 +735,10 @@ which hops are reported is not significant.
 
 ### 7.4 Termination and limits
 
-A walk visits each reference once, so it terminates whenever the set of references it can reach is
-finite, whether or not the references form a cycle. (A chain in which every hop carries a pin
-cannot form a cycle, since a cycle would need a record hash to depend on itself; unpinned
-references can form one, and the visited set handles it.)
+Every reference in a record is pinned, so the references between records cannot form a cycle: a
+cycle would need a record hash to depend, through the pins, on itself. A walk therefore terminates
+whenever the set of records it can reach is finite. Resolving each reference once (§7.3) is for
+efficiency, and guards against a non-conformant system that serves records whose pins do not hold.
 
 A walker MAY bound a walk by depth, number of hops, total bytes or time. A walk so bounded is
 **truncated**: the walker MUST say so, and MUST list the references it reached but did not resolve
@@ -710,6 +786,10 @@ parts other than those marked OPTIONAL above. A system is conformant when
    and for a record it holds only where it declines to disclose the record's existence to the
    reader (§11.6); and
 5. if it offers `versions` (§6.4), the listing is accurate.
+
+Conformance asks nothing of a system's ability to compute hashes: a system that only holds and serves
+records, such as a directory of hand-written files, never executes the hash law. The pins in its
+records are computed by whoever wrote them (§4.2).
 
 A claim of conformance names the protocol token and the specification version (`dpp/1`,
 specification 1.0) and, where a suite was run, the suite version.
@@ -819,16 +899,16 @@ a redirection to a different origin.
 ### 11.2 Integrity
 
 - **Pins** detect any change to a referenced record's hashed content, whether by the system, a
-  mirror, a cache or an attacker on the path. They detect nothing about unpinned references, and
-  nothing about `extensions`.
+  mirror, a cache or an attacker on the path. They detect nothing about `extensions`, and nothing
+  about the starting reference of a walk if it was given without a hash.
 - **Transport.** HTTPS protects records in transit from the system or mirror that served them. It
   says nothing about whether that party served the true record. `http` identifiers have no
   transport protection.
 - **Files.** A record read from a directory is as trustworthy as the directory: its file system
   permissions, its repository's history, and whoever produced the clone.
-- **Mirrors and configured locations** (§6.7) can serve anything for unpinned references. A
-  record from one is held only if it names the right system, but a mirror can forge that.
-  Readers SHOULD prefer pinned references when resolving through a location they do not trust.
+- **Mirrors and configured locations** (§6.7) cannot substitute a record without the pin failing.
+  They can withhold records (which reads as not held or not reachable) and can serve a forged
+  starting record when the start is unpinned.
 - **Hash strength.** The protocol assumes SHA-256 collision and second-preimage resistance. The
   `sha256:` prefix lets a later major version name another function.
 
@@ -847,8 +927,8 @@ binds, or that `by` and `at` are true — those are profile matters.
 
 - A system that records something false when it first publishes it: a wrong `by`, a back-dated
   `at`, an invented `why`. The protocol reports what a system says; it cannot check it.
-- A system that serves different content to different readers for unpinned references
-  (equivocation), or that ceases to hold records (deletion appears as "not held").
+- A system that ceases to hold records (deletion appears as "not held"), or that serves an
+  unpinned starting reference differently to different readers.
 - A compromised system, or a compromised key.
 - Denial of service against a system: it appears as "not reachable".
 - Disclosure of record content to anyone the system lets read it. The protocol has no
@@ -961,22 +1041,21 @@ URL-encoded IRI as a directory name: long, full of `%`, and unsafe on case-foldi
 Here identity is (`system`, `id`) and `id` is a short token that is its own file name. A system
 whose native ids are IRIs keeps them in a dotted member.
 
-**A-2. `version` is chosen by the system; the hash is a separate, optional pin.** This is the
-largest change. Draft 3 made `version` the record hash. That gave three real properties: every
-reference was a content pin; a system could not rewrite a version under its referrers; and pinned
-chains could not cycle. It also cost three things the constraints do not allow. (i) An ADR
-directory could not be made conformant with no code: every record's file name and every
-reference would be a SHA-256 an author cannot compute by hand, and correcting a typo would rename
-the file. (ii) No system could use its native version (a ticket revision, a configuration
-revision `r42`, a commit, a run id); each would carry two versions, its own and the protocol's.
-(iii) References became illegible in the places people write them: tickets, commit messages,
-ADR prose. Here `version` is a token the system chooses, and the hash is carried beside a
-reference as `hash`, which writers that resolved the target SHOULD include. The properties are
-kept where pins are present: rewriting is detected per hop (§7.3), pinned chains cannot cycle
-(§7.4), and immutability is a conformance requirement (§3.8). Where pins are absent, which is
-the hand-written case, the walk needs a visited set and relies on §3.8. A system that wants Draft 3's
-behaviour may use the record hash as its version. *Cost accepted:* an unpinned reference is
-weaker than Draft 3's every reference.
+**A-2. `version` is chosen by the system; the content hash is a required pin beside it.** This is
+the largest change. Draft 3 made `version` the record hash. That gave three real properties: every
+reference was a content pin; a system could not rewrite a version under its referrers; and chains
+could not cycle. It also cost three things the constraints do not allow. (i) The referenced system
+had to compute hashes: every record's file name was a SHA-256, so an ADR directory could not be
+made conformant with no code, and correcting a typo renamed the file. (ii) No system could use its
+native version (a ticket revision, a configuration revision `r42`, a commit, a run id); each would
+carry two versions, its own and the protocol's. (iii) References became illegible in the places
+people write them: tickets, commit messages, ADR prose. Here `version` is a token the system
+chooses, and the hash is REQUIRED in every reference object as `hash` (§4.2), computed by the
+writer of the reference and checked by the walker, never by the referenced system. All three of
+Draft 3's properties are kept: every reference is a content pin, rewriting is detected at every
+hop (§7.3), and references between records cannot cycle (§7.4). *Cost accepted:* writing a
+reference needs one execution of the hash law by its writer; an ADR author who references another
+ADR runs an implementation of §5 once, while the referenced directory itself needs nothing.
 
 **A-3. The record carries `system`.** Draft 3's record had no `system`; only references did, so a
 record read from a file or a mirror did not say where it belonged, and the same content in two
@@ -1081,9 +1160,10 @@ reports when the record obtained differs from the one referenced. It is not "not
 answered with something under that triple), so it is the third result: no conformant answer
 matching the reference was obtained. The walker may show "pin mismatch" as the reason.
 
-**A-21. Walk termination does not depend on hashes.** Draft 3 argued termination from versions being
-hashes. With A-2 a walk terminates by resolving each reference once (§7.4). Draft 3's argument
-survives for chains in which every hop is pinned.
+**A-21. Walk termination rests on the pins, not on versions being hashes.** Draft 3 argued
+termination from versions being hashes. With A-2 the argument moves to the required pins, which
+make cycles between records impossible (§7.4); the walk also resolves each reference once, for
+efficiency and against non-conformant systems.
 
 **A-22. PROV-O: `by` is associated with the activity; `attributedTo` is attribution.** Draft 3 mapped
 `by` to `prov:wasAttributedTo`. That conflates the agent that acted with the party responsible,
@@ -1124,8 +1204,9 @@ decision was made.
 
 **A-29. The hash law is the function; input checking is the parser's.** Draft 3 called the
 canonical form "one function". Here the function (§5.2–5.3) is separated from the input rules
-(§5.1) so the line budget of constraint 6 is measured on the function, and so it is plain that in
-JavaScript and Go the input rules need more than the standard parser (§5.1, A.3).
+(§5.1), so it is plain that in JavaScript and Go the input rules need more than the standard parser
+(§5.1). The budget of constraint 6 is stated as the size of the reference implementation (§5.4,
+A.3); the suite's JavaScript and Go programs are hash-only cross-checks.
 
 ### A.2 The five questions
 
@@ -1176,18 +1257,16 @@ Flagged for review; none is asserted as settled.
 - **Who controls the specification.** §13 needs a named change controller for the IANA
   registration, and §12 needs a named party that issues minor versions. Neither is decided.
   *(UNVERIFIED — Emil review.)*
-- **A-2 is a reversal of Draft 3's central choice.** The reasons are stated; the trade-off (an
-  unpinned reference is weaker) is accepted here but is a principal's call. *(UNVERIFIED — Emil
-  review.)*
-- **Constraint 6 is met for the function, not for the input checks, and not in Go.** The hash
-  function (§5.2–5.3) fits in under fifty lines of Python (19) and JavaScript (26); in
-  `gofmt`-formatted Go it takes 65 non-blank lines (51 without lines holding only a closing brace),
-  because `gofmt` gives every brace and branch its own line. The input rules (§5.1) are a few
-  lines in Python, whose parser reports duplicate names, but need a name-reporting parser in
-  JavaScript and Go, whose standard parsers do not; the cross-checks do not implement §5.1. The
-  alternative, dropping the duplicate-name rule, was rejected: parsers that keep the first and the
-  last duplicate would hash the same bytes differently. Whether this reading of "fifty lines" is
-  acceptable is for review. *(UNVERIFIED — Emil review.)*
+- **A-2 is a reversal of Draft 3's central choice.** Versions are system-chosen and the pin is
+  required, so Draft 3's integrity properties are kept; the remaining cost is one hash computation
+  per reference, by its writer. That the reversal stands is a principal's call. *(UNVERIFIED —
+  Emil review.)*
+- **Constraint 6 is stated as reference-implementation size.** "Implementable in under fifty
+  lines in any language" is restated, in this revision, as: the hash law in the reference
+  implementation, input checks included, is under fifty lines (30), and the whole reference
+  implementation is under a hundred (99) (§5.4). No claim is made about other languages. The
+  suite's JavaScript and Go programs are hash-only: they implement §5.2–5.3 and rely on standard
+  parsers that do not perform §5.1's checks.
 - **`status` value set.** Draft 3's four values are kept. Nygard's ADR form uses `deprecated` where
   this has `withdrawn`; an ADR directory maps it in its profile. Whether to add `rejected` (common
   in ticket systems) in a minor version is open.
@@ -1230,9 +1309,9 @@ and no required implementation language.
 | Part | Content |
 |---|---|
 | `suite/canonical/vectors.json` | 36 vectors. **parse** vectors (8): inputs that are not I-JSON and must be rejected before hashing — duplicate member names (top level and inside `extensions`), unpaired surrogate, noncharacter, `NaN`, top-level array, byte order mark, invalid UTF-8. **hash** vectors (28): canonical form and hash, or rejection, covering key order, input escapes, NFC versus NFD, the escape table including U+007F and U+2028, code point versus UTF-16 key order, integer-like member names, numbers of any magnitude inside `extensions`, numbers (integer, decimal, exponent, nested, as string), booleans and null, `extensions` and `signature` excluded, `basedOn` order across systems, duplicate refs, entries without `ref`, `supersedes` order, other arrays not reordered, unknown members hashed. |
-| `suite/resolver/` | A file-based resolver fixture: a conformant system directory with held, superseding and listed records and with records that are invalid, mismatched, of another major version, not JSON, or unhashable; a directory without a descriptor; a directory whose descriptor names another system. `cases.json` gives 19 resolutions and their expected results, including a pin that matches despite changed `extensions`, a pin mismatch, a version token that collides with nothing (`system`), a `why` with an empty `ref`, a date that is not a calendar date, and a descriptor whose optional members are malformed. |
-| `suite/chain/` | Three systems — a ticket tracker, an ADR directory, a governance engine — of which the reader can reach two. Starting from `PAY-142@3` in the tracker, the expected walk (`expected-walk.json`) has five hops: three held (one an origin), one not held (a version the ADR directory does not have), one not reachable (the governance engine). |
+| `suite/resolver/` | A file-based resolver fixture: a conformant system directory with held, superseding and listed records and with records that are invalid, mismatched, of another major version, not JSON, or unhashable; a directory without a descriptor; a directory whose descriptor names another system. `cases.json` gives 20 resolutions and their expected results, including a pin that matches despite changed `extensions`, a pin mismatch, a record with an unpinned reference, a version token that collides with nothing (`system`), a `why` with an empty `ref`, a date that is not a calendar date, and a descriptor whose optional members are malformed. |
+| `suite/chain/` | Three systems — a ticket tracker, an ADR directory, a governance engine — of which the reader can reach two. Starting from `PAY-142@3` in the tracker, the expected walk (`expected-walk.json`) has five hops: three held (one an origin), one not held (a version the ADR directory does not have, signalled as in §6.9), one not reachable (the governance engine). Every reference in it is pinned, including the two whose targets the walker cannot obtain. |
 | `suite/run.py` | Runs all of the above against any Python module exposing `parse`, `canonical`, `record_hash`, `walk` and `Invalid`. |
-| `suite/crosscheck/` | Independent implementations of §5.2–5.3 in JavaScript and Go, checked against the hash vectors. |
-| `reference/dpp.py` | The reference implementation: hash law, file-based resolver and walk, in 99 lines of Python using only the standard library. |
+| `suite/crosscheck/` | **Hash-only** cross-checks: independent implementations of §5.2–5.3 in JavaScript and Go, checked against the hash vectors. They do not implement §5.1, record validation, the resolver or the walk, are not conformant readers, and are not part of the size budget. |
+| `reference/dpp.py` | The reference implementation, Python, standard library only, and the measure of the size budget (§5.4): hash law with input checks in 30 non-blank lines; with the file-based resolver and walk, 99 lines. |
 | `example/` | The worked example: an ADR directory made conformant with no code, and a rules engine referencing one of its ADRs. |

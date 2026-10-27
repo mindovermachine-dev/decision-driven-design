@@ -11,12 +11,13 @@
   "basedOn": [
     {
       "ref": "ADR-0003@1@https://git.example.internal/payments-service/docs/adr",
-      "hash": "sha256:40f981f90c5251270df4e7570fdd6112c1254b6ed21307fb06086601f7803bfa"
+      "hash": "sha256:fc90300dfaa67b825dc2bcf62961ef56380ce0cd4ad33588307e529c2a1134de"
     }
   ],
   "supersedes": [
     {
-      "ref": "eu-card-fees@r41@https://pricing.example.internal"
+      "ref": "eu-card-fees@r41@https://pricing.example.internal",
+      "hash": "sha256:958704ec537007255508d8cfb81f784cc3501f94e3feb04a21c961304f4ad63d"
     }
   ],
   "org.example.pricing.rule": {

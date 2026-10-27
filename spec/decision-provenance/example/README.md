@@ -1,7 +1,8 @@
 # Worked example: an ADR directory, and a system that rests on it
 
 *Non-normative.* Two systems. The first is a directory of architecture decision records in a
-repository, made conformant with `dpp/1` by adding JSON files, with no code and no server. The
+repository, made conformant with `dpp/1` by adding JSON files, with no code and no server: the
+directory never computes a hash. Only the writer of a reference does. The
 second is a pricing rules engine whose fee rule rests on one of those ADRs. Every file named here
 is in this directory, and `suite/run.py` checks the walk at the end.
 
@@ -75,12 +76,23 @@ change of `status` is a new version (spec §3.4).
   "at": "2026-06-20",
   "status": "accepted",
   "why": { "href": "../0003-fees-in-settlement-currency.md" },
-  "basedOn": [ { "ref": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr" } ] }
+  "basedOn": [ { "ref": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr",
+                 "hash": "sha256:2757bb005bc127db7adb238bb5ebe00a45c3ca1fabe86afdf9d28fde71096257" } ] }
 ```
 
-The reference carries no `hash`. A person writing JSON by hand cannot compute one, and the spec
-allows the omission (§4.2). The cost is that a walker cannot check that ADR-0002 version 2 is
-unchanged; it relies on the directory's immutability (§3.8) and the repository's history.
+Every reference carries the content hash of what it rests on (§4.2). The directory does not
+compute it: the ADR's author, as the writer of the reference, runs any implementation of the hash
+law over the record being referenced, here with the reference implementation, from
+`spec/decision-provenance/`:
+
+```
+python3 -c "import sys; sys.path.insert(0, 'reference'); import dpp; \
+  print(dpp.record_hash(dpp.parse(open('example/payments-service/docs/adr/ADR-0002/2.json', 'rb').read())))"
+```
+
+That is the one step that uses a tool, and only for ADRs that reference other decisions; ADR-0002,
+an origin, is entirely hand-written. The pin means a walker can check that ADR-0002 version 2 is
+exactly what ADR-0003 relied on.
 
 Optionally, `ADR-0002/index.json` lists the versions (§6.4):
 
@@ -125,27 +137,21 @@ records over HTTPS they live at `https://pricing.example.internal/.well-known/de
   "at": "2026-10-21T06:00:00Z",
   "why": "Fee schedule FS-2026-11 approved by finance; applied as configuration revision r42.",
   "basedOn": [ { "ref": "ADR-0003@1@https://git.example.internal/payments-service/docs/adr",
-                 "hash": "sha256:40f981f90c5251270df4e7570fdd6112c1254b6ed21307fb06086601f7803bfa" } ],
-  "supersedes": [ { "ref": "eu-card-fees@r41@https://pricing.example.internal" } ],
+                 "hash": "sha256:fc90300dfaa67b825dc2bcf62961ef56380ce0cd4ad33588307e529c2a1134de" } ],
+  "supersedes": [ { "ref": "eu-card-fees@r41@https://pricing.example.internal",
+                    "hash": "sha256:958704ec537007255508d8cfb81f784cc3501f94e3feb04a21c961304f4ad63d" } ],
   "org.example.pricing.rule": { "percent": "1.4", "fixedMinorUnits": "25", "rounding": "half-even" },
   "extensions": { "org.example.pricing.deployedTo": ["eu-west-1", "eu-central-1"] } }
 ```
 
 - `by` is the engine's own workload identity: software made this decision. `attributedTo` names
   the team responsible (spec Appendix A, Q1).
-- The engine is software, so it resolved ADR-0003 when it wrote the record and pinned it. The pin
-  is the record hash of `ADR-0003/1.json`:
-
-  ```
-  python3 -c "import sys; sys.path.insert(0, 'reference'); import dpp; \
-    print(dpp.record_hash(dpp.parse(open('example/payments-service/docs/adr/ADR-0003/1.json', 'rb').read())))"
-  ```
-
-  (run from `spec/decision-provenance/`).
+- The engine resolved ADR-0003 when it wrote the record and pinned it: the pin is the record hash
+  the engine computed over `ADR-0003/1.json`. The ADR directory took no part in that.
 - The rule's parameters are in a dotted member, so the pin covers them. They are strings, because
   hashed content holds no numbers (§5.2). The regions the rule is deployed to change without the
   decision changing, so they sit in `extensions`, outside the hash.
-- `supersedes` names r41 without a pin and is not walked.
+- `supersedes` names r41 (`eu-card-fees/r41.json`), pinned like any reference. It is not walked.
 
 ## 5. Walk from the fee back to the origin
 
@@ -162,10 +168,12 @@ walks from `eu-card-fees@r42@https://pricing.example.internal`:
 |---|---|---|
 | *(start)* | `eu-card-fees@r42@https://pricing.example.internal` | held |
 | `eu-card-fees@r42@…pricing…` | `ADR-0003@1@…/docs/adr` | held (pin verified) |
-| `ADR-0003@1@…/docs/adr` | `ADR-0002@2@…/docs/adr` | held (unpinned); origin |
+| `ADR-0003@1@…/docs/adr` | `ADR-0002@2@…/docs/adr` | held (pin verified); origin |
 
 That is `expected-walk.json`, and `python3 suite/run.py` reproduces it. Had the reader not had a
 clone of the repository, the second hop would read **not reachable**, and the walk would stop
-there and say so. Had someone deleted `ADR-0003/1.json`, it would read **not held**. Had someone
+there and say so. Had someone deleted `ADR-0003/1.json`, it would read **not held**: the
+directory still has `system.json` but no file at that path, which is how a directory signals it
+(spec §6.9). Had someone
 edited it in place, the pin would no longer match, and it would read **not reachable** (pin
 mismatch) — the case the pin exists to catch.

@@ -141,6 +141,13 @@
         "ref": "X-1@1@https://fixture.example/loose-descriptor"
       },
       "expect": "held"
+    },
+    {
+      "name": "record-with-unpinned-reference",
+      "start": {
+        "ref": "R-12@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
     }
   ]
 }

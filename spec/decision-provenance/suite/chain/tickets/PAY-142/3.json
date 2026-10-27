@@ -10,7 +10,7 @@
   "basedOn": [
     {
       "ref": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
-      "hash": "sha256:ca6f4552a8e57caa9fc4a7155e56c8ff9eddf0377ba28ef99d08503644ac9b45"
+      "hash": "sha256:8d1b2603b28d7c0fb507d1c56403054de637f96c3ff6674cd7ebebe229d2e5c3"
     }
   ],
   "supersedes": [

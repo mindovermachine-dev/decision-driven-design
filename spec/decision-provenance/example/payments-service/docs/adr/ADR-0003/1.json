@@ -12,7 +12,8 @@
   },
   "basedOn": [
     {
-      "ref": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr"
+      "ref": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr",
+      "hash": "sha256:2757bb005bc127db7adb238bb5ebe00a45c3ca1fabe86afdf9d28fde71096257"
     }
   ]
 }

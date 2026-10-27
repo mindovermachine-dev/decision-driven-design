@@ -8,16 +8,16 @@ the resolver, and the hash law.
 | Path | What |
 |---|---|
 | [`dpp-1.md`](dpp-1.md) | The specification, version 1.0 (draft). Appendix A holds the decisions: every departure from Draft 3 and the answers to the five open questions. |
-| [`suite/`](suite/) | The conformance suite: canonicalisation vectors, a resolver fixture, a three-system chain fixture, a runner, and JavaScript and Go cross-checks of the hash law. |
-| [`reference/dpp.py`](reference/dpp.py) | The reference implementation: hash law, file-based resolver and walk, 99 lines, Python standard library only. |
+| [`suite/`](suite/) | The conformance suite: canonicalisation vectors, a resolver fixture, a three-system chain fixture, a runner, and hash-only JavaScript and Go cross-checks (hash function only; not readers). |
+| [`reference/dpp.py`](reference/dpp.py) | The reference implementation, and the measure of the size budget: hash law with input checks in 30 non-blank lines; with the file-based resolver and walk, 99 lines. Python standard library only. |
 | [`example/`](example/) | Worked example: an ADR directory made conformant with no code, and a rules engine referencing one of its ADRs. |
 
 Run the suite:
 
 ```
-python3 suite/run.py                                   # 64 checks against the reference implementation
-node suite/crosscheck/hash.js suite/canonical/vectors.json
-go run suite/crosscheck/hash.go suite/canonical/vectors.json
+python3 suite/run.py                                   # 65 checks against the reference implementation
+node suite/crosscheck/hash.js suite/canonical/vectors.json   # hash-only
+go run suite/crosscheck/hash.go suite/canonical/vectors.json  # hash-only
 ```
 
 `suite/run.py path/to/module.py` runs the same checks against another Python implementation.

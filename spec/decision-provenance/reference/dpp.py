@@ -64,7 +64,7 @@ def validate(r):  # §3.6: the record rules; returns the record or raises Invali
     need(isinstance(sig, dict) and all(isinstance(sig.get(k, k == "key" and "-"), str) for k in ("scheme", "value", "key")), "signature")
     need(isinstance(r.get("basedOn"), list) and r.get("supersedes", [0]) != [], "basedOn or supersedes")
     for e in [e for k in SETS for e in r.get(k, [])]:
-        need(split_ref(e["ref"]) and e["ref"] != own and HASH.match(str(e.get("hash", "sha256:" + "0" * 64))), "ref")
+        need(split_ref(e["ref"]) and e["ref"] != own and HASH.match(str(e.get("hash"))), "ref")
     why = r.get("why")
     need(isinstance(why, str) and why or isinstance(why, dict) and len({"href", "ref"} & why.keys()) == 1, "why")
     if isinstance(why, dict):
@@ -87,7 +87,7 @@ def get(locations, ref):  # §6.6: resolve a reference against reader-configured
     folded = (r["id"].lower(), r["version"].lower(), r["system"]) == (rid.lower(), version.lower(), system)
     return (NOT_HELD if folded else NOT_REACHABLE), None
 
-def walk(locations, start):  # §7: follow basedOn from a reference object; one result per hop, sorted by (from, to).
+def walk(locations, start):  # §7: follow basedOn from a reference object (only it may lack a hash); hops by (from, to).
     hops, got, queue, expanded = [], {}, [(None, start)], set()
     while queue:
         frm, entry = queue.pop(0)
