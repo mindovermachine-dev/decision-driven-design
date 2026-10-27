@@ -23,3 +23,16 @@ Ruling on `DDD-dec-41`'s flagged reading and its open items O-1 to O-6:
 | O-4 Preview profiles | Not ruled; explanation requested |
 | O-5 Decisions in the What | Anchor to a What element; a decision for each change of the What |
 | O-6 product-cli | Agreed: re-pin to the moved What |
+
+## Round 3 — recorded as `DDD-dec-43`
+
+Ruling on the weakest point Claude named for §14 (authoring scopes) in its O-4 explanation:
+
+> we dont let tools change it, but we acknowledge that parts of the entire what lives else where
+> and processes where we should be able to gather the information from those tools are a valid
+> use case, but all must be signed and approved by a human principal
+
+| Item | Ruling |
+|---|---|
+| O-4, §14 Authoring scopes | Tools never change the What; gathering from tools and processes is valid; everything gathered is signed and approved by a human principal |
+| O-4, §§11–13 | Not ruled; Claude's proposal stands as `[PROPOSED]` |
