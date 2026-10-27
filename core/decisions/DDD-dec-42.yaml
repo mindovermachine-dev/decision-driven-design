@@ -1,0 +1,50 @@
+format: 1
+id: DDD-dec-42
+kind: decision
+statement: |
+  The second round of Product Framework What rulings: Claude's reading of DDD-dec-41's ruling 3 is accepted; the What lands under applications/sdlc/; the Product Framework's How and Delivery are retired; Two Pillars conformance is dropped; every decision anchors to a What element, and every change of the What is made by a decision; and product-cli re-pins to the moved What. The Preview profiles (O-4) are not ruled.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in one message on DDD-dec-41's open items ("ruling 3 accepted. 1. yes 2. they are retired 3. drop it 4. explain this to me? 5. it anchors to a what element, we should have decisions for each change of the what 6. agreed"), recorded verbatim at meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings, by DDD-dec-41 item
+
+  - **Ruling 3's reading — accepted.** A system is not a coordinate of any act occurrence. It is
+    the declaration, for one piece of software, of the ground its acts read and the tolerance each
+    act must meet. The What as a whole is the software's ground-and-tolerance specification, and
+    step 1 reads addresses off it. The UNVERIFIED flag in DDD-dec-41 is discharged by this ruling.
+  - **O-1 Path — applications/sdlc/.** The exact sub-path is set when the move lands.
+  - **O-2 How and Delivery — retired.** Product Framework §§4–7 are not carried forward anywhere.
+    Retiring them in the Hafeok repository is an act on that repository, not done here.
+  - **O-3 Two Pillars — dropped.** The moved What carries no Two Pillars conformance mapping. It
+    consumes canon by pin, like the rest of this repository.
+  - **O-4 Preview profiles — not ruled.** Emil asked for an explanation; the item stays open.
+  - **O-5 Decisions in the What — they anchor to a What element.** A decision is not itself a What
+    element. Each decision anchors to the What element it governs. And every change of the What is
+    made by a decision: the What changes only through decisions anchored to the elements they
+    change.
+  - **O-6 product-cli — agreed.** product-cli's copy of the Product Framework (v1.9.1) is replaced
+    by a pin on the moved What.
+
+  ## What O-5 implies — UNVERIFIED, Emil review
+
+  1. If the What changes only through decisions, a What element's current form is the result of
+     the decisions anchored to it. The What's history is then the decision history, and changing
+     the What by supersession is the same rule this repository applies to its own canon.
+  2. An unanchored change to the What — an edit no decision carries — is a candidate escape, in
+     the same sense that a decision matching no address is one in step 1.
+  3. The anchor for "each change" is a What element, so the What needs stable element identities
+     before decisions can anchor to them. The Product Framework's RDF encoding (§9) plausibly
+     supplies them; that is not checked.
+  4. Whether a decision that creates a What element anchors to the element it creates, or to its
+     parent, is not settled by the ruling.
+basedOn:
+  - DDD-dec-41
+  - DDD-ground-06
+  - DDD-ground-01
+notes: |
+  Filed from the Product Framework What session (meta/sessions/2026-10-27-product-framework-what/),
+  in the same pull request as DDD-dec-41, recorded when given. DDD-dec-41 is left unchanged; this
+  decision records how its open items were ruled, rather than rewriting it.
+
+  O-4 remains open. The explanation Emil asked for was given in the session; under ruling O-2 the
+  question has narrowed, since two of the four profiles bind to How sections now retired.
