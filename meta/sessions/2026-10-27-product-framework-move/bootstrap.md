@@ -17,4 +17,4 @@ as Gate 0's first act, before any other work.
 | Source repo (read only) | github.com/Hafeok/product-framework at `c895652` (v1.10.0) |
 | Model | *at arrival* |
 | Gates | 0 to 4, per `prompt.md` |
-| Next free decision id | `DDD-dec-51` at chartering; re-checked *at arrival* |
+| Next free decision id | `DDD-dec-54` at chartering (amended); re-checked *at arrival* |
