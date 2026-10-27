@@ -1,0 +1,12 @@
+{
+  "protocol": "dpp/1",
+  "id": "PAY-142",
+  "version": "2",
+  "system": "https://tickets.example.internal",
+  "statement": "Enable card-on-file for EU merchants.",
+  "by": "acct:jo@tickets.example.internal",
+  "at": "2026-10-14T08:30:00Z",
+  "why": "Merchant request batch Q4.",
+  "basedOn": [],
+  "status": "proposed"
+}

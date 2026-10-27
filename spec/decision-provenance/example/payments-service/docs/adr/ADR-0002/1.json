@@ -1,0 +1,14 @@
+{
+  "protocol": "dpp/1",
+  "id": "ADR-0002",
+  "version": "1",
+  "system": "https://git.example.internal/payments-service/docs/adr",
+  "statement": "Store every monetary amount as an integer count of the currency's minor unit.",
+  "by": "mailto:maria@example.internal",
+  "at": "2026-05-04",
+  "status": "proposed",
+  "why": {
+    "href": "../0002-amounts-in-minor-units.md"
+  },
+  "basedOn": []
+}

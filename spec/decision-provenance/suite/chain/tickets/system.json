@@ -1,0 +1,5 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://tickets.example.internal",
+  "name": "Ticket tracker (fixture)"
+}

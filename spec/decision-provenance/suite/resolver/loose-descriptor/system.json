@@ -1,0 +1,11 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://fixture.example/loose-descriptor",
+  "name": 5,
+  "features": "versions",
+  "profile": [
+    "not",
+    "a",
+    "string"
+  ]
+}

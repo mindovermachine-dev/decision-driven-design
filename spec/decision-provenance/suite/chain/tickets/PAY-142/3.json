@@ -1,0 +1,29 @@
+{
+  "protocol": "dpp/1",
+  "id": "PAY-142",
+  "version": "3",
+  "system": "https://tickets.example.internal",
+  "statement": "Enable card-on-file for EU merchants in release 2026.11.",
+  "by": "acct:jo@tickets.example.internal",
+  "at": "2026-10-20T14:05:00Z",
+  "why": "Architecture sign-off obtained; tokens only, per ADR-0007.",
+  "basedOn": [
+    {
+      "ref": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
+      "hash": "sha256:8d1b2603b28d7c0fb507d1c56403054de637f96c3ff6674cd7ebebe229d2e5c3"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "PAY-142@2@https://tickets.example.internal",
+      "hash": "sha256:5b60220b5e6db076533733e5cba77f22ab5017093024c66ba70842817f13136a"
+    }
+  ],
+  "status": "accepted",
+  "extensions": {
+    "org.example.tracker": {
+      "url": "https://tickets.example.internal/browse/PAY-142",
+      "comments": 14
+    }
+  }
+}

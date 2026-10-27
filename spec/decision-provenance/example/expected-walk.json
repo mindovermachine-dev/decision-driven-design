@@ -1,0 +1,22 @@
+{
+  "start": {
+    "ref": "eu-card-fees@r42@https://pricing.example.internal"
+  },
+  "hops": [
+    {
+      "from": null,
+      "to": "eu-card-fees@r42@https://pricing.example.internal",
+      "result": "held"
+    },
+    {
+      "from": "ADR-0003@1@https://git.example.internal/payments-service/docs/adr",
+      "to": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr",
+      "result": "held"
+    },
+    {
+      "from": "eu-card-fees@r42@https://pricing.example.internal",
+      "to": "ADR-0003@1@https://git.example.internal/payments-service/docs/adr",
+      "result": "held"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://fixture.example/resolver",
+  "id": "R-1",
+  "versions": [
+    "1",
+    "2"
+  ]
+}

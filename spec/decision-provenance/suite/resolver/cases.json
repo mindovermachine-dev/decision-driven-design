@@ -1,0 +1,153 @@
+{
+  "locations": {
+    "https://fixture.example/resolver": "system",
+    "https://fixture.example/no-descriptor": "no-descriptor",
+    "https://fixture.example/wrong-descriptor": "wrong-descriptor",
+    "https://fixture.example/loose-descriptor": "loose-descriptor"
+  },
+  "note": "locations maps system identifiers to directories relative to this file (the reader's configuration, spec 6.7). Each case resolves `start` as the first hop of a walk and expects one of the three results.",
+  "cases": [
+    {
+      "name": "held",
+      "start": {
+        "ref": "R-1@1@https://fixture.example/resolver"
+      },
+      "expect": "held"
+    },
+    {
+      "name": "held-second-version",
+      "start": {
+        "ref": "R-1@2@https://fixture.example/resolver"
+      },
+      "expect": "held"
+    },
+    {
+      "name": "held-pin-matches-despite-extensions",
+      "start": {
+        "ref": "R-1@1@https://fixture.example/resolver",
+        "hash": "sha256:7b18a44691dbc04f520d3e4e5b22605bdf29d139b494e4a8c5296f356bb7e103"
+      },
+      "expect": "held"
+    },
+    {
+      "name": "pin-mismatch",
+      "start": {
+        "ref": "R-1@1@https://fixture.example/resolver",
+        "hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "version-not-held",
+      "start": {
+        "ref": "R-1@3@https://fixture.example/resolver"
+      },
+      "expect": "not-held"
+    },
+    {
+      "name": "id-not-held",
+      "start": {
+        "ref": "R-9@1@https://fixture.example/resolver"
+      },
+      "expect": "not-held"
+    },
+    {
+      "name": "record-missing-why",
+      "start": {
+        "ref": "R-2@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-identity-mismatch",
+      "start": {
+        "ref": "R-3@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-unknown-major",
+      "start": {
+        "ref": "R-5@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-not-json",
+      "start": {
+        "ref": "R-6@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-number-in-hashed-content",
+      "start": {
+        "ref": "R-7@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-from-another-system",
+      "start": {
+        "ref": "R-8@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "directory-without-descriptor",
+      "start": {
+        "ref": "X-1@1@https://fixture.example/no-descriptor"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "descriptor-names-another-system",
+      "start": {
+        "ref": "X-1@1@https://fixture.example/wrong-descriptor"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "no-location-configured",
+      "start": {
+        "ref": "X-1@1@https://fixture.example/unmapped"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "version-token-system-not-held",
+      "start": {
+        "ref": "R-1@system@https://fixture.example/resolver"
+      },
+      "expect": "not-held"
+    },
+    {
+      "name": "record-why-ref-empty",
+      "start": {
+        "ref": "R-10@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-at-not-a-calendar-date",
+      "start": {
+        "ref": "R-11@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "descriptor-optional-members-malformed",
+      "start": {
+        "ref": "X-1@1@https://fixture.example/loose-descriptor"
+      },
+      "expect": "held"
+    },
+    {
+      "name": "record-with-unpinned-reference",
+      "start": {
+        "ref": "R-12@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    }
+  ]
+}

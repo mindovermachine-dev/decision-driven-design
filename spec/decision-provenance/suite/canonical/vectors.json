@@ -1,0 +1,304 @@
+{
+ "suite": "dpp/1 canonicalisation vectors",
+ "law": "spec section 5",
+ "format": "Each vector has input (UTF-8 text) or inputBase64 (raw bytes). law=parse: the input is not I-JSON and MUST be rejected before hashing. law=hash: the parsed object MUST canonicalise to `canonical` and hash to `hash`, or, with expect=reject, MUST be rejected by the hash law. sameAs names a vector with the identical canonical form.",
+ "vectors": [
+  {
+   "name": "minimal",
+   "law": "hash",
+   "note": "The smallest valid record: required fields only, basedOn empty.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c"
+  },
+  {
+   "name": "key-order",
+   "law": "hash",
+   "note": "Member order and insignificant whitespace in the input do not affect the canonical form.",
+   "input": "{ \"basedOn\": [], \"why\": \"Local time made the ledger ambiguous across the daylight-saving change.\",\n  \"at\": \"2026-10-01\", \"by\": \"mailto:ana@example.org\", \"statement\": \"Use UTC for all stored timestamps.\",\n  \"system\": \"https://decisions.example.org\", \"version\": \"1\", \"id\": \"D-1\", \"protocol\": \"dpp/1\" }\n",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c",
+   "sameAs": "minimal"
+  },
+  {
+   "name": "input-escapes",
+   "law": "hash",
+   "note": "Escape sequences in the input are decoded; the canonical form writes the characters themselves.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https:\\/\\/decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps\\u002e\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c",
+   "sameAs": "minimal"
+  },
+  {
+   "name": "unicode-nfc",
+   "law": "hash",
+   "note": "U+00E9 (precomposed). Strings are hashed as given.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Café receipts use UTC.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Café receipts use UTC.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:6d965748715e30283b7243ee026c0226bfae7efb5daf3f4267b163b767c1d1de"
+  },
+  {
+   "name": "unicode-nfd",
+   "law": "hash",
+   "note": "U+0065 U+0301 (decomposed). No Unicode normalisation is applied, so this hash differs from unicode-nfc.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Café receipts use UTC.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Café receipts use UTC.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:8f2b7eedebaa0c192ce0ba3bd4a371b9656dffa55dd40fa3c0b079bdc8ecf5bd"
+  },
+  {
+   "name": "string-escapes",
+   "law": "hash",
+   "note": "Only \" \\ and U+0000..U+001F are escaped; \\b \\t \\n \\f \\r use short forms, other controls \\u00xx in lowercase hex; U+007F, U+2028 and non-ASCII are written literally.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"tab\\t nl\\n cr\\r bs\\b ff\\f us\\u001F quote\\\" backslash\\\\ slash/ del\\u007f ls\\u2028 emoji\\ud83d\\ude00\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"tab\\t nl\\n cr\\r bs\\b ff\\f us\\u001f quote\\\" backslash\\\\ slash/ del ls  emoji😀\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:739a0ba3831d38a0a2c85a308a120a2d8e59cc21e7130a9a7f954bedaba373e5"
+  },
+  {
+   "name": "key-order-code-point",
+   "law": "hash",
+   "note": "Member names sort by Unicode code point: Z < a < U+FF61 < U+1F600. Sorting by UTF-16 code unit would put U+1F600 before U+FF61, and is wrong.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.labels\":{\"\\uff61\":\"halfwidth stop\",\"\\ud83d\\ude00\":\"emoji\",\"a\":\"lower\",\"Z\":\"upper\"}}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"org.example.labels\":{\"Z\":\"upper\",\"a\":\"lower\",\"｡\":\"halfwidth stop\",\"😀\":\"emoji\"},\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:a9734a72d7afecba4f010064f989d9f48c4c4c89fa3c1a00dc0a087b605d7a88"
+  },
+  {
+   "name": "key-order-integer-like",
+   "law": "hash",
+   "note": "Integer-like member names sort as strings: \"10\" < \"9\" < \"b\". JavaScript objects enumerate integer-like keys first in numeric order, so JSON.stringify cannot be used for serialisation.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.byRegion\":{\"9\":\"nine\",\"10\":\"ten\",\"b\":\"bee\"}}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"org.example.byRegion\":{\"10\":\"ten\",\"9\":\"nine\",\"b\":\"bee\"},\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:d8a8a7d5517a40c834b3bf562a8bd059dbcb82e1219b3860694d26901ccb4a91"
+  },
+  {
+   "name": "number-integer",
+   "law": "hash",
+   "note": "A number in hashed content: rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.limit\":500}",
+   "expect": "reject"
+  },
+  {
+   "name": "number-decimal",
+   "law": "hash",
+   "note": "Rejected; no number form is canonical.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.limit\":500.0}",
+   "expect": "reject"
+  },
+  {
+   "name": "number-exponent",
+   "law": "hash",
+   "note": "Rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.limit\":5e2}",
+   "expect": "reject"
+  },
+  {
+   "name": "number-nested",
+   "law": "hash",
+   "note": "Rejected at any depth of hashed content.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.limits\":{\"eu\":[\"10\",10]}}",
+   "expect": "reject"
+  },
+  {
+   "name": "number-as-string",
+   "law": "hash",
+   "note": "A decimal string is a string: accepted, hashed as written.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.limit\":\"500\"}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"org.example.limit\":\"500\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:07e1d1d30b6e9aea67fb11f34d6d18e437705a3444650a80c136dbd1f5542407"
+  },
+  {
+   "name": "boolean",
+   "law": "hash",
+   "note": "Rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.enabled\":true}",
+   "expect": "reject"
+  },
+  {
+   "name": "null",
+   "law": "hash",
+   "note": "Rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.owner\":null}",
+   "expect": "reject"
+  },
+  {
+   "name": "extensions-excluded",
+   "law": "hash",
+   "note": "extensions is removed before canonicalisation; anything valid as I-JSON may appear in it.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"extensions\":{\"org.example.limit\":500,\"enabled\":true,\"owner\":null,\"f\":5e2,\"nested\":{\"z\":1,\"a\":[2.50,false]}}}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c",
+   "sameAs": "minimal"
+  },
+  {
+   "name": "extensions-number-out-of-range",
+   "law": "hash",
+   "note": "Numbers in extensions are accepted whatever their magnitude or precision, and excluded.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"extensions\":{\"huge\":1e400,\"tiny\":-1e-400,\"long\":123456789012345678901234567890}}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c",
+   "sameAs": "minimal"
+  },
+  {
+   "name": "signature-excluded",
+   "law": "hash",
+   "note": "signature is removed before canonicalisation.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"signature\":{\"scheme\":\"ed25519\",\"key\":\"did:key:z6Mk-example\",\"value\":\"bm90LWEtcmVhbC1zaWduYXR1cmU\"}}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:b5e32f42bb63d135309b79514f39926ad433a06a9c7662788a2211f697b4a40c",
+   "sameAs": "minimal"
+  },
+  {
+   "name": "based-on-order-1",
+   "law": "hash",
+   "note": "basedOn is a set: entries sort by ref, compared by code point. Two refs with the same id and version in different systems are distinct.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[{\"ref\":\"D-7@2@https://b.example.org\",\"hash\":\"sha256:abababababababababababababababababababababababababababababababab\"},{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"},{\"ref\":\"C-9@1@https://a.example.org\",\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\"}]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[{\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\",\"ref\":\"C-9@1@https://a.example.org\"},{\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\",\"ref\":\"D-7@2@https://a.example.org\"},{\"hash\":\"sha256:abababababababababababababababababababababababababababababababab\",\"ref\":\"D-7@2@https://b.example.org\"}],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:2eebcd239ee8e4b55017430cdc1db0f51298bcb90bc3a0dad63590001c5df260"
+  },
+  {
+   "name": "based-on-order-2",
+   "law": "hash",
+   "note": "The same set in another order has the same canonical form.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"},{\"ref\":\"C-9@1@https://a.example.org\",\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\"},{\"ref\":\"D-7@2@https://b.example.org\",\"hash\":\"sha256:abababababababababababababababababababababababababababababababab\"}]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[{\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\",\"ref\":\"C-9@1@https://a.example.org\"},{\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\",\"ref\":\"D-7@2@https://a.example.org\"},{\"hash\":\"sha256:abababababababababababababababababababababababababababababababab\",\"ref\":\"D-7@2@https://b.example.org\"}],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:2eebcd239ee8e4b55017430cdc1db0f51298bcb90bc3a0dad63590001c5df260",
+   "sameAs": "based-on-order-1"
+  },
+  {
+   "name": "based-on-duplicate",
+   "law": "hash",
+   "note": "The same ref twice: rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"},{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"}]}",
+   "expect": "reject"
+  },
+  {
+   "name": "based-on-duplicate-different-pin",
+   "law": "hash",
+   "note": "Duplicate is by ref alone; a second pin does not make a second entry. Rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"},{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd\"}]}",
+   "expect": "reject"
+  },
+  {
+   "name": "based-on-entry-without-ref",
+   "law": "hash",
+   "note": "Every basedOn entry is an object with a string ref: rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[{\"id\":\"D-7\",\"version\":\"2\"}]}",
+   "expect": "reject"
+  },
+  {
+   "name": "supersedes-order",
+   "law": "hash",
+   "note": "supersedes sorts like basedOn.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"supersedes\":[{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"},{\"ref\":\"C-9@1@https://a.example.org\",\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\"}]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"supersedes\":[{\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\",\"ref\":\"C-9@1@https://a.example.org\"},{\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\",\"ref\":\"D-7@2@https://a.example.org\"}],\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:6d80382c68fb3b935b987600594ced83ebab421294942fd33a5f9b9ec8c849fa"
+  },
+  {
+   "name": "supersedes-order-2",
+   "law": "hash",
+   "note": "Same set, other order.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"supersedes\":[{\"ref\":\"C-9@1@https://a.example.org\",\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\"},{\"ref\":\"D-7@2@https://a.example.org\",\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\"}]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"supersedes\":[{\"hash\":\"sha256:3434343434343434343434343434343434343434343434343434343434343434\",\"ref\":\"C-9@1@https://a.example.org\"},{\"hash\":\"sha256:1212121212121212121212121212121212121212121212121212121212121212\",\"ref\":\"D-7@2@https://a.example.org\"}],\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:6d80382c68fb3b935b987600594ced83ebab421294942fd33a5f9b9ec8c849fa",
+   "sameAs": "supersedes-order"
+  },
+  {
+   "name": "other-arrays-keep-order",
+   "law": "hash",
+   "note": "Only basedOn and supersedes are sorted; every other array keeps its order.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.steps\":[\"b\",\"a\"]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"org.example.steps\":[\"b\",\"a\"],\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:921c8a04b569777092e8efe54a2b4aad67ecc4047af688c9834f3e2bcd79d151"
+  },
+  {
+   "name": "other-arrays-keep-order-2",
+   "law": "hash",
+   "note": "Differs from other-arrays-keep-order.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"org.example.steps\":[\"a\",\"b\"]}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"id\":\"D-1\",\"org.example.steps\":[\"a\",\"b\"],\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:9d09161124d2464abaa8c8d9088a2f891a31ccce359d3571f67320e43453ef15"
+  },
+  {
+   "name": "unknown-field-hashed",
+   "law": "hash",
+   "note": "A member the reader does not know is still hashed; the hash differs from minimal.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"futureField\":\"from a later minor version\"}",
+   "expect": "hash",
+   "canonical": "{\"at\":\"2026-10-01\",\"basedOn\":[],\"by\":\"mailto:ana@example.org\",\"futureField\":\"from a later minor version\",\"id\":\"D-1\",\"protocol\":\"dpp/1\",\"statement\":\"Use UTC for all stored timestamps.\",\"system\":\"https://decisions.example.org\",\"version\":\"1\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\"}",
+   "hash": "sha256:e0fb49f41f83db22332dd6ba4ec1c38c6a444c861e55c998907ceb07661c1013"
+  },
+  {
+   "name": "duplicate-member",
+   "law": "parse",
+   "note": "Duplicate member name: rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"statement\":\"Use local time.\"}",
+   "expect": "reject"
+  },
+  {
+   "name": "duplicate-member-in-extensions",
+   "law": "parse",
+   "note": "Rejected even inside extensions: the I-JSON rule applies to the whole input.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"extensions\":{\"a\":\"1\",\"a\":\"2\"}}",
+   "expect": "reject"
+  },
+  {
+   "name": "lone-surrogate",
+   "law": "parse",
+   "note": "Rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps\\ud800\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "reject"
+  },
+  {
+   "name": "noncharacter",
+   "law": "parse",
+   "note": "Rejected (I-JSON forbids noncharacters).",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps\\uffff\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}",
+   "expect": "reject"
+  },
+  {
+   "name": "not-json-constant",
+   "law": "parse",
+   "note": "NaN is not JSON: rejected.",
+   "input": "{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[],\"extensions\":{\"x\":NaN}}",
+   "expect": "reject"
+  },
+  {
+   "name": "top-level-array",
+   "law": "parse",
+   "note": "A record is an object: rejected.",
+   "input": "[{\"protocol\":\"dpp/1\",\"id\":\"D-1\",\"version\":\"1\",\"system\":\"https://decisions.example.org\",\"statement\":\"Use UTC for all stored timestamps.\",\"by\":\"mailto:ana@example.org\",\"at\":\"2026-10-01\",\"why\":\"Local time made the ledger ambiguous across the daylight-saving change.\",\"basedOn\":[]}]",
+   "expect": "reject"
+  },
+  {
+   "name": "byte-order-mark",
+   "law": "parse",
+   "note": "A leading BOM: rejected.",
+   "inputBase64": "77u/eyJwcm90b2NvbCI6ImRwcC8xIiwiaWQiOiJELTEiLCJ2ZXJzaW9uIjoiMSIsInN5c3RlbSI6Imh0dHBzOi8vZGVjaXNpb25zLmV4YW1wbGUub3JnIiwic3RhdGVtZW50IjoiVXNlIFVUQyBmb3IgYWxsIHN0b3JlZCB0aW1lc3RhbXBzLiIsImJ5IjoibWFpbHRvOmFuYUBleGFtcGxlLm9yZyIsImF0IjoiMjAyNi0xMC0wMSIsIndoeSI6IkxvY2FsIHRpbWUgbWFkZSB0aGUgbGVkZ2VyIGFtYmlndW91cyBhY3Jvc3MgdGhlIGRheWxpZ2h0LXNhdmluZyBjaGFuZ2UuIiwiYmFzZWRPbiI6W119",
+   "expect": "reject"
+  },
+  {
+   "name": "invalid-utf8",
+   "law": "parse",
+   "note": "Not UTF-8: rejected.",
+   "inputBase64": "eyJwcm90b2NvbCI6ImRwcC8xIiwiaWQiOiJELTEiLCJ2ZXJzaW9uIjoiMSIsInN5c3RlbSI6Imh0dHBzOi8vZGVjaXNpb25zLmV4YW1wbGUub3JnIiwic3RhdGVtZW50IjoiVXNlIFVUwyBmb3IgYWxsIHN0b3JlZCB0aW1lc3RhbXBzLiIsImJ5IjoibWFpbHRvOmFuYUBleGFtcGxlLm9yZyIsImF0IjoiMjAyNi0xMC0wMSIsIndoeSI6IkxvY2FsIHRpbWUgbWFkZSB0aGUgbGVkZ2VyIGFtYmlndW91cyBhY3Jvc3MgdGhlIGRheWxpZ2h0LXNhdmluZyBjaGFuZ2UuIiwiYmFzZWRPbiI6W119",
+   "expect": "reject"
+  }
+ ]
+}

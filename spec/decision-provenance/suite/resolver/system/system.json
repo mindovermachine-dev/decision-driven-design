@@ -1,0 +1,8 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://fixture.example/resolver",
+  "name": "Resolver fixture",
+  "features": [
+    "versions"
+  ]
+}

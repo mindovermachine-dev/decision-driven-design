@@ -1,0 +1,6 @@
+{
+  "locations": {
+    "https://git.example.internal/payments-service/docs/adr": "payments-service/docs/adr",
+    "https://pricing.example.internal": "pricing-engine"
+  }
+}

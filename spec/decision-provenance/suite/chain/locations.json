@@ -1,0 +1,7 @@
+{
+  "locations": {
+    "https://tickets.example.internal": "tickets",
+    "https://git.example.internal/payments/docs/adr": "adr"
+  },
+  "note": "The reader's configuration: two of the three systems are mapped to directories; https://grc.example.internal is not, and is not reachable from here."
+}

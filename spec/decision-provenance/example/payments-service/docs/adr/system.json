@@ -1,0 +1,5 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://git.example.internal/payments-service/docs/adr",
+  "name": "payments-service ADRs"
+}

@@ -1,0 +1,34 @@
+{
+  "protocol": "dpp/1",
+  "id": "eu-card-fees",
+  "version": "r42",
+  "system": "https://pricing.example.internal",
+  "statement": "EU card fee: 1.4% of the amount plus 25 minor units, in settlement currency, rounded half-to-even.",
+  "by": "spiffe://example.internal/pricing-engine",
+  "attributedTo": "mailto:finance-ops@example.internal",
+  "at": "2026-10-21T06:00:00Z",
+  "why": "Fee schedule FS-2026-11 approved by finance; applied as configuration revision r42.",
+  "basedOn": [
+    {
+      "ref": "ADR-0003@1@https://git.example.internal/payments-service/docs/adr",
+      "hash": "sha256:fc90300dfaa67b825dc2bcf62961ef56380ce0cd4ad33588307e529c2a1134de"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "eu-card-fees@r41@https://pricing.example.internal",
+      "hash": "sha256:958704ec537007255508d8cfb81f784cc3501f94e3feb04a21c961304f4ad63d"
+    }
+  ],
+  "org.example.pricing.rule": {
+    "percent": "1.4",
+    "fixedMinorUnits": "25",
+    "rounding": "half-even"
+  },
+  "extensions": {
+    "org.example.pricing.deployedTo": [
+      "eu-west-1",
+      "eu-central-1"
+    ]
+  }
+}

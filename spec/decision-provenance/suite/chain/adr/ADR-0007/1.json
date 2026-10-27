@@ -1,0 +1,27 @@
+{
+  "protocol": "dpp/1",
+  "id": "ADR-0007",
+  "version": "1",
+  "system": "https://git.example.internal/payments/docs/adr",
+  "statement": "Store card tokens, never primary account numbers, in the payments ledger.",
+  "by": "mailto:lead@example.internal",
+  "at": "2026-09-02",
+  "why": {
+    "href": "../0007-store-card-tokens.md"
+  },
+  "basedOn": [
+    {
+      "ref": "ADR-0003@1@https://git.example.internal/payments/docs/adr",
+      "hash": "sha256:c1fa8259aef9cc8c351dafb39d47235afa9504bb9e351549f794ce3c015a54d0"
+    },
+    {
+      "ref": "ADR-0004@2@https://git.example.internal/payments/docs/adr",
+      "hash": "sha256:44db256ca566c219e81355bac190ed425a605b0d85608b169379a137df2a47a7"
+    },
+    {
+      "ref": "RISK-12@2@https://grc.example.internal",
+      "hash": "sha256:50941b881b7d8743f2a75cf2d6912086294735835811764f510dac20d5640aaf"
+    }
+  ],
+  "status": "accepted"
+}

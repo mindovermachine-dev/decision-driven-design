@@ -1,0 +1,19 @@
+{
+  "protocol": "dpp/1",
+  "id": "ADR-0003",
+  "version": "1",
+  "system": "https://git.example.internal/payments-service/docs/adr",
+  "statement": "Charge EU card fees in the merchant's settlement currency.",
+  "by": "mailto:maria@example.internal",
+  "at": "2026-06-20",
+  "status": "accepted",
+  "why": {
+    "href": "../0003-fees-in-settlement-currency.md"
+  },
+  "basedOn": [
+    {
+      "ref": "ADR-0002@2@https://git.example.internal/payments-service/docs/adr",
+      "hash": "sha256:2757bb005bc127db7adb238bb5ebe00a45c3ca1fabe86afdf9d28fde71096257"
+    }
+  ]
+}
