@@ -83,6 +83,7 @@ Rulings on the three items `DDD-dec-44` left open, and three more, delivered as 
 > Housekeeping. Project instructions re-pinned to upstream v5.15.2 and DDD 4004b49. product-cli re-pins to the moved What once PR #39 is ratified (ruling 6 stands).
 >
 > Record all of the above verbatim in rulings.md. Then charter the move session.
+
 | Item | Decision |
 |---|---|
 | Open 1, §4.5 and §4.6: the form moves in, the content is decisions | `DDD-dec-45` |
