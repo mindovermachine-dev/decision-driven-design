@@ -15,7 +15,7 @@ the resolver, and the hash law.
 Run the suite:
 
 ```
-python3 suite/run.py                                   # 57 checks against the reference implementation
+python3 suite/run.py                                   # 64 checks against the reference implementation
 node suite/crosscheck/hash.js suite/canonical/vectors.json
 go run suite/crosscheck/hash.go suite/canonical/vectors.json
 ```

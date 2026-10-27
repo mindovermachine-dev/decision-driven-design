@@ -65,7 +65,8 @@ for c in cases["cases"]:
 for name, base in (("chain", "chain"), ("example", os.path.join("..", "example"))):
     expected = load(os.path.join(base, "expected-walk.json"))
     hops = impl.walk(locations(base, load(os.path.join(base, "locations.json"))["locations"]), expected["start"])
-    check(name + " walk", hops == expected["hops"], json.dumps(hops, indent=1))
+    key = lambda h: (h["from"] or "", h["to"], h["result"])  # hop order is not significant (spec 7.3)
+    check(name + " walk", sorted(hops, key=key) == sorted(expected["hops"], key=key), json.dumps(hops, indent=1))
 
 print(f"{passed} passed, {len(failures)} failed")
 for f in failures:

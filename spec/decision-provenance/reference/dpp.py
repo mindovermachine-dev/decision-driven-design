@@ -1,15 +1,15 @@
 """Decision Provenance Protocol dpp/1: the hash law, a file-based resolver and the walk."""
-import hashlib, json, os, re
+import datetime, hashlib, json, os, re
 
-TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}\Z")
-SYSTEM = re.compile(r"https?://[A-Za-z0-9.:\[\]-]+(/[A-Za-z0-9._~%!$&'()*+,;=:@-]+)*\Z")
-AT = re.compile(r"\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(T([01]\d|2[0-3]):[0-5]\d:([0-5]\d|60)(\.\d+)?Z)?\Z")
+TOKEN = re.compile(r"[A-Za-z0-9]([A-Za-z0-9._-]{0,126}[A-Za-z0-9])?\Z")
+SYSTEM = re.compile(r"https?://([A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*|\[[0-9A-Fa-f:.]+\])(:[0-9]{1,5})?"
+                    r"(/(?!\.\.?(/|\Z))([A-Za-z0-9._~!$&'()*+,;=:@-]|%[0-9A-Fa-f]{2})+)*\Z")
+AT = re.compile(r"[0-9]{4}-[0-9]{2}-[0-9]{2}(T([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\.[0-9]+)?Z)?\Z")
 HASH = re.compile(r"sha256:[0-9a-f]{64}\Z")
 SETS, UNHASHED = ("basedOn", "supersedes"), ("extensions", "signature")
 HELD, NOT_HELD, NOT_REACHABLE = "held", "not-held", "not-reachable"
 
 class Invalid(ValueError): pass
-
 def need(cond, why):
     if not cond: raise Invalid(why)
     return cond
@@ -55,20 +55,21 @@ def validate(r):  # §3.6: the record rules; returns the record or raises Invali
     record_hash(r)
     text = lambda k, absent=None: isinstance(r.get(k, absent), str) and r.get(k, absent) != ""
     need(r.get("protocol") == "dpp/1" and all(text(k) for k in ("id", "version", "system")), "identity")
-    own = "@".join((r["id"], r["version"], r["system"]))
-    split_ref(own)
+    split_ref(own := "@".join((r["id"], r["version"], r["system"])))
     need(all(text(k) for k in ("statement", "by")) and text("attributedTo", "-") and text("status", "-"), "text")
     need(text("at") and AT.match(r["at"]) and isinstance(r.get("extensions", {}), dict), "at or extensions")
+    try: datetime.date.fromisoformat(r["at"][:10])
+    except ValueError: raise Invalid("at is not a calendar date")
     sig = r.get("signature", {"scheme": "-", "value": "-"})
-    need(isinstance(sig, dict) and all(isinstance(sig.get(k, "-" if k == "key" else 0), str) for k in ("scheme", "value", "key")), "signature")
+    need(isinstance(sig, dict) and all(isinstance(sig.get(k, k == "key" and "-"), str) for k in ("scheme", "value", "key")), "signature")
     need(isinstance(r.get("basedOn"), list) and r.get("supersedes", [0]) != [], "basedOn or supersedes")
     for e in [e for k in SETS for e in r.get(k, [])]:
         need(split_ref(e["ref"]) and e["ref"] != own and HASH.match(str(e.get("hash", "sha256:" + "0" * 64))), "ref")
     why = r.get("why")
     need(isinstance(why, str) and why or isinstance(why, dict) and len({"href", "ref"} & why.keys()) == 1, "why")
     if isinstance(why, dict):
-        need(why.get("ref", "") in {"", *(e["ref"] for e in r["basedOn"])}, "why.ref not in basedOn")
-        need(isinstance(why.get("href", "-"), str) and why.get("href", "-") != "", "why.href")
+        need(split_ref(why["ref"]) and why["ref"] in {e["ref"] for e in r["basedOn"]} if "ref" in why
+             else isinstance(why["href"], str) and why["href"] != "", "why.ref or why.href")
         need("hash" not in why or "href" in why and HASH.match(str(why["hash"])), "why.hash")
     return r
 
@@ -77,10 +78,10 @@ def get(locations, ref):  # §6.6: resolve a reference against reader-configured
     if system not in locations: return NOT_REACHABLE, None
     try:
         d = parse(open(os.path.join(locations[system], "system.json"), "rb").read())
-        need(d.get("protocol") == "dpp/1" and d.get("system") == system, "descriptor")
+        need(d.get("protocol") == "dpp/1" and d.get("system") == system, "descriptor")  # §6.3: nothing else
         r = validate(parse(open(os.path.join(locations[system], rid, version + ".json"), "rb").read()))
     except FileNotFoundError as e:
-        return (NOT_REACHABLE if e.filename.endswith("system.json") else NOT_HELD), None
+        return (NOT_REACHABLE if e.filename == os.path.join(locations[system], "system.json") else NOT_HELD), None
     except (OSError, Invalid): return NOT_REACHABLE, None
     if (r["id"], r["version"], r["system"]) == (rid, version, system): return HELD, r
     folded = (r["id"].lower(), r["version"].lower(), r["system"]) == (rid.lower(), version.lower(), system)
@@ -93,7 +94,6 @@ def walk(locations, start):  # §7: follow basedOn from a reference object; one 
         result, rec = got[entry["ref"]] = got.get(entry["ref"]) or get(locations, entry["ref"])
         if result == HELD and "hash" in entry and record_hash(rec) != entry["hash"]: result = NOT_REACHABLE
         hops.append({"from": frm, "to": entry["ref"], "result": result})
-        if result == HELD and entry["ref"] not in expanded:
-            expanded.add(entry["ref"])
-            queue += [(entry["ref"], e) for e in rec["basedOn"]]
+        if result == HELD and entry["ref"] not in expanded:  # expand each held record once
+            expanded.add(entry["ref"]), queue.extend((entry["ref"], e) for e in rec["basedOn"])
     return sorted(hops, key=lambda h: (h["from"] or "", h["to"]))

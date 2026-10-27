@@ -133,13 +133,15 @@ A record SHOULD NOT exceed 1 MiB. A reader MAY treat a larger record as not conf
 
 `protocol` MUST be the string `dpp/1`.
 
-`id` and `version` are **tokens**: strings of 1 to 128 characters matching
+`id` and `version` are **tokens**: strings of 1 to 128 ASCII characters matching
 
 ```
-token = (ALPHA / DIGIT) *127(ALPHA / DIGIT / "." / "_" / "-")
+token     = alnum [ *126( alnum / "." / "_" / "-" ) alnum ]
+alnum     = %x41-5A / %x61-7A / %x30-39        ; A-Z, a-z, 0-9
 ```
 
-Tokens are case-sensitive. In addition, an `id` MUST NOT end in `.json` and a `version` MUST NOT
+A token begins and ends with a letter or digit; the last rule keeps file systems that strip a
+trailing `.` from opening a different file. Tokens are case-sensitive. In addition, an `id` MUST NOT end in `.json` and a `version` MUST NOT
 be `index`, both compared ASCII case-insensitively; those names are taken by the layout (§6.2).
 Because tokens become file names, a system MUST NOT hold two ids that are equal under ASCII case
 folding, nor two versions of one id that are, and SHOULD avoid tokens that are reserved device
@@ -152,16 +154,25 @@ names on common file systems (`CON`, `NUL`, `COM1` and similar).
 hash. The protocol assigns versions no order; a system that orders them exposes the order through
 `versions` (§6.4). A new version is a new record with the same `id`.
 
-`system` is the identifier of the system that holds the record. It MUST be an absolute URL that
+`system` is the identifier of the system that holds the record. It MUST be at most 1024
+characters long and MUST match
 
-- has the scheme `https` or `http` in lower case (`https` is RECOMMENDED; `http` is for networks
-  where the operator accepts its absence of transport security);
-- has a host, and optionally a port, and no userinfo;
-- has no query and no fragment;
-- does not end in `/`, and has no empty path segment;
-- consists of ASCII characters only (internationalised host names in their A-label form; other
-  non-ASCII characters percent-encoded); and
-- is at most 1024 characters long.
+```
+system    = scheme "://" host [ ":" port ] *( "/" segment )
+scheme    = %x68.74.74.70.73 / %x68.74.74.70   ; "https" or "http", lower case only
+host      = label *( "." label ) / "[" 1*( HEXDIG / ":" / "." ) "]"
+label     = 1*( alnum / "-" )
+port      = 1*5DIGIT
+segment   = 1*( alnum / "-" / "." / "_" / "~" / "!" / "$" / "&" / "'" / "(" / ")"
+                / "*" / "+" / "," / ";" / "=" / ":" / "@" / pct-encoded )
+            ; a segment MUST NOT be "." or ".."
+pct-encoded = "%" HEXDIG HEXDIG
+```
+
+This is a strict subset of an RFC 3986 absolute URI: it has a host, no userinfo, no query, no
+fragment, no empty path segment, no dot-segments, no trailing `/`, and only ASCII characters
+(internationalised host names in their A-label form; other characters percent-encoded). `https` is
+RECOMMENDED; `http` is for networks where the operator accepts its lack of transport security.
 
 The identifier is chosen by the system's operator and need not be reachable from the public
 Internet; an identifier inside an organisation's private network is as valid as a public one. It
@@ -187,34 +198,44 @@ act. `by` is required in every case (Appendix A, Q1).
 responsible for the decision where that is not the agent in `by`, in the same manner. Its absence
 means the system did not record one; it does not mean nobody is responsible.
 
-`at` MUST be a string in one of the two forms
+`at` MUST be a string matching
 
 ```
-at = full-date [ "T" time-hour ":" time-minute ":" time-second [ time-secfrac ] "Z" ]
+at        = date [ %x54 hour ":" minute ":" second [ "." 1*DIGIT ] %x5A ]   ; "T" ... "Z", upper case
+date      = 4DIGIT "-" 2DIGIT "-" 2DIGIT
+hour      = ( "0" / "1" ) DIGIT / "2" %x30-33                             ; 00-23
+minute    = %x30-35 DIGIT                                                 ; 00-59
+second    = %x30-35 DIGIT                                                 ; 00-59
 ```
 
-using the productions of RFC 3339 section 5.6: a calendar date, or a date and time in UTC. A system
-records the precision it has; a hand-written ADR knows a date. `at` is the time the deciding
+where `DIGIT` is ASCII `0`–`9` only, and `date` MUST be a valid date of the proleptic Gregorian
+calendar (year 0001–9999, month 01–12, day within that month's length, 29 February only in
+leap years). This is a
+calendar date, or a date and time in UTC, in the form of RFC 3339, with two restrictions: `T` and
+`Z` are upper case, and there is no leap second (`60`), whose validity needs a table every reader
+would have to carry. A system records the precision it has; a hand-written ADR knows a date. `at` is the time the deciding
 system attributes to the decision; this specification defines no other clock and does not say
 how `at` relates to any other time.
 
 `why` MUST be present and MUST be either
 
 - a non-empty string: the reason, as text; or
-- an object with exactly one of the members
-  - `href`: a non-empty URI-reference (RFC 3986) to a document containing the reason, resolved
-    against the location from which the record was obtained (so `../0007-use-tokens.md` in a
-    record at `<base>ADR-0007/1.json` names `<base>0007-use-tokens.md`); it MAY be accompanied by
-    `hash`, the string `sha256:` followed by the 64 lowercase hexadecimal digits of the SHA-256
-    of the target's bytes; or
+- an object with exactly one of the members `href` and `ref`:
+  - `href`: a non-empty string, a URI-reference (RFC 3986) to a document containing the reason,
+    resolved against the location from which the record was obtained (so `../0007-use-tokens.md`
+    in a record at `<base>ADR-0007/1.json` names `<base>0007-use-tokens.md`). It MAY be accompanied
+    by `hash`: `sha256:` followed by the 64 lowercase hexadecimal digits of the SHA-256 of the
+    target's bytes. A reader checks only that `href` is a non-empty string; it is not walked.
   - `ref`: a reference (§4.1) to the decision that is the reason, which MUST also be the `ref` of
-    an entry in `basedOn`.
+    an entry in `basedOn`. `hash` MUST NOT accompany `ref`; the pin is on the `basedOn` entry.
+
+  Other members of the object are ignored by readers (§9.1) and hashed.
 
 A record without `why`, or with an empty one, is not a record. This is the requirement that makes
 the record decision provenance rather than an audit entry.
 
-`status`, if present, SHOULD be one of `proposed`, `accepted`, `superseded`, `withdrawn`, and a
-writer MUST NOT use any other value under `dpp/1`. **A status value means what the system that
+`status`, if present, is one of `proposed`, `accepted`, `superseded`, `withdrawn`: a writer MUST
+NOT use any other value under `dpp/1`. **A status value means what the system that
 wrote it says it means**, in its profile; this specification attaches no force, permission or
 obligation to any value, and a reader MUST NOT infer any from the value alone. Absent `status`
 means the system does not track it. Because `status` is hashed, changing it is a new version.
@@ -336,8 +357,10 @@ operator of a system publishes one spelling of its identifier; records and refer
 
 ## 5. The hash law
 
-The hash law is the only behaviour every implementation shares. It has two steps: read the input
-(§5.1), then canonicalise and hash (§5.2, §5.3).
+The hash law is the only behaviour every implementation shares. It is the function of §5.2 and
+§5.3: from a parsed record to its canonical form and record hash. §5.1 states the input on which the
+function is defined; checking it is the reader's parser's job, and its results are the same in
+every language.
 
 ### 5.1 Input
 
@@ -354,9 +377,15 @@ MUST reject the input, and treat it as not conformant, if
    only arise from an unpaired `\uD8xx`-style escape) or a noncharacter (U+FDD0 to U+FDEF, or any
    code point whose low 16 bits are FFFE or FFFF).
 
-These rules apply to the whole input, `extensions` and `signature` included. Some JSON libraries
-accept duplicate names or unpaired surrogates silently; an implementation built on one MUST add
-the check.
+These rules apply to the whole input, `extensions` and `signature` included. Some JSON parsers
+accept duplicate names or unpaired surrogates silently (JavaScript's `JSON.parse`; Go's
+`encoding/json`, which keeps the last duplicate and replaces an unpaired surrogate with U+FFFD); an
+implementation built on one MUST add the check, which for those two means a parser that reports
+member names as it reads them.
+
+A number anywhere in the input is acceptable to §5.1 whatever its magnitude or precision. A reader
+MUST NOT reject a record because a number in `extensions` or `signature` is outside its native
+numeric range (`1e400`); numbers elsewhere are rejected by §5.2 regardless of form.
 
 ### 5.2 Canonical form
 
@@ -421,11 +450,15 @@ systems, or under two versions, has two different hashes. A copy of a record is 
   point order.
 - In Python, `json.dumps(obj, ensure_ascii=False, separators=(",", ":"), sort_keys=True)` produces
   step 4 exactly. In Go, `encoding/json` escapes `<`, `>`, `&`, U+2028 and U+2029, and cannot be
-  used for step 4 unmodified. In JavaScript, `JSON.stringify` escapes as step 4 requires, but
-  member order must be imposed with a code point comparator.
-- The suite's cross-check implementations of §5.2–5.3 run to 26 non-blank lines of JavaScript and
-  65 non-blank lines of `gofmt`-formatted Go (51 excluding lines holding only a closing brace);
-  the reference implementation's, input checks included, are 27 non-blank lines of Python.
+  used for step 4 unmodified. In JavaScript, `JSON.stringify` cannot be used for objects at all:
+  JavaScript enumerates integer-like member names (`"9"`, `"10"`) first in numeric order whatever
+  the insertion order, so `{"10":…,"9":…}` cannot be produced. A JavaScript implementation
+  serialises objects itself; `JSON.stringify` remains correct for a single string. The suite has a
+  vector for this.
+- Line counts, non-blank, for §5.2–5.3 only: 19 lines of Python in the reference implementation
+  (29 with §5.1's input checks); 26 lines of JavaScript and 65 lines of `gofmt`-formatted Go (51
+  excluding lines holding only a closing brace) in the suite's cross-checks, which test §5.2–5.3
+  and rely on their standard parsers for §5.1.
 
 ---
 
@@ -473,7 +506,11 @@ ignore them.
 - `profile` (OPTIONAL): a URI-reference to the system's profile document (§9.4);
 - `features` (OPTIONAL): an array of strings; `versions` means the system offers §6.4.
 
-Readers MUST ignore other members. The descriptor is not hashed and may change.
+Only `protocol` and `system` decide whether a descriptor is conformant: a descriptor is
+conformant when it is an I-JSON object (§5.1) whose `protocol` is `dpp/1` and whose `system` is
+exactly the identifier being resolved. Readers MUST ignore other members, and MUST ignore an
+optional member whose value is malformed (a `features` that is not an array, a `name` that is not a
+string). The descriptor is not hashed and may change.
 
 The descriptor is what makes an answer of "not held" meaningful: it tells a reader that the place
 it is looking is the system it means, and that the system implements this protocol (§6.8).
@@ -514,7 +551,8 @@ solely for its content type.
 | `200` with a body | the file; for a record, see §6.8 |
 | `404` or `410` | the file does not exist: for a record, "not held" provided the descriptor was obtained (§6.8) |
 | `401`, `403`, `407` | refusal: not reachable |
-| `3xx` | redirection: a reader MAY follow up to 5 redirections to `https` (or, if the identifier is `http`, `http`) URLs |
+| `301`, `302`, `303`, `307`, `308` | redirection: a reader MUST follow up to 5 in sequence, to `https` URLs (or, if the identifier is `http`, `https` or `http`), and the outcome is that of the final response; more than 5, or a redirection to another scheme, is not reachable |
+| `304` | only in answer to a conditional request: the reader's cached copy is current |
 | anything else, or no response | not reachable |
 
 **Caching.** A record's hashed content never changes (§3.8), so a system SHOULD serve records with
@@ -627,8 +665,10 @@ cannot form a cycle, since a cycle would need a record hash to depend on itself;
 references can form one, and the visited set handles it.)
 
 A walker MAY bound a walk by depth, number of hops, total bytes or time. A walk so bounded is
-**truncated**: the walker MUST say so, and MUST NOT report the references it did not resolve with
-any of the three results.
+**truncated**: the walker MUST say so, and MUST list the references it reached but did not resolve
+separately from the hops, as *not walked*. Not walked is not a hop result: it records that the
+walker stopped, not anything a system answered, and those references carry none of the three
+results.
 
 ### 7.5 What the walk does not do
 
@@ -666,8 +706,9 @@ parts other than those marked OPTIONAL above. A system is conformant when
    its identifier;
 3. it honours immutability (§3.8): no hashed content changes under a published triple, and no
    version is reused;
-4. it answers "not held" (HTTPS `404`/`410`, or an absent file) for exactly the records it does not
-   hold; and
+4. it answers "not held" (HTTPS `404`/`410`, or an absent file) for every record it does not hold,
+   and for a record it holds only where it declines to disclose the record's existence to the
+   reader (§11.6); and
 5. if it offers `versions` (§6.4), the listing is accurate.
 
 A claim of conformance names the protocol token and the specification version (`dpp/1`,
@@ -730,7 +771,7 @@ the prefix to a namespace it controls.
 | the act of deciding | a `prov:Activity` that generated the entity (`prov:wasGeneratedBy`) |
 | `by` | a `prov:Agent` (`prov:SoftwareAgent` where the system knows it is software) associated with the activity (`prov:wasAssociatedWith`) |
 | `attributedTo` | a `prov:Agent` the entity `prov:wasAttributedTo`; the `by` agent `prov:actedOnBehalfOf` it |
-| `at` | `prov:generatedAtTime` of the entity (as `xsd:dateTime`, or `xsd:date` for a date) |
+| `at` | `prov:generatedAtTime` of the entity, as `xsd:dateTime`, when `at` has a time; a date-only `at` cannot be rendered there (the property's range is `xsd:dateTime`) and is rendered as `dpp:at` typed `xsd:date` |
 | `basedOn` entry | `prov:wasDerivedFrom` from the entity, and `prov:used` from the activity, to the referenced entity |
 | `supersedes` entry | `prov:wasRevisionOf` |
 | `statement`, `why`, `status` | no PROV-O term: `dpp:statement`, `dpp:why`, `dpp:status` |
@@ -738,6 +779,7 @@ the prefix to a namespace it controls.
 ```turtle
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dpp:  <https://renderer.example/terms#> .   # the renderer's own namespace, not the protocol's
 
 <https://pricing.example.internal#eu-card-fees@r42>
     a prov:Entity ;
@@ -860,7 +902,9 @@ specification carry `dpp/1`, and every `dpp/1` reader computes the same hash for
 
 **A new major version** is required for anything else. A reader that receives a record whose
 `protocol` names a major version it does not implement treats it as not conformant: the hop is not
-reachable. A system MAY hold records of different major versions, each under its own token.
+reachable. A system conformant to `dpp/1` exposes only `dpp/1` records under the layout of §6.2;
+how a system exposes records of two major versions at once is for the later major version to
+define.
 
 No version of the protocol is identified by a URL, and no party has to be consulted to implement
 or claim one.
@@ -1047,13 +1091,41 @@ which is exactly what `by` and `attributedTo` separate. Here `by` is `prov:wasAs
 generating activity and `attributedTo` is `prov:wasAttributedTo`, with `prov:actedOnBehalfOf` between
 them. The rendering also says what PROV-O cannot carry: `why`.
 
-**A-23. The chain fixture spans three systems.** Draft 3's suite had two; the brief requires three,
+**A-23. The chain fixture spans three systems.** Draft 3's suite had two; the deliverables for this
+specification call for three,
 so a chain crosses a system boundary twice and the unreachable hop is not adjacent to the start.
 The fixture also contains a "not held" hop, so all three results occur in one walk.
 
 **A-24. Limits and walker safety are specified.** Draft 3 had no security section. Record size, walk
 bounds, path validation, redirection and credential rules (§11) are added because a walker follows
 locations taken from other parties' records.
+
+**A-25. The versions listing is in recording order, not "supersession order".** Supersession can
+branch (two successors of one version), can cross ids and systems (A-9), and is stated only by
+successors; a single system-local list cannot be in supersession order in general. Recording order
+is a fact every system has.
+
+**A-26. "Unauthenticated by default" is dropped.** Draft 3 made unauthenticated access the
+default and authentication an option. A protocol that names a default invites readers to treat a
+refusal as an anomaly; here the protocol takes no position (§6.5), and a refusal is an ordinary
+answer (§11.1). Most internal systems will require authentication, and nothing changes for those
+that do not.
+
+**A-27. `attributedTo` is optional and may name an organisation.** Draft 3 said that where the agent
+is a machine, `attributedTo` "names the human responsible", which reads as required. It is
+optional here (§3.4), because many systems do not know the responsible person for an automated act
+and a mandatory field would be filled with a placeholder, which is worse than absence; and it may
+name an organisation (a team, a role), because that is often the honest answer.
+
+**A-28. `at` excludes leap seconds and lower-case `t`/`z`.** RFC 3339 admits both. Leap-second
+validity depends on a published table that a reader would have to carry and update, and lower-case
+separators double the forms two implementations must agree on. Neither is needed to record when a
+decision was made.
+
+**A-29. The hash law is the function; input checking is the parser's.** Draft 3 called the
+canonical form "one function". Here the function (§5.2–5.3) is separated from the input rules
+(§5.1) so the line budget of constraint 6 is measured on the function, and so it is plain that in
+JavaScript and Go the input rules need more than the standard parser (§5.1, A.3).
 
 ### A.2 The five questions
 
@@ -1107,11 +1179,15 @@ Flagged for review; none is asserted as settled.
 - **A-2 is a reversal of Draft 3's central choice.** The reasons are stated; the trade-off (an
   unpinned reference is weaker) is accepted here but is a principal's call. *(UNVERIFIED — Emil
   review.)*
-- **Go exceeds fifty lines.** The hash law fits in under fifty lines of Python and JavaScript; in
+- **Constraint 6 is met for the function, not for the input checks, and not in Go.** The hash
+  function (§5.2–5.3) fits in under fifty lines of Python (19) and JavaScript (26); in
   `gofmt`-formatted Go it takes 65 non-blank lines (51 without lines holding only a closing brace),
-  because `gofmt` gives every brace and branch its own line. The law needs no library beyond
-  SHA-256 and sorting in any language; whether "fifty lines" is read as a formatting budget is
-  for review. *(UNVERIFIED — Emil review.)*
+  because `gofmt` gives every brace and branch its own line. The input rules (§5.1) are a few
+  lines in Python, whose parser reports duplicate names, but need a name-reporting parser in
+  JavaScript and Go, whose standard parsers do not; the cross-checks do not implement §5.1. The
+  alternative, dropping the duplicate-name rule, was rejected: parsers that keep the first and the
+  last duplicate would hash the same bytes differently. Whether this reading of "fifty lines" is
+  acceptable is for review. *(UNVERIFIED — Emil review.)*
 - **`status` value set.** Draft 3's four values are kept. Nygard's ADR form uses `deprecated` where
   this has `withdrawn`; an ADR directory maps it in its profile. Whether to add `rejected` (common
   in ticket systems) in a minor version is open.
@@ -1153,8 +1229,8 @@ and no required implementation language.
 
 | Part | Content |
 |---|---|
-| `suite/canonical/vectors.json` | 34 vectors. **parse** vectors (8): inputs that are not I-JSON and must be rejected before hashing — duplicate member names (top level and inside `extensions`), unpaired surrogate, noncharacter, `NaN`, top-level array, byte order mark, invalid UTF-8. **hash** vectors (26): canonical form and hash, or rejection, covering key order, input escapes, NFC versus NFD, the escape table including U+007F and U+2028, code point versus UTF-16 key order, numbers (integer, decimal, exponent, nested, as string), booleans and null, `extensions` and `signature` excluded, `basedOn` order across systems, duplicate refs, entries without `ref`, `supersedes` order, other arrays not reordered, unknown members hashed. |
-| `suite/resolver/` | A file-based resolver fixture: a conformant system directory with held, superseding and listed records and with records that are invalid, mismatched, of another major version, not JSON, or unhashable; a directory without a descriptor; a directory whose descriptor names another system. `cases.json` gives 15 resolutions and their expected results, including a pin that matches despite changed `extensions` and a pin mismatch. |
+| `suite/canonical/vectors.json` | 36 vectors. **parse** vectors (8): inputs that are not I-JSON and must be rejected before hashing — duplicate member names (top level and inside `extensions`), unpaired surrogate, noncharacter, `NaN`, top-level array, byte order mark, invalid UTF-8. **hash** vectors (28): canonical form and hash, or rejection, covering key order, input escapes, NFC versus NFD, the escape table including U+007F and U+2028, code point versus UTF-16 key order, integer-like member names, numbers of any magnitude inside `extensions`, numbers (integer, decimal, exponent, nested, as string), booleans and null, `extensions` and `signature` excluded, `basedOn` order across systems, duplicate refs, entries without `ref`, `supersedes` order, other arrays not reordered, unknown members hashed. |
+| `suite/resolver/` | A file-based resolver fixture: a conformant system directory with held, superseding and listed records and with records that are invalid, mismatched, of another major version, not JSON, or unhashable; a directory without a descriptor; a directory whose descriptor names another system. `cases.json` gives 19 resolutions and their expected results, including a pin that matches despite changed `extensions`, a pin mismatch, a version token that collides with nothing (`system`), a `why` with an empty `ref`, a date that is not a calendar date, and a descriptor whose optional members are malformed. |
 | `suite/chain/` | Three systems — a ticket tracker, an ADR directory, a governance engine — of which the reader can reach two. Starting from `PAY-142@3` in the tracker, the expected walk (`expected-walk.json`) has five hops: three held (one an origin), one not held (a version the ADR directory does not have), one not reachable (the governance engine). |
 | `suite/run.py` | Runs all of the above against any Python module exposing `parse`, `canonical`, `record_hash`, `walk` and `Invalid`. |
 | `suite/crosscheck/` | Independent implementations of §5.2–5.3 in JavaScript and Go, checked against the hash vectors. |

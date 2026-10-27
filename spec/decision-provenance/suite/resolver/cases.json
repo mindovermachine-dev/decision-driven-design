@@ -2,7 +2,8 @@
   "locations": {
     "https://fixture.example/resolver": "system",
     "https://fixture.example/no-descriptor": "no-descriptor",
-    "https://fixture.example/wrong-descriptor": "wrong-descriptor"
+    "https://fixture.example/wrong-descriptor": "wrong-descriptor",
+    "https://fixture.example/loose-descriptor": "loose-descriptor"
   },
   "note": "locations maps system identifiers to directories relative to this file (the reader's configuration, spec 6.7). Each case resolves `start` as the first hop of a walk and expects one of the three results.",
   "cases": [
@@ -112,6 +113,34 @@
         "ref": "X-1@1@https://fixture.example/unmapped"
       },
       "expect": "not-reachable"
+    },
+    {
+      "name": "version-token-system-not-held",
+      "start": {
+        "ref": "R-1@system@https://fixture.example/resolver"
+      },
+      "expect": "not-held"
+    },
+    {
+      "name": "record-why-ref-empty",
+      "start": {
+        "ref": "R-10@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "record-at-not-a-calendar-date",
+      "start": {
+        "ref": "R-11@1@https://fixture.example/resolver"
+      },
+      "expect": "not-reachable"
+    },
+    {
+      "name": "descriptor-optional-members-malformed",
+      "start": {
+        "ref": "X-1@1@https://fixture.example/loose-descriptor"
+      },
+      "expect": "held"
     }
   ]
 }
