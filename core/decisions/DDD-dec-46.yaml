@@ -1,0 +1,63 @@
+format: 1
+id: DDD-dec-46
+kind: decision
+statement: |
+  The genesis grant is the root of change authority over one product: held by the human principal who brought the product into being, unscoped within the product and scoped to nothing outside it, the only grant that delegates from no other; every other grant delegates from it and every product-changing decision resolves to it; a product with no genesis grant has no authority and nothing in it is in force. A product is the decision space, its What and its realisation are two scopes under one genesis, transfer is by decision never by edit, and the term is software's, homed at applications/sdlc/.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Rules DDD-dec-44's second open reading. Claude's reading is superseded by the definition below,
+  which is wider: the grant covers the product, not only its What.
+
+  ## Definition
+
+  The genesis grant is the root of change authority over one product. It is held by the human
+  principal who brought the product into being. It is unscoped within the product and scoped to
+  nothing outside it, and it is the only grant that delegates from no other. Every other grant
+  over the product delegates from it, directly or through a chain. Every decision that changes the
+  product resolves, through its acceptance and the grant that acceptance was made under, to the
+  genesis. A product with no genesis grant has no authority, and nothing in it is in force.
+
+  ## Space
+
+  A product is the decision space. Its What and its realisation (the repositories) are two scopes
+  within it, under one genesis. A repository with no What is a product whose What is empty.
+
+  ## Transfer
+
+  - By decision, never by edit. The holder signs a transfer naming the successor; the successor
+    signs acceptance of the grant; the transfer supersedes the prior genesis record; the prior
+    holder's grant is closed, not deleted.
+  - Holder unavailability is filed unavailability with a fallback holder, who may act and may not
+    transfer.
+  - Loss of the holder with no fallback cannot be repaired from inside. A new genesis founds a new
+    product; the old product's decisions are imported by basedOn, which keeps provenance and
+    records that authority was re-founded.
+
+  ## Home
+
+  Downstream, applications/sdlc/. Not actor-general: that layer has no concept of a space someone
+  brought into being, so a genesis there would be the origin of nothing. The term is software's.
+
+  ## Consequence: packages
+
+  A Context& package is not part of a customer's product and has no genesis in the customer's
+  space. Its decisions enter by import under the customer's genesis, basedOn the package's
+  versions. The package is itself a product, with its own genesis held by Context&, whose What is
+  its decisions and whose realisation is what it ships. What a package ships is the How, and the
+  How is not yet specified; that is a later session, not this one.
+
+  ## Open, recorded not ruled — Claude, UNVERIFIED — Emil review
+
+  - The term needs registering. It has no registered form in either repository yet; the move
+    session registers it under applications/sdlc/ with this decision as its basis.
+  - DDD-dec-42 retired the Product Framework's How, and this ruling says what a package ships is
+    the How, not yet specified. Read together: the retired How is not revived; a new How is a
+    later session's subject.
+basedOn:
+  - DDD-dec-44
+  - DDD-dec-43
+  - DDD-dec-42
+notes: |
+  Supersedes the open reading in DDD-dec-44's resolution ("What ruling 3 leaves open"), including
+  its transfer and home questions; DDD-dec-44 is left unchanged.

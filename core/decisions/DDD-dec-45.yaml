@@ -1,0 +1,31 @@
+format: 1
+id: DDD-dec-45
+kind: decision
+statement: |
+  Reification and content resolution enter the What as obligations, not content: that reify(AIO, context) -> CIO exists; that every (AIO, context) pair a system can reach is covered or declared unreifiable; and that every (content key, locale) pair resolves or is declared missing. Which CIO and which words are decisions anchored to the What element they bind; the catalogue is the set of accepted decisions; the framework ships obligations, never widgets or words.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Rules DDD-dec-44's first open reading (the binding rules of Product Framework §4.5 and §4.6).
+  Claude read the ruling as bringing the rules into the What with the catalogues. Emil ruled a
+  sharper split: the form moves in, the content is decisions.
+
+  - **The form is an obligation in the What.** Three obligations: a reification function exists;
+    coverage over every reachable (AIO, context) pair, with unreifiable pairs declared; coverage
+    over every (content key, locale) pair, with missing pairs declared.
+  - **The content is decisions.** The choice of CIO for an (AIO, context) pair, and the words for
+    a (key, locale) pair, are decisions anchored to the What element they bind, per DDD-dec-42.
+    They are not catalogue text in the What.
+  - **The catalogue is derived.** A design system's component catalogue and a content store's
+    entries are the set of accepted decisions, not a separately maintained artefact.
+  - **The framework ships no instances.** Obligations only; never widgets, never words.
+
+  Consequence, Claude's reading (UNVERIFIED — Emil review): a declared-unreifiable pair and a
+  declared-missing key are themselves decisions with a principal, so an undeclared gap is an
+  escape and a declared one is judgment on the record.
+basedOn:
+  - DDD-dec-44
+  - DDD-dec-42
+notes: |
+  Supersedes the open reading in DDD-dec-44's resolution ("What ruling 1 leaves open"); DDD-dec-44
+  is left unchanged.

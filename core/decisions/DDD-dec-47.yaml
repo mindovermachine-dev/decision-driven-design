@@ -1,0 +1,26 @@
+format: 1
+id: DDD-dec-47
+kind: decision
+statement: |
+  A What-changing decision is a protocol record; the protocol (record, reference, resolver) does not define force; a separate authority profile in applications/sdlc/, alongside the genesis grant, makes signature, acceptedBy and acceptedAt required for a decision to be in force and defines acceptance as a signature by a human holder under a grant delegating from the genesis. "Signed" means that and nothing weaker.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Rules the open reading in DDD-dec-43 ("signed" as a verifiable seal; Decision Provenance
+  Protocol the candidate mechanism).
+
+  - **The record is the protocol's.** Every decision that changes the What is a Decision
+    Provenance Protocol record. The protocol has three parts — record, reference, resolver — and
+    defines no notion of force.
+  - **Force is the authority profile's.** A separate document, the authority profile, lives in
+    applications/sdlc/ alongside the genesis grant (DDD-dec-46). It makes three fields required
+    for a decision to be in force: signature, acceptedBy, acceptedAt.
+  - **Acceptance is defined.** A signature by a human holder under a grant delegating from the
+    genesis.
+  - **"Signed" has one meaning.** That, and nothing weaker. Reads DDD-dec-43's "signed and approved
+    by a human principal" exactly.
+basedOn:
+  - DDD-dec-46
+  - DDD-dec-43
+notes: |
+  Which token the protocol records carry is DDD-dec-48.

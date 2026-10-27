@@ -1,0 +1,26 @@
+format: 1
+id: DDD-dec-48
+kind: decision
+statement: |
+  The Decision Provenance Protocol has one token, dpp/1 or decprov/1: the session whose token loses renames before merge, and neither the handoff's line nor the protocol branch merges until the two agree.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Ruled as "[dpp/1 | decprov/1]": the choice between the two is not made here; the rule that
+  there is one is.
+
+  The divergence, as found at filing (2026-10-27):
+  - This session's handoff and Emil's protocol rulings of 2026-10-26 (not recorded in this
+    repository) say **decprov/1**.
+  - The protocol branch, claude/epic-hopper-qr18wj in this repository (head 782c4dd, no pull
+    request open at filing), ships **dpp/1** in its records, system.json, the well-known path
+    decision-provenance and the suite (spec/decision-provenance/).
+
+  The losing session renames before merge. Neither merges until they agree. This session's
+  records carry no token yet, so nothing here needs renaming at filing.
+basedOn:
+  - DDD-dec-47
+notes: |
+  Claude flag: the protocol branch's well-known path is decision-provenance, while the 2026-10-26
+  ruling Claude has seen registers the IANA suffix decprov. If decprov/1 wins the token, the path
+  question goes with it. UNVERIFIED — Emil review.
