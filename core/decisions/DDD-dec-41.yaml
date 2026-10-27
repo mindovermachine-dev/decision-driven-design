@@ -1,0 +1,78 @@
+format: 1
+id: DDD-dec-41
+kind: decision
+statement: |
+  The Product Framework's What model moves into decision-driven-design as the opinionated specification of what a software application is and does; its How and Delivery models do not move; decisions are to be added into the What; and a Product Framework system is read as ground and tolerance — the specification that says how a given piece of software should work — not as a position, a layer or an occupant in the act address.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in one message on the three questions committed verbatim at meta/sessions/2026-10-27-product-framework-what/prompt.md ("1. Only the what and then we want to add decisions into the what 2. It should move into the repo 3. Ground and tolerance - it is the specification that says how a given piece of software should work"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings
+
+  1. **Scope: the What only, then decisions into it.** Of the Product Framework's three models
+     (github.com/Hafeok/product-framework, v1.10.0 at c895652), only the What moves: product,
+     domains (structure, reference data, events, Deciders, Projectors), systems, UI steps and
+     the page graph, named-algorithm primitives, and quality demands (its §3). The How (§4) and
+     Delivery (§7) do not move. Decisions are then added into the What, which the Product
+     Framework today does not carry: its What is a model of meaning, and its decisions live in
+     the How. Adding them is the follow-on work this ruling opens, not something it settles.
+  2. **Home: this repository.** The What moves into decision-driven-design. It stops being a
+     peer that points at DDD informatively (Product Framework §2.2, "Provenance") and becomes
+     part of the software projection, consuming canon by pin like everything else here.
+  3. **A system is ground and tolerance.** Asked whether a Product Framework system is a ground
+     axis, part of the layer path, or outside the act address, Emil ruled: ground and
+     tolerance — the specification that says how a given piece of software should work.
+
+  ## Claude's reading of ruling 3 — UNVERIFIED, Emil review
+
+  The ruling is read as: a system specification is not a coordinate of any act occurrence. It is
+  the declaration, for one piece of software, of the ground its acts read (the declared axes
+  DDD-ground-06 addresses over, declared before determination per DDD-ground-05) together with
+  the tolerance each act must meet. On that reading the What as a whole is the software's
+  ground-and-tolerance specification, and step 1 of the method reads its addresses off it rather
+  than inventing axes. This matches the modelling-the-work ruling of 2026-10-05 that stating an
+  act's tolerance forces the ground it needs. If the reading is wrong, the mapping table in
+  prompt.md is wrong at its System row and nothing downstream of it should be built.
+
+  ## What the rulings leave open
+
+  Each is for Emil to rule before the move session is chartered.
+
+  - **O-1 Path.** Claude proposed applications/sdlc/; Emil ruled "into the repo". The exact path
+    is not ruled.
+  - **O-2 The How and Delivery.** What happens to Product Framework §§4–7 in the Hafeok
+    repository: they stay there as their own standard, or they are retired, or they are
+    superseded by the Decision Ledger (How) and method steps 9–10 (Delivery).
+  - **O-3 Two Pillars.** The Product Framework conforms to Two Pillars only (§8). Whether the
+    moved What keeps that conformance, drops it, or replaces it with a pin on canon.
+  - **O-4 The Preview profiles.** §13 (data conformance) and §14 (authoring scopes) are What-side
+    and plausibly move; §11 (design system) and §12 (content store) bind to How sections (§4.5,
+    §4.6) and plausibly stay. Not ruled.
+  - **O-5 The shape of decisions in the What.** Whether a decision is a What element in its own
+    right, or anchors to What elements by applicability predicate (DDD-ground-01), or both.
+  - **O-6 Tooling.** product-cli consumes the Product Framework and carries its own copy
+    (docs/product-framework-open.md, v1.9.1). The move changes what that tooling pins.
+
+  ## The falsifier carried forward
+
+  Registered with the proposal and unchanged by the rulings: map the T2b slice using only the
+  What's constructs. If a step 1 test item has no What form — the likeliest being a verdict that
+  changes no data, since the Product Framework has VerdictEvent on its Build seam and nothing on
+  the What side — the What is one lens over the determinable space, not the space itself. Ruling
+  1's "add decisions into the What" may be where that gap is closed; that is a prediction, not a
+  finding.
+basedOn:
+  - DDD-ground-06
+  - DDD-ground-05
+  - DDD-ground-01
+  - DDD-dec-04
+notes: |
+  Filed from the Product Framework What session (meta/sessions/2026-10-27-product-framework-what/,
+  arrival per DDD-dec-20). Recorded when given, before any move work, so the rulings stand in the
+  repository before anything is built on them.
+
+  Not done, and why: no Product Framework text is copied or rewritten here. Moving it before O-1
+  to O-5 are ruled would make this repository a second, unruled copy of a standard that lives
+  elsewhere, which is the two-sources-of-truth failure projections/README.md names.
+
+  Arrival found the project instructions stale (they pin v5.15.1 and baec167; the repository
+  pins v5.15.2 and main was at 4004b49). The repository wins; recorded in bootstrap.md.

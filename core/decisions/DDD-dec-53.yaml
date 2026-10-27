@@ -1,0 +1,23 @@
+format: 1
+id: DDD-dec-53
+kind: decision
+statement: |
+  The Decision Provenance Protocol token is decprov/1; the protocol branch, which ships dpp/1, is the losing session and renames before merge, its well-known path following the token.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled "agreed on all - and we arent using Oxigraph we will be using Varve that supports it" on Claude's seven recommendations, both recorded verbatim as Round 6 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Resolves the choice DDD-dec-48 left open. Reasons, Claude's, adopted: decprov/1 matches Emil's
+  protocol rulings of 2026-10-26 and the decprov suffix; "DPP" collides with the EU Digital
+  Product Passport, a provenance standard for products; and the rename touches one unmerged
+  branch.
+
+  The losing session is the protocol branch, claude/epic-hopper-qr18wj (head 782c4dd at
+  filing). It renames dpp/1 to decprov/1 in its records, system.json, the suite and the
+  well-known path before it merges. This session does not perform the rename; it is that
+  session's act.
+basedOn:
+  - DDD-dec-48
+notes: |
+  Claude's recommendation carried the caveat that it read the 2026-10-26 rulings from notes, not
+  from a repository. They are still not in either repository; when the protocol branch lands, it
+  records them.

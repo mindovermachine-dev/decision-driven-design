@@ -1,0 +1,57 @@
+format: 1
+id: DDD-dec-44
+kind: decision
+statement: |
+  The Product Framework's design system (§11) and content store (§12) are parts of the What, because the implementation cannot be built without them; data conformance (§13) is not part of the framework but a value add-on done by reading the What; and authoring scopes (§14) are a central part of the framework — who can change what, and who holds the genesis grant for a given product.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in one message on Claude's [PROPOSED] reading of §§11–13 and on the place of §14 ("design system and content store are parts of the what - they are essiential to the implementation and you cant build it without it. and data conformance is something that be done by reading the what, its a value add on not something thats part of the framework. Authoring scopes must be a central part of the framework, who can change what, and who helds the genesis grant for a given product"), recorded verbatim at meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings
+
+  1. **Design system and content store are What.** Claude proposed retiring §11 and §12 with
+     the How. Ruled otherwise: both are parts of the What, because the implementation cannot be
+     built without them. Claude's proposal is superseded by this ruling.
+  2. **Data conformance is an add-on.** §13 is not part of the framework. It is a value add-on
+     that works by reading the What, and it lives outside the framework's normative body.
+  3. **Authoring scopes are central.** §14 is a central part of the framework, not a Preview
+     profile. It answers two questions: who can change what in the What, and who holds the
+     genesis grant for a given product. Read with DDD-dec-43: tools may be gathered from, but
+     every change is signed and approved by a human principal.
+
+  ## What ruling 1 leaves open — UNVERIFIED, Emil review
+
+  Weakest point: §11 and §12 were written as providers that plug into the How. Their binding
+  rules sit in How sections DDD-dec-42 retired: reification, reify(AIO, context) -> CIO (§4.5),
+  and content resolution per locale (§4.6). If the design system and content store are What, the
+  move must decide whether those rules come with them into the What, or whether the What carries
+  only the catalogues (components, tokens, accessibility guarantees; keys, roles, locales) and
+  the rules are dropped. Claude reads ruling 1 as bringing the rules with them, since without
+  reification a catalogue cannot be built against. Not ruled.
+
+  ## What ruling 3 leaves open — UNVERIFIED, Emil review
+
+  - **"Genesis grant" is a new term.** No registered term in either repository names it
+    (searched at upstream main and downstream main, 2026-10-27). It needs a definition and a
+    registration before the move uses it, and a ruling on which repository it belongs in: if
+    authority over a specification's changes is actor-general, upstream; if it is software-only,
+    here.
+  - **Claude's reading.** The genesis grant is the root of change authority for one product's
+    What: the grant held by the human principal who brought the product into being, from which
+    every authoring scope is delegated. Every decision that changes the What (DDD-dec-42) is then
+    traceable to the genesis grant through a chain of delegations. This parallels the
+    accountability chain's requirement of a terminus in canon, but the parallel is not checked
+    against canon text and no canon id is cited for it.
+  - **Transfer.** Whether a genesis grant can be transferred, and by what act, is not ruled.
+basedOn:
+  - DDD-dec-43
+  - DDD-dec-42
+  - DDD-dec-41
+notes: |
+  Filed from the Product Framework What session, same pull request as DDD-dec-41..43, recorded
+  when given. With this decision, every item DDD-dec-41 opened is ruled. What remains before the
+  move session is chartered: the two open readings above (the §4.5/§4.6 rules, the genesis grant).
+
+  Correction recorded with attribution: Claude's O-4 proposal classified §11 and §12 as How-side
+  and recommended retiring them, and classified §13 as What-side and recommended moving it. Both
+  classifications were wrong by Emil's ruling. Claude read "side" off which section each profile
+  binds to; Emil reads it off what the implementation needs.

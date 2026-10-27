@@ -1,0 +1,19 @@
+format: 1
+id: DDD-dec-50
+kind: decision
+statement: |
+  Housekeeping: the project instructions are re-pinned to upstream v5.15.2 and decision-driven-design 4004b49, and product-cli re-pins to the moved What once pull request #39 is ratified, as DDD-dec-42's ruling 6 stands.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  - **Project instructions.** Re-pinned to actor-indexed-determination v5.15.2 and
+    decision-driven-design 4004b49. This closes the staleness recorded at arrival in bootstrap.md.
+    The project instructions live outside this repository; this decision records the ruling, not
+    a change made here.
+  - **product-cli.** Re-pins to the moved What once #39 is ratified. Sequenced after the move,
+    since there is nothing to pin to until the What lands under applications/sdlc/.
+basedOn:
+  - DDD-dec-42
+notes: |
+  Claude cannot read the project instructions from the repository and has not verified the
+  re-pin text.

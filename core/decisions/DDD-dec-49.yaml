@@ -1,0 +1,41 @@
+format: 1
+id: DDD-dec-49
+kind: decision
+statement: |
+  The falsifier carried in DDD-dec-41 is reworded, not withdrawn: a verdict is a valuation — a function of the What and the ground at a position, never stored — so a step whose only What form is "a verdict was computed" is not evidence that the What is a lens; the What's form for such a step is the declaration that makes it computable, and a step fails only if it has neither a What element nor a decision that declares it.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled in a file Emil attached ("Rulings on the three open items, and three more"), recorded verbatim as Round 5 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  ## The falsifier, as reworded
+
+  Re-run the T2b mapping with this reading. A step fails the falsifier only if it has neither a
+  What element nor a decision that declares it. If one fails, the What is one lens over the
+  determinable space, not the space itself.
+
+  ## What changed and why
+
+  DDD-dec-41 named the likeliest failure as a verdict that changes no data, since the Product
+  Framework has VerdictEvent on its Build seam and nothing on the What side. Emil ruled that such
+  a step does not count against the What: a verdict is a valuation, computed from the What and
+  the ground at a position and never stored. The What's form for it is the declaration that makes
+  it computable — the violation description on the anchoring decision.
+
+  ## Recorded tension — Claude, UNVERIFIED — Emil review
+
+  The project's step 1 test items include "verdicts that change no data: the method must record
+  them as state changes, or dependencies on them disappear". This ruling says a verdict is never
+  stored. Both can hold if a dependency on a verdict is a dependency on its declaration plus the
+  ground it was computed over (both stored), not on a stored verdict. That reconciliation is
+  Claude's, not ruled. If it fails, one of the two rulings needs superseding before T2b runs.
+
+  ## Terms
+
+  "Valuation" and "violation description" are Emil's words in this ruling. Neither is a
+  registered term in either repository at filing (searched 2026-10-27). They are not used as
+  canon terms until registered.
+basedOn:
+  - DDD-dec-41
+  - DDD-dec-42
+  - DDD-address-01
+notes: |
+  DDD-dec-41 is left unchanged; this decision is the falsifier's current form.
