@@ -36,3 +36,20 @@ Ruling on the weakest point Claude named for §14 (authoring scopes) in its O-4 
 |---|---|
 | O-4, §14 Authoring scopes | Tools never change the What; gathering from tools and processes is valid; everything gathered is signed and approved by a human principal |
 | O-4, §§11–13 | Not ruled; Claude's proposal stands as `[PROPOSED]` |
+
+## Round 4 — recorded as `DDD-dec-44`
+
+Ruling on Claude's `[PROPOSED]` reading of §§11–13 and the place of §14:
+
+> design system and content store are parts of the what - they are essiential to the
+> implementation and you cant build it without it. and data conformance is something that be done
+> by reading the what, its a value add on not something thats part of the framework. Authoring
+> scopes must be a central part of the framework, who can change what, and who helds the genesis
+> grant for a given product
+
+| Item | Ruling |
+|---|---|
+| §11 Design system | Part of the What (Claude's proposal to retire it superseded) |
+| §12 Content store | Part of the What (Claude's proposal to retire it superseded) |
+| §13 Data conformance | Not part of the framework; a value add-on that reads the What |
+| §14 Authoring scopes | Central to the framework: who can change what, and who holds the genesis grant |
