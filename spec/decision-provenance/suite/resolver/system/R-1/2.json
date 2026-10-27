@@ -1,0 +1,18 @@
+{
+  "protocol": "dpp/1",
+  "id": "R-1",
+  "version": "2",
+  "system": "https://fixture.example/resolver",
+  "statement": "Fixture decisions are written by hand.",
+  "by": "mailto:fixture@example.org",
+  "at": "2026-10-02T09:00:00Z",
+  "why": "So the resolver can be tested without software.",
+  "basedOn": [],
+  "status": "accepted",
+  "supersedes": [
+    {
+      "ref": "R-1@1@https://fixture.example/resolver",
+      "hash": "sha256:7b18a44691dbc04f520d3e4e5b22605bdf29d139b494e4a8c5296f356bb7e103"
+    }
+  ]
+}

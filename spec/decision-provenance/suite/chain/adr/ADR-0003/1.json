@@ -1,0 +1,14 @@
+{
+  "protocol": "dpp/1",
+  "id": "ADR-0003",
+  "version": "1",
+  "system": "https://git.example.internal/payments/docs/adr",
+  "statement": "The payments ledger is append-only.",
+  "by": "mailto:lead@example.internal",
+  "at": "2026-03-11",
+  "why": {
+    "href": "../0003-append-only-ledger.md"
+  },
+  "basedOn": [],
+  "status": "accepted"
+}

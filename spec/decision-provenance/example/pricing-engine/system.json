@@ -1,0 +1,5 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://pricing.example.internal",
+  "name": "Pricing rules engine (export)"
+}

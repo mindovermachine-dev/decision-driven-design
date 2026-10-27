@@ -1,0 +1,12 @@
+{
+  "protocol": "dpp/1",
+  "id": "ADR-0004",
+  "version": "1",
+  "system": "https://git.example.internal/payments/docs/adr",
+  "statement": "Card data is tokenised at the edge.",
+  "by": "mailto:lead@example.internal",
+  "at": "2026-04-02",
+  "why": "Keeps the core out of PCI DSS scope.",
+  "basedOn": [],
+  "status": "proposed"
+}

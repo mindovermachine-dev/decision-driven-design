@@ -1,0 +1,5 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://git.example.internal/payments/docs/adr",
+  "name": "Payments ADR directory (fixture)"
+}

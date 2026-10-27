@@ -1,0 +1,32 @@
+{
+  "start": {
+    "ref": "PAY-142@3@https://tickets.example.internal"
+  },
+  "hops": [
+    {
+      "from": null,
+      "to": "PAY-142@3@https://tickets.example.internal",
+      "result": "held"
+    },
+    {
+      "from": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
+      "to": "ADR-0003@1@https://git.example.internal/payments/docs/adr",
+      "result": "held"
+    },
+    {
+      "from": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
+      "to": "ADR-0004@2@https://git.example.internal/payments/docs/adr",
+      "result": "not-held"
+    },
+    {
+      "from": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
+      "to": "RISK-12@2@https://grc.example.internal",
+      "result": "not-reachable"
+    },
+    {
+      "from": "PAY-142@3@https://tickets.example.internal",
+      "to": "ADR-0007@1@https://git.example.internal/payments/docs/adr",
+      "result": "held"
+    }
+  ]
+}

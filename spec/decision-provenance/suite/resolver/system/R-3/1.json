@@ -1,0 +1,15 @@
+{
+  "protocol": "dpp/1",
+  "id": "R-4",
+  "version": "1",
+  "system": "https://fixture.example/resolver",
+  "statement": "Fixture decisions are written by hand.",
+  "by": "mailto:fixture@example.org",
+  "at": "2026-10-01T09:00:00Z",
+  "why": "So the resolver can be tested without software.",
+  "basedOn": [],
+  "status": "proposed",
+  "extensions": {
+    "org.example.note": "extensions are outside the hash; this may change after publication"
+  }
+}

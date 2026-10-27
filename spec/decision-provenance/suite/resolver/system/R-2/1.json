@@ -1,0 +1,11 @@
+{
+  "protocol": "dpp/1",
+  "id": "R-2",
+  "version": "1",
+  "system": "https://fixture.example/resolver",
+  "statement": "Fixture decisions are written by hand.",
+  "by": "mailto:fixture@example.org",
+  "at": "2026-10-01T09:00:00Z",
+  "basedOn": [],
+  "status": "proposed"
+}
