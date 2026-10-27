@@ -1,0 +1,21 @@
+format: 1
+id: DDD-dec-57
+kind: decision
+statement: |
+  [PROPOSED — not ruled] Every How decision is stated once with no language or platform term in it; a target is a language, a platform, or a design system or content store layered over a language; interface standards are not targets and may be named; each target has vocabulary editions mapping the How's fact terms to native shapes; a decision's realisation in a target is derived from the edition, never authored, and it is realisable there iff the edition maps every fact term it reads.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - how.md §5, H-3, H-4. Checked against the layer rule, the pure-core rule and the REST
+    projection, each written once and evaluated in C# and TypeScript (how-examples/); the second
+    target added one edition record and touched no decision.
+  - A binding into a design system or content store may name that one target's terms (a CIO, a
+    locale), as DDD-dec-45's "which CIO, which words" requires.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-45
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

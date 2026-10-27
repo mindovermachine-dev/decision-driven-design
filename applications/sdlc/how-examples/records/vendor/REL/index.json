@@ -1,0 +1,9 @@
+{
+  "protocol": "decprov/1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "id": "REL",
+  "versions": [
+    "1",
+    "2"
+  ]
+}

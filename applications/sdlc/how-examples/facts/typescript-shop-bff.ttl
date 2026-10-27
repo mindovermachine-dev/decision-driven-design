@@ -1,0 +1,25 @@
+# What the TypeScript fact projector, edition typescript/1, would emit for the shop-bff
+# repository at the commit named in facts/manifest.json. Hand-written, as for C#.
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix t: <https://acme.example/repos/shop-bff#> .
+@prefix api: <https://decision-driven-design.dk/ns/sdlc/api/typescript#> .
+
+t:ordering-domain a sdlc:Component ; sdlc:inLayer "domain" .
+t:ordering-app a sdlc:Component ; sdlc:inLayer "application" ; sdlc:dependsOn t:ordering-domain .
+t:http a sdlc:Component ; sdlc:inLayer "infrastructure" ;
+    sdlc:dependsOn t:ordering-app ; sdlc:usesApi api:node.http .
+t:server a sdlc:Component ; sdlc:inLayer "host" ; sdlc:dependsOn t:http , t:ordering-app .
+t:scratch a sdlc:Component .                                  # the planted orphan: no layer
+
+t:orderDecider a sdlc:CodeElement ; sdlc:inComponent t:ordering-domain ;
+    sdlc:realises <https://acme.example/products/shop/what#decider-order> .
+t:ordering-domain sdlc:usesApi api:Date.now .                 # the planted effect in the core
+
+t:placeOrder a sdlc:CodeElement ; sdlc:inComponent t:server ;
+    sdlc:realises <https://acme.example/products/shop/what#command-place-order> ;
+    sdlc:handlesRoute t:route-1 .
+t:route-1 sdlc:method "POST" ; sdlc:path "/commands/place-order" .
+t:refundOrder a sdlc:CodeElement ; sdlc:inComponent t:server ;
+    sdlc:realises <https://acme.example/products/shop/what#command-refund-order> ;
+    sdlc:handlesRoute t:route-2 .
+t:route-2 sdlc:method "POST" ; sdlc:path "/command/refund-order" .   # the planted wrong route

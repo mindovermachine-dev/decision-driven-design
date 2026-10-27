@@ -1,0 +1,22 @@
+# The importer's What, as a graph — PROVISIONAL.
+# The What has not moved (bootstrap.md, arrival finding 1), so neither the element kinds below nor
+# the identity form of their IRIs is landed. Kinds are read from Product Framework v1.10.0 §3,
+# which DDD-dec-41 names as what moves. The move session's Gate 3 fixes both; these examples are
+# re-anchored by supersession if it fixes them differently.
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix acme: <https://acme.example/products/shop/what#> .
+
+acme:product a sdlc:Product ; sdlc:localId "acme-shop" .
+
+acme:domain-ordering a sdlc:Domain ; sdlc:within acme:product ; sdlc:localId "ordering" .
+acme:decider-order a sdlc:Decider ; sdlc:within acme:domain-ordering ; sdlc:localId "order" .
+acme:command-place-order a sdlc:Command ; sdlc:within acme:domain-ordering ; sdlc:localId "place-order" .
+acme:command-refund-order a sdlc:Command ; sdlc:within acme:domain-ordering ; sdlc:localId "refund-order" .
+
+acme:system-shop-api a sdlc:System ; sdlc:within acme:product ; sdlc:localId "shop-api" ;
+    sdlc:referencesDomain acme:domain-ordering .
+acme:system-shop-bff a sdlc:System ; sdlc:within acme:product ; sdlc:localId "shop-bff" ;
+    sdlc:referencesDomain acme:domain-ordering .
+
+# A §3.6 Kind-2 quality demand, on the product: personal data resides in the EU.
+acme:qd-residency-eu a sdlc:QualityDemand ; sdlc:within acme:product ; sdlc:localId "residency-eu" .

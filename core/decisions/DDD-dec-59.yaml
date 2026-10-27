@@ -1,0 +1,19 @@
+format: 1
+id: DDD-dec-59
+kind: decision
+statement: |
+  [PROPOSED — not ruled] An import is a landing of the pinned package records, an import decision in the importer's space anchored in its What that may narrow but never alter the package decision, and an acceptance under the importer's genesis; supersession by the package is shown by explain from a recorded reading of the package's versions listing and forces nothing; a package may withdraw a version by a superseding record with status withdrawn, which obliges the importer to answer with a re-import or a retention and never blocks by the vendor's act.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - how.md §7, H-10, H-11, H-12. The recorded-reading condition follows from the protocol having
+    no forward link (dpp/1 Appendix A, Q2) and from Writ's G1.
+  - Altering a package decision is a fork: a local decision basedOn the package's.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-46
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

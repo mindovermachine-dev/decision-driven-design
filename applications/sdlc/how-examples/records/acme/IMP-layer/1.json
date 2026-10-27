@@ -1,0 +1,29 @@
+{
+  "protocol": "decprov/1",
+  "id": "IMP-layer",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import LAYER@1 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what#product, unchanged.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-27",
+  "why": {
+    "ref": "LAYER@1@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "LAYER@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:cf32f2933d28684eb4cf02a4da1715fd2fc36ee3ab9836286ce8282612a49dbc"
+    },
+    {
+      "ref": "REL@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:8a7f2dc013c241b7bdd218e0248351f67d9ff1b625fd714e4ca6d76e6ee2d5fa"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what#product",
+    "imports": "LAYER@1@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the product node: the rule ranges over every system's components, and nothing narrower covers both systems."
+  }
+}

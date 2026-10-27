@@ -1,0 +1,41 @@
+{
+  "protocol": "decprov/1",
+  "id": "VOC-aws",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Vocabulary edition aws/1: how the How's deployment-fact terms appear on aws, and the jurisdiction of each region.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "The realisation vocabulary for the aws platform target.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "vocabulary-edition",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "target": "aws",
+    "targetKind": "platform",
+    "edition": "1",
+    "facts": {
+      "sdlc:DataStore": "a resource of type aws_db_instance, aws_s3_bucket or aws_dynamodb_table",
+      "sdlc:holdsPersonalData": "the resource tag personal-data = true",
+      "sdlc:inRegion": "the provider region the resource is created in"
+    },
+    "jurisdictions": {
+      "eu-central-1": "EU",
+      "eu-west-1": "EU",
+      "eu-north-1": "EU",
+      "us-east-1": "US",
+      "us-west-2": "US",
+      "eu-west-2": "UK"
+    },
+    "readings": {
+      "declared": "Terraform configuration in the repository at a commit",
+      "observed": "the AWS Resource Explorer inventory of the account"
+    },
+    "factSource": {
+      "kind": "reporter",
+      "name": "deployment reporter for aws",
+      "status": "not built"
+    }
+  }
+}

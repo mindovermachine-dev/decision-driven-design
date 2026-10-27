@@ -1,0 +1,21 @@
+format: 1
+id: DDD-dec-60
+kind: decision
+statement: |
+  [PROPOSED — not ruled] The gate may rely only on facts recorded in the log at a position with provenance — source (projector or reporter), mode (files or compiler; declared or observed), the vocabulary edition by pinned reference, the subject, and the time read; a contract with no reading of a required source within its freshness bound is unknown, not a pass and not a violation; declared readings may gate land, observed readings never do; contracts also hold the measurement wiring of Kind-1 runtime bounds; a runner is named as a third fact source.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - how.md §9, H-9, H-14. Applies apparatus/encode-verify.md: ground the product does not control
+    is verified on a schedule, and an unreachable source is unknown.
+  - Demands on Writ, not resolved here: a Reporter contract (D-2), recorded readings (D-3), the
+    What graph readable by check with ?anchor and ?target bound (D-4).
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-52
+  - DDD-dec-49
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

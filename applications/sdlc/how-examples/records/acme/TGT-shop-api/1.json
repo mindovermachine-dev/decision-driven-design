@@ -1,0 +1,35 @@
+{
+  "protocol": "decprov/1",
+  "id": "TGT-shop-api",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The system shop-api is realised in the language target csharp (edition 1) in the repository https://acme.example/repos/shop-api, and deployed as the unit https://acme.example/units/shop-api-prod on the platform target azure (edition 1).",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-27",
+  "why": "Records which targets coverage ranges over for shop-api.",
+  "basedOn": [
+    {
+      "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:9b93a0c1bb8edec0b06077a9213a218bd514a02600aa9dbb25db23a4b1eb5928"
+    },
+    {
+      "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:1a5aefc5dc3acc48fda502fef5d65fba174761f8b79d1161ade8160b0f576d5a"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "target-declaration",
+    "anchor": "https://acme.example/products/shop/what#system-shop-api",
+    "language": {
+      "target": "csharp",
+      "edition": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+      "repository": "https://acme.example/repos/shop-api"
+    },
+    "platform": {
+      "target": "azure",
+      "edition": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+      "unit": "https://acme.example/units/shop-api-prod"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+format: 1
+id: DDD-dec-55
+kind: decision
+statement: |
+  [PROPOSED — not ruled] The How is a set of decisions of three kinds — constraint, binding (the charter's 'Realisation', renamed), contract — each anchored to the narrowest What element covering what it governs, the product node counting as a What element and the product-as-space being the anchor only when the What is empty; a principle is not a kind; target declarations and exclusions are record types, not kinds.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - The thesis holds with four repairs (how.md §2): the anchor reading for quantified decisions;
+    the kind-2 rename, because "realisation" is already Writ's per-target sense, DDD-dec-46's
+    scope, and the charter's own second use; a reporter contract Writ does not yet have; and a
+    package's What read as empty.
+  - Anchor (how.md §3, H-2): narrowest covering element; quantifiers range within the anchor; the
+    evaluator binds ?anchor. Anchoring wider than needed is a finding.
+  - Kinds (how.md §4): constraint over code facts; binding over What elements joined to code
+    through sdlc:realises, carrying coverage; contract over deployable units, read declared and
+    observed. No fourth kind (a principle is a decision others rest on); an idle report replaces
+    earn-their-place (H-13). No kind splits (§4.4). No-orphans is coverage of code by decisions
+    (H-8).
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-42
+  - DDD-dec-46
+  - DDD-dec-52
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

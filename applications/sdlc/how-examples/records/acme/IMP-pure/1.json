@@ -1,0 +1,30 @@
+{
+  "protocol": "decprov/1",
+  "id": "IMP-pure",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import PURE@1 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what#domain-ordering, unchanged.",
+  "by": "spiffe://acme.example/agent/proposer",
+  "at": "2026-10-27",
+  "why": {
+    "ref": "PURE@1@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "PURE@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:54769ea030f8fd87280b359343d4dcc0d2a4e41cd7621a1e4ec0516aedd98e12"
+    },
+    {
+      "ref": "REL@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:8a7f2dc013c241b7bdd218e0248351f67d9ff1b625fd714e4ca6d76e6ee2d5fa"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what#domain-ordering",
+    "imports": "PURE@1@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the domain: the rule ranges over the Deciders of Ordering."
+  },
+  "attributedTo": "mailto:architect@acme.example"
+}

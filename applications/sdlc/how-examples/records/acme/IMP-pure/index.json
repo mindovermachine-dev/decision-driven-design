@@ -1,0 +1,8 @@
+{
+  "protocol": "decprov/1",
+  "system": "https://acme.example/products/shop/decisions",
+  "id": "IMP-pure",
+  "versions": [
+    "1"
+  ]
+}

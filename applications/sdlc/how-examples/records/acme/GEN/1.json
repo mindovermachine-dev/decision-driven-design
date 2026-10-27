@@ -1,0 +1,22 @@
+{
+  "protocol": "decprov/1",
+  "id": "GEN",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Genesis grant over the product https://acme.example/products/shop/what#product, held by mailto:holder@acme.example.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-10-27",
+  "why": "Test genesis for the How worked examples: the importer's product is brought into being.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "genesis",
+    "product": "https://acme.example/products/shop/what#product",
+    "holder": "mailto:holder@acme.example"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCFloVpBV0lIZg9jRYODYZygvhv\nuoXnOs+xolMWyeD8kAAAAHZGVjcHJvdgAAAAAAAAAGc2hhNTEyAAAAUwAAAAtzc2gtZWQy\nNTUxOQAAAEDAaDD1ecXOYVfW58kqwxFHCB9J5y6v603tjL/cCLvNKgvutOwjkXpS5FKzvy\n8YIAhfrNaSwTGXjqwod7qk1PsD\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAhZaFaQVdJSGYPY0WDg2GcoL4b7qF5zrPsaJTFsng/J acme-holder@test-genesis"
+  }
+}

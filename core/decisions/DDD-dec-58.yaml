@@ -1,0 +1,22 @@
+format: 1
+id: DDD-dec-58
+kind: decision
+statement: |
+  [PROPOSED — not ruled] Coverage is generalised to every binding: for each element of the bound kind within its anchor and each declared target, the pair is realised, or is debt recorded as a baseline entry on the binding (which shrinks under the ratchet), or is a boundary recorded as an exclusion decision with its reason (reported not-applicable); a waiver never covers a coverage gap.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - how.md §8, H-7. Departs from the proposal (baseline entry only) because DDD-dec-45 already
+    names two gaps of different kind: "declared missing" (debt) and "declared unreifiable"
+    (boundary). A boundary must not shrink under a ratchet.
+  - Baseline semantics are assumed, the authority profile being unwritten (how.md D-6).
+    UNVERIFIED — Emil review.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-45
+  - DDD-dec-47
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

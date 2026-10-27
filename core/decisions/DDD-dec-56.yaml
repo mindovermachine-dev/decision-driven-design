@@ -1,0 +1,23 @@
+format: 1
+id: DDD-dec-56
+kind: decision
+statement: |
+  [PROPOSED — not ruled] A package contains decision records and nothing else — constraints, bindings, contracts, vocabulary editions (which are decisions) naming the projector and reporter editions that implement them, and release records — and carries no What of its own; its decisions anchor to the package product; analyzers and other binaries are its realisation, referenced by digest.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force.
+  - Departs from the proposal twice (how.md §6, H-5, H-6): vocabularies are decisions, so the
+    package is one decision log; and a package carries no What, because element kinds are the
+    framework's vocabulary, not What elements.
+  - Reads DDD-dec-46's "whose What is its decisions" as "whose What is empty and whose How is its
+    decisions", against DDD-dec-42 ("a decision is not itself a What element"). UNVERIFIED — Emil
+    review; if the reading fails, DDD-dec-46 or DDD-dec-42 needs superseding.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-46
+  - DDD-dec-42
+notes: |
+  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
+  number. A ruling that differs replaces this file's statement and resolution before merge, and
+  the ruling is recorded verbatim in rulings.md.

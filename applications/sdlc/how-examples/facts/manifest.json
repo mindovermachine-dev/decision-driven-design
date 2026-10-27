@@ -1,0 +1,64 @@
+{
+  "facts": [
+    {
+      "file": "facts/csharp-shop-api.ttl",
+      "source": "projector",
+      "mode": "files",
+      "target": "csharp",
+      "edition": {
+        "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:9b93a0c1bb8edec0b06077a9213a218bd514a02600aa9dbb25db23a4b1eb5928"
+      },
+      "subject": "https://acme.example/repos/shop-api@4f1c2e9",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/typescript-shop-bff.ttl",
+      "source": "projector",
+      "mode": "files",
+      "target": "typescript",
+      "edition": {
+        "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:e1366b7e624a7d63692ce364bc8c07b9edfeeb3d4505dfbe99a9c398ef603c44"
+      },
+      "subject": "https://acme.example/repos/shop-bff@a07d3b1",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/azure-shop-api-prod.declared.ttl",
+      "source": "reporter",
+      "mode": "declared",
+      "target": "azure",
+      "edition": {
+        "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:1a5aefc5dc3acc48fda502fef5d65fba174761f8b79d1161ade8160b0f576d5a"
+      },
+      "subject": "https://acme.example/units/shop-api-prod",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/aws-shop-bff-prod.declared.ttl",
+      "source": "reporter",
+      "mode": "declared",
+      "target": "aws",
+      "edition": {
+        "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:4830c0b6a9bed259bab4064df779ae644bed10e87f9822adf1494d66313db89e"
+      },
+      "subject": "https://acme.example/units/shop-bff-prod",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/aws-shop-bff-prod.observed.ttl",
+      "source": "reporter",
+      "mode": "observed",
+      "target": "aws",
+      "edition": {
+        "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:4830c0b6a9bed259bab4064df779ae644bed10e87f9822adf1494d66313db89e"
+      },
+      "subject": "https://acme.example/units/shop-bff-prod",
+      "readAt": "2026-10-27"
+    }
+  ]
+}

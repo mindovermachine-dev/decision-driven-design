@@ -1,0 +1,63 @@
+{
+  "protocol": "decprov/1",
+  "id": "REL",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Package ref-arch, version 1: the decisions and vocabulary editions this record is based on.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "A package version is the set its holder accepts and ships together.",
+  "basedOn": [
+    {
+      "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:9b93a0c1bb8edec0b06077a9213a218bd514a02600aa9dbb25db23a4b1eb5928"
+    },
+    {
+      "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:e1366b7e624a7d63692ce364bc8c07b9edfeeb3d4505dfbe99a9c398ef603c44"
+    },
+    {
+      "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:1a5aefc5dc3acc48fda502fef5d65fba174761f8b79d1161ade8160b0f576d5a"
+    },
+    {
+      "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:4830c0b6a9bed259bab4064df779ae644bed10e87f9822adf1494d66313db89e"
+    },
+    {
+      "ref": "LAYER@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:cf32f2933d28684eb4cf02a4da1715fd2fc36ee3ab9836286ce8282612a49dbc"
+    },
+    {
+      "ref": "PURE@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:54769ea030f8fd87280b359343d4dcc0d2a4e41cd7621a1e4ec0516aedd98e12"
+    },
+    {
+      "ref": "REST@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:7d73f0c8438f7046ca9bb0a4af38d401a7f2afe4becceddff4671c3a4fdcb017"
+    },
+    {
+      "ref": "RESID@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:1999c3db60fe8e22bf69bd3c10f911b139355b1d15af7005e9a976ca5b1b5c80"
+    },
+    {
+      "ref": "GEN@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:e74cbbfe0c12e010a755dd843570715862bd2267b368d501502a94cb692fd0f0"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GEN@1@https://vendor.example/packages/ref-arch"
+  },
+  "dk.decision-driven-design.sdlc": {
+    "record": "release",
+    "package": "https://vendor.example/packages/ref-arch",
+    "release": "1"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg/Ll03+tYgiRLgcoyBhE+eneA+i\nmdx0PtZN9nfUatDF4AAAAHZGVjcHJvdgAAAAAAAAAGc2hhNTEyAAAAUwAAAAtzc2gtZWQy\nNTUxOQAAAEDYtrwXCZZTp+yJIuB6AvMJQ2ahGrv/+M0FcZFWMtLhR4jGrPn+UOIqZGfZOv\nP1fzQ9qggfWcz34Y+/Vh4EE6wK\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPy5dN/rWIIkS4HKMgYRPnp3gPopncdD7WTfZ31GrQxe vendor-holder@test-genesis"
+  }
+}

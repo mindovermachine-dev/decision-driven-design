@@ -1,0 +1,42 @@
+{
+  "protocol": "decprov/1",
+  "id": "VOC-azure",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Vocabulary edition azure/1: how the How's deployment-fact terms appear on azure, and the jurisdiction of each region.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "The realisation vocabulary for the azure platform target.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "vocabulary-edition",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "target": "azure",
+    "targetKind": "platform",
+    "edition": "1",
+    "facts": {
+      "sdlc:DataStore": "a resource of type Microsoft.Sql/servers/databases, Microsoft.Storage/storageAccounts or Microsoft.DocumentDB/databaseAccounts",
+      "sdlc:holdsPersonalData": "the resource tag personal-data = true",
+      "sdlc:inRegion": "the resource's location"
+    },
+    "jurisdictions": {
+      "westeurope": "EU",
+      "northeurope": "EU",
+      "swedencentral": "EU",
+      "germanywestcentral": "EU",
+      "eastus": "US",
+      "westus2": "US",
+      "uksouth": "UK"
+    },
+    "readings": {
+      "declared": "Bicep or ARM templates in the repository at a commit",
+      "observed": "an Azure Resource Graph query against the subscription"
+    },
+    "factSource": {
+      "kind": "reporter",
+      "name": "deployment reporter for azure",
+      "status": "not built"
+    }
+  }
+}

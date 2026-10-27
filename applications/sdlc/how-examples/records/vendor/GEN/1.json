@@ -1,0 +1,22 @@
+{
+  "protocol": "decprov/1",
+  "id": "GEN",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Genesis grant over the product https://vendor.example/packages/ref-arch, held by mailto:holder@vendor.example.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "Test genesis for the How worked examples: the vendor brings its package product into being.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "genesis",
+    "product": "https://vendor.example/packages/ref-arch",
+    "holder": "mailto:holder@vendor.example"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg/Ll03+tYgiRLgcoyBhE+eneA+i\nmdx0PtZN9nfUatDF4AAAAHZGVjcHJvdgAAAAAAAAAGc2hhNTEyAAAAUwAAAAtzc2gtZWQy\nNTUxOQAAAEDp5lCYEeYb7yikDV8/lb3tGM0BBkKToP4O4Z/RvRwpWnu/AUjy6OiWliIhKa\n65j1glnq7t23oqNrxJjXXV+ZoF\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPy5dN/rWIIkS4HKMgYRPnp3gPopncdD7WTfZ31GrQxe vendor-holder@test-genesis"
+  }
+}

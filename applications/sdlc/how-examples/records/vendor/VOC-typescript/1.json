@@ -1,0 +1,46 @@
+{
+  "protocol": "decprov/1",
+  "id": "VOC-typescript",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Vocabulary edition typescript/1: how the How's code-fact terms appear in typescript, and which typescript APIs are effects.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "The realisation vocabulary for the typescript language target. Decisions name none of this; a decision is realisable in typescript iff every fact term it reads is mapped here.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "vocabulary-edition",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "target": "typescript",
+    "targetKind": "language",
+    "edition": "1",
+    "facts": {
+      "sdlc:Component": "a workspace package (package.json)",
+      "sdlc:inLayer": "the field \"sdlc\": {\"layer\": ...} in package.json",
+      "sdlc:dependsOn": "a dependency on another workspace package",
+      "sdlc:CodeElement": "an exported declaration",
+      "sdlc:inComponent": "the workspace package whose sources contain the declaration",
+      "sdlc:realises": "the JSDoc tag @realises <What element IRI> on the declaration",
+      "sdlc:usesApi": "an import specifier, or a reference to a global member",
+      "sdlc:handlesRoute": "a route registration server.post(path, handler) whose handler is the declaration",
+      "sdlc:method": "the verb of the registration",
+      "sdlc:path": "the path of the registration"
+    },
+    "effects": [
+      "node.fs",
+      "node.http",
+      "node.net",
+      "node.child_process",
+      "Date.now",
+      "Math.random",
+      "fetch",
+      "process.env"
+    ],
+    "factSource": {
+      "kind": "projector",
+      "name": "fact projector for typescript",
+      "status": "not built"
+    }
+  }
+}
