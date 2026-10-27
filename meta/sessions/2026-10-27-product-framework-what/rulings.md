@@ -91,3 +91,19 @@ Rulings on the three items `DDD-dec-44` left open, and three more, delivered as 
 | The protocol token: one token, the losing session renames | `DDD-dec-48` |
 | The falsifier, reworded | `DDD-dec-49` |
 | Housekeeping: re-pins | `DDD-dec-50` |
+
+## Round 6 — recorded as `DDD-dec-51` to `DDD-dec-53`
+
+Ruling on Claude's seven recommendations (in the session; summarised in the table below):
+
+> agreed on all - and we arent using Oxigraph we will be using Varve that supports it
+
+| Recommendation | Ruling | Decision |
+|---|---|---|
+| 1. Ratify #39 now | Agreed | the merge is Emil's act |
+| 2. §9 moves, cut down | Agreed; the store is Varve, not Oxigraph | `DDD-dec-51` |
+| 3. §10 regenerated as one level: described and in force | Agreed | `DDD-dec-51` |
+| 4. Verdicts: record the declaration and ground reading; amend the test item | Agreed | `DDD-dec-52` |
+| 5. Token decprov/1; the protocol branch renames | Agreed | `DDD-dec-53` |
+| 6. "Violation description" a record field; "valuation" not minted | Agreed | `DDD-dec-52` |
+| 7. Rule §9 and §10 before arrival; the token before Gate 2 | Agreed; both now ruled | — |

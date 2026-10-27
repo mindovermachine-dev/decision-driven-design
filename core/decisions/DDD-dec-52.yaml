@@ -1,0 +1,27 @@
+format: 1
+id: DDD-dec-52
+kind: decision
+statement: |
+  A dependency on a verdict is a dependency on the declaration it was computed from and the ground reading it was computed over, both recorded; the step 1 test item is amended to "record the declaration and the ground reading a verdict was computed over"; "violation description" becomes a field of the decision record, defined in the authority profile; and "valuation" is not minted — a verdict is stated as computed, never stored.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled "agreed on all - and we arent using Oxigraph we will be using Varve that supports it" on Claude's seven recommendations, both recorded verbatim as Round 6 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Rules the tension DDD-dec-49 recorded, by adopting Claude's reconciliation.
+
+  - **Reconciliation.** A verdict is never stored (DDD-dec-49). What is recorded is the
+    declaration it was computed from and the ground reading it was computed over. Dependencies on
+    a verdict survive because both inputs survive.
+  - **The test item, amended.** Step 1's test item "verdicts that change no data: the method must
+    record them as state changes" becomes "record the declaration and the ground reading a verdict
+    was computed over". The item lives in the project instructions, not in this repository or in
+    the T2b pre-registration (searched at filing: main, the act-address session, and
+    claude/t2b-design-2026-10-26); changing the instructions is Emil's act.
+  - **Falsifier.** T2b finds an act, such as an escalation, that acted on a verdict computed over
+    ground no longer retained. Then verdicts must be stored after all, and DDD-dec-49 and this
+    decision are superseded.
+  - **Terms.** "Violation description" becomes a field of the decision record, defined in the
+    authority profile at the move session's Gate 2. "Valuation" is not minted.
+basedOn:
+  - DDD-dec-49
+  - DDD-dec-47
+  - DDD-address-01

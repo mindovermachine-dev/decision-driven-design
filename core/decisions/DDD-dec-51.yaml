@@ -1,0 +1,35 @@
+format: 1
+id: DDD-dec-51
+kind: decision
+statement: |
+  Product Framework §9 moves cut down — one graph, a stable identity for every What element, derivation edges between What elements, RDF and SHACL as the reference encoding with equivalents conforming — dropping the How-side edges and adding decision-anchors-to-element and supersedes; §10 does not move but is regenerated as one conformance level, a What that is described and in force; and the graph store is Varve, not Oxigraph.
+principal: Emil
+made: 2026-10-27, the Product Framework What session; ruled "agreed on all - and we arent using Oxigraph we will be using Varve that supports it" on Claude's seven recommendations, both recorded verbatim as Round 6 of meta/sessions/2026-10-27-product-framework-what/rulings.md; Emil's acceptance of pull request #39 is the ratification act
+resolution: |
+  Rules the two items the move charter's Gate 1 prediction left open (§9, §10).
+
+  ## §9 — the encoding moves, cut down
+
+  Kept: everything is one graph; every What element has a stable identity, which is what
+  decisions anchor to (DDD-dec-42); derivation edges between What elements; RDF and SHACL as the
+  reference encoding, any equivalent conforming. Dropped: edges into the retired How (realizes,
+  enforces). Added: a decision-anchors-to-element edge, and supersedes.
+
+  ## §10 — regenerated, not moved
+
+  Conformance levels 2 to 4 depended on the How and Delivery and are retired with them. One level
+  remains: the What is described, and every element is in force — it has an accepted decision
+  chain back to the genesis (DDD-dec-46), under the authority profile (DDD-dec-47). The authority
+  profile is therefore part of conformance.
+
+  ## The store — Varve
+
+  The What's change history, supersession included, is held in Varve, which supports it; not
+  Oxigraph. This is the tooling ruling; the framework text names the encoding, not the store.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-46
+  - DDD-dec-47
+notes: |
+  Correction recorded with attribution: Claude's recommendation 2 named Oxigraph as the store that
+  would have to hold supersession. Emil corrected it: the store is Varve.
