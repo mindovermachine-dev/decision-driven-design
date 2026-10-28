@@ -2,21 +2,35 @@ format: 1
 id: DDD-dec-58
 kind: decision
 statement: |
-  [PROPOSED — not ruled] Coverage is generalised to every binding: for each element of the bound kind within its anchor and each declared target, the pair is realised, or is debt recorded as a baseline entry on the binding (which shrinks under the ratchet), or is a boundary recorded as an exclusion decision with its reason (reported not-applicable); a waiver never covers a coverage gap.
+  Coverage is generalised to every binding. Take each element of the bound kind within the binding's anchor, and each target declared for it. For each pair: it is realised; or it is debt, recorded as a baseline entry on the binding, which shrinks under the ratchet; or it is a boundary, recorded as an exclusion decision with its reason and reported not applicable. A waiver never covers a coverage gap.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force.
-  - how.md §8, H-7. Departs from the proposal (baseline entry only) because DDD-dec-45 already
-    names two gaps of different kind: "declared missing" (debt) and "declared unreifiable"
-    (boundary). A boundary must not shrink under a ratchet.
-  - Baseline semantics are assumed, the authority profile being unwritten (how.md D-6).
-    UNVERIFIED — Emil review.
+  ## Ruled, 2026-10-28
+
+  > Gaps — ruled as proposed: a missing binding that should exist is a baseline entry under the
+  > ratchet; a pair that cannot apply is an exclusion decision; a waiver never covers a coverage
+  > gap.
+
+  See how.md §8. Baseline semantics remain the authority profile's to define (how.md D-6).
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
 basedOn:
   - DDD-dec-54
   - DDD-dec-45
   - DDD-dec-47
 notes: |
-  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
-  number. A ruling that differs replaces this file's statement and resolution before merge, and
-  the ruling is recorded verbatim in rulings.md.
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

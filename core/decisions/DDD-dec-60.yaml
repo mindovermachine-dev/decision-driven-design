@@ -2,20 +2,54 @@ format: 1
 id: DDD-dec-60
 kind: decision
 statement: |
-  [PROPOSED — not ruled] The gate may rely only on facts recorded in the log at a position with provenance — source (projector or reporter), mode (files or compiler; declared or observed), the vocabulary edition by pinned reference, the subject, and the time read; a contract with no reading of a required source within its freshness bound is unknown, not a pass and not a violation; declared readings may gate land, observed readings never do; contracts also hold the measurement wiring of Kind-1 runtime bounds; a runner is named as a third fact source.
+  The gate relies only on facts recorded with provenance, from Writ's closed provenance set, to which deployment is added. A fact no reporter could supply is a reported gap. A verdict that would need it is an open question, with the absent reporter as one candidate (G8). It is never 'unknown': Writ's verdicts are clean, violation and open question, and an open question can block.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force.
-  - how.md §9, H-9, H-14. Applies apparatus/encode-verify.md: ground the product does not control
-    is verified on a schedule, and an unreachable source is unknown.
-  - Demands on Writ, not resolved here: a Reporter contract (D-2), recorded readings (D-3), the
-    What graph readable by check with ?anchor and ?target bound (D-4).
+  ## Ruled, 2026-10-28 (repair 4, corrected)
+
+  > Missing reporter → "unknown": corrected. Writ's G7 says `explain` never says unknown, and its
+  > verdicts are three: clean, violation, open question. A fact no reporter could supply is a
+  > reported gap, and a verdict that would need it is an open question with the absent reporter
+  > as one candidate (G8).
+
+  Writ's reporter contract is an existing definition: Writ product definition Draft 2, as Emil
+  states it. A Projector takes a repository at a commit, or a reporter input with its hash. There
+  is a reports partition per reporter. Provenance comes from the closed set file, compiler, graph,
+  runner, data, telemetry, attestation. Emil adds deployment to that set as a Writ definition change
+  on 2026-10-28. This answers how.md D-2. It also answers the runner (H-14) and the Kind-1 telemetry
+  wiring, which have provenance values already.
+
+  ## Recorded at filing — Claude, UNVERIFIED — Emil review
+
+  Claude has not read Draft 2: Hafeok/writ is at Draft 1 (3b1c5af, re-fetched 2026-10-28). The How
+  keeps its distinction between a unit's declaration and the running unit, so that drift can be
+  seen. The distinction is not a provenance value. It is which reporter input the reading came
+  from: the declaration at a commit, or an inventory snapshot. Writ hashes the input either way, and
+  both readings have provenance deployment.
+
+  ## Not ruled separately; stands as proposed until the merge
+
+  Declared readings may gate land and observed readings do not; Kind-1 measurement wiring is held
+  as a contract; a freshness bound per contract.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
 basedOn:
   - DDD-dec-54
   - DDD-dec-52
   - DDD-dec-49
 notes: |
-  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
-  number. A ruling that differs replaces this file's statement and resolution before merge, and
-  the ruling is recorded verbatim in rulings.md.
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

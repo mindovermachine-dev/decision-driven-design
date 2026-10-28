@@ -2,16 +2,31 @@ format: 1
 id: DDD-dec-61
 kind: decision
 statement: |
-  [PROPOSED — not ruled] Generation is out of scope for the How, as Writ's definition leaves it open and decided by evidence; the old realisation declarations and code-generation seam are not carried forward; no vocabulary edition may be made check-only, so that generation stays additive.
+  Generation is out of scope for the How. The old realisation declarations and code-generation seam are not carried forward. No vocabulary edition may be made check-only, so that generation stays additive.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force.
-  - how.md §10, H-15. The condition preserves the old dual-read property: one declaration drives
-    creation and gates it.
+  ## Ruled, 2026-10-28
+
+  > Generation — out of scope, confirmed.
+
+  The condition on editions (how.md §10, H-15) was not ruled separately and stands as proposed.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
 basedOn:
   - DDD-dec-54
 notes: |
-  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
-  number. A ruling that differs replaces this file's statement and resolution before merge, and
-  the ruling is recorded verbatim in rulings.md.
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

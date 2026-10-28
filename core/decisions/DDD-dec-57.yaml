@@ -2,20 +2,49 @@ format: 1
 id: DDD-dec-57
 kind: decision
 statement: |
-  [PROPOSED — not ruled] Every How decision is stated once with no language or platform term in it; a target is a language, a platform, or a design system or content store layered over a language; interface standards are not targets and may be named; each target has vocabulary editions mapping the How's fact terms to native shapes; a decision's realisation in a target is derived from the edition, never authored, and it is realisable there iff the edition maps every fact term it reads.
+  A design system and a content store are targets, not catalogues. The product's What declares them, as it declares iOS: this design system at this edition, these locales against this content store. The catalogue (components, tokens, strings) is that target's vocabulary edition, held in a package with its own genesis, typically a design team's. The AIO-to-CIO and key-to-string bindings are How decisions of kind 2, anchored to the AIO or the content key. Nothing in a catalogue is a What element of the product that uses it.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force.
-  - how.md §5, H-3, H-4. Checked against the layer rule, the pure-core rule and the REST
-    projection, each written once and evaluated in C# and TypeScript (how-examples/); the second
-    target added one edition record and touched no decision.
-  - A binding into a design system or content store may name that one target's terms (a CIO, a
-    locale), as DDD-dec-45's "which CIO, which words" requires.
+  ## Ruled, 2026-10-28 (ruling 3)
+
+  > The ruling of the 27th (§11 and §12 are What because you cannot build without them) means
+  > this: the product's What declares the target … exactly as it declares iOS.
+
+  This reads DDD-dec-44's first ruling and fixes DDD-dec-45's "the catalogue is the set of accepted
+  decisions". The catalogue is the accepted decisions of the target's own package. The bindings in
+  the using product are anchored to its AIOs and content keys.
+
+  ## Not ruled separately; stands as proposed until the merge
+
+  - Every How decision is stated once, with no language or platform term in it.
+  - A decision's shape in a target is derived from that target's vocabulary edition, never
+    authored. It is expressible there iff the edition maps every fact term it reads.
+  - Interface standards are not targets, and decisions may name them.
+  - Platform targets (Azure, AWS) exist beside languages.
+  - Language and deployment-platform targets are declared by How target declarations. Targets the
+    What declares (platform contexts such as iOS, design systems, content stores and locales) are
+    declared by the What.
+
+  See how.md §5.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
 basedOn:
   - DDD-dec-54
+  - DDD-dec-44
   - DDD-dec-45
 notes: |
-  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
-  number. A ruling that differs replaces this file's statement and resolution before merge, and
-  the ruling is recorded verbatim in rulings.md.
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

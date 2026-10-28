@@ -2,22 +2,37 @@ format: 1
 id: DDD-dec-56
 kind: decision
 statement: |
-  [PROPOSED — not ruled] A package contains decision records and nothing else — constraints, bindings, contracts, vocabulary editions (which are decisions) naming the projector and reporter editions that implement them, and release records — and carries no What of its own; its decisions anchor to the package product; analyzers and other binaries are its realisation, referenced by digest.
+  A package is a product with an empty What, a genesis, and a decision log. Its decision log is decision records only: constraints, bindings, contracts, vocabulary editions (which are decisions, naming the projector and reporter editions that implement them), and release records. The kinds it binds to are references in its decisions' anchors, not What elements of the package. Binaries are its realisation, referenced by digest. DDD-dec-46's 'its What is its decisions' is superseded; DDD-dec-42 stands.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework How session, 2026-10-27, as the answer to the charter at meta/sessions/2026-10-27-product-framework-how/prompt.md; set out in applications/sdlc/how.md. It becomes a decision only by Emil's ruling, recorded verbatim in that session's rulings.md; if Emil rules otherwise this file is rewritten to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force.
-  - Departs from the proposal twice (how.md §6, H-5, H-6): vocabularies are decisions, so the
-    package is one decision log; and a package carries no What, because element kinds are the
-    framework's vocabulary, not What elements.
-  - Reads DDD-dec-46's "whose What is its decisions" as "whose What is empty and whose How is its
-    decisions", against DDD-dec-42 ("a decision is not itself a What element"). UNVERIFIED — Emil
-    review; if the reading fails, DDD-dec-46 or DDD-dec-42 needs superseding.
+  ## Ruled, 2026-10-28
+
+  - **Ruling 2.** A package's What is empty. DDD-dec-46's "whose What is its decisions" is
+    superseded by this decision. DDD-dec-46 is left unchanged, as DDD-dec-45 left DDD-dec-44.
+    DDD-dec-42 ("a decision is not itself a What element") stands.
+  - **Repair 3.** A package is one decision log, vocabulary editions included.
+
+  See how.md §6.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
 basedOn:
   - DDD-dec-54
   - DDD-dec-46
   - DDD-dec-42
 notes: |
-  Filed from the Product Framework How session as a proposal, with an id, so Emil can rule it by
-  number. A ruling that differs replaces this file's statement and resolution before merge, and
-  the ruling is recorded verbatim in rulings.md.
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.
+  Supersedes DDD-dec-46's consequence clause ('whose What is its decisions'); DDD-dec-46 is left unchanged.
