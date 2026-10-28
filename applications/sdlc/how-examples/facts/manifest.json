@@ -3,7 +3,6 @@
     {
       "file": "facts/csharp-shop-api.ttl",
       "source": "projector",
-      "mode": "files",
       "target": "csharp",
       "edition": {
         "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
@@ -16,7 +15,6 @@
     {
       "file": "facts/typescript-shop-bff.ttl",
       "source": "projector",
-      "mode": "files",
       "target": "typescript",
       "edition": {
         "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
@@ -29,7 +27,6 @@
     {
       "file": "facts/azure-shop-api-prod.declared.ttl",
       "source": "reporter",
-      "mode": "declared",
       "target": "azure",
       "edition": {
         "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
@@ -37,12 +34,11 @@
       },
       "subject": "https://acme.example/units/shop-api-prod",
       "readAt": "2026-10-27",
-      "provenance": "deployment"
+      "provenance": "deployment-declared"
     },
     {
       "file": "facts/aws-shop-bff-prod.declared.ttl",
       "source": "reporter",
-      "mode": "declared",
       "target": "aws",
       "edition": {
         "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
@@ -50,12 +46,11 @@
       },
       "subject": "https://acme.example/units/shop-bff-prod",
       "readAt": "2026-10-27",
-      "provenance": "deployment"
+      "provenance": "deployment-declared"
     },
     {
       "file": "facts/aws-shop-bff-prod.observed.ttl",
       "source": "reporter",
-      "mode": "observed",
       "target": "aws",
       "edition": {
         "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
@@ -63,7 +58,7 @@
       },
       "subject": "https://acme.example/units/shop-bff-prod",
       "readAt": "2026-10-27",
-      "provenance": "deployment"
+      "provenance": "deployment-observed"
     }
   ]
 }

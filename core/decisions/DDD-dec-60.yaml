@@ -2,9 +2,9 @@ format: 1
 id: DDD-dec-60
 kind: decision
 statement: |
-  The gate relies only on facts recorded with provenance, from Writ's closed provenance set, to which deployment is added. A fact no reporter could supply is a reported gap. A verdict that would need it is an open question, with the absent reporter as one candidate (G8). It is never 'unknown': Writ's verdicts are clean, violation and open question, and an open question can block.
+  The gate relies only on facts recorded with provenance, from Writ's closed provenance set, to which deployment-declared (from IaC or a manifest) and deployment-observed (from the platform's own API) are added as two values; a contract's violation description says which it requires. A fact no reporter could supply is a reported gap. A verdict that would need it is an open question, with the absent reporter as one candidate (G8). It is never 'unknown': Writ's verdicts are clean, violation and open question, and an open question can block.
 principal: Emil
-made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md, and the split of deployment provenance in Round 2 (ruling 3, 2026-10-28); Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
 resolution: |
   ## Ruled, 2026-10-28 (repair 4, corrected)
 
@@ -16,21 +16,27 @@ resolution: |
   Writ's reporter contract is an existing definition: Writ product definition Draft 2, as Emil
   states it. A Projector takes a repository at a commit, or a reporter input with its hash. There
   is a reports partition per reporter. Provenance comes from the closed set file, compiler, graph,
-  runner, data, telemetry, attestation. Emil adds deployment to that set as a Writ definition change
-  on 2026-10-28. This answers how.md D-2. It also answers the runner (H-14) and the Kind-1 telemetry
-  wiring, which have provenance values already.
+  runner, data, telemetry, attestation. This answers how.md D-2. It also answers the runner (H-14)
+  and the Kind-1 telemetry wiring, which have provenance values already. Claude has not read Draft
+  2 (Hafeok/writ is at Draft 1, 3b1c5af); Emil confirmed in Round 2, ruling 4, that his statement
+  of it is the record.
 
-  ## Recorded at filing — Claude, UNVERIFIED — Emil review
+  ## Ruled, 2026-10-28 (Round 2, ruling 3): two provenance values, not two inputs
 
-  Claude has not read Draft 2: Hafeok/writ is at Draft 1 (3b1c5af, re-fetched 2026-10-28). The How
-  keeps its distinction between a unit's declaration and the running unit, so that drift can be
-  seen. The distinction is not a provenance value. It is which reporter input the reading came
-  from: the declaration at a commit, or an inventory snapshot. Writ hashes the input either way, and
-  both readings have provenance deployment.
+  > Declared versus observed deployment — ruled: two provenance values, not two inputs. The G8 set
+  > gains `deployment-declared` (from IaC or a manifest) and `deployment-observed` (from the
+  > platform's own API). A contract's violation description says which it requires; residency may
+  > be satisfied by declared, "no public endpoint" needs observed. Carrying the split as two inputs
+  > under one value would hide it where it matters, in the verdict.
+
+  This supersedes the Round 1 filing of this decision. That filing recorded a single value,
+  deployment, and Claude's reading that declared and observed were two inputs under it. RESID@1's
+  hashed factSources keep the earlier spelling (reporter:declared, reporter:observed) until the
+  token rebuild issues a new version; the checker reads them as the two values.
 
   ## Not ruled separately; stands as proposed until the merge
 
-  Declared readings may gate land and observed readings do not; Kind-1 measurement wiring is held
+  Facts with provenance deployment-declared may gate land and deployment-observed facts do not; Kind-1 measurement wiring is held
   as a contract; a freshness bound per contract.
 
   ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)

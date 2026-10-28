@@ -1,6 +1,6 @@
 # The How vocabulary — `sdlc:`
 
-**Status:** with [`how.md`](how.md) (`DDD-dec-55` to `DDD-dec-61`). Ruled in part on 2026-10-28 and not yet ratified: binding as the word for kind 2 and in Writ; open question in place of unknown; `deployment` provenance. The rest stands as proposed until the merge.
+**Status:** with [`how.md`](how.md) (`DDD-dec-55` to `DDD-dec-61`). Ruled in part on 2026-10-28 and not yet ratified: binding as the word for kind 2 and in Writ; open question in place of unknown; `deployment-declared` and `deployment-observed` provenance (Round 2). The rest stands as proposed until the merge.
 
 **Namespace.** `https://decision-driven-design.dk/ns/sdlc#`, prefix `sdlc:`. It sits beside
 Writ's `https://decision-driven-design.dk/ns/writ#` (Writ ADR 0007). The host is the one Emil
@@ -38,7 +38,7 @@ How defines none of the authority fields. Hashed content is objects, arrays and 
 | `sdlc:anchor` | The one What element a decision anchors to: the narrowest covering element. Or, in an empty What, the product as space (`how.md` §3) | `…sdlc.anchor`: an IRI |
 | `sdlc:binds` | For a binding, the What element kind its quantifier ranges over within the anchor | `…sdlc.binds`: a What term, e.g. `"sdlc:Decider"` |
 | `sdlc:standards` | Interface standards a decision names. They are not targets | `…sdlc.standards`: array of strings |
-| `sdlc:factSources` | Which readings a decision's violation description runs over: `projector`, `reporter:declared`, `reporter:observed` | `…sdlc.factSources`: array of strings |
+| `sdlc:factSources` | Which provenance a decision's violation description requires, from Writ's set: `file`/`compiler` for projector facts, `deployment-declared` and/or `deployment-observed` for a contract (ruled 2026-10-28, Round 2) | `…sdlc.factSources`: array of strings. `RESID@1` still carries the earlier spelling, `reporter:declared` and `reporter:observed`, until its token rebuild writes a new version |
 | violation description | Not a How term: the field `DDD-dec-52` assigns to the authority profile. The How requires it to be a SPARQL 1.1 `SELECT` with one row per violation (`?subject`, `?reason`). The evaluator may bind `?anchor` and `?target` | `…authority.violation`: `{language, binds, text}` |
 | `sdlc:Target` | A vocabulary of shapes plus the fact source that reads them | named in vocabulary editions and target declarations: `…sdlc.target` |
 | `sdlc:LanguageTarget` | A target read by a fact projector over a repository at a commit | `…sdlc.targetKind: "language"` |
@@ -57,10 +57,9 @@ How defines none of the authority fields. Hashed content is objects, arrays and 
 | `sdlc:Fork` | A local decision `basedOn` a package decision that changes its statement or violation description | a How decision whose `basedOn` contains the package decision |
 | `sdlc:Retention` | An importer's decision to keep resting on a superseded or withdrawn version, with its reason | `…sdlc.record: "retention"`, `basedOn` the withdrawal reading and the import |
 | `sdlc:Withdrawal` | A package's declaration that a version is unsafe to rest on | a record superseding that version with `status: "withdrawn"` |
-| `sdlc:Reading` | A recorded batch of facts with provenance: source, provenance from Writ's closed set (`file`, `compiler`, … , `deployment`), input, edition, subject, time read | a manifest entry (`how-examples/facts/manifest.json`). How Writ records it is a demand on Writ (D-3) |
-| `sdlc:declared`, `sdlc:observed` | Reporter inputs, both with provenance `deployment`: the unit's declaration in a repository at a commit, or an inventory snapshot of the running unit. Not provenance values. `UNVERIFIED — Emil review` | `mode` in a reading |
+| `sdlc:Reading` | A recorded batch of facts with provenance: source, provenance from Writ's closed set (`file`, `compiler`, … , `deployment-declared`, `deployment-observed`), input, edition, subject, time read | a manifest entry (`how-examples/facts/manifest.json`). How Writ records it is a demand on Writ (D-3) |
 | open question | Not a How term: one of Writ's three verdicts (clean, violation, open question). A contract with no reading of a required source within freshness has a **reported gap**, and its verdict is an open question with the absent reporter as one candidate (G8). It replaces the proposal's `sdlc:Unknown`, which is not minted (ruled 2026-10-28) | Writ's |
-| `sdlc:Drift` | A difference between a unit's declared and observed readings | none: computed |
+| `sdlc:Drift` | A difference between a unit's `deployment-declared` and `deployment-observed` facts | none: computed |
 | `sdlc:Idle` | A How decision with neither a violation description nor a dependent. Reported, never a violation | none: computed |
 
 ## 2. Fact terms — a demand on Writ's code-facts page
@@ -106,7 +105,7 @@ become pinned references.
 |---|---|
 | constraint | an enumerated decision "checked by its own shape", or a rule carrying "its violation shape" |
 | binding | Writ's Binding contract (ruled 2026-10-28: Writ adopts the word). `UNVERIFIED — Emil review`: that contract maps any decision to its code shape, so in Writ the word is wider than kind 2 |
-| contract | none as a term. Its facts are reporter readings with provenance `deployment` (Writ Draft 2, as Emil states it) |
+| contract | none as a term. Its facts are reporter facts with provenance `deployment-declared` or `deployment-observed` (Writ Draft 2, ruled 2026-10-28) |
 | expressible | none. `writ:realisation` is never minted (ruled 2026-10-28) |
 | vocabulary edition | none. Writ: "a second language is a second realisation, not a second ontology". Consistent with it |
 | fact projector | Writ's Projector contract. Not the What's Projector (old §3.4), which is a read-model fold |

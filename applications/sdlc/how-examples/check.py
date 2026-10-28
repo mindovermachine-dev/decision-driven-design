@@ -32,6 +32,9 @@ TODAY = datetime.date(2026, 10, 27)          # the evaluation date: the examples
 PROJECTOR_TERMS = {"Component", "inLayer", "dependsOn", "CodeElement", "inComponent", "realises",
                    "usesApi", "handlesRoute", "method", "path"}
 REPORTER_TERMS = {"DataStore", "holdsPersonalData", "inRegion"}
+# Writ's provenance values for deployment facts (Round 2, ruling 3, 2026-10-28). RESID@1 is hashed
+# with the earlier spelling; it is read through this map until the token rebuild re-issues it.
+PROVENANCE = {"reporter:declared": "deployment-declared", "reporter:observed": "deployment-observed"}
 
 failures, report, warnings = [], [], []
 def ok(cond, msg):
@@ -222,7 +225,7 @@ if rdflib:
 
     for entry in manifest:
         ok(dpp.record_hash(records[entry["edition"]["ref"]]) == entry["edition"]["hash"],
-           f"{entry['file']}: a {entry['source']} reading, provenance {entry['provenance']}, input {entry['mode']}, naming its edition by pinned hash")
+           f"{entry['file']}: a {entry['source']} reading, provenance {entry['provenance']}, naming its edition by pinned hash")
     verdicts = {}
     for k, imp in sorted(imports.items()):
         dec = records[imp[SD]["imports"]]
@@ -234,13 +237,13 @@ if rdflib:
         else:
             for t in targets.values():
                 plat, unit = t[SD]["platform"]["target"], t[SD]["platform"]["unit"]
-                for mode in [s.split(":")[1] for s in dec[SD]["factSources"]]:
-                    hits = [m for m in manifest if m["subject"] == unit and m["mode"] == mode and m["source"] == "reporter"]
+                for prov in [PROVENANCE.get(s, s) for s in dec[SD]["factSources"]]:
+                    hits = [m for m in manifest if m["subject"] == unit and m["provenance"] == prov]
                     fresh = [m for m in hits if (TODAY - datetime.date.fromisoformat(m["readAt"])).days <= 1]
-                    key = f"{dec['id']}|{plat}|{mode}"
+                    key = f"{dec['id']}|{plat}|{prov}"
                     if not fresh:
                         ed = records[t[SD]["platform"]["edition"]][SD]
-                        verdicts[key] = (f"open question — gap: no {mode} deployment reading of {unit} within P1D; "
+                        verdicts[key] = (f"open question — gap: no {prov} facts about {unit} within P1D; "
                                          f"candidate: the {plat} reporter (edition {ed['edition']}, {ed['factSource']['status']}) is absent")
                         continue
                     rows = load(fresh[0]).query(q, initBindings={"anchor": anchor, "target": T(plat)})

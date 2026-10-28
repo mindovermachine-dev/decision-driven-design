@@ -76,15 +76,15 @@ one more target declaration.
 |---|---|---|
 | `sdlc:DataStore` | `Microsoft.Sql/servers/databases`, storage accounts, Cosmos DB | `aws_db_instance`, `aws_s3_bucket`, DynamoDB |
 | `sdlc:inRegion` + jurisdiction | `westeurope` → EU, `eastus` → US | `eu-central-1` → EU, `us-east-1` → US |
-| declared reading | Bicep at a commit | Terraform at a commit |
-| observed reading | Resource Graph | Resource Explorer |
+| `deployment-declared` facts | Bicep at a commit | Terraform at a commit |
+| `deployment-observed` facts | Resource Graph | Resource Explorer |
 
 ## The facts, and what is hand-written
 
 No fact projector or reporter edition exists. Writ's `code-facts.md` is "not written", and the
 editions name their fact source with `"status": "not built"`. So the fact files under `facts/`
 are hand-written: they are what an edition *would* emit. `facts/manifest.json` gives each one
-its provenance: projector or reporter, files/declared/observed, the edition by pinned hash, the
+its provenance: projector or reporter; Writ's value (`file`, `deployment-declared`, `deployment-observed`); the edition by pinned hash; the
 subject (repository at commit, or deployable unit), and when it was read. The What graph in
 `what/` is provisional too (`../how.md` §1.2). Each fact file contains one planted defect:
 
@@ -94,15 +94,20 @@ subject (repository at commit, or deployable unit), and when it was read. The Wh
 | `@acme/scratch` has no layer | `LAYER`, TypeScript | 1 violation (no orphans) | 1 |
 | `ordering-domain` calls `Date.now` | `PURE`, TypeScript | 1 violation | 1 |
 | refund registered at `/command/refund-order` | `REST`, TypeScript | 1 violation | 1 |
-| personal-data bucket in `us-east-1` | `RESID`, AWS, declared and observed | 1 each | 1 each |
-| no observed reading of the Azure unit | `RESID`, Azure, observed | **open question**: gap reported, absent reporter named as a candidate | open question |
-| none | `LAYER`/`PURE`/`REST` C#, `RESID` Azure declared | 0 | 0 |
+| personal-data bucket in `us-east-1` | `RESID`, AWS, `deployment-declared` and `deployment-observed` | 1 each | 1 each |
+| no `deployment-observed` facts about the Azure unit | `RESID`, Azure, `deployment-observed` | **open question**: gap reported, absent reporter named as a candidate | open question |
+| none | `LAYER`/`PURE`/`REST` C#, `RESID` Azure `deployment-declared` | 0 | 0 |
 
 The expectations were written as the defects were planted, before the first run, and are
 in `expected.json`. They are **analytic**, not evidence: a fixture built to fire, fired. The run
 shows that the violation descriptions execute as written in both targets, that one decision
 text serves both targets, and that an absent reading comes out as an open question. It shows nothing about
 whether the How is right.
+
+`RESID@1` requires both provenance values. Its hashed `factSources` still use the earlier
+spelling, `reporter:declared` and `reporter:observed`. A rewrite is a new version, and that waits
+for the token rebuild (`rulings.md`, Round 2). `build.py` already writes the ruled values, and
+`check.py` maps the old spelling onto them.
 
 ## What `check.py` checks
 

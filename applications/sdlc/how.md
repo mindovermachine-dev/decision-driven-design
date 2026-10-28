@@ -63,7 +63,8 @@ where it bites.
    and acceptance. Those stand-ins are the examples', not the profile's.
 4. **Writ is defined, not built.** The repository Hafeok/writ is at `3b1c5af` (Draft 1). Its four
    format pages are "not written". *Ruled (2026-10-28):* the definition is the authority, and it
-   is at Draft 2, which has reporters and a closed provenance set, to which `deployment` is added.
+   is at Draft 2, which has reporters and a closed provenance set, to which `deployment-declared`
+   and `deployment-observed` are added.
    Claude has not read Draft 2: the repository is behind it. Where this document cites Draft 2, it
    cites Emil's statement of it (`rulings.md`, Round 1).
 
@@ -95,7 +96,7 @@ exercise every clause except "shipped by a vendor" as a real distribution.
 | a set of decisions | yes | Everything that varies by target lives in vocabulary editions. Those editions are decisions too (§6), so the set is closed |
 | each anchored to a What element or to the product | **only with a reading** (ruled, §3) | A universally quantified decision ("every Decider…", "every component…") governs many elements, so it has no single element to anchor to. Read the product node as a What element, and anchor to the narrowest element that covers the scope (§3). Without this reading, every quantified decision in a non-empty What anchors to the product, which is the loophole `DDD-dec-54` ruling 1 forbids. `UNVERIFIED — Emil review` |
 | accepted under the product's genesis | yes | none; the examples show the chain |
-| held against code **and deployments** by a gate | yes, once `deployment` is in Writ's provenance set | Writ's Draft 1, which the repository holds, had no reporter. *Ruled:* Draft 2 has reporters, reporter inputs with their hashes and a reports partition per reporter. Deployment facts fitted none of its provenance values, so `deployment` is added (§9.2) |
+| held against code **and deployments** by a gate | yes, once deployment provenance is in Writ's set | Writ's Draft 1, which the repository holds, had no reporter. *Ruled:* Draft 2 has reporters, reporter inputs with their hashes and a reports partition per reporter. Deployment facts fitted none of its provenance values, so `deployment-declared` and `deployment-observed` are added (§9.2) |
 | shipped as a package by a vendor | yes | *Ruled:* a package's What is empty, and `DDD-dec-46`'s "its What is its decisions" is superseded (§6) |
 | imported by `basedOn` under the importer's genesis | yes | The import is itself a decision in the importer's space, with its own anchor there (§7) |
 
@@ -172,7 +173,7 @@ members it carries:
   anchor of the decision as in force, and `?target`, to the target being evaluated. This is the
   form Writ's definition names ("a rule is written as a query … and carries its violation
   shape"). It is not a new rule language;
-- **the fact sources it reads**: projector, reporter-declared, reporter-observed (§9).
+- **the provenance it requires**: for a contract, `deployment-declared`, `deployment-observed`, or both. These are Writ's values, ruled 2026-10-28 (§9.2). Constraints and bindings read projector facts (`file`, `compiler`).
 
 A verdict is computed from the decision in force at a position and the facts recorded at that
 position. It is never stored (`DDD-dec-49`). What is recorded is the decision and the readings
@@ -184,9 +185,9 @@ position. It is never stored (`DDD-dec-49`). What is recorded is the decision an
 |---|---|---|---|
 | Is over | code facts alone | a What element (or a kind within an anchor) and the code or content that realises it | a deployable unit |
 | Typical anchors | the product node; a system | the element it binds, or the narrowest element covering the instances it quantifies over | a system (deployment identity); a quality demand (§3.6 Kind 2 and the wiring of Kind 1) |
-| Facts | projector facts over a repository at a commit | the What graph, plus projector facts that carry `sdlc:realises` (the correspondence from code element to What element) | reporter readings of a unit, declared (its declaration at a commit) or observed (the running unit) |
+| Facts | projector facts over a repository at a commit | the What graph, plus projector facts that carry `sdlc:realises` (the correspondence from code element to What element) | reporter facts about a unit, with provenance `deployment-declared` (from IaC or a manifest) or `deployment-observed` (from the platform's own API), as its violation description requires |
 | Evaluator | the violation description over the facts at p | the same, joining What and code through `sdlc:realises`. Coverage (§8) is part of its violation description | the same, per reading. No fresh reading means a reported gap and an **open question** (§9.3) |
-| Gates `land`? | yes | yes | declared readings only. An observed reading is not of the change |
+| Gates `land`? | yes | yes | facts with provenance `deployment-declared` only. An observed fact is not of the change |
 | Worked | `LAYER@1` | `PURE@1`, `REST@1` | `RESID@1` |
 
 **Constraint.** The old layout model (§4.3) is a set of constraints over path facts. Each of
@@ -216,7 +217,7 @@ is generation (§10).
 identifier, account, region) is How, per the old §3.2.5. Kind-2 architectural demands (old
 §3.6) are What elements. The contract that holds them anchors to that element, as `RESID@1`
 anchors to `qd-residency-eu`. Kind-1 runtime bounds are What elements too. *Which telemetry
-measures them* is a contract with observed provenance, anchored to the bound. The old text put
+measures them* is a contract over `telemetry` facts, anchored to the bound. The old text put
 Kind 1 under "runtime-bound conformance" with no How home. This document gives it one (H-9).
 
 ### 4.3 A fourth kind? No
@@ -246,9 +247,10 @@ description of its own:
 - **Binding into a language** and **binding into a design system or content store** have the same
   evaluator and the same coverage rule. They differ only in which vocabulary edition names the
   shape. One kind.
-- **Contract, declared** and **contract, observed** are one decision read over two provenances. A
-  residency rule is the same rule before release and after. Splitting it would make the two
-  readings disagree in text as well as in fact.
+- **Contract, declared** and **contract, observed** are one kind. A contract's violation
+  description says which provenance it requires (ruled 2026-10-28). Residency may be satisfied by
+  `deployment-declared`; "no public endpoint" needs `deployment-observed`. Where a rule requires
+  both, it is one decision read over two provenances, and its two verdicts stay apart.
 - **Constraint** and **contract** could merge into "a violation description over some facts".
   They are kept apart because they differ in what an absent fact means. A constraint's projector
   gap is reported per G8, and the commit is still decidable. A contract's missing reading makes
@@ -488,7 +490,7 @@ guarantees. It states what Writ must hold:
 | a How decision applies at p only under a live acceptance chain at p | G2 |
 | an import is in force only under the importer's acceptance, never the vendor's | G2, applied to the importer's log only. A vendor acceptance is provenance |
 | no agent accepts | G3 |
-| constraint and binding verdicts, and contract verdicts over declared readings, gate a change | `land`, condition 3 |
+| constraint and binding verdicts, and contract verdicts over `deployment-declared` facts, gate a change | `land`, condition 3 |
 | every verdict names its decision, kind, anchor, import chain, and the readings it used | G7: `explain` never says unknown |
 | a verdict is clean, violation, or open question | Writ's three verdicts (ruled 2026-10-28) |
 | a missing fact is a reported gap, and a verdict that needs it is an open question with its candidates | G8, which covers reporters (§9.3) |
@@ -496,23 +498,24 @@ guarantees. It states what Writ must hold:
 
 ### 9.2 Which facts the gate may rely on
 
-*Ruled (2026-10-28, `DDD-dec-60`):* only facts recorded with provenance, from Writ's closed set
-`file, compiler, graph, runner, data, telemetry, attestation`, to which `deployment` is added.
-Deployment facts (declared regions, bundle identifiers, runtime) fitted none of the original
-values. In the How's terms, each reading carries:
+*Ruled (2026-10-28, `DDD-dec-60`; Round 2, ruling 3):* only facts recorded with provenance, from
+Writ's closed G8 set `file, compiler, graph, runner, data, telemetry, attestation`. Two values are
+added: `deployment-declared` (from IaC or a manifest) and `deployment-observed` (from the
+platform's own API). They are "two provenance values, not two inputs": carrying the split as two
+inputs under one value "would hide it where it matters, in the verdict". A contract's violation
+description says which value it requires. In the How's terms, each reading carries:
 
 | Field | Projector reading | Reporter reading |
 |---|---|---|
 | source | `projector` | `reporter` |
-| provenance (Writ's set) | `file` or `compiler` | `deployment`. A Kind-1 measurement is `telemetry` |
-| input | the repository at a commit | the unit's **declaration** at a commit, or an **observed** inventory snapshot. Writ hashes the input either way. The How keeps the distinction so that drift can be seen. It is not a provenance value. `UNVERIFIED — Emil review` |
+| provenance (Writ's set) | `file` or `compiler` | `deployment-declared` or `deployment-observed`. A Kind-1 measurement is `telemetry` |
+| input | the repository at a commit | the declaration (IaC or manifest) at a commit, or the platform's API at a time. Writ hashes the input |
 | edition | the vocabulary edition it implements, by pinned reference | the same |
-| subject | repository at commit | the deployable unit's identity, and the commit for `declared` |
+| subject | repository at commit | the deployable unit's identity, and the commit for `deployment-declared` |
 | read at | the landing position | the time of the reading, and the position at which it was recorded |
 | by / attributed to | the software identity that read; the human responsible, where known (protocol §3.4) | the same |
 
-`facts/manifest.json` in the examples has this shape. Its `mode` field is the input; its
-`provenance` field is Writ's value. A fact with no provenance is not a fact
+`facts/manifest.json` in the examples has this shape. Its `provenance` field is Writ's value. A fact with no provenance is not a fact
 the gate may use. A reporter's own claim about its subject is not a fact about the subject until
 it has been recorded with this provenance.
 
@@ -521,7 +524,8 @@ it has been recorded with this provenance.
 *Ruled (2026-10-28, `DDD-dec-60`), correcting the proposal's "unknown":* "A fact no reporter could
 supply is a reported gap, and a verdict that would need it is an open question with the absent
 reporter as one candidate (G8)." A contract names its fact sources and a freshness bound
-(`RESID@1`: declared and observed, within `P1D`). For each unit and each source:
+(`RESID@1` requires both `deployment-declared` and `deployment-observed`, within `P1D`). For each
+unit and each required provenance:
 
 - a recorded reading within the bound means the violation description runs, and the verdict is
   clean or violation;
@@ -532,15 +536,16 @@ reporter as one candidate (G8)." A contract names its fact sources and a freshne
 
 An open question can block: Writ acts on it. What it blocks is Writ's to define, not the How's.
 
-Disagreement between declared and observed for the same unit is reported as **drift**. It is not
-a third verdict. Each reading has its own verdict, and drift is the difference between them.
+Disagreement between `deployment-declared` and `deployment-observed` facts for the same unit is
+reported as **drift**. It is not a third verdict. Each provenance has its own verdict, which is
+why the split is a provenance value: it shows in the verdict.
 
 ### 9.4 Demands this document makes on others — not resolved here
 
 | # | On | Demand |
 |---|---|---|
 | D-1 | Writ, `code-facts.md` | carry the fact terms the How reads (`how-vocabulary.md` §2), language-neutral, with per-language mapping supplied by an edition |
-| D-2 | Writ, contracts | **Answered (ruled 2026-10-28).** Draft 2 has reporters, and `deployment` is added to its provenance set |
+| D-2 | Writ, contracts | **Answered (ruled 2026-10-28).** Draft 2 has reporters, and `deployment-declared` and `deployment-observed` are added to its provenance set |
 | D-3 | Writ, the log | reporter readings, and readings of another system's versions listing, are recorded at a position before any verdict uses them (G1). Reporter readings are answered by Draft 2's reports partition and hashed reporter inputs, as Emil states them. The versions-listing reading is still open |
 | D-4 | Writ, `check` | the What graph is readable by `check` at p, since bindings join over it; and the evaluator binds `?anchor` and `?target` |
 | D-5 | Writ, `explain` | show anchor, kind, the import chain, and "rests on superseded version" from the last recorded reading |
@@ -627,8 +632,7 @@ content-store catalogue, provisional anchoring. Still open:
    - the three kinds, no fourth and no split, the idle report, and the record types (§4);
    - shapes derived from editions, and standards not being targets (§5);
    - the recorded-reading condition on supersession, and narrow-never-alter (§7);
-   - Kind-1 wiring as contracts, and declared readings gating `land` (§4.2, §9);
-   - the declared/observed input distinction under `deployment` (§9.2).
+   - Kind-1 wiring as contracts, and `deployment-declared` facts gating `land` (§4.2, §9);
 4. `[OPEN]` Whether adopters may register What kinds (§6, last paragraph).
 
 ---
@@ -649,7 +653,7 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | H-6 | a package carries the element kinds it binds to | a package carries **no What** | Kinds are framework vocabulary, not What elements. A What of kinds per package would be a private copy of the ontology | `DDD-dec-56` |
 | H-7 | a declared gap is a baseline entry | debt is a baseline entry; a **boundary** is an exclusion decision; a waiver never covers a gap | `DDD-dec-45` already distinguishes "missing" (debt) from "unreifiable" (boundary). A boundary must not shrink under a ratchet | `DDD-dec-58` |
 | H-8 | (not raised) | no-orphans is coverage of code by decisions, the mirror of binding coverage | It makes "no orphans" a violation description over in-force decisions, which is what the gate must evaluate | `DDD-dec-55` |
-| H-9 | contracts hold the §3.6 Kind-2 demands | contracts also hold the **measurement wiring** of Kind-1 bounds; one decision, read under declared and observed provenance | Kind 1 had no How home once old §6 retired. A contract over observed readings is that home | `DDD-dec-60` |
+| H-9 | contracts hold the §3.6 Kind-2 demands | contracts also hold the **measurement wiring** of Kind-1 bounds; a contract over `telemetry` facts | Kind 1 had no How home once old §6 retired. A contract over `telemetry` facts is that home | `DDD-dec-60` |
 | H-10 | state whether a package may withdraw a version | yes, by a superseding record with `status: withdrawn`. It obliges an answer (re-import or retention) and never blocks by the vendor's act | Provenance never authority (`DDD-dec-54` ruling 3), with an answer the importer cannot skip | `DDD-dec-59` |
 | H-11 | `explain` shows "rests on superseded version" | the same, **from a recorded reading** of the package's versions listing | The protocol has no forward link (Q2), and G1 forbids live lookups in verdicts | `DDD-dec-59` |
 | H-12 | (not raised) | an import may narrow a decision (anchor lower) and never alter it. Altering is a fork, recorded as a local decision `basedOn` the package's | Otherwise a vendor decision could be in force in a form the vendor never signed | `DDD-dec-59` |
@@ -677,7 +681,7 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | §4.1 decisions, principles, patterns | decisions: every How record. Principles: decisions others rest on (§4.3). Patterns: bindings. Earn-their-place: the idle report |
 | §4.2 application contract: pure core | binding (`PURE@1`) |
 | §4.2 infrastructure and runtime contract; deployment identity | contract; binding of a unit to a system (§4.2) |
-| §4.2 the seam between them | contract, declared versus observed: drift (§9.3) |
+| §4.2 the seam between them | contract, `deployment-declared` versus `deployment-observed`: drift (§9.3) |
 | §4.2 realisation declarations, delegation tier | generation: out of scope (§10) |
 | §4.3 repository layout model | constraints; no-orphans as coverage of code (§4.2, §8.3) |
 | §4.4 interface contracts; canonical REST projection | standards named in decisions (§5.1); binding (`REST@1`) |
@@ -686,6 +690,6 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | §5, §5.1, §5.3 work units, the Build seam, seam demand | retired (`DDD-dec-42`); not carried. Writ's `land` is the only write path |
 | §5.2 the code-generation seam | out of scope (§10) |
 | §6.1–§6.2 verification requirements and anatomy | the gate is Writ: G1 for determinism, G7 for per-verdict derivation. "The oracle is derived, never authored in the check" becomes: violation descriptions read the What graph |
-| §6.3 required verification kinds | layout and contract → constraint; seam and domain → binding; runtime-bound → contract (observed); behavioural → binding plus runner (H-14); data conformance → add-on (`DDD-dec-44`); pattern, journey, state and Decider justification → What-side checks, the move's |
+| §6.3 required verification kinds | layout and contract → constraint; seam and domain → binding; runtime-bound → contract (`telemetry`); behavioural → binding plus runner (H-14); data conformance → add-on (`DDD-dec-44`); pattern, journey, state and Decider justification → What-side checks, the move's |
 | §6.3.1 conformance wire protocol | input to the runner demand (H-14); not carried |
 | §7 Delivery | retired (`DDD-dec-42`) |

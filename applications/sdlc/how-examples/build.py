@@ -213,7 +213,7 @@ put(V, "RESID", "1",
     "Every data store of a deployable unit that holds personal data is in a region whose jurisdiction is the EU, both as declared and as observed.",
     VH, "Residency cannot be repaired after the fact: it is checked on the declaration before release and on the running unit after.",
     status="accepted",
-    **{SD: {"record": "decision", "kind": "contract", "anchor": V, "factSources": ["reporter:declared", "reporter:observed"],
+    **{SD: {"record": "decision", "kind": "contract", "anchor": V, "factSources": ["deployment-declared", "deployment-observed"],
             "freshness": "P1D"},
        AU: {"violation": {"language": "sparql-1.1-select", "binds": ["anchor", "target"], "text": RESID_Q}}})
 
@@ -298,15 +298,15 @@ for name, sys_ in (("vendor", V), ("acme", A)):
 json.dump({"locations": {V: "records/vendor", A: "records/acme"}}, open(os.path.join(ROOT, "locations.json"), "w"), indent=2)
 
 manifest = {"facts": [
-    {"file": "facts/csharp-shop-api.ttl", "source": "projector", "mode": "files", "provenance": "file", "target": "csharp",
+    {"file": "facts/csharp-shop-api.ttl", "source": "projector", "provenance": "file", "target": "csharp",
      "edition": ref(V, "VOC-csharp", "1"), "subject": "https://acme.example/repos/shop-api@4f1c2e9", "readAt": DAY},
-    {"file": "facts/typescript-shop-bff.ttl", "source": "projector", "mode": "files", "provenance": "file", "target": "typescript",
+    {"file": "facts/typescript-shop-bff.ttl", "source": "projector", "provenance": "file", "target": "typescript",
      "edition": ref(V, "VOC-typescript", "1"), "subject": "https://acme.example/repos/shop-bff@a07d3b1", "readAt": DAY},
-    {"file": "facts/azure-shop-api-prod.declared.ttl", "source": "reporter", "mode": "declared", "provenance": "deployment", "target": "azure",
+    {"file": "facts/azure-shop-api-prod.declared.ttl", "source": "reporter", "provenance": "deployment-declared", "target": "azure",
      "edition": ref(V, "VOC-azure", "1"), "subject": "https://acme.example/units/shop-api-prod", "readAt": DAY},
-    {"file": "facts/aws-shop-bff-prod.declared.ttl", "source": "reporter", "mode": "declared", "provenance": "deployment", "target": "aws",
+    {"file": "facts/aws-shop-bff-prod.declared.ttl", "source": "reporter", "provenance": "deployment-declared", "target": "aws",
      "edition": ref(V, "VOC-aws", "1"), "subject": "https://acme.example/units/shop-bff-prod", "readAt": DAY},
-    {"file": "facts/aws-shop-bff-prod.observed.ttl", "source": "reporter", "mode": "observed", "provenance": "deployment", "target": "aws",
+    {"file": "facts/aws-shop-bff-prod.observed.ttl", "source": "reporter", "provenance": "deployment-observed", "target": "aws",
      "edition": ref(V, "VOC-aws", "1"), "subject": "https://acme.example/units/shop-bff-prod", "readAt": DAY}]}
 json.dump(manifest, open(os.path.join(ROOT, "facts", "manifest.json"), "w"), indent=2)
 print(len(records), "records")

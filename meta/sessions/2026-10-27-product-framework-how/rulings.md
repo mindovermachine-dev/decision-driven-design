@@ -54,9 +54,33 @@ no fourth kind and no split, the idle report, target declarations and exclusions
 supersession, and narrow-never-alter (`DDD-dec-59`); Kind-1 wiring as contracts, and declared
 readings gating `land` (`DDD-dec-60`).
 
+## Round 2, 2026-10-28
+
+Verbatim:
+
+> Round 2 rulings (2026-10-28).
+>
+> 1. Token — ruled: `[dpp/1 | decprov/1]`. If `dpp/1`: file a supersession of `DDD-dec-53` under the move session’s range (62 onward, coordinated with that session), rebuild the records with the real keys, and the conformance step goes green. If `decprov/1`: `main` renames before any further record is written, and this branch waits. `build.py` refusing on a token mismatch stays as it is.
+> 2. “Binding” in Writ — ruled: Writ narrows, the How does not widen. Writ’s Binding contract is kind 2 only: a What element to a shape in a target. A constraint has no binding; it evaluates over the projector’s facts, and the citation attributes the projector recognises (`[DesignDecision]`, `[Contract]`) are part of its fact vocabulary, not a binding. A contract has no binding; it evaluates over a reporter’s facts. The mapping of the three kinds onto Writ is therefore: constraint → projector facts; binding → Binding contract; contract → reporter facts. Writ’s definition is amended today (`[D2.8]`) to say exactly this; `writ:realisation` is never minted.
+> 3. Declared versus observed deployment — ruled: two provenance values, not two inputs. The G8 set gains `deployment-declared` (from IaC or a manifest) and `deployment-observed` (from the platform’s own API). A contract’s violation description says which it requires; residency may be satisfied by declared, “no public endpoint” needs observed. Carrying the split as two inputs under one value would hide it where it matters, in the verdict. Change the reporter section accordingly.
+> 4. Writ Draft 2. The authority is the product definition held outside the repository; Hafeok/writ is behind it and will be brought up to date before any Writ format page is written. Your recording of reporters and `deployment` as I stated them is correct; no action on your side.
+> 5. No watch on #41. It is for the record; ratification is a manual merge after the move’s identity form lands. Leave the session idle.
+>
+> Everything marked “standing until the merge” stands. Nothing else to change on the branch beyond items 1 and 3.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| 1 Token | nowhere yet. The ruling is written as a choice, `[dpp/1 \| decprov/1]`, with an action for each outcome, the same form as `DDD-dec-48`. Neither outcome is selected, so neither action runs: no supersession of `DDD-dec-53` is filed, no id is taken, nothing is rebuilt. `build.py` is unchanged | **waiting on the choice.** If `dpp/1`: supersede `DDD-dec-53` at an id coordinated with the move session (62 onward), and rebuild with the real keys. Those are Emil's to supply; this session holds only throwaway test keys. If `decprov/1`: wait for `main` to rename |
+| 2 Binding in Writ narrows | Writ's definition (`[D2.8]`), outside this repository | recorded. By the closing line, nothing on this branch changes. `how.md` §2 and §13 item 2, and `how-vocabulary.md` §4's binding row, still carry the flag this ruling answers ("binding is wider in Writ"). They are left as written; the flag stands answered here |
+| 3 Two provenance values | `how.md` §4.1, §4.2, §9.2, §9.3, §13, H-9; `how-vocabulary.md`; `DDD-dec-60`; `how-examples/facts/manifest.json`, `check.py`, `README.md` | applied. `RESID@1`'s hashed `factSources` still read `reporter:declared` and `reporter:observed`. Rewriting them is a new version, which waits for the token rebuild (item 1). The checker maps them onto the two provenance values |
+| 4 Writ Draft 2 | — | no action, as ruled |
+| 5 No watch on #41 | — | no subscription; the session is left idle |
+
 ## Successor items, not this session's
 
-- **S-1.** The token. Emil rules between `decprov/1` (`DDD-dec-53` as it stands) and `dpp/1`
+- **S-1.** The token (Round 2, ruling 1: still a choice). Emil rules between `decprov/1` (`DDD-dec-53` as it stands) and `dpp/1`
   (recommended); the loser applies it. If `dpp/1`, `DDD-dec-53` is superseded and this branch's
   example records are rebuilt with `how-examples/build.py` (one constant). If `decprov/1`, PR
   #40's successor renames the protocol before any further record is written. Until then

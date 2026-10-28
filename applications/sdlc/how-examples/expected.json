@@ -13,12 +13,12 @@
   "REST|typescript": [
     "https://acme.example/products/shop/what#command-refund-order — no POST /commands/refund-order in this target"
   ],
-  "RESID|azure|declared": [],
-  "RESID|azure|observed": "open question — gap: no observed deployment reading of https://acme.example/units/shop-api-prod within P1D; candidate: the azure reporter (edition 1, not built) is absent",
-  "RESID|aws|declared": [
+  "RESID|azure|deployment-declared": [],
+  "RESID|azure|deployment-observed": "open question — gap: no deployment-observed facts about https://acme.example/units/shop-api-prod within P1D; candidate: the azure reporter (edition 1, not built) is absent",
+  "RESID|aws|deployment-declared": [
     "https://acme.example/units/shop-bff-prod#exports-bucket — personal data held in https://decision-driven-design.dk/ns/sdlc/region/aws#us-east-1"
   ],
-  "RESID|aws|observed": [
+  "RESID|aws|deployment-observed": [
     "https://acme.example/units/shop-bff-prod#exports-bucket — personal data held in https://decision-driven-design.dk/ns/sdlc/region/aws#us-east-1"
   ]
 }
