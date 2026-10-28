@@ -45,3 +45,16 @@ Verbatim:
 | Q-5 `SubjectKind`; `acts_as` becomes `subject` | `what.md` §3.7; the ontology | ruled |
 | Q-6 re-pin recorded here | the re-pin decision | ruled |
 | Q-7 falsifier deferred, not dropped | `falsifier-t2b.md` | ruled |
+
+### Where the plan landed (after Round 1)
+
+| Plan step | Landed | Commit |
+|---|---|---|
+| 1 ontology, shapes, example, hash law | `applications/sdlc/what/` (ontology, shapes, example, vectors, check, mint, conformance schemas); `schema-copies.md` | `ce08939` |
+| 2 `what.md` | `applications/sdlc/what.md`; `DDD-dec-64` proposed (seven choices the rulings did not make); `how.md` Appendix B corrected by pointer | `0c94c32` |
+| 3 supersession of `DDD-dec-55`…`61` | `DDD-dec-65`…`71`; 15 version 2 records; How checker 105 ok, 1 expected warning, 0 failures | `2c4f276` |
+| 4 product-cli's re-pin | `DDD-dec-72`, with its target `[PROPOSED]` and the re-pin itself a successor item | `f25c302` |
+| 5 falsifier, session record | `falsifier-t2b.md` (deferred, Q-7); `successor-items.md`; this table | this commit |
+
+Charter item 2's second sentence ("The §4 to §7 classes are kept as IRIs the How references,
+marked as not authored by any tool") is superseded by Round 1, Q-3. No §4–§7 class is carried.

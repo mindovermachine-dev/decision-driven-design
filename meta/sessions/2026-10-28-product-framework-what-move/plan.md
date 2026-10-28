@@ -1,7 +1,9 @@
 # Plan — the Product Framework What move, 2026-10-28
 
-**Status: `[PROPOSED]`, waiting on Emil's approval.** Nothing below is written until the identity
-form (`DDD-dec-63`) is ruled and this plan is approved. Questions Q-1 to Q-7 come from the arrival
+**Status: approved in Round 1 (2026-10-28) and carried out; the record of where each step landed is
+in `rulings.md`.** The text below is the plan as approved, left as written. The questions are
+ruled; their answers are in `rulings.md`, and where a ruling differs from the proposed answer the
+ruling governs (Q-3, Q-5). Questions Q-1 to Q-7 come from the arrival
 findings in `bootstrap.md`; each has the answer Claude proposes.
 
 ## Gate 0 — the identity form (this commit)
