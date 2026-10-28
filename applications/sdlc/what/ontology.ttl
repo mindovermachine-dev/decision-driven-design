@@ -1,0 +1,454 @@
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+
+#################################################################
+#  The What — the sdlc ontology, edition 1
+#
+#  The vocabulary of applications/sdlc/what.md. Moved from product-cli's schema/ontology/
+#  product-framework.ttl at 70395df (Round 1, Q-2), cut to the Product Framework §3 subset, and
+#  renamed into the sdlc namespace. The pf: namespace ends with this move (Round 1, Q-3): no pf:
+#  term is carried, and no §4–§7 class (How, work units, verification, delivery) is carried in
+#  any namespace. The How's vocabulary is how-vocabulary.md.
+#
+#  Provenance of each term, in its dct:source:
+#    "schema/"   moved from product-cli schema/ at 70395df, renamed;
+#    "§x.y"      added in the move from Product Framework v1.10.0 (c895652) at that section;
+#                schema/ did not define it, though product-cli's exporter emits most of them;
+#    "§3.7"      added from Product Framework v1.11.0 at 55c9281, adopted by ruling (Round 1, Q-1);
+#    "move"      added by the move itself, PROPOSED in DDD-dec-64.
+#
+#  Identity (DDD-dec-63, ruled): the product node is the product IRI P; every other element is
+#  P/what/<ULID>. No term below carries identity; rdfs:label is the human name.
+#################################################################
+
+<https://decision-driven-design.dk/ns/sdlc>
+  a owl:Ontology ;
+  dct:title "The What — the sdlc ontology" ;
+  owl:versionIRI <https://decision-driven-design.dk/ns/sdlc/1> ;
+  owl:versionInfo "1" ;
+  rdfs:comment "Element kinds and edges of a software product's What: what it is and does, as ground and tolerance (DDD-dec-41, DDD-dec-42). Instances are What elements under a product IRI; their identity form is DDD-dec-63." .
+
+#################################################################
+#  ELEMENTS AND IDENTITY
+#################################################################
+
+sdlc:WhatElement a owl:Class ;
+  rdfs:label "What element" ;
+  rdfs:comment "Any node of a product's What that is referred to by identity: an IRI under the product, never a blank node (DDD-dec-63 §4). Abstract supertype." ;
+  dct:source "move" .
+
+sdlc:within a owl:ObjectProperty ;
+  rdfs:label "within" ;
+  rdfs:domain sdlc:WhatElement ; rdfs:range sdlc:WhatElement ;
+  rdfs:comment "Containment, and the only containment edge: every element but the product node is within exactly one element. It replaces schema/'s in_context and the Product Framework's owns_domain, owns_system, system_of, journey_of and bounded_by. Read transitively (within*), it is the subtree an anchor covers (how.md §3)." ;
+  dct:source "move" .
+
+sdlc:succeeds a owl:ObjectProperty ;
+  rdfs:label "succeeds" ;
+  rdfs:domain sdlc:WhatElement ; rdfs:range sdlc:WhatElement ;
+  rdfs:comment "This element continues a retired one, after a kind change, split or merge (DDD-dec-63 §3). Information for explain; never carries a baseline." ;
+  dct:source "move" .
+
+sdlc:refounds a owl:ObjectProperty ;
+  rdfs:label "refounds" ;
+  rdfs:domain sdlc:WhatElement ;
+  rdfs:comment "This element, in a re-founded product, carries an element of the product it re-founds (DDD-dec-63 §8)." ;
+  dct:source "move" .
+
+sdlc:logic a owl:DatatypeProperty ;
+  rdfs:label "logic" ;
+  rdfs:comment "The sha256: digest of an authored artefact (a Decider's decision logic, a Projector's fold), held by digest (DDD-dec-63 §6)." ;
+  rdfs:range xsd:string ; dct:source "move" .
+
+sdlc:logicMediaType a owl:DatatypeProperty ;
+  rdfs:label "logic media type" ; rdfs:range xsd:string ; dct:source "move" .
+
+sdlc:wireName a owl:DatatypeProperty ;
+  rdfs:label "wire name" ;
+  rdfs:comment "PROPOSED (DDD-dec-64). The name an element carries on a wire contract: a Command, Event, payload field, claim or invariant as the conformance wire (what.md §6) and a public interface name it. Authored, a dpp/1 token, unique per kind within the product. Unlike rdfs:label, changing it is a breaking change to the wire contract, made by decision. Needed because keys are opaque (DDD-dec-63) and labels change freely." ;
+  rdfs:range xsd:string ; dct:source "move" .
+
+#################################################################
+#  §3.0  THE PRODUCT, DOMAINS, SYSTEMS, JOURNEYS
+#################################################################
+
+sdlc:Product a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Product" ;
+  rdfs:comment "The root of the What; its IRI is the product IRI P, fixed by the genesis record (DDD-dec-63 §1). Owns domains and systems through within." ;
+  dct:source "schema/" .
+
+sdlc:Domain a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Domain" ;
+  rdfs:comment "Meaning and rules: entities, structure, reference data, invariants, events, Deciders and Projectors (§3.1). Within the product; referenced, never owned, by systems." ;
+  dct:source "§3.1" .
+
+sdlc:System a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "System" ;
+  rdfs:comment "A surface: one way the product is used (§3.2.5). Within the product; owns its page graph, flows and UI steps; references whole domains." ;
+  dct:source "§3.2.5" .
+
+sdlc:referencesDomain a owl:ObjectProperty ;
+  rdfs:label "references domain" ; rdfs:domain sdlc:System ; rdfs:range sdlc:Domain ;
+  dct:source "§3.2.5" .
+
+sdlc:systemKind a owl:DatatypeProperty ;
+  rdfs:label "system kind" ;
+  rdfs:comment "What sort of thing the system is: application, website, service, CLI, …" ;
+  rdfs:range xsd:string ; dct:source "§3.2.5" .
+
+sdlc:purpose a owl:DatatypeProperty ;
+  rdfs:label "purpose" ; rdfs:range xsd:string ; dct:source "§3.0" .
+
+sdlc:Journey a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Journey" ;
+  rdfs:comment "A product-level, derived composition of single-system flows whose every crossing is a Translation (§3.0.1). Owns nothing." ;
+  dct:source "§3.0.1" .
+
+sdlc:composesFlow a owl:ObjectProperty ;
+  rdfs:label "composes flow" ; rdfs:domain sdlc:Journey ; rdfs:range sdlc:Flow ; dct:source "§3.0.1" .
+
+sdlc:crossesVia a owl:ObjectProperty ;
+  rdfs:label "crosses via" ; rdfs:domain sdlc:Journey ; rdfs:range sdlc:Trigger ;
+  rdfs:comment "A crossing of the journey, through an automated Trigger of a Translation pattern." ;
+  dct:source "§3.0.1" .
+
+#################################################################
+#  §3.1  THE DOMAIN MODEL — STRUCTURE AND REFERENCE DATA
+#################################################################
+
+sdlc:BoundedContext a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Bounded Context" ;
+  rdfs:comment "A region within which a term has exactly one meaning (§3.1). Within a domain." ;
+  dct:source "schema/" .
+
+sdlc:ubiquitousTerm a owl:DatatypeProperty ;
+  rdfs:label "ubiquitous term" ; rdfs:range xsd:string ; dct:source "schema/" .
+
+sdlc:Entity a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Entity" ;
+  rdfs:comment "A domain concept with identity that persists while its attributes change. May be an aggregate root. Within a bounded context." ;
+  dct:source "schema/" .
+
+sdlc:ValueObject a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Value Object" ;
+  rdfs:comment "A domain concept defined wholly by its attributes and immutable." ;
+  dct:source "schema/" .
+
+sdlc:isAggregateRoot a owl:DatatypeProperty ;
+  rdfs:label "is aggregate root" ; rdfs:range xsd:boolean ;
+  rdfs:comment "schema/ typed it rdfs:Literal and product-cli writes the string \"true\"; here it is xsd:boolean." ;
+  dct:source "schema/" .
+
+sdlc:Field a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Field" ;
+  rdfs:comment "A named, optionally typed field: an entity's attribute, a Command's or Event's payload field, or a subject kind's claim. An element, because Deciders read it, state justification names it, and scope keys compare it. schema/ carried attributes as blank nodes; under DDD-dec-63 §4 a field referred to by identity is an element. Within the element whose field it is." ;
+  dct:source "schema/" .
+
+sdlc:fieldType a owl:ObjectProperty ;
+  rdfs:label "field type" ;
+  rdfs:comment "The single datatype vocabulary of §3.2: xsd:string, xsd:integer, xsd:decimal (the Product Framework's number), xsd:boolean, xsd:date." ;
+  dct:source "schema/" .
+
+sdlc:setValued a owl:DatatypeProperty ;
+  rdfs:label "set-valued" ; rdfs:range xsd:boolean ;
+  rdfs:comment "A claim may be set-valued (a role set, a tenant list); no other field may (§3.7)." ;
+  dct:source "§3.7" .
+
+sdlc:valuesFrom a owl:ObjectProperty ;
+  rdfs:label "values from" ; rdfs:domain sdlc:Field ; rdfs:range sdlc:ReferenceData ;
+  rdfs:comment "The declared reference data a field's values are drawn from." ;
+  dct:source "§3.1" .
+
+sdlc:fieldOrder a owl:ObjectProperty ;
+  rdfs:label "field order" ;
+  rdfs:comment "An RDF list of the element's fields, where order matters (a payload). A list is a blank-node structure inside the owner's description (DDD-dec-63 §4)." ;
+  dct:source "move" .
+
+sdlc:Relation a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Relation" ;
+  rdfs:comment "A typed connection between entities, carrying cardinality and rationale." ;
+  dct:source "schema/" .
+
+sdlc:relates a owl:ObjectProperty ;
+  rdfs:label "relates" ; rdfs:domain sdlc:Relation ;
+  rdfs:comment "An end of a relation." ;
+  dct:source "move" .
+
+sdlc:cardinality a owl:DatatypeProperty ; rdfs:label "cardinality" ; rdfs:range xsd:string ; dct:source "schema/" .
+sdlc:rationale a owl:DatatypeProperty ; rdfs:label "rationale" ; rdfs:range xsd:string ; dct:source "schema/" .
+sdlc:definition a owl:DatatypeProperty ; rdfs:label "definition" ; rdfs:range xsd:string ; dct:source "schema/" .
+
+sdlc:Invariant a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Invariant" ;
+  rdfs:comment "A rule that must always hold, stated as a checkable constraint; executable as a Decider's rejection." ;
+  dct:source "schema/" .
+
+sdlc:statement a owl:DatatypeProperty ; rdfs:label "statement" ; rdfs:range xsd:string ; dct:source "schema/" .
+
+sdlc:ContextMapping a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Context Mapping" ;
+  rdfs:comment "An explicit, declared correspondence between concepts in two bounded contexts." ;
+  dct:source "schema/" .
+
+sdlc:mapsTo a owl:ObjectProperty ; rdfs:label "maps to" ; rdfs:domain sdlc:ContextMapping ; dct:source "schema/" .
+
+sdlc:ReferenceData a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Reference Data" ;
+  rdfs:comment "Constitutive instance data: remove a value and a behaviour becomes impossible (§3.1). Versioned and governed with the rest of the What. Production data is not What." ;
+  dct:source "§3.1" .
+
+sdlc:value a owl:DatatypeProperty ;
+  rdfs:label "value" ;
+  rdfs:comment "One declared value of a reference data set." ;
+  dct:source "§3.1" .
+
+#################################################################
+#  §3.2  THE EVENT MODEL — BLOCKS AND PATTERNS
+#################################################################
+
+sdlc:Trigger a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Trigger" ;
+  rdfs:comment "What initiates a command. Exactly one source; acts as exactly one subject kind whose nature the source admits (§3.2.0, §3.7)." ;
+  dct:source "§3.2.0" .
+
+sdlc:TriggerSource a owl:Class ; rdfs:label "Trigger source" ; dct:source "§3.2.0" .
+sdlc:sourceUser      a sdlc:TriggerSource ; rdfs:label "user" ;      rdfs:comment "Through a UI step." .
+sdlc:sourceExternal  a sdlc:TriggerSource ; rdfs:label "external" ;  rdfs:comment "An API request from outside the system." .
+sdlc:sourceAutomated a sdlc:TriggerSource ; rdfs:label "automated" ; rdfs:comment "A process that reads a View and issues a command." .
+
+sdlc:source a owl:ObjectProperty ; rdfs:label "source" ; rdfs:domain sdlc:Trigger ; rdfs:range sdlc:TriggerSource ; dct:source "§3.2.0" .
+sdlc:issues a owl:ObjectProperty ; rdfs:label "issues" ; rdfs:domain sdlc:Trigger ; rdfs:range sdlc:Command ; dct:source "§3.2.0" .
+sdlc:watches a owl:ObjectProperty ; rdfs:label "watches" ; rdfs:domain sdlc:Trigger ; rdfs:range sdlc:View ; dct:source "§3.2.0" .
+sdlc:translatesFrom a owl:ObjectProperty ; rdfs:label "translates from" ; rdfs:domain sdlc:Trigger ; rdfs:range sdlc:System ;
+  rdfs:comment "The one source system a Translation's trigger reads events from." ; dct:source "§3.2.0" .
+
+sdlc:subject a owl:ObjectProperty ;
+  rdfs:label "subject" ; rdfs:domain sdlc:Trigger ; rdfs:range sdlc:SubjectKind ;
+  rdfs:comment "The subject kind a trigger acts as. The Product Framework v1.11.0's acts_as, renamed by ruling (Round 1, Q-5)." ;
+  dct:source "§3.7" .
+
+sdlc:Command a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Command" ;
+  rdfs:comment "An intention to change state, carrying its parameters; targets an aggregate and is decided by its Decider." ;
+  dct:source "schema/" .
+
+sdlc:Event a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Event" ;
+  rdfs:comment "A business fact that happened and was recorded; always changes a domain entity." ;
+  dct:source "schema/" .
+
+sdlc:View a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "View" ;
+  rdfs:comment "A read model: a query that curates recorded events for a consumer; presents only what some event carries. schema/'s ReadModel, renamed to the §3.2.0 block name." ;
+  dct:source "schema/" .
+
+sdlc:targets a owl:ObjectProperty ; rdfs:label "targets" ; rdfs:domain sdlc:Command ; rdfs:range sdlc:Entity ; dct:source "schema/" .
+sdlc:emits a owl:ObjectProperty ; rdfs:label "emits" ; rdfs:domain sdlc:Command ; rdfs:range sdlc:Event ; dct:source "schema/" .
+sdlc:changes a owl:ObjectProperty ; rdfs:label "changes" ; rdfs:domain sdlc:Event ; rdfs:range sdlc:Entity ; dct:source "schema/" .
+sdlc:projects a owl:ObjectProperty ; rdfs:label "projects" ; rdfs:domain sdlc:View ; rdfs:range sdlc:Event ;
+  rdfs:comment "schema/ let a read model project entities or events; here it names the events the View is built from, as §3.4 reads it." ; dct:source "schema/" .
+
+sdlc:State a owl:Class ; rdfs:label "Projection state" ; dct:source "§3.2" .
+sdlc:statePresent a sdlc:State ; rdfs:label "present" .
+sdlc:stateLoading a sdlc:State ; rdfs:label "loading" .
+sdlc:stateEmpty   a sdlc:State ; rdfs:label "empty" .
+sdlc:stateFailed  a sdlc:State ; rdfs:label "failed" .
+sdlc:hasState a owl:ObjectProperty ; rdfs:label "has state" ; rdfs:domain sdlc:View ; rdfs:range sdlc:State ; dct:source "§3.2" .
+
+#################################################################
+#  §3.3, §3.4, §3.5  EXECUTABLE BEHAVIOUR
+#################################################################
+
+sdlc:Decider a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Decider" ;
+  rdfs:comment "decide(state, command, subject) -> Accepted[events] | Rejected[invariant]; evolve(state, event) -> state. Signature derived from the event model; only the logic is authored, carried as a digest (sdlc:logic)." ;
+  dct:source "§3.3" .
+
+sdlc:decidesFor a owl:ObjectProperty ; rdfs:label "decides for" ; rdfs:domain sdlc:Decider ; rdfs:range sdlc:Entity ; dct:source "§3.3" .
+sdlc:handles a owl:ObjectProperty ; rdfs:label "handles" ; rdfs:domain sdlc:Decider ; rdfs:range sdlc:Command ; dct:source "§3.3" .
+sdlc:reads a owl:ObjectProperty ; rdfs:label "reads" ; rdfs:domain sdlc:Decider ; rdfs:range sdlc:Field ;
+  rdfs:comment "A field of aggregate state, or a claim of a subject, a rejection or emission reads." ; dct:source "§3.3" .
+sdlc:rejects a owl:ObjectProperty ; rdfs:label "rejects" ; rdfs:domain sdlc:Decider ; rdfs:range sdlc:Invariant ; dct:source "§3.3" .
+
+sdlc:Projector a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Projector" ;
+  rdfs:comment "project(state, event) -> state: the executable fold of a View. Takes no subject; one fold serves every subject, and a scope selects over its output (§3.4, §3.7)." ;
+  dct:source "§3.4" .
+
+sdlc:projectsFor a owl:ObjectProperty ; rdfs:label "projects for" ; rdfs:domain sdlc:Projector ; rdfs:range sdlc:View ; dct:source "§3.4" .
+sdlc:folds a owl:ObjectProperty ; rdfs:label "folds" ; rdfs:domain sdlc:Projector ; rdfs:range sdlc:Event ; dct:source "§3.4" .
+sdlc:keyedBy a owl:ObjectProperty ; rdfs:label "keyed by" ; rdfs:domain sdlc:Projector ; rdfs:range sdlc:Field ;
+  rdfs:comment "A field the fold is keyed by: one function folded per key value (§3.7)." ; dct:source "§3.7" .
+
+sdlc:Scenario a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Scenario" ;
+  rdfs:comment "A given / when / then case a Decider or Projector is simulated against, and the source of a conformance wire request (what.md §6). Within its Decider or Projector." ;
+  dct:source "§3.3" .
+
+sdlc:given a owl:ObjectProperty ; rdfs:label "given" ; rdfs:domain sdlc:Scenario ;
+  rdfs:comment "An RDF list of event references, each a blank node with sdlc:event and optional sdlc:with payload." ; dct:source "§3.3" .
+sdlc:when a owl:ObjectProperty ; rdfs:label "when" ; rdfs:domain sdlc:Scenario ;
+  rdfs:comment "A blank node with sdlc:command, optional sdlc:with, and sdlc:asSubject." ; dct:source "§3.3" .
+sdlc:thenEmit a owl:ObjectProperty ; rdfs:label "then emit" ; rdfs:domain sdlc:Scenario ;
+  rdfs:comment "An RDF list of the events expected, in order." ; dct:source "§3.3" .
+sdlc:thenReject a owl:ObjectProperty ; rdfs:label "then reject" ; rdfs:domain sdlc:Scenario ; rdfs:range sdlc:Invariant ; dct:source "§3.3" .
+sdlc:event a owl:ObjectProperty ; rdfs:label "event" ; rdfs:range sdlc:Event ; dct:source "§6.3.1" .
+sdlc:command a owl:ObjectProperty ; rdfs:label "command" ; rdfs:range sdlc:Command ; dct:source "schema/" .
+sdlc:asSubject a owl:ObjectProperty ; rdfs:label "as subject" ; rdfs:range sdlc:SubjectKind ; dct:source "§3.7" .
+sdlc:with a owl:ObjectProperty ; rdfs:label "with" ;
+  rdfs:comment "A payload or claim binding: blank nodes with sdlc:field and sdlc:value." ; dct:source "§6.3.1" .
+sdlc:field a owl:ObjectProperty ; rdfs:label "field" ; rdfs:range sdlc:Field ; dct:source "schema/" .
+
+sdlc:NamedAlgorithm a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Named-algorithm primitive" ;
+  rdfs:comment "An irreducible computation specified by reference, an I/O contract and an oracle; exempt from derivation and simulation (§3.5)." ;
+  dct:source "§3.5" .
+sdlc:specifiedByReference a owl:DatatypeProperty ; rdfs:label "specified by reference" ; rdfs:range xsd:string ; dct:source "§3.5" .
+sdlc:pinnedByOracle a owl:DatatypeProperty ; rdfs:label "pinned by oracle" ;
+  rdfs:comment "The sha256: digest of the oracle's reference input/output pairs." ; rdfs:range xsd:string ; dct:source "§3.5" .
+
+#################################################################
+#  §3.2.1–§3.2.4  UI STEPS, AIOs, ACCESSIBILITY, THE PAGE GRAPH
+#################################################################
+
+sdlc:UIStep a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "UI step" ;
+  rdfs:comment "The point in a flow where a person sees something and acts: a page of the page graph. schema/'s WireframeStep, renamed to the §3.2.1 term." ;
+  dct:source "schema/" .
+
+sdlc:Interaction a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Interaction" ;
+  rdfs:comment "One interaction of a UI step: a projection surfaced, a command offered, or a payload field entered, typed against exactly one AIO. An element, not schema/'s blank node, because AIO-to-CIO bindings anchor to it (DDD-dec-57). Within its UI step." ;
+  dct:source "schema/" .
+
+sdlc:projection a owl:ObjectProperty ; rdfs:label "projection" ; rdfs:domain sdlc:Interaction ; rdfs:range sdlc:View ; dct:source "schema/" .
+sdlc:typedAs a owl:ObjectProperty ; rdfs:label "typed as" ; rdfs:domain sdlc:Interaction ; rdfs:range sdlc:AIO ; dct:source "schema/" .
+
+sdlc:AIO a owl:Class ;
+  rdfs:label "Abstract Interaction Object" ;
+  rdfs:comment "A context-independent kind of interaction; never a concrete control. The base set below is framework vocabulary, not What elements. Whether an adopter may register more is OPEN (how.md §6)." ;
+  dct:source "schema/" .
+sdlc:aioTriggerAction     a sdlc:AIO ; rdfs:label "trigger-action" .
+sdlc:aioSingleSelect      a sdlc:AIO ; rdfs:label "single-select" .
+sdlc:aioMultiSelect       a sdlc:AIO ; rdfs:label "multi-select" .
+sdlc:aioTextEntry         a sdlc:AIO ; rdfs:label "text-entry" .
+sdlc:aioNumericEntry      a sdlc:AIO ; rdfs:label "numeric-entry" .
+sdlc:aioDateEntry         a sdlc:AIO ; rdfs:label "date-entry" .
+sdlc:aioDisplayValue      a sdlc:AIO ; rdfs:label "display-value" .
+sdlc:aioDisplayCollection a sdlc:AIO ; rdfs:label "display-collection" .
+sdlc:aioNavigate          a sdlc:AIO ; rdfs:label "navigate" .
+sdlc:aioEdit              a sdlc:AIO ; rdfs:label "edit" .
+
+sdlc:intent a owl:DatatypeProperty ; rdfs:label "intent" ;
+  rdfs:comment "Specification debt: the marked residue the model does not yet determine (§3.2.1)." ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+sdlc:emphasis a owl:DatatypeProperty ; rdfs:label "emphasis" ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+
+sdlc:StateAnnotation a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "State annotation" ;
+  rdfs:comment "What one state of a surfaced projection means to the user at a step, or a waiver with its reason. Within its UI step." ;
+  dct:source "§3.2.1" .
+sdlc:forState a owl:ObjectProperty ; rdfs:label "for state" ; rdfs:range sdlc:State ; dct:source "§3.2.1" .
+sdlc:meaning a owl:DatatypeProperty ; rdfs:label "meaning" ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+sdlc:waivedBecause a owl:DatatypeProperty ; rdfs:label "waived because" ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+
+sdlc:mustSatisfy a owl:ObjectProperty ; rdfs:label "must satisfy" ;
+  rdfs:comment "A WCAG 2.2 success criterion, by its W3C IRI. Criteria are not What elements; they are ingested by edition." ; dct:source "§3.2.3" .
+
+sdlc:ContentKey a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Content key" ;
+  rdfs:comment "Standing, authored words a screen carries, by key with a declared role; never a literal. The words are binding decisions anchored to the key (DDD-dec-57). Within the product or the system that uses it." ;
+  dct:source "§3.2.1" .
+sdlc:role a owl:DatatypeProperty ; rdfs:label "role" ;
+  rdfs:comment "heading, body, empty-message, error-message, help, legal, …" ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+sdlc:references a owl:ObjectProperty ; rdfs:label "references content" ; rdfs:range sdlc:ContentKey ; dct:source "§3.2.1" .
+
+sdlc:Flow a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Flow" ;
+  rdfs:comment "A named, connected subgraph of a system's page graph with an entry page; a chain of slices. Within its system." ;
+  dct:source "schema/" .
+sdlc:entryPage a owl:ObjectProperty ; rdfs:label "entry page" ; rdfs:domain sdlc:Flow ; rdfs:range sdlc:UIStep ; dct:source "§3.2.4" .
+sdlc:inFlow a owl:ObjectProperty ; rdfs:label "in flow" ; rdfs:domain sdlc:UIStep ; rdfs:range sdlc:Flow ; dct:source "§3.2.4" .
+sdlc:transitionsTo a owl:ObjectProperty ; rdfs:label "transitions to" ; rdfs:domain sdlc:UIStep ; rdfs:range sdlc:UIStep ; dct:source "§3.2.4" .
+
+sdlc:SystemRoot a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "System root" ;
+  rdfs:comment "The distinguished node of a system's page graph; its out-edges are the global destinations. schema/'s ApplicationRoot, renamed: there is one per system (§3.2.4)." ;
+  dct:source "schema/" .
+sdlc:navigatesFromRoot a owl:ObjectProperty ; rdfs:label "navigates from root" ; rdfs:domain sdlc:SystemRoot ; dct:source "§3.2.4" .
+
+#################################################################
+#  §3.2.2, §3.2.5  CONTEXTS OF USE AND DECLARED TARGETS
+#################################################################
+
+sdlc:InteractionClass a owl:Class ; rdfs:label "Interaction class" ; dct:source "§3.2.2" .
+sdlc:GUI a sdlc:InteractionClass ; rdfs:label "GUI" .
+sdlc:TUI a sdlc:InteractionClass ; rdfs:label "TUI" .
+sdlc:targetsClass a owl:ObjectProperty ; rdfs:label "targets class" ; rdfs:domain sdlc:System ; rdfs:range sdlc:InteractionClass ; dct:source "§3.2.2" .
+
+sdlc:ContextOfUse a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Context of use" ;
+  rdfs:comment "A declared value of one context dimension (platform, form factor, modality, terminal capability, …). Carries no realisation." ;
+  dct:source "schema/" .
+sdlc:dimension a owl:DatatypeProperty ; rdfs:label "dimension" ; rdfs:range xsd:string ; dct:source "§3.2.2" .
+sdlc:targetsContext a owl:ObjectProperty ; rdfs:label "targets context" ; rdfs:domain sdlc:System ; rdfs:range sdlc:ContextOfUse ;
+  rdfs:comment "The Product Framework's targets_platform, generalised to every dimension." ; dct:source "§3.2.5" .
+
+sdlc:DeclaredTarget a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Declared target" ;
+  rdfs:comment "A design system at an edition, or a content store with its locales, declared by the What as it declares a platform (DDD-dec-57). The catalogue is the target's vocabulary edition, in a package with its own genesis; nothing in it is a What element. Within the system or product that declares it." ;
+  dct:source "move" .
+sdlc:targetKind a owl:DatatypeProperty ; rdfs:label "target kind" ;
+  rdfs:comment "design-system or content-store." ; rdfs:range xsd:string ; dct:source "move" .
+sdlc:edition a owl:DatatypeProperty ; rdfs:label "edition" ;
+  rdfs:comment "A dpp/1 reference to the target's vocabulary edition record." ; rdfs:range xsd:string ; dct:source "move" .
+sdlc:locale a owl:DatatypeProperty ; rdfs:label "locale" ; rdfs:comment "A BCP 47 tag." ; rdfs:range xsd:string ; dct:source "§3.2.1" .
+
+#################################################################
+#  §3.6  QUALITY DEMANDS
+#################################################################
+
+sdlc:QualityDemand a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Quality demand" ;
+  rdfs:comment "A non-functional demand, never prose: within the element it scopes (product, system, flow, step, Decider, Projector)." ;
+  dct:source "§3.6" .
+sdlc:RuntimeBound a owl:Class ; rdfs:subClassOf sdlc:QualityDemand ;
+  rdfs:label "Runtime bound" ; rdfs:comment "Kind 1: measured continuously against telemetry." ; dct:source "§3.6" .
+sdlc:ArchitecturalConstraint a owl:Class ; rdfs:subClassOf sdlc:QualityDemand ;
+  rdfs:label "Architectural constraint" ; rdfs:comment "Kind 2: held at build time by a How contract anchored to it (how.md §4.2)." ; dct:source "§3.6" .
+sdlc:bound a owl:DatatypeProperty ; rdfs:label "bound" ; rdfs:range xsd:string ; dct:source "§3.6" .
+sdlc:measuredBy a owl:DatatypeProperty ; rdfs:label "measured by" ; rdfs:range xsd:string ; dct:source "§3.6" .
+
+#################################################################
+#  §3.7  SUBJECTS AND AUTHORIZATION (v1.11.0 at 55c9281, by ruling)
+#################################################################
+
+sdlc:SubjectKind a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Subject kind" ;
+  rdfs:comment "A kind of authenticated subject of the specified product: a customer, a member of staff, a process, an external system. The Product Framework v1.11.0's actor kind, renamed by ruling (Round 1, Q-5): 'actor' is canon's, 'principal' is authority's, 'subject' is OIDC's name for the authenticated identity whose claims these are. Never an authority over the specification. Within a domain." ;
+  dct:source "§3.7" .
+
+sdlc:Nature a owl:Class ; rdfs:label "Subject nature" ; dct:source "§3.7" .
+sdlc:natureHuman    a sdlc:Nature ; rdfs:label "human" ;    rdfs:comment "Acts through a UI step." .
+sdlc:natureProcess  a sdlc:Nature ; rdfs:label "process" ;  rdfs:comment "Acts through an automated trigger." .
+sdlc:natureExternal a sdlc:Nature ; rdfs:label "external" ; rdfs:comment "An outside system acting through an API call." .
+sdlc:nature a owl:ObjectProperty ; rdfs:label "nature" ; rdfs:domain sdlc:SubjectKind ; rdfs:range sdlc:Nature ; dct:source "§3.7" .
+
+sdlc:offeredTo a owl:ObjectProperty ; rdfs:label "offered to" ; rdfs:domain sdlc:UIStep ; rdfs:range sdlc:SubjectKind ;
+  rdfs:comment "A grant of surface, system-level; the Decider decides." ; dct:source "§3.7" .
+
+sdlc:public a owl:DatatypeProperty ; rdfs:label "public" ; rdfs:domain sdlc:View ; rdfs:range xsd:boolean ; dct:source "§3.7" .
+
+sdlc:ScopeRule a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
+  rdfs:label "Scope rule" ;
+  rdfs:comment "What one subject kind may see of a scoped View: a conjunction of keys; no keys is a declared every-row. A subject kind with no rule on a scoped View sees nothing. Within its View." ;
+  dct:source "§3.7" .
+sdlc:forSubject a owl:ObjectProperty ; rdfs:label "for subject" ; rdfs:domain sdlc:ScopeRule ; rdfs:range sdlc:SubjectKind ; dct:source "§3.7" .
+sdlc:key a owl:ObjectProperty ; rdfs:label "key" ; rdfs:domain sdlc:ScopeRule ;
+  rdfs:comment "A blank node with sdlc:viewField, sdlc:claim and sdlc:operator (equals or member-of)." ; dct:source "§3.7" .
+sdlc:viewField a owl:ObjectProperty ; rdfs:label "view field" ; rdfs:range sdlc:Field ; dct:source "§3.7" .
+sdlc:claim a owl:ObjectProperty ; rdfs:label "claim" ; rdfs:range sdlc:Field ; dct:source "§3.7" .
+sdlc:operator a owl:DatatypeProperty ; rdfs:label "operator" ; rdfs:range xsd:string ; dct:source "§3.7" .

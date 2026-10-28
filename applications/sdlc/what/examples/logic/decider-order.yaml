@@ -1,0 +1,21 @@
+# Decision logic of the Order Decider in the acme-shop example What (what.md §3.3).
+# An authored artefact, held by digest: the Decider element carries sdlc:logic with the sha256 of
+# this file's bytes (DDD-dec-63 §6). Changing a byte is a change of the What, made by a decision
+# anchored to the Decider.
+decider: order
+decide:
+  place-order:
+    reject:
+      - invariant: order-has-lines
+        when: "command.lines == 0"
+    emit: [order-placed]
+  refund-order:
+    reject:
+      - invariant: refund-by-owner
+        when: "subject.customer_id != state.customer_id"
+      - invariant: refund-within-paid
+        when: "state.refunded_total + command.amount > state.paid_total"
+    emit: [order-refunded]
+evolve:
+  order-placed: { customer_id: event.customer_id, paid_total: event.paid_total, refunded_total: 0 }
+  order-refunded: { refunded_total: "state.refunded_total + event.amount" }

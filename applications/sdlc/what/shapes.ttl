@@ -1,0 +1,335 @@
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  The What — SHACL shapes, sdlc edition 1
+#
+#  The §3 shapes of product-cli's schema/shapes/shapes.shacl.ttl at 70395df (Round 1, Q-2),
+#  renamed into sdlc:, with the shapes for the kinds the move adds and the identity form of
+#  DDD-dec-63. The §5–§7 shapes (work unit, verification, feature, release) and how.shacl.ttl are
+#  not carried (Round 1, Q-3). Each sh:message names the section it enforces.
+#
+#  Run:  python3 applications/sdlc/what/check.py   (pyshacl over the example and the vectors)
+#################################################################
+
+#########################  IDENTITY — DDD-dec-63  #########################
+
+sdlc:ElementIdentityShape a sh:NodeShape ;
+  sh:targetSubjectsOf sdlc:within ;
+  sh:nodeKind sh:IRI ;
+  sh:pattern "/what/[0-9A-HJKMNP-TV-Z]{26}$" ;
+  sh:message "DDD-dec-63 §2 An element other than the product node is P/what/<ULID>, an IRI, never a blank node." ;
+  sh:property [
+    sh:path sdlc:within ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ;
+    sh:message "DDD-dec-63 §2 An element is within exactly one element." ] .
+
+sdlc:ProductShape a sh:NodeShape ;
+  sh:targetClass sdlc:Product ;
+  sh:nodeKind sh:IRI ;
+  sh:message "DDD-dec-63 §1 The product node is the product IRI P." ;
+  sh:property [ sh:path sdlc:within ; sh:maxCount 0 ;
+    sh:message "DDD-dec-63 §1 The product node is the root; it is within nothing." ] ;
+  sh:property [ sh:path rdfs:label ; sh:minCount 1 ;
+    sh:message "§3.0 A product is named." ] .
+
+sdlc:KindNeedsContainerShape a sh:NodeShape ;
+  sh:targetClass sdlc:Domain , sdlc:System , sdlc:Journey , sdlc:BoundedContext , sdlc:Entity , sdlc:ValueObject ,
+    sdlc:Field , sdlc:Relation , sdlc:Invariant , sdlc:ContextMapping , sdlc:ReferenceData , sdlc:Trigger ,
+    sdlc:Command , sdlc:Event , sdlc:View , sdlc:Decider , sdlc:Projector , sdlc:Scenario , sdlc:NamedAlgorithm ,
+    sdlc:UIStep , sdlc:Interaction , sdlc:StateAnnotation , sdlc:ContentKey , sdlc:Flow , sdlc:SystemRoot ,
+    sdlc:ContextOfUse , sdlc:DeclaredTarget , sdlc:QualityDemand , sdlc:SubjectKind , sdlc:ScopeRule ;
+  sh:property [ sh:path sdlc:within ; sh:minCount 1 ;
+    sh:message "DDD-dec-63 §2 Every element but the product node is within one element." ] ;
+  sh:property [ sh:path rdfs:label ; sh:minCount 1 ;
+    sh:message "DDD-dec-63 §2 An element's human name is its rdfs:label; the key carries none." ] .
+
+sdlc:WithinTopologyShape a sh:NodeShape ;
+  sh:targetClass sdlc:Domain , sdlc:System , sdlc:Journey ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:Product ;
+    sh:message "§3.0 Domains, systems and journeys are owned by the product." ] .
+
+sdlc:SharedBlankNodeShape a sh:NodeShape ;
+  sh:targetClass sdlc:WhatElement , sdlc:Product , sdlc:Domain , sdlc:System , sdlc:Decider , sdlc:Scenario , sdlc:ScopeRule , sdlc:Command , sdlc:Event , sdlc:Entity , sdlc:UIStep ;
+  sh:sparql [
+    sh:message "DDD-dec-63 §4 A blank node belongs to exactly one element's description." ;
+    sh:select """
+      SELECT $this ?value WHERE {
+        $this ?p ?value . FILTER isBlank(?value)
+        ?other ?q ?value . FILTER (isIRI(?other) && ?other != $this)
+      }""" ] .
+
+#########################  §3.1  #########################
+
+sdlc:BoundedContextShape a sh:NodeShape ;
+  sh:targetClass sdlc:BoundedContext ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:Domain ;
+    sh:message "§3.1 A bounded context lies within a domain." ] .
+
+sdlc:EntityShape a sh:NodeShape ;
+  sh:targetClass sdlc:Entity ;
+  sh:property [ sh:path sdlc:definition ; sh:minCount 1 ;
+    sh:message "§3.1 An entity must carry a business-language definition." ] ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:BoundedContext ;
+    sh:message "§3.1 An entity must belong to exactly one bounded context (never a flat model)." ] ;
+  sh:property [ sh:path sdlc:isAggregateRoot ; sh:datatype xsd:boolean ; sh:maxCount 1 ;
+    sh:message "§3.1 is-aggregate-root is a boolean." ] .
+
+sdlc:FieldShape a sh:NodeShape ;
+  sh:targetClass sdlc:Field ;
+  sh:property [ sh:path sdlc:fieldType ; sh:maxCount 1 ;
+    sh:in ( xsd:string xsd:integer xsd:decimal xsd:boolean xsd:date ) ;
+    sh:message "§3.2 A field's type, when declared, is from the single datatype vocabulary (string, integer, number, boolean, date)." ] ;
+  sh:property [ sh:path sdlc:setValued ; sh:datatype xsd:boolean ; sh:maxCount 1 ] .
+
+sdlc:RelationShape a sh:NodeShape ;
+  sh:targetClass sdlc:Relation ;
+  sh:property [ sh:path sdlc:cardinality ; sh:minCount 1 ;
+    sh:message "§3.1 A relation must declare cardinality." ] ;
+  sh:property [ sh:path sdlc:rationale ; sh:minCount 1 ;
+    sh:message "§3.1 A relation must carry rationale (why this link, this cardinality)." ] ;
+  sh:property [ sh:path sdlc:relates ; sh:minCount 2 ; sh:maxCount 2 ; sh:class sdlc:Entity ;
+    sh:message "§3.1 A relation connects two entities." ] .
+
+sdlc:ContextMappingShape a sh:NodeShape ;
+  sh:targetClass sdlc:ContextMapping ;
+  sh:property [ sh:path sdlc:mapsTo ; sh:minCount 2 ;
+    sh:message "§3.1 A context mapping must connect two concepts (an explicit declared correspondence, never assumed)." ] ;
+  sh:property [ sh:path sdlc:rationale ; sh:minCount 1 ;
+    sh:message "§3.1 A context mapping must state the correspondence." ] .
+
+sdlc:InvariantShape a sh:NodeShape ;
+  sh:targetClass sdlc:Invariant ;
+  sh:property [ sh:path sdlc:statement ; sh:minCount 1 ;
+    sh:message "§3.1 An invariant must be stated as a checkable constraint." ] .
+
+sdlc:ReferenceDataShape a sh:NodeShape ;
+  sh:targetClass sdlc:ReferenceData ;
+  sh:property [ sh:path sdlc:value ; sh:minCount 1 ;
+    sh:message "§3.1 Reference data declares its values." ] .
+
+#########################  §3.2, §3.2.0  #########################
+
+sdlc:EventShape a sh:NodeShape ;
+  sh:targetClass sdlc:Event ;
+  sh:property [ sh:path sdlc:changes ; sh:minCount 1 ; sh:class sdlc:Entity ;
+    sh:message "§3.2 Every event must change a real domain entity." ] .
+
+sdlc:CommandShape a sh:NodeShape ;
+  sh:targetClass sdlc:Command ;
+  sh:property [ sh:path sdlc:targets ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:Entity ;
+    sh:message "§3.2 A command must target a real aggregate (entity)." ] ;
+  sh:property [ sh:path sdlc:emits ; sh:minCount 1 ; sh:class sdlc:Event ;
+    sh:message "§3.2.0 A command must emit at least one event." ] ;
+  sh:sparql [
+    sh:message "§3.2.0 Pattern conformance: every Command traces to a Trigger." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE { FILTER NOT EXISTS { ?t sdlc:issues $this } }""" ] .
+
+sdlc:ViewShape a sh:NodeShape ;
+  sh:targetClass sdlc:View ;
+  sh:property [ sh:path sdlc:projects ; sh:minCount 1 ; sh:class sdlc:Event ;
+    sh:message "§3.2 A view must be built from at least one declared event (no ghost views)." ] ;
+  sh:property [ sh:path sdlc:hasState ; sh:class sdlc:State ] .
+
+sdlc:TriggerShape a sh:NodeShape ;
+  sh:targetClass sdlc:Trigger ;
+  sh:property [ sh:path sdlc:source ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( sdlc:sourceUser sdlc:sourceExternal sdlc:sourceAutomated ) ;
+    sh:message "§3.2.0 A trigger has exactly one source: user, external or automated." ] ;
+  sh:property [ sh:path sdlc:issues ; sh:minCount 1 ; sh:class sdlc:Command ;
+    sh:message "§3.2.0 A trigger issues a command." ] ;
+  sh:property [ sh:path sdlc:subject ; sh:maxCount 1 ; sh:class sdlc:SubjectKind ;
+    sh:message "§3.7 A trigger acts as at most one subject kind." ] ;
+  sh:sparql [
+    sh:message "§3.2.0 Automation: an automated trigger watches a View." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE { $this sdlc:source sdlc:sourceAutomated . FILTER NOT EXISTS { $this sdlc:watches ?v } }""" ] ;
+  sh:sparql [
+    sh:message "§3.7 A trigger's subject has the nature its source admits (user → human, automated → process, external → external)." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE {
+        $this sdlc:source ?s ; sdlc:subject ?value . ?value sdlc:nature ?n .
+        FILTER (!( (?s = sdlc:sourceUser && ?n = sdlc:natureHuman) ||
+                   (?s = sdlc:sourceAutomated && ?n = sdlc:natureProcess) ||
+                   (?s = sdlc:sourceExternal && ?n = sdlc:natureExternal) ))
+      }""" ] .
+
+#########################  §3.3, §3.4, §3.5  #########################
+
+sdlc:DeciderShape a sh:NodeShape ;
+  sh:targetClass sdlc:Decider ;
+  sh:property [ sh:path sdlc:decidesFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:Entity ;
+    sh:message "§3.3 A Decider decides for one aggregate." ] ;
+  sh:property [ sh:path sdlc:rejects ; sh:minCount 1 ; sh:class sdlc:Invariant ;
+    sh:message "§3.4 Decider justification: a Decider has at least one reachable rejection." ] ;
+  sh:property [ sh:path sdlc:logic ; sh:maxCount 1 ; sh:pattern "^sha256:[0-9a-f]{64}$" ;
+    sh:message "DDD-dec-63 §6 Authored logic is carried as a sha256: digest." ] ;
+  sh:sparql [
+    sh:message "§3.3 No foreign commands: a Decider handles only commands that target its aggregate." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:handles ?value ; sdlc:decidesFor ?a . FILTER NOT EXISTS { ?value sdlc:targets ?a } }""" ] ;
+  sh:sparql [
+    sh:message "§3.3 Command coverage: a Decider handles every command that targets its aggregate." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:decidesFor ?a . ?value sdlc:targets ?a . FILTER NOT EXISTS { $this sdlc:handles ?value } }""" ] .
+
+sdlc:ProjectorShape a sh:NodeShape ;
+  sh:targetClass sdlc:Projector ;
+  sh:property [ sh:path sdlc:projectsFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:View ;
+    sh:message "§3.4 A Projector builds one View." ] ;
+  sh:property [ sh:path sdlc:logic ; sh:maxCount 1 ; sh:pattern "^sha256:[0-9a-f]{64}$" ] ;
+  sh:sparql [
+    sh:message "§3.4 No foreign events: a Projector folds only events its View projects." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:folds ?value ; sdlc:projectsFor ?v . FILTER NOT EXISTS { ?v sdlc:projects ?value } }""" ] .
+
+sdlc:ScenarioShape a sh:NodeShape ;
+  sh:targetClass sdlc:Scenario ;
+  sh:property [ sh:path sdlc:within ; sh:or ( [ sh:class sdlc:Decider ] [ sh:class sdlc:Projector ] ) ;
+    sh:message "§3.3 A scenario belongs to a Decider or a Projector." ] ;
+  sh:property [ sh:path sdlc:thenReject ; sh:maxCount 1 ] .
+
+sdlc:NamedAlgorithmShape a sh:NodeShape ;
+  sh:targetClass sdlc:NamedAlgorithm ;
+  sh:property [ sh:path sdlc:specifiedByReference ; sh:minCount 1 ;
+    sh:message "§3.5 A named-algorithm primitive names the algorithm or standard it implements." ] ;
+  sh:property [ sh:path sdlc:pinnedByOracle ; sh:minCount 1 ;
+    sh:message "§3.5 A named-algorithm primitive is pinned by an oracle." ] .
+
+#########################  §3.2.1–§3.2.5  #########################
+
+sdlc:InteractionShape a sh:NodeShape ;
+  sh:targetClass sdlc:Interaction ;
+  sh:property [ sh:path sdlc:typedAs ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:AIO ;
+    sh:message "§3.2.1 A UI step's interactions must be typed against an Abstract Interaction Object (an AIO), never a concrete control (a CIO)." ] ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:UIStep ;
+    sh:message "§3.2.1 An interaction belongs to a UI step." ] ;
+  sh:xone (
+    [ sh:property [ sh:path sdlc:projection ; sh:minCount 1 ; sh:class sdlc:View ] ]
+    [ sh:property [ sh:path sdlc:command ; sh:minCount 1 ; sh:class sdlc:Command ] ]
+    [ sh:property [ sh:path sdlc:field ; sh:minCount 1 ; sh:class sdlc:Field ] ] ) ;
+  sh:message "§3.2.1 An interaction surfaces one projection, offers one command, or enters one payload field." .
+
+sdlc:UIStepShape a sh:NodeShape ;
+  sh:targetClass sdlc:UIStep ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:System ;
+    sh:message "§3.2.5 A UI step is owned by a system." ] ;
+  sh:property [ sh:path sdlc:offeredTo ; sh:class sdlc:SubjectKind ] ;
+  sh:sparql [
+    sh:message "§3.7 Actor coverage, surface half: a UI step that offers or surfaces something is offered to at least one human subject kind." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        ?i sdlc:within $this ; a sdlc:Interaction .
+        FILTER EXISTS { ?k a sdlc:SubjectKind }
+        FILTER NOT EXISTS { $this sdlc:offeredTo ?s . ?s sdlc:nature sdlc:natureHuman }
+      }""" ] .
+
+sdlc:StateAnnotationShape a sh:NodeShape ;
+  sh:targetClass sdlc:StateAnnotation ;
+  sh:property [ sh:path sdlc:forState ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:State ] ;
+  sh:xone ( [ sh:property [ sh:path sdlc:meaning ; sh:minCount 1 ] ]
+            [ sh:property [ sh:path sdlc:waivedBecause ; sh:minCount 1 ] ] ) ;
+  sh:message "§3.2.1 A state annotation gives the state a meaning, or waives it with a reason." .
+
+sdlc:ContentKeyShape a sh:NodeShape ;
+  sh:targetClass sdlc:ContentKey ;
+  sh:property [ sh:path sdlc:role ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:message "§3.2.1 A content reference carries a declared role." ] .
+
+sdlc:FlowShape a sh:NodeShape ;
+  sh:targetClass sdlc:Flow ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:System ;
+    sh:message "§3.2.5 A flow belongs to exactly one system." ] ;
+  sh:property [ sh:path sdlc:entryPage ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:UIStep ;
+    sh:message "§3.2.4 A flow declares an entry page." ] .
+
+sdlc:SystemShape a sh:NodeShape ;
+  sh:targetClass sdlc:System ;
+  sh:property [ sh:path sdlc:systemKind ; sh:minCount 1 ;
+    sh:message "§3.2.5 A system declares its kind." ] ;
+  sh:property [ sh:path sdlc:purpose ; sh:minCount 1 ;
+    sh:message "§3.2.5 A system states its purpose." ] ;
+  sh:property [ sh:path sdlc:referencesDomain ; sh:minCount 1 ; sh:class sdlc:Domain ;
+    sh:message "§3.2.5 A system references the whole domains it surfaces." ] ;
+  sh:property [ sh:path sdlc:targetsClass ; sh:class sdlc:InteractionClass ] ;
+  sh:property [ sh:path sdlc:targetsContext ; sh:class sdlc:ContextOfUse ] .
+
+sdlc:DeclaredTargetShape a sh:NodeShape ;
+  sh:targetClass sdlc:DeclaredTarget ;
+  sh:property [ sh:path sdlc:targetKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "design-system" "content-store" ) ;
+    sh:message "DDD-dec-57 A declared target is a design system or a content store." ] ;
+  sh:property [ sh:path sdlc:edition ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:pattern "^[A-Za-z0-9][A-Za-z0-9._-]*@[A-Za-z0-9][A-Za-z0-9._-]*@https?://" ;
+    sh:message "DDD-dec-57 A declared target names its vocabulary edition by dpp/1 reference." ] ;
+  sh:sparql [
+    sh:message "DDD-dec-45 A content-store target declares the locales its (key, locale) coverage ranges over." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE { $this sdlc:targetKind "content-store" . FILTER NOT EXISTS { $this sdlc:locale ?l } }""" ] .
+
+#########################  §3.6  #########################
+
+sdlc:QualityDemandShape a sh:NodeShape ;
+  sh:targetClass sdlc:QualityDemand ;
+  sh:property [ sh:path sdlc:statement ; sh:minCount 1 ;
+    sh:message "§3.6 A quality demand is stated checkably, never as prose alone." ] ;
+  sh:sparql [
+    sh:message "§3.6 A quality demand is one of exactly two kinds: a runtime bound or an architectural constraint." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE { FILTER NOT EXISTS { { $this a sdlc:RuntimeBound } UNION { $this a sdlc:ArchitecturalConstraint } } }""" ] .
+
+sdlc:RuntimeBoundShape a sh:NodeShape ;
+  sh:targetClass sdlc:RuntimeBound ;
+  sh:property [ sh:path sdlc:bound ; sh:minCount 1 ] ;
+  sh:property [ sh:path sdlc:measuredBy ; sh:minCount 1 ;
+    sh:message "§3.6 A runtime bound declares its measured source." ] .
+
+#########################  §3.7  #########################
+
+sdlc:SubjectKindShape a sh:NodeShape ;
+  sh:targetClass sdlc:SubjectKind ;
+  sh:property [ sh:path sdlc:nature ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:in ( sdlc:natureHuman sdlc:natureProcess sdlc:natureExternal ) ;
+    sh:message "§3.7 A subject kind has exactly one nature: human, process or external." ] ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:Domain ;
+    sh:message "§3.7 Subject kinds are domain-level: systems over the domain must agree on them." ] .
+
+sdlc:ScopeRuleShape a sh:NodeShape ;
+  sh:targetClass sdlc:ScopeRule ;
+  sh:property [ sh:path sdlc:within ; sh:class sdlc:View ] ;
+  sh:property [ sh:path sdlc:forSubject ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:SubjectKind ] ;
+  sh:sparql [
+    sh:message "§3.7 Scope coverage: every claim a scope key reads is carried by that rule's subject kind." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:forSubject ?k ; sdlc:key ?key . ?key sdlc:claim ?value .
+        FILTER NOT EXISTS { ?value sdlc:within ?k } }""" ] ;
+  sh:sparql [
+    sh:message "§3.7 Scope coverage: every view field a key compares is one the View's Projector is keyed by." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:within ?v ; sdlc:key ?key . ?key sdlc:viewField ?value .
+        FILTER NOT EXISTS { ?p sdlc:projectsFor ?v ; sdlc:keyedBy ?value } }""" ] .
+
+sdlc:ScopedViewShape a sh:NodeShape ;
+  sh:targetClass sdlc:View ;
+  sh:sparql [
+    sh:message "§3.7 Scope coverage at the seam: a View a step surfaces is public, or has a scope rule for every subject kind the step is offered to." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE {
+        ?i sdlc:projection $this ; sdlc:within ?step . ?step sdlc:offeredTo ?value .
+        FILTER NOT EXISTS { $this sdlc:public true }
+        FILTER NOT EXISTS { ?r sdlc:within $this ; sdlc:forSubject ?value }
+      }""" ] .
