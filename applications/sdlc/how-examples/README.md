@@ -78,8 +78,12 @@ effect list, region list or native file kind.
 
 A fourth, `REST@2` (a binding: every Command at `POST /commands/{wire name}`, what.md §6), is the
 charter's third "specified once" check. It supersedes `REST@1`, which read the provisional local
-id, and is anchored at the Ordering bounded context. It depends on the wire name, which is
-`[PROPOSED]` in `DDD-dec-64` (P-1); if that is ruled out, `REST@2` is superseded.
+id, and is anchored at the Ordering bounded context. It reads the wire name, ruled in Round 2
+(`DDD-dec-64`, P-1: "REST@2 stands").
+
+What-version 2 (`what@2`) supersedes `what@1`. The graph is the same. Round 2 amended the
+ontology and shapes before sdlc edition 1 was tagged, and `what@2` names the edition by the hash
+of the files as held. `what@1`'s pin stays the hash of the files at `2c4f276`.
 
 The package's version 2 (`REL@2`) supersedes the layer rule with `LAYER@2`, which adds a `test`
 layer. The importer still rests on version 1. `check.py` shows that through the versions

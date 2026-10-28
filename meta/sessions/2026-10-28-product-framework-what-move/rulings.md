@@ -58,3 +58,32 @@ Verbatim:
 
 Charter item 2's second sentence ("The §4 to §7 classes are kept as IRIs the How references,
 marked as not authored by any tool") is superseded by Round 1, Q-3. No §4–§7 class is carried.
+
+## Round 2, 2026-10-28 — recorded in `DDD-dec-63`, `DDD-dec-64` and the What
+
+Verbatim:
+
+> Round 2, move session (2026-10-28).
+>
+> P-1, wire names — ruled: yes, as an authored property. Opaque keys were ruled for identity, and identity is not a wire contract. Every element kind that appears on the wire (commands, events, payload fields, invariants in rejections, subject kinds and their claims) carries sdlc:wireName: authored, unique within the product per kind, stable by default, and changed only by a decision that is by definition a breaking change to the wire contract (§3.2's payload-schema point, now with a name to break). The REST projection and the conformance protocol use wireName, never the key and never the label. REST@2 stands.
+>
+> RDFC-1.0 — the reason is corrected, the ruling stands. I said dpp/1 and Writ's repository name RDFC-1.0; dpp/1 as merged uses canonical JSON only and Writ's docs at 6737ac9 do not say it. The ruling's actual basis is one hash law for graph content across the estate, and Varve implements RDFC-1.0, so the What's canonical form is the store's. Writ's protocol page will say RDFC-1.0 when it is written; M-4 is the right place to track that. Amend the note in DDD-dec-63 to this reason.
+>
+> Narrower anchors at the bounded context: correct under ruling 1. GEN@2 as a ruling-4 replacement of a provisional IRI: accepted, and the record's own statement that a real P never changes is the important sentence.
+>
+> CLAUDE.md's scripts/ path: successor item, not this PR.
+>
+> No watch on #42. Ratification is a manual merge.
+>
+> Send the remaining six choices in DDD-dec-64 and I'll rule them in one pass.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| P-1 wire names | `DDD-dec-64` (P-1 ruled); `what.md` §6; the ontology's `sdlc:wireName`; `WireNameShape` and `FieldWireNameShape`; `REST@2` stands | ruled. One reading is flagged, not assumed: "unique within the product per kind" is applied product-wide to commands, events, invariants and subject kinds, and **within the owning command, event, subject kind or view** to fields. Applied product-wide to fields it would forbid `amount` on both the refund command and the refunded event, and `customer_id` on an event, a view and a claim. Those are names the wire scopes by their owner. View fields are also required to carry a wire name, because a projection response names them on the wire, though the ruling's list does not name them. Both are in `DDD-dec-64`, R-1 and R-2, `UNVERIFIED — Emil review` |
+| RDFC-1.0, the reason corrected | `DDD-dec-63` notes, rewritten to the corrected basis; M-4 kept | ruled |
+| Anchors at the bounded context; `GEN@2` | no change: as landed | accepted |
+| `CLAUDE.md`'s `scripts/` path | successor item M-11 | ruled |
+| No watch on #42 | no subscription | ruled |
+| The remaining six choices of `DDD-dec-64` | sent in one pass (P-2 to P-7) | waiting |

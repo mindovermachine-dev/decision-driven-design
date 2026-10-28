@@ -23,7 +23,7 @@ resolution: |
   |---|---|
   | `docs/product-framework-open.md`, a copy of Product Framework v1.9.1 (What, How and Delivery; Two Pillars conformance) | `applications/sdlc/what.md` in mindovermachine-dev/decision-driven-design, at the tag of the merge that ratifies the move. This retires the copy, which is not updated or re-synced again |
   | the `pf:` ontology and shapes under `schema/` and `spec/schema/` | `applications/sdlc/what/ontology.ttl` and `shapes.ttl`, sdlc edition 1: `owl:versionIRI https://decision-driven-design.dk/ns/sdlc/1`, with the SHA-256 of the two files concatenated in that order, as `what@1` records it |
-  | the §6.3.1 schemas under `schema/json/conformance/` | `applications/sdlc/what/conformance/`, with `actor` renamed `subject` and ids as wire names (DDD-dec-64, P-1, proposed) |
+  | the §6.3.1 schemas under `schema/json/conformance/` | `applications/sdlc/what/conformance/`, with `actor` renamed `subject` and ids as wire names (DDD-dec-64, P-1, ruled in Round 2) |
   | element IRIs `https://productframework.org/product/<name>#<id>` | `P/what/<ULID>` under the product IRI its genesis names (DDD-dec-63). Each existing product is migrated by one decision mapping old id to new IRI, with the old id kept as `rdfs:label` where no label exists (DDD-dec-63 §8) |
   | `input_hash`: SHA-256 over product-cli's Turtle joined with Decider and Projector YAML | the RDFC-1.0 graph hash and element hashes of DDD-dec-63 §6, with logic carried as `sdlc:logic` digests. `applications/sdlc/what/vectors.json` is the conformance target |
   | the How, seams, work units, Delivery | nothing. Writ Draft 2 (D2.4) already scopes product-cli to "the What alone (Product Framework §3 and the behavioural-conformance wire protocol of §6.3.1)" |

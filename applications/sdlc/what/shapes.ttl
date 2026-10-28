@@ -334,7 +334,7 @@ sdlc:ScopedViewShape a sh:NodeShape ;
         FILTER NOT EXISTS { ?r sdlc:within $this ; sdlc:forSubject ?value }
       }""" ] .
 
-#########################  WIRE NAMES — PROPOSED, DDD-dec-64  #########################
+#########################  WIRE NAMES — DDD-dec-64 P-1, ruled 2026-10-28  #########################
 
 sdlc:WireNameShape a sh:NodeShape ;
   sh:targetClass sdlc:Command , sdlc:Event , sdlc:Invariant , sdlc:SubjectKind ;
@@ -348,4 +348,24 @@ sdlc:WireNameShape a sh:NodeShape ;
       SELECT $this ?value WHERE {
         $this a ?k ; sdlc:wireName ?value . ?other a ?k ; sdlc:wireName ?value .
         FILTER (?other != $this && ?k IN (sdlc:Command, sdlc:Event, sdlc:Invariant, sdlc:SubjectKind))
+      }""" ] .
+
+sdlc:FieldWireNameShape a sh:NodeShape ;
+  sh:targetClass sdlc:Field ;
+  sh:sparql [
+    sh:message "what.md §6 A field of a command, event, subject kind or view (a payload field, a claim, a view field) carries a wire name: the wire names it." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        $this sdlc:within ?owner .
+        { ?owner a sdlc:Command } UNION { ?owner a sdlc:Event } UNION { ?owner a sdlc:SubjectKind } UNION { ?owner a sdlc:View }
+        FILTER NOT EXISTS { $this sdlc:wireName ?n }
+      }""" ] ;
+  sh:sparql [
+    sh:message "what.md §6 A field's wire name is unique within its owner (DDD-dec-64 R-1, UNVERIFIED — Emil review)." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE {
+        $this sdlc:within ?owner ; sdlc:wireName ?value .
+        ?other a sdlc:Field ; sdlc:within ?owner ; sdlc:wireName ?value . FILTER (?other != $this)
       }""" ] .

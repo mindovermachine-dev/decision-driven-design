@@ -77,7 +77,7 @@ def pins(start):
             if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
             elif e in records[k].get("basedOn", []): todo.append(e["ref"])
     return hops, bad
-for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
+for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
               f"ACC-1@1@{A}", "REL@2@https://vendor.example/packages/ref-arch"):   # version 2 first; version 1 as history
     hops, bad = pins(start)
     ok(not bad, f"pins from {start.split('@')[0]}: {hops} references" + ("" if bad else ", every target held here and matching its pin")
@@ -166,17 +166,19 @@ ok(len(superseded) == 4, f"supersession seen through the package's versions list
 
 # ---- the What-version (DDD-dec-63 §6): its element list and graph hash are the landed What's
 import hashlib
-wv = records[f"what@1@{A}"][SD]
+WV = max((k for k in records if k.startswith("what@") and k not in superseded_refs), key=lambda k: int(k.split("@")[1]))
+report.append(f"note the What-version in force is {WV.split('@')[0]}@{WV.split('@')[1]}; earlier versions are superseded")
+wv = records[WV][SD]
 vec = json.load(open(VECTORS))
 ok(wv["canon"] == "rdfc-1.0" and wv["graphHash"] == vec["graphHash"] and wv["elements"] == vec["elements"],
-   f"what@1: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal what/vectors.json, which what/check.py recomputes from the graph")
-ok({e["ref"] for e in records[f"what@1@{A}"]["basedOn"]} == what_in_force, "what@1 pins exactly the What decisions in force")
+   f"{WV.split('@')[0]}@{WV.split('@')[1]}: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal what/vectors.json, which what/check.py recomputes from the graph")
+ok({e["ref"] for e in records[WV]["basedOn"]} == what_in_force, "the What-version pins exactly the What decisions in force")
 found = records[f"WHAT-found@1@{A}"][SD]
 ok(found["delta"]["hash"] == "sha256:" + hashlib.sha256(open(WHAT_TTL, "rb").read()).hexdigest() and found["anchor"] == P,
    "WHAT-found@1: anchored at the product node; its delta is the landed graph, byte for byte")
 ed = hashlib.sha256(open(os.path.join(REPO, "applications/sdlc/what/ontology.ttl"), "rb").read()
                     + open(os.path.join(REPO, "applications/sdlc/what/shapes.ttl"), "rb").read()).hexdigest()
-ok(wv["edition"]["hash"] == "sha256:" + ed, "what@1: names sdlc edition 1 by the hash of the ontology and shapes as held")
+ok(wv["edition"]["hash"] == "sha256:" + ed, "the What-version names sdlc edition 1 by the hash of the ontology and shapes as held")
 
 # ---- verdicts
 try:

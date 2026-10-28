@@ -733,15 +733,22 @@ partition's state. "Scoping is **not** on this wire."
 and each payload. It is full-state for projections: "an extra field is as non-conformant as a
 wrong one" (PF §6.3.1).
 
-**Names on the wire.** `[PROPOSED]` (`DDD-dec-64`, P-1). The wire names commands, events,
-invariants, fields and subject kinds by their **wire name** (`sdlc:wireName`), not by key or
-label:
+**Names on the wire.** *Ruled (Round 2, `DDD-dec-64` P-1):* "Opaque keys were ruled for identity,
+and identity is not a wire contract." Every element kind that appears on the wire carries an
+authored **wire name** (`sdlc:wireName`): commands, events, payload fields, invariants in
+rejections, subject kinds and their claims. The REST projection and the conformance protocol
+use it, "never the key and never the label":
 - **Why not the key.** Keys are opaque ULIDs (`DDD-dec-63`), and a payload object keyed by ULIDs
   would make the wire unreadable to every runner author.
 - **Why not the label.** Labels change freely by decision, and a rename would silently break
   every runner.
-- **What a wire name is.** It is authored, a `dpp/1` token, unique per kind within the product.
-  Changing it is a breaking change to the wire contract, made by decision. PF §3.2.0 already called
+- **What a wire name is.** It is authored, a `dpp/1` token, unique within the product per kind,
+  and stable by default. It is "changed only by a decision that is by definition a breaking change
+  to the wire contract".
+- **Two readings, flagged.** These are `UNVERIFIED — Emil review` (`DDD-dec-64`, R-1 and R-2):
+  - a field's wire name is unique within its owning command, event, subject kind or view, not
+    product-wide, because the wire scopes field names by their owner;
+  - view fields carry wire names too, because a projection response names them. PF §3.2.0 already called
   the payload "a **public wire contract**" that "must be authored, not guessed". The wire name is
   that contract's vocabulary.
 
@@ -797,7 +804,7 @@ computed and never stored.
 
 | # | Proposal | Section |
 |---|---|---|
-| P-1 | `sdlc:wireName`: the authored name the wire and public interfaces use, distinct from key and label | §6 |
+| P-1 | `sdlc:wireName`: the authored name the wire and public interfaces use, distinct from key and label. *Ruled, Round 2*; readings R-1 and R-2 flagged | §6 |
 | P-2 | `sdlc:within` as the single containment edge | §2.2 |
 | P-3 | interactions, fields, state annotations, content keys and scenarios are elements | §2.2 |
 | P-4 | `sdlc:DeclaredTarget` for design-system and content-store declarations | §4.1 |

@@ -2,45 +2,52 @@ format: 1
 id: DDD-dec-64
 kind: decision
 statement: |
-  [PROPOSED — not ruled] The What as moved (applications/sdlc/what.md, what/ontology.ttl, what/shapes.ttl) makes seven choices the rulings did not. P-1: commands, events, fields, invariants and subject kinds carry an authored wire name, distinct from the opaque key and from the label, and changing it is a breaking wire change. P-2: sdlc:within is the single containment edge. P-3: interactions, fields, state annotations, content keys and scenarios are elements, not blank nodes. P-4: sdlc:DeclaredTarget is the element for design-system and content-store declarations. P-5: §3.5 drops the title "the Polanyi floor". P-6: the move adds the §3 kinds that product-cli's schema/ lacked. P-7: an authoring scope is a set of element kinds, optionally narrowed to a subtree, and tools are gathering sources, never authors.
+  [RULED IN PART — P-1 ruled 2026-10-28; P-2 to P-7, R-1 and R-2 not ruled] The What as moved (applications/sdlc/what.md, what/ontology.ttl, what/shapes.ttl) makes choices the earlier rulings did not. P-1, ruled: every element kind that appears on the wire carries an authored sdlc:wireName, distinct from the opaque key and the label. It is unique within the product per kind, stable by default, and changed only by a decision that is by definition a breaking change to the wire contract. The REST projection and the conformance protocol use it. Proposed: P-2, sdlc:within as the single containment edge. P-3, interactions, fields, state annotations, content keys and scenarios as elements. P-4, sdlc:DeclaredTarget for design-system and content-store declarations. P-5, §3.5 without the title "the Polanyi floor". P-6, the §3 kinds that product-cli's schema/ lacked. P-7, an authoring scope as a set of element kinds, optionally narrowed to a subtree, with tools as gathering sources. Readings of P-1, flagged: R-1, a field's wire name is unique within its owner. R-2, view fields carry wire names.
 principal: Emil
-made: NOT YET MADE. Proposed by Claude in the Product Framework What move session, 2026-10-28, while writing step 2 of the plan Emil approved in Round 1 ("Proceed on the plan once DDD-dec-63 is revised to the above and filed as ruled"). It becomes a decision only by Emil's ruling, recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md. If Emil rules otherwise, this file and the parts of what.md, the ontology and the shapes that carry the proposal are revised to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+made: P-1 ruled 2026-10-28, Round 2 of the Product Framework What move session, recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md ("P-1, wire names — ruled: yes, as an authored property … REST@2 stands"). P-2 to P-7 NOT YET MADE: proposed by Claude while writing step 2 of the plan approved in Round 1, and sent for ruling in one pass ("Send the remaining six choices in DDD-dec-64 and I'll rule them in one pass"). R-1 and R-2 are Claude's readings of P-1, flagged. Each becomes a decision only by Emil's ruling; this file is rewritten to the rulings before merge. Emil's acceptance of the pull request is the ratification act
 resolution: |
-  Claude's proposal, awaiting Emil's ruling. Not in force. The moved What is written with these
-  choices, so that it can be reviewed whole. Each is marked [PROPOSED] where it lands.
+  ## P-1 — ruled (Round 2)
 
-  ## Weakest point first
+  > Opaque keys were ruled for identity, and identity is not a wire contract. Every element kind
+  > that appears on the wire (commands, events, payload fields, invariants in rejections, subject
+  > kinds and their claims) carries sdlc:wireName: authored, unique within the product per kind,
+  > stable by default, and changed only by a decision that is by definition a breaking change to
+  > the wire contract (§3.2's payload-schema point, now with a name to break). The REST projection
+  > and the conformance protocol use wireName, never the key and never the label. REST@2 stands.
 
-  **P-1 is forced by the opaque-key ruling, and it is new.** The wire (what.md §6), the canonical
-  REST projection (how.md, REST) and every public interface name commands, events and fields.
-  - Keys cannot serve: they are opaque ULIDs (DDD-dec-63).
-  - Labels cannot serve: they change freely by decision, so a rename would silently break every
-    runner and every client.
+  Landed: what.md §6; the ontology's sdlc:wireName; WireNameShape and FieldWireNameShape; REST@2.
 
-  The alternative is to put keys on the wire (`/commands/01M610…`, payloads keyed by ULID). That
-  needs no new construct, but no runner author can read it. Claude recommends P-1. If it is
-  ruled out, the How example REST@2, which reads wire names, is superseded.
+  ## Two readings of P-1 — UNVERIFIED, Emil review
 
-  ## The seven
+  - **R-1. Where a field's wire name is unique.** The ruling says "unique within the product per
+    kind". For commands, events, invariants and subject kinds this is applied product-wide. For
+    fields it is applied within the owning command, event, subject kind or view.
+    - **Why.** Product-wide, it would forbid `amount` on both the refund command and the refunded
+      event, and `customer_id` on an event, a view and a claim. The wire scopes a field's name by
+      its owner (`{"command": "refund-order", "with": {"amount": …}}`), so owner-scoped is the
+      uniqueness the wire needs.
+    - **If ruled otherwise.** Product-wide uniqueness would make every payload field name
+      globally distinct, and the example's names would change.
+  - **R-2. View fields.** The ruling's list does not name them. They are required to carry wire
+    names anyway, because a projection response is "a JSON object of field: scalar" and a keyed
+    request names its partition by field (what.md §6). They appear on the wire.
 
-  | # | Choice | Why | Lands in |
+  ## P-2 to P-7 — for ruling in one pass
+
+  | # | Choice | Why | If ruled otherwise |
   |---|---|---|---|
-  | P-1 | `sdlc:wireName` on commands, events, fields, invariants and subject kinds: a dpp/1 token, unique per kind within the product | PF §3.2.0 already calls a payload "a public wire contract" that "must be authored, not guessed"; the wire name is that contract's vocabulary | what.md §6; ontology; WireNameShape |
-  | P-2 | `sdlc:within` as the only containment edge, replacing in_context, owns_domain, owns_system, system_of, journey_of, bounded_by | One edge makes "the subtree an anchor covers" one transitive walk, which the How's anchors (how.md §3) and authoring scopes (P-7) both read | what.md §2.2; ontology |
-  | P-3 | interactions, fields, state annotations, content keys and scenarios are elements | Each is referred to by identity: bindings anchor to interactions and content keys (DDD-dec-57), Deciders read fields, scope keys compare them, and scenarios feed the wire. Under DDD-dec-63 §4 that makes each an element. product-cli made interactions and attributes blank nodes | what.md §2.2; ontology |
-  | P-4 | `sdlc:DeclaredTarget`, with `targetKind`, `edition` (a dpp/1 reference to the target's vocabulary edition) and `locale` | DDD-dec-57: the What declares the target "exactly as it declares iOS"; the catalogue is the package's | what.md §4.1; ontology; DeclaredTargetShape |
-  | P-5 | §3.5 retitled "Named-algorithm primitives" | "Floor" is a canon term (risk 1 of the earlier, unmerged move charter) | what.md §3.5 |
-  | P-6 | the kinds schema/ lacked, each with its dct:source: Domain, System, Journey, ReferenceData, Trigger, Decider, Projector, Scenario, NamedAlgorithm, StateAnnotation, ContentKey, SystemRoot (schema/'s ApplicationRoot, renamed), ContextOfUse, DeclaredTarget, QualityDemand and its two kinds, SubjectKind, ScopeRule | Q-2 named schema/ as the source, but schema/ covers only part of §3. product-cli's exporter (turtle.rs) already emits most of these as pf: terms | ontology |
-  | P-7 | a scope is a set of element kinds (classes of the ontology), optionally narrowed to one element's subtree. An acceptance is valid only for decisions whose elements are all of kinds in scope. Tools are gathering sources with declarations that grant nothing | DDD-dec-43, DDD-dec-44, DDD-dec-46. PF §14.2's own planned fix ("expression-as-references") is the ontology's classes | what.md §5 |
+  | P-2 | `sdlc:within` as the only containment edge, replacing in_context, owns_domain, owns_system, system_of, journey_of and bounded_by | One edge makes "the subtree an anchor covers" one transitive walk. The How's anchors (how.md §3), the checker's narrowest-element rule and authoring scopes (P-7) all read it. Kind-specific edges would need a containment table per kind | Typed containment edges, each declared a subproperty of a containment property, and every query rewritten over the property path |
+  | P-3 | interactions, fields (attributes, payload fields, view fields, claims), state annotations, content keys and scenarios are elements, not blank nodes | Each is referred to by identity. Bindings anchor to interactions and content keys (DDD-dec-57). Deciders read fields. Scope keys compare them. Scenarios feed the wire. Under DDD-dec-63 §4 that makes each an element. product-cli made interactions and attributes blank nodes | Those that stay blank nodes can be named by nothing: no binding, baseline, `reads` or `explain` can point at them |
+  | P-4 | `sdlc:DeclaredTarget`, with `targetKind` (design-system or content-store), `edition` (a dpp/1 reference to the target's vocabulary-edition record) and `locale` (BCP 47) | DDD-dec-57: the What declares the target "exactly as it declares iOS", and the catalogue is the package's. It is one kind for both, because they differ only in what the edition holds | Two kinds, a DesignSystem and a ContentStore declaration. That is close to the old pf: classes, which were catalogues, which Q-3 rejected |
+  | P-5 | §3.5 is titled "Named-algorithm primitives", without "the Polanyi floor" | "Floor" is a canon term, and the old title would read as a claim about canon's floor | The title is kept, and what.md says it is not canon's floor |
+  | P-6 | the move adds the §3 kinds schema/ lacked, each with dct:source naming its PF section: Domain, System, Journey, ReferenceData, Trigger, Decider, Projector, Scenario, NamedAlgorithm, StateAnnotation, ContentKey, ContextOfUse, DeclaredTarget, QualityDemand (RuntimeBound, ArchitecturalConstraint), SubjectKind and ScopeRule. It also renames schema/'s ReadModel to View, WireframeStep to UIStep and ApplicationRoot to SystemRoot | Q-2 named schema/ as the source, but schema/ is the v1.7-era vocabulary and covers part of §3 only. product-cli's exporter already emits most of these as pf: terms. Without them, §3 has no vocabulary for domains, systems or Deciders | The ontology is schema/'s classes only, and what.md §3.0, §3.2.5, §3.3–§3.7 have no terms |
+  | P-7 | an authoring scope is a set of What element kinds (ontology classes), optionally narrowed to one element's subtree. An acceptance of a What decision is valid only if every element it creates, changes or retires is of a kind in scope, within the subtree. Tools are gathering sources: their declarations bound what they may propose and grant nothing | DDD-dec-43, DDD-dec-44 and DDD-dec-46. PF §14.2's own planned fix ("expression-as-references") is the ontology's classes. Kind is immutable (DDD-dec-63), so a scope cannot be escaped by reclassifying. Force stays the authority profile's (Q-4) | Scopes over sections or subgraphs instead of kinds, and the authority profile's pull request defines the check |
 
-  ## Also recorded, not proposals
+  ## Also recorded, not choices
 
-  - **Renames made in the move.** schema/'s ReadModel becomes View (the §3.2.0 block name),
-    WireframeStep becomes UIStep (the §3.2.1 term), ApplicationRoot becomes SystemRoot (one per
-    system, §3.2.4), and `isAggregateRoot` is typed xsd:boolean. Each is noted in its rdfs:comment.
-  - **Not carried.** Provider coverage moves to the How (authentication is How, PF v1.11.0 §3.7).
-    Oracle conformance and the pure-core contract are How bindings. Attestations are left to the
-    authority profile. All four follow from the rulings.
+  - Provider coverage moves to the How (authentication is How, PF v1.11.0 §3.7).
+  - Oracle conformance and the pure-core contract are How bindings.
+  - Attestations are left to the authority profile.
 basedOn:
   - DDD-dec-63
   - DDD-dec-57
@@ -50,5 +57,5 @@ basedOn:
   - DDD-dec-46
   - DDD-dec-51
 notes: |
-  Filed with step 2 of the move (what.md). what/check.py enforces P-1's uniqueness and P-3's
-  identity form over the example.
+  Filed with step 2 of the move (what.md); P-1 ruled in Round 2. what/check.py enforces P-1 and R-1
+  over the example, with a planted defect for each.

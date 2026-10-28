@@ -312,7 +312,7 @@ LANDED = {
 DAY2 = "2026-10-28"
 
 # The vendor: REST read sdlc:localId, a provisional What term the landed What does not carry.
-# REST@2 reads the Command's wire name (what.md §6; PROPOSED in DDD-dec-64, P-1).
+# REST@2 reads the Command's wire name (what.md §6; DDD-dec-64 P-1, ruled 2026-10-28).
 REST2_Q = PFX + """SELECT ?subject ?reason WHERE {
   ?subject a sdlc:Command ; sdlc:within* ?anchor ; sdlc:within* ?domain ; sdlc:wireName ?id .
   ?domain a sdlc:Domain .
@@ -410,6 +410,17 @@ put(A, "ACC-what", "1", "Accepted under the What grant: the founding decision th
 put(A, "what", "1", f"What-version 1 of {P}.", PO,
     "Names the What in force after the founding decision (DDD-dec-63 §6).",
     basedOn=[ref(A, "WHAT-found", "1")], status="accepted", key="acme-owner", at=DAY2,
+    **{SD: {"record": "what-version", "product": P,
+            "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
+                        "hash": "sha256:14b6e3856ef0a40ff63e9dd5e7728a0ddfa0ea551ca5ee962fc5c46522d7b024"},   # the ontology and shapes as they stood at 2c4f276, when what@1 was published
+            "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})
+
+# Round 2 (2026-10-28) amended the ontology and shapes before sdlc edition 1 was tagged (wire names
+# ruled; field wire names required). what@1 pinned the earlier files' hash, so what@2 supersedes it
+# with the hash as held. The graph, and so every element hash, is unchanged.
+put(A, "what", "2", f"What-version 2 of {P}.", PO,
+    "Supersedes what@1: the same graph and the same decisions, named under sdlc edition 1 as amended by Round 2 before the edition was tagged.",
+    basedOn=[ref(A, "WHAT-found", "1")], supersedes=[ref(A, "what", "1")], status="accepted", key="acme-owner", at=DAY2,
     **{SD: {"record": "what-version", "product": P,
             "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
                         "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()

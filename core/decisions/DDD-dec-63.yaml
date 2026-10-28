@@ -167,14 +167,11 @@ basedOn:
 notes: |
   Filed unruled at 4f506f2 and rewritten to Emil's ruling before merge, as its proposal stated.
 
-  The ruling's reason for RDFC-1.0, "the decision protocol and Writ already name RDFC-1.0 as the
-  reference canonical form for graph content", was checked at filing and holds only in part:
-  - Varve implements it (Varve.Rdf.RdfCanonicaliser; the decision ApplyConvergesDesiredState
-    canonicalises declarations "with RDFC-1.0").
-  - spec/decision-provenance/dpp-1.md on main does not name RDFC-1.0. Its hash law is a JSON
-    canonical form over records.
-  - Hafeok/writ's docs/ at 6737ac9 do not name it either.
-  The ruling does not depend on the premise and stands. If dpp/1 or Writ is meant to carry
-  RDFC-1.0, that is an edit there, not here.
+  The basis for RDFC-1.0, as corrected by Emil in Round 2 ("the reason is corrected, the ruling
+  stands"): one hash law for graph content across the estate. Varve, the store, implements
+  RDFC-1.0 (Varve.Rdf.RdfCanonicaliser), so the What's canonical form is the store's. Round 1 gave
+  as its reason that dpp/1 and Writ already name RDFC-1.0. They do not: dpp/1 as merged uses
+  canonical JSON only, over records, and Writ's docs at 6737ac9 do not say it. Writ's protocol page
+  will say RDFC-1.0 when it is written; successor item M-4 tracks that.
 
   Sources read for it are in the session's bootstrap.md. Nothing in core/claims/ changes.

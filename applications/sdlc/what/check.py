@@ -122,6 +122,7 @@ if rdflib:
             ("a user trigger acting as a process", lambda g: [g.add((next(g.objects(trigger, S.subject)), S.nature, S.natureProcess)), g.remove((next(g.objects(trigger, S.subject)), S.nature, S.natureHuman))], "§3.7 A trigger's subject"),
             ("an element within two elements", lambda g: g.add((decider, S.within, URIRef(P))), "DDD-dec-63 §2 An element is within exactly one"),
             ("a command no trigger issues", lambda g: g.remove((trigger, S.issues, None)), "§3.2.0 Pattern conformance"),
+            ("a payload field with no wire name", lambda g: g.remove((next(f for f in g.subjects(RDF.type, S.Field) if (f, S.within, next(g.subjects(RDF.type, S.Command))) in g), S.wireName, None)), "what.md §6 A field of a command"),
             ("two events with one wire name", lambda g: [g.set((e, S.wireName, rdflib.Literal("order-placed"))) for e in list(g.subjects(RDF.type, S.Event))], "what.md §6 Wire names are unique"),
         ]
         for name, plant, expect in plants:

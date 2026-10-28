@@ -69,7 +69,7 @@ sdlc:logicMediaType a owl:DatatypeProperty ;
 
 sdlc:wireName a owl:DatatypeProperty ;
   rdfs:label "wire name" ;
-  rdfs:comment "PROPOSED (DDD-dec-64). The name an element carries on a wire contract: a Command, Event, field (payload, view or claim), invariant or subject kind, as the conformance wire (what.md §6) and a public interface name it. Authored, a dpp/1 token, unique per kind within the product. Unlike rdfs:label, changing it is a breaking change to the wire contract, made by decision. Needed because keys are opaque (DDD-dec-63) and labels change freely." ;
+  rdfs:comment "Ruled 2026-10-28 (DDD-dec-64, P-1): the authored name an element carries on the wire. Commands, events, payload fields, invariants in rejections, subject kinds and their claims carry it; view fields too, because a projection response names them (R-2). A dpp/1 token. Unique within the product per kind; a field's is unique within its owning command, event, subject kind or view (R-1). Stable by default, and changed only by a decision, which is by definition a breaking change to the wire contract. The REST projection and the conformance protocol use it, never the key and never the label. Identity is not a wire contract (DDD-dec-63)." ;
   rdfs:range xsd:string ; dct:source "move" .
 
 #################################################################
