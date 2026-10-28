@@ -1,0 +1,50 @@
+format: 1
+id: DDD-dec-57
+kind: decision
+statement: |
+  A design system and a content store are targets, not catalogues. The product's What declares them, as it declares iOS: this design system at this edition, these locales against this content store. The catalogue (components, tokens, strings) is that target's vocabulary edition, held in a package with its own genesis, typically a design team's. The AIO-to-CIO and key-to-string bindings are How decisions of kind 2, anchored to the AIO or the content key. Nothing in a catalogue is a What element of the product that uses it.
+principal: Emil
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
+resolution: |
+  ## Ruled, 2026-10-28 (ruling 3)
+
+  > The ruling of the 27th (§11 and §12 are What because you cannot build without them) means
+  > this: the product's What declares the target … exactly as it declares iOS.
+
+  This reads DDD-dec-44's first ruling and fixes DDD-dec-45's "the catalogue is the set of accepted
+  decisions". The catalogue is the accepted decisions of the target's own package. The bindings in
+  the using product are anchored to its AIOs and content keys.
+
+  ## Not ruled separately; stands as proposed until the merge
+
+  - Every How decision is stated once, with no language or platform term in it.
+  - A decision's shape in a target is derived from that target's vocabulary edition, never
+    authored. It is expressible there iff the edition maps every fact term it reads.
+  - Interface standards are not targets, and decisions may name them.
+  - Platform targets (Azure, AWS) exist beside languages.
+  - Language and deployment-platform targets are declared by How target declarations. Targets the
+    What declares (platform contexts such as iOS, design systems, content stores and locales) are
+    declared by the What.
+
+  See how.md §5.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-44
+  - DDD-dec-45
+notes: |
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

@@ -1,0 +1,29 @@
+# What the C# fact projector, edition csharp/1, would emit for the shop-api repository at the
+# commit named in facts/manifest.json. Hand-written for the example: no projector edition exists
+# (Writ's code-facts page is "not written"). The native shapes each triple comes from are in
+# README.md. Effect classification and target membership are NOT here: the checker derives them
+# from the vocabulary edition record, which is the point of the edition.
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix c: <https://acme.example/repos/shop-api#> .
+@prefix api: <https://decision-driven-design.dk/ns/sdlc/api/csharp#> .
+
+c:Acme.Ordering.Domain a sdlc:Component ; sdlc:inLayer "domain" ;
+    sdlc:dependsOn c:Acme.Ordering.Infrastructure .          # the planted upward reference
+c:Acme.Ordering.Application a sdlc:Component ; sdlc:inLayer "application" ;
+    sdlc:dependsOn c:Acme.Ordering.Domain .
+c:Acme.Ordering.Infrastructure a sdlc:Component ; sdlc:inLayer "infrastructure" ;
+    sdlc:dependsOn c:Acme.Ordering.Application ; sdlc:usesApi api:System.Net.Http.HttpClient .
+c:Acme.Shop.Api a sdlc:Component ; sdlc:inLayer "host" ;
+    sdlc:dependsOn c:Acme.Ordering.Infrastructure , c:Acme.Ordering.Application .
+
+c:OrderDecider a sdlc:CodeElement ; sdlc:inComponent c:Acme.Ordering.Domain ;
+    sdlc:realises <https://acme.example/products/shop/what#decider-order> .
+
+c:PlaceOrderEndpoint a sdlc:CodeElement ; sdlc:inComponent c:Acme.Shop.Api ;
+    sdlc:realises <https://acme.example/products/shop/what#command-place-order> ;
+    sdlc:handlesRoute c:route-1 .
+c:route-1 sdlc:method "POST" ; sdlc:path "/commands/place-order" .
+c:RefundOrderEndpoint a sdlc:CodeElement ; sdlc:inComponent c:Acme.Shop.Api ;
+    sdlc:realises <https://acme.example/products/shop/what#command-refund-order> ;
+    sdlc:handlesRoute c:route-2 .
+c:route-2 sdlc:method "POST" ; sdlc:path "/commands/refund-order" .

@@ -1,0 +1,30 @@
+{
+  "protocol": "dpp/1",
+  "id": "LAYER",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Every component is in exactly one of the layers domain, application, infrastructure, host, ranked in that order, and no component depends on a component of a higher-ranked layer.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "Dependencies point toward the domain, so the domain can be read, tested and replaced without its infrastructure; a component outside every layer is a component nobody has decided the place of.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "decision",
+    "kind": "constraint",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "factSources": [
+      "projector"
+    ]
+  },
+  "dk.decision-driven-design.authority": {
+    "violation": {
+      "language": "sparql-1.1-select",
+      "binds": [
+        "anchor",
+        "target"
+      ],
+      "text": "PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>\nSELECT ?subject ?reason WHERE {\n  {\n    VALUES (?fromLayer ?fromRank) { (\"domain\" 1) (\"application\" 2) (\"infrastructure\" 3) (\"host\" 4) }\n    VALUES (?toLayer ?toRank) { (\"domain\" 1) (\"application\" 2) (\"infrastructure\" 3) (\"host\" 4) }\n    ?subject a sdlc:Component ; sdlc:inTarget ?target ; sdlc:ofSystem ?system ;\n             sdlc:inLayer ?fromLayer ; sdlc:dependsOn ?to .\n    ?system sdlc:within* ?anchor .\n    ?to sdlc:inLayer ?toLayer .\n    FILTER (?fromRank < ?toRank)\n    BIND (CONCAT(\"depends on a higher layer: \", STR(?to)) AS ?reason)\n  } UNION {\n    ?subject a sdlc:Component ; sdlc:inTarget ?target ; sdlc:ofSystem ?system .\n    ?system sdlc:within* ?anchor .\n    FILTER NOT EXISTS { ?subject sdlc:inLayer ?l . FILTER (?l IN (\"domain\", \"application\", \"infrastructure\", \"host\")) }\n    BIND (\"in no layer this decision declares\" AS ?reason)\n  }\n}"
+    }
+  }
+}

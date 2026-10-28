@@ -1,0 +1,9 @@
+# What the Azure reporter, edition azure/1, would read from the deployable unit's DECLARATION
+# (the Bicep files in shop-api at the commit in facts/manifest.json). Hand-written. No observed
+# reading of this unit exists in the example: its observed verdict is unknown, by design.
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix u: <https://acme.example/units/shop-api-prod#> .
+@prefix region: <https://decision-driven-design.dk/ns/sdlc/region/azure#> .
+
+u:orders-sql a sdlc:DataStore ; sdlc:holdsPersonalData true ; sdlc:inRegion region:westeurope .
+u:assets-blob a sdlc:DataStore ; sdlc:holdsPersonalData false ; sdlc:inRegion region:eastus .

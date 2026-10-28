@@ -1,0 +1,6 @@
+{
+  "locations": {
+    "https://vendor.example/packages/ref-arch": "records/vendor",
+    "https://acme.example/products/shop/decisions": "records/acme"
+  }
+}

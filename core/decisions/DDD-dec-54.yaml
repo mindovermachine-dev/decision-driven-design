@@ -1,0 +1,55 @@
+format: 1
+id: DDD-dec-54
+kind: decision
+statement: |
+  The rulings the How charter states as already made: a How decision anchors to exactly one What element or to the product, the product being the degenerate case an empty What forces; every change to the What or the How is a decision, tools never change either, and everything gathered is signed by a human principal; a package is a product with its own genesis, provenance never authority in another product's space; force comes from the authority profile (genesis, grants, scopes, acceptance, baseline, waiver), which the How does not redefine; the gate is Writ, whose verbs, positions, partitions and guarantees the How does not restate; and records use the protocol token ruled on 2026-10-27.
+principal: Emil
+made: 2026-10-27, in the charter of the Product Framework How session, under "Already ruled; do not reopen", committed verbatim at meta/sessions/2026-10-27-product-framework-how/prompt.md before any other work; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings, verbatim from the charter
+
+  > * A How decision anchors to exactly one What element or to the product. Anchoring to the
+  >   product is the degenerate case an empty What forces (a repository with no What is a
+  >   product whose What is empty), not a loophole.
+  > * Every change to the What or the How is a decision; tools never change either; everything
+  >   gathered is signed by a human principal.
+  > * A package is a product with its own genesis, held by the vendor. In another product's
+  >   space it is provenance, never authority: its decisions enter by import, `basedOn` the
+  >   package's versions, and are in force only under the importing product's acceptances.
+  > * Force comes from the authority profile (genesis, grants, scopes, acceptance, baseline,
+  >   waiver). The How does not redefine any of it.
+  > * The gate is Writ. The How states what Writ enforces; it does not restate Writ's verbs,
+  >   positions, partitions or guarantees.
+  > * The protocol token is whichever was ruled on 2026-10-27; records use it.
+
+  ## What is new against earlier decisions
+
+  - Ruling 1 extends DDD-dec-42 (decisions anchor to a What element) to the How, and adds the
+    product as the degenerate anchor, from DDD-dec-46 ("a repository with no What is a product
+    whose What is empty").
+  - Ruling 2 extends DDD-dec-42 and DDD-dec-43 from the What to the How.
+  - Ruling 3 restates DDD-dec-46's consequence clause.
+  - Ruling 4 adds baseline and waiver to the authority profile's contents; DDD-dec-47 named
+    signature, acceptedBy and acceptedAt only.
+  - Ruling 5 names Writ as the gate. Writ is defined at github.com/Hafeok/writ
+    (docs/product-definition.md, Draft 1, read at 3b1c5af); no decision here named it before.
+  - Ruling 6 points at DDD-dec-53: decprov/1.
+
+  ## Recorded at filing — Claude, UNVERIFIED — Emil review
+
+  The charter states that the What has moved into applications/sdlc/. It has not: PR #39
+  recorded rulings and moved no text (bootstrap.md, arrival finding 1). Nothing in the rulings
+  above depends on that statement. And DDD-dec-53's rename is not applied on main
+  (spec/decision-provenance/ still says dpp/1), so ruling 6's records cannot be read by the
+  reference implementation on main unmodified.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-43
+  - DDD-dec-46
+  - DDD-dec-47
+  - DDD-dec-53
+notes: |
+  Filed from the Product Framework How session (meta/sessions/2026-10-27-product-framework-how/).
+  The rulings are Emil's words in the charter; this file records them, as DDD-dec-41 recorded the
+  What session's charter rulings. Next free id checked at arrival: 54 (downstream holds up to 53
+  on every branch; upstream up to 39).

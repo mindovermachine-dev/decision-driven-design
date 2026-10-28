@@ -1,0 +1,53 @@
+format: 1
+id: DDD-dec-62
+kind: decision
+statement: |
+  The Decision Provenance Protocol token is dpp/1. DDD-dec-53's decprov/1 is superseded. main already ships dpp/1 in its specification, records, system.json, suite and reference implementation, with the well-known path decision-provenance, so nothing is renamed. Records written under the How session's examples carry dpp/1.
+principal: Emil
+made: |
+  2026-10-28, Round 3 of the Product Framework How session's rulings, recorded verbatim at meta/sessions/2026-10-27-product-framework-how/rulings.md ("1. Token — ruled: `dpp/1`. (or `decprov/1`; one word.) File the supersession of `DDD-dec-53` under the move session's range, coordinated with it."); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > 1. Token — ruled: `dpp/1`. (or `decprov/1`; one word.) File the supersession of `DDD-dec-53`
+  >    under the move session's range, coordinated with it. Rebuild the records with fresh test
+  >    keys: the examples live in a test product under a test genesis with a declared test holder,
+  >    and no real key is ever used for a fixture or held by a session. Your scratch run is the
+  >    model. `RESID@1` gets its new version in the same rebuild.
+
+  ## Reading recorded — Claude, UNVERIFIED — Emil review
+
+  The ruling's parenthetical, "(or `decprov/1`; one word.)", is recorded as written. Every action
+  the ruling gives belongs to the dpp/1 outcome of Round 2's choice: supersede DDD-dec-53, rebuild,
+  and turn the conformance step green against main, which ships dpp/1. So the ruling is read as
+  dpp/1, and the parenthetical as restating that the protocol has one token (DDD-dec-48). If that
+  reading is wrong, this decision and the rebuild at the same commit are superseded.
+
+  ## Why dpp/1 (Emil's recommendation, Round 1)
+
+  "The path already carries the long name and the merged suite has 65 checks that should not be
+  rewritten for a token." DDD-dec-53's reasons for decprov/1 (the clash between "DPP" and the EU
+  Digital Product Passport) are answered by the protocol's own A.2 Q4/Q5: the abbreviation lives
+  only in a named field, and the shared registry name is spelled out.
+
+  ## What was done with it
+
+  - The How examples were rebuilt with dpp/1 and fresh throwaway test keys, which build.py
+    discards. RESID@1 was issued with the ruled provenance values (DDD-dec-60). The checker runs
+    the reference implementation on main unmodified: 21 of 21 records conformant, 0 failures.
+  - The decprov/1 example records were never conformant to any protocol on main. They remain in
+    the branch history at d11df86 and are replaced here, not superseded by protocol records.
+  - DDD-dec-53 is left unchanged; this decision supersedes it.
+basedOn:
+  - DDD-dec-53
+  - DDD-dec-48
+  - DDD-dec-54
+notes: |
+  Id. 62 is the first id of the move session's range (Round 1: "The move session takes 62
+  onward"). Coordinated as far as this session can. On 2026-10-28 the move session had not
+  started: no session for it was listed, and its branch, claude/product-framework-move-2026-10-27,
+  was still at the charter commit 38a84d8, holding no decision files. No branch in either
+  repository held an id above 61 here or 39 upstream. This session cannot write to the move
+  branch, so the claim is recorded here, in rulings.md and in PR #41, where the move session's
+  Gate 0 ("next free decision id checked across both repositories and every open branch") finds
+  it. The move session's range now starts at 63.

@@ -1,0 +1,41 @@
+format: 1
+id: DDD-dec-59
+kind: decision
+statement: |
+  A package may declare a version withdrawn, by a superseding record with status withdrawn. The importer must answer with a re-import or a decision to keep; the vendor blocks nothing. An import is a landing of the pinned package records, an import decision anchored in the importer's What, and an acceptance under the importer's genesis. Supersession by the package forces nothing, and explain shows it.
+principal: Emil
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
+resolution: |
+  ## Ruled, 2026-10-28
+
+  > Withdrawal — ruled as proposed: the importer must answer with a re-import or a decision to
+  > keep; the vendor blocks nothing.
+
+  ## Not ruled separately; stands as proposed until the merge
+
+  - explain shows "rests on superseded version" only from a recorded reading of the package's
+    versions listing. The protocol has no forward link (dpp/1 Appendix A, Q2), and G1 forbids live
+    lookups.
+  - An import may narrow a package decision but never alter it; altering is a fork.
+
+  See how.md §7.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-46
+notes: |
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

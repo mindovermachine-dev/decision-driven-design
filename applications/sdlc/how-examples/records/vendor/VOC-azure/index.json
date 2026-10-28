@@ -1,0 +1,8 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "id": "VOC-azure",
+  "versions": [
+    "1"
+  ]
+}

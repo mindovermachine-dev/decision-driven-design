@@ -1,0 +1,24 @@
+{
+  "LAYER|csharp": [
+    "https://acme.example/repos/shop-api#Acme.Ordering.Domain — depends on a higher layer: https://acme.example/repos/shop-api#Acme.Ordering.Infrastructure"
+  ],
+  "LAYER|typescript": [
+    "https://acme.example/repos/shop-bff#scratch — in no layer this decision declares"
+  ],
+  "PURE|csharp": [],
+  "PURE|typescript": [
+    "https://acme.example/products/shop/what#decider-order — its realising component uses an effect: https://decision-driven-design.dk/ns/sdlc/api/typescript#Date.now"
+  ],
+  "REST|csharp": [],
+  "REST|typescript": [
+    "https://acme.example/products/shop/what#command-refund-order — no POST /commands/refund-order in this target"
+  ],
+  "RESID|azure|deployment-declared": [],
+  "RESID|azure|deployment-observed": "open question — gap: no deployment-observed facts about https://acme.example/units/shop-api-prod within P1D; candidate: the azure reporter (edition 1, not built) is absent",
+  "RESID|aws|deployment-declared": [
+    "https://acme.example/units/shop-bff-prod#exports-bucket — personal data held in https://decision-driven-design.dk/ns/sdlc/region/aws#us-east-1"
+  ],
+  "RESID|aws|deployment-observed": [
+    "https://acme.example/units/shop-bff-prod#exports-bucket — personal data held in https://decision-driven-design.dk/ns/sdlc/region/aws#us-east-1"
+  ]
+}

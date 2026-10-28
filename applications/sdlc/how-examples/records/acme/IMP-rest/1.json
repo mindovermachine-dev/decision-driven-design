@@ -1,0 +1,29 @@
+{
+  "protocol": "dpp/1",
+  "id": "IMP-rest",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import REST@1 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what#domain-ordering, unchanged.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-27",
+  "why": {
+    "ref": "REST@1@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "REST@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:d974d5a8d40cc6fc6e453c22bd2e435a73e403e546f4bea7eaedca1d29cc29a1"
+    },
+    {
+      "ref": "REL@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:0b5b6552f24608e43ccfbc2ababf694c844a0ff95b7a5c244c7fc0fbe15a6e18"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what#domain-ordering",
+    "imports": "REST@1@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the domain: the rule ranges over the Commands of Ordering."
+  }
+}

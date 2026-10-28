@@ -1,0 +1,46 @@
+{
+  "protocol": "dpp/1",
+  "id": "VOC-csharp",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Vocabulary edition csharp/1: how the How's code-fact terms appear in csharp, and which csharp APIs are effects.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "The realisation vocabulary for the csharp language target. Decisions name none of this; a decision is realisable in csharp iff every fact term it reads is mapped here.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "vocabulary-edition",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "target": "csharp",
+    "targetKind": "language",
+    "edition": "1",
+    "facts": {
+      "sdlc:Component": "an SDK-style project (*.csproj)",
+      "sdlc:inLayer": "the MSBuild property <Layer> in the project file",
+      "sdlc:dependsOn": "a <ProjectReference> between two projects of the repository",
+      "sdlc:CodeElement": "a type declaration",
+      "sdlc:inComponent": "the project whose compilation contains the type",
+      "sdlc:realises": "the attribute [Realises(\"<What element IRI>\")] on the type",
+      "sdlc:usesApi": "a member reference the compiler resolves (compiler mode) or a using of its namespace (files mode)",
+      "sdlc:handlesRoute": "an endpoint mapping app.MapPost(path, handler) whose handler is the type",
+      "sdlc:method": "the verb of the Map call",
+      "sdlc:path": "the route template of the Map call"
+    },
+    "effects": [
+      "System.IO.File",
+      "System.IO.Directory",
+      "System.Net.Http.HttpClient",
+      "System.DateTime.Now",
+      "System.DateTime.UtcNow",
+      "System.Random",
+      "System.Environment",
+      "System.Threading.Thread"
+    ],
+    "factSource": {
+      "kind": "projector",
+      "name": "fact projector for csharp",
+      "status": "not built"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+format: 1
+id: DDD-dec-55
+kind: decision
+statement: |
+  The How is a set of decisions of three kinds: constraint, binding and contract. Binding is the charter's 'Realisation', renamed, and Writ adopts the word. A decision anchors to the narrowest What element that covers everything it governs. The product node is a What element. Anchoring to the product is what an empty What forces, and what an 'every' rule over the whole product legitimately needs. It is the loophole only when a narrower element exists and was not used, and the checker warns on that.
+principal: Emil
+made: 2026-10-28, on the Product Framework How session's proposal (applications/sdlc/how.md at 88bf686, filed as a proposal on 2026-10-27); ruled in one message, recorded verbatim as Round 1 of meta/sessions/2026-10-27-product-framework-how/rulings.md; Emil's acceptance of the pull request is the ratification act, after the move's identity form lands and the supersessions of ruling 4 are written
+resolution: |
+  ## Ruled, 2026-10-28
+
+  - **Anchor (ruling 1).** As proposed (how.md §3). "Every Decider in the Ordering domain" anchors
+    to the domain; "every Decider" anchors to the product. The checker warns when a narrower
+    covering element exists and was not used (how-examples/check.py).
+  - **Binding (repair 2).** Kind 2 is "binding". Writ adopts the word: its Realisation contract
+    becomes the Binding contract, and writ:realisation is never minted. The How vocabulary is the
+    authority on what a decision is; Writ is the authority on enforcing it.
+
+  ## Not ruled separately; stands as proposed until the merge
+
+  The three kinds; no fourth kind (a principle is a decision others rest on); no kind splits; the
+  idle report; target declarations and exclusions as record types, not kinds; no-orphans as
+  coverage of code by decisions.
+
+  ## Recorded at filing — Claude, UNVERIFIED — Emil review
+
+  Writ's contract that maps a decision to its code shape in one language served constraints and
+  contracts as well as bindings. Named "Binding contract", the word "binding" is wider in Writ than
+  kind 2 here. The How therefore drops "realisation" as a term (how-vocabulary.md). A decision's
+  shape in a target is derived from the target's edition and needs no name; whether a decision can
+  be checked in a target is "expressible", the charter's own word.
+
+  ## Provisional anchoring — the supersession obligation (ruling 4, 2026-10-28)
+
+  > Decisions written before the identity form is fixed — accepted, provisionally. They live in
+  > the test product only; they are not acceptable into any real product; and when the What lands
+  > with its identity form, each is superseded by a version against the real identifiers, never
+  > edited.
+
+  Bound by it: every record in applications/sdlc/how-examples/ that anchors to a What element or
+  names one (the target declarations, the imports, the acceptance), and the provisional What graph
+  there. None may be imported, landed or accepted into any real product. When the What lands with
+  its identity form, each is superseded by a new version against the real identifiers. No record
+  is edited. This decision's own uses of provisional What kind names and identifiers are
+  superseded the same way.
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-42
+  - DDD-dec-46
+  - DDD-dec-52
+notes: |
+  Filed as a proposal on 2026-10-27 at 88bf686 and rewritten to Emil's ruling before merge, as its
+  proposal stated. Its id is from the How session's range, 54 to 61; the move session takes 62 onward.

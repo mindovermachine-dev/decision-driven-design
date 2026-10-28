@@ -1,0 +1,58 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-1",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the How grant: the two target declarations and the four imports this record is based on, at the pinned versions.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-27",
+  "why": "The architect reviewed each record's statement, anchor and violation description and accepts them.",
+  "basedOn": [
+    {
+      "ref": "TGT-shop-api@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a7bccebca48c9e2330f37005fad8797fe56d776b35046bca0c1dc6a77995d603"
+    },
+    {
+      "ref": "TGT-shop-bff@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a35a05e83f69b827fad2382fb2c6d3d80a4a6ab5d06ac47c2569f13d89ddaf6d"
+    },
+    {
+      "ref": "IMP-layer@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:516b9a54da13ff2c3c2a730e446dcb9476fd41415143b7e3b06234de6fcbe0cb"
+    },
+    {
+      "ref": "IMP-pure@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:05ab351f6449b0b0c02b39444fe16ce678072c26cfa4cc21604c1f438e15df97"
+    },
+    {
+      "ref": "IMP-rest@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:756c7aeb73b65812fe8172904894ae14b927e144d229ba01b83905890d973205"
+    },
+    {
+      "ref": "IMP-resid@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:3a7d736157ac1a6e52212a0f967dc7340279e6d1eb4ce7c2982890c14448cec4"
+    },
+    {
+      "ref": "GRANT-how@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:4c6a82804cc7f072f937f27457a2d6e6a5739a1f9a535441b1c42377a85438f9"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-how@1@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "TGT-shop-api@1@https://acme.example/products/shop/decisions",
+      "TGT-shop-bff@1@https://acme.example/products/shop/decisions",
+      "IMP-layer@1@https://acme.example/products/shop/decisions",
+      "IMP-pure@1@https://acme.example/products/shop/decisions",
+      "IMP-rest@1@https://acme.example/products/shop/decisions",
+      "IMP-resid@1@https://acme.example/products/shop/decisions"
+    ]
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgoTxH74a3VAIniNAOAk1RQSnDed\nKSdpm/dw66SSeOELQAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEARaxib5uRkp67/Ljt2waGpsrtRtDP08nBqtoLU+ylMAZ\nhIbp/OyB3RGcPhyHlKOeyB7O0h0D5oGOGJ5Gfkw7YE\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKE8R++Gt1QCJ4jQDgJNUUEpw3nSknaZv3cOukknjhC0 acme-architect@test-genesis"
+  }
+}

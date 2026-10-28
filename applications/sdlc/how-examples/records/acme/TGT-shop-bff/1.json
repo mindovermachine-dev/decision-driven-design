@@ -1,0 +1,35 @@
+{
+  "protocol": "dpp/1",
+  "id": "TGT-shop-bff",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The system shop-bff is realised in the language target typescript (edition 1) in the repository https://acme.example/repos/shop-bff, and deployed as the unit https://acme.example/units/shop-bff-prod on the platform target aws (edition 1).",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-27",
+  "why": "Records which targets coverage ranges over for shop-bff.",
+  "basedOn": [
+    {
+      "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:c0e10fe1bdef2a0a2396ca92d5415489cd0da3638620ec019c85fcc230b835bf"
+    },
+    {
+      "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:d00dc9d19b6ff057212bad0c7d6135c8e9445df062c6ac3b4d8165019e0e4864"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "target-declaration",
+    "anchor": "https://acme.example/products/shop/what#system-shop-bff",
+    "language": {
+      "target": "typescript",
+      "edition": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
+      "repository": "https://acme.example/repos/shop-bff"
+    },
+    "platform": {
+      "target": "aws",
+      "edition": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+      "unit": "https://acme.example/units/shop-bff-prod"
+    }
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "facts": [
+    {
+      "file": "facts/csharp-shop-api.ttl",
+      "source": "projector",
+      "provenance": "file",
+      "target": "csharp",
+      "edition": {
+        "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:3f1c370392b78a55d7103313c4c72e93e24bb0c26752f5f2a832531a7363a956"
+      },
+      "subject": "https://acme.example/repos/shop-api@4f1c2e9",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/typescript-shop-bff.ttl",
+      "source": "projector",
+      "provenance": "file",
+      "target": "typescript",
+      "edition": {
+        "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:c0e10fe1bdef2a0a2396ca92d5415489cd0da3638620ec019c85fcc230b835bf"
+      },
+      "subject": "https://acme.example/repos/shop-bff@a07d3b1",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/azure-shop-api-prod.declared.ttl",
+      "source": "reporter",
+      "provenance": "deployment-declared",
+      "target": "azure",
+      "edition": {
+        "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:438d6c69905db0e8e1fda8c7c5eb0fb003e7cf4ee3d73f4ebf8ca4f1a2601a8c"
+      },
+      "subject": "https://acme.example/units/shop-api-prod",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/aws-shop-bff-prod.declared.ttl",
+      "source": "reporter",
+      "provenance": "deployment-declared",
+      "target": "aws",
+      "edition": {
+        "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:d00dc9d19b6ff057212bad0c7d6135c8e9445df062c6ac3b4d8165019e0e4864"
+      },
+      "subject": "https://acme.example/units/shop-bff-prod",
+      "readAt": "2026-10-27"
+    },
+    {
+      "file": "facts/aws-shop-bff-prod.observed.ttl",
+      "source": "reporter",
+      "provenance": "deployment-observed",
+      "target": "aws",
+      "edition": {
+        "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
+        "hash": "sha256:d00dc9d19b6ff057212bad0c7d6135c8e9445df062c6ac3b4d8165019e0e4864"
+      },
+      "subject": "https://acme.example/units/shop-bff-prod",
+      "readAt": "2026-10-27"
+    }
+  ]
+}

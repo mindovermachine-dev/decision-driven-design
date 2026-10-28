@@ -1,0 +1,8 @@
+# What the AWS reporter, edition aws/1, would read from the unit's DECLARATION (Terraform in
+# shop-bff at the commit in facts/manifest.json). Hand-written.
+@prefix sdlc: <https://decision-driven-design.dk/ns/sdlc#> .
+@prefix u: <https://acme.example/units/shop-bff-prod#> .
+@prefix region: <https://decision-driven-design.dk/ns/sdlc/region/aws#> .
+
+u:sessions-db a sdlc:DataStore ; sdlc:holdsPersonalData true ; sdlc:inRegion region:eu-central-1 .
+u:exports-bucket a sdlc:DataStore ; sdlc:holdsPersonalData true ; sdlc:inRegion region:us-east-1 .

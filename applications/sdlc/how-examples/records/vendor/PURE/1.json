@@ -1,0 +1,31 @@
+{
+  "protocol": "dpp/1",
+  "id": "PURE",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Every Decider is realised, in every language target of every system that references its domain, by a code element whose component uses no effect.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "A Decider is the oracle the realised behaviour is checked against; only a core with no effects can be run against the Decider's scenarios.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "decision",
+    "kind": "binding",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "binds": "sdlc:Decider",
+    "factSources": [
+      "projector"
+    ]
+  },
+  "dk.decision-driven-design.authority": {
+    "violation": {
+      "language": "sparql-1.1-select",
+      "binds": [
+        "anchor",
+        "target"
+      ],
+      "text": "PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>\nSELECT ?subject ?reason WHERE {\n  {\n    ?subject a sdlc:Decider ; sdlc:within* ?anchor ; sdlc:within* ?domain .\n    ?domain a sdlc:Domain .\n    ?system sdlc:referencesDomain ?domain ; sdlc:target ?target .\n    FILTER NOT EXISTS { ?e sdlc:realises ?subject ; sdlc:inTarget ?target }\n    BIND (\"no code element realises it in this target\" AS ?reason)\n  } UNION {\n    ?subject a sdlc:Decider ; sdlc:within* ?anchor .\n    ?e sdlc:realises ?subject ; sdlc:inTarget ?target ; sdlc:inComponent ?c .\n    ?c sdlc:usesApi ?api . ?api a sdlc:Effect .\n    BIND (CONCAT(\"its realising component uses an effect: \", STR(?api)) AS ?reason)\n  }\n}"
+    }
+  }
+}

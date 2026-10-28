@@ -1,0 +1,32 @@
+{
+  "protocol": "dpp/1",
+  "id": "RESID",
+  "version": "1",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Every data store of a deployable unit that holds personal data is in a region whose jurisdiction is the EU, both as declared and as observed.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-10-27",
+  "why": "Residency cannot be repaired after the fact: it is checked on the declaration before release and on the running unit after.",
+  "basedOn": [],
+  "status": "accepted",
+  "dk.decision-driven-design.sdlc": {
+    "record": "decision",
+    "kind": "contract",
+    "anchor": "https://vendor.example/packages/ref-arch",
+    "factSources": [
+      "deployment-declared",
+      "deployment-observed"
+    ],
+    "freshness": "P1D"
+  },
+  "dk.decision-driven-design.authority": {
+    "violation": {
+      "language": "sparql-1.1-select",
+      "binds": [
+        "anchor",
+        "target"
+      ],
+      "text": "PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>\nSELECT ?subject ?reason WHERE {\n  ?anchor sdlc:within ?scope .\n  ?system sdlc:within* ?scope .\n  ?unit sdlc:realisesSystem ?system ; sdlc:onPlatform ?target .\n  ?subject a sdlc:DataStore ; sdlc:ofUnit ?unit ; sdlc:holdsPersonalData true ; sdlc:inRegion ?region .\n  FILTER NOT EXISTS { ?region sdlc:jurisdiction \"EU\" }\n  BIND (CONCAT(\"personal data held in \", STR(?region)) AS ?reason)\n}"
+    }
+  }
+}

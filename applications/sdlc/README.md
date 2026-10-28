@@ -62,6 +62,7 @@ framework comprised — recoverable from this repository's git history — not a
 
 Written against v4:
 
+- **[how](how.md)** · `[PROPOSED]`, unruled — the How as decisions: constraint, binding and contract, anchored in the What, held by Writ, shipped as packages and imported by `basedOn`; with its [vocabulary](how-vocabulary.md) and [worked decisions](how-examples/)
 - **production-as-ground** · pre-production predicates close over substitute ground; DORA's four keys instrument the encode/verify gap; the three tiers of feedback loop and which are eliminable
 
 > **Note.** The four historical documents were written before the v4 register (they say "law"
