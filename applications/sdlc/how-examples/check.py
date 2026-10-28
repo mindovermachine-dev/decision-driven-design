@@ -25,7 +25,11 @@ exec(src, dpp.__dict__)
 
 SD, AU = "dk.decision-driven-design.sdlc", "dk.decision-driven-design.authority"
 NS = "https://decision-driven-design.dk/ns/sdlc"
-TODAY = datetime.date(2026, 10, 27)          # the evaluation date: the examples' position
+A = "https://acme.example/products/shop/decisions"
+P = "https://acme.example/products/shop"          # the product IRI and product node (DDD-dec-63)
+WHAT_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-shop.ttl")   # the landed What
+VECTORS = os.path.join(REPO, "applications", "sdlc", "what", "vectors.json")
+TODAY = datetime.date(2026, 10, 28)          # the evaluation date: the examples' position (version 2, the landed What)
 # Fact terms: read from code or from a deployment, so each needs a mapping in a target's
 # vocabulary edition (how-vocabulary.md, "Fact terms"). Every other sdlc: term is What-side or
 # derived by the gate from records, and needs none.
@@ -73,7 +77,8 @@ def pins(start):
             if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
             elif e in records[k].get("basedOn", []): todo.append(e["ref"])
     return hops, bad
-for start in ("ACC-1@1@https://acme.example/products/shop/decisions", "REL@2@https://vendor.example/packages/ref-arch"):
+for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
+              f"ACC-1@1@{A}", "REL@2@https://vendor.example/packages/ref-arch"):   # version 2 first; version 1 as history
     hops, bad = pins(start)
     ok(not bad, f"pins from {start.split('@')[0]}: {hops} references" + ("" if bad else ", every target held here and matching its pin")
        + (f"; mismatched {bad}" if bad else ""))
@@ -95,9 +100,12 @@ report.append("note a signature shows a key signed the content; which person hol
 
 # ---- the authority chain (test stand-in for the unwritten authority profile)
 def auth(r): return r.get(AU, {})
+superseded_refs = {e["ref"] for r in records.values() for e in r.get("supersedes", [])}
 in_force = set()
 for k, acc in records.items():
     if auth(acc).get("record") != "acceptance" or not k.endswith("acme.example/products/shop/decisions"): continue
+    if k in superseded_refs:   # a superseded acceptance puts nothing in force (ACC-1@1, by ruling 4)
+        report.append(f"note {k.split('@')[0]}@{acc['version']} is superseded; nothing it accepted is in force through it"); continue
     grant = records[auth(acc)["grant"]]
     gen = records[auth(grant)["delegatesFrom"]]
     chain = (auth(grant).get("grantee") == acc["by"] and gen["by"] == auth(gen)["holder"] == grant["by"]
@@ -106,10 +114,17 @@ for k, acc in records.items():
     if ok(chain, f"{k.split('@')[0]}: accepted by a human holder of a grant delegating from the genesis, all three signed"):
         pinned = {e["ref"] for e in acc["basedOn"]}
         in_force |= set(auth(acc)["accepts"]) & pinned
-ok(len(in_force) == 6, f"in force at the examples' position: {len(in_force)} records (two target declarations, four imports)")
-imports = {k: records[k] for k in in_force if records[k][SD]["record"] == "import"}
-targets = {k: records[k] for k in in_force if records[k][SD]["record"] == "target-declaration"}
-ok(records["IMP-pure@1@https://acme.example/products/shop/decisions"]["by"].startswith("spiffe:"),
+how_in_force = {k for k in in_force if records[k][SD]["record"] in ("import", "target-declaration")}
+what_in_force = {k for k in in_force if records[k][SD]["record"] == "what-change"}
+ok(len(how_in_force) == 6 and all(k.split("@")[1] == "2" for k in how_in_force),
+   f"How in force at the examples' position: {len(how_in_force)} records (two target declarations, four imports), all version 2")
+ok(what_in_force == {f"WHAT-found@1@{A}"}, f"What in force: {sorted(k.split('@')[0] for k in what_in_force)}, the founding decision, accepted under the What grant")
+provisional = sorted(k for k in in_force if "/what#" in json.dumps(records[k]))
+ok(not provisional, "ruling 4: no record in force names a provisional What identifier (…/what#…); each was superseded, none edited"
+   + (f"; still in force {provisional}" if provisional else ""))
+imports = {k: records[k] for k in how_in_force if records[k][SD]["record"] == "import"}
+targets = {k: records[k] for k in how_in_force if records[k][SD]["record"] == "target-declaration"}
+ok(records[f"IMP-pure@2@{A}"]["by"].startswith("spiffe:"),
    "IMP-pure was proposed by an agent identity and is in force only through a human's acceptance")
 
 # ---- specified once: no decision names a target; every fact term it reads is mapped per target
@@ -146,8 +161,22 @@ for k, imp in sorted(imports.items()):
             if succ and e["ref"] in {x["ref"] for x in succ.get("supersedes", [])}:
                 superseded.append(f"{k.split('@')[0]} rests on {i}@{v}, superseded by {i}@{later}")
 report += ["note " + s for s in superseded]
-ok(len(superseded) == 5, f"supersession seen through the package's versions listings: {len(superseded)} "
-   "(IMP-layer on LAYER@1; all four imports on REL@1); none changes what is in force")
+ok(len(superseded) == 4, f"supersession seen through the package's versions listings: {len(superseded)} "
+   "(IMP-layer on LAYER@1 and REL@1; IMP-pure and IMP-resid on REL@1; IMP-rest re-imported REST@2 from REL@3); none changes what is in force")
+
+# ---- the What-version (DDD-dec-63 §6): its element list and graph hash are the landed What's
+import hashlib
+wv = records[f"what@1@{A}"][SD]
+vec = json.load(open(VECTORS))
+ok(wv["canon"] == "rdfc-1.0" and wv["graphHash"] == vec["graphHash"] and wv["elements"] == vec["elements"],
+   f"what@1: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal what/vectors.json, which what/check.py recomputes from the graph")
+ok({e["ref"] for e in records[f"what@1@{A}"]["basedOn"]} == what_in_force, "what@1 pins exactly the What decisions in force")
+found = records[f"WHAT-found@1@{A}"][SD]
+ok(found["delta"]["hash"] == "sha256:" + hashlib.sha256(open(WHAT_TTL, "rb").read()).hexdigest() and found["anchor"] == P,
+   "WHAT-found@1: anchored at the product node; its delta is the landed graph, byte for byte")
+ed = hashlib.sha256(open(os.path.join(REPO, "applications/sdlc/what/ontology.ttl"), "rb").read()
+                    + open(os.path.join(REPO, "applications/sdlc/what/shapes.ttl"), "rb").read()).hexdigest()
+ok(wv["edition"]["hash"] == "sha256:" + ed, "what@1: names sdlc edition 1 by the hash of the ontology and shapes as held")
 
 # ---- verdicts
 try:
@@ -161,7 +190,7 @@ if rdflib:
     def T(name): return URIRef(f"{NS}/target#{name}")
     manifest = json.load(open(os.path.join(HERE, "facts", "manifest.json")))["facts"]
     def base():
-        g = Graph(); g.parse(os.path.join(HERE, "what", "acme-shop.ttl"))
+        g = Graph(); g.parse(WHAT_TTL)
         for t in targets.values():               # in-force How records become facts the gate reads
             sysiri = URIRef(t[SD]["anchor"])
             g.add((sysiri, S.target, T(t[SD]["language"]["target"])))
@@ -187,7 +216,7 @@ if rdflib:
                 f.add((URIRef(f"{NS}/region/{entry['target']}#{region}"), S.jurisdiction, Literal(j)))
         return g + f
     # ---- anchors (ruling 1): warn when a narrower element covers everything governed today
-    what = Graph(); what.parse(os.path.join(HERE, "what", "acme-shop.ttl"))
+    what = Graph(); what.parse(WHAT_TTL)
     parent = dict(what.subject_objects(S.within))
     def chain(x):
         out = [x]
@@ -204,20 +233,21 @@ if rdflib:
             syst = [URIRef(t[SD]["anchor"]) for t in targets.values() if anchor in chain(URIRef(t[SD]["anchor"]))]
             return syst, narrowest(syst, False)
         return None, None   # a contract anchors to the element it realises, not to a container
+    def label(x):   # keys are opaque; explain resolves them to names (DDD-dec-63)
+        return f"{what.value(x, rdflib.RDFS.label)} ({str(x).rsplit('/', 1)[-1]})"
     def anchor_check(name, dec, anchor):
         inst, best = governed(dec, anchor)
         if best is None: return None
         if best != anchor:
-            warnings.append(f"WARN {name}: anchored at {anchor.split('#')[-1]}, but {best.split('#')[-1]} covers all "
+            warnings.append(f"WARN {name}: anchored at {label(anchor)}, but {label(best)} covers all "
                             f"{len(inst)} element(s) it governs today")
             return False
-        report.append(f"ok   {name}: anchored at {anchor.split('#')[-1]}, the narrowest element covering the {len(inst)} it governs")
+        report.append(f"ok   {name}: anchored at {label(anchor)}, the narrowest element covering the {len(inst)} it governs")
         return True
     for k, imp in sorted(imports.items()):
         anchor_check(k.split("@")[0], records[imp[SD]["imports"]], URIRef(imp[SD]["anchor"]))
     n = len(warnings)
-    anchor_check("self-test: PURE re-anchored at the product", records[imports["IMP-pure@1@https://acme.example/products/shop/decisions"][SD]["imports"]],
-                 URIRef("https://acme.example/products/shop/what#product"))
+    anchor_check("self-test: PURE re-anchored at the product", records[imports[f"IMP-pure@2@{A}"][SD]["imports"]], URIRef(P))
     ok(len(warnings) == n + 1, "self-test: re-anchoring PURE at the product warns (every Decider here is in one domain; "
        "if the rule means 'every Decider in the product', the warning is advisory and the anchor stands)")
     warnings[n:] = [w.replace("WARN ", "WARN (self-test, expected) ") for w in warnings[n:]]

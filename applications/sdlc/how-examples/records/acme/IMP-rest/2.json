@@ -1,0 +1,35 @@
+{
+  "protocol": "dpp/1",
+  "id": "IMP-rest",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import REST@2 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS, unchanged.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-28",
+  "why": {
+    "ref": "REST@2@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "REST@2@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:bc1682e30abce2235c9789209e8eb971b5dc9996987750bcad393c2405931fab"
+    },
+    {
+      "ref": "REL@3@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:e939607709dec8c5d6b054208f83666b59163efeb5a83f93cb9c85450e8fdb65"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "IMP-rest@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:756c7aeb73b65812fe8172904894ae14b927e144d229ba01b83905890d973205"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+    "imports": "REST@2@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the Ordering bounded context, the narrowest element covering its Commands; re-imports REST@2, which reads wire names."
+  }
+}

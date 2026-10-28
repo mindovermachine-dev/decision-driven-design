@@ -1,0 +1,42 @@
+format: 1
+id: DDD-dec-67
+kind: decision
+supersedes: DDD-dec-57
+statement: |
+  A design system and a content store are targets, not catalogues. The product's What declares them as it declares a platform context: a declared target (what.md §4.1) names the design system at its edition, or the content store and its locales. The catalogue (components, tokens, strings) is that target's vocabulary edition, held in a package with its own genesis, typically a design team's. The AIO-to-CIO binding is a How decision of kind 2 anchored to the interaction typed as the AIO (sdlc:Interaction), and the key-to-string binding is anchored to the content key (sdlc:ContentKey). Nothing in a catalogue is a What element of the product that uses it.
+principal: Emil
+made: 2026-10-28, the Product Framework What move session, item 3 of its charter ("Supersede DDD-dec-55 to DDD-dec-61 with versions anchored to the real identifiers, per ruling 4 of 2026-10-28"), carrying out the obligation ruling 4 recorded on DDD-dec-57. The ruled content of DDD-dec-57 is carried unchanged; only its What identifiers are restated against the landed What (DDD-dec-63). Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-57
+
+  Everything DDD-dec-57 ruled, and everything it left standing as proposed until the merge,
+  stands here unchanged. Read DDD-dec-57 for its rulings verbatim. DDD-dec-57 is left
+  unchanged, and this decision supersedes it.
+
+  ## Against the real identifiers
+
+  - **"The AIO".** Read as the interaction typed as it: an `sdlc:Interaction` element within a UI
+    step, `sdlc:typedAs` one of the base AIOs. The AIOs themselves are framework vocabulary, not
+    product elements, so a binding cannot anchor to `sdlc:aioSingleSelect`. It anchors to the
+    product's interaction.
+  - **"The content key".** An `sdlc:ContentKey` element.
+  - **The declaration.** `sdlc:DeclaredTarget`, which is `[PROPOSED]` in DDD-dec-64 (P-4). If P-4 is
+    ruled otherwise, this decision's reference to it is superseded with it.
+
+  ## The supersession obligation, discharged
+
+  Ruling 4 of 2026-10-28: "when the What lands with its identity form, each is superseded by a
+  version against the real identifiers, never edited". The What has landed (applications/sdlc/what.md)
+  in the identity form of DDD-dec-63. The How examples' records that DDD-dec-57 bound are
+  superseded by version 2 records (how-examples/README.md). No version 1 record was edited, and
+  build.py refuses to rewrite a published version. The checker is green against the landed What.
+  The examples remain a test product, and nothing in them is acceptable into a real product.
+basedOn:
+  - DDD-dec-57
+  - DDD-dec-63
+  - DDD-dec-54
+  - DDD-dec-44
+  - DDD-dec-45
+notes: |
+  Filed from the move session (meta/sessions/2026-10-28-product-framework-what-move/). Its id is
+  from the move's range, 63 onward (DDD-dec-62 notes).

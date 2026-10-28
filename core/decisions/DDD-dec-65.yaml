@@ -1,0 +1,46 @@
+format: 1
+id: DDD-dec-65
+kind: decision
+supersedes: DDD-dec-55
+statement: |
+  The How is a set of decisions of three kinds: constraint, binding and contract. A decision anchors to the narrowest What element that covers everything it governs, and its anchor is an element IRI in the identity form of DDD-dec-63. The product node is a What element: it is the product IRI P. Anchoring to P is what an empty What forces, and what an 'every' rule over the whole product legitimately needs. It is the loophole only when a narrower element exists and was not used, and the checker warns on that. Writ adopts 'binding'.
+principal: Emil
+made: 2026-10-28, the Product Framework What move session, item 3 of its charter ("Supersede DDD-dec-55 to DDD-dec-61 with versions anchored to the real identifiers, per ruling 4 of 2026-10-28"), carrying out the obligation ruling 4 recorded on DDD-dec-55. The ruled content of DDD-dec-55 is carried unchanged; only its What identifiers are restated against the landed What (DDD-dec-63). Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-55
+
+  Everything DDD-dec-55 ruled, and everything it left standing as proposed until the merge,
+  stands here unchanged. Read DDD-dec-55 for its rulings verbatim. DDD-dec-55 is left
+  unchanged, and this decision supersedes it.
+
+  ## Against the real identifiers
+
+  - **Kind names.** "Every Decider", "every Command" and "every component" range over the landed
+    kinds `sdlc:Decider` and `sdlc:Command` (what/ontology.ttl, sdlc edition 1) and over the How's fact
+    term `sdlc:Component`. A binding names its kind as `…sdlc.binds: "sdlc:Decider"`.
+  - **Anchors.** An anchor is an element IRI, `P/what/<ULID>`, or P itself. "Within the anchor" is
+    `sdlc:within*`, the single containment edge (what.md §2.2; DDD-dec-64, P-2, proposed).
+  - **The worked reading.** "Every Decider in the Ordering domain" anchors to the narrowest element
+    covering those Deciders. In the landed test product that is the Ordering bounded context
+    (`…/what/01M610JNAMH5Y3FP9BFRZJ6QSS`), not the domain, because the Deciders sit in the domain's
+    one bounded context. The ruling is applied, not changed: IMP-pure@2 and IMP-rest@2 anchor there,
+    and the checker shows no warning.
+
+  ## The supersession obligation, discharged
+
+  Ruling 4 of 2026-10-28: "when the What lands with its identity form, each is superseded by a
+  version against the real identifiers, never edited". The What has landed (applications/sdlc/what.md)
+  in the identity form of DDD-dec-63. The How examples' records that DDD-dec-55 bound are
+  superseded by version 2 records (how-examples/README.md). No version 1 record was edited, and
+  build.py refuses to rewrite a published version. The checker is green against the landed What.
+  The examples remain a test product, and nothing in them is acceptable into a real product.
+basedOn:
+  - DDD-dec-55
+  - DDD-dec-63
+  - DDD-dec-54
+  - DDD-dec-42
+  - DDD-dec-46
+  - DDD-dec-52
+notes: |
+  Filed from the move session (meta/sessions/2026-10-28-product-framework-what-move/). Its id is
+  from the move's range, 63 onward (DDD-dec-62 notes).

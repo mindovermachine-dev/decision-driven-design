@@ -1,7 +1,7 @@
 {
   "facts": [
     {
-      "file": "facts/csharp-shop-api.ttl",
+      "file": "facts/csharp-shop-api.r2.ttl",
       "source": "projector",
       "provenance": "file",
       "target": "csharp",
@@ -9,11 +9,11 @@
         "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
         "hash": "sha256:3f1c370392b78a55d7103313c4c72e93e24bb0c26752f5f2a832531a7363a956"
       },
-      "subject": "https://acme.example/repos/shop-api@4f1c2e9",
-      "readAt": "2026-10-27"
+      "subject": "https://acme.example/repos/shop-api@9b3e1d4",
+      "readAt": "2026-10-28"
     },
     {
-      "file": "facts/typescript-shop-bff.ttl",
+      "file": "facts/typescript-shop-bff.r2.ttl",
       "source": "projector",
       "provenance": "file",
       "target": "typescript",
@@ -21,8 +21,8 @@
         "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
         "hash": "sha256:c0e10fe1bdef2a0a2396ca92d5415489cd0da3638620ec019c85fcc230b835bf"
       },
-      "subject": "https://acme.example/repos/shop-bff@a07d3b1",
-      "readAt": "2026-10-27"
+      "subject": "https://acme.example/repos/shop-bff@c58a2f0",
+      "readAt": "2026-10-28"
     },
     {
       "file": "facts/azure-shop-api-prod.declared.ttl",

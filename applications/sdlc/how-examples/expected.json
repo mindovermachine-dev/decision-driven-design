@@ -7,11 +7,11 @@
   ],
   "PURE|csharp": [],
   "PURE|typescript": [
-    "https://acme.example/products/shop/what#decider-order — its realising component uses an effect: https://decision-driven-design.dk/ns/sdlc/api/typescript#Date.now"
+    "https://acme.example/products/shop/what/01M610JNAMMP5V59XRNHD39R5A — its realising component uses an effect: https://decision-driven-design.dk/ns/sdlc/api/typescript#Date.now"
   ],
   "REST|csharp": [],
   "REST|typescript": [
-    "https://acme.example/products/shop/what#command-refund-order — no POST /commands/refund-order in this target"
+    "https://acme.example/products/shop/what/01M610JNAMC74SDA3DVDE332WB — no POST /commands/refund-order in this target"
   ],
   "RESID|azure|deployment-declared": [],
   "RESID|azure|deployment-observed": "open question — gap: no deployment-observed facts about https://acme.example/units/shop-api-prod within P1D; candidate: the azure reporter (edition 1, not built) is absent",

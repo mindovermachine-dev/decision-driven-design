@@ -3,6 +3,7 @@
   "system": "https://acme.example/products/shop/decisions",
   "id": "IMP-rest",
   "versions": [
-    "1"
+    "1",
+    "2"
   ]
 }

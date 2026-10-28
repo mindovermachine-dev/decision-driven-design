@@ -35,7 +35,7 @@ if len(sys.argv) > 1:
 else:
     KEYS = tempfile.mkdtemp()
     import atexit; atexit.register(shutil.rmtree, KEYS, True)   # throwaway: discarded when the build ends
-    for k in ("vendor-holder", "acme-holder", "acme-architect"):
+    for k in ("vendor-holder", "acme-holder", "acme-architect", "acme-owner"):
         subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", f"{k}@test-genesis", "-f", os.path.join(KEYS, k)], check=True)
 
 V = "https://vendor.example/packages/ref-arch"
@@ -62,13 +62,25 @@ def sign(rec, key):
         sig = open(p + ".sig").read()
     rec["signature"] = {"scheme": "ssh-sig", "value": sig, "key": pub}
 
-def put(sys_, id_, ver, statement, by, why, basedOn=(), key=None, **extra):
+PUBLISHED = {"https://vendor.example/packages/ref-arch": "vendor", "https://acme.example/products/shop/decisions": "acme"}
+written = []  # the versions this run creates; a published version is never rewritten
+
+def put(sys_, id_, ver, statement, by, why, basedOn=(), key=None, at=DAY, **extra):
     rec = {"protocol": TOKEN, "id": id_, "version": ver, "system": sys_, "statement": statement,
-           "by": by, "at": DAY, "why": why, "basedOn": list(basedOn)}
+           "by": by, "at": at, "why": why, "basedOn": list(basedOn)}
     rec.update(extra)
+    path = os.path.join(ROOT, "records", PUBLISHED[sys_], id_, ver + ".json")
+    if os.path.exists(path):   # published: load it, and refuse if this script no longer builds the same content
+        held = dpp.parse(open(path, "rb").read())
+        if dpp.record_hash(held) != dpp.record_hash(rec):
+            sys.exit(f"refusing to build: {id_}@{ver} is published and this script would change it. "
+                     "A change is a new version that supersedes it (ruling 4 of 2026-10-28), never an edit.")
+        records[(sys_, id_, ver)] = held
+        return held
     if key: sign(rec, key)
     dpp.validate(rec)
     records[(sys_, id_, ver)] = rec
+    written.append((sys_, id_, ver))
     return rec
 
 # ---------------------------------------------------------------- the vendor's package product
@@ -283,29 +295,152 @@ put(A, "ACC-1", "1",
     basedOn=[ref(A, i, v) for i, v in accepted] + [ref(A, "GRANT-how", "1")], status="accepted", key="acme-architect",
     **{AU: {"record": "acceptance", "grant": f"GRANT-how@1@{A}", "accepts": [f"{i}@{v}@{A}" for i, v in accepted]}})
 
-# ---------------------------------------------------------------- write
+# ================================================================ version 2: the landed What
+# Ruling 4 of 2026-10-28: every record above that anchors to a What element or names one was
+# written against provisional identifiers. The What has landed (applications/sdlc/what.md) in the
+# ruled identity form (DDD-dec-63), so each is superseded here by a new version against the real
+# identifiers. Nothing above is edited. Provisional name -> landed IRI:
+P = "https://acme.example/products/shop"                     # was WHAT + "product"; P is the product node
+W = P + "/what/"
+LANDED = {
+    "domain-ordering": W + "01M610JNAMYTKTBXP8KD0BQ2G0",    # domain Ordering
+    "bc-ordering": W + "01M610JNAMH5Y3FP9BFRZJ6QSS",        # its bounded context (no provisional twin)
+    "system-shop-api": W + "01M610JNAMV23W7Y9YQKZPJ4ZA",
+    "system-shop-bff": W + "01M610JNAM8K9PG653537FE7EG",
+    "qd-residency-eu": W + "01M610JNAMGQQ2DJENWGA6MWCK",
+}
+DAY2 = "2026-10-28"
+
+# The vendor: REST read sdlc:localId, a provisional What term the landed What does not carry.
+# REST@2 reads the Command's wire name (what.md §6; PROPOSED in DDD-dec-64, P-1).
+REST2_Q = PFX + """SELECT ?subject ?reason WHERE {
+  ?subject a sdlc:Command ; sdlc:within* ?anchor ; sdlc:within* ?domain ; sdlc:wireName ?id .
+  ?domain a sdlc:Domain .
+  ?system sdlc:referencesDomain ?domain ; sdlc:target ?target .
+  FILTER NOT EXISTS {
+    ?e sdlc:realises ?subject ; sdlc:inTarget ?target ; sdlc:handlesRoute ?r .
+    ?r sdlc:method "POST" ; sdlc:path ?p .
+    FILTER (?p = CONCAT("/commands/", ?id))
+  }
+  BIND (CONCAT("no POST /commands/", ?id, " in this target") AS ?reason)
+}"""
+put(V, "REST", "2",
+    "Every Command is exposed, in every language target of every system that references its domain, as POST /commands/{the command's wire name}, handled by a code element that realises the Command.",
+    VH, "Version 1 read the Command's provisional local id, which the landed What does not carry; its keys are opaque, so the route is the authored wire name.",
+    supersedes=[ref(V, "REST", "1")], status="accepted", key="vendor-holder", at=DAY2,
+    **{SD: {"record": "decision", "kind": "binding", "anchor": V, "binds": "sdlc:Command", "factSources": ["projector"],
+            "standards": ["HTTP/1.1 (RFC 9110)"]},
+       AU: {"violation": {"language": "sparql-1.1-select", "binds": ["anchor", "target"], "text": REST2_Q}}})
+PKG3 = [p for p in PKG2 if p != ("REST", "1")] + [("REST", "2")]
+put(V, "REL", "3", "Package ref-arch, version 3: the REST binding at version 2; everything else as version 2.",
+    VH, "A package version is the set its holder accepts and ships together.",
+    basedOn=[ref(V, i, v) for i, v in PKG3] + [ref(V, "GEN", "1")], supersedes=[ref(V, "REL", "2")],
+    status="accepted", key="vendor-holder", at=DAY2,
+    **{AU: {"record": "acceptance", "grant": f"GEN@1@{V}"}, SD: {"record": "release", "package": V, "release": "3"}})
+
+# The importer. GEN@1 named the provisional product IRI. In a real product P never changes; in this
+# test product the provisional P is replaced once, by ruling 4, and the record says so.
+put(A, "GEN", "2", f"Genesis grant over the product {P}, held by {AH}.", AH,
+    "Supersedes GEN@1, which named the provisional product IRI; ruling 4 of 2026-10-28 replaces provisional identifiers once the What lands (DDD-dec-63). Test genesis.",
+    supersedes=[ref(A, "GEN", "1")], status="accepted", key="acme-holder", at=DAY2,
+    **{AU: {"record": "genesis", "product": P, "holder": AH}})
+put(A, "GRANT-how", "2", f"{AH} grants {AR} authority to accept How decisions anywhere in the product {P}.", AH,
+    "The holder delegates the How scope to the product's architect, under the genesis as superseded.",
+    basedOn=[ref(A, "GEN", "2")], supersedes=[ref(A, "GRANT-how", "1")], status="accepted", key="acme-holder", at=DAY2,
+    **{AU: {"record": "grant", "grantee": AR, "scope": "how", "delegatesFrom": f"GEN@2@{A}"}})
+
+def tgt2(sysname, lang, plat):
+    put(A, f"TGT-{sysname}", "2",
+        f"The system {LANDED['system-' + sysname]} ({sysname}) is realised in the language target {lang} (edition 1) in the repository https://acme.example/repos/{sysname}, and deployed as the unit https://acme.example/units/{sysname}-prod on the platform target {plat} (edition 1).",
+        AR, f"Records which targets coverage ranges over for {sysname}; anchored to the landed system (supersedes version 1).",
+        basedOn=[ref(V, f"VOC-{lang}", "1"), ref(V, f"VOC-{plat}", "1")], supersedes=[ref(A, f"TGT-{sysname}", "1")],
+        status="proposed", at=DAY2,
+        **{SD: {"record": "target-declaration", "anchor": LANDED["system-" + sysname],
+                "language": {"target": lang, "edition": f"VOC-{lang}@1@{V}", "repository": f"https://acme.example/repos/{sysname}"},
+                "platform": {"target": plat, "edition": f"VOC-{plat}@1@{V}", "unit": f"https://acme.example/units/{sysname}-prod"}}})
+tgt2("shop-api", "csharp", "azure")
+tgt2("shop-bff", "typescript", "aws")
+
+def imp2(name, pkg_id, pkg_ver, rel_ver, anchor, why_text, by=AR, **kw):
+    put(A, f"IMP-{name}", "2",
+        f"Import {pkg_id}@{pkg_ver} from the package {V}, in force within {anchor}, unchanged.",
+        by, {"ref": f"{pkg_id}@{pkg_ver}@{V}"},
+        basedOn=[ref(V, pkg_id, pkg_ver), ref(V, "REL", rel_ver)], supersedes=[ref(A, f"IMP-{name}", "1")],
+        status="proposed", at=DAY2,
+        **{SD: {"record": "import", "anchor": anchor, "imports": f"{pkg_id}@{pkg_ver}@{V}", "note": why_text}}, **kw)
+imp2("layer", "LAYER", "1", "1", P, "Anchored at the product node: the rule ranges over every system's components, and nothing narrower covers both systems. Re-anchored to the landed product IRI; still resting on LAYER@1.")
+imp2("pure", "PURE", "1", "1", LANDED["bc-ordering"],
+     "Anchored at the Ordering bounded context: in the landed What the Deciders of Ordering sit in its one bounded context, which is the narrowest element covering them (ruling 1). Version 1 anchored at the domain, which the provisional graph made narrowest.",
+     by=AGENT, attributedTo=AR)
+imp2("rest", "REST", "2", "3", LANDED["bc-ordering"],
+     "Anchored at the Ordering bounded context, the narrowest element covering its Commands; re-imports REST@2, which reads wire names.")
+imp2("resid", "RESID", "1", "1", LANDED["qd-residency-eu"], "Anchored at the quality demand it realises (what.md §3.6).")
+
+accepted2 = [("TGT-shop-api", "2"), ("TGT-shop-bff", "2"), ("IMP-layer", "2"), ("IMP-pure", "2"),
+             ("IMP-rest", "2"), ("IMP-resid", "2")]
+put(A, "ACC-1", "2",
+    "Accepted under the How grant: the two target declarations and the four imports this record is based on, at the pinned versions, against the landed What.",
+    AR, "The architect reviewed each superseding record's anchor against the landed What and accepts them; version 1's acceptance is superseded with them.",
+    basedOn=[ref(A, i, v) for i, v in accepted2] + [ref(A, "GRANT-how", "2")], supersedes=[ref(A, "ACC-1", "1")],
+    status="accepted", key="acme-architect", at=DAY2,
+    **{AU: {"record": "acceptance", "grant": f"GRANT-how@2@{A}", "accepts": [f"{i}@{v}@{A}" for i, v in accepted2]}})
+
+# The What itself, as decisions (what.md §2), and one What-version (DDD-dec-63 §6). The founding
+# decision creates every element of what/examples/acme-shop.ttl; it anchors to the product node,
+# the narrowest existing element covering everything it creates (DDD-dec-63 §8).
+import hashlib
+WHAT_TTL = "applications/sdlc/what/examples/acme-shop.ttl"
+VEC = json.load(open("applications/sdlc/what/vectors.json"))
+PO = "mailto:owner@acme.example"
+put(A, "GRANT-what", "1", f"{AH} grants {PO} authority to accept What decisions anywhere in the product {P}.", AH,
+    "The holder delegates the What scope to the product owner (what.md §5).",
+    basedOn=[ref(A, "GEN", "2")], status="accepted", key="acme-holder", at=DAY2,
+    **{AU: {"record": "grant", "grantee": PO, "scope": "what", "delegatesFrom": f"GEN@2@{A}"}})
+put(A, "WHAT-found", "1",
+    f"Found the What of {P}: the {len(VEC['elements']) - 1} elements of the attached graph, under the product node.",
+    PO, "The test product's What, landed from the provisional graph the How examples used, in the ruled identity form.",
+    status="proposed", at=DAY2,
+    **{SD: {"record": "what-change", "anchor": P,
+            "delta": {"mediaType": "text/turtle", "path": "applications/sdlc/what/examples/acme-shop.ttl",
+                      "hash": "sha256:" + hashlib.sha256(open(WHAT_TTL, "rb").read()).hexdigest()}}})
+put(A, "ACC-what", "1", "Accepted under the What grant: the founding decision this record is based on.",
+    PO, "The product owner reviewed the founding graph and accepts it.",
+    basedOn=[ref(A, "WHAT-found", "1"), ref(A, "GRANT-what", "1")], status="accepted", key="acme-owner", at=DAY2,
+    **{AU: {"record": "acceptance", "grant": f"GRANT-what@1@{A}", "accepts": [f"WHAT-found@1@{A}"]}})
+put(A, "what", "1", f"What-version 1 of {P}.", PO,
+    "Names the What in force after the founding decision (DDD-dec-63 §6).",
+    basedOn=[ref(A, "WHAT-found", "1")], status="accepted", key="acme-owner", at=DAY2,
+    **{SD: {"record": "what-version", "product": P,
+            "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
+                        "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()
+                                                            + open("applications/sdlc/what/shapes.ttl", "rb").read()).hexdigest()},
+            "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})
+
+# ---------------------------------------------------------------- write: new versions only
 out = os.path.join(ROOT, "records")
-shutil.rmtree(out, ignore_errors=True)
 for name, sys_ in (("vendor", V), ("acme", A)):
-    d = os.path.join(out, name); os.makedirs(d)
+    d = os.path.join(out, name); os.makedirs(d, exist_ok=True)
     json.dump({"protocol": TOKEN, "system": sys_, "name": name, "features": ["versions"]},
               open(os.path.join(d, "system.json"), "w"), indent=2)
     ids = {}
     for (s, i, v), r in records.items():
         if s != sys_: continue
+        ids.setdefault(i, []).append(v)
+        if (s, i, v) not in written: continue
         os.makedirs(os.path.join(d, i), exist_ok=True)
         with open(os.path.join(d, i, v + ".json"), "w") as f: json.dump(r, f, indent=2, ensure_ascii=False); f.write("\n")
-        ids.setdefault(i, []).append(v)
-    for i, vs in ids.items():
+    for i, vs in ids.items():   # the versions listing, in the order they were issued
         json.dump({"protocol": TOKEN, "system": sys_, "id": i, "versions": vs},
                   open(os.path.join(d, i, "index.json"), "w"), indent=2)
 json.dump({"locations": {V: "records/vendor", A: "records/acme"}}, open(os.path.join(ROOT, "locations.json"), "w"), indent=2)
 
 manifest = {"facts": [
-    {"file": "facts/csharp-shop-api.ttl", "source": "projector", "provenance": "file", "target": "csharp",
-     "edition": ref(V, "VOC-csharp", "1"), "subject": "https://acme.example/repos/shop-api@4f1c2e9", "readAt": DAY},
-    {"file": "facts/typescript-shop-bff.ttl", "source": "projector", "provenance": "file", "target": "typescript",
-     "edition": ref(V, "VOC-typescript", "1"), "subject": "https://acme.example/repos/shop-bff@a07d3b1", "readAt": DAY},
+    # Readings r2 (2026-10-28): the repositories at the commits whose code cites the landed What.
+    # The r1 readings (facts/*-shop-*.ttl at 4f1c2e9 and a07d3b1) stay in the repository, unread.
+    {"file": "facts/csharp-shop-api.r2.ttl", "source": "projector", "provenance": "file", "target": "csharp",
+     "edition": ref(V, "VOC-csharp", "1"), "subject": "https://acme.example/repos/shop-api@9b3e1d4", "readAt": DAY2},
+    {"file": "facts/typescript-shop-bff.r2.ttl", "source": "projector", "provenance": "file", "target": "typescript",
+     "edition": ref(V, "VOC-typescript", "1"), "subject": "https://acme.example/repos/shop-bff@c58a2f0", "readAt": DAY2},
     {"file": "facts/azure-shop-api-prod.declared.ttl", "source": "reporter", "provenance": "deployment-declared", "target": "azure",
      "edition": ref(V, "VOC-azure", "1"), "subject": "https://acme.example/units/shop-api-prod", "readAt": DAY},
     {"file": "facts/aws-shop-bff-prod.declared.ttl", "source": "reporter", "provenance": "deployment-declared", "target": "aws",
@@ -313,4 +448,4 @@ manifest = {"facts": [
     {"file": "facts/aws-shop-bff-prod.observed.ttl", "source": "reporter", "provenance": "deployment-observed", "target": "aws",
      "edition": ref(V, "VOC-aws", "1"), "subject": "https://acme.example/units/shop-bff-prod", "readAt": DAY}]}
 json.dump(manifest, open(os.path.join(ROOT, "facts", "manifest.json"), "w"), indent=2)
-print(len(records), "records")
+print(len(records), "records held,", len(written), "written this run:", ", ".join(f"{i}@{v}" for _, i, v in written) or "none")

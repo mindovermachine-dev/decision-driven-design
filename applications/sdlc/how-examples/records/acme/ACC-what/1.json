@@ -1,0 +1,33 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-what",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the What grant: the founding decision this record is based on.",
+  "by": "mailto:owner@acme.example",
+  "at": "2026-10-28",
+  "why": "The product owner reviewed the founding graph and accepts it.",
+  "basedOn": [
+    {
+      "ref": "WHAT-found@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:5563b140bb9bcebf90a08282cdcd9ac6e3e74f5a4dae7fda2e573600fdb50ac3"
+    },
+    {
+      "ref": "GRANT-what@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:738c43ab8b207944f9959faa5256e051f110e328ad789d4394c424b8fb35084d"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-what@1@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "WHAT-found@1@https://acme.example/products/shop/decisions"
+    ]
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjpM0cy2+2vf74tCDgUOasuCFWk\nRaXB+KKL+R+kRJCQoAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAECJ03a1GHW7B2qNL2x7NicUl9VJk4WUK4tdz/QgkVMpAU\nm4lC06ChrNmWetMAiN9aEBY/eqEZnsCOO2V62/Ce4E\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6TNHMtvtr3++LQg4FDmrLghVpEWlwfiii/kfpESQkK acme-owner@test-genesis"
+  }
+}
