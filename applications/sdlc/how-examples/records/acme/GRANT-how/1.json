@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "GRANT-how",
   "version": "1",
   "system": "https://acme.example/products/shop/decisions",
@@ -10,7 +10,7 @@
   "basedOn": [
     {
       "ref": "GEN@1@https://acme.example/products/shop/decisions",
-      "hash": "sha256:01ddb19fc5d246167b1f5e2b165b19111d68dd755483dce1b1d835aad32212bb"
+      "hash": "sha256:c5902c7b56bb4b4df01669a047a6a5ec1e4f4af333e985e2ffd063b074623e7d"
     }
   ],
   "status": "accepted",
@@ -22,7 +22,7 @@
   },
   "signature": {
     "scheme": "ssh-sig",
-    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCFloVpBV0lIZg9jRYODYZygvhv\nuoXnOs+xolMWyeD8kAAAAHZGVjcHJvdgAAAAAAAAAGc2hhNTEyAAAAUwAAAAtzc2gtZWQy\nNTUxOQAAAEAWfECggMzwix3xJMJAwWS6Ijgatt78zmyBaDM9vxAkgFTz3BaJZ2v8Eg4qH9\ncUgGQeJY68pjU9+gyJOCprossN\n-----END SSH SIGNATURE-----\n",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAhZaFaQVdJSGYPY0WDg2GcoL4b7qF5zrPsaJTFsng/J acme-holder@test-genesis"
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2dYK+b7nHsXCFH+P4JIv/JzUx3\nHDHZfZTFJb8TogMrQAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBoiEDaxIB5E5qOca6brqto1j/hjx/QhFA70GqC45Cv9b\nAH5wJ5LCHAcr2WtzdwPyNOsrEkEnqVGpXljMARkPQH\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnWCvm+5x7FwhR/j+CSL/yc1Mdxwx2X2UxSW/E6IDK0 acme-holder@test-genesis"
   }
 }

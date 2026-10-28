@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "system": "https://acme.example/products/shop/decisions",
   "id": "GEN",
   "versions": [

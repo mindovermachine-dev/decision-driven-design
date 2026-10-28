@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "GEN",
   "version": "1",
   "system": "https://acme.example/products/shop/decisions",
@@ -16,7 +16,7 @@
   },
   "signature": {
     "scheme": "ssh-sig",
-    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgCFloVpBV0lIZg9jRYODYZygvhv\nuoXnOs+xolMWyeD8kAAAAHZGVjcHJvdgAAAAAAAAAGc2hhNTEyAAAAUwAAAAtzc2gtZWQy\nNTUxOQAAAEDAaDD1ecXOYVfW58kqwxFHCB9J5y6v603tjL/cCLvNKgvutOwjkXpS5FKzvy\n8YIAhfrNaSwTGXjqwod7qk1PsD\n-----END SSH SIGNATURE-----\n",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAhZaFaQVdJSGYPY0WDg2GcoL4b7qF5zrPsaJTFsng/J acme-holder@test-genesis"
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2dYK+b7nHsXCFH+P4JIv/JzUx3\nHDHZfZTFJb8TogMrQAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBHgDbB8dFqXhiOpB0gVooG3jV+9a3dDTuaRJ7WwsGrL1\nvGFWWFxBbU/QvCn3ac+HVksIKA6yKPp6HD9O1AdwkB\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnWCvm+5x7FwhR/j+CSL/yc1Mdxwx2X2UxSW/E6IDK0 acme-holder@test-genesis"
   }
 }

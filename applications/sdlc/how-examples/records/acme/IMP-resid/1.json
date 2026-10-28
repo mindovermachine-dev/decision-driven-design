@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "IMP-resid",
   "version": "1",
   "system": "https://acme.example/products/shop/decisions",
@@ -12,11 +12,11 @@
   "basedOn": [
     {
       "ref": "RESID@1@https://vendor.example/packages/ref-arch",
-      "hash": "sha256:1999c3db60fe8e22bf69bd3c10f911b139355b1d15af7005e9a976ca5b1b5c80"
+      "hash": "sha256:a04dbc5364badfc5c2f898129d82ca0897a00de773e37b1c0893fe3b7c7054a4"
     },
     {
       "ref": "REL@1@https://vendor.example/packages/ref-arch",
-      "hash": "sha256:8a7f2dc013c241b7bdd218e0248351f67d9ff1b625fd714e4ca6d76e6ee2d5fa"
+      "hash": "sha256:0b5b6552f24608e43ccfbc2ababf694c844a0ff95b7a5c244c7fc0fbe15a6e18"
     }
   ],
   "status": "proposed",

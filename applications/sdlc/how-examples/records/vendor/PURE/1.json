@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "PURE",
   "version": "1",
   "system": "https://vendor.example/packages/ref-arch",

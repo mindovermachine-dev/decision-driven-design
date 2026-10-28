@@ -78,14 +78,30 @@ Verbatim:
 | 4 Writ Draft 2 | — | no action, as ruled |
 | 5 No watch on #41 | — | no subscription; the session is left idle |
 
+## Round 3, 2026-10-28
+
+Verbatim:
+
+> Round 3 (2026-10-28).
+>
+> 1. Token — ruled: `dpp/1`. (or `decprov/1`; one word.) File the supersession of `DDD-dec-53` under the move session’s range, coordinated with it. Rebuild the records with fresh test keys: the examples live in a test product under a test genesis with a declared test holder, and no real key is ever used for a fixture or held by a session. Your scratch run is the model. `RESID@1` gets its new version in the same rebuild.
+> 2. Strike the three stale flags (`how.md` §2, §13 item 2, `how-vocabulary.md` §4 binding row). Ruled text and prose must agree; a flag that a ruling has answered is noise for the next reader.
+> 3. Then: checker green, PR #41 stays draft, session idle.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| 1 Token `dpp/1` | `DDD-dec-62` supersedes `DDD-dec-53`. Every action in the ruling belongs to the `dpp/1` outcome, so the parenthetical "(or `decprov/1`; one word.)" is read as restating one token (`DDD-dec-48`), and is recorded with that reading in `DDD-dec-62` | done. Id 62 is the first of the move's range; the move session had not started and no branch held 62, so the claim is recorded here, in `DDD-dec-62` and in PR #41. **The move session now takes 63 onward** |
+| 1 Rebuild | `how-examples/records/`, `facts/manifest.json`, `build.py` (`TOKEN = "dpp/1"`; the signing namespace `decision-provenance`; keys discarded after every build) | done, with fresh throwaway keys, none kept. `RESID@1` issued with `deployment-declared` and `deployment-observed`; the checker's mapping of the old spelling removed. The `decprov/1` set stays in history at `d11df86` |
+| 2 Three stale flags | `how.md` §2 now states Round 2's narrowing as ruled text; §13's token and binding items struck; `how-vocabulary.md` §4 binding and constraint rows | done |
+| 3 Checker green | `check.py` against the reference implementation on `main`, unmodified | **71 ok, 1 expected warning (the anchor self-test), 0 failures**. Every record conformant |
+| 3 PR #41 draft; session idle | — | unchanged |
+
 ## Successor items, not this session's
 
-- **S-1.** The token (Round 2, ruling 1: still a choice). Emil rules between `decprov/1` (`DDD-dec-53` as it stands) and `dpp/1`
-  (recommended); the loser applies it. If `dpp/1`, `DDD-dec-53` is superseded and this branch's
-  example records are rebuilt with `how-examples/build.py` (one constant). If `decprov/1`, PR
-  #40's successor renames the protocol before any further record is written. Until then
-  `check.py` is red at its conformance step, by ruling.
-- **S-2.** The move session takes `DDD-dec-62` onward. Before it fixes the What's identity form
+- **S-1.** Closed (Round 3): the token is `dpp/1` (`DDD-dec-62`), and the records are rebuilt.
+- **S-2.** The move session takes `DDD-dec-63` onward (`DDD-dec-62` was taken here in Round 3). Before it fixes the What's identity form
   and kind names, it reads `how.md` §1.2 and D-8. When that form lands, every example record
   anchored to a What element is superseded against the real identifiers (ruling 4), and `DDD-dec-55`
   to `61` are re-pointed by supersession too.

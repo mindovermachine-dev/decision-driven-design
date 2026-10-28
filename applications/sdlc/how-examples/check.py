@@ -8,10 +8,10 @@ ssh-keygen. Anchors and verdicts need rdflib (a SPARQL 1.1 engine); without it t
 reported as SKIP, never as passed. Exit status is non-zero on any failure. Anchor warnings are
 printed and are not failures (ruling 1 of 2026-10-28: "the checker should warn").
 
-The protocol token. The reference implementation on main is run unmodified (Emil, 2026-10-28:
-"this branch's checker stops substituting the string"). The records carry the token DDD-dec-53
-rules, decprov/1; main ships dpp/1. Until the token is settled and applied, conformance is red.
-Every later step still runs: the hash law, which pins rest on, is the same under either token.
+The protocol token. The records carry dpp/1 (DDD-dec-62, superseding DDD-dec-53). The reference
+implementation on main is run unmodified; nothing is substituted (Round 2, ruling 1). If the
+token on main and the records ever disagree, conformance goes red and every later step still
+runs, because the hash law that pins rest on does not depend on the token.
 """
 import datetime, json, os, re, subprocess, sys, tempfile
 
@@ -32,9 +32,8 @@ TODAY = datetime.date(2026, 10, 27)          # the evaluation date: the examples
 PROJECTOR_TERMS = {"Component", "inLayer", "dependsOn", "CodeElement", "inComponent", "realises",
                    "usesApi", "handlesRoute", "method", "path"}
 REPORTER_TERMS = {"DataStore", "holdsPersonalData", "inRegion"}
-# Writ's provenance values for deployment facts (Round 2, ruling 3, 2026-10-28). RESID@1 is hashed
-# with the earlier spelling; it is read through this map until the token rebuild re-issues it.
-PROVENANCE = {"reporter:declared": "deployment-declared", "reporter:observed": "deployment-observed"}
+# Writ's provenance values for deployment facts: deployment-declared, deployment-observed
+# (Round 2, ruling 3, 2026-10-28). A contract's factSources name the ones it requires.
 
 failures, report, warnings = [], [], []
 def ok(cond, msg):
@@ -58,7 +57,7 @@ tokens = sorted({t for _, t in rejected.values()})
 off_token = [k for k, (why, t) in rejected.items() if why == "identity" and t != MAIN_TOKEN]
 ok(not rejected, f"conformance under the reference implementation on main, unmodified: {len(records) - len(rejected)} of "
    f"{len(records)} records conformant" + (f"; {len(off_token)} carry the token {tokens} where main accepts {MAIN_TOKEN!r} "
-   "(DDD-dec-53 against main; unsettled, rulings.md S-1)" if off_token else ""))
+   "(DDD-dec-62 against main)" if off_token else ""))
 for k, (why, t) in rejected.items():
     if k not in off_token: failures.append(f"FAIL {k}: {why}")
 
@@ -87,7 +86,7 @@ def verify(rec, principal):
         open(os.path.join(d, "allowed"), "w").write(f"{principal} {sig['key']}\n")
         open(os.path.join(d, "sig"), "w").write(sig["value"])
         p = subprocess.run(["ssh-keygen", "-Y", "verify", "-f", os.path.join(d, "allowed"), "-I", principal,
-                            "-n", "decprov", "-s", os.path.join(d, "sig")], input=dpp.canonical(rec), capture_output=True)
+                            "-n", "decision-provenance", "-s", os.path.join(d, "sig")], input=dpp.canonical(rec), capture_output=True)
         return p.returncode == 0
 for k, r in sorted(records.items()):
     if "signature" in r:
@@ -237,7 +236,7 @@ if rdflib:
         else:
             for t in targets.values():
                 plat, unit = t[SD]["platform"]["target"], t[SD]["platform"]["unit"]
-                for prov in [PROVENANCE.get(s, s) for s in dec[SD]["factSources"]]:
+                for prov in dec[SD]["factSources"]:
                     hits = [m for m in manifest if m["subject"] == unit and m["provenance"] == prov]
                     fresh = [m for m in hits if (TODAY - datetime.date.fromisoformat(m["readAt"])).days <= 1]
                     key = f"{dec['id']}|{plat}|{prov}"

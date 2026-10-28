@@ -8,7 +8,7 @@ operates for Writ's vocabulary. The path follows Writ's own reasoning: "`/ns/wri
 for sibling vocabularies under one host". `UNVERIFIED — Emil review`: no IRI under `/ns/sdlc` is
 served or registered yet, and the choice is Emil's.
 
-**In records.** In a `decprov/1` record, How content goes in one hashed dotted member,
+**In records.** In a `dpp/1` record (`DDD-dec-62`), How content goes in one hashed dotted member,
 `dk.decision-driven-design.sdlc`. That is the namespace host reversed, per protocol §3.7: "names
 SHOULD be reverse domain names under the operator's control". Fields the authority profile owns
 go in `dk.decision-driven-design.authority`. That covers the violation description, which
@@ -28,7 +28,7 @@ How defines none of the authority fields. Hashed content is objects, arrays and 
 
 ## 1. How terms
 
-| Term | Definition | Record shape (`decprov/1`) |
+| Term | Definition | Record shape (`dpp/1`) |
 |---|---|---|
 | `sdlc:HowDecision` | A decision about how a product's What is realised in code or deployments. It has a kind, an anchor and, usually, a violation description | a record whose `…sdlc.record` is `"decision"`. `statement`, `by`, `at`, `why` and `basedOn` are as in the protocol |
 | `sdlc:kind` | One of `constraint`, `binding`, `contract` | `…sdlc.kind` |
@@ -38,7 +38,7 @@ How defines none of the authority fields. Hashed content is objects, arrays and 
 | `sdlc:anchor` | The one What element a decision anchors to: the narrowest covering element. Or, in an empty What, the product as space (`how.md` §3) | `…sdlc.anchor`: an IRI |
 | `sdlc:binds` | For a binding, the What element kind its quantifier ranges over within the anchor | `…sdlc.binds`: a What term, e.g. `"sdlc:Decider"` |
 | `sdlc:standards` | Interface standards a decision names. They are not targets | `…sdlc.standards`: array of strings |
-| `sdlc:factSources` | Which provenance a decision's violation description requires, from Writ's set: `file`/`compiler` for projector facts, `deployment-declared` and/or `deployment-observed` for a contract (ruled 2026-10-28, Round 2) | `…sdlc.factSources`: array of strings. `RESID@1` still carries the earlier spelling, `reporter:declared` and `reporter:observed`, until its token rebuild writes a new version |
+| `sdlc:factSources` | Which provenance a decision's violation description requires, from Writ's set: `file`/`compiler` for projector facts, `deployment-declared` and/or `deployment-observed` for a contract (ruled 2026-10-28, Round 2) | `…sdlc.factSources`: array of strings |
 | violation description | Not a How term: the field `DDD-dec-52` assigns to the authority profile. The How requires it to be a SPARQL 1.1 `SELECT` with one row per violation (`?subject`, `?reason`). The evaluator may bind `?anchor` and `?target` | `…authority.violation`: `{language, binds, text}` |
 | `sdlc:Target` | A vocabulary of shapes plus the fact source that reads them | named in vocabulary editions and target declarations: `…sdlc.target` |
 | `sdlc:LanguageTarget` | A target read by a fact projector over a repository at a commit | `…sdlc.targetKind: "language"` |
@@ -51,7 +51,7 @@ How defines none of the authority fields. Hashed content is objects, arrays and 
 | baseline entry | Not a How term: the authority profile's. The How requires that it attach to (binding, element, target) and be added only by a decision. It marks a debt gap | the profile's (`how.md` D-6) |
 | waiver | Not a How term: the authority profile's. Never used for a coverage gap | the profile's |
 | `sdlc:Coverage` | For each in-force binding, element of its kind within its anchor, and declared target: realised, baselined, or excluded | none: computed |
-| `sdlc:Package` | *Ruled* (2026-10-28): "a product with an empty What, a genesis, and a decision log", vocabulary editions included. The kinds it binds to are references in its decisions' anchors | a system of `decprov/1` records |
+| `sdlc:Package` | *Ruled* (2026-10-28): "a product with an empty What, a genesis, and a decision log", vocabulary editions included. The kinds it binds to are references in its decisions' anchors | a system of `dpp/1` records |
 | `sdlc:Release` | One version of a package: the set its holder accepts and ships together | `…sdlc.record: "release"`; `basedOn` every member, pinned; signed by the holder; supersedes the previous release |
 | `sdlc:Import` | A decision in the importer's space, `basedOn` a package decision and its release, anchored in the importer's What. It may narrow the decision; it never alters it | `…sdlc.record: "import"`; `…sdlc.imports`: the reference; `why: {ref}` to the package decision |
 | `sdlc:Fork` | A local decision `basedOn` a package decision that changes its statement or violation description | a How decision whose `basedOn` contains the package decision |
@@ -103,8 +103,8 @@ become pinned references.
 
 | How | Nearest `writ:` term (Writ definition, chapter 4) |
 |---|---|
-| constraint | an enumerated decision "checked by its own shape", or a rule carrying "its violation shape" |
-| binding | Writ's Binding contract (ruled 2026-10-28: Writ adopts the word). `UNVERIFIED — Emil review`: that contract maps any decision to its code shape, so in Writ the word is wider than kind 2 |
+| constraint | evaluates over projector facts (ruled 2026-10-28); the citation attributes the projector recognises (`[DesignDecision]`, `[Contract]`) are fact vocabulary, not a binding |
+| binding | Writ's Binding contract (ruled 2026-10-28: Writ adopts the word, and narrows the contract to kind 2: a What element to a shape in a target) |
 | contract | none as a term. Its facts are reporter facts with provenance `deployment-declared` or `deployment-observed` (Writ Draft 2, ruled 2026-10-28) |
 | expressible | none. `writ:realisation` is never minted (ruled 2026-10-28) |
 | vocabulary edition | none. Writ: "a second language is a second realisation, not a second ontology". Consistent with it |

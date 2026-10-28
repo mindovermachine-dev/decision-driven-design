@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "TGT-shop-bff",
   "version": "1",
   "system": "https://acme.example/products/shop/decisions",
@@ -10,11 +10,11 @@
   "basedOn": [
     {
       "ref": "VOC-typescript@1@https://vendor.example/packages/ref-arch",
-      "hash": "sha256:e1366b7e624a7d63692ce364bc8c07b9edfeeb3d4505dfbe99a9c398ef603c44"
+      "hash": "sha256:c0e10fe1bdef2a0a2396ca92d5415489cd0da3638620ec019c85fcc230b835bf"
     },
     {
       "ref": "VOC-aws@1@https://vendor.example/packages/ref-arch",
-      "hash": "sha256:4830c0b6a9bed259bab4064df779ae644bed10e87f9822adf1494d66313db89e"
+      "hash": "sha256:d00dc9d19b6ff057212bad0c7d6135c8e9445df062c6ac3b4d8165019e0e4864"
     }
   ],
   "status": "proposed",

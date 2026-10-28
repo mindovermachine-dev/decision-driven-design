@@ -31,7 +31,7 @@ It does not define:
 |---|---|
 | Force: genesis, grants, scopes, acceptance, baseline, waiver | the authority profile (`DDD-dec-47`; `DDD-dec-54` ruling 4) |
 | The gate's verbs, positions, partitions and guarantees | Writ (`DDD-dec-54` ruling 5) |
-| The record, the reference, the resolver, the hash law | the Decision Provenance Protocol, token `decprov/1` (`DDD-dec-53`) |
+| The record, the reference, the resolver, the hash law | the Decision Provenance Protocol, token `dpp/1` (`DDD-dec-62`, superseding `DDD-dec-53`) |
 | The What's element kinds and their identities | the moved What (`DDD-dec-41`, `DDD-dec-42`, `DDD-dec-51`) |
 | Execution: work units, the Build seam, SPMC bundles, verdict events (old §5, §5.1, §5.3) | nowhere. Retired by `DDD-dec-42`, not carried forward |
 | Delivery: features, releases, `done`, versions, direction, drift (old §7) | nowhere. Retired by `DDD-dec-42` |
@@ -68,13 +68,11 @@ where it bites.
    Claude has not read Draft 2: the repository is behind it. Where this document cites Draft 2, it
    cites Emil's statement of it (`rulings.md`, Round 1).
 
-The token is unsettled. `DDD-dec-53` rules `decprov/1`. The protocol on `main` says `dpp/1`,
-because PR #40 merged before PR #39 ratified the ruling. Emil's recommendation of 2026-10-28 is
-to supersede `DDD-dec-53` to `dpp/1`; the ruling is still to come (`rulings.md`, S-1). Records here
-say `decprov/1`, as `DDD-dec-53` stands. By ruling, the examples' checker no longer substitutes
-the token, so its conformance step is red until the token is settled and applied. Every other
-step still runs, because the hash law is the same under either token. Rebuilt with `dpp/1` and
-fresh test keys, in a scratch copy, the checker is green throughout.
+The token: `DDD-dec-53` ruled `decprov/1`, but PR #40 merged `dpp/1` to `main` before PR #39
+ratified that ruling. *Ruled (2026-10-28, Round 3):* the token is `dpp/1`. `DDD-dec-62` supersedes
+`DDD-dec-53`; `main` already ships the token, so nothing is renamed. The example records were
+rebuilt with `dpp/1` and fresh test keys. The checker runs the reference implementation on `main`
+unmodified and is green.
 
 ---
 
@@ -110,9 +108,12 @@ decision's shape in a target is derived and needs no name (§5). Whether a decis
 checked in a target is **expressible**, the charter's own word. `DDD-dec-46`'s realisation scope
 is left as ruled.
 
-`UNVERIFIED — Emil review`: Writ's renamed contract maps any decision to its code shape in one
-language, constraints and contracts included. So in Writ, "binding" names something wider than
-kind 2 here.
+*Ruled (2026-10-28, Round 2):* "Writ narrows, the How does not widen." Writ's Binding contract is
+kind 2 only: a What element to a shape in a target. A constraint has no binding: it evaluates over
+the projector's facts, and the citation attributes the projector recognises (`[DesignDecision]`,
+`[Contract]`) are part of its fact vocabulary. A contract has no binding: it evaluates over a
+reporter's facts. The three kinds map onto Writ as constraint → projector facts, binding →
+Binding contract, contract → reporter facts.
 
 ---
 
@@ -162,7 +163,7 @@ Varve". Varve has no Product Framework What.
 
 ### 4.1 What every How decision is
 
-A How decision is a `decprov/1` record (shape in `how-vocabulary.md` §3). Beyond the protocol's
+A How decision is a `dpp/1` record (shape in `how-vocabulary.md` §3). Beyond the protocol's
 members it carries:
 
 - **a kind**: constraint, binding or contract;
@@ -550,7 +551,7 @@ why the split is a provenance value: it shows in the verdict.
 | D-4 | Writ, `check` | the What graph is readable by `check` at p, since bindings join over it; and the evaluator binds `?anchor` and `?target` |
 | D-5 | Writ, `explain` | show anchor, kind, the import chain, and "rests on superseded version" from the last recorded reading |
 | D-6 | the authority profile | a baseline entry attaches to (decision, element, target) and is added only by a decision. A waiver never covers a coverage gap. Map `acceptedBy` and `acceptedAt` to the acceptance record's `by` and `at`, since `dpp/1` A-10 removed them as record members and an undotted member may not be invented. The examples do this |
-| D-7 | Emil, then whichever side loses | settle the token: `DDD-dec-53`'s `decprov/1`, or `dpp/1` (Emil's recommendation of 2026-10-28). The loser applies it (`rulings.md`, S-1) |
+| D-7 | — | **Answered (ruled 2026-10-28, Round 3).** The token is `dpp/1` (`DDD-dec-62`). `main` already ships it, so nothing is renamed |
 | D-8 | the move | fix the What element identity form and the kind names this document reads (§1.2) |
 
 ---
@@ -576,7 +577,7 @@ changes go through `land`. It does not change the How: tools never change it
 **`[PROPOSED]`.** One level, matching the What's single level (`DDD-dec-51`): **specified and in
 force.** A product's How conforms when all of these hold at a stated position:
 
-1. Every How decision is a `decprov/1` record with a kind, an anchor under §3, and a violation
+1. Every How decision is a `dpp/1` record with a kind, an anchor under §3, and a violation
    description. Records without a violation description are allowed and are reported as idle
    where nothing rests on them (§4.3).
 2. Every How decision claimed in force has an acceptance chain to the product's genesis under the
@@ -603,8 +604,8 @@ In [`how-examples/`](how-examples/). There is one decision per kind (plus `REST@
 "specified once" check). Each is written once, imported and anchored in a product with two
 systems, evaluated in two targets, and accepted under a test genesis by a delegated human. The
 checker verifies every pin, signature and authority link, warns on wide anchors, and checks
-expressibility per target and supersession across the import. Conformance under `main`'s
-reference implementation is red, on the token alone (§1.2). It also runs the violation
+expressibility per target and supersession across the import. Every record is conformant
+under `main`'s reference implementation, unmodified. It also runs the violation
 descriptions over
 hand-written facts in both targets. The facts are hand-written because no fact projector or
 reporter exists. The verdicts are analytic: planted defects, predicted before the run, fired as
@@ -622,18 +623,16 @@ predicted. They show the descriptions execute as written, and nothing more.
 ## 13. Open, for Emil
 
 Ruled on 2026-10-28 and closed here: the anchor reading, a package's What, the design-system and
-content-store catalogue, provisional anchoring. Still open:
+content-store catalogue, provisional anchoring, binding in Writ, deployment provenance, and the
+token. Still open:
 
-1. **The token** (§1.2, D-7). Until it is settled, the examples' conformance step is red.
-2. **"Binding" in Writ** (§2). The Binding contract covers every decision's shape in a target, not
-   only kind 2's.
-3. **Not ruled separately** (`rulings.md`, Round 1). These stand as proposed until the merge
+1. **Not ruled separately** (`rulings.md`, Round 1). These stand as proposed until the merge
    ratifies them:
    - the three kinds, no fourth and no split, the idle report, and the record types (§4);
    - shapes derived from editions, and standards not being targets (§5);
    - the recorded-reading condition on supersession, and narrow-never-alter (§7);
    - Kind-1 wiring as contracts, and `deployment-declared` facts gating `land` (§4.2, §9);
-4. `[OPEN]` Whether adopters may register What kinds (§6, last paragraph).
+2. `[OPEN]` Whether adopters may register What kinds (§6, last paragraph).
 
 ---
 
@@ -660,7 +659,7 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | H-13 | principle is not a kind | kept, plus an **idle** report for decisions with neither a violation description nor a dependent | Carries the old earn-their-place rule as a report, not a violation | `DDD-dec-55` |
 | H-14 | facts from projectors and reporters | names a third source, a **runner** (execution against the What's scenarios), as a demand on Writ. Not used by the worked decisions | The pure-core binding exists to make behavioural conformance possible. Static facts cannot check it | `DDD-dec-60` |
 | H-15 | generation out of scope | confirmed, on condition that no edition may be made check-only | Keeps generation additive, as Writ's definition says it is | `DDD-dec-61` |
-| H-16 | records use the ruled token | they do (`decprov/1`), and the protocol on `main` does not | `DDD-dec-53` stands until superseded; the token is open (D-7) | — |
+| H-16 | records use the ruled token | they do: `dpp/1`, as `main` ships it | Ruled 2026-10-28 (Round 3); `DDD-dec-53`'s `decprov/1` superseded | `DDD-dec-62` |
 | H-17 | (not raised) | target declarations and exclusions are record types, not kinds | Neither has a violation description of its own | `DDD-dec-55` |
 
 **Rulings on this appendix (2026-10-28).**

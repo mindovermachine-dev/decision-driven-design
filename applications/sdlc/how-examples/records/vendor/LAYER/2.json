@@ -1,5 +1,5 @@
 {
-  "protocol": "decprov/1",
+  "protocol": "dpp/1",
   "id": "LAYER",
   "version": "2",
   "system": "https://vendor.example/packages/ref-arch",
@@ -11,7 +11,7 @@
   "supersedes": [
     {
       "ref": "LAYER@1@https://vendor.example/packages/ref-arch",
-      "hash": "sha256:cf32f2933d28684eb4cf02a4da1715fd2fc36ee3ab9836286ce8282612a49dbc"
+      "hash": "sha256:bed02fe07c8f968356f6d8e1020c8eeddefccf324f81965b4f7a9548b678e0b7"
     }
   ],
   "status": "accepted",

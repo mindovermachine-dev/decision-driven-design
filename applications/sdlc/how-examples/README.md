@@ -1,7 +1,7 @@
 # The How, worked — three decisions, two targets each
 
-Companion to [`../how.md`](../how.md) §12. Every record is a `decprov/1` record (the token
-`DDD-dec-53` rules), pinned by the hash law of `spec/decision-provenance/`. It was built by
+Companion to [`../how.md`](../how.md) §12. Every record is a `dpp/1` record (the token
+`DDD-dec-62` rules, superseding `DDD-dec-53`), pinned by the hash law of `spec/decision-provenance/`. It was built by
 [`build.py`](build.py) and is checked by [`check.py`](check.py).
 
 **Provisional, by ruling (Emil, 2026-10-28, ruling 4).** These records anchor to What identifiers
@@ -14,14 +14,13 @@ recorded on `DDD-dec-55` to `DDD-dec-61`.
 python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verdict step
 ```
 
-At this commit, with rdflib 7.6.0, the script prints 70 ok or note lines, 1 expected warning
-(its anchor self-test) and **1 failure: conformance, on the token alone**. All 21 records carry
-`decprov/1`, which `DDD-dec-53` rules. The reference implementation on `main` accepts only
-`dpp/1`. By ruling (2026-10-28), the checker no longer substitutes the token. Every other step
-runs and is green, because the hash law that pins rest on is the same under either token. Rebuilt
-with `TOKEN = "dpp/1"` and fresh keys, in a scratch copy, the run is 71 ok, 0 failures. Until the
-token is settled and applied (`rulings.md` S-1), `build.py` refuses to build. Without rdflib, the
-anchor and verdict steps are reported as **SKIP**, never as passed.
+At this commit, with rdflib 7.6.0, the script prints 71 ok or note lines, 1 expected warning
+(its anchor self-test) and 0 failures. All 21 records are conformant under the reference
+implementation on `main`, run unmodified. The records were rebuilt with `dpp/1` and fresh test
+keys on 2026-10-28 (Round 3). The `decprov/1` set they replace was never conformant to any
+protocol on `main`; it remains in this branch's history at `d11df86`. `build.py` still refuses to
+build if the token on `main` and `DDD-dec-62` ever disagree. Without rdflib, the anchor and verdict
+steps are reported as **SKIP**, never as passed.
 
 ## The cast
 
@@ -32,8 +31,10 @@ anchor and verdict steps are reported as **SKIP**, never as passed.
 | The importing product's architect | `mailto:architect@acme.example` | a grant of the How scope, delegated from that genesis |
 | A proposing agent | `spiffe://acme.example/agent/proposer` | nothing: it may propose, it never accepts |
 
-All three human keys are throwaway ed25519 keys made for this example. The private keys are
-not in the repository; `build.py` makes fresh ones on every run unless given a directory. Signatures are `ssh-sig` over the canonical form, namespace `decprov`.
+All three human keys are throwaway ed25519 keys for the test genesis's declared test holders.
+`build.py` makes fresh ones on every run and discards them when it ends. No real key is ever used
+for a fixture or held by a session (Round 3, ruling 1). Signatures are `ssh-sig` over the
+canonical form, namespace `decision-provenance`.
 
 ## The three decisions, written once
 
@@ -104,18 +105,15 @@ shows that the violation descriptions execute as written in both targets, that o
 text serves both targets, and that an absent reading comes out as an open question. It shows nothing about
 whether the How is right.
 
-`RESID@1` requires both provenance values. Its hashed `factSources` still use the earlier
-spelling, `reporter:declared` and `reporter:observed`. A rewrite is a new version, and that waits
-for the token rebuild (`rulings.md`, Round 2). `build.py` already writes the ruled values, and
-`check.py` maps the old spelling onto them.
+`RESID@1` requires both provenance values, `deployment-declared` and `deployment-observed`, in its
+`factSources`. The `dpp/1` rebuild issued it with them.
 
 ## What `check.py` checks
 
 1. Every record is conformant under the reference implementation on `main`, **unmodified**.
-   This is red today, on the token alone (above).
 2. Every reference reachable from the acceptance `ACC-1@1` and from `REL@2` names a record held
-   here whose hash matches its pin. This is the hash law only, the same under either token. A
-   test edit of one word in `LAYER@1` turns the first line red.
+   here whose hash matches its pin. A test edit of one word in `LAYER@1` turns both lines
+   red.
 3. Every signature verifies over its record's canonical form.
 4. The authority chain is a **test stand-in** for the unwritten authority profile. The
    acceptance's signer holds a grant. That grant was signed by the genesis holder. The genesis

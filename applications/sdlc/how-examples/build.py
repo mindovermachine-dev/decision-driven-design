@@ -7,10 +7,12 @@ throwaway ed25519 keys in a temporary directory and discards them, so every run 
 The records committed at 88bf686 were built with keys that are not in the repository; check.py
 verifies them from the public keys they carry.
 
-TOKEN is the protocol token the records carry: the one DDD-dec-53 rules. The build refuses to
-run unless the reference implementation on main accepts that token unmodified (Emil, 2026-10-28:
-no substitution; "PR #40's successor renames everything before any further record is written").
-When the token is settled (rulings.md S-1), set TOKEN to it and rebuild.
+TOKEN is the protocol token the records carry: dpp/1, ruled 2026-10-28 (Round 3) and filed as
+DDD-dec-62, which supersedes DDD-dec-53. The build still refuses to run unless the reference
+implementation on main accepts that token unmodified: no substitution, ever (Round 2, ruling 1).
+
+Keys are always throwaway test keys for the test genesis's declared test holders. No real key is
+ever used for a fixture or held by a session (Round 3, ruling 1).
 
 Ruling 4 of 2026-10-28: these records anchor to provisional What identifiers. They live in the
 test product only. When the What lands with its identity form, each is superseded by a new
@@ -20,17 +22,19 @@ never rewrites a version already published.
 import json, os, re, subprocess, sys, tempfile, shutil
 
 ROOT = "applications/sdlc/how-examples"
-TOKEN = "decprov/1"                     # DDD-dec-53
+SIGNING_NAMESPACE = "decision-provenance"   # the protocol's long name, as its well-known path
+TOKEN = "dpp/1"                         # DDD-dec-62 (supersedes DDD-dec-53)
 src = open("spec/decision-provenance/reference/dpp.py").read()
 MAIN = re.search(r'r\.get\("protocol"\) == "([^"]+)"', src).group(1)
 if MAIN != TOKEN:
     sys.exit(f"refusing to build: records would carry {TOKEN!r}, the reference implementation on main accepts {MAIN!r}. "
-             "Settle and apply the token first (meta/sessions/2026-10-27-product-framework-how/rulings.md, S-1).")
+             "The token on main and DDD-dec-62 disagree: settle that before building.")
 dpp = type(sys)("dpp"); exec(src, dpp.__dict__)
 if len(sys.argv) > 1:
     KEYS = sys.argv[1]
 else:
     KEYS = tempfile.mkdtemp()
+    import atexit; atexit.register(shutil.rmtree, KEYS, True)   # throwaway: discarded when the build ends
     for k in ("vendor-holder", "acme-holder", "acme-architect"):
         subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", f"{k}@test-genesis", "-f", os.path.join(KEYS, k)], check=True)
 
@@ -53,7 +57,7 @@ def sign(rec, key):
     pub = open(os.path.join(KEYS, key + ".pub")).read().strip()
     with tempfile.TemporaryDirectory() as d:
         p = os.path.join(d, "c"); open(p, "wb").write(dpp.canonical(rec))
-        subprocess.run(["ssh-keygen", "-q", "-Y", "sign", "-f", os.path.join(KEYS, key), "-n", "decprov", p],
+        subprocess.run(["ssh-keygen", "-q", "-Y", "sign", "-f", os.path.join(KEYS, key), "-n", SIGNING_NAMESPACE, p],
                        check=True, capture_output=True)
         sig = open(p + ".sig").read()
     rec["signature"] = {"scheme": "ssh-sig", "value": sig, "key": pub}
