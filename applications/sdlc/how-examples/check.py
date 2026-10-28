@@ -1,16 +1,17 @@
-"""Check the How worked examples: records, pins, the walk, signatures, the authority chain,
-realisability per target, supersession across the import, and the verdicts.
+"""Check the How worked examples: conformance, pins, signatures, the authority chain, anchors,
+expressibility per target, supersession across the import, and the verdicts.
 
     python3 applications/sdlc/how-examples/check.py
 
-Records, pins, the walk, signatures and realisability need the Python standard library and
-ssh-keygen. The verdicts need rdflib (a SPARQL 1.1 engine); without it that step is reported
-as SKIPPED, never as passed. Exit status is non-zero on any failure.
+Conformance, pins, signatures and expressibility need the Python standard library and
+ssh-keygen. Anchors and verdicts need rdflib (a SPARQL 1.1 engine); without it those steps are
+reported as SKIP, never as passed. Exit status is non-zero on any failure. Anchor warnings are
+printed and are not failures (ruling 1 of 2026-10-28: "the checker should warn").
 
-The protocol token. DDD-dec-53 rules decprov/1; spec/decision-provenance/ on main still ships
-dpp/1 (bootstrap.md, arrival finding 2). This script therefore runs the reference
-implementation on main with its one token literal substituted, and says so. Nothing else in
-the reference implementation is changed.
+The protocol token. The reference implementation on main is run unmodified (Emil, 2026-10-28:
+"this branch's checker stops substituting the string"). The records carry the token DDD-dec-53
+rules, decprov/1; main ships dpp/1. Until the token is settled and applied, conformance is red.
+Every later step still runs: the hash law, which pins rest on, is the same under either token.
 """
 import datetime, json, os, re, subprocess, sys, tempfile
 
@@ -18,9 +19,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.normpath(os.path.join(HERE, "..", "..", ".."))
 REF_IMPL = os.path.join(REPO, "spec", "decision-provenance", "reference", "dpp.py")
 src = open(REF_IMPL).read()
-assert src.count('"dpp/1"') == 2, "the reference implementation changed; re-read it before substituting"
+MAIN_TOKEN = re.search(r'r\.get\("protocol"\) == "([^"]+)"', src).group(1)
 dpp = type(sys)("dpp")
-exec(src.replace('"dpp/1"', '"decprov/1"'), dpp.__dict__)
+exec(src, dpp.__dict__)
 
 SD, AU = "dk.decision-driven-design.sdlc", "dk.decision-driven-design.authority"
 NS = "https://decision-driven-design.dk/ns/sdlc"
@@ -32,33 +33,48 @@ PROJECTOR_TERMS = {"Component", "inLayer", "dependsOn", "CodeElement", "inCompon
                    "usesApi", "handlesRoute", "method", "path"}
 REPORTER_TERMS = {"DataStore", "holdsPersonalData", "inRegion"}
 
-failures, report = [], []
+failures, report, warnings = [], [], []
 def ok(cond, msg):
     (report if cond else failures).append(("ok   " if cond else "FAIL ") + msg)
     return cond
 
 locations = {s: os.path.join(HERE, d) for s, d in json.load(open(os.path.join(HERE, "locations.json")))["locations"].items()}
 by_system = {d: s for s, d in locations.items()}
-records = {}
+records, rejected = {}, {}
 for sysdir, system in by_system.items():
     for i in sorted(os.listdir(sysdir)):
         if not os.path.isdir(os.path.join(sysdir, i)): continue
         for f in sorted(os.listdir(os.path.join(sysdir, i))):
             if f == "index.json": continue
-            raw = open(os.path.join(sysdir, i, f), "rb").read()
-            try:
-                r = dpp.validate(dpp.parse(raw))
-                good = (r["id"], r["version"], r["system"]) == (i, f[:-5], system)
-            except dpp.Invalid as e:
-                r, good = None, False
-            if ok(good, f"record {i}/{f} in {system} is conformant and filed under its own triple"):
-                records[f"{r['id']}@{r['version']}@{r['system']}"] = r
-report.append(f"note {len(records)} records read; reference implementation run with token decprov/1 substituted for dpp/1")
+            r = dpp.parse(open(os.path.join(sysdir, i, f), "rb").read())   # I-JSON only; no conformance claim
+            ok((r.get("id"), r.get("version"), r.get("system")) == (i, f[:-5], system), f"record {i}/{f} is filed under its own triple")
+            records[f"{r['id']}@{r['version']}@{r['system']}"] = r
+            try: dpp.validate(r)
+            except dpp.Invalid as e: rejected[f"{i}/{f} in {system}"] = (str(e), r.get("protocol"))
+tokens = sorted({t for _, t in rejected.values()})
+off_token = [k for k, (why, t) in rejected.items() if why == "identity" and t != MAIN_TOKEN]
+ok(not rejected, f"conformance under the reference implementation on main, unmodified: {len(records) - len(rejected)} of "
+   f"{len(records)} records conformant" + (f"; {len(off_token)} carry the token {tokens} where main accepts {MAIN_TOKEN!r} "
+   "(DDD-dec-53 against main; unsettled, rulings.md S-1)" if off_token else ""))
+for k, (why, t) in rejected.items():
+    if k not in off_token: failures.append(f"FAIL {k}: {why}")
 
-# ---- the walk: every hop from the acceptance and from the latest package release is held
+# ---- pins: every basedOn and supersedes entry names a held record whose hash law matches its pin
+def pins(start):
+    seen, todo, hops, bad = set(), [start], 0, []
+    while todo:
+        k = todo.pop()
+        if k in seen: continue
+        seen.add(k)
+        for e in records[k].get("basedOn", []) + records[k].get("supersedes", []):
+            hops += 1
+            if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
+            elif e in records[k].get("basedOn", []): todo.append(e["ref"])
+    return hops, bad
 for start in ("ACC-1@1@https://acme.example/products/shop/decisions", "REL@2@https://vendor.example/packages/ref-arch"):
-    hops = dpp.walk(locations, {"ref": start})
-    ok(all(h["result"] == dpp.HELD for h in hops), f"walk from {start.split('@')[0]}: {len(hops)} hops, all held, every pin matching")
+    hops, bad = pins(start)
+    ok(not bad, f"pins from {start.split('@')[0]}: {hops} references" + ("" if bad else ", every target held here and matching its pin")
+       + (f"; mismatched {bad}" if bad else ""))
 
 # ---- signatures
 def verify(rec, principal):
@@ -112,7 +128,7 @@ for k, imp in sorted(imports.items()):
             if not needed: continue
             ed = records[t[SD][slot]["edition"]]
             missing = sorted(n for n in needed if f"sdlc:{n}" not in ed[SD]["facts"])
-            ok(not missing, f"{dec['id']} realisable in {ed[SD]['target']} by edition {ed[SD]['edition']}: "
+            ok(not missing, f"{dec['id']} expressible in {ed[SD]['target']} by edition {ed[SD]['edition']}: "
                f"{len(needed)} fact terms mapped" + (f", missing {missing}" if missing else ""))
 
 # ---- supersession across the import: shown, never forced
@@ -136,7 +152,7 @@ try:
     import rdflib
 except ImportError:
     rdflib = None
-    failures.append("SKIP verdicts: rdflib is not installed (pip install rdflib); the verdict step did not run")
+    failures.append("SKIP anchors and verdicts: rdflib is not installed (pip install rdflib); those steps did not run")
 if rdflib:
     from rdflib import Graph, URIRef, Literal, RDF
     S = rdflib.Namespace(NS + "#")
@@ -168,9 +184,45 @@ if rdflib:
             for region, j in ed[SD]["jurisdictions"].items():
                 f.add((URIRef(f"{NS}/region/{entry['target']}#{region}"), S.jurisdiction, Literal(j)))
         return g + f
+    # ---- anchors (ruling 1): warn when a narrower element covers everything governed today
+    what = Graph(); what.parse(os.path.join(HERE, "what", "acme-shop.ttl"))
+    parent = dict(what.subject_objects(S.within))
+    def chain(x):
+        out = [x]
+        while out[-1] in parent: out.append(parent[out[-1]])
+        return out
+    def narrowest(nodes, strict):
+        chains = [chain(n)[1:] if strict else chain(n) for n in nodes]
+        return next((a for a in chains[0] if all(a in c for c in chains[1:])), None) if chains else None
+    def governed(dec, anchor):
+        if dec[SD]["kind"] == "binding":   # instances of the bound kind; the anchor must contain them
+            inst = [x for x in what.subjects(RDF.type, URIRef(NS + "#" + dec[SD]["binds"].split(":")[1])) if anchor in chain(x)]
+            return inst, narrowest(inst, True)
+        if dec[SD]["kind"] == "constraint":   # the code of every declared system within the anchor
+            syst = [URIRef(t[SD]["anchor"]) for t in targets.values() if anchor in chain(URIRef(t[SD]["anchor"]))]
+            return syst, narrowest(syst, False)
+        return None, None   # a contract anchors to the element it realises, not to a container
+    def anchor_check(name, dec, anchor):
+        inst, best = governed(dec, anchor)
+        if best is None: return None
+        if best != anchor:
+            warnings.append(f"WARN {name}: anchored at {anchor.split('#')[-1]}, but {best.split('#')[-1]} covers all "
+                            f"{len(inst)} element(s) it governs today")
+            return False
+        report.append(f"ok   {name}: anchored at {anchor.split('#')[-1]}, the narrowest element covering the {len(inst)} it governs")
+        return True
+    for k, imp in sorted(imports.items()):
+        anchor_check(k.split("@")[0], records[imp[SD]["imports"]], URIRef(imp[SD]["anchor"]))
+    n = len(warnings)
+    anchor_check("self-test: PURE re-anchored at the product", records[imports["IMP-pure@1@https://acme.example/products/shop/decisions"][SD]["imports"]],
+                 URIRef("https://acme.example/products/shop/what#product"))
+    ok(len(warnings) == n + 1, "self-test: re-anchoring PURE at the product warns (every Decider here is in one domain; "
+       "if the rule means 'every Decider in the product', the warning is advisory and the anchor stands)")
+    warnings[n:] = [w.replace("WARN ", "WARN (self-test, expected) ") for w in warnings[n:]]
+
     for entry in manifest:
         ok(dpp.record_hash(records[entry["edition"]["ref"]]) == entry["edition"]["hash"],
-           f"{entry['file']}: a {entry['source']} reading ({entry['mode']}) naming its vocabulary edition by pinned hash")
+           f"{entry['file']}: a {entry['source']} reading, provenance {entry['provenance']}, input {entry['mode']}, naming its edition by pinned hash")
     verdicts = {}
     for k, imp in sorted(imports.items()):
         dec = records[imp[SD]["imports"]]
@@ -187,7 +239,9 @@ if rdflib:
                     fresh = [m for m in hits if (TODAY - datetime.date.fromisoformat(m["readAt"])).days <= 1]
                     key = f"{dec['id']}|{plat}|{mode}"
                     if not fresh:
-                        verdicts[key] = "unknown: no reading of this unit with this provenance within P1D"
+                        ed = records[t[SD]["platform"]["edition"]][SD]
+                        verdicts[key] = (f"open question — gap: no {mode} deployment reading of {unit} within P1D; "
+                                         f"candidate: the {plat} reporter (edition {ed['edition']}, {ed['factSource']['status']}) is absent")
                         continue
                     rows = load(fresh[0]).query(q, initBindings={"anchor": anchor, "target": T(plat)})
                     verdicts[key] = sorted(f"{r.subject} — {r.reason}" for r in rows)
@@ -197,6 +251,6 @@ if rdflib:
         shown = got if isinstance(got, str) else (f"{len(got)} violation(s)" + "".join(f"\n       {v}" for v in got))
         ok(got == expected.get(key), f"verdict {key}: {shown}")
 
-print("\n".join(report + failures))
-print(f"\n{len(report)} ok/notes, {len(failures)} failures or skips")
+print("\n".join(report + warnings + failures))
+print(f"\n{len(report)} ok/notes, {len(warnings)} warnings, {len(failures)} failures or skips")
 sys.exit(1 if failures else 0)

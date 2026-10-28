@@ -1,10 +1,12 @@
 # The How — a product's realisation, as decisions
 
-**Status: `[PROPOSED]`. Nothing in this document is ruled.** It is Claude's answer to the charter
-at `meta/sessions/2026-10-27-product-framework-how/prompt.md`. Emil rules, and his rulings are
-recorded verbatim in that directory's `rulings.md`. The decisions it asks for are
-`DDD-dec-55` to `DDD-dec-61`. They are filed as proposals and are not in force until ruled.
-`DDD-dec-54` records the charter's own rulings, which this document does not reopen.
+**Status: ruled in part, 2026-10-28; not yet ratified.** This is Claude's answer to the charter
+at `meta/sessions/2026-10-27-product-framework-how/prompt.md`. Emil ruled on it on 2026-10-28;
+the ruling is verbatim in that directory's `rulings.md`, with a table of where each item landed.
+The decisions are `DDD-dec-55` to `DDD-dec-61`. `DDD-dec-54` records the charter's own rulings,
+which this document does not reopen. Emil ratifies by merging, after the move's identity form
+lands and the supersessions of ruling 4 are written (§1.2). Sections a ruling settled say
+*Ruled*. What was not ruled separately stays `[PROPOSED]` until the merge.
 
 **Register.** *Ruled* cites a decision. `[PROPOSED]` is Claude's, awaiting a ruling. `[OPEN]`
 is not settled by this document. `UNVERIFIED — Emil review` marks a reading of ruled material
@@ -50,23 +52,28 @@ where it bites.
 2. **What element identity has no form.** Anchoring needs stable identities (`DDD-dec-51`). The
    move charter's risk 3 says that form is fixed "before any decision is written against them".
    This document writes decisions against them, using provisional IRIs
-   (`https://acme.example/products/shop/what#domain-ordering`). That breaks the move charter's
-   order. It is done so the How can be tested at all. The examples are re-anchored by
-   supersession if the move fixes another form.
+   (`https://acme.example/products/shop/what#domain-ordering`). *Ruled (2026-10-28, ruling 4):*
+   "accepted, provisionally. They live in the test product only; they are not acceptable into any
+   real product; and when the What lands with its identity form, each is superseded by a version
+   against the real identifiers, never edited." The obligation is recorded on each of
+   `DDD-dec-55` to `DDD-dec-61`.
 3. **The authority profile is not written.** This document uses its six terms as the charter
    lists them and redefines none of them. Where the How needs something of them, it says so as
    a demand on the profile (§9.4). The worked examples use stand-in records for genesis, grant
    and acceptance. Those stand-ins are the examples', not the profile's.
-4. **Writ is defined, not built.** Its definition (Hafeok/writ `3b1c5af`,
-   `docs/product-definition.md`, Draft 1) fixes its verbs, guarantees G1–G10 and five
-   contracts. Its four format pages are "not written". So this document states what Writ
-   enforces against a definition. Where Writ's definition has no place for something the How
-   needs, that is listed as a demand on Writ (§9.4), not invented here.
+4. **Writ is defined, not built.** The repository Hafeok/writ is at `3b1c5af` (Draft 1). Its four
+   format pages are "not written". *Ruled (2026-10-28):* the definition is the authority, and it
+   is at Draft 2, which has reporters and a closed provenance set, to which `deployment` is added.
+   Claude has not read Draft 2: the repository is behind it. Where this document cites Draft 2, it
+   cites Emil's statement of it (`rulings.md`, Round 1).
 
-The token is also unsettled on `main`. `DDD-dec-53` rules `decprov/1`. The protocol on `main`
-still says `dpp/1`, because PR #40 merged before PR #39 ratified the ruling. Records here say
-`decprov/1`. The examples' checker runs the reference implementation with that one literal
-substituted, and says so.
+The token is unsettled. `DDD-dec-53` rules `decprov/1`. The protocol on `main` says `dpp/1`,
+because PR #40 merged before PR #39 ratified the ruling. Emil's recommendation of 2026-10-28 is
+to supersede `DDD-dec-53` to `dpp/1`; the ruling is still to come (`rulings.md`, S-1). Records here
+say `decprov/1`, as `DDD-dec-53` stands. By ruling, the examples' checker no longer substitutes
+the token, so its conformance step is red until the token is settled and applied. Every other
+step still runs, because the hash law is the same under either token. Rebuilt with `dpp/1` and
+fresh test keys, in a scratch copy, the checker is green throughout.
 
 ---
 
@@ -77,24 +84,34 @@ substituted, and says so.
 > deployments by a gate, shipped as a package by a vendor, and imported into another product by
 > `basedOn` under that product's genesis.
 
-**Verdict `[PROPOSED]`: the thesis holds. It needs four repairs. It does not need a replacement.**
+**Verdict: the thesis holds with four repairs; it does not need a replacement.** *Ruled
+(2026-10-28):* three repairs accepted and one corrected. The correction is to the gate's
+vocabulary: "unknown" becomes an open question (§9.3).
 Each clause was tested against the old §§4–7 and against the worked decisions. The examples
 exercise every clause except "shipped by a vendor" as a real distribution.
 
 | Clause | Holds? | Repair |
 |---|---|---|
 | a set of decisions | yes | Everything that varies by target lives in vocabulary editions. Those editions are decisions too (§6), so the set is closed |
-| each anchored to a What element or to the product | **only with a reading** | A universally quantified decision ("every Decider…", "every component…") governs many elements, so it has no single element to anchor to. Read the product node as a What element, and anchor to the narrowest element that covers the scope (§3). Without this reading, every quantified decision in a non-empty What anchors to the product, which is the loophole `DDD-dec-54` ruling 1 forbids. `UNVERIFIED — Emil review` |
+| each anchored to a What element or to the product | **only with a reading** (ruled, §3) | A universally quantified decision ("every Decider…", "every component…") governs many elements, so it has no single element to anchor to. Read the product node as a What element, and anchor to the narrowest element that covers the scope (§3). Without this reading, every quantified decision in a non-empty What anchors to the product, which is the loophole `DDD-dec-54` ruling 1 forbids. `UNVERIFIED — Emil review` |
 | accepted under the product's genesis | yes | none; the examples show the chain |
-| held against code **and deployments** by a gate | **half** | Writ's five contracts include a Projector over "repository at a commit" and nothing over a running deployment. The contract kind needs a reporter, and a recorded reading so that G1 still holds. Both are demands on Writ (§9.4), not facts about it |
-| shipped as a package by a vendor | yes, with a conflict | `DDD-dec-46` says a package's "What is its decisions". `DDD-dec-42` says a decision is not a What element. This document reads a package's What as **empty**. Its decisions then anchor to the package product: the degenerate case, legitimately (§6). `UNVERIFIED — Emil review` |
+| held against code **and deployments** by a gate | yes, once `deployment` is in Writ's provenance set | Writ's Draft 1, which the repository holds, had no reporter. *Ruled:* Draft 2 has reporters, reporter inputs with their hashes and a reports partition per reporter. Deployment facts fitted none of its provenance values, so `deployment` is added (§9.2) |
+| shipped as a package by a vendor | yes | *Ruled:* a package's What is empty, and `DDD-dec-46`'s "its What is its decisions" is superseded (§6) |
 | imported by `basedOn` under the importer's genesis | yes | The import is itself a decision in the importer's space, with its own anchor there (§7) |
 
-**A naming repair runs through all of it.** "Realisation" already has three meanings: Writ's
+**A naming repair runs through all of it.** "Realisation" already had three meanings: Writ's
 (a decision's code shape in one language), `DDD-dec-46`'s (a product's repository scope), and
-the charter's kind 2. This document renames kind 2 to **binding**. It keeps "realisation" in
-Writ's sense: the shape a decision takes in a target, which is derived and never authored
-(§5). `DDD-dec-46`'s "realisation scope" is left as ruled.
+the charter's kind 2. *Ruled:* kind 2 is **binding**, and Writ adopts the word. Its Realisation
+contract becomes the Binding contract, and `writ:realisation` is never minted. "One word across
+both repositories; the How vocabulary is the authority on what a decision is, Writ is the
+authority on enforcing it." This document therefore uses "realisation" as a term nowhere. A
+decision's shape in a target is derived and needs no name (§5). Whether a decision can be
+checked in a target is **expressible**, the charter's own word. `DDD-dec-46`'s realisation scope
+is left as ruled.
+
+`UNVERIFIED — Emil review`: Writ's renamed contract maps any decision to its code shape in one
+language, constraints and contracts included. So in Writ, "binding" names something wider than
+kind 2 here.
 
 ---
 
@@ -103,7 +120,10 @@ Writ's sense: the shape a decision takes in a target, which is derived and never
 *Ruled (`DDD-dec-54` ruling 1):* a How decision anchors to exactly one What element or to the
 product. Anchoring to the product is the degenerate case an empty What forces.
 
-**The reading `[PROPOSED]`, `UNVERIFIED — Emil review`.**
+**The reading — *ruled* (2026-10-28, ruling 1, `DDD-dec-55`), as proposed.** "Every Decider in
+the Ordering domain" anchors to the domain; "every Decider" anchors to the product. Anchoring to
+the product "is the loophole only when a narrower element exists and was not used, and the
+checker should warn on that."
 
 1. **The product node is a What element.** The old §3.0 makes the product "the root of the
    What". In a non-empty What, anchoring to the product node is anchoring to a What element.
@@ -114,7 +134,15 @@ product. Anchoring to the product is the degenerate case an empty What forces.
    element whose subtree contains everything the decision governs. "Every Decider in Ordering"
    anchors to the domain `ordering`. A layer rule over every system's code anchors to the
    product node, because nothing narrower covers both systems. Anchoring wider than needed is a
-   finding: the loophole the ruling names.
+   finding: the loophole the ruling names. **The checker warns** when the narrowest element
+   covering everything a decision governs *today* is narrower than its anchor. A binding governs
+   the instances of its kind within the anchor, so the covering element is their narrowest
+   common container. A constraint over code governs the code of the declared systems within the
+   anchor. A contract anchors to the element it realises, not to a container, and is not
+   checked. The warning reads present instances only. A product-wide "every Decider" rule in a
+   product whose Deciders all sit in one domain therefore warns, though the ruling calls that
+   anchor legitimate. The warning is advisory, and the anchor stands if the rule means the whole
+   product. The examples' self-test shows exactly that case.
 4. **Quantifiers range within the anchor.** A decision that ranges over a kind ("every
    Decider") ranges over the instances of that kind inside its anchor's subtree. The evaluator
    binds `?anchor` to the anchor of the decision in force (§4.1). One decision text therefore
@@ -157,7 +185,7 @@ position. It is never stored (`DDD-dec-49`). What is recorded is the decision an
 | Is over | code facts alone | a What element (or a kind within an anchor) and the code or content that realises it | a deployable unit |
 | Typical anchors | the product node; a system | the element it binds, or the narrowest element covering the instances it quantifies over | a system (deployment identity); a quality demand (§3.6 Kind 2 and the wiring of Kind 1) |
 | Facts | projector facts over a repository at a commit | the What graph, plus projector facts that carry `sdlc:realises` (the correspondence from code element to What element) | reporter readings of a unit, declared (its declaration at a commit) or observed (the running unit) |
-| Evaluator | the violation description over the facts at p | the same, joining What and code through `sdlc:realises`. Coverage (§8) is part of its violation description | the same, per reading. No fresh reading means **unknown** (§9.3) |
+| Evaluator | the violation description over the facts at p | the same, joining What and code through `sdlc:realises`. Coverage (§8) is part of its violation description | the same, per reading. No fresh reading means a reported gap and an **open question** (§9.3) |
 | Gates `land`? | yes | yes | declared readings only. An observed reading is not of the change |
 | Worked | `LAYER@1` | `PURE@1`, `REST@1` | `RESID@1` |
 
@@ -224,7 +252,7 @@ description of its own:
 - **Constraint** and **contract** could merge into "a violation description over some facts".
   They are kept apart because they differ in what an absent fact means. A constraint's projector
   gap is reported per G8, and the commit is still decidable. A contract's missing reading makes
-  the verdict unknown. They also differ in what they can gate.
+  the verdict an open question. They also differ in what they can gate.
 
 ---
 
@@ -232,13 +260,30 @@ description of its own:
 
 ### 5.1 What a target is
 
-**`[PROPOSED]`.** A **target** is a vocabulary of shapes plus the fact source that reads them.
-It comes in three sorts:
+A **target** is a vocabulary of shapes plus the fact source that reads them. It comes in three
+sorts:
 
 - a **language** (C#, TypeScript), read by a fact projector over a repository at a commit;
 - a **platform** (Azure, AWS), read by a reporter over a deployable unit;
-- a **design system** or **content store**, whose shapes (CIOs; strings per locale) are realised
+- a **design system** or **content store**, whose shapes (CIOs; strings per locale) are expressed
   in turn in a language. These targets layer over a language target.
+
+*Ruled (2026-10-28, ruling 3, `DDD-dec-57`):* design systems and content stores are "targets, not
+catalogues".
+
+- **The What declares them.** The product's What says "this design system at this edition, these
+  locales against this content store", exactly as it declares iOS. That is how `DDD-dec-44`'s "§11
+  and §12 are What" is to be read.
+- **The catalogue is the target's vocabulary edition.** The components, tokens and strings are
+  held in a package with its own genesis, typically a design team's.
+- **The bindings are kind 2.** AIO-to-CIO and key-to-string decisions are How bindings, anchored
+  to the AIO or the content key.
+- **Nothing in a catalogue is a What element** of the product that uses it.
+
+So targets are declared in two places. The What declares the user-facing ones: platform contexts
+such as iOS, design systems, content stores and locales. How target declarations
+(`TGT-shop-api@1`) declare the realisation ones: languages and deployment platforms. Coverage
+ranges over both. `[PROPOSED]`, not ruled separately: the rest of this section and §5.2.
 
 An **interface standard** (HTTP, OpenAPI, AsyncAPI, CloudEvents) is not a target. A decision may
 name it, as `REST@1` names `POST`. A decision that chooses a standard is a different decision
@@ -260,10 +305,11 @@ target's **vocabulary edition**, a decision record of its own (`VOC-csharp@1`). 
 each fact term the How defines to its native shape, and carries target-specific
 classifications: which APIs are effects, which region is in which jurisdiction.
 
-A decision's **realisation** in a target is then derived, never authored. It is the composition
-of the edition's mappings for the fact terms its violation description reads. A decision is
-*realisable* in a target iff that target's edition maps every fact term it reads. The examples'
-checker computes this. Adding a second language is adding an edition. No decision is touched.
+A decision's shape in a target is then derived, never authored. It is the composition of the
+edition's mappings for the fact terms its violation description reads. A decision is
+**expressible** in a target iff that target's edition maps every fact term it reads. The
+examples' checker computes this. Adding a second language is adding an edition. No decision is
+touched.
 
 The charter's three checks, each written once, are in `how-examples/`:
 
@@ -282,8 +328,9 @@ publish a competing fact format (§9.4, D-1).
 
 **Purity is approximate in the examples.** `PURE@1` checks the realising element's component for
 effects, not the decide and evolve functions themselves. Behavioural conformance would check
-that the core computes what the Decider says. That needs a third fact source, a runner that
-executes code against the Decider's scenarios (H-14). Writ's definition has no runner.
+that the core computes what the Decider says. That needs facts from a runner that executes code
+against the Decider's scenarios (H-14). Writ's Draft 2 provenance set has `runner`, as Emil
+states it, so the demand is met there. The worked decisions do not use it.
 
 ---
 
@@ -292,12 +339,12 @@ executes code against the Decider's scenarios (H-14). Writ's definition has no r
 *Ruled (`DDD-dec-46`; `DDD-dec-54` ruling 3):* a package is a product with its own genesis,
 held by the vendor. In another product's space it is provenance, never authority.
 
-**What a package contains `[PROPOSED]`: decision records, and nothing else.**
+**What a package contains — decision records, and nothing else (*ruled*, repair 3).**
 
 | In the package | As |
 |---|---|
 | constraints, bindings, contracts | decision records |
-| realisation vocabularies | vocabulary-edition records, which are decisions. A change to how C# realises a layer is a change to the How, and so a decision (`DDD-dec-54` ruling 2) |
+| vocabularies (the proposal's "realisation vocabularies") | vocabulary-edition records, which are decisions. A change to how C# realises a layer is a change to the How, and so a decision (`DDD-dec-54` ruling 2) |
 | projector and reporter editions | named inside the vocabulary edition they implement: name, version, digest. The name is content; the binary is not |
 | a version of the package | a release record, `basedOn` everything in that version and signed by the holder (`REL@1`) |
 | analyzers, projectors, reporters, generators | **not content**. They are the package product's realisation, shipped alongside and referenced by digest |
@@ -306,17 +353,18 @@ This tightens the proposal. The proposal listed vocabularies and editions beside
 they are decisions, or are named inside decisions. A package is then one thing: a decision log
 that another product can walk.
 
-**A package carries no What `[PROPOSED]`.** The proposal said "only the element kinds it binds
+**A package carries no What — *ruled* (2026-10-28, ruling 2, `DDD-dec-56`).** The proposal said "only the element kinds it binds
 to, never instances". Element kinds are not What elements. They are the framework's vocabulary,
 here in the `sdlc` namespace, and a package references them by name. If a package's What held
 kinds, every package would hold a private copy of the framework's ontology: the
 two-sources-of-truth failure. So a package's What is empty. Its decisions anchor to the package
 product: the degenerate case, and here the right one.
 
-`DDD-dec-46`'s consequence clause says a package is a product "whose What is its decisions".
-Against `DDD-dec-42` ("a decision is not itself a What element"), this document reads it as
-"whose What is empty and whose How is its decisions". `UNVERIFIED — Emil review`. If Emil reads it
-otherwise, `DDD-dec-46` or `DDD-dec-42` needs superseding.
+`DDD-dec-46`'s consequence clause said a package is a product "whose What is its decisions".
+*Ruled:* that clause is superseded by `DDD-dec-56`, and `DDD-dec-42` stands. "The kinds a package
+binds to are references in its decisions' anchors, not What elements of the package. A package
+is a product with an empty What, a genesis, and a decision log." The decision log includes its
+vocabulary editions (repair 3, ruled).
 
 A package that needs a What kind the framework lacks, such as a new AIO like `range-select`,
 cannot ship it. A new kind is a change to the framework here. An instance of a new kind is a What
@@ -364,7 +412,8 @@ examples' checker reads the listing directly. It is a checker, not a gate.
 
 ### 7.3 Withdrawal
 
-**`[PROPOSED]`.** A package may declare a version withdrawn: unsafe to rest on. It does so with a
+***Ruled* (2026-10-28, `DDD-dec-59`):** "the importer must answer with a re-import or a decision
+to keep; the vendor blocks nothing." A package may declare a version withdrawn: unsafe to rest on. It does so with a
 new record that supersedes it with `status: withdrawn` (protocol §3.4; the status is hashed, so
 this is a new version). This is the only signal that is ever more than information. Even so, it
 never acts by the vendor's authority:
@@ -388,7 +437,7 @@ never acts by the vendor's authority:
 it binds within its anchor, and every target the product declares for that element. For each
 such triple, exactly one of the following holds, and the gate reports which:
 
-1. a realisation exists. The binding's violation description finds no "unrealised" row;
+1. the pair is realised: the binding's violation description finds no "unrealised" row;
 2. the gap is **debt**: a baseline entry on the binding for that (element, target);
 3. the gap is a **boundary**: an exclusion decision for that (element, target).
 
@@ -400,12 +449,12 @@ rows are the uncovered pairs.
 
 ### 8.2 Is a declared gap a waiver, a baseline entry, or a third thing? Two of them
 
-The proposal said: a baseline entry. **`[PROPOSED]`: two different things, because gaps come in
-two different kinds**, and `DDD-dec-45` already names both:
+The proposal said: a baseline entry. **Two different things, because gaps come in two different
+kinds** — *ruled as proposed* (2026-10-28, `DDD-dec-58`). `DDD-dec-45` already names both:
 
 | Gap | Example | Is | Gate reports | Ratchet |
 |---|---|---|---|---|
-| **debt**: should exist, does not yet | a missing translation (`DDD-dec-45`: "declared missing"); a Decider not yet ported to the second language | a **baseline entry** on the binding, per (element, target) | baselined, with the entry's position | shrinks. An entry may be removed by landing the realisation. It may be added only by a decision |
+| **debt**: should exist, does not yet | a missing translation (`DDD-dec-45`: "declared missing"); a Decider not yet ported to the second language | a **baseline entry** on the binding, per (element, target) | baselined, with the entry's position | shrinks. An entry may be removed by landing the code that realises the pair. It may be added only by a decision |
 | **boundary**: cannot apply | a `display-collection` of images in a TUI (`DDD-dec-45`: "declared unreifiable") | an **exclusion**: a decision anchored to the element, with the reason | not applicable, with the reason (old §6.2's third finding) | none. It is not debt, and removing it would be wrong |
 
 **Never a waiver.** A waiver, as the authority profile will define it, suspends a violation that
@@ -423,7 +472,7 @@ a member of the baseline, not a decision of its own.
 Binding coverage asks whether every What element is realised. The no-orphans reading of a
 constraint asks the converse: whether every piece of code is covered by a decision (§4.2). The
 old §14.5 saw the same symmetry at the intake ("who may say what") and at reification ("what is
-shown where"). The How has it at both ends of realisation.
+shown where"). The How has it at both ends.
 
 ---
 
@@ -440,42 +489,48 @@ guarantees. It states what Writ must hold:
 | an import is in force only under the importer's acceptance, never the vendor's | G2, applied to the importer's log only. A vendor acceptance is provenance |
 | no agent accepts | G3 |
 | constraint and binding verdicts, and contract verdicts over declared readings, gate a change | `land`, condition 3 |
-| every verdict names its decision, kind, anchor, import chain, and the readings it used | G7. Its "explain never says unknown" is about a verdict's derivation. A contract verdict of **unknown** (§9.3) still has a full derivation: it names the reading that is missing |
-| a missing fact is a gap, never assumed | G8, extended to reporters (§9.3) |
+| every verdict names its decision, kind, anchor, import chain, and the readings it used | G7: `explain` never says unknown |
+| a verdict is clean, violation, or open question | Writ's three verdicts (ruled 2026-10-28) |
+| a missing fact is a reported gap, and a verdict that needs it is an open question with its candidates | G8, which covers reporters (§9.3) |
 | an exclusion and a baseline entry are visible at p and change verdicts only as declared | G1, G7 |
 
 ### 9.2 Which facts the gate may rely on
 
-**`[PROPOSED]`.** Only facts **recorded in the log at a position**, each with this provenance:
+*Ruled (2026-10-28, `DDD-dec-60`):* only facts recorded with provenance, from Writ's closed set
+`file, compiler, graph, runner, data, telemetry, attestation`, to which `deployment` is added.
+Deployment facts (declared regions, bundle identifiers, runtime) fitted none of the original
+values. In the How's terms, each reading carries:
 
-| Provenance field | Projector reading | Reporter reading |
+| Field | Projector reading | Reporter reading |
 |---|---|---|
 | source | `projector` | `reporter` |
-| mode | `files` or `compiler` (G8) | `declared` (the unit's declaration in a repository at a commit) or `observed` (the running unit) |
+| provenance (Writ's set) | `file` or `compiler` | `deployment`. A Kind-1 measurement is `telemetry` |
+| input | the repository at a commit | the unit's **declaration** at a commit, or an **observed** inventory snapshot. Writ hashes the input either way. The How keeps the distinction so that drift can be seen. It is not a provenance value. `UNVERIFIED — Emil review` |
 | edition | the vocabulary edition it implements, by pinned reference | the same |
 | subject | repository at commit | the deployable unit's identity, and the commit for `declared` |
 | read at | the landing position | the time of the reading, and the position at which it was recorded |
 | by / attributed to | the software identity that read; the human responsible, where known (protocol §3.4) | the same |
 
-`facts/manifest.json` in the examples has this shape. A fact with no provenance is not a fact
+`facts/manifest.json` in the examples has this shape. Its `mode` field is the input; its
+`provenance` field is Writ's value. A fact with no provenance is not a fact
 the gate may use. A reporter's own claim about its subject is not a fact about the subject until
 it has been recorded with this provenance.
 
-### 9.3 When a reporter is absent: unknown, not violation
+### 9.3 When a reporter is absent: a gap, and an open question
 
-**`[PROPOSED]`.** A contract names its fact sources and a freshness bound (`RESID@1`: declared
-and observed, within `P1D`). For each unit and each source:
+*Ruled (2026-10-28, `DDD-dec-60`), correcting the proposal's "unknown":* "A fact no reporter could
+supply is a reported gap, and a verdict that would need it is an open question with the absent
+reporter as one candidate (G8)." A contract names its fact sources and a freshness bound
+(`RESID@1`: declared and observed, within `P1D`). For each unit and each source:
 
-- a recorded reading within the bound means the violation description runs and gives zero or
-  more violations;
-- no reading, or none within the bound, means the verdict is **unknown**, and the missing source
-  is named. Unknown is not a pass and not a violation. It is an open question on the record. This
-  is `apparatus/encode-verify.md` applied: ground you do not control is verified on a schedule,
-  and an unreachable source is unknown.
+- a recorded reading within the bound means the violation description runs, and the verdict is
+  clean or violation;
+- no reading, or none within the bound, means the gap is reported and the verdict is an **open
+  question**. The absent reporter is named as one candidate cause. An open question is not a
+  pass and not a violation. This is `apparatus/encode-verify.md` applied: ground you do not
+  control is verified on a schedule, and an unreachable source is never a pass.
 
-What an unknown blocks is not the How's to say. Release was Delivery, and Delivery is retired. An
-importer that wants unknowns to block something decides so under its own genesis, as with
-withdrawals.
+An open question can block: Writ acts on it. What it blocks is Writ's to define, not the How's.
 
 Disagreement between declared and observed for the same unit is reported as **drift**. It is not
 a third verdict. Each reading has its own verdict, and drift is the difference between them.
@@ -485,19 +540,19 @@ a third verdict. Each reading has its own verdict, and drift is the difference b
 | # | On | Demand |
 |---|---|---|
 | D-1 | Writ, `code-facts.md` | carry the fact terms the How reads (`how-vocabulary.md` §2), language-neutral, with per-language mapping supplied by an edition |
-| D-2 | Writ, contracts | a **Reporter** contract: deployable unit (declared or observed) → facts with provenance. Writ's five contracts have none |
-| D-3 | Writ, the log | reporter readings, and readings of another system's versions listing, are recorded at a position before any verdict uses them (G1) |
+| D-2 | Writ, contracts | **Answered (ruled 2026-10-28).** Draft 2 has reporters, and `deployment` is added to its provenance set |
+| D-3 | Writ, the log | reporter readings, and readings of another system's versions listing, are recorded at a position before any verdict uses them (G1). Reporter readings are answered by Draft 2's reports partition and hashed reporter inputs, as Emil states them. The versions-listing reading is still open |
 | D-4 | Writ, `check` | the What graph is readable by `check` at p, since bindings join over it; and the evaluator binds `?anchor` and `?target` |
 | D-5 | Writ, `explain` | show anchor, kind, the import chain, and "rests on superseded version" from the last recorded reading |
 | D-6 | the authority profile | a baseline entry attaches to (decision, element, target) and is added only by a decision. A waiver never covers a coverage gap. Map `acceptedBy` and `acceptedAt` to the acceptance record's `by` and `at`, since `dpp/1` A-10 removed them as record members and an undotted member may not be invented. The examples do this |
-| D-7 | the protocol branch | rename `dpp/1` to `decprov/1` on `main`, as `DDD-dec-53` ruled (now outstanding) |
+| D-7 | Emil, then whichever side loses | settle the token: `DDD-dec-53`'s `decprov/1`, or `dpp/1` (Emil's recommendation of 2026-10-28). The loser applies it (`rulings.md`, S-1) |
 | D-8 | the move | fix the What element identity form and the kind names this document reads (§1.2) |
 
 ---
 
 ## 10. Generation
 
-**`[PROPOSED]`: confirmed out of scope.** Writ records generation as open and "decided by
+***Ruled*: out of scope, confirmed (2026-10-28, `DDD-dec-61`).** Writ records generation as open and "decided by
 evidence" ("whether the action grammar … can generate code from accepted decisions rather than
 only check it"). It places generation after its 1.0. The old §4.2 realisation declarations
 (backend, delegation tier) and the §5.2 code-generation seam are not carried forward.
@@ -521,14 +576,14 @@ force.** A product's How conforms when all of these hold at a stated position:
    where nothing rests on them (§4.3).
 2. Every How decision claimed in force has an acceptance chain to the product's genesis under the
    authority profile.
-3. Every in-force decision is realisable in every target its anchor's systems declare. Every fact
+3. Every in-force decision is expressible in every target its anchor's systems declare. Every fact
    term it reads is mapped by a pinned edition.
 4. Coverage (§8): every (element, target) pair under every in-force binding is realised,
    baselined or excluded.
 5. Every import pins the package's decision and release, and every withdrawal reading has an
    answer (§7.3).
 6. Every verdict at the position can be explained from recorded decisions and recorded readings
-   alone (G1, G7). Unknowns are listed.
+   alone (G1, G7). Gaps and open questions are listed.
 
 **What it does not claim.** That the code satisfies the How. Satisfaction is a verdict at a
 position, computed and never stored. A product with a red `check` can still have a specified How.
@@ -542,8 +597,10 @@ are not revived.
 In [`how-examples/`](how-examples/). There is one decision per kind (plus `REST@1`, the third
 "specified once" check). Each is written once, imported and anchored in a product with two
 systems, evaluated in two targets, and accepted under a test genesis by a delegated human. The
-checker verifies every record, pin, signature and authority link. It also checks realisability
-per target and supersession across the import, and runs the violation descriptions over
+checker verifies every pin, signature and authority link, warns on wide anchors, and checks
+expressibility per target and supersession across the import. Conformance under `main`'s
+reference implementation is red, on the token alone (§1.2). It also runs the violation
+descriptions over
 hand-written facts in both targets. The facts are hand-written because no fact projector or
 reporter exists. The verdicts are analytic: planted defects, predicted before the run, fired as
 predicted. They show the descriptions execute as written, and nothing more.
@@ -553,25 +610,26 @@ predicted. They show the descriptions execute as written, and nothing more.
 | constraint | `LAYER@1` | `acme:product` | C#, TypeScript | upward reference → 1; orphan component → 1 |
 | binding | `PURE@1` | `acme:domain-ordering` | C#, TypeScript | effect in the TS core → 1; C# → 0 |
 | binding | `REST@1` | `acme:domain-ordering` | C#, TypeScript | wrong TS route → 1; C# → 0 |
-| contract | `RESID@1` | `acme:qd-residency-eu` | Azure, AWS | US bucket, declared and observed → 1 each; Azure observed → **unknown** |
+| contract | `RESID@1` | `acme:qd-residency-eu` | Azure, AWS | US bucket, declared and observed → 1 each; Azure observed → **open question**, gap reported, absent reporter named |
 
 ---
 
 ## 13. Open, for Emil
 
-1. The anchor reading (§3): is the product node a What element, with the narrowest covering
-   element as the rule?
-2. A package's What (§6): empty, against `DDD-dec-46`'s "whose What is its decisions"?
-3. The design-system and content-store catalogue. `DDD-dec-44` rules both are What;
-   `DDD-dec-45` rules "which CIO, which words" are decisions anchored to the element they bind
-   and the catalogue is "the set of accepted decisions". This document reads those decisions as
-   How bindings into a layered target (§5.1). If Emil means the catalogue to be What, those are
-   What decisions and binding splits into What-side and How-side.
-4. Kind 1 runtime bounds' measurement wiring as contracts (§4.2, H-9).
-5. The runner as a third fact source, and a demand on Writ (§5.2, H-14).
-6. `[OPEN]` Whether adopters may register What kinds (§6, last paragraph).
-7. The precondition breach (§1.2, item 2): writing decisions before the identity form is fixed.
-   Accept it for a proposal, or hold this document until the move's Gate 3.
+Ruled on 2026-10-28 and closed here: the anchor reading, a package's What, the design-system and
+content-store catalogue, provisional anchoring. Still open:
+
+1. **The token** (§1.2, D-7). Until it is settled, the examples' conformance step is red.
+2. **"Binding" in Writ** (§2). The Binding contract covers every decision's shape in a target, not
+   only kind 2's.
+3. **Not ruled separately** (`rulings.md`, Round 1). These stand as proposed until the merge
+   ratifies them:
+   - the three kinds, no fourth and no split, the idle report, and the record types (§4);
+   - shapes derived from editions, and standards not being targets (§5);
+   - the recorded-reading condition on supersession, and narrow-never-alter (§7);
+   - Kind-1 wiring as contracts, and declared readings gating `land` (§4.2, §9);
+   - the declared/observed input distinction under `deployment` (§9.2).
+4. `[OPEN]` Whether adopters may register What kinds (§6, last paragraph).
 
 ---
 
@@ -583,9 +641,9 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 
 | # | The proposal said | This document says | Reason | Decision |
 |---|---|---|---|---|
-| H-1 | kind 2 is "Realisation" | kind 2 is **binding**; "realisation" is the derived per-target shape of any decision | "Realisation" already means three things (Writ's vocabulary, `DDD-dec-46`, and the charter's second use). Writ owns the per-target sense, and the gate speaks Writ's language | `DDD-dec-55` |
+| H-1 | kind 2 is "Realisation" | kind 2 is **binding**. As ruled, Writ adopts the word, and "realisation" is used as a term nowhere | "Realisation" already meant three things (Writ's vocabulary, `DDD-dec-46`, and the charter's second use) | `DDD-dec-55` |
 | H-2 | anchor to one What element or the product | the same, read as: the product node is a What element; anchor to the narrowest covering element; the product-as-space only when the What is empty | Without it, quantified decisions in a non-empty What have no legal anchor except the loophole | `DDD-dec-55` |
-| H-3 | every language-specific shape is a realisation under a vocabulary edition | realisations are **derived** from editions, never authored per decision | If realisations were authored per decision, adding a target would need a record per decision, and that drifts. Derived, adding a target touches nothing but an edition | `DDD-dec-57` |
+| H-3 | every language-specific shape is a realisation under a vocabulary edition | a decision's shape in a target is **derived** from the edition, never authored per decision | If shapes were authored per decision, adding a target would need a record per decision, and that drifts. Derived, adding a target touches nothing but an edition | `DDD-dec-57` |
 | H-4 | a target is a language, a design system or a content store | adds **platform** targets; excludes interface standards (decisions may name them); design system and content store layer over a language | Contracts need platform vocabularies (`RESID@1`). HTTP in the REST projection is a choice of standard, not a target | `DDD-dec-57` |
 | H-5 | decisions; vocabularies; projector and reporter editions; nothing else | **decision records only**. Vocabularies are edition decisions; projector and reporter editions are named inside them; binaries are realisation | "Every change to the How is a decision" makes an edition a decision. The proposal's "editions as content" and "analyzers as realisation" were the same objects listed twice | `DDD-dec-56` |
 | H-6 | a package carries the element kinds it binds to | a package carries **no What** | Kinds are framework vocabulary, not What elements. A What of kinds per package would be a private copy of the ontology | `DDD-dec-56` |
@@ -598,8 +656,19 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | H-13 | principle is not a kind | kept, plus an **idle** report for decisions with neither a violation description nor a dependent | Carries the old earn-their-place rule as a report, not a violation | `DDD-dec-55` |
 | H-14 | facts from projectors and reporters | names a third source, a **runner** (execution against the What's scenarios), as a demand on Writ. Not used by the worked decisions | The pure-core binding exists to make behavioural conformance possible. Static facts cannot check it | `DDD-dec-60` |
 | H-15 | generation out of scope | confirmed, on condition that no edition may be made check-only | Keeps generation additive, as Writ's definition says it is | `DDD-dec-61` |
-| H-16 | records use the ruled token | they do (`decprov/1`), and the protocol on `main` does not | `DDD-dec-53` is ruled; its rename is outstanding (D-7) | — |
+| H-16 | records use the ruled token | they do (`decprov/1`), and the protocol on `main` does not | `DDD-dec-53` stands until superseded; the token is open (D-7) | — |
 | H-17 | (not raised) | target declarations and exclusions are record types, not kinds | Neither has a violation description of its own | `DDD-dec-55` |
+
+**Rulings on this appendix (2026-10-28).**
+
+- **Ruled as proposed here:** H-1 (with Writ adopting "binding"), H-2, H-5, H-6, H-7, H-10, and
+  H-15's out-of-scope.
+- **Ruled otherwise:** the proposal's "unknown" became an open question with a reported gap (§9.3).
+- **Settled by ruling 3:** the design-system and content-store part of H-4.
+- **Met by Writ's Draft 2, as Emil states it:** H-14's runner demand, and H-9's telemetry wiring
+  as a provenance value.
+- **Not ruled separately:** H-3, H-8, H-9, H-11, H-12, H-13 and H-17. They stand as proposed until
+  the merge.
 
 ## Appendix B — where the old §§4–7 went
 

@@ -1,16 +1,27 @@
 # The How, worked — three decisions, two targets each
 
-Companion to [`../how.md`](../how.md) §8. **`[PROPOSED]` — nothing here is ruled.** Every record is
-a `decprov/1` record (the token `DDD-dec-53` rules), pinned by the hash law of
-`spec/decision-provenance/` and checked by [`check.py`](check.py).
+Companion to [`../how.md`](../how.md) §12. Every record is a `decprov/1` record (the token
+`DDD-dec-53` rules), pinned by the hash law of `spec/decision-provenance/`. It was built by
+[`build.py`](build.py) and is checked by [`check.py`](check.py).
+
+**Provisional, by ruling (Emil, 2026-10-28, ruling 4).** These records anchor to What identifiers
+fixed before the What's identity form exists. They live in this test product only. None may be
+imported, landed or accepted into any real product. When the What lands with its identity form,
+each is superseded by a version against the real identifiers, never edited. The obligation is
+recorded on `DDD-dec-55` to `DDD-dec-61`.
 
 ```
 python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verdict step
 ```
 
-At this commit the script prints 67 ok or note lines and 0 failures with rdflib installed. Without rdflib it
-reports the verdict step as **SKIP** and exits non-zero. It never reports the skipped step as a
-pass.
+At this commit, with rdflib 7.6.0, the script prints 70 ok or note lines, 1 expected warning
+(its anchor self-test) and **1 failure: conformance, on the token alone**. All 21 records carry
+`decprov/1`, which `DDD-dec-53` rules. The reference implementation on `main` accepts only
+`dpp/1`. By ruling (2026-10-28), the checker no longer substitutes the token. Every other step
+runs and is green, because the hash law that pins rest on is the same under either token. Rebuilt
+with `TOKEN = "dpp/1"` and fresh keys, in a scratch copy, the run is 71 ok, 0 failures. Until the
+token is settled and applied (`rulings.md` S-1), `build.py` refuses to build. Without rdflib, the
+anchor and verdict steps are reported as **SKIP**, never as passed.
 
 ## The cast
 
@@ -22,7 +33,7 @@ pass.
 | A proposing agent | `spiffe://acme.example/agent/proposer` | nothing: it may propose, it never accepts |
 
 All three human keys are throwaway ed25519 keys made for this example. The private keys are
-not in the repository. Signatures are `ssh-sig` over the canonical form, namespace `decprov`.
+not in the repository; `build.py` makes fresh ones on every run unless given a directory. Signatures are `ssh-sig` over the canonical form, namespace `decprov`.
 
 ## The three decisions, written once
 
@@ -84,27 +95,32 @@ subject (repository at commit, or deployable unit), and when it was read. The Wh
 | `ordering-domain` calls `Date.now` | `PURE`, TypeScript | 1 violation | 1 |
 | refund registered at `/command/refund-order` | `REST`, TypeScript | 1 violation | 1 |
 | personal-data bucket in `us-east-1` | `RESID`, AWS, declared and observed | 1 each | 1 each |
-| no observed reading of the Azure unit | `RESID`, Azure, observed | **unknown**, not pass, not violation | unknown |
+| no observed reading of the Azure unit | `RESID`, Azure, observed | **open question**: gap reported, absent reporter named as a candidate | open question |
 | none | `LAYER`/`PURE`/`REST` C#, `RESID` Azure declared | 0 | 0 |
 
 The expectations were written as the defects were planted, before the first run, and are
 in `expected.json`. They are **analytic**, not evidence: a fixture built to fire, fired. The run
 shows that the violation descriptions execute as written in both targets, that one decision
-text serves both targets, and that an absent reading comes out unknown. It shows nothing about
+text serves both targets, and that an absent reading comes out as an open question. It shows nothing about
 whether the How is right.
 
 ## What `check.py` checks
 
-1. Every record is conformant under the reference implementation on `main`, with one
-   substitution: its token literal `dpp/1` becomes `decprov/1` (`../how.md` §1.2).
-2. The walk from the acceptance `ACC-1@1` and from `REL@2` holds at every hop, with every pin
-   matching. A test edit of one word in `LAYER@1` turns the first walk red.
+1. Every record is conformant under the reference implementation on `main`, **unmodified**.
+   This is red today, on the token alone (above).
+2. Every reference reachable from the acceptance `ACC-1@1` and from `REL@2` names a record held
+   here whose hash matches its pin. This is the hash law only, the same under either token. A
+   test edit of one word in `LAYER@1` turns the first line red.
 3. Every signature verifies over its record's canonical form.
 4. The authority chain is a **test stand-in** for the unwritten authority profile. The
    acceptance's signer holds a grant. That grant was signed by the genesis holder. The genesis
    is an origin. All three are signed, and the acceptor is a human identity, not an agent.
 5. Exactly six records are in force: those the acceptance pins.
-6. Each imported decision is realisable in each declared target: every fact term its violation
+6. Each imported decision is expressible in each declared target: every fact term its violation
    description reads is mapped by that target's edition.
 7. Supersession across the import is shown and changes nothing in force.
-8. The verdicts, per decision and per target, equal `expected.json`.
+8. Anchors (ruling 1). Each import's anchor is the narrowest element covering what it governs
+   today. Otherwise the checker prints a warning, which is not a failure. A self-test re-anchors
+   `PURE` at the product and expects the warning. The ruling calls that anchor legitimate for an
+   "every Decider" rule, so the warning is advisory.
+9. The verdicts, per decision and per target, equal `expected.json`.
