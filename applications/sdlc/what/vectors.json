@@ -2,7 +2,7 @@
  "canon": "rdfc-1.0",
  "hash": "sha256",
  "example": "examples/acme-shop.ttl",
- "graphHash": "sha256:224d7395781044fbfa8e5762cc7b4e85535b487d0e3602d6d114ab21e8322ec8",
+ "graphHash": "sha256:10cd90893f7fadb1bdf80064a43795be95e2175684c6d3a93a7736abc7c2156b",
  "synthetic": {
   "nTriples": "<https://x.example/p/what/01M610JNAMYTKTBXP8KD0BQ2G0> <https://decision-driven-design.dk/ns/sdlc#given> _:l1 .\n_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:e1 .\n_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .\n_:e1 <https://decision-driven-design.dk/ns/sdlc#value> \"100\"^^<http://www.w3.org/2001/XMLSchema#integer> .\n",
   "hash": "sha256:456983e04c5fbe95df100d4fe330cb44580bc308f0a2c1ee414e580e6f7a32b7"
@@ -18,7 +18,7 @@
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAM10QDGKF29GWXSHK1",
-   "hash": "sha256:450275a46a3c14ea6ee8eea5e4f6102d093eeec1e8a84ceb0b2823e253990091"
+   "hash": "sha256:73a035341e751ed2bb8baf42086a23a3aff143dcb6a8e8ab50f6de3a75d706da"
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAM10YNEPYPSXB6RMCT",
@@ -130,7 +130,7 @@
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAMHKDH8MYYBGG3DBMA",
-   "hash": "sha256:96034b3625d8e4026b559de9859da0a36dfe6f2a90c685b5b8a062973484c016"
+   "hash": "sha256:a1736d09f1f5f8eac3a2f4cbf70a7ef89c094a286c4d54e2808b37e97fba5cd4"
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAMHZ5N0XY7Z0YCH227",
@@ -154,7 +154,7 @@
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAMMSAY8ZWD1TMMZ8HH",
-   "hash": "sha256:dbdba9a67a19d206cf997e2b794eea618e990cc282bd3262a49dab1abb183a0e"
+   "hash": "sha256:f1771b80380ac51d0b6d4dead9249d6a66bd5b598441f1d256d4b849db85aff6"
   },
   {
    "iri": "https://acme.example/products/shop/what/01M610JNAMPJPTACP44JCE5B2S",

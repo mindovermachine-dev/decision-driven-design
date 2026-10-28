@@ -333,3 +333,19 @@ sdlc:ScopedViewShape a sh:NodeShape ;
         FILTER NOT EXISTS { $this sdlc:public true }
         FILTER NOT EXISTS { ?r sdlc:within $this ; sdlc:forSubject ?value }
       }""" ] .
+
+#########################  WIRE NAMES — PROPOSED, DDD-dec-64  #########################
+
+sdlc:WireNameShape a sh:NodeShape ;
+  sh:targetClass sdlc:Command , sdlc:Event , sdlc:Invariant , sdlc:SubjectKind ;
+  sh:property [ sh:path sdlc:wireName ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:pattern "^[A-Za-z0-9]([A-Za-z0-9._-]{0,126}[A-Za-z0-9])?$" ;
+    sh:message "what.md §6 A command, event, invariant or subject kind carries exactly one wire name, a dpp/1 token: keys are opaque, so the wire names elements by it." ] ;
+  sh:sparql [
+    sh:message "what.md §6 Wire names are unique per kind within the product." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE {
+        $this a ?k ; sdlc:wireName ?value . ?other a ?k ; sdlc:wireName ?value .
+        FILTER (?other != $this && ?k IN (sdlc:Command, sdlc:Event, sdlc:Invariant, sdlc:SubjectKind))
+      }""" ] .

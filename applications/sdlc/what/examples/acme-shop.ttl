@@ -65,15 +65,15 @@ w:01M610JNAM51J0KCR35NQCD9YC a sdlc:Scenario ; sdlc:within w:01M610JNAMMP5V59XRN
 # ---- §3.2, §3.4 the View and its Projector, keyed for scoping
 w:01M610JNAMFTV81M9FR1TXEN03 a sdlc:View ; sdlc:within w:01M610JNAMH5Y3FP9BFRZJ6QSS ; rdfs:label "Order summary" ;
     sdlc:projects w:01M610JNAM3FKSYQJ0NPEMRJQ5 , w:01M610JNAMJPDE0DG2T4TY6X9A ; sdlc:hasState sdlc:statePresent , sdlc:stateEmpty .
-w:01M610JNAM10QDGKF29GWXSHK1 a sdlc:Field ; sdlc:within w:01M610JNAMFTV81M9FR1TXEN03 ; rdfs:label "customer_id" ; sdlc:fieldType xsd:string .
+w:01M610JNAM10QDGKF29GWXSHK1 a sdlc:Field ; sdlc:within w:01M610JNAMFTV81M9FR1TXEN03 ; rdfs:label "customer_id" ; sdlc:wireName "customer_id" ; sdlc:fieldType xsd:string .
 w:01M610JNAMD2PDDKQRCW18Z0E4 a sdlc:Projector ; sdlc:within w:01M610JNAMH5Y3FP9BFRZJ6QSS ; rdfs:label "Order summary" ;
     sdlc:projectsFor w:01M610JNAMFTV81M9FR1TXEN03 ; sdlc:folds w:01M610JNAM3FKSYQJ0NPEMRJQ5 , w:01M610JNAMJPDE0DG2T4TY6X9A ; sdlc:keyedBy w:01M610JNAM10QDGKF29GWXSHK1 ;
     sdlc:logic "sha256:a39a05f9c3f992f4f839c892bab65c7d45fc23a1f5e52a1ca9a793045f93770d" ; sdlc:logicMediaType "application/yaml" .
 
 # ---- §3.7 subject kinds, their claims, and the View's scope
-w:01M610JNAMMSAY8ZWD1TMMZ8HH a sdlc:SubjectKind ; sdlc:within w:01M610JNAMYTKTBXP8KD0BQ2G0 ; rdfs:label "Customer" ; sdlc:nature sdlc:natureHuman .
+w:01M610JNAMMSAY8ZWD1TMMZ8HH a sdlc:SubjectKind ; sdlc:within w:01M610JNAMYTKTBXP8KD0BQ2G0 ; rdfs:label "Customer" ; sdlc:wireName "customer" ; sdlc:nature sdlc:natureHuman .
 w:01M610JNAMQHZ7H4Y0GVEQAWBG a sdlc:Field ; sdlc:within w:01M610JNAMMSAY8ZWD1TMMZ8HH ; rdfs:label "customer_id" ; sdlc:wireName "customer_id" ; sdlc:fieldType xsd:string .
-w:01M610JNAMHKDH8MYYBGG3DBMA a sdlc:SubjectKind ; sdlc:within w:01M610JNAMYTKTBXP8KD0BQ2G0 ; rdfs:label "Staff" ; sdlc:nature sdlc:natureHuman .
+w:01M610JNAMHKDH8MYYBGG3DBMA a sdlc:SubjectKind ; sdlc:within w:01M610JNAMYTKTBXP8KD0BQ2G0 ; rdfs:label "Staff" ; sdlc:wireName "staff" ; sdlc:nature sdlc:natureHuman .
 w:01M610JNAMF373V3PH2FNTY837 a sdlc:ScopeRule ; sdlc:within w:01M610JNAMFTV81M9FR1TXEN03 ; rdfs:label "customers see their own orders" ;
     sdlc:forSubject w:01M610JNAMMSAY8ZWD1TMMZ8HH ;
     sdlc:key [ sdlc:viewField w:01M610JNAM10QDGKF29GWXSHK1 ; sdlc:claim w:01M610JNAMQHZ7H4Y0GVEQAWBG ; sdlc:operator "equals" ] .

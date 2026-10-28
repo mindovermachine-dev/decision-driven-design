@@ -1,0 +1,54 @@
+format: 1
+id: DDD-dec-64
+kind: decision
+statement: |
+  [PROPOSED — not ruled] The What as moved (applications/sdlc/what.md, what/ontology.ttl, what/shapes.ttl) makes seven choices the rulings did not. P-1: commands, events, fields, invariants and subject kinds carry an authored wire name, distinct from the opaque key and from the label, and changing it is a breaking wire change. P-2: sdlc:within is the single containment edge. P-3: interactions, fields, state annotations, content keys and scenarios are elements, not blank nodes. P-4: sdlc:DeclaredTarget is the element for design-system and content-store declarations. P-5: §3.5 drops the title "the Polanyi floor". P-6: the move adds the §3 kinds that product-cli's schema/ lacked. P-7: an authoring scope is a set of element kinds, optionally narrowed to a subtree, and tools are gathering sources, never authors.
+principal: Emil
+made: NOT YET MADE. Proposed by Claude in the Product Framework What move session, 2026-10-28, while writing step 2 of the plan Emil approved in Round 1 ("Proceed on the plan once DDD-dec-63 is revised to the above and filed as ruled"). It becomes a decision only by Emil's ruling, recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md. If Emil rules otherwise, this file and the parts of what.md, the ontology and the shapes that carry the proposal are revised to the ruling before merge. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Claude's proposal, awaiting Emil's ruling. Not in force. The moved What is written with these
+  choices, so that it can be reviewed whole. Each is marked [PROPOSED] where it lands.
+
+  ## Weakest point first
+
+  **P-1 is forced by the opaque-key ruling, and it is new.** The wire (what.md §6), the canonical
+  REST projection (how.md, REST) and every public interface name commands, events and fields.
+  - Keys cannot serve: they are opaque ULIDs (DDD-dec-63).
+  - Labels cannot serve: they change freely by decision, so a rename would silently break every
+    runner and every client.
+
+  The alternative is to put keys on the wire (`/commands/01M610…`, payloads keyed by ULID). That
+  needs no new construct, but no runner author can read it. Claude recommends P-1. If it is
+  ruled out, the How example REST@2, which reads wire names, is superseded.
+
+  ## The seven
+
+  | # | Choice | Why | Lands in |
+  |---|---|---|---|
+  | P-1 | `sdlc:wireName` on commands, events, fields, invariants and subject kinds: a dpp/1 token, unique per kind within the product | PF §3.2.0 already calls a payload "a public wire contract" that "must be authored, not guessed"; the wire name is that contract's vocabulary | what.md §6; ontology; WireNameShape |
+  | P-2 | `sdlc:within` as the only containment edge, replacing in_context, owns_domain, owns_system, system_of, journey_of, bounded_by | One edge makes "the subtree an anchor covers" one transitive walk, which the How's anchors (how.md §3) and authoring scopes (P-7) both read | what.md §2.2; ontology |
+  | P-3 | interactions, fields, state annotations, content keys and scenarios are elements | Each is referred to by identity: bindings anchor to interactions and content keys (DDD-dec-57), Deciders read fields, scope keys compare them, and scenarios feed the wire. Under DDD-dec-63 §4 that makes each an element. product-cli made interactions and attributes blank nodes | what.md §2.2; ontology |
+  | P-4 | `sdlc:DeclaredTarget`, with `targetKind`, `edition` (a dpp/1 reference to the target's vocabulary edition) and `locale` | DDD-dec-57: the What declares the target "exactly as it declares iOS"; the catalogue is the package's | what.md §4.1; ontology; DeclaredTargetShape |
+  | P-5 | §3.5 retitled "Named-algorithm primitives" | "Floor" is a canon term (risk 1 of the earlier, unmerged move charter) | what.md §3.5 |
+  | P-6 | the kinds schema/ lacked, each with its dct:source: Domain, System, Journey, ReferenceData, Trigger, Decider, Projector, Scenario, NamedAlgorithm, StateAnnotation, ContentKey, SystemRoot (schema/'s ApplicationRoot, renamed), ContextOfUse, DeclaredTarget, QualityDemand and its two kinds, SubjectKind, ScopeRule | Q-2 named schema/ as the source, but schema/ covers only part of §3. product-cli's exporter (turtle.rs) already emits most of these as pf: terms | ontology |
+  | P-7 | a scope is a set of element kinds (classes of the ontology), optionally narrowed to one element's subtree. An acceptance is valid only for decisions whose elements are all of kinds in scope. Tools are gathering sources with declarations that grant nothing | DDD-dec-43, DDD-dec-44, DDD-dec-46. PF §14.2's own planned fix ("expression-as-references") is the ontology's classes | what.md §5 |
+
+  ## Also recorded, not proposals
+
+  - **Renames made in the move.** schema/'s ReadModel becomes View (the §3.2.0 block name),
+    WireframeStep becomes UIStep (the §3.2.1 term), ApplicationRoot becomes SystemRoot (one per
+    system, §3.2.4), and `isAggregateRoot` is typed xsd:boolean. Each is noted in its rdfs:comment.
+  - **Not carried.** Provider coverage moves to the How (authentication is How, PF v1.11.0 §3.7).
+    Oracle conformance and the pure-core contract are How bindings. Attestations are left to the
+    authority profile. All four follow from the rulings.
+basedOn:
+  - DDD-dec-63
+  - DDD-dec-57
+  - DDD-dec-45
+  - DDD-dec-43
+  - DDD-dec-44
+  - DDD-dec-46
+  - DDD-dec-51
+notes: |
+  Filed with step 2 of the move (what.md). what/check.py enforces P-1's uniqueness and P-3's
+  identity form over the example.

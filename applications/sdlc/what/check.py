@@ -122,6 +122,7 @@ if rdflib:
             ("a user trigger acting as a process", lambda g: [g.add((next(g.objects(trigger, S.subject)), S.nature, S.natureProcess)), g.remove((next(g.objects(trigger, S.subject)), S.nature, S.natureHuman))], "§3.7 A trigger's subject"),
             ("an element within two elements", lambda g: g.add((decider, S.within, URIRef(P))), "DDD-dec-63 §2 An element is within exactly one"),
             ("a command no trigger issues", lambda g: g.remove((trigger, S.issues, None)), "§3.2.0 Pattern conformance"),
+            ("two events with one wire name", lambda g: [g.set((e, S.wireName, rdflib.Literal("order-placed"))) for e in list(g.subjects(RDF.type, S.Event))], "what.md §6 Wire names are unique"),
         ]
         for name, plant, expect in plants:
             g = Graph(); g += what; plant(g)
