@@ -103,3 +103,13 @@ Verbatim:
 | Consequence for `DDD-dec-63`'s falsifier ("a second implementation is run against them") | `DDD-dec-73`; successor item M-12 | pyld stays only as a gated RDF 1.1 cross-check. There is no conforming second implementation in this session. Building Varve's own canonicaliser here was refused by the session's permission classifier ("code from external"), and that was not worked around |
 | Qualification 3 enforced | `what/check.py` | pyoxigraph canonicalises a triple term holding a blank node without refusing it, so the check refuses it before hashing, as Varve does. A planted vector shows the refusal |
 | Writ [D2.12] | recorded as Emil states it | Hafeok/writ is still at `6737ac9` (through D2.9). The definition is the authority, held outside that repository |
+
+## 2026-10-30 — M-12 tracked in Varve
+
+Verbatim:
+
+> i have added it as an issue #192 in Varve
+
+Landed: successor item M-12 now names Hafeok/varve#192 as where the conforming second implementation
+is tracked. The issue was not read from this session; it is recorded as Emil states it.
+
