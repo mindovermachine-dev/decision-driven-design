@@ -1,0 +1,40 @@
+format: 1
+id: DDD-dec-69
+kind: decision
+supersedes: DDD-dec-59
+statement: |
+  A package may declare a version withdrawn, by a superseding record with status withdrawn. The importer must answer with a re-import or a decision to keep; the vendor blocks nothing. An import is a landing of the pinned package records, an import decision anchored in the importer's What to an element IRI or to the importer's product IRI, and an acceptance under the importer's genesis. Supersession by the package forces nothing, and explain shows it.
+principal: Emil
+made: 2026-10-28, the Product Framework What move session, item 3 of its charter ("Supersede DDD-dec-55 to DDD-dec-61 with versions anchored to the real identifiers, per ruling 4 of 2026-10-28"), carrying out the obligation ruling 4 recorded on DDD-dec-59. The ruled content of DDD-dec-59 is carried unchanged; only its What identifiers are restated against the landed What (DDD-dec-63). Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-59
+
+  Everything DDD-dec-59 ruled, and everything it left standing as proposed until the merge,
+  stands here unchanged. Read DDD-dec-59 for its rulings verbatim. DDD-dec-59 is left
+  unchanged, and this decision supersedes it.
+
+  ## Against the real identifiers
+
+  - **Import anchors** are IRIs in the identity form: IMP-layer@2 at the product IRI
+    `https://acme.example/products/shop`, IMP-pure@2 and IMP-rest@2 at the Ordering bounded context,
+    and IMP-resid@2 at the residency demand.
+  - **Re-importing.** IMP-rest@2 re-imports REST@2 from REL@3: the vendor's REST@1 read the
+    provisional `sdlc:localId`. The other imports supersede only their anchors, and keep resting on
+    version 1, as the checker shows.
+
+  ## The supersession obligation, discharged
+
+  Ruling 4 of 2026-10-28: "when the What lands with its identity form, each is superseded by a
+  version against the real identifiers, never edited". The What has landed (applications/sdlc/what.md)
+  in the identity form of DDD-dec-63. The How examples' records that DDD-dec-59 bound are
+  superseded by version 2 records (how-examples/README.md). No version 1 record was edited, and
+  build.py refuses to rewrite a published version. The checker is green against the landed What.
+  The examples remain a test product, and nothing in them is acceptable into a real product.
+basedOn:
+  - DDD-dec-59
+  - DDD-dec-63
+  - DDD-dec-54
+  - DDD-dec-46
+notes: |
+  Filed from the move session (meta/sessions/2026-10-28-product-framework-what-move/). Its id is
+  from the move's range, 63 onward (DDD-dec-62 notes).

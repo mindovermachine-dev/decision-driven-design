@@ -1,0 +1,21 @@
+{
+  "protocol": "dpp/1",
+  "id": "WHAT-found",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Found the What of https://acme.example/products/shop: the 44 elements of the attached graph, under the product node.",
+  "by": "mailto:owner@acme.example",
+  "at": "2026-10-28",
+  "why": "The test product's What, landed from the provisional graph the How examples used, in the ruled identity form.",
+  "basedOn": [],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "what-change",
+    "anchor": "https://acme.example/products/shop",
+    "delta": {
+      "mediaType": "text/turtle",
+      "path": "applications/sdlc/what/examples/acme-shop.ttl",
+      "hash": "sha256:4018cb9ad45c13fceafd7e585649777e7c8b9e7231fab46a42eb3286df91b777"
+    }
+  }
+}

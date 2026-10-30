@@ -1,0 +1,177 @@
+format: 1
+id: DDD-dec-63
+kind: decision
+statement: |
+  A What element is identified by an IRI under its product, and nothing in an identity carries meaning. The product IRI P is fixed by the genesis record and is stable across genesis transfer. P is itself the product node. Every other element is P + "/what/" + key, where the key is a ULID minted at creation and never changed or reused. The IRI encodes neither kind nor position, and the human name is rdfs:label. A rename, a property change or a move happens under the same IRI. A kind change, a split or a merge makes new elements linked by sdlc:succeeds, and baselines are not carried over. Element identities are IRIs, never blank nodes. Blank nodes inside an element's description are allowed. The canonical form is RDFC-1.0. A What-version is a dpp/1 record that pins the What decisions in force and lists every element with its hash. Decider and Projector logic is a digest on its element. The graph hash is taken over the canonical graph.
+principal: Emil
+made: 2026-10-28, Round 1 of the Product Framework What move session, on Claude's proposal filed unruled at 4f506f2; ruled in one message, recorded verbatim at meta/sessions/2026-10-28-product-framework-what-move/rulings.md ("Identity form (DDD-dec-63) — ruled, with two changes"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  Six points, each verbatim in rulings.md, Round 1. Two depart from the proposal: keys are opaque
+  ULIDs, not readable tokens; and the canonical form is RDFC-1.0 with blank nodes allowed inside
+  an element's description, not a separate law with a blank-node ban. Everything else was ruled
+  as proposed.
+
+  ## 1. The product IRI — ruled as proposed
+
+  - P is an https IRI matching the dpp/1 `system` grammar (§3.3: no fragment, no query, no
+    trailing `/`), under a host the genesis holder controls. Example:
+    `https://acme.example/products/shop`.
+  - P is named in the product's genesis record and never changes. A genesis transfer
+    (DDD-dec-46) keeps P. Only a re-founding makes a new product, and with it a new P.
+  - P is the product node: the root What element (How ruling 1, DDD-dec-55) and the anchor "to
+    the product", whether the What is empty or not.
+  - The product's decision system is P + "/decisions" by recommendation. dpp/1 lets the operator
+    choose.
+
+  ## 2. The element IRI — ruled, keys opaque
+
+  - **Form.** `P "/what/" key`. Example:
+    `https://acme.example/products/shop/what/01JBCX9Q4N8Y2H6V3W5K7M1RZD`.
+  - **The key is a ULID** (26 characters, Crockford base32, upper case as minted), minted when
+    the element is created. A ULID is also a dpp/1 token, so a key can name a file or a record id
+    unchanged.
+  - **Never changed, never reused.** Not after a rename, not after the element is retired.
+  - **Flat.** The IRI encodes neither kind nor position. Containment is the edge `sdlc:within`,
+    and kind is `rdf:type`.
+  - **The name is `rdfs:label`**, and it changes only by decision. Resolving a key to its name is
+    `explain`'s job, not the identifier's.
+
+  ## 3. What survives a change — ruled as proposed
+
+  | Change | Identity | How it is made |
+  |---|---|---|
+  | rename (`rdfs:label`) | kept | a decision anchored to the element |
+  | any other property, or an edge out of the element | kept | a decision anchored to the element |
+  | move (`sdlc:within` changes) | kept | a decision anchored to the element |
+  | kind change | new element | retire, create, and `new sdlc:succeeds old` |
+  | split, merge | new elements | retire, create, and `sdlc:succeeds` from each new element to each old one it continues |
+  | retire | ends | a decision anchored to the element. The element leaves the graph, and its key stays reserved |
+
+  - **Kind is immutable.** Authoring scopes are grants over element kinds, so a kind change
+    under one IRI would let a holder of one kind's scope move an element into a kind they do not
+    hold. Bindings are quantified over kinds as well.
+  - **Baselines.** Writ names a violation by decision IRI and fact IRIs. A rename, property change
+    or move keeps the IRI, so the baseline entry still names the same violation. A retirement
+    shrinks the baseline. A successor element's violations are new and need a fresh acceptance
+    (G11). `sdlc:succeeds` is information for `explain`, never an automatic carry.
+
+  ## 4. Which nodes are elements
+
+  - **Elements.** Every node that a decision, a baseline, `explain` or another element refers to
+    by identity is an element, and an element is an IRI under P, never a blank node. That
+    includes payload fields, invariants, claims, state annotations, scope rules and content
+    references.
+  - **Descriptions.** An element's description is the triples whose subject is the element, plus
+    the triples of every blank node reachable from it through blank nodes only. Ordered fields,
+    RDF lists and scenario steps are described this way. A blank node belongs to exactly one
+    element's description. A blank node reachable from two elements is not conformant.
+  - **Every triple belongs to an element.** Each triple of a What graph lies in the description of
+    exactly one element under P.
+  - **Not elements.** Framework vocabulary (kinds, the base AIOs, GUI and TUI, subject natures,
+    the wire scalar alphabet) is `sdlc:`. External standards keep their own identifiers: WCAG 2.2
+    criteria by W3C IRI, locales as BCP 47 literals.
+
+  ## 5. The vocabulary edition — proposed with the form, not ruled separately
+
+  - The namespace is `https://decision-driven-design.dk/ns/sdlc#`.
+  - An sdlc edition is named by `owl:versionIRI https://decision-driven-design.dk/ns/sdlc/<n>`,
+    together with the SHA-256 of the ontology and shapes files at the tag of this repository that
+    ships them.
+  - A term is never renamed. A deprecated term stays, with `owl:deprecated true`.
+  - The `pf:` namespace ends with this move (Round 1, Q-3), and no `pf:` term is carried.
+
+  ## 6. The What-version and the hash — ruled, RDFC-1.0
+
+  **The canonical form** is RDFC-1.0 (W3C RDF Dataset Canonicalization), with SHA-256 as its hash
+  function, applied to the What graph as the default graph. Its output is canonical N-Quads.
+
+  **The element hash** is `sha256:<hex>` over the RDFC-1.0 canonical N-Quads of the element's
+  description (part 4). The description is canonicalised on its own, so the hash does not depend
+  on blank-node labels elsewhere in the graph.
+
+  **The graph hash** is `sha256:<hex>` over the RDFC-1.0 canonical N-Quads of the whole What
+  graph.
+
+  **Authored logic.** A Decider's decision logic and a Projector's fold are artefacts held by
+  digest. Their element carries `sdlc:logic` with the artefact's `sha256:` digest and
+  `sdlc:logicMediaType`. The logic is therefore inside the element hash and the graph hash, and a
+  change to it is a decision anchored to the Decider or Projector.
+
+  **The record.** A What-version is a dpp/1 record in the product's decision system:
+  - `id`: `what`. `version`: a sequence the system chooses, never the graph hash, because two
+    versions can produce one graph;
+  - `basedOn`: every What decision in force at the version, pinned;
+  - `supersedes`: the previous What-version;
+  - `dk.decision-driven-design.sdlc`, holding:
+    - `record`: `"what-version"`;
+    - `product`: P;
+    - `edition`: `{versionIRI, hash}`;
+    - `canon`: `"rdfc-1.0"`;
+    - `graphHash`;
+    - `elements`: an array of `{iri, hash}`, sorted by IRI.
+
+  **Identity.** A What-version is identified by its record hash and named by its reference (for
+  example `what@3@https://acme.example/products/shop/decisions`).
+
+  **Two equalities.** Equal graph hash means the same specification. Equal record hash means the
+  same specification reached by the same decisions.
+
+  **No force.** A What-version confers no force; force stays with the decisions it pins and their
+  acceptances (DDD-dec-47). Semantic version labels (old §7.3) are retired with Delivery.
+
+  ## 7. How a What-version references its elements — ruled as proposed
+
+  - Every element is listed by IRI and element hash. A diff between two versions is computable
+    from the two records alone.
+  - How decisions anchor to element IRIs, never to a What-version.
+  - Writ's baselines cite element IRIs.
+  - A realisation stamps a What-version reference or the graph hash.
+
+  ## 8. Consequences, carried with the ruling — not ruled separately
+
+  - **What-changing decisions anchor by How ruling 1, applied to the What.** A decision that
+    creates one element anchors to it. A decision that creates several anchors to the narrowest
+    existing element covering them. This settles DDD-dec-42's implication 4. `UNVERIFIED — Emil
+    review`.
+  - **Re-founding.** A new P' mints new keys, and the founding import records one `sdlc:refounds`
+    edge per carried element, from the new element to the old.
+  - **Migration from product-cli.** Each `https://productframework.org/product/<name>#<id>` gets
+    a fresh ULID under P, with the old id kept as `rdfs:label` where no label exists. The mapping
+    is one decision per product, carried by the re-pin.
+  - **The How examples** are superseded against these identifiers (ruling 4 of 2026-10-28):
+    - the provisional `…/what#product` becomes P;
+    - each `…/what#<k>` becomes a minted ULID IRI, with the old `<k>` recorded in the
+      superseding records' notes;
+    - `sdlc:localId` is not carried.
+
+  ## Falsifiers
+
+  - **A rename that breaks a baseline.** If a rename, under this form, makes a binding's baseline
+    name a different violation, part 3 is wrong.
+  - **Two implementations, two hashes.** If two RDFC-1.0 implementations give different element
+    or graph hashes for one What graph, the law is underspecified where it touches this
+    repository, for instance in which triples form a description. The ontology ships vectors, and
+    a second implementation is run against them.
+  - **A shared blank node.** If some §3 construct needs a blank node shared between two
+    elements, part 4's description rule fails, and that construct's shared node is promoted to an
+    element.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-46
+  - DDD-dec-47
+  - DDD-dec-51
+  - DDD-dec-55
+  - DDD-dec-62
+notes: |
+  Filed unruled at 4f506f2 and rewritten to Emil's ruling before merge, as its proposal stated.
+
+  The basis for RDFC-1.0, as corrected by Emil in Round 2 ("the reason is corrected, the ruling
+  stands"): one hash law for graph content across the estate. Varve, the store, implements
+  RDFC-1.0 (Varve.Rdf.RdfCanonicaliser), so the What's canonical form is the store's. Round 1 gave
+  as its reason that dpp/1 and Writ already name RDFC-1.0. They do not: dpp/1 as merged uses
+  canonical JSON only, over records, and Writ's docs at 6737ac9 do not say it. Writ's protocol page
+  will say RDFC-1.0 when it is written; successor item M-4 tracks that.
+
+  Sources read for it are in the session's bootstrap.md. Nothing in core/claims/ changes.

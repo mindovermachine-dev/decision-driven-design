@@ -1,0 +1,44 @@
+format: 1
+id: DDD-dec-72
+kind: decision
+statement: |
+  product-cli re-pins to the moved What. Its definition names applications/sdlc/what.md in decision-driven-design at the tag that ships it, and sdlc edition 1 (owl:versionIRI https://decision-driven-design.dk/ns/sdlc/1, and the hash of the ontology and shapes files). The copy it holds, docs/product-framework-open.md at Product Framework v1.9.1, is retired. Its pf: export moves to sdlc: in the identity form of DDD-dec-63. The re-pin is sequenced after the authority profile's pull request. The edits are acts in product-cli and in Writ's definition, not here.
+principal: Emil
+made: 2026-10-28, the Product Framework What move session. Ruled in DDD-dec-42 (O-6, "agreed") and DDD-dec-50 ("product-cli re-pins to the moved What once #39 is ratified"); sequenced and scoped by Round 1 of this session (Q-4, "own PR, sequenced after this one and before product-cli's re-pin"; Q-6, "record the re-pin here; the edits in product-cli and Writ are separate acts in those repositories"), recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md. The details below marked [PROPOSED] are Claude's. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Ruled
+
+  - **The re-pin** (DDD-dec-42 O-6; DDD-dec-50). product-cli's copy of the Product Framework is
+    replaced by a pin on the moved What.
+  - **Where it is recorded** (Round 1, Q-6). Here. The edits in product-cli and in Writ's definition
+    are separate acts in those repositories.
+  - **When** (Round 1, Q-4). After the authority profile's pull request, "because an acceptance of
+    a moved What means nothing until the authority profile exists".
+  - **The end of pf:** (Round 1, Q-3). "The pf: namespace ends with this move." Writ's definition,
+    which said pf: keeps the §4–§7 classes, is amended on Emil's side.
+
+  ## What the re-pin names — [PROPOSED]
+
+  | product-cli holds today (at 70395df) | It names instead |
+  |---|---|
+  | `docs/product-framework-open.md`, a copy of Product Framework v1.9.1 (What, How and Delivery; Two Pillars conformance) | `applications/sdlc/what.md` in mindovermachine-dev/decision-driven-design, at the tag of the merge that ratifies the move. This retires the copy, which is not updated or re-synced again |
+  | the `pf:` ontology and shapes under `schema/` and `spec/schema/` | `applications/sdlc/what/ontology.ttl` and `shapes.ttl`, sdlc edition 1: `owl:versionIRI https://decision-driven-design.dk/ns/sdlc/1`, with the SHA-256 of the two files concatenated in that order, as `what@1` records it |
+  | the §6.3.1 schemas under `schema/json/conformance/` | `applications/sdlc/what/conformance/`, with `actor` renamed `subject` and ids as wire names (DDD-dec-64, P-1, ruled in Round 2) |
+  | element IRIs `https://productframework.org/product/<name>#<id>` | `P/what/<ULID>` under the product IRI its genesis names (DDD-dec-63). Each existing product is migrated by one decision mapping old id to new IRI, with the old id kept as `rdfs:label` where no label exists (DDD-dec-63 §8) |
+  | `input_hash`: SHA-256 over product-cli's Turtle joined with Decider and Projector YAML | the RDFC-1.0 graph hash and element hashes of DDD-dec-63 §6, with logic carried as `sdlc:logic` digests. `applications/sdlc/what/vectors.json` is the conformance target |
+  | the How, seams, work units, Delivery | nothing. Writ Draft 2 (D2.4) already scopes product-cli to "the What alone (Product Framework §3 and the behavioural-conformance wire protocol of §6.3.1)" |
+
+  ## Weakest point
+
+  The tag does not exist yet. It is the tag of the merge that ratifies this move, so product-cli
+  cannot pin it until Emil merges. Until then, the re-pin's target is this branch's head, which is
+  not a pin. The re-pin is therefore a successor item, not an act this session performs.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-50
+  - DDD-dec-63
+  - DDD-dec-64
+notes: |
+  The product-cli files named were read at 70395df: README.md, CLAUDE.md (which calls
+  docs/product-framework-open.md the "source of truth"), schema/, spec/schema/,
+  product-core/src/pf/turtle.rs and codegen.rs. Nothing was written to that repository.

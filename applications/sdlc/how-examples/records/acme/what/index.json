@@ -1,0 +1,9 @@
+{
+  "protocol": "dpp/1",
+  "system": "https://acme.example/products/shop/decisions",
+  "id": "what",
+  "versions": [
+    "1",
+    "2"
+  ]
+}

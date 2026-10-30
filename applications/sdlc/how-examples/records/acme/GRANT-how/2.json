@@ -1,0 +1,34 @@
+{
+  "protocol": "dpp/1",
+  "id": "GRANT-how",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:holder@acme.example grants mailto:architect@acme.example authority to accept How decisions anywhere in the product https://acme.example/products/shop.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-10-28",
+  "why": "The holder delegates the How scope to the product's architect, under the genesis as superseded.",
+  "basedOn": [
+    {
+      "ref": "GEN@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:b0213ac191ebad70fb313be76228aa87804cb88f304dd3ba2dd97026bb89a5d4"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "GRANT-how@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:4c6a82804cc7f072f937f27457a2d6e6a5739a1f9a535441b1c42377a85438f9"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "grant",
+    "grantee": "mailto:architect@acme.example",
+    "scope": "how",
+    "delegatesFrom": "GEN@2@https://acme.example/products/shop/decisions"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkir4gyuxp45LK+UJeqLuJgRvzD\n8uHIl6vIpLUjDVM3sAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEB6iI7bOAXZfPkl/atJJ8uB1s4+PllKB/Af2T4R/rdftu\nbFjU8P09HbK9ofudD1tC4qFLFJGdjWRSxNcwvIKYoJ\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIq+IMrsaeOSyvlCXqi7iYEb8w/LhyJeryKS1Iw1TN7 acme-holder@test-genesis"
+  }
+}

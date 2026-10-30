@@ -40,6 +40,12 @@ It does not define:
 
 ### 1.2 Preconditions this document does not have — the weakest point first
 
+**Update, 2026-10-28 (the move).** Preconditions 1 and 2 are discharged: the What has moved
+([`what.md`](what.md)) and its identity form is ruled (`DDD-dec-63`). The provisional records
+are superseded against the real identifiers (`how-examples/README.md`; `DDD-dec-65` to
+`DDD-dec-71`). Precondition 3 stands until the authority profile's own pull request (move
+session, Round 1, Q-4). The text below is left as written.
+
 The charter assumes four things the repository does not yet hold (`bootstrap.md`, arrival
 findings 1–3). The How below is written against them anyway, and each assumption is marked
 where it bites.
@@ -690,5 +696,5 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | §5.2 the code-generation seam | out of scope (§10) |
 | §6.1–§6.2 verification requirements and anatomy | the gate is Writ: G1 for determinism, G7 for per-verdict derivation. "The oracle is derived, never authored in the check" becomes: violation descriptions read the What graph |
 | §6.3 required verification kinds | layout and contract → constraint; seam and domain → binding; runtime-bound → contract (`telemetry`); behavioural → binding plus runner (H-14); data conformance → add-on (`DDD-dec-44`); pattern, journey, state and Decider justification → What-side checks, the move's |
-| §6.3.1 conformance wire protocol | input to the runner demand (H-14); not carried |
+| §6.3.1 conformance wire protocol | **moved with the What** (the move charter of 2026-10-28, "only the What moves (§3 and the §6.3.1 wire protocol)"): [`what.md`](what.md) §6. This row said "input to the runner demand (H-14); not carried" until the move; the charter's ruling governs. The runner demand H-14 now reads that wire |
 | §7 Delivery | retired (`DDD-dec-42`) |
