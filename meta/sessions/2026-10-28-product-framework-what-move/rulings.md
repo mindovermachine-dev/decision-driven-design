@@ -113,3 +113,29 @@ Verbatim:
 Landed: successor item M-12 now names Hafeok/varve#192 as where the conforming second implementation
 is tracked. The issue was not read from this session; it is recorded as Emil states it.
 
+## Round 4, 2026-10-30 — headed "Round 3" by Emil; recorded in `DDD-dec-73` and M-12
+
+Emil's heading reads "Round 3, move session (2026-10-30)". This file already has a Round 3 (the
+three qualifications, also 2026-10-30), so this one is filed as Round 4. The heading is kept
+verbatim below.
+
+Verbatim:
+
+> Round 3, move session (2026-10-30).
+>
+> 1. Graph name — ruled: triples only. The hash covers the graph's triples and not the name of the graph any store holds it in; the name is a partition's address, not content, and the same What in product-cli's draft log and in Writ's guest partition must hash identically. Varve's report digest is the precedent. Clear the `UNVERIFIED` flag on `DDD-dec-73`.
+> 2. M-12 — ruled: the second implementation is Varve's canonicaliser, by published vectors. Do not build Varve in this repository. A Varve session will compute RDFC-1.0 hashes with `RdfCanonicaliser.Canonicalise` for the six `DDD-dec-73` cases and the `acme-shop` What at `what@2`, and deliver `vectors-varve.json` in the shape of `vectors.json`, each entry naming the Varve version and the ADR 0059 revision, plus confirmation that the blank-node-in-triple-term case is refused. When it arrives, commit it beside `vectors.json` and have `check.py` hold pyoxigraph and Varve to equality. Until then, record M-12 as open with one checked implementation, as you have.
+> 3. pyld: keep it as you have it, a cross-check switched off where it was measured to fail, and keep the finding in the record. An RDF 1.1 canonicaliser agreeing on a graph with no language tags and no control characters is the false agreement a second implementation exists to expose.
+> 4. `[D2.12]`: recorded correctly. Hafeok/writ lags its definition by D2.10 to D2.12; that is Writ's to fix and not this session's.
+> 5. `DDD-dec-64`: send me P-2 to P-7 and R-1/R-2 in full and I'll rule them in one pass.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| 1 Graph name: triples only | `DDD-dec-73`, qualification 2: the flag is cleared and the ruling quoted | ruled |
+| 2 M-12 by Varve's published vectors | M-12 (open, one checked implementation); `what/check.py` checks `vectors-varve.json` when it is present (equality with pyoxigraph, the six cases, the triple-term refusal, each entry naming the Varve version and ADR 0059 revision) and reports M-12 open while it is absent | ruled. Nothing of Varve is built here |
+| 3 pyld kept, gated, finding kept | no change | ruled |
+| 4 `[D2.12]` | no change | ruled |
+| 5 `DDD-dec-64` in full | sent in the session: P-2 to P-7, R-1, R-2 | waiting |
+

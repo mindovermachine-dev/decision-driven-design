@@ -10,6 +10,10 @@ graphs where it cannot diverge. A conforming second implementation is successor 
 a needed tool its steps are reported as SKIP, never as passed. Exit status is non-zero on any
 failure or skip.
 
+The second implementation is Varve's RdfCanonicaliser, by published vectors (M-12, ruled
+2026-10-30): when what/vectors-varve.json is present, step 5 holds pyoxigraph and Varve to equality.
+Until then it reports M-12 open.
+
 What it checks:
   1. closure     every sdlc: term the shapes and the example use is defined in the ontology, every
                  ontology term carries its dct:source, and no pf: term appears anywhere (Round 1, Q-3);
@@ -234,6 +238,31 @@ if rdflib and OF_RECORD in impls:
         report.append("note vectors.json written")
     held = json.load(open(vpath)) if os.path.exists(vpath) else None
     ok(held == vec, f"hashes: equal to vectors.json (graph {mine['graph'][:19]}…, {len(vec['elements'])} elements)")
+
+    # ---- M-12: Varve's canonicaliser, the second implementation, by published vectors (ruled
+    # 2026-10-30). Varve is never built here. vectors-varve.json is vectors.json's shape, plus the six
+    # canonical-form cases and the triple-term refusal. Every entry names "varveVersion" and
+    # "adr0059" (the ADR 0059 revision); the graph hash's pair is top-level.
+    vvpath = os.path.join(HERE, "vectors-varve.json")
+    if not os.path.exists(vvpath):
+        report.append("note M-12 open: vectors-varve.json is not yet delivered (Hafeok/varve#192); "
+                      f"the hash law has one checked implementation here, {OF_RECORD}")
+    else:
+        vv = json.load(open(vvpath))
+        entries = [vv] + vv.get("elements", []) + vv.get("cases", [])
+        unnamed = sum(1 for e in entries if not (e.get("varveVersion") and e.get("adr0059")))
+        ok(not unnamed, f"M-12: every Varve entry names the Varve version and the ADR 0059 revision" + (f"; {unnamed} do not" if unnamed else ""))
+        ok(vv.get("graphHash") == vec["graphHash"], f"M-12: Varve's graph hash for the acme-shop What equals {OF_RECORD}'s")
+        theirs = {e["iri"]: e["hash"] for e in vv.get("elements", [])}
+        ours = {e["iri"]: e["hash"] for e in vec["elements"]}
+        diff = sorted(k for k in set(theirs) | set(ours) if theirs.get(k) != ours.get(k))
+        ok(not diff, f"M-12: Varve's element hashes equal {OF_RECORD}'s ({len(ours)} elements)" + (f"; differ on {diff}" if diff else ""))
+        cf = json.load(open(os.path.join(HERE, "canonical-form-vectors.json")))
+        vc = {c.get("name"): c for c in vv.get("cases", [])}
+        bad = [c["name"] for c in cf["cases"] if vc.get(c["name"], {}).get("canonical") != c["canonical"]]
+        ok(not bad, f"M-12: Varve's canonical form equals the expected bytes, and so {OF_RECORD}'s, on all {len(cf['cases'])} cases"
+           + (f"; differs or missing on {bad}" if bad else ""))
+        ok(vv.get("tripleTermWithBlankNode", {}).get("refused") is True, "M-12: Varve confirms that a triple term holding a blank node is refused")
 
 print("\n".join(report + failures))
 print(f"\n{len(report)} ok/notes, {len(failures)} failures or skips")

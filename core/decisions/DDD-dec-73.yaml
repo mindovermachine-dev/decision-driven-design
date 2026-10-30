@@ -23,10 +23,12 @@ resolution: |
   | 2 | Canonicalisation is **per named graph, never across graphs** | `rdf-canon.md` §6.2: with blank nodes related across named graphs, one dataset can take two canonical forms, because a related hash omits the graph of the quad that relates two nodes. Its SHACL report digest canonicalises "as triples in the default graph" | the What is one graph and is canonicalised alone, as triples, with no graph label in the canonical form. Each element description is canonicalised alone (DDD-dec-63 §6). `what/check.py` asserts every quad is in the default graph before hashing |
   | 3 | **A triple term never contains a blank node** | `RdfCanonicaliser` refuses one: "RDFC-1.0 is defined over RDF 1.1 datasets" | a What graph holding one is not hashable. `what/check.py` refuses it before hashing, with a planted vector |
 
-  Reading of qualification 2, `UNVERIFIED — Emil review`. The What graph's hash does not include the
-  name of the graph the store holds it in. It is the canonical form of the graph's triples alone, as
-  Varve's report digest does it. If the graph name is meant to be part of the hash, the What-version
-  record must carry the name and the canonical lines change.
+  **The graph name is not hashed.** Ruled 2026-10-30 (Round 4 of the session record; headed
+  "Round 3" by Emil), as triples only:
+
+  > The hash covers the graph's triples and not the name of the graph any store holds it in; the
+  > name is a partition's address, not content, and the same What in product-cli's draft log and
+  > in Writ's guest partition must hash identically. Varve's report digest is the precedent.
 
   ## The two tools, checked against qualification 1 (Round 3)
 
@@ -54,11 +56,20 @@ resolution: |
 
   ## Falsifiers, as DDD-dec-63's, sharpened
 
-  - **Two conforming implementations, two hashes.** The falsifier needs a second implementation
-    that conforms to qualification 1, and this session has none. pyld does not conform. Varve's own
-    canonicaliser is the natural second, but building it in this session was refused by the
-    session's permission classifier, and that was not worked around. Successor item M-12. Until it
-    runs, the hash law has one checked implementation here.
+  - **Two conforming implementations, two hashes.** Ruled 2026-10-30: "the second implementation
+    is Varve's canonicaliser, by published vectors", and Varve is not built in this repository.
+    - **What Varve delivers.** A Varve session computes RDFC-1.0 hashes with
+      `RdfCanonicaliser.Canonicalise` for the six cases and the acme-shop What at `what@2`. It
+      delivers `vectors-varve.json` in the shape of `vectors.json`, with each entry naming the
+      Varve version and the ADR 0059 revision, and confirms that the blank-node-in-triple-term case
+      is refused.
+    - **What happens here.** `what/check.py` then holds pyoxigraph and Varve to equality. If they
+      differ, this falsifier fires.
+    - **Until then** M-12 is open (Hafeok/varve#192), and the hash law has one checked
+      implementation here.
+  - **pyld stays a gated cross-check** (ruled 2026-10-30). "An RDF 1.1 canonicaliser agreeing on a
+    graph with no language tags and no control characters is the false agreement a second
+    implementation exists to expose."
   - **A shared or cross-graph blank node** (qualification 2) or **a blank node in a triple term**
     (qualification 3) in a What graph. Either makes it unhashable, and the check refuses it.
 
