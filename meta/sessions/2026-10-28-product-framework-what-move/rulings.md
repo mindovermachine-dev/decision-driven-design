@@ -87,3 +87,19 @@ Verbatim:
 | `CLAUDE.md`'s `scripts/` path | successor item M-11 | ruled |
 | No watch on #42 | no subscription | ruled |
 | The remaining six choices of `DDD-dec-64` | sent in one pass (P-2 to P-7) | waiting |
+
+## Round 3, 2026-10-30 — recorded in `DDD-dec-73`, superseding `DDD-dec-63`
+
+Verbatim:
+
+> The RDFC-1.0 ruling on DDD-dec-63 gains three qualifications from Varve: it is RDFC-1.0 over RDF 1.2 canonical N-Quads (lowercase language tags, ECHAR/UCHAR escapes); canonicalisation is per named graph, never across graphs; a triple term never contains a blank node. Record them on DDD-dec-63 by supersession and check the acme-shop example's two canonicalisation tools against the first (a literal holding a tab, an uppercase language tag). Writ's definition carries the same three as [D2.12].
+
+### Where it landed
+
+| Item | Landed | State |
+|---|---|---|
+| The three qualifications | `DDD-dec-73` supersedes `DDD-dec-63`, which is left unchanged | ruled. Each is traced to Varve at `4dea5a7`: (1) `Varve.Turtle/Escapes.cs` and `docs/spec/rdf-canon.md` (the escape set; "a language tag is written in lowercase"); (2) `rdf-canon.md` §6.2, where blank nodes related across named graphs can take two canonical forms; (3) `RdfCanonicaliser` refuses a triple term with a blank node inside |
+| The check of the two tools against qualification 1 | `what/canonical-form-vectors.json`; `what/check.py` | **pyoxigraph 0.5.13 conforms. pyld 3.3.0 does not.** Both escape the tab as `\t`. pyld keeps `@EN-GB` where qualification 1 requires `@en-gb`. Beyond the two asked cases, pyld also double-escapes BS, FF, VT and DEL, and refuses them raw. The acme-shop example has no language tag and no control character, so the two tools' agreement on it was vacuous on qualification 1 |
+| Consequence for `DDD-dec-63`'s falsifier ("a second implementation is run against them") | `DDD-dec-73`; successor item M-12 | pyld stays only as a gated RDF 1.1 cross-check. There is no conforming second implementation in this session. Building Varve's own canonicaliser here was refused by the session's permission classifier ("code from external"), and that was not worked around |
+| Qualification 3 enforced | `what/check.py` | pyoxigraph canonicalises a triple term holding a blank node without refusing it, so the check refuses it before hashing, as Varve does. A planted vector shows the refusal |
+| Writ [D2.12] | recorded as Emil states it | Hafeok/writ is still at `6737ac9` (through D2.9). The definition is the authority, held outside that repository |

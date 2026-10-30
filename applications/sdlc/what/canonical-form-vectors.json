@@ -1,0 +1,37 @@
+{
+ "about": "Qualification 1 of DDD-dec-73 (Round 3, 2026-10-30): RDFC-1.0 over RDF 1.2 canonical N-Quads. Each case is one N-Triples line in, and the canonical line out, as Varve at 4dea5a7 writes it: Varve.Turtle/Escapes.cs (ECHAR for BS, HT, LF, FF, CR, quote and backslash; UCHAR with uppercase hex for the other C0 controls, DEL, U+FFFE and U+FFFF; every other character as itself) and docs/spec/rdf-canon.md ('a language tag is written in lowercase'). Expected values were written from those sources before any tool was run against them. The cases 'tab' and 'language-tag' are the two Round 3 named.",
+ "source": "Varve 4dea5a7: src/Varve.Turtle/Escapes.cs; docs/spec/rdf-canon.md",
+ "cases": [
+  {
+   "name": "tab",
+   "in": "<http://e.example/s> <http://e.example/p> \"a\\tb\" .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"a\\tb\" .\n"
+  },
+  {
+   "name": "language-tag",
+   "in": "<http://e.example/s> <http://e.example/p> \"x\"@EN-GB .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"x\"@en-gb .\n"
+  },
+  {
+   "name": "bs-ff",
+   "in": "<http://e.example/s> <http://e.example/p> \"a\\bb\\fc\" .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"a\\bb\\fc\" .\n"
+  },
+  {
+   "name": "vt-del",
+   "in": "<http://e.example/s> <http://e.example/p> \"a\\u000bb\\u007fc\" .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"a\\u000Bb\\u007Fc\" .\n"
+  },
+  {
+   "name": "quote-backslash-lf-cr",
+   "in": "<http://e.example/s> <http://e.example/p> \"q\\\"b\\\\n\\nr\\r\" .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"q\\\"b\\\\n\\nr\\r\" .\n"
+  },
+  {
+   "name": "non-ascii-as-itself",
+   "in": "<http://e.example/s> <http://e.example/p> \"\\u00E6\\u00F8\\u00E5\" .\n",
+   "canonical": "<http://e.example/s> <http://e.example/p> \"æøå\" .\n"
+  }
+ ],
+ "tripleTermWithBlankNode": "<http://e.example/s> <http://e.example/p> <<( _:b <http://e.example/q> <http://e.example/o> )>> .\n"
+}

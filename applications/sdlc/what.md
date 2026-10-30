@@ -120,7 +120,10 @@ fields. Each of these refers by identity.
 
 - **The record.** A What-version is a `dpp/1` record. It pins every What decision in force and
   lists every element by IRI and element hash.
-- **The canonical form** is RDFC-1.0.
+- **The canonical form** is RDFC-1.0 over RDF 1.2 canonical N-Quads. Language tags are lowercase,
+  and ECHAR and UCHAR escapes are as Varve writes them. A graph is canonicalised alone, never across
+  named graphs, and a triple term never holds a blank node (`DDD-dec-73`, Round 3, superseding
+  `DDD-dec-63`).
 - **The element hash** is taken over the element's description, canonicalised on its own.
 - **The graph hash** is taken over the whole canonical graph.
 - **Authored logic.** A Decider's logic and a Projector's fold are artefacts carried by
@@ -129,9 +132,11 @@ fields. Each of these refers by identity.
   specification reached by the same decisions.
 - **No force.** A What-version confers none. Force stays with the decisions it pins.
 
-The example's hashes are in `what/vectors.json`. `what/check.py` computes them with two
-independent implementations, pyoxigraph (RDFC-1.0) and pyld (URDNA2015, the algorithm RDFC-1.0
-standardised), and checks that both agree.
+The example's hashes are in `what/vectors.json`. `what/check.py` computes them with pyoxigraph,
+which conforms to the canonical form on every vector in `what/canonical-form-vectors.json`. pyld
+(URDNA2015 over RDF 1.1 N-Quads) does not conform: it keeps uppercase language tags and
+mis-escapes controls. It serves only as a cross-check on graphs where it cannot diverge. A
+conforming second implementation is successor item M-12 (`DDD-dec-73`).
 
 ---
 

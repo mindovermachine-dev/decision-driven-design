@@ -3,10 +3,12 @@
     python3 applications/sdlc/what/check.py                  # check
     python3 applications/sdlc/what/check.py --write-vectors  # rewrite vectors.json (a new edition only)
 
-Needs rdflib and pyshacl (SHACL), pyoxigraph (RDFC-1.0) and pyld (URDNA2015, the algorithm
-RDFC-1.0 standardised: the second, independent implementation the hash falsifier asks for,
-DDD-dec-63). Without one of them its steps are reported as SKIP, never as passed. Exit status is
-non-zero on any failure or skip.
+Needs rdflib and pyshacl (SHACL), pyoxigraph (RDFC-1.0, the hash law's implementation of record
+here) and pyld (URDNA2015). pyld is not RDF 1.2 canonical N-Quads (DDD-dec-73): it keeps language
+tags' case and mis-escapes BS, FF and the other controls, so it is only a cross-check, gated to
+graphs where it cannot diverge. A conforming second implementation is successor item M-12. Without
+a needed tool its steps are reported as SKIP, never as passed. Exit status is non-zero on any
+failure or skip.
 
 What it checks:
   1. closure     every sdlc: term the shapes and the example use is defined in the ontology, every
@@ -15,8 +17,9 @@ What it checks:
   3. identity    the product node is P, every other element is P/what/<ULID>, every triple lies in
                  exactly one element's description, and no blank node is shared (DDD-dec-63 §1-§4);
   4. logic       each sdlc:logic digest is the sha256 of its artefact's bytes (DDD-dec-63 §6);
-  5. hashes      element and graph hashes under RDFC-1.0 agree across both implementations and
-                 equal vectors.json (DDD-dec-63 §6).
+  5. hashes      RDFC-1.0 over RDF 1.2 canonical N-Quads (canonical-form-vectors.json), one graph
+                 alone, no blank node in a triple term (DDD-dec-73); element and graph hashes equal
+                 vectors.json, and the gated cross-check agrees (DDD-dec-63 §6).
 """
 import hashlib, json, os, re, sys
 
@@ -130,12 +133,26 @@ if rdflib:
             c, m = validate(g)
             ok(not c and any(x.startswith(expect) for x in m), f"shapes self-test: {name} is caught ({expect})")
 
-# ---- 5. hashes under RDFC-1.0, two implementations
+# ---- 5. hashes: RDFC-1.0 over RDF 1.2 canonical N-Quads, one graph alone, no blank node in a
+#         triple term (DDD-dec-73, the three qualifications of Round 3, 2026-10-30)
 def nquads(g):
     return g.serialize(format="nt")
+def refuse_blank_in_triple_terms(quads):
+    """Qualification 3. pyoxigraph canonicalises such a term without complaint; Varve refuses it, so
+    the hash law refuses it here, before hashing."""
+    import pyoxigraph as ox
+    def has_blank(t):
+        return isinstance(t, ox.BlankNode) or (isinstance(t, ox.Triple) and any(has_blank(x) for x in (t.subject, t.predicate, t.object)))
+    for q in quads:
+        if any(isinstance(t, ox.Triple) and has_blank(t) for t in (q.subject, q.object)):
+            raise ValueError(f"a triple term holds a blank node: {q}")
 def rdfc_oxigraph(nt):
     import pyoxigraph as ox
     d = ox.Dataset(ox.parse(nt, format=ox.RdfFormat.N_TRIPLES))
+    refuse_blank_in_triple_terms(d)
+    # Qualification 2: one graph, canonicalised alone. The input is N-Triples, so every quad is in
+    # the default graph and no graph label enters the canonical form.
+    assert all(isinstance(q.graph_name, ox.DefaultGraph) for q in d)
     d.canonicalize(ox.CanonicalizationAlgorithm.RDFC_1_0)
     return "".join(sorted(str(q) + " .\n" for q in d))
 def rdfc_pyld(nt):
@@ -150,7 +167,48 @@ except ImportError: failures.append("SKIP hashes: pyoxigraph is not installed")
 try:
     import pyld; impls["pyld URDNA2015"] = rdfc_pyld
 except ImportError: failures.append("SKIP second implementation: pyld is not installed")
-if rdflib and impls:
+OF_RECORD = "pyoxigraph RDFC-1.0"   # the hash law's implementation here (DDD-dec-73)
+if impls:
+    # Qualification 1, against canonical-form-vectors.json (expected bytes from Varve's Escapes.cs and rdf-canon.md).
+    cf = json.load(open(os.path.join(HERE, "canonical-form-vectors.json")))
+    for name, f in impls.items():
+        bad = []
+        for c in cf["cases"]:
+            try: out = f(c["in"])
+            except Exception as e: out = "refused: " + type(e).__name__
+            if out != c["canonical"]: bad.append(f"{c['name']} → {out.strip()!r}")
+        if name == OF_RECORD:
+            ok(not bad, f"canonical form: {name} writes RDF 1.2 canonical N-Quads on all {len(cf['cases'])} vectors (tab, uppercase language tag, BS/FF, VT/DEL, quote/backslash/LF/CR, non-ASCII)"
+               + (f"; differs on {bad}" if bad else ""))
+        else:
+            report.append(f"note canonical form: {name} is not RDF 1.2 canonical N-Quads on {len(bad)} of {len(cf['cases'])} vectors"
+                          + "".join(f"\n       {b}" for b in bad) + "\n       it is kept only as a gated cross-check (DDD-dec-73)")
+            impls[name] = (f, not bad)
+    if OF_RECORD in impls:
+        try: rdfc_oxigraph(cf["tripleTermWithBlankNode"]); refused = False
+        except ValueError: refused = True
+        ok(refused, "qualification 3: a triple term holding a blank node is refused before hashing")
+if rdflib and OF_RECORD in impls:
+    import pyoxigraph as ox
+    ttl = [q for q in ox.parse(path=EXAMPLE, format=ox.RdfFormat.TURTLE)]
+    try: refuse_blank_in_triple_terms(ttl); clean = True
+    except ValueError: clean = False
+    ok(clean, f"qualification 3: no triple term in the example holds a blank node ({sum(isinstance(q.object, ox.Triple) for q in ttl)} triple terms)")
+    # A cross-check by a non-conforming tool is valid only where it cannot diverge. Measured on the
+    # input it is fed (rdflib's N-Triples), pyld diverges on a language tag, on a control character
+    # other than HT, LF and CR, and on a backslash (a literal backslash before a letter is read as an
+    # escape). The gate is closed if any literal holds one of those.
+    lits = [o for o in what.objects() if isinstance(o, rdflib.Literal)]
+    gate = not any(l.language or "\\" in str(l) or any((ord(c) < 0x20 and c not in "\t\n\r") or ord(c) == 0x7F or c in "\ufffe\uffff" for c in str(l)) for l in lits)
+    for name, v in list(impls.items()):
+        if isinstance(v, tuple):
+            f, conforms = v
+            if conforms or gate:
+                impls[name] = f
+            else:
+                del impls[name]
+                report.append(f"note {name} not used: the example holds a language tag or control character it writes wrongly")
+    report.append(f"note the example holds {len(lits)} literals, {sum(1 for l in lits if l.language)} language-tagged; the cross-check gate is {'open' if gate else 'closed'}")
     # A synthetic vector: blank nodes inside one element's description, in an RDF list.
     synthetic = ('<https://x.example/p/what/01M610JNAMYTKTBXP8KD0BQ2G0> <https://decision-driven-design.dk/ns/sdlc#given> _:l1 .\n'
                  '_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:e1 .\n'
@@ -164,7 +222,7 @@ if rdflib and impls:
     names = list(got)
     if len(names) == 2:
         diff = sorted(k for k in got[names[0]] if got[names[0]][k] != got[names[1]][k])
-        ok(not diff, f"hashes: {names[0]} and {names[1]} agree on the graph hash, a synthetic vector and {len(descriptions)} element hashes"
+        ok(not diff, f"hashes: {names[1]}, a gated RDF 1.1 cross-check and not a conforming second implementation (DDD-dec-73; M-12), agrees with {names[0]} on the graph hash, a synthetic vector and {len(descriptions)} element hashes"
            + (f"; differ on {diff}" if diff else ""))
     mine = got[names[0]]
     vec = {"canon": "rdfc-1.0", "hash": "sha256", "example": "examples/acme-shop.ttl",
