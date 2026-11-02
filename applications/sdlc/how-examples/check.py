@@ -77,7 +77,7 @@ def pins(start):
             if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
             elif e in records[k].get("basedOn", []): todo.append(e["ref"])
     return hops, bad
-for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
+for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@3@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
               f"ACC-1@1@{A}", "REL@2@https://vendor.example/packages/ref-arch"):   # version 2 first; version 1 as history
     hops, bad = pins(start)
     ok(not bad, f"pins from {start.split('@')[0]}: {hops} references" + ("" if bad else ", every target held here and matching its pin")

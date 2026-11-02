@@ -8,8 +8,8 @@ source is github.com/Hafeok/product-framework: v1.10.0 at `c895652`, and v1.11.0
 §3.7 and the sections it threads. v1.11.0 was never merged in that repository. It is adopted here
 by ruling (Round 1, Q-1).
 
-**Register.** *Ruled* cites a decision. `[PROPOSED]` is Claude's, filed in `DDD-dec-64`, and
-waits for a ruling. `[OPEN]` is not settled here. Quoted text is the Product Framework's, cited
+**Register.** *Ruled* cites a decision. `DDD-dec-64` holds the move's own choices, all ruled
+(Rounds 2 and 5). `[PROPOSED]` marks what still waits for a ruling. `[OPEN]` is not settled here. Quoted text is the Product Framework's, cited
 by its section ("PF §3.1"). It is quoted where the rulings leave it right, and rewritten where
 they do not.
 
@@ -103,16 +103,20 @@ review`). This is How ruling 1 (`DDD-dec-55`) applied to the What.
   bindings, scope keys). A blank node belongs to exactly one description.
 
 **Containment.** The one containment edge is `sdlc:within`. Every element but the product node
-is within exactly one element. `[PROPOSED]` (`DDD-dec-64`, P-2): it replaces the old
-`in_context`, `owns_domain`, `owns_system`, `system_of`, `journey_of` and `bounded_by`. One edge
-makes "the subtree an anchor covers" a single transitive walk, which is what the How's anchors
-read (how.md §3).
+is within exactly one element, and a subtree is `within*`. *Ruled (`DDD-dec-64`, P-2):* it
+replaces the old `in_context`, `owns_domain`, `owns_system`, `system_of`, `journey_of` and
+`bounded_by`, with no typed sub-properties. One edge makes "the subtree an anchor covers" a single
+transitive walk, which is what the How's anchors read (how.md §3). The relation's name is carried
+by the kind pair and enforced by the shapes. A reader that needs ownership versus attachment reads
+the kinds.
 
 **What is an element.** Interactions, fields (attributes, payload fields, view fields and
 claims), state annotations, content keys and scenarios are elements, not the blank nodes
-product-cli made of some of them. `[PROPOSED]` (`DDD-dec-64`, P-3). A binding anchors to an
-interaction or a content key (`DDD-dec-57`). A Decider reads a field. A scope key compares two
-fields. Each of these refers by identity.
+product-cli made of some of them. *Ruled (`DDD-dec-64`, P-3):* anything a binding, a baseline,
+`reads`, a scope key or a wire request names is an element with its own IRI. Blank nodes are only
+where nothing names the node. A binding anchors to an interaction or a content key
+(`DDD-dec-57`), a Decider reads a field, and a scope key compares two fields. The cost is that
+adding a field is a What decision, and that is the correct cost: a wire contract changed.
 
 ### 2.3 Versions of the What
 
@@ -478,8 +482,8 @@ Decider-justification rule is in `what/shapes.ttl`.
 
 ### 3.5 Named-algorithm primitives
 
-`[PROPOSED]` (`DDD-dec-64`, P-5): the section keeps its content and drops its old title, "the
-Polanyi floor". "Floor" is a canon term, and the old title would collide with it.
+*Ruled (`DDD-dec-64`, P-5):* "Named-algorithm primitives", with no subtitle. "Floor" is canon's,
+so PF's old subtitle, "the Polanyi floor", is not carried.
 
 > A computation is mechanically derivable from spec **exactly to the degree its variability is
 > declared data over a generic interpreter.** (PF §3.5)
@@ -608,8 +612,9 @@ Each is a query over the same graph.
 - a **content store** and the **locales** it serves: an `sdlc:DeclaredTarget` with `targetKind`
   `content-store`, its edition, and one `sdlc:locale` per BCP 47 tag.
 
-`[PROPOSED]` (`DDD-dec-64`, P-4): `sdlc:DeclaredTarget` as the What's element kind for these
-declarations.
+*Ruled (`DDD-dec-64`, P-4):* one kind, `sdlc:DeclaredTarget`, for both. Its edition reference may
+not resolve from this product. That is the protocol's "not reachable", and it is Writ's `explain`
+to resolve, not a check this tool requires.
 
 The catalogue (components, tokens, strings) is the target's vocabulary edition, in a package with
 its own genesis, typically a design team's. "Nothing in a catalogue is a What element of the
@@ -654,8 +659,9 @@ gathered is signed by a human principal.
 
 ### 5.1 A scope is a grant over What element kinds
 
-`[PROPOSED]` (`DDD-dec-64`, P-7). Force, grants and acceptance are the authority profile's (Q-4).
-This section states only what a scope ranges over, which is the What's to say.
+*Ruled (`DDD-dec-64`, P-7).* Force, grants and acceptance are the authority profile's (Q-4).
+This section states what a scope ranges over, which is the What's to say. It also states the one
+rule on scopes that the profile inherits rather than chooses: the multi-scope rule, below.
 
 - **The genesis grant** is unscoped within the product (`DDD-dec-46`). It covers every element
   kind, everywhere under P.
@@ -663,6 +669,10 @@ This section states only what a scope ranges over, which is the What's to say.
   narrowed to the subtree of one element (`sdlc:within*`). A grant delegating from the genesis
   carries a scope. An acceptance of a What decision is valid only if every element the decision
   creates, changes or retires is of a kind in the grant's scope, inside its subtree.
+- **A decision spanning scopes** needs a valid acceptance under each scope, from the same holder
+  or different holders. It is in force only while all of those acceptances are live (Round 5).
+  This is Writ's [D2] conjunction for scopes, the same shape as derived acceptance for blends. The
+  authority profile inherits it and does not choose otherwise.
 - **The kind vocabulary is the ontology.** PF §14.2 carried its kinds "as a parallel list pending
   expression as direct references into the sections above". Here they are those references: a
   scope names `sdlc:UIStep`, `sdlc:Interaction`, `sdlc:ContentKey` and so on. A scope introduces
@@ -747,15 +757,17 @@ use it, "never the key and never the label":
   would make the wire unreadable to every runner author.
 - **Why not the label.** Labels change freely by decision, and a rename would silently break
   every runner.
-- **What a wire name is.** It is authored, a `dpp/1` token, unique within the product per kind,
-  and stable by default. It is "changed only by a decision that is by definition a breaking change
-  to the wire contract".
-- **Two readings, flagged.** These are `UNVERIFIED — Emil review` (`DDD-dec-64`, R-1 and R-2):
-  - a field's wire name is unique within its owning command, event, subject kind or view, not
-    product-wide, because the wire scopes field names by their owner;
-  - view fields carry wire names too, because a projection response names them. PF §3.2.0 already called
-  the payload "a **public wire contract**" that "must be authored, not guessed". The wire name is
-  that contract's vocabulary.
+- **What a wire name is.** It is authored, a `dpp/1` token, and stable by default. It is "changed
+  only by a decision that is by definition a breaking change to the wire contract".
+- **Where it is unique.** *Ruled (`DDD-dec-64`, R-1):* product-wide for commands, events,
+  invariants and subject kinds. For a field, it is unique within its owning command, event,
+  subject kind or view, because the wire names a field only inside its owner.
+- **Which kinds carry one.** *Ruled (`DDD-dec-64`, R-2, amending P-1's list):* everything that
+  appears on the wire. That is commands, events, payload fields, invariants in rejections, subject
+  kinds and their claims, and view fields, which a projection response names.
+
+PF §3.2.0 already called the payload "a **public wire contract**" that "must be authored, not
+guessed". The wire name is that contract's vocabulary.
 
 The four schemas are in [`what/conformance/`](what/conformance/), moved from v1.11.0's
 `preview/conformance/` with `actor` renamed `subject`. Their `$id`s are under
@@ -805,17 +817,20 @@ computed and never stored.
 
 ---
 
-## 8. Proposed here, for Emil — `DDD-dec-64`
+## 8. The move's own choices — `DDD-dec-64`, ruled
 
-| # | Proposal | Section |
+P-1 was ruled in Round 2. P-2 to P-7, R-1 and R-2 were ruled in Round 5, all as proposed. P-7's
+multi-scope rule and R-2's amendment to P-1's list were added with the ruling.
+
+| # | Choice | Section |
 |---|---|---|
-| P-1 | `sdlc:wireName`: the authored name the wire and public interfaces use, distinct from key and label. *Ruled, Round 2*; readings R-1 and R-2 flagged | §6 |
+| P-1 | `sdlc:wireName`: the authored name the wire and public interfaces use, distinct from key and label. With R-1 (field names unique within their owner) and R-2 (view fields carry wire names) | §6 |
 | P-2 | `sdlc:within` as the single containment edge | §2.2 |
 | P-3 | interactions, fields, state annotations, content keys and scenarios are elements | §2.2 |
 | P-4 | `sdlc:DeclaredTarget` for design-system and content-store declarations | §4.1 |
-| P-5 | §3.5 without the title "the Polanyi floor" | §3.5 |
+| P-5 | §3.5 is titled "Named-algorithm primitives", with no subtitle | §3.5 |
 | P-6 | the What-side kinds the move adds where product-cli's `schema/` had none: Domain, System, Journey, Trigger, Decider, Projector, Scenario, NamedAlgorithm, ReferenceData, StateAnnotation, ContentKey, QualityDemand, SubjectKind, ScopeRule, among others (each with its `dct:source`) | `what/ontology.ttl` |
-| P-7 | an authoring scope as a set of element kinds, optionally narrowed to a subtree; tools as gathering sources | §5 |
+| P-7 | an authoring scope as a set of element kinds, optionally narrowed to a subtree; tools as gathering sources; a decision spanning scopes needs a live acceptance under each | §5 |
 
 ## Appendix — where the source went
 

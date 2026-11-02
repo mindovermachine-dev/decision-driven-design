@@ -81,7 +81,10 @@ charter's third "specified once" check. It supersedes `REST@1`, which read the p
 id, and is anchored at the Ordering bounded context. It reads the wire name, ruled in Round 2
 (`DDD-dec-64`, P-1: "REST@2 stands").
 
-What-version 2 (`what@2`) supersedes `what@1`. The graph is the same. Round 2 amended the
+What-version 3 (`what@3`, Round 5: `DDD-dec-64` ruled) supersedes `what@2`, which superseded
+`what@1`. Each kept the same graph, and each renamed the edition by the hash of the ontology and
+shapes as amended before edition 1 was tagged. `what@2`'s pin is held to the files at `655db92`.
+`what@2` supersedes `what@1`. The graph is the same. Round 2 amended the
 ontology and shapes before sdlc edition 1 was tagged, and `what@2` names the edition by the hash
 of the files as held. `what@1`'s pin stays the hash of the files at `2c4f276`.
 

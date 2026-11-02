@@ -20,8 +20,7 @@ resolution: |
     product elements, so a binding cannot anchor to `sdlc:aioSingleSelect`. It anchors to the
     product's interaction.
   - **"The content key".** An `sdlc:ContentKey` element.
-  - **The declaration.** `sdlc:DeclaredTarget`, which is `[PROPOSED]` in DDD-dec-64 (P-4). If P-4 is
-    ruled otherwise, this decision's reference to it is superseded with it.
+  - **The declaration.** `sdlc:DeclaredTarget`, ruled in DDD-dec-64 (P-4, Round 5).
 
   ## The supersession obligation, discharged
 

@@ -423,6 +423,17 @@ put(A, "what", "2", f"What-version 2 of {P}.", PO,
     basedOn=[ref(A, "WHAT-found", "1")], supersedes=[ref(A, "what", "1")], status="accepted", key="acme-owner", at=DAY2,
     **{SD: {"record": "what-version", "product": P,
             "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
+                        "hash": "sha256:c211d290e01e1e502f649b2fc7480442effcd2fd5b157e87f55653472ecfa56c"},   # the ontology and shapes as they stood at 655db92, when what@2 was published
+            "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})
+
+# Round 5 (2026-10-30) ruled DDD-dec-64 P-2..P-7, R-1 and R-2. The ontology and shapes lost their
+# proposal and UNVERIFIED markers, so the edition's hash changed before sdlc edition 1 was tagged.
+# what@3 supersedes what@2 with the hash as held. The graph, and so every element hash, is unchanged.
+put(A, "what", "3", f"What-version 3 of {P}.", PO,
+    "Supersedes what@2: the same graph and the same decisions, named under sdlc edition 1 as amended by Round 5 (DDD-dec-64 ruled) before the edition was tagged.",
+    basedOn=[ref(A, "WHAT-found", "1")], supersedes=[ref(A, "what", "2")], status="accepted", key="acme-owner", at="2026-11-02",
+    **{SD: {"record": "what-version", "product": P,
+            "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
                         "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()
                                                             + open("applications/sdlc/what/shapes.ttl", "rb").read()).hexdigest()},
             "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})

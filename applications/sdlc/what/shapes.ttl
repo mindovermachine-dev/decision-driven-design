@@ -334,7 +334,7 @@ sdlc:ScopedViewShape a sh:NodeShape ;
         FILTER NOT EXISTS { ?r sdlc:within $this ; sdlc:forSubject ?value }
       }""" ] .
 
-#########################  WIRE NAMES — DDD-dec-64 P-1, ruled 2026-10-28  #########################
+#########################  WIRE NAMES — DDD-dec-64 P-1 (ruled 2026-10-28), R-1 and R-2 (ruled 2026-10-30)  #########################
 
 sdlc:WireNameShape a sh:NodeShape ;
   sh:targetClass sdlc:Command , sdlc:Event , sdlc:Invariant , sdlc:SubjectKind ;
@@ -362,7 +362,7 @@ sdlc:FieldWireNameShape a sh:NodeShape ;
         FILTER NOT EXISTS { $this sdlc:wireName ?n }
       }""" ] ;
   sh:sparql [
-    sh:message "what.md §6 A field's wire name is unique within its owner (DDD-dec-64 R-1, UNVERIFIED — Emil review)." ;
+    sh:message "what.md §6 A field's wire name is unique within its owner (DDD-dec-64 R-1, ruled 2026-10-30)." ;
     sh:select """
       PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
       SELECT $this ?value WHERE {

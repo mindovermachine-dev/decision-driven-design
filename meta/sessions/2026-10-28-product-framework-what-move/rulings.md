@@ -139,3 +139,37 @@ Verbatim:
 | 4 `[D2.12]` | no change | ruled |
 | 5 `DDD-dec-64` in full | sent in the session: P-2 to P-7, R-1, R-2 | waiting |
 
+## Round 5, 2026-10-30 — `DDD-dec-64` in one pass; recorded 2026-11-02
+
+Verbatim:
+
+> Round 5, move session (2026-10-30). DDD-dec-64, one pass.
+>
+> P-2 — ruled as proposed. One containment edge, sdlc:within, exactly one per element except the product node; subtree is within*. The relation's name is carried by the kind pair and enforced by the shapes; a reader that needs "ownership versus attachment" reads the kinds. No typed sub-properties.
+>
+> P-3 — ruled as proposed. Anything a binding, a baseline, reads, a scope key or a wire request names is an element with its own IRI; blank nodes only where nothing names the node. The cost (a field is an element, adding one is a What decision) is the correct cost: a wire contract changed.
+>
+> P-4 — ruled as proposed. One kind, sdlc:DeclaredTarget, with targetKind, edition as a dpp/1 reference, and locales for a content store. The dangling reference is not a weakness: it is the protocol's "not reachable" and is Writ's explain to resolve, not this tool's check to require.
+>
+> P-5 — ruled as proposed. "Named-algorithm primitives", no subtitle; "floor" is canon's.
+>
+> P-6 — ruled as proposed. Q-2 named the file to take terms from, not the ceiling on terms; §3 is the authority on what the What contains, and a term tracing to a §3 section is sourced. The three renames (View, UIStep, SystemRoot) and isAggregateRoot as xsd:boolean stand. Keep the per-term dct:source as the audit trail.
+>
+> P-7 — ruled as proposed, with the open point closed now. Scopes are sets of ontology classes, optionally narrowed to one element's within* subtree; derived kinds are in no scope; tools are gathering sources that propose and grant nothing. The multi-scope case: a decision that touches kinds in more than one scope needs a valid acceptance under each scope, from the same or different holders, and is in force only when all are live. That is the rule Writ already carries for scopes (its [D2] conjunction, the same shape as derived acceptance for blends); the authority profile inherits it rather than choosing. Record it on DDD-dec-64 so the profile PR cannot decide otherwise by accident.
+>
+> R-1 — ruled as proposed. Wire names for commands, events, invariants and subject kinds are unique product-wide; field wire names are unique within their owner.
+>
+> R-2 — ruled as proposed. View fields carry wire names. Amend P-1's list accordingly; "everything that appears on the wire" was the intent, and view fields do.
+>
+> Rewrite DDD-dec-64 to the rulings; adjust the ontology, shapes and what.md where any of the above differs from the branch; what@3 supersedes what@2 since the ontology edition changes. Then #42 is ready for ratification once Varve's vectors (Hafeok/varve#192) land and M-12 closes, or before, with M-12 recorded open.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| P-2 to P-6 | `DDD-dec-64`, rewritten to the rulings. In `what.md` §2.2, §3.5 and §4.1 the `[PROPOSED]` markers became *Ruled*, with the ruling's reasons. The ontology's header records the move's terms as ruled | ruled. No construct differed from the branch |
+| P-7, with the multi-scope rule | `DDD-dec-64` (stated for the authority profile's pull request, M-1); `what.md` §5.1 | ruled. The multi-scope rule is new text; the rest is as on the branch |
+| R-1, R-2 | `DDD-dec-64` (P-1's list amended); `what.md` §6 (the flag removed; a sentence that had been run into the R-2 bullet restored to its own paragraph); the ontology's `sdlc:wireName` comment; `FieldWireNameShape`'s message | ruled. The shapes already enforced both; only their wording changed |
+| `what@3` | the How examples: `what@3` supersedes `what@2` (same graph, the edition's hash as amended). `what@2`'s pin is held to the files at `655db92`, verified | done |
+| #42's readiness | ready for ratification, with M-12 recorded open (Hafeok/varve#192); `check.py` takes Varve's vectors when they land | as ruled |
+

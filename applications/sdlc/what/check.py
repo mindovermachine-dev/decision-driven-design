@@ -71,7 +71,7 @@ if rdflib:
         for src in onto.objects(t, DCTERMS.source):
             sources.setdefault(str(src).split()[0] if str(src) in ("schema/", "move") else "§", []).append(t)
     report.append("note term provenance: " + ", ".join(f"{k} {len(v)}" for k, v in sorted(sources.items())) +
-                  " (schema/ moved from product-cli; § added from the Product Framework; move proposed in DDD-dec-64)")
+                  " (schema/ moved from product-cli; § added from the Product Framework; move ruled in DDD-dec-64)")
 
     # ---- 3. identity (before shapes, so a failure here is reported as itself)
     subjects = {s for s in what.subjects() if not isinstance(s, BNode)}

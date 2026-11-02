@@ -19,7 +19,7 @@
 #    "§x.y"      added in the move from Product Framework v1.10.0 (c895652) at that section;
 #                schema/ did not define it, though product-cli's exporter emits most of them;
 #    "§3.7"      added from Product Framework v1.11.0 at 55c9281, adopted by ruling (Round 1, Q-1);
-#    "move"      added by the move itself, PROPOSED in DDD-dec-64.
+#    "move"      added by the move itself; ruled in DDD-dec-64 (Rounds 2 and 5).
 #
 #  Identity (DDD-dec-63, ruled): the product node is the product IRI P; every other element is
 #  P/what/<ULID>. No term below carries identity; rdfs:label is the human name.
@@ -69,7 +69,7 @@ sdlc:logicMediaType a owl:DatatypeProperty ;
 
 sdlc:wireName a owl:DatatypeProperty ;
   rdfs:label "wire name" ;
-  rdfs:comment "Ruled 2026-10-28 (DDD-dec-64, P-1): the authored name an element carries on the wire. Commands, events, payload fields, invariants in rejections, subject kinds and their claims carry it; view fields too, because a projection response names them (R-2). A dpp/1 token. Unique within the product per kind; a field's is unique within its owning command, event, subject kind or view (R-1). Stable by default, and changed only by a decision, which is by definition a breaking change to the wire contract. The REST projection and the conformance protocol use it, never the key and never the label. Identity is not a wire contract (DDD-dec-63)." ;
+  rdfs:comment "Ruled 2026-10-28 (DDD-dec-64, P-1): the authored name an element carries on the wire. Everything that appears on the wire carries it: commands, events, payload fields, invariants in rejections, subject kinds and their claims, and view fields, which a projection response names (R-2, ruled 2026-10-30, amending P-1's list). A dpp/1 token. Unique product-wide for commands, events, invariants and subject kinds; a field's is unique within its owning command, event, subject kind or view (R-1, ruled 2026-10-30). Stable by default, and changed only by a decision, which is by definition a breaking change to the wire contract. The REST projection and the conformance protocol use it, never the key and never the label. Identity is not a wire contract (DDD-dec-63)." ;
   rdfs:range xsd:string ; dct:source "move" .
 
 #################################################################

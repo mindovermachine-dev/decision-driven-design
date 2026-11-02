@@ -19,7 +19,7 @@ resolution: |
     kinds `sdlc:Decider` and `sdlc:Command` (what/ontology.ttl, sdlc edition 1) and over the How's fact
     term `sdlc:Component`. A binding names its kind as `…sdlc.binds: "sdlc:Decider"`.
   - **Anchors.** An anchor is an element IRI, `P/what/<ULID>`, or P itself. "Within the anchor" is
-    `sdlc:within*`, the single containment edge (what.md §2.2; DDD-dec-64, P-2, proposed).
+    `sdlc:within*`, the single containment edge (what.md §2.2; DDD-dec-64, P-2, ruled in Round 5).
   - **The worked reading.** "Every Decider in the Ordering domain" anchors to the narrowest element
     covering those Deciders. In the landed test product that is the Ordering bounded context
     (`…/what/01M610JNAMH5Y3FP9BFRZJ6QSS`), not the domain, because the Deciders sit in the domain's
