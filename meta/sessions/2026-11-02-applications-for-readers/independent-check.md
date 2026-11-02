@@ -73,14 +73,38 @@ rule; "kept" means the finding was examined and the new text left as it is, with
 | F5.2 "is not accepted" stronger than "should not be treated as settled" | Fixed |
 | F5.3 "a guide, not a proof" | Fixed: the old wording |
 
-## The How pair
+## The How pair — 16 findings
 
-Pending at this commit.
+| # | Finding | Disposition |
+|---|---|---|
+| S1 | The three kinds read as decided; `DDD-dec-55` lists them as not ruled separately | Fixed: marked, and listed |
+| S2 | Supersession across an import lost its `[PROPOSED]` marker | Fixed: marked, with the note that `DDD-dec-59` may already settle it |
+| S3 | The generation condition read as decided; `DDD-dec-61` says it stands as proposed | Fixed: marked, and listed |
+| S4 | "Everything here is decided" flipped the old banner default ("what was not ruled separately stays proposed until the merge") | Fixed in both documents: the opening says what is ruled and what is not, and the unruled form, layout, fact terms, platform targets and freshness bound are listed. This was the rewrite's most serious fault: the conventions forbade exactly this upgrade, and the rewrite made it anyway |
+| S5 | A reference sentence restated the recorded-reading condition without a marker | Fixed |
+| C1 | No-orphans dropped "allow" | Fixed |
+| C2 | "What terms are defined by the What" was false for `sdlc:localId` | Fixed: `sdlc:wireName` listed; `localId` noted as the provisional term the What does not carry |
+| C3 | Debt removal became automatic | Fixed: "may be removed" |
+| C4 | "declared" dropped from what a constraint governs | Fixed |
+| C5 | A runtime bound "held by" a contract | Fixed: the bound is What; which telemetry measures it is the contract |
+| C6 | The carve-out for `DDD-dec-46`'s realisation scope lost | Fixed |
+| C7 | The reading of `DDD-dec-44` lost | Fixed, in the basis table |
+| C8 | The examples' checker is not a gate and does not meet the recorded-reading condition | Fixed |
+| C9 | The test-product restriction and the conformance rule lived only in the examples README | Fixed: both stated in how.md's worked example |
+| C10 | "gathers or proposes is signed by a human" went beyond the old text | Fixed: "gathers is a proposal, and counts only once a human holder accepts it" |
+| C11 | "candidates" became "likely causes" | Fixed |
+| — | Outside the pair: the examples README said Acme Shop imports three How decisions; it imports four | Fixed |
 
 ## What this says about the rewrite
 
-The checks found 48 points across the two sets, and 5 the small-documents check called serious.
-Almost all are the same failure: a rule restated in plainer words lost a qualifier ("if and only
+The checks found 64 points across the three sets. The small-documents check called 5 serious; the
+How check called 6 (S1 to S4, C1, C2) the ones to fix first.
+Most are the same failure: a rule restated in plainer words lost a qualifier ("if and only
 if", "or", "poisonable", "core-like") or gained one. Plain prose made these slips easy to write;
 the independent check made them easy to find. The equivalence tables written alongside the rewrite
 marked every one of these rows "same". They are not evidence of equivalence by themselves.
+
+The How rewrite's status upgrade (S4) is a second failure of a different kind. The conventions
+said a point marked proposed stays unsettled "whatever its history", and the rewrite's opening
+sentence overrode that silently. The question behind it, whether merging the How's pull request
+ratified its unruled parts, is put to Emil in the Gate 2 report.

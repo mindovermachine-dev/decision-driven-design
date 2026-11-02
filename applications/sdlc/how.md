@@ -21,9 +21,11 @@ After reading it you can:
 - reuse decisions a vendor ships as a package, and know what stays your call;
 - see what the gate checks, what it reports as a gap, and what "the How is specified" claims.
 
-**How settled this is.** Everything here is decided, except the points marked *(not settled yet)*.
-None of it has yet been tried on a real product beyond the worked example, so try it before you
-rely on it. The gate that enforces the How, Writ, is defined but not yet built. The authority
+**How settled this is.** Part of this is decided by explicit rulings. The rest was proposed and
+has not been ruled on its own: the earlier text said those parts stay proposed until it was
+merged, and whether the merge settled them has not been ruled. Until it is, every point without a
+ruling of its own is marked *(not settled yet)* and listed at the end. None of it has yet been
+tried on a real product beyond the worked example, so try it before you rely on it. The gate that enforces the How, Writ, is defined but not yet built. The authority
 profile that defines grants, acceptance, baselines and waivers is written separately; until it
 lands, the worked example uses stand-in records for those.
 
@@ -47,8 +49,8 @@ Each one:
 - and may be imported into another product, where it rests on the package's version and is in
   force only under that product's own genesis grant.
 
-Every change to the How is a decision. Tools never change the How. Whatever a tool gathers or
-proposes is signed by a human before it counts.
+Every change to the How is a decision. Tools never change the How. Whatever a tool gathers is a
+proposal, and it counts only once a human holder accepts it.
 
 **Not in this document:**
 
@@ -89,7 +91,7 @@ It requires two kinds of fact: the deployment as declared, and the deployment as
 
 ## The three kinds
 
-The How has three kinds of decision.
+The How has three kinds of decision *(not settled yet)*.
 
 | | **Constraint** | **Binding** | **Contract** |
 |---|---|---|---|
@@ -104,7 +106,7 @@ constraints: each rule that a path must exist, may exist here, must exist alongs
 must not exist is a violation description over path facts.
 
 "No orphans" is a constraint that reads the decisions in force as well as the code: a file or
-component that no decision covers is a violation. So everything not covered is a violation until
+component that no allow decision covers is a violation. So everything not covered is a violation until
 a decision covers it *(not settled yet)*. Two habits from layout models carry over without rules of their own. Every
 rule cites the principle it protects; the protocol's required reason and "rests on" do that.
 Prefer an allowlist; that stays advice.
@@ -132,9 +134,9 @@ command is handled at `POST /commands/{its wire name}`.
 
 **Contract.** A contract is about a deployable unit. The unit's identity (domain name, bundle
 identifier, account, region) is How. Architectural demands in the What, such as "personal data
-resides in the EU", are held by contracts anchored to that demand. A runtime bound in the What is
-held by a contract over telemetry facts, anchored to the bound: that contract says which telemetry
-measures it *(not settled yet)*.
+resides in the EU", are held by contracts anchored to that demand. A runtime bound is a What element
+too. Which telemetry measures it is a contract over telemetry facts, anchored to the bound
+*(not settled yet)*.
 
 *In Acme Shop:* the residency contract is anchored to the product-wide demand "personal data
 resides in the EU", and reads each unit's declared and observed deployment within a day.
@@ -186,7 +188,7 @@ A How decision anchors to exactly one What element, or to the product.
    is right if the rule means the whole product.
 5. **What "covers" means per kind.** A binding governs the elements of its kind within the anchor,
    so the covering element is their narrowest common container. A constraint over code governs
-   the code of the systems within the anchor. A contract anchors to the element it holds, not to a
+   the code of the declared systems within the anchor. A contract anchors to the element it holds, not to a
    container, and its anchor is not checked.
 6. **"Every" ranges within the anchor.** A decision about "every Decider" means every Decider
    inside its anchor. The same decision text therefore serves wherever it is anchored.
@@ -336,7 +338,9 @@ record covers the four imports and the two target declarations.
 
 Nothing in your product changes. Your import stays in force under your acceptance, resting on the
 version you pinned. `explain` shows "rests on superseded version". To move to the new version you
-re-import: a new landing, a new import decision that supersedes the old one, and a new acceptance.
+re-import: a new landing, a new import decision that supersedes the old one, and a new acceptance
+*(not settled yet: written as a proposal; a decision on packages states that supersession forces
+nothing, so this may already be settled)*.
 
 You learn of a new version only by reading the package's list of versions; the protocol has no
 link forward from an old record. That reading must itself be recorded in your log, and `explain`
@@ -345,7 +349,8 @@ shows supersession as of the last recorded reading, never from a live lookup
 
 *In Acme Shop:* the vendor's second release supersedes the layer rule with a version that adds a
 `test` layer. Acme Shop still rests on the first. The checker shows that, and shows that nothing
-in force changed.
+in force changed. The examples' checker reads the list of versions directly: it is a checker, not
+a gate, so it does not meet the recorded-reading condition above.
 
 ### When the vendor withdraws a version
 
@@ -386,7 +391,7 @@ the uncovered pairs.
 
 | Gap | Example | Recorded as | The gate reports | Over time |
 |---|---|---|---|---|
-| **Debt**: should exist, does not yet | a missing translation; a Decider not yet ported to the second language | a **baseline entry** on the binding, per element and target | baselined, with where the entry was recorded | shrinks. Landing the code that realises the pair removes the entry. Only a decision may add one |
+| **Debt**: should exist, does not yet | a missing translation; a Decider not yet ported to the second language | a **baseline entry** on the binding, per element and target | baselined, with where the entry was recorded | shrinks. An entry may be removed by landing the code that realises the pair. Only a decision may add one |
 | **Boundary**: cannot apply | a collection of images in a text-only interface | an **exclusion**: a decision anchored to the element, with its reason | not applicable, with the reason | stays. It is not debt, and removing it would be wrong |
 
 **A waiver never covers a gap.** A waiver suspends a violation that applies. An unreifiable pair is
@@ -417,7 +422,7 @@ The gate is Writ. The How does not restate how Writ works. It states what Writ m
 | constraint and binding verdicts, and contract verdicts over declared deployments, can block a change | they gate landing *(not settled yet for declared-deployment contracts)* |
 | every verdict names its decision, kind, anchor, import chain and the facts it used | `explain` can always say why |
 | a verdict is clean, violation, or open question | there is no "unknown" |
-| a missing fact is a reported gap, and a verdict that needs it is an open question with its likely causes | absence is never a pass |
+| a missing fact is a reported gap, and a verdict that needs it is an open question with its candidates | absence is never a pass |
 | exclusions and baseline entries are visible at a position, and change verdicts only as declared | nothing hides a violation silently |
 
 ### Which facts the gate may use
@@ -464,7 +469,8 @@ code-generation seam, are not part of this framework.
 
 **One condition keeps generation possible later.** A vocabulary edition maps each fact term to a
 native shape, and that mapping is exactly what a generator would read: one declaration that both
-drives creation and checks it. So no vocabulary edition may be made check-only. A generator that
+drives creation and checks it. So no vocabulary edition may be made check-only
+*(not settled yet)*. A generator that
 someday reads editions changes code, and code changes go through landing. It does not change the
 How: tools never change it.
 
@@ -504,6 +510,10 @@ anchored in Acme Shop, evaluated in two targets, and accepted by the architect u
 genesis grant. The checker verifies every pin, signature and authority link, warns on wide anchors,
 and checks expressibility per target and supersession across the import.
 
+Acme Shop is a test product. Nothing in it is acceptable into a real product, and its records are
+superseded, never edited. Every record is conformant under the reference implementation on `main`,
+run unmodified.
+
 No fact projector or reporter exists yet, so the facts are written by hand. The verdicts are
 planted defects, predicted before the run, that fired as predicted. They show the violation
 descriptions run as written, and nothing more.
@@ -521,7 +531,7 @@ descriptions run as written, and nothing more.
 
 Each of these was written as a proposal and has not been ruled on its own.
 
-- **Exactly three kinds.** Whether principles stay a decision others rest on rather than a fourth
+- **Exactly three kinds.** Whether the How has these three kinds; whether principles stay a decision others rest on rather than a fourth
   kind; whether idle decisions are reported rather than rejected; whether target declarations and
   exclusions are record types beside the kinds; and whether no kind splits. Ruling otherwise would
   add or divide a kind, and the gate would gain a category.
@@ -548,6 +558,15 @@ Each of these was written as a proposal and has not been ruled on its own.
   already be settled; it needs confirming.
 - **How baselines shrink.** The behaviour described for debt is assumed until the authority profile
   defines baselines.
+- **Supersession across an import.** Whether nothing in the importer changes when the vendor
+  supersedes, with re-import as a new landing, import decision and acceptance. A decision on
+  packages states that supersession forces nothing, so this may already be settled.
+- **Generation stays additive.** Whether no vocabulary edition may be made check-only. The
+  out-of-scope ruling on generation is decided; this condition on editions is not.
+- **The form of violation descriptions, the record layout and the fact terms.** All of these are in
+  [`how-reference.md`](how-reference.md), and none has a ruling of its own.
+- **Platforms as targets, and a freshness bound per contract.** Both were proposed with the
+  decisions on targets and on facts, and not ruled separately.
 - **New What kinds from adopters.** Whether an adopter may register a new kind of What element, such
   as a new interaction object.
 - **Conformance.** Whether "specified and in force", with its six conditions, is the one
@@ -561,9 +580,9 @@ For reviewers and auditors. The decisions are in [`core/decisions/`](../../core/
 |---|---|
 | What the How is | `DDD-dec-54` (the charter's rulings: anchoring, tools never change the How, packages as provenance, force from the authority profile, the gate is Writ); `DDD-dec-42` (only the What moved; delivery and execution retired); `DDD-dec-44` (data conformance is an add-on); `DDD-dec-61` (generation out of scope); `DDD-dec-62` (token `dpp/1`) |
 | A How decision | `DDD-dec-49`, `DDD-dec-52` (verdicts computed, never stored; the violation description); `DDD-dec-60` (provenance) |
-| The three kinds | `DDD-dec-55`, `DDD-dec-65` (three kinds; "binding" as the word, adopted by Writ); `DDD-dec-57` (design-system and content-store bindings); `DDD-dec-60` (deployment provenance, telemetry). Not settled: the fourth-kind, idle, record-type, no-split and runtime-bound points |
+| The three kinds | `DDD-dec-55`, `DDD-dec-65` (three kinds; "binding" as the word, adopted by Writ); `DDD-dec-57` (design-system and content-store bindings); `DDD-dec-60` (deployment provenance, telemetry). Not settled: the three kinds themselves, and the fourth-kind, idle, record-type, no-split and runtime-bound points |
 | Anchoring | `DDD-dec-54` ruling 1; `DDD-dec-55`, `DDD-dec-65` (narrowest covering element; the product node; the advisory warning) |
-| Targets | `DDD-dec-57` (design systems and content stores are targets the What declares). Not settled: interface standards |
+| Targets | `DDD-dec-57` (design systems and content stores are targets the What declares; its ruling 3 is how `DDD-dec-44`'s "design system and content store are parts of the What" is to be read). Not settled: interface standards, platform targets |
 | Specified once | not ruled separately (proposed with `DDD-dec-57`) |
 | Packages | `DDD-dec-46`, `DDD-dec-54` ruling 3; `DDD-dec-56` (empty What; decision records only; supersedes `DDD-dec-46`'s "its What is its decisions") |
 | Importing a package | `DDD-dec-59` (import, supersession forces nothing, withdrawal). Not settled: narrow-never-alter, recorded readings |

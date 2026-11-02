@@ -10,8 +10,8 @@ supersedes: e5a332d:applications/sdlc/how-examples/README.md
 -->
 
 This folder is the worked example behind [`../how.md`](../how.md) and
-[`../what.md`](../what.md). A test product, Acme Shop, imports three How decisions from a test
-vendor's package. Each decision is evaluated against two systems built in different languages and
+[`../what.md`](../what.md). A test product, Acme Shop, imports four How decisions, of three kinds,
+from a test vendor's package. Each decision is evaluated against two systems built in different languages and
 deployed on different clouds. Every record is a signed decision record, and a checker verifies the
 lot.
 

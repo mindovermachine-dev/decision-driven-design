@@ -17,7 +17,9 @@ projector for a language, a reporter for a platform, or a checker like the one i
 of a violation description, the fact terms, the fields of a recorded reading, and what the How
 needs from the gate.
 
-**How settled this is.** Everything here is decided, except the points marked *(not settled yet)*.
+**How settled this is.** Part of this is decided by explicit rulings. The rest, including the
+form of violation descriptions, the record-member layout and the fact-term list, was proposed and
+has not been ruled on its own, and is *(not settled yet)*: see [`how.md`](how.md#not-settled-yet).
 None of it has been run by a real gate yet: the gate (Writ) is defined but not built, its
 code-facts format is not written, and the authority profile is written separately.
 
@@ -70,7 +72,8 @@ In the tables below, `…sdlc.` stands for `dk.decision-driven-design.sdlc.` and
 | `sdlc:PlatformTarget` | A target read by a reporter over a deployable unit | `…sdlc.targetKind: "platform"` |
 | `sdlc:DesignSystemTarget`, `sdlc:ContentStoreTarget` | Targets whose shapes (components; strings per locale) are expressed in turn in a language target. The product's What declares them (this design system at this edition, these locales against this content store), as it declares iOS. Their catalogue is their vocabulary edition, in a package with its own genesis grant. Bindings from abstract interaction object to component, and from key to string, anchor to the interaction object or the content key | `…sdlc.targetKind: "design-system"` or `"content-store"`; `…sdlc.over`: the language target |
 | `sdlc:VocabularyEdition` | A decision fixing, for one target at one edition, the native shape of each fact term, and the target's classifications (effects, jurisdictions) | `…sdlc.record: "vocabulary-edition"`, with `target`, `targetKind`, `edition`, `facts` (term → native shape), classification members, and `factSource` (`{kind, name, version, digest}` or `status`) |
-| `sdlc:expressible` | A decision is expressible in a target if and only if the target's edition maps every fact term its violation description reads. Its shape there is derived from the edition and has no term of its own. "Realisation" is not minted as a term, in this vocabulary or in Writ's | none: computed |
+| `sdlc:expressible` | A decision is expressible in a target if and only if the target's edition maps every fact term its violation description reads. Its shape there is derived from the edition and has no term of its own. "Realisation" is not minted as a term, in this vocabulary or in Writ's. The genesis grant's
+realisation scope keeps its ruled meaning | none: computed |
 | `sdlc:TargetDeclaration` | A decision, anchored to a system, naming its language and deployment-platform targets, the repository, and the deployable unit that realises it. User-facing targets (platform contexts, design systems, content stores, locales) are declared by the What instead. Coverage ranges over both | `…sdlc.record: "target-declaration"`; `language`, `platform` (and design-system or content-store) objects, each naming its edition by reference |
 | `sdlc:Exclusion` | A decision that an obligation does not apply to one (element, target) pair. A boundary gap | `…sdlc.record: "exclusion"`; `anchor` (the element), `binding` (a reference), `target`. The reason is `why` |
 | baseline entry | Not a How term: the authority profile's. The How requires that it attach to (binding, element, target) and be added only by a decision. It marks a debt gap | the profile's |
@@ -146,10 +149,12 @@ C# type or a `@realises` JSDoc tag on a TypeScript export.
 
 `sdlc:Product`, `sdlc:Domain`, `sdlc:System`, `sdlc:Decider`, `sdlc:Command`,
 `sdlc:QualityDemand`; the containment edge `sdlc:within`, used transitively as `sdlc:within*`;
-`sdlc:localId`; and `sdlc:referencesDomain`. The abstract-interaction-object, context-of-use,
+`sdlc:wireName`; and `sdlc:referencesDomain`. The abstract-interaction-object, context-of-use,
 content-key and locale kinds that bindings into design-system and content-store targets range over
 are likewise the What's. **None of these is defined here.** They are defined by the What
-([`what.md`](what.md), [`what/ontology.ttl`](what/ontology.ttl)), and the How reads them.
+([`what.md`](what.md), [`what/ontology.ttl`](what/ontology.ttl)), and the How reads them. The
+earlier provisional `sdlc:localId` is not in the What's vocabulary; the REST binding reads
+`sdlc:wireName` instead.
 
 ---
 
@@ -195,7 +200,8 @@ The How does not restate Writ's verbs, positions, partitions or guarantees. It r
 | an exclusion and a baseline entry are visible at a position and change verdicts only as declared | G1, G7 |
 
 G1 is that a verdict at a position is a pure function of the log up to that position. So the gate
-never reads a vendor's system, or a list of versions, live at check time.
+never reads a vendor's system, or a list of versions, live at check time *(not settled yet: this
+is the recorded-reading condition, below)*.
 
 **Mapping to Writ's vocabulary.** Writ's vocabulary page is not written; Writ's Draft 2 is the
 authority, as Emil states it.
