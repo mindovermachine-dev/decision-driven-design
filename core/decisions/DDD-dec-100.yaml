@@ -1,0 +1,62 @@
+format: 1
+id: DDD-dec-100
+kind: decision
+statement: |
+  Two tools, split by the repositories they govern. canon, a C# command-line tool, governs the canon repositories: this repository's claim graph, decisions, pins, releases and session records, and the principle repository's if it adopts canon. product-cli's ddd, in Rust, governs product repositories that apply the method, over their .ddd/ graph. Neither reimplements the other. Where both need the same rule, the rule is written once as data (a SHACL shape, a format specification, a hash vector) and each tool reads it.
+principal: Emil
+made: |
+  2026-11-02, given by Emil through the question dialog in the claude.ai conversation that opened the canon CLI session, and recorded verbatim at meta/sessions/2026-11-02-canon-cli/prompt.md ("C# for this repo, ddd for products", option text "C# governs the canon repositories. product-cli's `ddd` governs product repos that apply the method"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Emil: "all these scripts and file etc. I think we need a proper C# CLI for managing the
+  > repo, we should base it on Varve"
+  >
+  > Q: "product-cli (Rust) already ships `ddd`, a Decision-Driven Design governance CLI over a
+  > .ddd/ graph, and the project instructions name product-cli as the tooling home. How
+  > should a C# repo CLI relate to it?"
+  >
+  > A: "C# for this repo, ddd for products" (option text: "C# governs the canon repositories.
+  > product-cli's `ddd` governs product repos that apply the method")
+
+  ## What each governs
+
+  canon governs a repository whose object is the method itself: claims under core/claims/,
+  decisions under core/decisions/, pins in graph/upstream.yaml, release descriptors under
+  releases/, session records under meta/sessions/, and the gates over them. Today that is
+  scripts/ci.py and the validators it runs.
+
+  ddd governs a repository whose object is a product built by the method: its What, its How
+  decisions and its .ddd/ graph. product-cli stays the reference implementation for that
+  (why.md; DDD-dec-72 re-pins it to the What this repository ships).
+
+  ## Shared rules are data
+
+  The What's ontology and shapes (applications/sdlc/what/ontology.ttl, shapes.ttl), its hash
+  vectors, the release format (spec/release-format.md) and the dpp/1 protocol are specified
+  here and read by any tool that needs them. A rule that both tools enforce is written once, as
+  data, and not ported between Rust and C#. This is the boundary DDD-dec-43 already draws for
+  the What: tools read and check it, and never change it.
+basedOn:
+  - DDD-dec-04
+  - DDD-dec-43
+  - DDD-dec-72
+  - DDD-dec-81
+  - DDD-tool-01
+notes: |
+  Id. Checked across every branch of both repositories on 2026-11-02 at 12:58 UTC. Upstream
+  holds up to DDD-dec-39; main up to DDD-dec-84, with DDD-dec-83 never used; the live
+  authority-profile branch (claude/bold-franklin-i7b16g, e120251) holds DDD-dec-85 to
+  DDD-dec-93. This session takes DDD-dec-100 onward and leaves DDD-dec-94 to 99 as headroom for
+  that session (meta/sessions/2026-11-02-canon-cli/bootstrap.md). The headroom is Claude's
+  choice, UNVERIFIED — Emil review.
+
+  The "project instructions" the question cites are the claude.ai project's, not a file in this
+  repository. In-repo, why.md names product-cli as the reference implementation of the authoring
+  layer.
+
+  Reading — Claude, UNVERIFIED — Emil review. A third tool family exists. Varve builds with
+  DecisionDriven.Analyzers and DecisionDriven.Report (nuget.org, 0.1.0-preview.10), which read a
+  C# repository's docs/decisions/ at compile time. The ruling does not place them. They are read
+  here as a third case, a C# product's build applying the method, and so on ddd's side of the
+  boundary, not canon's. canon does not reimplement them.

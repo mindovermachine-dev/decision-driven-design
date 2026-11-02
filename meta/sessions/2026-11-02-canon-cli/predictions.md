@@ -1,0 +1,61 @@
+# Predictions — the canon CLI, 2026-11-02
+
+Written before each operation runs. The outcome is appended under each prediction afterwards and
+never edited into it.
+
+Not predicted: the reads made at arrival, before this file existed (fetching every branch of both
+repositories, `git ls-remote --tags`, nuget.org's package index, a shallow clone of `Hafeok/varve`).
+They changed nothing. The first commit (the charter) was made before this file, as the arrival
+convention requires (`DDD-dec-20`).
+
+## P-1 — baseline at the charter commit (`6aad807`)
+
+Prediction, from `main`'s state at `e5a332d` (the ready-to-try session's last recorded run):
+`python3 scripts/ci.py` passes every gate. Claims valid at 31 with 6 warnings; decisions valid at
+68; 74 pins resolved, 0 basis-loss; the `releases` gate reports `v0.5.0` as cut (tag present
+locally) and does not re-guard it. Falsifier: any gate red on a tree whose only change since
+`e5a332d` is two Markdown files under `meta/sessions/`.
+
+## P-2 — G1, three decisions filed (`DDD-dec-100` to `DDD-dec-102`)
+
+Prediction: `validate-claims.py core/decisions/ --decisions` is valid at 71 (68 + 3); claims and
+pins unchanged from P-1; every `basedOn` id resolves to a local file. Falsifier: the validator
+refuses one of the three, or the count is not 71. The exit code is read directly, not through a
+pipe (the ready-to-try P-1 lesson).
+
+## P-3 — G1, the design and the session record
+
+Prediction: `tools/canon/DESIGN.md`, this file's outcomes, `successor-items.md` and the README
+row change no gate's result: `scripts/ci.py` passes exactly as at P-2. `tools/` is new and no
+gate reads it. Falsifier: any gate's output differs from P-2 other than by nothing.
+
+Outcome for P-1 (appended): **refuted on the first run, by the environment, not the tree.** The
+first run exited 1 with `what` and `how` failed: this container had no rdflib, so both checkers
+skipped their RDF steps and reported the skip as a failure, as they should. After
+`pip install -r scripts/requirements.txt` (rdflib 7.6.0, PyLD 3.3.0, pyshacl 0.40.2, pyoxigraph
+0.5.13, PyYAML 6.0.3; Python 3.13.18, where CI uses 3.11), the second run exited 0: all seven
+gates passed. Measured directly: claims valid at 31 with 6 warnings; decisions valid at 68; 74
+pins resolved, 0 basis-loss, 0 content-drift, 1 shadowed id; `v0.5.0` points at `e5a332d` and is
+skipped by the guard as cut. The prediction held for the tree. The lesson is for `canon check`'s
+design: a checker that cannot run must say so as a failure, never a pass (DESIGN.md §6.3).
+
+## P-4 — R-7 reproduced before it is designed around
+
+Prediction, from the ready-to-try record (successor items, R-7):
+`python3 scripts/validate-core-order.py .` exits 1 with 4 E13 errors on `core/14-maturation.md`
+and `core/16-calibration-ledger.md`, while `python3 scripts/validate-core-order.py core/` exits 0.
+Falsifier: a different count, different files, or exit 0.
+
+Outcome for P-4 (appended): **held.** Exit 1; four E13 errors, three on `core/14-maturation.md`
+(`term:maturation`, `term:waterline`, `term:maturity`) and one on `core/16-calibration-ledger.md`
+(`term:calibration-ledger`). The ready-to-try record named two of the four ids as examples; the
+count and files match. Cause, confirmed by reading `scripts/validate-core-order.py:368-385`: when
+the argument holds no numbered documents, `main` takes the upstream-only branch and calls
+`check_upstream` without `local_ids`, so this repository's own terms read as unpinned upstream
+ids. `core/` takes the full branch and passes `local_ids=set(graph)` (line 522). The design for
+`canon pins` removes the two modes (DESIGN.md §4.7).
+
+Outcome for P-2 (appended): **held.** `validate-claims.py core/decisions/ --decisions` printed
+"valid: 71 decisions, ids unique, format rules satisfied" and exited 0, read directly. Claims
+exit 0, unchanged. Every `basedOn` id names a local file (`DDD-dec-04`, `-43`, `-51`, `-72`,
+`-76`, `-81`, `-84`, `DDD-tool-01`, and the three among themselves).

@@ -1,0 +1,53 @@
+format: 1
+id: DDD-dec-101
+kind: decision
+statement: |
+  canon is a .NET tool, installed with `dotnet tool install` and run as `canon <subcommand>`, and reusable from other repositories. It lives in this repository under tools/canon/ until a need to split it out is seen. Splitting it out is a decision of its own, made when that need is seen.
+principal: Emil
+made: |
+  2026-11-02, given by Emil through the question dialog in the claude.ai conversation that opened the canon CLI session, and recorded verbatim at meta/sessions/2026-11-02-canon-cli/prompt.md (form: "A dotnet tool"; place: "inside decision-driven-design untill we can see the need to split it out"; name: "canon"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings
+
+  > Q: "What form should the C# tooling take?"
+  >
+  > A: "A dotnet tool" (option text: "A packaged CLI (`dotnet tool install`) with subcommands,
+  > reusable from other repos")
+  >
+  > Q: "Where should the C# canon tool live?"
+  >
+  > A: "inside decision-driven-design untill we can see the need to split it out"
+  >
+  > Q: "What should the tool and its command be called?"
+  >
+  > A: "canon"
+
+  ## What follows
+
+  - The tool's name, its package id and its command are all `canon`. Its source, tests and
+    design live under tools/canon/. The design is tools/canon/DESIGN.md.
+  - It is built to Varve's conventions, as Emil asked ("we should base it on Varve"): the same
+    target framework, central package management, MPL-2.0 headers, and tests against real
+    fixtures. Varve's own tools/repo-standard/ is the precedent, a dotnet tool that lives inside
+    the repository it serves.
+  - The split is not scheduled. When a need is seen, it is filed as a decision with its trigger
+    named, and canon moves to its own repository.
+basedOn:
+  - DDD-dec-100
+  - DDD-dec-51
+  - DDD-dec-76
+  - DDD-dec-81
+notes: |
+  Id. As DDD-dec-100's note: this session takes DDD-dec-100 onward.
+
+  Reading, carried from the charter, UNVERIFIED — Emil review: canon serves this repository
+  first, and the principle repository (actor-indexed-determination) adopting it is the expected
+  trigger for splitting it out. The ruling names no trigger. This reading is not part of the
+  decision.
+
+  Reading — Claude, UNVERIFIED — Emil review. "Reusable from other repos" is read as: canon takes
+  the repository root as an argument, defaulting to the current directory. It reads its layout
+  (where claims, decisions, releases and pins live) from that repository, and nothing about this
+  repository is compiled in. The principle repository can then run canon without a fork.
+  Publication to nuget.org is not ruled. Until it is, canon is installed from a local build or
+  from the repository's own feed (DESIGN.md §2).

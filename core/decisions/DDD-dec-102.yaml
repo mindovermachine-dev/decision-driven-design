@@ -1,0 +1,68 @@
+format: 1
+id: DDD-dec-102
+kind: decision
+statement: |
+  canon validates the claim and decision graph through Varve, as RDF checked against SHACL shapes. Shapes for claims, decisions and releases come first, then the What. The YAML files are not changed: canon maps them to RDF. The Python validators run beside canon in CI until every fixture gives the same verdict from both. A disagreement is a defect in one of them, recorded and never suppressed. Each Python validator, and scripts/ci.py itself, is retired by a decision of its own once agreement holds for it.
+principal: Emil
+made: |
+  2026-11-02, given by Emil through the question dialog in the claude.ai conversation that opened the canon CLI session, and recorded verbatim at meta/sessions/2026-11-02-canon-cli/prompt.md ("Yes, SHACL via Varve (Recommended)", option text "Shapes for claims, decisions and releases come first. The Python validators run in parallel until every fixture agrees, then are retired by decision"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Should the C# gates validate the claim and decision graph through Varve (Turtle and
+  > SHACL shapes), replacing the Python validators after a parallel run?"
+  >
+  > A: "Yes, SHACL via Varve (Recommended)" (option text: "Shapes for claims, decisions and
+  > releases come first. The Python validators run in parallel until every fixture agrees,
+  > then are retired by decision")
+
+  ## The order
+
+  1. Shapes for claims (spec/claim-format.md), decisions, and release descriptors
+     (spec/release-format.md).
+  2. Then the What, whose shapes already exist as applications/sdlc/what/shapes.ttl and are run
+     today by pyshacl.
+
+  ## The files stay as they are
+
+  The YAML files under core/claims/, core/decisions/ and releases/ are the storage format and are
+  not changed to suit the tool. canon reads them and maps them to RDF by a declared mapping
+  (DESIGN.md §5). Varve validates the result against the shapes. A rule SHACL cannot state, such
+  as git ancestry for the release-head guard, stays in code. canon names it as code, not as a
+  shape.
+
+  ## The parallel run
+
+  `canon check` and `python3 scripts/ci.py` both run in CI, on every push and pull request. Every
+  fixture under scripts/fixtures/ (accept and refuse), and the live tree, must get the same
+  verdict from both. A disagreement is recorded as a defect in one of the two, with the fixture
+  that shows it, and is fixed in whichever is wrong. It is never suppressed, skipped or allowed
+  to fail.
+
+  ## Retirement
+
+  Agreement is measured per validator. When a validator has agreed on every fixture and on the
+  live tree, a decision retires it and removes it from scripts/ci.py. scripts/ci.py is retired
+  last, by its own decision, when nothing is left for it to run that canon does not run.
+basedOn:
+  - DDD-dec-100
+  - DDD-dec-101
+  - DDD-dec-51
+  - DDD-dec-81
+  - DDD-dec-84
+  - DDD-tool-01
+notes: |
+  Id. As DDD-dec-100's note: this session takes DDD-dec-100 onward.
+
+  Not every Python checker is in scope for retirement. The dpp/1 reference implementation and
+  the How examples, the papers' checkers and the primer generator stay Python, for reasons given
+  in tools/canon/DESIGN.md §7. They are not validators of the claim and decision graph, and this
+  ruling does not reach them.
+
+  Reading — Claude, UNVERIFIED — Emil review. "Every fixture agrees" is read as a verdict match
+  (accept or refuse) per fixture, not a match of message text. Rule codes are mapped one to one,
+  so that a refuse fixture must also be refused for the same rule (DESIGN.md §8).
+
+  Weakest point, stated where the ruling depends on it: Varve is a preview (0.1.0-preview.15 on
+  nuget.org, published 2026-10-26, checked live on 2026-11-02). A gate that depends on it depends
+  on a preview's API. The mitigation is in DESIGN.md §1.
