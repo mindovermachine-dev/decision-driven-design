@@ -106,3 +106,14 @@ Add-only. Nothing above this heading is edited.
 - **Environment.** The checkers' Python dependencies were installed in this session's container
   to run every gate: rdflib 7.6.0, PyLD 3.3.0, pyshacl 0.40.2, pyoxigraph 0.5.13, and PyYAML
   6.0.3, which was already present. Python is 3.13 here; CI uses 3.11.
+
+## Amendment 3 — 2026-11-02: the session's issue
+
+Add-only. Nothing above this heading is edited.
+
+On Emil's Round 3 ruling for R-11 ("Open an issue now"), the session opened
+[issue #44](https://github.com/mindovermachine-dev/decision-driven-design/issues/44), "Ready to
+try: present the method as a preview (session 2026-11-02)". It links PR #43 and this record.
+Every commit from this amendment onward carries `Refs #44`. Earlier commits, up to `f20d8b6`
+(Round 3), do not, and are not rewritten. Enforcement in `scripts/ci.py` follows later, as
+`DDD-dec-81` item 6 and R-11 say.
