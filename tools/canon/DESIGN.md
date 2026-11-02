@@ -1,0 +1,630 @@
+# canon — design
+
+**Status: `[PROPOSED]`, Gate 1 of the canon CLI session (2026-11-02), for Emil's review.** No code
+exists yet. This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form) and
+`DDD-dec-102` (SHACL via Varve). Where it goes past them, it says so and marks the reading
+`UNVERIFIED — Emil review`. Session record: `meta/sessions/2026-11-02-canon-cli/`. Issue
+[#46](https://github.com/mindovermachine-dev/decision-driven-design/issues/46).
+
+`canon` is a .NET tool that runs this repository's gates and repository operations. It replaces
+`scripts/ci.py`, the claim, decision, release and pin validators, and the manual steps of landing
+and releasing. Each one is replaced only after a parallel run and a decision. It governs the canon
+repositories. Product repositories are governed by product-cli's `ddd` (`DDD-dec-100`).
+
+---
+
+## 1. The weakest point: a gate that depends on a preview Varve
+
+Every gate canon runs on the claim graph depends on Varve, and Varve is a preview.
+
+**Checked live on 2026-11-02** (nuget.org search and registration APIs):
+
+| Fact | Value |
+|---|---|
+| Latest version of every `Varve.*` package | `0.1.0-preview.15`, all 27 packages in step |
+| Published | 2026-10-26 (`Varve.Shacl`) |
+| History | `Varve.Rdf` and `Varve.Turtle`: preview.1 to preview.15. `Varve.Shacl`: preview.9 to preview.15 |
+| Target framework | `net10.0` only |
+| Licence | MPL-2.0 |
+| nuget.org owner | `decision-driven-design` |
+| `Varve.Shacl` dependencies | `Varve.Derivation`, `Varve.Iri`, `Varve.Rdf`, `Varve.Xsd`, each `>= 0.1.0-preview.15` |
+
+Varve's README (`Hafeok/varve` at `5f5c5a9`) lists `Varve.Shacl` as "SHACL 1.2 Core over any quad
+source … every core component", `Varve.Shacl.Sparql` as SHACL-SPARQL, and `Varve.JsonLd` as
+"expansion, toRdf and fromRdf". All three are marked "working".
+
+**What can go wrong:**
+
+1. **API breaks between previews.** A preview makes no compatibility promise. A Varve bump can
+   stop canon compiling, or change a verdict while it still compiles. The second is worse.
+2. **Semantic drift in SHACL.** pyshacl and Varve can disagree on an edge of the specification:
+   `sh:pattern` flags, `sh:class` and `rdfs:subClassOf`, literal datatypes from YAML scalars. The
+   What gate today runs pyshacl with `inference="rdfs"` (`applications/sdlc/what/check.py:118`).
+   Varve's README claims SHACL Core and does not claim RDFS entailment, so the What shapes may
+   need the ontology loaded into the data graph to give the same verdict.
+   `UNVERIFIED — tested at G3`.
+3. **A shared maintainer.** Emil maintains Varve and rules here. A Varve defect that canon finds
+   is fixed upstream on Varve's schedule, not this repository's.
+4. **Package availability.** The gates now need nuget.org at restore time. Today they need PyPI.
+
+**Mitigations, all part of the design:**
+
+- **Exact pins.** `Directory.Packages.props` pins every `Varve.*` package at one exact version,
+  with no floating range. A lock file is committed (`packages.lock.json`, `RestoreLockedMode` in
+  CI). A Varve bump is a reviewed change to one line, and the lock file shows its whole effect.
+- **One adapter.** Only `Canon.Graph/` (§2) references Varve. Every other part of canon sees
+  canon's own types: a graph, a shape set, a report of findings. An API break then touches one
+  folder.
+- **Python as the oracle until G4.** During the parallel run (§8), the Python validators are the
+  independent check on every Varve verdict. **Each retirement decision names the Varve version it
+  was measured against.** A later Varve bump re-runs the comparison harness (§8.3) before it
+  merges. The harness stays after retirement, against the frozen fixture verdicts (§8.4).
+- **Retirement waits on Varve leaving preview.** Proposed, `UNVERIFIED — Emil review`: no Python
+  validator is retired while canon depends on a `-preview` Varve. The parallel run can complete
+  and be recorded, but the retiring decision waits. The alternative is to retire on agreement
+  alone, as `DDD-dec-102` literally says. That is Emil's call. It is asked in §11, Q-1.
+
+---
+
+## 2. Layout
+
+```
+tools/canon/
+  DESIGN.md                       this file
+  README.md                       install, commands, exit codes (G2)
+  canon.slnx
+  global.json                     SDK 10.0.x, rollForward latestFeature (as Varve)
+  Directory.Build.props           net10.0, LangVersion latest, Nullable, warnings as errors,
+                                  ImplicitUsings off, Deterministic (as Varve)
+  Directory.Packages.props        central package management, transitive pinning on
+  nuget.config                    nuget.org only, with package source mapping
+  src/
+    Canon/                        the tool: PackAsTool, ToolCommandName=canon, PackageId=Canon
+      Cli/                        System.CommandLine wiring, one file per command
+      Repository/                 the repository's layout, read from the repo (§3.3)
+      Git/                        git as a process: rev-parse, ls-remote, merge-base, tag
+      GitHub/                     the REST calls release and land need (token from GH_TOKEN)
+      Graph/                      YAML to RDF (§5), the ONLY folder that references Varve
+      Gates/                      one class per gate (§4.1)
+      Releases/                   descriptor reader, the guard, ratify, changelog projection
+    Canon.Shapes/                 embedded resources: *.shapes.ttl, canon.context.jsonld
+  tests/
+    Canon.Tests/                  xUnit v3 on Microsoft.Testing.Platform, as Varve
+      fixtures/                   (none of its own: reads ../../../scripts/fixtures/, §8)
+```
+
+Varve's `tools/repo-standard/` is the precedent: a dotnet tool inside the repository it serves,
+with its own `Directory.Build.props`, solution and tests, built and packed locally.
+
+## 3. Conventions, following Varve
+
+### 3.1 Build
+
+- `net10.0`, `LangVersion latest`, nullable on, `TreatWarningsAsErrors`, `AnalysisLevel
+  latest-recommended`, `EnforceCodeStyleInBuild`, `GenerateDocumentationFile`. All are Varve's
+  `Directory.Build.props` settings.
+- `ImplicitUsings` off. Every file names its dependencies, so a reviewer can see where Varve
+  enters (§1, the one adapter).
+- **Central package management.** `ManagePackageVersionsCentrally` and
+  `CentralPackageTransitivePinningEnabled` are on. Project files carry no `Version=`. Initial
+  set, each with its reason in a comment, as Varve does: `Varve.Rdf`, `Varve.Turtle`,
+  `Varve.JsonLd`, `Varve.Shacl` and `Varve.Shacl.Sparql` (all `0.1.0-preview.15`); `YamlDotNet`
+  and `System.CommandLine` (at Varve's pins, 18.1.0 and 2.0.14); `xunit.v3` (4.0.2).
+- **AOT-ready.** `IsAotCompatible` is on, and serialisation is source-generated, as
+  repo-standard does. Native AOT is not a goal at G2. It keeps a single binary possible later,
+  with no SDK needed to run canon.
+- **Not adopted from Varve:** the `DecisionDriven.Analyzers` layering rules and Varve's
+  `ArchLayer` scheme. canon is one assembly plus a resource assembly. Those rules govern a
+  package family and would be ceremony here. `UNVERIFIED — Emil review`.
+
+### 3.2 Licence headers
+
+Every `.cs` file starts with the MPL-2.0 header, Varve's exact text:
+
+```csharp
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at https://mozilla.org/MPL/2.0/.
+```
+
+`.ttl` shapes carry the same text as `#` comments. The JSON-LD context cannot hold comments and
+is covered by the repository's licensing alone. That licensing already fits: `LICENSING.md`
+(`DDD-dec-79`) puts "source code, schemas, RDF ontologies, SHACL shapes and executable artifacts"
+under MPL-2.0. `DESIGN.md` and `README.md` are prose, so CC BY-SA 4.0 applies to them.
+
+### 3.3 Reusable from other repositories
+
+canon takes `--repo <path>` (default: the git top level of the current directory). It reads the
+repository's layout from a small declaration, `canon.yaml` at the repository root. The
+declaration names where claims, decisions, releases, pins and fixtures live, and which gates
+apply. With no declaration, canon uses this repository's layout as the default. Nothing about
+this repository is compiled in. Run in `actor-indexed-determination` with that repository's own
+`canon.yaml`, canon checks it. Proposed, `UNVERIFIED — Emil review` (`DDD-dec-101`'s note).
+
+### 3.4 Tests: Detroit style, real fixtures, no mocks
+
+- **No mocking library is referenced**, and none is admitted. A test builds real state and runs
+  real code over it.
+- **Git:** each test that needs history creates a real repository in a temp directory, with real
+  commits and real tags, the way `scripts/ci.py`'s `guard_scenarios` does today
+  (`scripts/ci.py:169`). Remote behaviour (`ls-remote`, a tag that exists only on the remote) is
+  tested against a second local bare repository used as `origin`. That is a real remote over
+  the `file://` transport, not a fake.
+- **GitHub:** the only side effect canon cannot reproduce locally. The GitHub client takes a base
+  URL. Tests run it against a recorded-response replay server, the pattern of repo-standard's
+  `tests/action/replay-server.cs`. This is the one place a stand-in exists. It replays real
+  responses captured once, rather than asserting calls, and it is named here so that it is not a
+  quiet exception.
+- **Graph gates:** tested only against `scripts/fixtures/` and the live tree, the same files the
+  Python checkers read (§8). canon adds fixtures there, never in a private copy, so both
+  implementations always see the same inputs.
+- **Exit codes**, as Varve's scripts: `0` conformant or done, `1` refused (a gate found a
+  violation, or an operation's precondition failed), `2` could not run.
+
+---
+
+## 4. Commands
+
+Each command is mapped to what it replaces.
+
+| Command | Replaces | Gate |
+|---|---|---|
+| `canon check` | `scripts/ci.py` and every validator it runs | G3 (parallel), G4 (retire) |
+| `canon land` | a GitHub merge of the pull request (today Emil's ratification act) | G2 |
+| `canon release` | Emil cutting the tag by hand (`DDD-dec-84`: "Emil cuts the tag by hand"), and the unported `release.yml` (R-15) | G2 |
+| `canon ratify` | Hand-editing `ratified_head` into the descriptor (the v0.5.0 process) | G2 |
+| `canon changelog` | Hand-writing `CHANGELOG.md` | G2 |
+| `canon issue-refs` | The `Refs #N` convention, unenforced (`DDD-dec-81` item 6, R-11) | G2 |
+| `canon pins` | `scripts/validate-core-order.py` and the root shim; R-7 fixed | G3 |
+
+### 4.1 `canon check`
+
+```
+canon check                    every gate, in order
+canon check claims releases    named gates only
+canon check --list             the gates, in order
+canon check --compare          also run scripts/ci.py's gates and compare verdicts (§8.3)
+```
+
+The gates, mapped from `scripts/ci.py` (`GATES`, `scripts/ci.py:226`):
+
+| canon gate | ci.py gate | Implementation in canon |
+|---|---|---|
+| `claims` | `claims`: `validate-claims.py core/claims/` | YAML → RDF → `claim.shapes.ttl` (§5) |
+| `decisions` | `decisions`: `validate-claims.py core/decisions/ --decisions` | YAML → RDF → `decision.shapes.ttl` |
+| `pins` | `core-order`: `validate-core-order.py core/` | Code (§4.7). Order and embeds are not graph shapes |
+| `releases` | `releases`: `validate-releases.py` + `check-release-head.py` | Shapes for the descriptor; code for the guard (git ancestry) |
+| `what` | `what`: `applications/sdlc/what/check.py` | Varve.Shacl over the existing `shapes.ttl`; Varve's `RdfCanonicaliser` for the hash vectors. **After** the three above (`DDD-dec-102`) |
+| `how` | `how`: `applications/sdlc/how-examples/check.py` | **Not ported.** canon runs the Python checker as an external gate (§7) |
+| `issue-refs` | none | New (§4.6) |
+| `changelog` | none | New: `canon changelog --check` (§4.5) |
+| `fixtures` | `fixtures` | Each canon gate over `scripts/fixtures/<gate>/accept` and `refuse` |
+
+**A gate that cannot run fails.** It never passes or skips silently. P-1 of this session showed
+why: with rdflib missing, the What and How checkers reported "SKIP", and `ci.py` correctly
+counted the skip as a failure. canon keeps that rule. Its preflight names each missing
+dependency (git, ssh-keygen, Python for the external gates), as `ci.py`'s `preflight()` does.
+
+**Output.** One line per gate, `ok` or `FAIL`, as `ci.py`. `--format json` emits the findings as
+JSON, each finding with its rule code (§5.4), focus node, source file and line. The SHACL
+validation report itself is written with `--report <dir>` as Turtle, so a finding can be traced
+to the shape that produced it.
+
+### 4.2 `canon land`: Varve's `eng/land.cs` semantics, never a GitHub merge
+
+```
+canon land <pr>               push the PR's head to land/<name>; CI runs there
+canon land <pr> --main        fast-forward main to land/<name>, then delete land/<name>
+canon land --commit <rev>     the same for a commit of one's own
+  --name <name>  --print
+```
+
+The semantics are ported from `eng/land.cs` (Varve `5f5c5a9`), unchanged except for names:
+
+- `<name>` is `release-<version>` when the head adds `releases/<version>.yaml`, else `pr-<N>`,
+  else the short sha.
+- **Refuses (exit 1)** when `main` is not an ancestor of the head, because the fast-forward would
+  be impossible. With `--main`, it refuses unless `land/<name>` on origin is exactly the head, so
+  main moves only to the commit that was checked.
+- **Never** calls GitHub's merge API and never makes a merge commit. `main` moves only by
+  `git push origin <head>:refs/heads/main`, a fast-forward.
+
+**Consequence that needs a ruling** (§11, Q-2). Every decision here records "Emil's acceptance of
+the pull request is the ratification act", and today that act is a GitHub merge. Under `land`,
+the act becomes Emil running `canon land <pr> --main`. The pull request then closes as merged
+because its head is on main. Three things follow, none of them ruled:
+
+1. `.github/repo-standard.yaml` needs a ruleset. `main` takes fast-forward pushes from the admin
+   only, with required checks. A `land/**` rule lets only the admin push.
+2. The release-head guard simplifies. With no merge commit, the head under release is the
+   ratified head plus at most the descriptor, read directly with no "second parent" case
+   (`spec/release-format.md` rule 7).
+3. The Claude GitHub App bypass (repo-standard, `actor_id 1236702`) must not extend to `main`
+   pushes under `land`, or an agent could land.
+
+### 4.3 `canon release`: descriptor, guard, signed tag, GitHub Release
+
+```
+canon release <version>            cut it: checks, signed tag, push, GitHub Release
+canon release <version> --plan     every check, no side effect (CI runs this on land/release-*)
+```
+
+In order, each step refusing with exit 1 and leaving nothing behind:
+
+1. **The descriptor** `releases/<version>.yaml` validates (§5, `release.shapes.ttl`).
+2. **The tag does not exist anywhere.** canon checks all three, and any one refuses:
+   - a local tag: `git rev-parse --verify --quiet refs/tags/<version>`;
+   - a remote tag: `git ls-remote --tags origin refs/tags/<version>`, which needs no fetch and
+     sees a tag the local clone never fetched;
+   - a GitHub Release named `<version>`, which can exist with no tag, as a draft.
+
+   **This is the v0.5.0 lesson, as the charter names it.** One fact is verified here.
+   `scripts/ci.py`'s `tag_exists` (`scripts/ci.py:57`) asks only the local repository. A clone
+   without tags therefore treats `v0.5.0`, cut at `e5a332d` (tagged 2026-11-02 12:48 UTC), as not
+   cut. It would re-run the guard on it, and a release tool built on it would try to cut it
+   again. canon's `releases` gate in `check` uses the same three-way test to decide "cut".
+3. **The commit under release** is `commit:` if set, else `origin/main`'s head. It must be an
+   ancestor of `origin/main` (rule 3).
+4. **The guard** (rule 7). `ratified_head` is an ancestor of the commit under release, and
+   nothing but `releases/<version>.yaml` changed between them. This is code, ported from
+   `scripts/check-release-head.py` (§5.3: ancestry is not a shape).
+5. **Every gate passes** at the commit under release: `canon check`, in a clean worktree of
+   that commit.
+6. **The signed tag.** `git tag -s <version> <commit> -m "<version> — <title>"`, using the
+   signing configuration git already has (this session's SSH key, or Emil's), with the message
+   composed per rule 2. canon refuses if git has no signing key configured. It never creates an
+   unsigned tag.
+7. **Push the tag**, then re-read it with `ls-remote` and check it names the same object.
+8. **GitHub Release**: the tag's name, `title` as the name, `summary` as the body, and
+   `prerelease` from the descriptor. The token comes from `GH_TOKEN` and is never written to disk
+   or logs.
+9. **Changelog**: `canon changelog --check` must already pass at the commit under release, so the
+   projection was reviewed in the pull request (§4.5). `release` does not write files.
+
+If step 7 or 8 fails after the tag exists, canon reports exactly what exists and what does not,
+and exits 1. It does not delete a pushed tag: a tag is a fact about history (rule 1). The
+remedy is a new version, or Emil finishing the Release by hand. That is stated, not automated.
+
+### 4.4 `canon ratify`: fills `ratified_head`
+
+```
+canon ratify <version> [--head <sha>]
+```
+
+- Default head: the parent of the commit that added or last changed `releases/<version>.yaml`
+  on the current branch. That is the commit before the descriptor, the v0.5.0 process.
+- **Refuses** if the descriptor is cut (tag exists, by the three-way test of §4.3), if
+  `ratified_head` is already set to a different sha (`--force` is not offered; a changed head
+  means a new descriptor commit, per rule 7), if the head is not an ancestor of `HEAD`, or if
+  anything but the descriptor changed between the head and `HEAD`. In that last case, ratifying
+  now would fail the guard at release.
+- **Edits one line.** YAML is not round-tripped, because the descriptors carry comments that
+  explain rulings (`releases/v0.5.0.yaml` lines 3–9). canon replaces the `ratified_head:` line's
+  value in place, or inserts the line after `version:`, and leaves every other byte alone.
+- It writes the file. It does not commit. The commit is the principal's act.
+
+### 4.5 `canon changelog`
+
+As Varve's `eng/changelog.cs`: `CHANGELOG.md` is the projection of `releases/`, newest first by
+SemVer precedence.
+
+```
+canon changelog              write CHANGELOG.md from releases/ (and tags)
+canon changelog --check      CHANGELOG.md is exactly the projection; fails on a hand edit
+```
+
+**Difference from Varve, needing a ruling** (§11, Q-4). `CHANGELOG.md` here holds the 4.x headings
+"kept unedited, as history of the earlier numbering", and `v0.1.0` to `v0.4.0` have no
+descriptors. Proposed: the projection owns everything from v0.5.0 up. The older part is a frozen
+tail, compared byte for byte against its text at `e5a332d`. A descriptor whose tag exists renders
+as cut. One whose tag does not exist renders as "proposed, not cut".
+
+**Found while designing, not fixed (S-3):** `CHANGELOG.md` at `e5a332d` still heads v0.5.0 "Ready
+to try (proposed)" and says "Proposed, not cut", but the tag exists. `--check` would fail on it
+today. That is the projection doing its job.
+
+### 4.6 `canon issue-refs`
+
+As Varve's `eng/issue-refs.cs`: every commit in the range carries `Refs #N` or `Closes #N` in
+its body. Merge commits are exempt by parent count, and a closed list of bots is exempt. A bare
+`#N` is not accepted.
+
+```
+canon issue-refs [--base <ref>] [--head <ref>]      base: GITHUB_BASE_REF, the push's before sha, or origin/main
+```
+
+Two additions, proposed, `UNVERIFIED — Emil review`:
+
+1. **A start commit.** Commits before the convention began (ready-to-try, amendment 3: before
+   issue #44) are exempt by a recorded first commit in `canon.yaml`. They are not rewritten.
+2. **`--basis`.** A commit that changes anything under `core/` must carry a `Basis:` line, and
+   every id on it must resolve to a file in `core/claims/` or `core/decisions/` at that commit.
+   This is `AGENTS.md`'s rule ("Every commit that changes canon must cite the claim or decision
+   IDs it rests on"), and it is `DDD-agent-01`'s basis-as-query applied to commits. Today nothing
+   enforces it.
+
+Like Varve, it does not check that the issue exists. That would need the network and a token
+in a gate that must run offline.
+
+### 4.7 `canon pins`: replaces `validate-core-order.py`; R-7 fixed
+
+Ported rule for rule: core order (edges point backward), embeds match the graph, and the upstream
+checks E12 (a pinned id no longer exists at the ref), E13 (an embedded upstream id drifted or is
+unpinned) and W5 (a pinned status moved since `status_at_pin`), against a shallow clone of the
+ref in `graph/upstream.yaml`.
+
+**R-7, reproduced in this session (P-4) and fixed by design.**
+`validate-core-order.py .` exits 1 with four false E13s. Its `main` has two modes. Given a
+directory with no numbered documents, it calls `check_upstream` without `local_ids`
+(`scripts/validate-core-order.py:373-375`), so this repository's own `term:maturation`,
+`term:waterline`, `term:maturity` and `term:calibration-ledger` read as unpinned upstream ids.
+Given `core/`, it passes `local_ids=set(graph)` (line 522) and is right. canon has **one mode**:
+
+- its argument is the repository (`--repo`), never a guessed directory;
+- it always loads the local graph from the declared core directory before checking upstream;
+- an empty local graph is a legal state that yields an empty `local_ids`. It is not a separate
+  code path.
+
+The regression test is P-4's case: canon run on the repository root and on `core/` gives
+identical findings, with zero E13.
+
+The root shim `validate-core-order.py` was kept "for one release" (`DDD-dec-80`). v0.5.0 is cut,
+so its removal is due. That is S-2, outside G1.
+
+---
+
+## 5. Shapes and the mapping from YAML
+
+### 5.1 The files do not change
+
+`core/claims/*.yaml`, `core/decisions/*.yaml` and `releases/*.yaml` stay exactly as they are
+(`DDD-dec-102`). canon maps them to RDF in memory.
+
+### 5.2 Mapping: a JSON-LD context, applied from outside
+
+YAML is a superset of JSON's data model for these files. They hold mappings, sequences, strings,
+integers and booleans, with no anchors or tags in use. Checked at G3 by a gate that refuses any
+anchor, alias or tag, so the assumption cannot rot. The pipeline:
+
+```
+file.yaml --YamlDotNet--> JSON value --(+ external @context, + @id, + provenance)--> JSON-LD
+          --Varve.JsonLd toRdf--> RDF graph --Varve.Shacl + shapes--> validation report
+```
+
+- **The context** is one resource, `canon.context.jsonld`. It is injected by canon and never
+  written into the files. It maps `id` to `@id` (with `@base` the canon id namespace), `kind` to
+  `@type` through a vocabulary of `canon:Claim`, `canon:Decision` and `canon:Release` plus the
+  claim kinds, `basedOn`, `basis` and `supersedes` to `{"@type": "@id"}`, and every other key to
+  a `canon:` property.
+- **Provenance** is added by canon, not by the context. It is two triples per file:
+  `<node> canon:sourcePath "core/claims/DDD-tool-01.yaml"`, plus the stem as `canon:fileStem`. That makes
+  "filename agrees with version" a shape (`release` rule 1). It also makes **duplicate ids a
+  shape**: two files with the same id merge into one node with two `canon:sourcePath` values,
+  and `sh:maxCount 1` refuses it.
+- **One data graph.** All claims, decisions and releases load into one graph, so "basedOn
+  resolves" is `sh:class canon:Claim` or `sh:class canon:Decision` on the target. That is a
+  real link in one graph, not a lookup in code. Upstream ids, pinned in
+  `graph/upstream.yaml`, are loaded as typed stub nodes from the pin file. A decision's
+  `basedOn` to a pinned upstream id then resolves. A release `basis` still may not (rule 4:
+  local files only), and its shape says so with `sh:not` on the stub type.
+- **Namespaces** (proposed, `UNVERIFIED — Emil review`, §11 Q-3):
+  `https://decision-driven-design.dk/ns/canon/1#` for the vocabulary, beside the existing
+  `https://decision-driven-design.dk/ns/sdlc/1`, and `https://decision-driven-design.dk/id/` as
+  `@base` for ids. A new namespace is a public identifier, so it is Emil's.
+
+A YAML-to-RDF mapping in code was the other option. The context is preferred because it is
+data: the principle repository, or product-cli, can read the same file (`DDD-dec-100`, "shared
+rules are data").
+
+### 5.3 What is a shape and what stays code
+
+From `scripts/validate-claims.py`, `scripts/validate-releases.py` and
+`scripts/check-release-head.py`, rule by rule:
+
+| Rule (Python source) | canon | How |
+|---|---|---|
+| `format` present and supported | shape | `sh:in (1)` per kind; releases `sh:in (1 2)` |
+| claim `id` matches `DDD-<area>-<nn>` | shape | `sh:pattern` over the node's full IRI, anchored on the `@base` (on an IRI, `sh:pattern` matches its string form) |
+| `kind` legal, `status` legal | shape | `sh:in` |
+| `statement`, `region`, `changed` present | shape | `sh:minCount 1` |
+| status needs evidence; `established` needs a derivation entry | shape | `sh:or` / `sh:qualifiedValueShape` on `canon:evidence` |
+| retired needs `supersedes` or a `notes` naming the killer | shape | `sh:or` |
+| decision: principal, basedOn, resolution, made (escaped decision) | shape | `sh:minCount 1` each |
+| duplicate ids | shape | `sh:maxCount 1` on `canon:sourcePath` (§5.2) |
+| `basedOn` / `basis` resolve | shape | `sh:class` in one graph (§5.2) |
+| release `version` pattern; filename agrees | shape | `sh:pattern`; `sh:equals` between `canon:version` and `canon:fileStem` (§5.2) |
+| title one line, no version prefix | shape | `sh:pattern`, negated through `sh:not` |
+| `commit`, `ratified_head` hex 7–40 | shape | `sh:pattern` |
+| `date` YYYY-MM-DD | shape | `sh:pattern`. Mapped as a string, not `xsd:date`, so a YAML date scalar cannot change the verdict |
+| `ratified_head` only at format 2 | shape | `sh:or` on format |
+| boolean flags are booleans | shape | `sh:datatype xsd:boolean` |
+| descriptor is a YAML mapping; a file parses | code | Before RDF exists. Finding code `LOAD` |
+| single-limb heuristic (warning) | code | A text heuristic, not a constraint. Reported at `sh:Warning`, never fatal, as today |
+| release-head guard (rule 7) | code | Git ancestry and a tree diff, not graph facts |
+| tag exists (local, remote, Release) | code | §4.3 |
+| core order, embeds, E12, E13, W5 | code | `canon pins` (§4.7) |
+
+Every row that says "shape" is a constraint in a `.shapes.ttl` file that Varve evaluates. A
+reviewer can read the rule there, not in C#.
+
+### 5.4 Rule codes, for comparison
+
+Each shape and each code check carries a stable rule code as `sh:message` and `canon:rule`, for
+example `CLAIM-REGION` or `DEC-ESCAPED-PRINCIPAL`. A table in `tools/canon/rules.md` maps each
+code to the Python message it corresponds to. The comparison harness (§8.3) matches on verdict
+and on the rule code, not on message text.
+
+### 5.5 Then the What
+
+The What already has `ontology.ttl` and `shapes.ttl` (`applications/sdlc/what/`). canon's
+`what` gate loads them unchanged into Varve.Shacl. It recomputes the hash vectors with
+`Varve.Rdf.RdfCanonicaliser` (RDFC-1.0). That is a third implementation, beside pyoxigraph (of
+record, `DDD-dec-73`) and PyLD, which strengthens the vectors. The `DDD-dec-73` qualification "no
+blank node in a triple term" must be refused by canon too. Varve's canonicaliser documents a
+case for triple terms (`RdfCanonicaliser.cs`, line 29), and G3 tests it against
+`canonical-form-vectors.json`'s `tripleTermWithBlankNode`.
+
+---
+
+## 6. `canon check` and the external gates
+
+### 6.1 Order
+
+`claims`, `decisions`, `pins`, `what`, `how`, `releases`, `issue-refs`, `changelog`, `fixtures`.
+This is `ci.py`'s order with the two new gates placed before `fixtures`.
+
+### 6.2 External gates
+
+`how` and any later Python-only checker (§7) run as external gates. canon runs the command, takes
+its exit code as the verdict, and shows its output. They stay in canon's single entry point
+(`DDD-dec-81`: one entry point), while their implementation stays Python.
+
+### 6.3 Cannot run is a failure
+
+Restated because P-1 showed it. A missing interpreter, package, git or ssh-keygen fails the gate
+with exit 2 for "could not run". The output names the missing piece. It is never a pass and
+never a skip.
+
+---
+
+## 7. What stays Python, and why
+
+| What | Where | Why it stays |
+|---|---|---|
+| **dpp/1 reference implementation** and its suite | `spec/decision-provenance/reference/dpp.py`, `suite/run.py` | A protocol needs an independent implementation to show the specification, not one program, defines it. The reference is deliberately small and dependency-light, a different language from any product implementation. Porting it to C# would make canon and the reference share authors, language and libraries, which is the opposite of independence |
+| **The How examples** | `applications/sdlc/how-examples/build.py`, `check.py` | They are dpp/1's worked examples, built and checked with the reference (they mint ssh keys, `DDD-dec-62`). They stay with the implementation they exercise. canon runs `check.py` as an external gate (§6.2) |
+| **The papers' checkers** | `papers/paper-a/check-*.py`, `gen-appendix.py` | They belong to a paper and are pinned with it. A paper's checker reproduces the paper's claims at the paper's pin, and rewriting it would change what was reviewed. They are not repository gates today, and canon does not make them one |
+| **The primer generator** | `projections/primer/generate.py` | A projection's own tooling, "generated where it can be, pinned always". Its `--check` is the primer's two-stage verification. It is not a graph validator, so `DDD-dec-102` does not reach it, and porting it buys nothing |
+| `core/assets/*.py`, `apparatus/assets/*.py` | | Computations that back reported claims (`AGENTS.md`: "must reproduce"). They are evidence, not tooling, and they stay in the language they were reported in |
+| Session scripts under `meta/sessions/` | | Records. They ran once, at their commit. They are history, not tooling |
+
+The What checker (`applications/sdlc/what/check.py`) is the one exception. It is ported (§5.5),
+because the What is in `DDD-dec-102`'s scope ("then the What").
+
+---
+
+## 8. The parallel run
+
+### 8.1 What runs
+
+From G3, CI runs both on every push and pull request:
+
+```
+python3 scripts/ci.py            (as today; unchanged)
+canon check --compare            canon's gates, then the comparison (§8.3)
+```
+
+Both are required checks. Neither is `continue-on-error`.
+
+### 8.2 The fixtures
+
+`scripts/fixtures/` is the shared corpus: `claims`, `decisions`, `core-order`, `releases` and
+the release-head scenarios. Today that is 13 cases plus the three guard scenarios, each `accept`
+or `refuse`. canon reads the same directory. Every fixture added for canon is added there, and
+the Python checker must give its verdict on it too. A fixture that only one implementation can
+read is not admitted.
+
+The live tree is a fixture as well: `core/claims/`, `core/decisions/`, `releases/` at the head
+under test.
+
+### 8.3 The comparison
+
+`canon check --compare` runs each ported gate in both implementations over every fixture and the
+live tree, and tabulates:
+
+| fixture | python | canon | rule (python) | rule (canon) | agree |
+|---|---|---|---|---|---|
+
+Agreement is a verdict match (accept or refuse) **and**, for a refuse, a match of the rule code
+through `tools/canon/rules.md` (§5.4). It exits 1 on any disagreement.
+
+### 8.4 A disagreement is a defect, recorded
+
+- It is recorded in `tools/canon/parallel-run.md`: the date, the fixture, both verdicts, which
+  side is wrong and why, and the commit that fixes it. Rows are never deleted.
+- The fix goes into whichever side is wrong. If the Python checker is wrong, it is fixed too.
+  The parallel run is the first time those validators get an independent second opinion.
+- No fixture is excluded, skipped, marked expected-to-fail, or allowed to fail.
+- Varve defects are filed upstream at `Hafeok/varve`. canon does not work around a Varve
+  defect silently. A workaround, if one is needed, is named in `parallel-run.md` with the
+  upstream issue.
+
+### 8.5 Retirement
+
+Per validator, as `DDD-dec-102` rules. Once a validator has agreed on every fixture and on the
+live tree, Claude proposes a decision. It names the validator, the agreement table at a
+commit, and the Varve version measured. Emil rules it. That commit removes the validator from
+`scripts/ci.py`, and canon's gate becomes the only one. `scripts/ci.py` is retired last. The
+frozen agreement table stays as a regression baseline for later Varve bumps.
+
+Proposed order: `releases` (smallest, and covers the guard), `decisions`, `claims`,
+`core-order`, `what`. Then `ci.py`.
+
+---
+
+## 9. Devcontainer and CI
+
+### 9.1 Devcontainer
+
+The .NET SDK sits beside Python in the existing container, with the image unchanged:
+
+```jsonc
+"features": {
+  "ghcr.io/devcontainers/features/github-cli:1": {},
+  "ghcr.io/devcontainers/features/dotnet:2": { "version": "10.0" }
+},
+"onCreateCommand": "pip install --no-cache-dir -r scripts/requirements.txt && dotnet tool restore && dotnet build tools/canon -c Release",
+"postCreateCommand": "python3 scripts/ci.py --list && dotnet run --project tools/canon/src/Canon -c Release -- check --list"
+```
+
+`tools/canon/global.json` pins the SDK feature band, as Varve's pins `10.0.401` with
+`rollForward: latestFeature`. The VS Code extension list gains `ms-dotnettools.csharp`. The
+devcontainer feature's major version is checked against its registry at G2, not assumed.
+
+### 9.2 CI (`.github/workflows/validate.yml`)
+
+The single job keeps `devcontainers/ci` and grows one step, so both run in the same container,
+on the same checkout, with `fetch-depth: 0` and tags:
+
+```yaml
+runCmd: |
+  python3 scripts/ci.py
+  dotnet run --project tools/canon/src/Canon -c Release -- check --compare
+```
+
+`dotnet test tools/canon` runs before `check`. A separate job is not proposed. One container
+and one checkout make "same inputs" true by construction.
+
+From G2, `canon issue-refs` runs on pull requests. From the ruling on Q-2, `land/**` pushes run
+the same workflow, and `land/release-*` also runs `canon release <version> --plan`.
+
+---
+
+## 10. Predictions for the later gates
+
+Written now, before any of it runs, so G2 and G3 can be held to them.
+
+| # | Gate | Prediction | Falsifier |
+|---|---|---|---|
+| D-1 | G3 | The `releases` and `decisions` shapes agree with Python on every fixture on the first full run, apart from defects that are pure mapping bugs (§5.2) and that are fixed without changing a Python verdict | A disagreement where the Python verdict is the wrong one |
+| D-2 | G3 | The `claims` gate shows at least one disagreement on the first run, on the `established`-needs-a-derivation rule or the single-limb warning, because both lean on the shape of `evidence` entries that YAML gives loosely | Zero disagreements on the first run |
+| D-3 | G3 | The What's shapes give a different verdict under Varve than under pyshacl until the ontology is loaded into the data graph (pyshacl runs with `inference="rdfs"`) | Same verdict with the shapes graph alone |
+| D-4 | G3 | `Varve.Rdf.RdfCanonicaliser` reproduces every hash in `applications/sdlc/what/vectors.json` and refuses `tripleTermWithBlankNode` | Any hash differs, or the case is accepted |
+| D-5 | G2 | `canon release v0.5.0 --plan` refuses at step 2 (the tag exists) in a clone with **no** local tags, through `ls-remote` alone | It proceeds past step 2 |
+| D-6 | G2 | `canon changelog --check` fails on `e5a332d`'s `CHANGELOG.md` (v0.5.0 cut but headed "proposed") | It passes |
+| D-7 | G3 | `canon pins` on the repository root and on `core/` give identical findings with 0 E13 (R-7) | Any E13 on `term:maturation`, `term:waterline`, `term:maturity` or `term:calibration-ledger` |
+| D-8 | G2 | `canon issue-refs --basis` over this branch since its base passes, and over `main` since issue #44 finds at least one commit that changes `core/` with no `Basis:` line | Zero such commits found on `main` (then the check adds nothing yet) |
+
+---
+
+## 11. Questions for Emil
+
+| # | Question | Proposed answer |
+|---|---|---|
+| Q-1 | Retire a Python validator while canon depends on a `-preview` Varve? | No. Record agreement, and wait for a non-preview Varve to retire (§1) |
+| Q-2 | `canon land` makes Emil's `land --main` the ratification act, in place of a GitHub merge, and needs a `main` fast-forward ruleset and a `land/**` rule. Adopt it? | Yes, as a decision at G2, with `.github/repo-standard.yaml` changed in the same pull request |
+| Q-3 | The namespaces `https://decision-driven-design.dk/ns/canon/1#` and `https://decision-driven-design.dk/id/` | As proposed, or Emil names them |
+| Q-4 | `CHANGELOG.md` becomes a projection from v0.5.0 up, with the 4.x tail frozen | Yes |
+| Q-5 | `canon issue-refs --basis`: enforce `AGENTS.md`'s `Basis:` line on commits touching `core/` | Yes, from a recorded start commit |
+| Q-6 | Publish `Canon` to nuget.org, or build it locally only, as repo-standard is (§3.1) | Local only until the split (`DDD-dec-101`) |
+| Q-7 | The decision-id headroom: this session took `DDD-dec-100` onward and left `94`–`99` to the authority-profile session | Confirm. Ids already filed are not renumbered (`AGENTS.md`), so any of `94`–`99` that session does not use stay unused, as `DDD-dec-83` does |

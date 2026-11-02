@@ -59,3 +59,7 @@ Outcome for P-2 (appended): **held.** `validate-claims.py core/decisions/ --deci
 "valid: 71 decisions, ids unique, format rules satisfied" and exited 0, read directly. Claims
 exit 0, unchanged. Every `basedOn` id names a local file (`DDD-dec-04`, `-43`, `-51`, `-72`,
 `-76`, `-81`, `-84`, `DDD-tool-01`, and the three among themselves).
+
+Outcome for P-3 (appended): **held.** `scripts/ci.py` exited 0 with all seven gates passed;
+decisions valid at 71; 74 pins resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. Same as
+P-2. No gate reads `tools/`.
