@@ -49,7 +49,8 @@ demotes until fixed.
   decisions, `python3 scripts/validate-claims.py core/decisions/ --decisions` must pass.
   `python3 scripts/ci.py` runs every gate in order (claims, decisions, core order and pins, the
   What, the How examples, the checker fixtures) and is what CI runs; it must pass before a push.
-  Its dependencies are in `scripts/requirements.txt`, or use the devcontainer.
+  Its dependencies are in `scripts/requirements.txt`, whose header also names the system tools it
+  needs (git, ssh-keygen); or use the devcontainer.
 
 ## Cite claim IDs in commit messages
 

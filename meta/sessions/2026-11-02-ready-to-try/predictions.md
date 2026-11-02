@@ -310,3 +310,36 @@ below.
 
 Outcome P-18: **held.** The parsed YAML is identical. One comment line changed: the `UNVERIFIED`
 line now records Emil's confirmation in Round 3.
+
+Outcome P-15: **held.** With a `PATH` holding only `git`, `scripts/ci.py` printed `FAIL preflight
+ssh-keygen is not on PATH; needed by how (the How examples mint throwaway signing keys,
+DDD-dec-62). Install it, or use the devcontainer.` and exited 1, with no gate run and no
+traceback. The previous `ci.py`, under the same `PATH`, reproduced the reviewer's finding:
+`FileNotFoundError: … 'ssh-keygen'` inside the How gate. `scripts/requirements.txt`'s header now
+names git, ssh-keygen and Python 3.11+. `AGENTS.md` points to that header.
+
+Outcome P-16, local: **held.** Against the upstream `v5.15.2` blobs, `diff` shows only the added
+lines: a 3-line header in each checker and the port note in `spec/release-format.md`. The first
+header draft for `validate-releases.py` named the wrong upstream history, and was corrected before
+commit. `ci.py` now runs seven gates. `releases` passes with "no release descriptors". The new
+fixtures behave as predicted: `releases/accept` is accepted; `no-ratified-head` and
+`unresolved-basis` are refused with their messages; the guard accepts
+`ratified-plus-descriptor` and refuses `cut-before` ("is not an ancestor") and `merged-after`
+("changed between the ratified head"). Total: 16 fixture cases, all ok. The workflow's checkout
+is now `fetch-depth: 0`. CI is recorded below.
+
+Outcome P-17: **held, and it is not evidence.** Output of `check-release-head.py --hitlist
+--assume v0.2.0=817aa34 --assume v0.4.0=87c9ac9` in a scratch worktree, verbatim:
+
+    v0.1.0     unguarded (format 1, no ratified_head)
+    v0.2.0     ok   (assumed)  ok: the merged head is the ratified head plus at most the descriptor
+    v0.3.0     unguarded (format 1, no ratified_head)
+    v0.4.0     ok   (assumed)  ok: the merged head is the ratified head plus at most the descriptor
+    hit-list: 0 miss(es)
+
+The API confirms PR #2's head `817aa34` and PR #16's head `87c9ac9` equal their merges' second
+parents (`cdd68b0`, `5455fcf`). Neither PR has a review. What the guard would have said, then:
+two releases had no record of a ratified head at all, and two had only their merge as that
+record, against which it could find nothing. The class the guard exists for, a release cut from
+a head other than the ratified one, is undetectable in this repository's history, because nothing
+recorded the ratified head. That is the gap `DDD-dec-84` closes from v0.5.0 on.

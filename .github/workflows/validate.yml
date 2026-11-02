@@ -21,6 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history and tags: the release-head guard (DDD-dec-84) checks ancestry from a
+          # descriptor's ratified_head, and skips descriptors whose tag already exists.
+          fetch-depth: 0
       - uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/mindovermachine-dev/decision-driven-design-devcontainer

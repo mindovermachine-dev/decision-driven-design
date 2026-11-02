@@ -9,6 +9,8 @@ failure.
 |---|---|---|
 | `validate-claims.py` | `claims/accept/`: a projected claim with a falsifier; an established formal claim with a derivation | `claims/refuse/*.yaml`, one file per case; the `# expect:` line names the message |
 | `validate-claims.py --decisions` | `decisions/accept/`: a decision with principal, resolution, `made` and `basedOn` | `decisions/refuse/*.yaml`: no `basedOn` (escaped decision); no principal |
+| `validate-releases.py` | `releases/accept/`: a format 2 descriptor | `releases/refuse/no-ratified-head/`, `releases/refuse/unresolved-basis/`; `expect` names the message |
+| `check-release-head.py` | built by `ci.py` in a throwaway git repository: the ratified head plus only the descriptor | the descriptor cut from before the ratified head ("is not an ancestor"); an unratified commit merged after it ("changed between the ratified head") |
 | `validate-core-order.py` | `core-order/accept/`: two documents, a backward edge, an embed matching the graph | `core-order/refuse/forward-edge/` (E4), `core-order/refuse/drifted-embed/` (E6); `expect` names the code |
 
 **Why the core-order documents end in `.md.fixture`.** `validate-core-order.py` scans every `*.md`
