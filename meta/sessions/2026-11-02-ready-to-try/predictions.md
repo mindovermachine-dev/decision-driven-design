@@ -242,3 +242,61 @@ read `NOASSERTION` on GitHub after the merge. Renaming the file to `LICENSING.md
 `docs/licensing.md`, makes licensee report MPL-2.0 (tested); `COPYING.md` does not. The choice
 is Emil's, R-9. The prediction was wrong in assuming that `LICENSE.md` beside `LICENSE` is
 harmless, as it is in neither Varve nor licensee.
+
+## Round 3 execution — predictions P-14 to P-18
+
+Written together on 2026-11-02, at `c57c4de` plus `DDD-dec-84` (uncommitted), before any of the
+operations ran.
+
+### P-14 — R-9: `LICENSE.md` → `LICENSING.md`
+
+Prediction: `git mv` records a 100% rename. After the links are updated, no file outside the
+records links to `LICENSE.md`. The records are `core/decisions/` and `meta/sessions/` before
+Round 3, and they resolve at their own commits (`DDD-dec-80`). Licensee 10.1.0, run on the
+working tree, reports `License: MPL-2.0`. The GitHub API at this branch's ref reports `MPL-2.0`
+once pushed. Falsifier: anything else from either.
+
+### P-15 — the reviewer's finding: `ssh-keygen`
+
+Prediction: with `ssh-keygen` absent from `PATH`, `scripts/ci.py` exits 1 before running any
+gate. It prints one line naming `ssh-keygen` and which gate needs it, and no traceback. With it
+present, output is unchanged. `scripts/requirements.txt` names the system dependencies (git,
+ssh-keygen) in its header. Falsifier: a traceback, or a gate running first.
+
+### P-16 — R-10: the guard ported (`DDD-dec-84`)
+
+Prediction: `scripts/check-release-head.py`, `scripts/validate-releases.py` and
+`spec/release-format.md` differ from upstream `v5.15.2` (`084bce7`) only by an added header,
+plus a port note in the spec. A diff against the upstream blobs shows nothing else. `ci.py` gains
+a `releases` gate, which passes while `releases/` does not exist. It also gains fixtures:
+- validation accepts a format 2 descriptor and refuses one with no `ratified_head` and one whose
+  basis does not resolve;
+- the guard, in throwaway git repositories, accepts "ratified head plus descriptor", and refuses
+  "ratified head not an ancestor" (cut before) and "another file after the ratified head" (merged
+  after).
+
+Every gate passes locally and in CI. In CI, the guard needs full history, so the workflow's
+checkout moves to `fetch-depth: 0`. Falsifier: any other diff to the upstream files, a fixture
+behaving otherwise, or CI red.
+
+### P-17 — the hit-list over `v0.1.0` to `v0.4.0`
+
+Method, as upstream ran it: in a scratch worktree, give each tag a format 1 descriptor with no
+`ratified_head`. Run `check-release-head.py --hitlist`, assuming a head only where a record names
+one. The only record of ratification here is the merge, since neither PR #2 nor PR #16 has a
+review.
+
+Prediction:
+- `v0.1.0` (a commit on main, no PR) and `v0.3.0` (a merge of branch `rewrite`, no PR) are
+  reported **unguarded**: no record names a ratified head.
+- `v0.2.0` (PR #2, head `817aa34`) and `v0.4.0` (PR #16, head `87c9ac9`) are **ok** with those
+  heads assumed. That ok holds by construction: the assumed head is the merge's second parent.
+- 0 misses.
+
+The hit-list therefore shows only that nothing contradicts the record. It is not evidence that
+the guard works here; the fixtures are. Falsifier: a miss, or either PR's head differing from its
+merge's second parent.
+
+### P-18 — `repo-standard.yaml`'s `UNVERIFIED` comment removed (Round 3)
+
+Prediction: the parsed YAML is identical before and after. Only one comment line changes.
