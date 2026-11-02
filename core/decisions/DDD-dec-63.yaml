@@ -131,10 +131,16 @@ resolution: |
 
   ## 8. Consequences, carried with the ruling — not ruled separately
 
-  - **What-changing decisions anchor by How ruling 1, applied to the What.** A decision that
-    creates one element anchors to it. A decision that creates several anchors to the narrowest
-    existing element covering them. This settles DDD-dec-42's implication 4. `UNVERIFIED — Emil
-    review`.
+  - **What-changing decisions anchor by How ruling 1, applied to the What.** Ruled 2026-11-02
+    (Round 6 of the move session, recorded verbatim in its rulings.md):
+
+    > a decision that creates elements anchors to the narrowest element that exists at the
+    > position it is proposed and covers every element it creates; for a new domain that is the
+    > product, which is the empty-What case and not a loophole.
+
+    This settles DDD-dec-42's implication 4. It replaces the reading filed here, that a decision
+    creating one element anchors to that element: an element being created does not exist at the
+    position its decision is proposed.
   - **Re-founding.** A new P' mints new keys, and the founding import records one `sdlc:refounds`
     edge per carried element, from the new element to the old.
   - **Migration from product-cli.** Each `https://productframework.org/product/<name>#<id>` gets

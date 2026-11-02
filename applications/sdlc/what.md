@@ -80,9 +80,11 @@ inventing them.
   are valid sources. What they supply is a proposed change, and it enters the What only when a
   human principal signs and accepts it (§8).
 
-A decision that creates one element anchors to that element. A decision that creates several
-anchors to the narrowest existing element covering them all (`DDD-dec-63` §8, `UNVERIFIED — Emil
-review`). This is How ruling 1 (`DDD-dec-55`) applied to the What.
+*Ruled (Round 6, `DDD-dec-63` §8):* "a decision that creates elements anchors to the narrowest
+element that exists at the position it is proposed and covers every element it creates; for a new
+domain that is the product, which is the empty-What case and not a loophole". An element being
+created does not yet exist at that position, so it is never its own creating decision's anchor.
+This is How ruling 1 (`DDD-dec-55`) applied to the What.
 
 ### 2.2 Identity
 

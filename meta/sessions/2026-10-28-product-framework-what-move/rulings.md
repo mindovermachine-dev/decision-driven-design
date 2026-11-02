@@ -173,3 +173,16 @@ Verbatim:
 | `what@3` | the How examples: `what@3` supersedes `what@2` (same graph, the edition's hash as amended). `what@2`'s pin is held to the files at `655db92`, verified | done |
 | #42's readiness | ready for ratification, with M-12 recorded open (Hafeok/varve#192); `check.py` takes Varve's vectors when they land | as ruled |
 
+## Round 6, 2026-11-02 — recorded on `DDD-dec-63` §8
+
+Verbatim:
+
+> Round 6, move session (2026-11-02). what.md §2.1 — ruled as read: a decision that creates elements anchors to the narrowest element that exists at the position it is proposed and covers every element it creates; for a new domain that is the product, which is the empty-What case and not a loophole. Clear the flag, quote this on DDD-dec-63 §8, and nothing else changes. #42 is ratified by merge.
+
+### Where it landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| §2.1, creating decisions | `DDD-dec-63` §8 quotes it, and the `UNVERIFIED` flag is gone; `what.md` §2.1 quotes it and its flag is cleared | ruled. The ruling's wording differs from the filed reading in one case. The reading said a decision creating *one* element anchors to that element. Under the ruling it anchors to the narrowest element that already exists, because the created element does not exist at the position its decision is proposed. The ruling's wording governs. No record changes: `WHAT-found@1` anchors at the product node, which the ruling gives for a new What |
+| #42 ratified by merge | — | Emil's act. Before the merge, the PR head is checked against the head Emil ratifies |
+
