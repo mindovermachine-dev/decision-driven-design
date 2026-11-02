@@ -1,8 +1,10 @@
 # canon — design
 
-**Status: `[PROPOSED]`, Gate 1 of the canon CLI session (2026-11-02), for Emil's review.** No code
-exists yet. This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form) and
-`DDD-dec-102` (SHACL via Varve). Where it goes past them, it says so and marks the reading
+**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`); Gate 2 in progress.**
+This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form), `DDD-dec-102` (SHACL
+via Varve), and Round 1's `DDD-dec-103` (retirement across two Varve versions), `DDD-dec-104` (the
+changelog as a projection), `DDD-dec-105` (Basis enforced), `DDD-dec-106` (local only) and
+`DDD-dec-107` (namespaces). Where it goes past them, it says so and marks the reading
 `UNVERIFIED — Emil review`. Session record: `meta/sessions/2026-11-02-canon-cli/`. Issue
 [#46](https://github.com/mindovermachine-dev/decision-driven-design/issues/46).
 
@@ -59,10 +61,11 @@ source … every core component", `Varve.Shacl.Sparql` as SHACL-SPARQL, and `Var
   independent check on every Varve verdict. **Each retirement decision names the Varve version it
   was measured against.** A later Varve bump re-runs the comparison harness (§8.3) before it
   merges. The harness stays after retirement, against the frozen fixture verdicts (§8.4).
-- **Retirement waits on Varve leaving preview.** Proposed, `UNVERIFIED — Emil review`: no Python
-  validator is retired while canon depends on a `-preview` Varve. The parallel run can complete
-  and be recorded, but the retiring decision waits. The alternative is to retire on agreement
-  alone, as `DDD-dec-102` literally says. That is Emil's call. It is asked in §11, Q-1.
+- **Retirement across two Varve versions** (`DDD-dec-103`). A validator is retired only after
+  full agreement is measured at one Varve version and measured again after at least one Varve
+  bump. The retiring decision names both versions. A disagreement after the bump resets the
+  count. "When Varve leaves preview" was proposed and not ruled: Emil sets that date, so it
+  would say nothing about whether canon is right.
 
 ---
 
@@ -229,18 +232,18 @@ The semantics are ported from `eng/land.cs` (Varve `5f5c5a9`), unchanged except 
 - **Never** calls GitHub's merge API and never makes a merge commit. `main` moves only by
   `git push origin <head>:refs/heads/main`, a fast-forward.
 
-**Consequence that needs a ruling** (§11, Q-2). Every decision here records "Emil's acceptance of
-the pull request is the ratification act", and today that act is a GitHub merge. Under `land`,
-the act becomes Emil running `canon land <pr> --main`. The pull request then closes as merged
-because its head is on main. Three things follow, none of them ruled:
+**What it automates; it rules nothing.** Emil ruled `main`'s protection on 2026-11-02: Varve's
+set, trunk with the required check `pipeline (devcontainer)` and no bypass, `land/**`, and `v*`
+tags restricted to Emil. A separate session files that ruling on its own branch, as
+`DDD-dec-<pending>` (S-8; cited here once its id is known). `canon land --main` automates the
+landing that ruling defines. It does not create a new ratification act: the act is Emil's landing
+by fast-forward after CI is green, and `canon land` is one way to perform it. The rulesets, not
+canon, refuse a push that breaks them. canon only checks first what would make the push fail,
+as `land.cs` does.
 
-1. `.github/repo-standard.yaml` needs a ruleset. `main` takes fast-forward pushes from the admin
-   only, with required checks. A `land/**` rule lets only the admin push.
-2. The release-head guard simplifies. With no merge commit, the head under release is the
-   ratified head plus at most the descriptor, read directly with no "second parent" case
-   (`spec/release-format.md` rule 7).
-3. The Claude GitHub App bypass (repo-standard, `actor_id 1236702`) must not extend to `main`
-   pushes under `land`, or an agent could land.
+One consequence for releases: with no merge commit, the head under release is the ratified head
+plus at most the descriptor, read directly, with no "second parent" case
+(`spec/release-format.md` rule 7).
 
 ### 4.3 `canon release`: descriptor, guard, signed tag, GitHub Release
 
@@ -313,15 +316,21 @@ canon changelog              write CHANGELOG.md from releases/ (and tags)
 canon changelog --check      CHANGELOG.md is exactly the projection; fails on a hand edit
 ```
 
-**Difference from Varve, needing a ruling** (§11, Q-4). `CHANGELOG.md` here holds the 4.x headings
-"kept unedited, as history of the earlier numbering", and `v0.1.0` to `v0.4.0` have no
-descriptors. Proposed: the projection owns everything from v0.5.0 up. The older part is a frozen
-tail, compared byte for byte against its text at `e5a332d`. A descriptor whose tag exists renders
-as cut. One whose tag does not exist renders as "proposed, not cut".
+**Ruled** (`DDD-dec-104`). `CHANGELOG.md` here holds the 4.x headings "kept unedited, as history
+of the earlier numbering", and `v0.1.0` to `v0.4.0` have no descriptors. The projection owns
+everything from v0.5.0 up. The older part is a frozen tail: everything from the first heading
+below v0.5.0 to the end, checked byte for byte against a SHA-256 recorded in `canon.yaml`. A
+descriptor whose tag exists renders as cut. One whose tag does not exist renders as proposed.
 
-**Found while designing, not fixed (S-3):** `CHANGELOG.md` at `e5a332d` still heads v0.5.0 "Ready
-to try (proposed)" and says "Proposed, not cut", but the tag exists. `--check` would fail on it
-today. That is the projection doing its job.
+The first run fixes S-3: `CHANGELOG.md` at `c7424ad` still heads v0.5.0 "Ready to try (proposed)"
+and says "Proposed, not cut", though the tag exists.
+
+**Cut descriptors are immutable** (`spec/release-format.md` rule 6). Varve's `release.cs --check`
+refuses an edit to a cut descriptor. canon's `releases` gate will too: a descriptor whose tag
+exists must be byte-identical to its blob at the tagged commit. `main` breaks this today (S-9).
+`023c2c4` and `c7424ad` changed `releases/v0.5.0.yaml`'s `ratified_head` after `v0.5.0` was tagged
+at `e5a332d`. The check is therefore designed now and switched on only after Emil rules S-9.
+`UNVERIFIED — Emil review`.
 
 ### 4.6 `canon issue-refs`
 
@@ -333,15 +342,20 @@ its body. Merge commits are exempt by parent count, and a closed list of bots is
 canon issue-refs [--base <ref>] [--head <ref>]      base: GITHUB_BASE_REF, the push's before sha, or origin/main
 ```
 
-Two additions, proposed, `UNVERIFIED — Emil review`:
+Two additions:
 
-1. **A start commit.** Commits before the convention began (ready-to-try, amendment 3: before
-   issue #44) are exempt by a recorded first commit in `canon.yaml`. They are not rewritten.
-2. **`--basis`.** A commit that changes anything under `core/` must carry a `Basis:` line, and
-   every id on it must resolve to a file in `core/claims/` or `core/decisions/` at that commit.
-   This is `AGENTS.md`'s rule ("Every commit that changes canon must cite the claim or decision
-   IDs it rests on"), and it is `DDD-agent-01`'s basis-as-query applied to commits. Today nothing
-   enforces it.
+1. **A start commit for `Refs`.** Commits before the convention began (ready-to-try, amendment 3:
+   before issue #44) are exempt by a recorded first commit in `canon.yaml`. They are not
+   rewritten. `UNVERIFIED — Emil review`: which commit that is gets measured at G2, as Basis's
+   was.
+2. **`--basis`, ruled** (`DDD-dec-105`). A non-merge commit that changes anything under `core/`
+   must carry a `Basis:` line, from `99d0a0f` on. That is the commit that wrote the rule; all 71
+   such commits since it comply, and all 20 misses predate it (P-5). From the commit that files
+   `DDD-dec-105` on, every id on the line must also resolve at that commit, to a file in
+   `core/claims/` or `core/decisions/` or to an id pinned in `graph/upstream.yaml`. Twelve
+   historical ids resolve to neither (P-6), so resolution is not enforced before it. This is
+   `AGENTS.md`'s rule ("Every commit that changes canon must cite the claim or decision IDs it
+   rests on").
 
 Like Varve, it does not check that the issue exists. That would need the network and a token
 in a gate that must run offline.
@@ -407,10 +421,12 @@ file.yaml --YamlDotNet--> JSON value --(+ external @context, + @id, + provenance
   `graph/upstream.yaml`, are loaded as typed stub nodes from the pin file. A decision's
   `basedOn` to a pinned upstream id then resolves. A release `basis` still may not (rule 4:
   local files only), and its shape says so with `sh:not` on the stub type.
-- **Namespaces** (proposed, `UNVERIFIED — Emil review`, §11 Q-3):
-  `https://decision-driven-design.dk/ns/canon/1#` for the vocabulary, beside the existing
-  `https://decision-driven-design.dk/ns/sdlc/1`, and `https://decision-driven-design.dk/id/` as
-  `@base` for ids. A new namespace is a public identifier, so it is Emil's.
+- **Namespaces, ruled** (`DDD-dec-107`): `https://decision-driven-design.dk/ns/canon/1#` for the
+  vocabulary, and `https://decision-driven-design.dk/id/` as `@base` for ids. They sit beside the
+  existing `https://decision-driven-design.dk/ns/sdlc#`, whose edition is the `owl:versionIRI`
+  `…/ns/sdlc/1`. (The Gate 1 text called `…/ns/sdlc/1` the namespace. That was wrong.) The ruled
+  canon namespace carries its edition in the namespace itself, unlike sdlc. That difference is
+  flagged in `DDD-dec-107`'s notes, `UNVERIFIED — Emil review`.
 
 A YAML-to-RDF mapping in code was the other option. The context is preferred because it is
 data: the principle repository, or product-cli, can read the same file (`DDD-dec-100`, "shared
@@ -595,8 +611,10 @@ runCmd: |
 `dotnet test tools/canon` runs before `check`. A separate job is not proposed. One container
 and one checkout make "same inputs" true by construction.
 
-From G2, `canon issue-refs` runs on pull requests. From the ruling on Q-2, `land/**` pushes run
-the same workflow, and `land/release-*` also runs `canon release <version> --plan`.
+From G2, `canon issue-refs --basis` runs on pull requests. Under the protection ruling (§4.2),
+`land/**` pushes run the same workflow, and `land/release-*` also runs
+`canon release <version> --plan`. canon is built in CI from `tools/canon/` and never pulled from
+a feed (`DDD-dec-106`).
 
 ---
 
@@ -613,18 +631,21 @@ Written now, before any of it runs, so G2 and G3 can be held to them.
 | D-5 | G2 | `canon release v0.5.0 --plan` refuses at step 2 (the tag exists) in a clone with **no** local tags, through `ls-remote` alone | It proceeds past step 2 |
 | D-6 | G2 | `canon changelog --check` fails on `e5a332d`'s `CHANGELOG.md` (v0.5.0 cut but headed "proposed") | It passes |
 | D-7 | G3 | `canon pins` on the repository root and on `core/` give identical findings with 0 E13 (R-7) | Any E13 on `term:maturation`, `term:waterline`, `term:maturity` or `term:calibration-ledger` |
-| D-8 | G2 | `canon issue-refs --basis` over this branch since its base passes, and over `main` since issue #44 finds at least one commit that changes `core/` with no `Basis:` line | Zero such commits found on `main` (then the check adds nothing yet) |
+| D-8 | G2 | `canon issue-refs --basis` over this branch since its base passes, and over `main` since issue #44 finds at least one commit that changes `core/` with no `Basis:` line | Zero such commits found on `main` (then the check adds nothing yet) **Refuted early by script (P-5):** 71/71 comply since `99d0a0f`. The gate still guards the future |
 
 ---
 
-## 11. Questions for Emil
+## 11. Questions for Emil — answered (Round 1, 2026-11-02)
 
-| # | Question | Proposed answer |
+| # | Question | Ruled |
 |---|---|---|
-| Q-1 | Retire a Python validator while canon depends on a `-preview` Varve? | No. Record agreement, and wait for a non-preview Varve to retire (§1) |
-| Q-2 | `canon land` makes Emil's `land --main` the ratification act, in place of a GitHub merge, and needs a `main` fast-forward ruleset and a `land/**` rule. Adopt it? | Yes, as a decision at G2, with `.github/repo-standard.yaml` changed in the same pull request |
-| Q-3 | The namespaces `https://decision-driven-design.dk/ns/canon/1#` and `https://decision-driven-design.dk/id/` | As proposed, or Emil names them |
-| Q-4 | `CHANGELOG.md` becomes a projection from v0.5.0 up, with the 4.x tail frozen | Yes |
-| Q-5 | `canon issue-refs --basis`: enforce `AGENTS.md`'s `Basis:` line on commits touching `core/` | Yes, from a recorded start commit |
-| Q-6 | Publish `Canon` to nuget.org, or build it locally only, as repo-standard is (§3.1) | Local only until the split (`DDD-dec-101`) |
-| Q-7 | The decision-id headroom: this session took `DDD-dec-100` onward and left `94`–`99` to the authority-profile session | Confirm. Ids already filed are not renumbered (`AGENTS.md`), so any of `94`–`99` that session does not use stay unused, as `DDD-dec-83` does |
+| Q-1 | When may a Python validator be retired? | Agreement across two Varve versions, each retirement naming both (`DDD-dec-103`) |
+| Q-2 | `canon land` and the ratification act | No ruling needed. Emil's protection ruling, filed by another session, defines the landing. `canon land --main` automates it (§4.2, S-8) |
+| Q-3 | The namespaces | As proposed (`DDD-dec-107`) |
+| Q-4 | `CHANGELOG.md` as a projection, 4.x tail frozen | Yes (`DDD-dec-104`) |
+| Q-5 | `canon issue-refs --basis` | Yes, from `99d0a0f` (`DDD-dec-105`) |
+| Q-6 | Publish to nuget.org? | Local only for now (`DDD-dec-106`) |
+| Q-7 | Id headroom 94–99 | Confirmed (`bootstrap.md`, amendment 1) |
+
+Still open from this design, for a later round: S-9 (the edited cut descriptor) and the start
+commit for `Refs #N` (§4.6).
