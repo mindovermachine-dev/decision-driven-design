@@ -56,3 +56,15 @@ watch, so CI does not run for them alone.
 
 Outcome: claims valid at 31 with the same 6 warnings, decisions valid at 50, pins as baseline.
 Held.
+
+## P-5 — after the move to Claude Code, the three validators re-run
+
+Written 2026-11-02 at about 08:55 UTC, at `c221a41` (bootstrap amendment 1), before any of the
+three runs in this session.
+
+Re-signing changed no tree (bootstrap amendment 1), and amendment 1 touched only
+`meta/sessions/`. Prediction: every result equals the G2 head's. Claims valid at 31 with the same
+6 warnings. Decisions valid at 50. Pins: 74 resolved, 0 basis-loss, 0 content-drift, 1 shadowed
+id, exit 0. The pin check runs against a fresh shallow clone of `v5.15.2`. Falsifier: any count,
+warning or exit code differs. What it breaks: the claim that a re-sign leaves the record
+unchanged, which bootstrap amendment 1 rests on.
