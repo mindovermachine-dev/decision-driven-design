@@ -1,0 +1,34 @@
+format: 1
+id: DDD-dec-88
+kind: decision
+supersedes: DDD-dec-47
+statement: |
+  A What-changing decision is a protocol record, and the protocol defines no force. The authority profile, applications/sdlc/authority.md, makes a decision in force only through an acceptance: its own signed record, whose by and at are the acceptor and the time, which pins the accepted version's hash and the grant it is made under. Draft 3's acceptedBy and acceptedAt are that record's by and at, since dpp/1 A-10 removed them as fields. Acceptance is a signature by a human holder under a grant live at its position and delegating from the genesis. "Signed" means that and nothing weaker.
+principal: Emil
+made: |
+  2026-11-02, the authority-profile session, as step 6 of the plan Emil approved in Round 1 ("Supersession of whatever in DDD-dec-46, -54, -64 this document now states more precisely … the supersession of -47 is right"), recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-47
+
+  - The record is the protocol's, and the protocol defines no force.
+  - Force is the authority profile's, a separate document in applications/sdlc/ beside the
+    genesis grant.
+  - Acceptance is a signature by a human holder under a grant delegating from the genesis.
+  - "Signed" has one meaning.
+
+  ## Stated more precisely
+
+  - **The three fields** (DDD-dec-86, F-1, "ruled as read"). "An acceptance is its own signed
+    record whose by and at are the acceptor and the time, and which pins the decision's version
+    hash. acceptedBy/acceptedAt as fields were Draft 3's shorthand and are gone with A-10."
+    signature is required on it. authority.md §4.1.
+  - **Where its fields live** (F-2). In the hashed dotted member
+    dk.decision-driven-design.authority, never in extensions. authority.md §1.3.
+  - **Live at its position** (DDD-dec-85). The grant is live at the acceptance's own position, and
+    the acceptance is valid there. authority.md §4.7.
+basedOn:
+  - DDD-dec-47
+  - DDD-dec-85
+  - DDD-dec-86
+notes: |
+  DDD-dec-47 is left unchanged. how.md §9.4, D-6, asked for the mapping recorded here.

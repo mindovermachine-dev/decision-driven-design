@@ -1,0 +1,40 @@
+format: 1
+id: DDD-dec-87
+kind: decision
+supersedes: DDD-dec-46
+statement: |
+  The genesis grant of DDD-dec-46 stands as defined, with its space, home and package consequence, and its transfer, unavailability and loss are stated as the authority profile states them. A founding is the holder's own signed act, self-bound to its first key, and is not accepted. A transfer is a new version of the genesis decision signed by the holder, pending until the successor signs a grant acceptance of it. On that acceptance the prior holder's genesis is closed, which is not a revocation: grants delegate from the genesis decision's id, so nothing delegated from it falls. A fallback is a grant naming its primary, which acts only while the primary is filed unavailable by header clock and never transfers. A holder with no key and no fallback is in the position of loss.
+principal: Emil
+made: |
+  2026-11-02, the authority-profile session, as step 6 of the plan Emil approved in Round 1 ("Supersession of whatever in DDD-dec-46, -54, -64 this document now states more precisely … the supersession of -47 is right"), recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-46
+
+  The definition, verbatim; "a product is the decision space", its What and its realisation two
+  scopes under one genesis; the home (applications/sdlc/); loss without a fallback as a new
+  product with basedOn import. The consequence for packages as DDD-dec-66 left it (a package's
+  What is empty). Nothing is withdrawn.
+
+  ## Stated more precisely (applications/sdlc/authority.md)
+
+  - **Founding** (§2.2; DDD-dec-86, Q-1). "The genesis is founded, not accepted." The founding
+    record names the product IRI P and the holder, has an empty basedOn, carries firstKey and is
+    signed by it.
+  - **Transfer** (§2.3; Q-1, Q-2). The holder signs; the successor accepts; the prior grant closes,
+    and "closing the prior genesis on transfer is not a revocation".
+  - **Fallback and unavailability** (§2.4). Filed with from and optional until, as header-clock
+    times. The fallback acts only while its primary is unavailable and may not transfer.
+    UNVERIFIED — Emil review (authority.md A-6): that any grant may have a fallback, that a
+    fallback delegates from its primary and is granted by its holder, and that it may delegate as
+    its primary may.
+  - **Loss and keys** (§2.5). A genesis holder with no live key and no fallback cannot act.
+    UNVERIFIED — Emil review (A-9).
+  - **Adoption** (§2.6). A product with records but no positioned log founds its log. Its earlier
+    records are provenance until landed and accepted. The acme example's re-founding (GEN@3) is
+    UNVERIFIED — Emil review (A-5).
+basedOn:
+  - DDD-dec-46
+  - DDD-dec-85
+  - DDD-dec-86
+notes: |
+  DDD-dec-46 is left unchanged. Section numbers are authority.md's.
