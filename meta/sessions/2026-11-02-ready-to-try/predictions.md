@@ -434,3 +434,29 @@ reports MPL-2.0 (the README now references MPL-2.0). `scripts/ci.py`: all gates 
 
 Outcome P-23: **held.** `grep -il phoenix README.md why.md method/*.md`: no hits. The case is
 named "the first independent application case" (T2b).
+
+## G6 — predictions P-24 and P-25
+
+Written on 2026-11-02, at `27d6612`, before either file was written.
+
+### P-24 — the CHANGELOG heading for v0.5.0
+
+Prediction: one section is added above `## 4.7`. A note says the 4.x headings below it are kept
+unedited as history of the earlier numbering (`DDD-dec-82`). `git diff` shows additions only, and
+no line under `## 4.7` changes. Falsifier: any changed or removed line.
+
+### P-25 — the proposed descriptor `releases/v0.5.0.yaml`
+
+Prediction: the descriptor declares format 2, and every basis id names a local claim or decision
+(`DDD-dec-84`'s reading). `ratified_head` is left empty, to be filled at ratification, as Emil
+asked. Because of that, the ported validator refuses it ("ratified_head missing or not a hex SHA
+… (format 2 records the head the principal ratified)"). So the `releases` gate fails, and
+`scripts/ci.py` and CI go **red** at this commit, on that gate alone. Every other gate stays
+green. With a scratch copy whose `ratified_head` names the commit before the descriptor, the
+gate passes: the validator accepts it, and the guard reports "ok: the merged head is the ratified
+head plus at most the descriptor".
+
+This is the guard doing its job: an unratified release cannot go green. It conflicts with
+`AGENTS.md` ("it must pass before a push"), and the conflict is pushed knowingly, on Emil's
+instruction, and flagged in the report. Falsifier: red on any other gate, green on `releases`,
+or the scratch copy failing.
