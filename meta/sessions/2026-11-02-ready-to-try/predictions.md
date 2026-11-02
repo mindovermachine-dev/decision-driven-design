@@ -300,3 +300,13 @@ merge's second parent.
 ### P-18 — `repo-standard.yaml`'s `UNVERIFIED` comment removed (Round 3)
 
 Prediction: the parsed YAML is identical before and after. Only one comment line changes.
+
+Outcome P-14, local: **held.** `git mv` recorded `LICENSE.md => LICENSING.md (100%)`. The links
+in `NOTICE`, `README.md` and `GOVERNANCE.md` now name `LICENSING.md`. The remaining mentions of
+`LICENSE.md` are in records (`core/decisions/`, earlier `meta/sessions/` entries,
+`meta/history/`), which resolve at their own commits. Licensee 10.1.0 on the working tree reports
+`License: MPL-2.0`, matched files `LICENSE` and `README.md`. The API at the branch ref is recorded
+below.
+
+Outcome P-18: **held.** The parsed YAML is identical. One comment line changed: the `UNVERIFIED`
+line now records Emil's confirmation in Round 3.

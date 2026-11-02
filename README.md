@@ -194,4 +194,4 @@ Collins (tacit knowledge) · Rice (undecidability) · Edelman & Gally (degenerac
 
 ## License
 
-Spec text: **CC BY-SA 4.0**. Code and schemas: **MPL-2.0** (`DDD-dec-79`). See [`LICENSE.md`](LICENSE.md); releases up to `v0.4.0` remain available under their earlier licences, as `LICENSE.md` states.
+Spec text: **CC BY-SA 4.0**. Code and schemas: **MPL-2.0** (`DDD-dec-79`). See [`LICENSING.md`](LICENSING.md); releases up to `v0.4.0` remain available under their earlier licences, as `LICENSING.md` states.

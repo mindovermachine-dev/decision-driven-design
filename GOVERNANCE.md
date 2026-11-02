@@ -151,7 +151,7 @@ Blank issues are disabled.
 ## Licence and contributions
 
 Specification text is CC BY-SA 4.0 and code is MPL-2.0 ([`DDD-dec-79`](core/decisions/DDD-dec-79.yaml),
-[`LICENSE.md`](LICENSE.md)). The repository could be relicensed in 2026 because every author was
+[`LICENSING.md`](LICENSING.md)). The repository could be relicensed in 2026 because every author was
 Emil or an AI working under Emil. After the first outside contribution that stops being true:
 a licence change would then need every contributor's consent. There is **no CLA and no copyright
 assignment**, so in practice the licence is then settled.

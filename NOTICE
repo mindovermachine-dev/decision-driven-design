@@ -19,4 +19,4 @@ specification text be shared under the same licence, with attribution.
 Before DDD-dec-79 (core/decisions/DDD-dec-79.yaml), this repository was licensed
 CC BY 4.0 for text and Apache-2.0 for code. Tags v0.1.0 to v0.4.0, and every
 commit before that decision landed, remain available under those licences.
-LICENSE.md states the split.
+LICENSING.md states the split.

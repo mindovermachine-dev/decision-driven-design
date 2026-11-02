@@ -12,7 +12,7 @@
 # wiki stay as they were (all on). Labels, environments, secrets and Actions settings are left
 # out, so they are not managed here. Projects (the two boards) are not managed here either.
 repository:
-  # UNVERIFIED — Emil review: the wording of the description and the choice of topics.
+  # The description and topics were confirmed by Emil in Round 3 of the ready-to-try session.
   description: "Decision-Driven Design for software: the method, its claim graph and its decisions. Ready to try (preview)."
   homepage: ""
   topics:
