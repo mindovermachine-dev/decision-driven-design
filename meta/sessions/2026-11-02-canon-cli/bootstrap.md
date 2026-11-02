@@ -60,3 +60,25 @@ claim is recorded here, in each decision's notes, and in the pull request.
 | `prompt.md` | The charter, verbatim |
 | `predictions.md` | What each operation is predicted to do, written before it runs |
 | `successor-items.md` | What this session leaves open |
+
+## Amendment 1 — 2026-11-02: Round 1; main merged; ids re-checked; Q-7
+
+Add-only. Nothing above this heading is edited.
+
+- **Q-7 ruled** (Round 1, `rulings.md`): "94–99 left to the authority-profile session; this
+  session took 100–102". The headroom is no longer Claude's choice alone. The `UNVERIFIED` flag
+  above stands as history.
+- **Base.** `main` moved from `e5a332d` to `c7424ad` (the authority profile, PR #45, merged). The
+  branch took it by a signed merge, not a rebase, so the hashes cited so far still hold. There
+  were no conflicts.
+- **Decision ids**, re-checked on every branch of both repositories after the merge. Upstream
+  (27 branches) holds up to `DDD-dec-39`. `main` holds up to `DDD-dec-93`.
+  `claude/applications-for-readers-2026-11-02` (`fa99917`) holds `DDD-dec-94` and `95`. This
+  branch holds `100` to `102`. No branch holds `96` to `99` or anything above `102`. Emil's
+  round says the protection decision "will take the next free id". Its branch was not visible at
+  the check. This session takes **`DDD-dec-103` onward** for Round 1, so the two cannot collide
+  whichever id that decision takes.
+- **Found at the check, not acted on.** `main` changed `releases/v0.5.0.yaml` twice after
+  `v0.5.0` was tagged at `e5a332d`. `023c2c4` and `c7424ad` set `ratified_head` to `02298d3`,
+  then `7aa3fb0`, and both are later than the tagged commit. A cut descriptor is immutable
+  (`spec/release-format.md` rule 6). The tag still points at `e5a332d`. This is S-9.

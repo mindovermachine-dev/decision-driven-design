@@ -1,0 +1,58 @@
+format: 1
+id: DDD-dec-105
+kind: decision
+statement: |
+  canon issue-refs --basis refuses any non-merge commit that changes a file under core/ and carries no Basis: line in its message. The rule applies from commit 99d0a0f on, the commit that wrote it into the agent instructions. From the commit that files this decision on, every id on a Basis: line must also resolve at that commit, to a file under core/claims/ or core/decisions/ or to an id pinned in graph/upstream.yaml.
+principal: Emil
+made: |
+  2026-11-02, Round 1 (the Gate 1 review) of the canon CLI session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md (ticked: "Q-5 Basis enforced", option text "canon issue-refs --basis refuses commits touching core/ without a Basis: line, from a stated start commit on"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Confirm as proposed in DESIGN.md (tick each one you confirm):"
+  >
+  > A: "Q-3 namespaces, Q-5 Basis enforced, Q-7 id headroom" (Q-5's option text: "canon
+  > issue-refs --basis refuses commits touching core/ without a Basis: line, from a stated
+  > start commit on")
+
+  ## The start commit: 99d0a0f
+
+  99d0a0fc322db0403de35b74fbfb708f578f1891, 2026-07-28, "CLAUDE.md: point agents at the way of
+  working; require claim-ID basis in commits". It is that commit for three reasons, all
+  measured on the full history in this session (predictions P-5, P-6):
+
+  1. **It is when the rule began.** Before it, no instruction asked for a Basis: line. Enforcing
+     the rule on earlier commits would judge them by a rule they were not written under.
+  2. **The history since it already complies.** All 71 non-merge commits since 99d0a0f that
+     change core/ carry a Basis: line. A later start would exempt commits that need no
+     exemption.
+  3. **Every miss is before it.** Of 94 such commits in the whole history, 20 have no Basis:
+     line. All 20 are dated 2026-07-26 or earlier, the newest is 35d68f6, and none is rewritten.
+
+  ## Presence from 99d0a0f; resolution from this decision
+
+  The 71 commits name 338 ids in total. 254 resolve to a local file at their own commit, 72 to
+  an id pinned in graph/upstream.yaml at that commit, and 12 resolve to neither. Those 12 are in
+  8 commits, from bd79609 back to 70619c9. They are listed in
+  meta/sessions/2026-11-02-canon-cli/predictions.md (P-6) and are not rewritten. Resolution is
+  therefore enforced only from the commit that adds this file. Before it, only presence is
+  enforced.
+
+  ## What it is
+
+  AGENTS.md: "Every commit that changes canon must cite the claim or decision IDs it rests on".
+  This is DDD-agent-01's basis as query, applied to this repository's own commits. Until now
+  only habit enforced it.
+basedOn:
+  - DDD-dec-81
+  - DDD-dec-101
+  - DDD-tool-01
+notes: |
+  Id. As DDD-dec-103's note.
+
+  DDD-agent-01 is cited in AGENTS.md as the claim this rule applies, but there is no local file
+  for it at c7424ad (it is not under core/claims/ here), so it is not a basedOn edge.
+  UNVERIFIED — Emil review: where DDD-agent-01 lives.
+
+  The start commit is recorded in canon.yaml as the full sha, and the gate refuses a start
+  commit that is not an ancestor of the head under test.

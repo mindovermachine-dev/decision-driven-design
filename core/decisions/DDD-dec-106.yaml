@@ -1,0 +1,29 @@
+format: 1
+id: DDD-dec-106
+kind: decision
+statement: |
+  canon is not published to nuget.org for now. It is built from tools/canon/ in CI and in the devcontainer, and run from that build. Publishing it is its own decision, made for example at the split DDD-dec-101 leaves open.
+principal: Emil
+made: |
+  2026-11-02, Round 1 (the Gate 1 review) of the canon CLI session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md ("Local only for now (Recommended)", option text "Built from tools/canon/ in CI and the devcontainer; publishing becomes its own decision, e.g. at the split"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Q-6: publish canon to nuget.org now, or build it locally only?"
+  >
+  > A: "Local only for now (Recommended)" (option text: "Built from tools/canon/ in CI and the
+  > devcontainer; publishing becomes its own decision, e.g. at the split")
+
+  ## What follows
+
+  - The project packs as a dotnet tool (PackAsTool, command canon), so the form DDD-dec-101
+    rules is real and tested. Nothing pushes the package anywhere. This is the precedent of
+    Varve's tools/repo-standard/ ("nothing packs it for publication from this repository").
+  - CI and the devcontainer run canon with dotnet run --project tools/canon/src/Canon, or from a
+    local tool path. No feed, no API key, no publishing workflow.
+  - Another repository that wants canon before publication builds it from this repository at a
+    tag.
+basedOn:
+  - DDD-dec-101
+notes: |
+  Id. As DDD-dec-103's note.

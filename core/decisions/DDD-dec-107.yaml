@@ -1,0 +1,43 @@
+format: 1
+id: DDD-dec-107
+kind: decision
+statement: |
+  canon's RDF vocabulary is https://decision-driven-design.dk/ns/canon/1# and the IRI of a claim, decision or release with id X is https://decision-driven-design.dk/id/X. The mapping of the YAML files to RDF (tools/canon/DESIGN.md §5) uses both. Both are new public identifiers, beside the existing https://decision-driven-design.dk/ns/sdlc#.
+principal: Emil
+made: |
+  2026-11-02, Round 1 (the Gate 1 review) of the canon CLI session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md (ticked: "Q-3 namespaces", option text "https://decision-driven-design.dk/ns/canon/1# for the vocabulary, /id/ for ids, beside the existing /ns/sdlc#"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Confirm as proposed in DESIGN.md (tick each one you confirm):"
+  >
+  > A: "Q-3 namespaces, Q-5 Basis enforced, Q-7 id headroom" (Q-3's option text:
+  > "https://decision-driven-design.dk/ns/canon/1# for the vocabulary, /id/ for ids, beside the
+  > existing /ns/sdlc#")
+
+  ## Why a decision
+
+  A namespace is public. Once shapes and reports name terms in it, it cannot change without
+  breaking every reader. It is new canon, so it is filed rather than left in a design note.
+
+  ## What is named
+
+  - canon:Claim, canon:Decision and canon:Release, the claim kinds, and one property per YAML
+    key, as tools/canon/DESIGN.md §5.2 maps them.
+  - canon:sourcePath and canon:fileStem, which canon adds and no file carries.
+  - canon:rule, the stable rule code on every finding.
+  - Ids are not versioned: https://decision-driven-design.dk/id/DDD-dec-107 names this decision in
+    every edition of the vocabulary, because ids are never reused (AGENTS.md).
+basedOn:
+  - DDD-dec-102
+  - DDD-dec-100
+notes: |
+  Id. As DDD-dec-103's note.
+
+  Reading — Claude, UNVERIFIED — Emil review. The pattern is not quite sdlc's. sdlc's namespace
+  is unversioned (https://decision-driven-design.dk/ns/sdlc#), and its edition is the
+  owl:versionIRI https://decision-driven-design.dk/ns/sdlc/1. The ruled canon namespace puts the
+  edition in the namespace itself (/ns/canon/1#). That is filed as ruled. If Emil meant sdlc's
+  pattern (/ns/canon# with versionIRI /ns/canon/1), it needs a superseding decision before any
+  shape is published, while nothing cites the namespace yet. DESIGN.md as proposed also called
+  /ns/sdlc/1 the existing namespace; that was an error, and §5.2 is corrected.

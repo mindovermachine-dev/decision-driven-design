@@ -63,3 +63,51 @@ exit 0, unchanged. Every `basedOn` id names a local file (`DDD-dec-04`, `-43`, `
 Outcome for P-3 (appended): **held.** `scripts/ci.py` exited 0 with all seven gates passed;
 decisions valid at 71; 74 pins resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. Same as
 P-2. No gate reads `tools/`.
+
+## P-5 — Round 1, the Basis survey (tests D-8 early, by script, before canon exists)
+
+Prediction: among non-merge commits reachable from `HEAD` that change anything under `core/`,
+at least one after issue #44's first `Refs #44` commit has no `Basis:` line (D-8). Every commit
+on this branch since `6aad807` that touches `core/` has one. Falsifier: none missing after #44.
+
+Outcome for P-5 (appended): **refuted.** The survey ran on a shallow clone first (264 commits)
+and was redone after `git fetch --unshallow` (389). Of 94 non-merge commits that change `core/`,
+20 have no `Basis:` line. All 20 are dated 2026-07-26 or earlier, the newest is `35d68f6`, and all
+predate `99d0a0f` (2026-07-28, "CLAUDE.md: … require claim-ID basis in commits"). Every one of the
+71 since `99d0a0f` carries a `Basis:` line, so none is missing after #44. D-8 is refuted as
+written. The rule has been kept by hand from the moment it was written, which is why `99d0a0f`
+is proposed as the start commit.
+
+## P-6 — Basis ids resolve at their own commit
+
+Prediction: of the ids named on `Basis:` lines of those 71 commits, some do not resolve to a file
+under `core/claims/` or `core/decisions/` at that commit. Causes: upstream ids that are pinned
+(e.g. `DDD-ground-*`), and ids filed in the same commit's own tree, which resolve. At least one
+id resolves neither locally nor in `graph/upstream.yaml` at that commit. Falsifier: every id
+resolves one way or the other.
+
+Outcome for P-6 (appended): **held.** Over the 71 commits, the `Basis:` lines name 338 ids,
+counted once per commit. 254 resolve to a file under `core/claims/` or `core/decisions/` at their
+own commit, and 72 to an id named in `graph/upstream.yaml` at that commit. 12 resolve to neither,
+in 8 commits:
+
+| Commit | Ids |
+|---|---|
+| `bd79609` | `DDD-dec-40` |
+| `76d644e` | `DDD-ground-06`, `DDD-ground-01`, `DDD-dec-37` |
+| `f6d432a` | `DDD-dec-26` |
+| `b20cc56` | `DDD-dec-26` |
+| `61dfafa` | `DDD-measure-12`, `DDD-measure-14` |
+| `79bb532` | `DDD-dec-15` |
+| `f4b392e` | `DDD-cost-11` |
+| `70619c9` | `DDD-cost-02`, `DDD-cost-03` |
+
+Most are upstream ids cited before they were pinned, or decisions filed upstream. They are not
+errors to rewrite. They are why `DDD-dec-105` enforces resolution only from its own commit on.
+
+## P-7 — Round 1 decisions filed (`DDD-dec-103` to `DDD-dec-107`)
+
+Written before the validator ran, and appended late, in this same commit: the validator was run
+on the five files before this prediction was written down. Prediction as it stood: valid at 85
+(71 + main's `DDD-dec-85` to `93` + 5). Outcome: valid at 85, exit 0. Recorded as a lapse in
+order, not a held prediction.

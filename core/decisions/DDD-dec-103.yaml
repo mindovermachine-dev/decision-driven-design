@@ -1,0 +1,41 @@
+format: 1
+id: DDD-dec-103
+kind: decision
+statement: |
+  A Python validator is retired only when canon agrees with it on every fixture and on the live tree, measured under one Varve version and measured again after at least one Varve bump. The retiring decision names both Varve versions. This adds to DDD-dec-102's retirement rule and does not replace it.
+principal: Emil
+made: |
+  2026-11-02, Round 1 (the Gate 1 review) of the canon CLI session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md ("Agreement across two Varve versions (Recommended)", option text "Full fixture agreement, re-measured after at least one Varve bump; each retirement names both versions"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Q-1: when may a Python validator be retired, once canon agrees with it on every
+  > fixture? You maintain Varve, so 'leaves preview' is on your own schedule."
+  >
+  > A: "Agreement across two Varve versions (Recommended)" (option text: "Full fixture
+  > agreement, re-measured after at least one Varve bump; each retirement names both versions")
+
+  ## Why not "when Varve leaves preview"
+
+  Emil maintains Varve. A rule tied to Varve leaving preview would make retirement depend on a
+  date set by the person who also rules here, which says nothing about whether canon is right.
+  Two measurements across a bump test what the preview risk actually is: that a new Varve
+  changes a verdict (tools/canon/DESIGN.md §1).
+
+  ## The rule, with DDD-dec-102
+
+  1. Agreement as DDD-dec-102 defines it: the same verdict, and for a refusal the same rule
+     code, on every fixture under scripts/fixtures/ and on the live tree.
+  2. Measured at Varve version A and recorded in tools/canon/parallel-run.md.
+  3. Measured again, in full, after the pin in tools/canon/Directory.Packages.props moves to a
+     later Varve version B. A disagreement found after the bump resets the count for that
+     validator.
+  4. The retiring decision names A and B and the commits at which each agreement was measured.
+basedOn:
+  - DDD-dec-102
+  - DDD-dec-101
+notes: |
+  Id. Checked on every branch of both repositories on 2026-11-02 after main moved to c7424ad.
+  The authority-profile and applications-for-readers work holds up to DDD-dec-95, and this
+  branch holds 100 to 102. Emil's round says the protection decision takes the next free id, so
+  this round takes 103 onward (bootstrap.md, amendment 1).
