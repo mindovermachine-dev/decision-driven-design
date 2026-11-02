@@ -1,0 +1,22 @@
+Decision-Driven Design
+
+Copyright 2026 Emil Okkels Klein
+
+Code, schemas, RDF ontologies, SHACL shapes and other executable artifacts in
+this repository are subject to the terms of the Mozilla Public License, v. 2.0.
+If a copy of the MPL was not distributed with this file, You can obtain one at
+https://mozilla.org/MPL/2.0/.
+
+Specification text (prose documents, including the READMEs) is licensed under
+the Creative Commons Attribution-ShareAlike 4.0 International License,
+https://creativecommons.org/licenses/by-sa/4.0/.
+
+MPL-2.0 is a file-level copyleft licence. Using the checkers or the schemas
+does not make your own code subject to it: the reciprocity attaches to the
+covered files and to modifications of them. CC BY-SA 4.0 asks that adapted
+specification text be shared under the same licence, with attribution.
+
+Before DDD-dec-79 (core/decisions/DDD-dec-79.yaml), this repository was licensed
+CC BY 4.0 for text and Apache-2.0 for code. Tags v0.1.0 to v0.4.0, and every
+commit before that decision landed, remain available under those licences.
+LICENSE.md states the split.

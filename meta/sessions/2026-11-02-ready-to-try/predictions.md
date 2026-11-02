@@ -193,3 +193,34 @@ Outcome P-11, local: **held.** `devcontainer.json` parses once its comments are 
 Python 3.11.18 venv that installed only `scripts/requirements.txt` (PyYAML 6.0.3, rdflib 7.6.0,
 PyLD 3.3.0, pyshacl 0.40.2, pyoxigraph 0.5.13) ran `scripts/ci.py` to "all gates passed", exit 0.
 The image build is CI's `pipeline (devcontainer)` job, recorded below.
+
+Outcome P-11 and P-12 in CI: **held.** At `bae86e9`, both the push run and the pull-request run
+of `pipeline (devcontainer)` concluded `success` (runs 41421984765 and 41421991568). The log of job
+125199455821 shows the image built from `.devcontainer/` and the requirements installed by
+`onCreateCommand`. `devcontainer exec … python3 scripts/ci.py` then printed `ok` for all six
+gates and all ten fixture cases, and "all gates passed".
+
+Outcome P-6: **held.** Every relative link in `GOVERNANCE.md` resolves at the head (25 checked
+by script). The file states three departures, each with its decision: item 5 and item 4
+(`DDD-dec-78`) and the signing exception (`DDD-dec-81`). Correction: the first draft referred to
+Emil as "he" and "him", although Emil's pronouns are not stated anywhere in the repository. It
+was reworded to name Emil before commit. `prompt.md` line 4, an earlier record, says "his" and is
+left unedited, as the add-only rule requires.
+
+Outcome P-7: **held.** Every `##` heading of the old `CLAUDE.md` is in `AGENTS.md`. The diff is
+the title and tool-neutral framing, the checker's path (`scripts/validate-core-order.py`) and
+three added lines naming `scripts/ci.py`. `CLAUDE.md` is now a pointer ending in `@AGENTS.md`.
+
+Outcome P-8, local: `LICENSE` sha256 is
+`3f3d9e0024b1921b067d6f7f88deb4a60cbe7a78e76c64e3f1d7fc3b779b9d04`, the same as mozilla.org's
+text and Varve's `LICENSE`. `LICENSE.md` and the README's licence line state the split and that
+`v0.1.0` to `v0.4.0` stay under the earlier licences. A stale link in `LICENSE.md` was fixed:
+`meta/lineage-and-limits.md` is in the principle repository, not here. GitHub's detection at the
+branch ref is recorded below.
+
+Outcome P-10, local: the file parses. Its top-level keys are `repository` and `rulesets` only.
+The feature flags are issues, projects and wiki on (as found) and Discussions on (ruled). The one
+ruleset is `Signed Commits`, with Varve's two bypass actors. The description and topics are
+marked `UNVERIFIED — Emil review`. The public API check of the settings is recorded below.
+
+`scripts/ci.py` at this commit: all gates passed, exit 0.

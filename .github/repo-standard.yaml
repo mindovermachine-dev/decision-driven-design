@@ -1,0 +1,53 @@
+# repo-standard declaration for mindovermachine-dev/decision-driven-design
+#
+# The repository's settings, declared (DDD-dec-81). Written for the `repo-standard` tool Varve
+# uses, in the shape its `export` writes (Hafeok/varve, .github/repo-standard.yaml). Removing a
+# top-level key stops that kind of resource being managed.
+#
+# NOT YET APPLIED. Applying this file needs repository admin, which is Emil's act. Until then it
+# is a declaration, and the repository and this file are expected to disagree on the description,
+# the topics, Discussions and the ruleset.
+#
+# Only what DDD-dec-81 rules is changed from the settings at 2026-11-02. Issues, projects and the
+# wiki stay as they were (all on). Labels, environments, secrets and Actions settings are left
+# out, so they are not managed here. Projects (the two boards) are not managed here either.
+repository:
+  # UNVERIFIED — Emil review: the wording of the description and the choice of topics.
+  description: "Decision-Driven Design for software: the method, its claim graph and its decisions. Ready to try (preview)."
+  homepage: ""
+  topics:
+  - decision-driven-design
+  - software-design
+  - specification
+  - claim-graph
+  - ai-agents
+  default_branch: main
+  features:
+    issues: true
+    projects: true
+    wiki: true
+    discussions: true
+rulesets:
+# main requires signed commits (item 8), with Varve's stated exception (GOVERNANCE.md, "The signing
+# exception"). Two bypass actors, as in Varve:
+#   RepositoryRole 5     the admin role, Emil's.
+#   Integration 1236702  the Claude GitHub App, which pushes the commits of cloud AI sessions
+#                        whose sandbox key is registered to nobody.
+# Merge commits made by GitHub are signed by GitHub and need no bypass.
+- name: Signed Commits
+  target: branch
+  enforcement: active
+  conditions:
+    ref_name:
+      exclude: []
+      include:
+      - ~DEFAULT_BRANCH
+  rules:
+  - type: required_signatures
+  bypass_actors:
+  - actor_id: 5
+    actor_type: RepositoryRole
+    bypass_mode: always
+  - actor_id: 1236702
+    actor_type: Integration
+    bypass_mode: always
