@@ -1,103 +1,112 @@
-# The SDLC Projection
+# Decision-Driven Design for software
 
-**The framework, denominated in software delivery.** This is the agentic/DAG design framework that
-constituted the whole of Decision-Driven Design through v3. In v4 it takes its proper place: the
-**engineering projection** of the general principle — *Conservation of Specification Demand*, which is
-what *Conservation of Determination Demand* is called when the actor is building software.
+<!-- ddd:doc
+reader: architects, developers and product owners who want to apply the framework to a software product
+act: find the document for their task, in the order they will need them
+pin: v5.15.2
+basis: [term:floor, DDD-frame-01, term:seam-identity, DDD-dec-41, DDD-dec-42, DDD-dec-55, DDD-dec-74, DDD-dec-77, DDD-dec-95]
+status: current
+supersedes: e5a332d:applications/sdlc/README.md
+-->
 
-Nothing here is deprecated. The reframing is a promotion: what looked like the framework was always
-*one projection* of it.
+This folder applies Decision-Driven Design to building software. It gives you one place to say
+what a product is and does, one place to say how it is built, and a way to change both under
+control: every change is a signed decision by someone allowed to make it.
 
----
+**How settled this is.** The What and the How are decided, except for points each document marks.
+None of it has yet been tried on a real product beyond the worked example. Try it; do not rely on
+it yet.
 
-**Upstream basis.** This document is part of the software projection; it builds on the
-principle repo's canon (`actor-indexed-determination`). The `core/NN` references below resolve
-there, pinned at a version and a status in `graph/upstream.yaml`:
+## Where to start
+
+| You want to | Read |
+|---|---|
+| Say what your product is and does: domains, behaviour, screens, who may act | [`what.md`](what.md) |
+| Decide how it is built and deployed, or reuse a vendor's decisions | [`how.md`](how.md) |
+| See both working end to end, and run the checker | [`how-examples/`](how-examples/) |
+| Decide where your team should verify changes, or read the DORA metrics through the framework | [`production-as-ground.md`](production-as-ground.md) |
+| Build a tool that reads, writes, checks or hashes a What | [`what-reference.md`](what-reference.md), and the vocabulary, shapes and checker in [`what/`](what/) |
+| Build a tool for How decisions, or the gate that holds them | [`how-reference.md`](how-reference.md) |
+
+Read `what.md` before `how.md`. The How is written against a settled What.
+
+## Two worked examples, and why
+
+The documents here use **Acme Shop**, a small test web shop with one domain and two systems. It
+has a complete What, signed decision records for its What and How, and a checker that runs them.
+
+The method's quick start ([`../../method/quick-start.md`](../../method/quick-start.md)) uses
+**Varve**, a real open-source system with a short public quick start, to practise mapping acts.
+
+So a reader moving from the method into the What switches examples. Writing Varve's What, so that
+one example carries the whole method, is planned but not done *(not settled yet)*.
+
+## How the general framework reads in software
+
+The framework's principle is stated once, in general terms, in the principle repository. In
+software it is called the **conservation of specification demand**: for a task at a stated
+assurance level, the decisions the task needs are fixed, and every one of them gets made, by
+someone, at some price. The words of the general framework read like this here:
+
+| In the general framework | In software |
+|---|---|
+| A determination | a decision in the work: a feature choice, an architecture decision, a test criterion |
+| Ground | what the work reads: the repository, the schemas, the live environment, the source of truth |
+| The four places a decision can live | an encoded constraint; a mechanical check; a person's or model's judgment; nobody's (the unhandled case) |
+| An actor | a role in the work: a person, a model or a program, each pinned in its own way |
+| Seam demand | the contract between roles, and the orchestration that connects them |
+| Encoding and verifying | pinning the ground you control; verifying third-party APIs and the live environment |
+| Which decisions close | which decisions a model can own, and which need a person |
 
 <!-- ddd:ref id=term:floor -->
 <!-- ddd:ref id=DDD-frame-01 -->
 <!-- ddd:ref id=term:seam-identity -->
 
-## How this relates to `core/`
+## Three things the framework changes in practice
 
-| In `core/` (general) | Here (software) |
+**Who gets which decision is not a matter of taste.** A model can own a decision when the test of
+whether it was decided right can be checked over digital ground. Otherwise it needs a person chosen
+for judgment on open questions: a senior engineer, a domain expert. How much autonomy a role can
+have is bounded by how far its decisions close.
+
+**Orchestration is a seam, and it has a price.** An orchestrator is cheap to specify and expensive
+on every run. It is a bottleneck, and the one place that can poison the whole system. A system
+designed this way gets cheaper over time by turning recurring coordination decisions into encoded
+rules, each with a check, instead of paying for judgment on every run.
+
+**Third-party and environment ground must be verified on a schedule.** Their truth changes on their
+own clock, not on your build. So their checks run on a schedule, and a source you cannot reach is
+*unknown*, never a pass ([`../../apparatus/encode-verify.md`](../../apparatus/encode-verify.md)).
+
+## Tooling
+
+[`product-cli`](https://github.com/mindovermachine-dev/product-cli) is the authoring tool for this
+application. It manages features, architecture decisions, test criteria and dependencies, builds
+the graph, assembles bundles, runs audits and serves the engineering graph. Its companion
+orchestration harness is designed against the patterns of the earlier implementation document
+(below). Writ, the gate that holds How decisions, is defined but not yet built
+([`how.md`](how.md)).
+
+## Not settled yet
+
+- **One example for the whole method.** Varve's What is not written yet (above).
+- **The earlier design documents.** Before version 4, this folder had four design documents:
+  foundations, an entity reference, autonomy levels and an implementation architecture. They were
+  removed at the version 4 restructuring and are recoverable from history at `219ad6c`, under their
+  former `docs/` paths. Whether to restore them is not decided. They predate the current register,
+  so restoring them would mean reconciling them with canon, which wins wherever they conflict.
+
+## Where this comes from
+
+| Section | Rests on |
 |---|---|
-| Determination | a decision in the SDLC — a feature choice, an ADR, a test criterion |
-| Ground | the repo, the schemas, the live environment, the source of truth |
-| The four stores | encoded constraint · CI check · human/model judgment · the unhandled case |
-| Actor (`04`) | a role in the DAG — human, model, or program, pinned accordingly |
-| Seam demand (`06`) | the interface contract between roles; the orchestration layer |
-| Encode/verify (`apparatus`) | pinning controlled ground; verifying third-party APIs and live env |
-| Floor-in-the-predicate (`03`) | which decisions a model can own (closing predicate) vs. which need a human |
+| How settled this is | `DDD-dec-74` (ready to try: ruled for test, projected, not reported) |
+| What and How | `DDD-dec-41`, `DDD-dec-42` (the What moved here); `DDD-dec-55` and its successors (the How) |
+| Two worked examples | `DDD-dec-77` (Varve is the method's example); `DDD-dec-95` (Acme Shop stays for the What and How; Varve's What an open item) |
+| How the general framework reads in software | Upstream canon: `term:floor` (`core/03`), `DDD-frame-01`, `term:seam-identity` (`core/06`), actors (`core/04`); `apparatus/encode-verify.md` |
+| Three things the framework changes | Closure bounds autonomy (`core/03`); seams are priced (`core/06`); verification on a schedule (`apparatus/encode-verify.md`) |
+| The earlier design documents | Removed at commit `219ad6c`; their former paths `docs/01-foundations.md` to `docs/04-implementation.md` |
 
-The design docs below predate the `core/` layer. They remain correct as *engineering guidance*; where
-they reach for a foundational justification, that justification now lives in `core/`, stated more
-generally and more carefully.
-
----
-
-## The design documents
-
-**The four v3 design documents are not in this tree.** They were removed at the v4 restructuring
-(commit `219ad6c`, under their former `docs/` paths) and have not been re-landed; restoring them is
-an open decision that has not been taken. They are listed here as the record of what the v3
-framework comprised — recoverable from this repository's git history — not as links:
-
-1. **`01-foundations.md`** *(history: `docs/01-foundations.md`)* — LLMs as knowledge forecasters; work as a chain of
-   context-conditioned decisions; value actions as the terminus; roles and artifacts; the DAG, not the
-   pipeline. *Start here for the software framing.*
-
-2. **`02-entity-reference.md`** *(history: `docs/02-entity-reference.md`)* — the vocabulary made precise: processes,
-   decisions, actions, interpretations, roles, artifacts, sessions, schemas, bundles, audits, the
-   orchestration system, per-role autonomy.
-
-3. **`03-autonomy-levels.md`** *(history: `docs/03-autonomy-levels.md`)* — the 0–5 autonomy ladder, why autonomy is
-   per-role not per-system, and why this structure is what makes Levels 4–5 reachable. *Now with a
-   sharper foundation: per-role autonomy is exactly the actor model's pinning resolution (`core/04`),
-   and the ceiling on a role's autonomy is set by the closure of its acceptance predicate (`core/03`).*
-
-4. **`04-implementation.md`** *(history: `docs/04-implementation.md`)* — the build architecture: Rust + Oxigraph, curated
-   SPARQL for bundle assembly, the event substrate, the worker contract, emergent decisions during
-   action, the meta-loop, the model catalog.
-
-Written against v4:
-
-- **[what](what.md)** · moved 2026-10-28, not yet ratified — the opinionated specification of what a software application is and does (Product Framework §3 and §6.3.1, moved by `DDD-dec-41`…), in the identity form of `DDD-dec-63`; with its [ontology, shapes, example and checker](what/)
-- **[how](how.md)** · `[PROPOSED]`, unruled — the How as decisions: constraint, binding and contract, anchored in the What, held by Writ, shipped as packages and imported by `basedOn`; with its [vocabulary](how-vocabulary.md) and [worked decisions](how-examples/)
-- **production-as-ground** · pre-production predicates close over substitute ground; DORA's four keys instrument the encode/verify gap; the three tiers of feedback loop and which are eliminable
-
-> **Note.** The four historical documents were written before the v4 register (they say "law"
-> where `core/` now says "principle," and lean on the pre-review immune framing). If they are ever
-> restored to the tree, that reconciliation is the restoring session's work, and the `core/` layer
-> wins wherever they conflict. Until then, this README and `production-as-ground.md` are what the
-> SDLC projection carries here; the reference implementation is
-> [`product-cli`](https://github.com/mindovermachine-dev/product-cli).
-
----
-
-## Where the projection sharpens the design
-
-Three places where `core/` gives the SDLC framework something it did not have before:
-
-**Which role gets which decision** is no longer a matter of taste. `core/03` says a decision can be
-owned by a model iff its acceptance predicate closes over digital ground; otherwise it needs an actor
-selected for competence on open predicates (a senior, a domain expert). *Autonomy is bounded by
-closure.*
-
-**The orchestration layer is a seam**, and `core/06` prices it: an orchestrator is cheap to specify
-and expensive per run, a bottleneck, and the poisonable centre of the system. The compound move —
-harvesting recurring coordination decisions into encoded rules, with a check on each — is how a
-DDD-shaped system gets cheaper over time instead of paying full judgment cost on every run.
-
-**Verification of third-party and environment ground** is not optional and not build-triggered.
-`apparatus/encode-verify.md` says why: their truth moves on their clock, so the check must run on a
-schedule, and an unreachable source is `Unknown`, never a pass.
-
----
-
-## Reference implementation
-
-**[`product-cli`](https://github.com/mindovermachine-dev/product-cli)** — the authoring layer for this projection:
-owns features, ADRs, test criteria, dependencies; builds the derived graph; assembles curated bundles;
-runs audits; serves the engineering graph. The companion orchestration harness is designed against the
-patterns in `04-implementation.md`.
+Upstream references resolve in the principle repository at the pin in `graph/upstream.yaml`. The
+earlier text of this page is at `e5a332d`. That text still described the What as "not yet
+ratified" and the How as "unruled"; both had landed.
