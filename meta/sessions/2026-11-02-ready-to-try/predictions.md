@@ -343,3 +343,57 @@ two releases had no record of a ratified head at all, and two had only their mer
 record, against which it could find nothing. The class the guard exists for, a release cut from
 a head other than the ratified one, is undetectable in this repository's history, because nothing
 recorded the ratified head. That is the gap `DDD-dec-84` closes from v0.5.0 on.
+
+## G5 — predictions P-19 to P-23
+
+Written together on 2026-11-02, at `f199fb0`, after reading the sources and before writing any G5
+document. The sources:
+- step 1's canon, read live: `DDD-address-01` to `05` here; `DDD-ground-06` and `DDD-ground-01`
+  upstream, where `main` equals the pinned `v5.15.2` (`084bce7`);
+- the act address session's rulings (R-2, R-4 to R-8) and its method draft, which carries the step
+  card fields and the ten-step sequence as `[PROPOSED]`;
+- Varve's README at its latest tag, `v0.1.0-preview.15` (tagged 2026-10-26, the newest of
+  `git ls-remote --tags` on 2026-11-02; the GitHub API is closed to Varve from this session, so the
+  tag, not a Release page, was checked).
+
+### P-19 — `why.md`
+
+Prediction: `why.md` carries the old README from its first line through "Standing on". A diff
+against those lines shows only a new title and a two-line note saying where the text came from,
+and both are flagged. No other sentence changes. Every relative link resolves from the root, as
+before. Falsifier: any other changed line.
+
+### P-20 — `method/`, ten step cards and an index
+
+Prediction: every claim statement quoted in the step 1 card is byte-identical to its claim file,
+whitespace-normalised and checked by script against the live files. Every field of the card cites
+its source. Fields the canon does not fill say "not filed", and Claude's assembly is marked
+`UNVERIFIED — Emil review`. Steps 2 to 10 carry their name, position and the draft's one-line act
+and value, quoted, under `[PROPOSED]`, and "not filed" in every other field. Falsifier: a quoted
+statement differing from its file, or a step 2 to 10 card stating anything the draft does not.
+
+### P-21 — the quick start
+
+Prediction: every shell command in `method/quick-start.md` appears verbatim in Varve's README at
+`v0.1.0-preview.15`, checked by script. The act map uses the five operations `DDD-dec-77` names.
+The causal index shows the as-of read depending on the write alone, while the current read
+depends on the delete (`DDD-address-01`). The page states plainly that Varve is the subject of
+design and not a dependency, that the example is exposition and not evidence, and that the
+falsifier is the junior-engineer test, which is Emil's to run. The commands are **not** executed
+in this session: there is no .NET runtime or Docker daemon here. The page says so. Falsifier: a
+command that is not in Varve's README at the tag.
+
+### P-22 — the practitioner README
+
+Prediction: the README opens with what Decision-Driven Design is and its weakest point. It then
+covers what it gives you, where it is the wrong tool, status per step, the quick start, and a
+community table in Varve's form linking GOVERNANCE, SECURITY, CONTRIBUTING, the code of conduct,
+LICENSING and the CHANGELOG. Every relative link resolves. Every reason it gives for the method
+being the wrong tool is sourced to a claim, a ruling or `DDD-dec-74`. No validator result
+changes, and `scripts/ci.py` passes. Falsifier: a dead link, or an unsourced wrong-tool line.
+
+### P-23 — confidentiality
+
+Prediction: `grep -i phoenix` over every file G5 creates or changes returns nothing. The case is
+named only as upstream names it: "the first independent application case" (T2b). Falsifier: any
+hit.
