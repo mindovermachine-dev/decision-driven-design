@@ -1,5 +1,5 @@
 format: 1
-id: DDD-dec-77
+id: DDD-dec-85
 kind: decision
 statement: |
   The rulings the authority-profile charter states as already made: the genesis grant as defined on 2026-10-27, with transfer by decision, unavailability with a fallback who may act and not transfer, and loss without fallback as a new product; a product as the decision space, with a package as a product with an empty What and its own genesis, provenance and never authority in another product; a scope as a set of ontology classes optionally narrowed to one element's within* subtree, derived kinds in no scope, and a decision touching more than one scope in force only while it holds a valid acceptance under each; no machine identity accepts, reviews, grants or waives; signature, acceptor and acceptance time required for force, acceptance being a human holder's signature over the version hash under a grant live at that position; baselines ratchet and waivers expire; scope evaluated at signing and recorded; force local, basedOn provenance only.
@@ -50,6 +50,8 @@ basedOn:
   - DDD-dec-66
   - DDD-dec-64
 notes: |
-  Filed from the authority-profile session (meta/sessions/2026-11-02-authority-profile/). Next free
+  Filed from the authority-profile session (meta/sessions/2026-11-02-authority-profile/). Filed first
+  as DDD-dec-77 and moved to 85 by ruling R-14 (2026-11-02): 77 to 82 and 84 are filed on
+  claude/ready-to-try-2026-11-02 (PR #43), and 83 is recorded as never used. Next free
   id checked at arrival: 77. main holds up to 73, the unmerged branch claude/ready-to-try-2026-11-02
   holds 74 to 76, and upstream holds up to 39.

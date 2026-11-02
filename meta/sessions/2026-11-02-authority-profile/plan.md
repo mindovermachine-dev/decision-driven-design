@@ -1,6 +1,8 @@
 # Plan — the authority profile, 2026-11-02
 
-**Status: proposed, waiting for approval.** Nothing below is written until Emil rules. Questions 1
+**Status: approved in Round 1 (2026-11-02), with rulings (`rulings.md`). Renumbered by R-14:
+every id below from 77 moves to 85 onward (77 → 85, 78 → 86, 79–83 → 87–91). The text is left as
+approved; the table at the end of Part 4 gives the ids as filed.** Originally: proposed, waiting for approval. Nothing below is written until Emil rules. Questions 1
 to 7 are the charter's, each with the charter's proposal and Claude's answer. Q-8 to Q-10 and F-1
 to F-3 come from the arrival findings in `bootstrap.md`. Where a ruling differs from an answer
 here, the ruling governs, and `rulings.md` records it verbatim.
@@ -232,7 +234,9 @@ checkers run before each commit.
 | 6 | Supersessions, one decision each, in `DDD-dec-73`'s form (carried text, then what is stated more precisely). `DDD-dec-79` supersedes `-46`: transfer as a close that is not a revocation, the successor's acceptance, fallback limits. `DDD-dec-80` supersedes `-47`: F-1's mapping. `DDD-dec-81` supersedes `-54`: ruling 4's terms now defined. `DDD-dec-82` supersedes `-64`: P-7 stated as the profile's §3 and §4, P-1 to P-6 carried. `DDD-dec-83` supersedes `-72`: "sequenced after the authority profile's pull request" is discharged by this PR, and the rest is carried unchanged, `[PROPOSED]` items included | `core/decisions/DDD-dec-79…83.yaml` | each the decision it supersedes, and `DDD-dec-78` |
 | 7 | Session record: the where-it-landed table; successor items (product-cli's re-pin, now unblocked; Writ's suite; Writ `[D2.3]` if Q-6 is ruled as proposed; attestations; acme's migration under B); the sessions README row | `rulings.md`, `successor-items.md`, `meta/sessions/README.md` | — |
 
-Ids `DDD-dec-77` to `-83` are provisional, and are rechecked against every branch before each is
+**R-14 (2026-11-02):** filed as `DDD-dec-85` (step 0, the charter), `-86` (step 0, Round 1),
+`-87` to `-91` (step 6, superseding `-46`, `-47`, `-54`, `-64`, `-72` in that order). The plan's ids
+`DDD-dec-77` to `-83` were provisional, and are rechecked against every branch before each is
 filed (`bootstrap.md`: 74 to 76 are held by an unmerged branch). Test keys are throwaway and
 generated per build, as in the How examples. No real key is used.
 

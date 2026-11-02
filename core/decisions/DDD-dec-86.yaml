@@ -1,5 +1,5 @@
 format: 1
-id: DDD-dec-78
+id: DDD-dec-86
 kind: decision
 statement: |
   The authority profile (applications/sdlc/authority.md) rests on these rulings. An acceptance is its own signed record, whose by and at are the acceptor and the time, pinning the decision's version hash. Every authority-bearing field is a hashed dotted member, never extensions. Writ's [D2.11] clock rule is adopted as stated. The genesis is founded, not accepted. Every other grant is live only from its grantee's signed acceptance, and a transfer needs the successor's. A grant is revoked by its grantor or any holder above it, its chain falls from that position, and acts made before stand. Closing the prior genesis on transfer is not a revocation. An acceptance may be revoked. Keys are bound per product, the grantor vouching for a new holder's first key, and a close may carry a since position for compromise. A review is signed under a grant that could have accepted and has no force. A machine is an identity named in a signed attribution record, and any record carrying attributedTo is refused as an act of authority. A team is not a holder. The profile requires a positioned log, and every time-dependent evaluation reads header clocks, waiver expiry being a header-clock time. There is one conformance class, authority-conformant, with thirteen properties and a reference evaluator that is not Writ's suite. A grant delegates only if it says so, and only a subset of its own scope. The worked example extends the acme shop product, and what@4 is its cost. The profile covers the violation-description field, and attestations are a successor item.
@@ -65,7 +65,7 @@ resolution: |
   Writ's definition: a waiver's review-by is a header-clock time, not a position (Q-6, "amended
   today").
 basedOn:
-  - DDD-dec-77
+  - DDD-dec-85
   - DDD-dec-46
   - DDD-dec-47
   - DDD-dec-54

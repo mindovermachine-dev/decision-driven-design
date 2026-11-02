@@ -15,9 +15,16 @@ Filled in at arrival and committed with `prompt.md` and `plan.md`.
 
 ## Next free decision id
 
-**`DDD-dec-77`.** `main` holds up to `DDD-dec-73`. The unmerged branch
+**`DDD-dec-77`** at arrival. `main` holds up to `DDD-dec-73`. The unmerged branch
 `claude/ready-to-try-2026-11-02` (head `87969b9`) holds `DDD-dec-74` to `DDD-dec-76`, so those
 are taken. Upstream (`actor-indexed-determination`, every branch) holds up to `DDD-dec-39`.
+
+**Amended by ruling R-14 (2026-11-02, `rulings.md`): `DDD-dec-85`.** After arrival,
+`claude/ready-to-try-2026-11-02` (PR #43) filed `DDD-dec-77` to `-82` and `-84`, and `-83` is
+recorded as never used. This session's provisional 77 and 78 moved to 85 and 86, and the planned
+supersessions to 87 to 91. The re-check R-14 asks for was run on every branch of both
+repositories before the move: downstream holds 74 to 82 and 84, all on that branch; upstream
+holds up to 39.
 
 ## Arrival findings — reported, not acted on
 

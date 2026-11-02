@@ -6,9 +6,9 @@ charter, and this file carries what came after it.
 ## The charter's own rulings
 
 The list under "Already ruled; do not reopen" in `prompt.md`, verbatim there. It is filed as
-`DDD-dec-77`, as `DDD-dec-54` filed the How charter's list.
+`DDD-dec-85`, as `DDD-dec-54` filed the How charter's list.
 
-## Round 1, 2026-11-02 — the plan approved; recorded in `DDD-dec-78`
+## Round 1, 2026-11-02 — the plan approved; recorded in `DDD-dec-86`
 
 Verbatim:
 
@@ -35,3 +35,23 @@ Verbatim:
 ### Where each ruling landed
 
 Filled in as the work lands (`plan.md`, Part 4).
+
+## R-14, 2026-11-02 — the ids move to 85 onward
+
+Verbatim:
+
+> Ruling R-14, 2026-11-02 (Emil): DDD-dec-77 to 82 and 84 are filed on
+> claude/ready-to-try-2026-11-02 (PR #43); 83 is recorded as never used. Your provisional
+> 77 and 78 move to 85 onward. Re-check every branch in both repositories before filing,
+> and record this ruling and the renumbering in your bootstrap and plan.
+
+### Where it landed
+
+| Item | Landed | State |
+|---|---|---|
+| Re-check, 2026-11-02 | every branch of mindovermachine-dev/decision-driven-design: `claude/ready-to-try-2026-11-02` holds 74 to 82 and 84, and no other branch holds 74 or above. Every branch of `actor-indexed-determination`: up to 39 | done |
+| 77 → 85, 78 → 86 | `core/decisions/DDD-dec-85.yaml`, `DDD-dec-86.yaml`, moved by `git mv` in their own commit. The first filing (`e88eb6f`, as 77 and 78) was never pushed. 85's notes record the move | done |
+| The supersessions, planned as 79 to 83 | 87 to 91 (`plan.md`, Part 4, step 6) | as planned, renumbered |
+| Bootstrap and plan | `bootstrap.md`, "Next free decision id"; `plan.md`, status note and Part 4 | done |
+
+Round 1's verbatim "Ids from 77" is left as Emil wrote it; R-14 governs it.
