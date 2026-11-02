@@ -52,3 +52,37 @@ is still live; the claim is recorded here, in each decision's notes, and in the 
 | `applicability.md` | G3: the stewardship standard, item by item, as it applies here `[PROPOSED]` |
 | `predictions.md` | What each operation is predicted to do, written before it runs |
 | `successor-items.md` | What this session leaves open |
+
+## Amendment 1 — 2026-11-02: the session moves to Claude Code
+
+Add-only. Nothing above this heading is edited.
+
+At Emil's instruction — "We need to run in in a claude code session we get the correct signature
+etc" — the session moved from the claude.ai cloud workspace, where its first four commits were
+made, to a Claude Code session. GitHub reported those four commits as unverified
+(`unknown_key`): the workspace's signing key is registered to nobody.
+
+The Claude Code session re-signed them with its own key
+(`SHA256:xDu5EyJd05ROum1g+8Aj1Up3MjE6RbHnI70/xNHljDY`, identity
+`Claude (Emil) <claude+emil@okkels-klein.dk>`) by
+`git rebase --exec 'git commit --amend --no-edit -S' origin/main`, then pushed with
+`--force-with-lease` against the old head. For each pair, author, author date, message and tree
+are unchanged and `git diff <old> <new>` is empty. Only the committer date and the signature
+differ. GitHub reports all four new commits `verified: true`, reason `valid`.
+
+| Old | New | Tree | Commit |
+|---|---|---|---|
+| `d38fbdf4fef6a6ff2ea5897cd3a83cee4980982c` | `7599efb6d735ca69d56dee0290a861c663990ab1` | `79329e5` | G0 charter |
+| `8d4557411c3a5c37b00a1a3ffa28950ab10d1bf7` | `8eda2fb4864eb1ad73646a4d8588c99612c61b80` | `52ca273` | G1, round 1 |
+| `30dc4eb4c2cbcb561f81d3c48eeee7e95b7e6a90` | `1ecb35064260f7af5e0bd463f799d2c2cbc34854` | `69f0568` | P-1..P-4 |
+| `455a13ca8a142aaafb6a0820e8c11739f5f90861` | `fcf75947b9c07b1756ae0c28f278736cb898c3b0` | `0a07a70` | G2 |
+
+The old hashes are cited in earlier messages and replies of this session. They no longer exist
+on the branch, so read them through this table. The base is still `1d0f40c`. The `Claude-Session`
+trailer of each re-signed commit names the claude.ai workspace session that wrote it. Commits from
+this amendment onward name the Claude Code session.
+
+Decision ids, re-checked after the move across every branch of both repositories. Upstream holds
+up to `DDD-dec-39`, downstream `main` up to `DDD-dec-62`, and `claude/stoic-einstein-v3y8w9` up
+to `DDD-dec-73` (head `5588e9a`, 2026-11-02 08:38 UTC). Only this branch holds `DDD-dec-74` to
+`DDD-dec-76`. The range is unchanged.
