@@ -8,17 +8,22 @@
   "name": "Decision-Driven Design",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm",
 
+  // The .NET SDK beside Python, for canon (tools/canon/, DDD-dec-101): built from source here and
+  // in CI, never pulled from a feed (DDD-dec-106). The feature's major version was checked against
+  // ghcr.io/devcontainers/features/dotnet on 2026-11-02 (latest 2.5.0).
   "features": {
-    "ghcr.io/devcontainers/features/github-cli:1": {}
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/dotnet:2": { "version": "10.0" }
   },
 
-  "onCreateCommand": "pip install --no-cache-dir -r scripts/requirements.txt",
+  "onCreateCommand": "pip install --no-cache-dir -r scripts/requirements.txt && dotnet build tools/canon/canon.slnx",
   "postCreateCommand": "python3 scripts/ci.py --list",
 
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
+        "ms-dotnettools.csharp",
         "redhat.vscode-yaml",
         "editorconfig.editorconfig",
         "davidanson.vscode-markdownlint"

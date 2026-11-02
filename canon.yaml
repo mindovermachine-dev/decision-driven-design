@@ -1,0 +1,35 @@
+# canon.yaml — this repository's declaration to canon (tools/canon/DESIGN.md §3.3; DDD-dec-101).
+# Every key below has the meaning tools/canon/DESIGN.md gives it. A repository with no canon.yaml
+# gets this repository's layout as the default.
+
+github: mindovermachine-dev/decision-driven-design
+remote: origin
+trunk: main
+releases: releases
+
+changelog:
+  # DDD-dec-104: CHANGELOG.md is the projection of releases/ from v0.5.0 up. From this heading to
+  # the end it is the frozen 4.x tail, checked byte for byte against this hash (at e955210).
+  path: CHANGELOG.md
+  tail-from: "## 4.7 — The volume layer (boundary charter)"
+  tail-sha256: 51f888f2d803205e4fec3c9db8c87be6186a75331270886718a6340cebfcab02
+
+issue-refs:
+  # The first commit the Refs #N rule covers: 6aad807, this session's charter, the first commit
+  # under issue #46. Measured in Gate 2 (predictions P-11). Every non-merge commit descending from
+  # it carries Refs; main's own latest commits (c7424ad and before) carry none and do not descend
+  # from it. UNVERIFIED — Emil review: the start is Claude's measured choice, not a ruling.
+  from: 6aad807085ca02b229643140c9ed06e6ea0b9d9f
+  exempt-authors: []
+
+basis:
+  # DDD-dec-105. Presence of a Basis: line on commits touching core/ from 99d0a0f, the commit
+  # that wrote the rule; resolution of its ids from e955210, the commit that filed DDD-dec-105.
+  paths: [core/]
+  from: 99d0a0fc322db0403de35b74fbfb708f578f1891
+  resolve-from: e955210335a9fcbee15d7eedce10a10f091dff44
+  canon: [core/claims, core/decisions]
+  pins: graph/upstream.yaml
+
+# Until Gate 3, every gate is scripts/ci.py's. canon release runs this at the commit under release.
+gates: [python3, scripts/ci.py]
