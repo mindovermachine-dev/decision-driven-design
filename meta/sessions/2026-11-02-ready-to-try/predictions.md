@@ -32,6 +32,10 @@ what the baseline reports: 74 pins resolved, 0 basis-loss, 0 content-drift. Fals
 fails on a clean tree at this branch's head. What it breaks: the claim that the pins are checkable
 by anyone, which the "ready to try" front door (`DDD-dec-74`) will rely on.
 
+Outcome, local run without credentials: 74 pins resolved, 0 basis-loss, 0 content-drift, 1
+shadowed id; exit 0. Held locally. The CI run on the pushed branch is the test proper and is
+recorded in the pull request.
+
 ## P-3 — G2, front-page links
 
 Prediction: after the edit, no README outside `meta/` and `core/decisions/` links to
@@ -39,8 +43,16 @@ Prediction: after the edit, no README outside `meta/` and `core/decisions/` link
 rewritten link resolves (anonymous `git ls-remote` on each repository). Ruled records keep their
 historical URLs; they are not rewritten.
 
+Outcome: 0 such links remain in READMEs outside `meta/` and `core/decisions/`. Both rewritten
+targets resolve anonymously. Held. `spec/claim-format.md` and `applications/sdlc/how.md` still
+carry `Hafeok/` URLs and were left: they are ruled material, and a link in them changes by
+supersession or by Emil's say-so, not by this session.
+
 ## P-4 — G2, community files
 
 Prediction: adding `SECURITY.md`, `CODE_OF_CONDUCT.md`, issue templates and a PR template changes
 no validator result. They touch no watched path except `.github/`, which the workflow does not
 watch, so CI does not run for them alone.
+
+Outcome: claims valid at 31 with the same 6 warnings, decisions valid at 50, pins as baseline.
+Held.

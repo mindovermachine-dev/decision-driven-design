@@ -4,7 +4,7 @@
 determinations come from, what they cost, and which actor should make each one.
 
 > **This repository was split (`DDD-dec-04`).** The actor-general theory now lives in the principle
-> repository, [`actor-indexed-determination`](https://github.com/Hafeok/actor-indexed-determination)
+> repository, [`actor-indexed-determination`](https://github.com/mindovermachine-dev/actor-indexed-determination)
 > (split at tag `v5.0.0`, pin now advanced — see `graph/upstream.yaml`); *decision-driven-design* is
 > its **software projection** and keeps the name. Core canon is consumed by pin, not copy — see [`graph/upstream.yaml`](graph/upstream.yaml). Falsification
 > of a core claim is an issue for the principle repo; software apparatus and domain projections are
@@ -38,18 +38,18 @@ with declared falsifiers nobody has met:
 
 1. **The irreducible floor of a task is a property of its *acceptance predicate*, not of the task.**
    Zero where you can check the answer; non-zero where you cannot; and *whether you can* is, in
-   general, undecidable. *(`DDD-floor-02`, **projected**)* → [`core/03-the-floor.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/core/03-the-floor.md)
+   general, undecidable. *(`DDD-floor-02`, **projected**)* → [`core/03-the-floor.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/core/03-the-floor.md)
 
 2. **Selection intensity is inversely proportional to acceptance-predicate closure.** *Training* is
    what you do when you can check the work. *Selection* is what you do when you cannot — you check the
    worker instead. This is falsifiable across professions. *(`DDD-hyp-05`, **projected**)*
-   → [`core/04-actors.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/core/04-actors.md)
+   → [`core/04-actors.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/core/04-actors.md)
 
 And, new in 4.1: a measure for the closing region. The chain-rule identity is arithmetic
 (`DDD-measure-02`, **established**, formal); the identification of specification demand with the
 Shannon entropy of the verdict is a modelling claim (`DDD-measure-01`, **projected**) — the
 identity holding is not evidence for the identification
-([`core/09`](https://github.com/Hafeok/actor-indexed-determination/blob/main/core/09-the-measure.md)). The measure is defined exactly where the predicate closes,
+([`core/09`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/core/09-the-measure.md)). The measure is defined exactly where the predicate closes,
 and is undefined at the floor.
 
 And a prediction: **model actors outperform human actors exactly where the acceptance predicate
@@ -66,9 +66,9 @@ allocation lens (four stores: encoded, mechanically checked, judged, escaped), a
 **It is not** a new physical law. The conservation claim is **Tesler's Law of Conservation of
 Complexity, generalised** — denominated in decisions, with a fourth store (the *escaped* one Tesler
 lacked) and an assurance-level bound. It has **no measurable unit**, so it is a **principle**, not a
-law, and the repository says so throughout. See [`core/01-the-principle.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/core/01-the-principle.md)
+law, and the repository says so throughout. See [`core/01-the-principle.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/core/01-the-principle.md)
 and, for the full record of what was corrected and why,
-[`meta/lineage-and-limits.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
+[`meta/lineage-and-limits.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
 
 We publish the review and the retreats as first-class documents. A framework that states what it
 cannot support is worth more than one that overclaims.
@@ -81,7 +81,7 @@ cannot support is worth more than one that overclaims.
 
 The actor-general theory — `00` primitives through `13` delivery, the canonical term graph, and the
 reproduction assets — is **canon in the principle repository**,
-[`actor-indexed-determination`](https://github.com/Hafeok/actor-indexed-determination), at the tag
+[`actor-indexed-determination`](https://github.com/mindovermachine-dev/actor-indexed-determination), at the tag
 pinned in [`graph/upstream.yaml`](graph/upstream.yaml), which is authoritative for the version.
 It is not duplicated here. This repository pins the specific claims it depends on in
 [`graph/upstream.yaml`](graph/upstream.yaml); read the theory in the principle repo's `core/`.
@@ -144,7 +144,7 @@ Danish glossary of core terms: in the principle repo (`i18n/ordliste-dansk.md`).
 ## What changed from v3
 
 v3 was the agentic-design framework: decisions as the unit of work, a DAG of roles, artifacts with
-schemas, backed by [`product-cli`](https://github.com/Hafeok/product-cli). Its reframing as the
+schemas, backed by [`product-cli`](https://github.com/mindovermachine-dev/product-cli). Its reframing as the
 **engineering projection** of the general principle stands — that is what it always was. Its four
 design documents, however, are **not in this tree**: they were removed at the v4 restructuring and
 survive in git history; restoring them is an open decision that has not been taken. What the
@@ -159,14 +159,14 @@ The register also changed. Following external review:
   Ashby did, and even he refused the term).
 - **Conservation** holds as an accounting identity *within a fixed decomposition* — re-decomposing
   *relocates* demand into the seam (a cleaner split pre-pays more into the interface contract; the
-  total is invariant), so the decomposition is the highest-leverage decision. → [`core/09`](https://github.com/Hafeok/actor-indexed-determination/blob/main/core/09-the-measure.md) §4, `DDD-measure-03`.
+  total is invariant), so the decomposition is the highest-leverage decision. → [`core/09`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/core/09-the-measure.md) §4, `DDD-measure-03`.
 - **The immune-system "licensing" argument** is demoted to a suggestive parallel with known
   disanalogies; **CRISPR** is the accurate compound-platform instance.
 - **The zero-floor postulate** is retreated to **the floor-in-the-predicate** result, which is
   sharper and survives the theoretical limits (Rice, inevitable model error, collective tacit
   knowledge).
 
-Full record: [`meta/lineage-and-limits.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
+Full record: [`meta/lineage-and-limits.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
 
 ---
 
@@ -182,7 +182,7 @@ established) and the identification of demand with verdict entropy is a modellin
 (`DDD-measure-01`, **projected**); off closing predicates it is marked as a **boundary, not an
 open debt**. The framework books its remaining debts openly ([`meta/`](meta/)).
 
-Reference implementation: [`product-cli`](https://github.com/Hafeok/product-cli) (the authoring layer
+Reference implementation: [`product-cli`](https://github.com/mindovermachine-dev/product-cli) (the authoring layer
 for the SDLC projection).
 
 ## Standing on
@@ -190,7 +190,7 @@ for the SDLC projection).
 Tesler (conservation of complexity) · Ashby (requisite variety) · Brooks (essential complexity) ·
 Meyer & Hoare (contracts) · Saltzer, Reed & Clark (end-to-end) · Kalman (observability) · Polanyi &
 Collins (tacit knowledge) · Rice (undecidability) · Edelman & Gally (degeneracy). Full attribution in
-[`meta/lineage-and-limits.md`](https://github.com/Hafeok/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
+[`meta/lineage-and-limits.md`](https://github.com/mindovermachine-dev/actor-indexed-determination/blob/main/meta/lineage-and-limits.md).
 
 ## License
 

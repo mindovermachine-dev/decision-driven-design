@@ -29,16 +29,13 @@ jobs:
           python3 scripts/validate-claims.py core/claims/
           python3 scripts/validate-claims.py core/decisions/ --decisions
       - name: Upstream pins (E12/E13/W5) against the pinned ref
-        # The principle repo is private; cloning it needs a token with read access.
-        # Provide it as the secret UPSTREAM_TOKEN (a PAT or a fine-grained token scoped to
-        # actor-indexed-determination:contents:read). Without it the clone step is skipped with a
-        # warning rather than failing the build, so forks without the secret still run local checks.
+        # The principle repository is public, so the pinned ref clones without credentials and this
+        # step runs everywhere, forks included. UPSTREAM_TOKEN is used when it is set (to lift the
+        # anonymous rate limit) and is not required.
         env:
           UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_TOKEN }}
         run: |
-          if [ -z "$UPSTREAM_TOKEN" ]; then
-            echo "::warning::UPSTREAM_TOKEN not set — skipping upstream pin resolution (private principle repo)."
-            exit 0
+          if [ -n "$UPSTREAM_TOKEN" ]; then
+            git config --global url."https://x-access-token:${UPSTREAM_TOKEN}@github.com/".insteadOf "https://github.com/"
           fi
-          git config --global url."https://x-access-token:${UPSTREAM_TOKEN}@github.com/".insteadOf "https://github.com/"
           python3 validate-core-order.py core/

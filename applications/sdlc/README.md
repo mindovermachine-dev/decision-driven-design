@@ -70,7 +70,7 @@ Written against v4:
 > restored to the tree, that reconciliation is the restoring session's work, and the `core/` layer
 > wins wherever they conflict. Until then, this README and `production-as-ground.md` are what the
 > SDLC projection carries here; the reference implementation is
-> [`product-cli`](https://github.com/Hafeok/product-cli).
+> [`product-cli`](https://github.com/mindovermachine-dev/product-cli).
 
 ---
 
@@ -96,7 +96,7 @@ schedule, and an unreachable source is `Unknown`, never a pass.
 
 ## Reference implementation
 
-**[`product-cli`](https://github.com/Hafeok/product-cli)** — the authoring layer for this projection:
+**[`product-cli`](https://github.com/mindovermachine-dev/product-cli)** — the authoring layer for this projection:
 owns features, ADRs, test criteria, dependencies; builds the derived graph; assembles curated bundles;
 runs audits; serves the engineering graph. The companion orchestration harness is designed against the
 patterns in `04-implementation.md`.
