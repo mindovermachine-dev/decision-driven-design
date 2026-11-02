@@ -5,7 +5,7 @@ version: v0.5.0
 # ratifies (the commit before this descriptor on the branch). Until it is filled, the ported
 # validator refuses this file and the `releases` gate of scripts/ci.py is red, by design: an
 # unratified release cannot go green (spec §4 rule 7; DDD-dec-84).
-ratified_head: 7aa3fb0cd650fcbf57efa1be567a85facb424814
+ratified_head: 4801fee85bf6afa5b9612d7dd558e747822e2ae5
 date: 2026-11-02
 # prerelease: confirmed by Emil in Round 4 of the ready-to-try session ("Keep prerelease: true");
 # GitHub marks v0.5.0 as a pre-release, matching "ready to try (preview)" (DDD-dec-74).
