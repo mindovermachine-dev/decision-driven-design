@@ -105,3 +105,25 @@ The predictions below were written before the changed gate or its fixtures were 
 - **Prediction for the whole run.** All gates green on this branch and on `main` after the
   fast-forward. The releases gate reports `v0.5.0` as cut (remote) with its descriptor equal to the
   tag's.
+
+## Outcome, after the predictions above
+
+Run on 2026-11-02 at the commit that adds the gate change.
+
+| Prediction | Outcome |
+|---|---|
+| F-1 accepted, cut decided from origin | **held.** "cut decided from origin (git ls-remote --tags origin)" |
+| F-2 refused, "changed after it was cut" | **held** |
+| F-3 accepted, "offline" | **held.** "offline: origin not reachable …; cut decided from LOCAL tags" |
+| All gates green; `v0.5.0` reported cut, its descriptor equal to the tag's | **held.** "v0.5.0: cut at e5a332d; releases/v0.5.0.yaml at HEAD equals the file at the tag" |
+
+- **The fixtures detect the old behaviour.** With "cut" decided from local tags only, which is what
+  the old gate did, F-1 and F-2 both fail as fixtures and F-3 still passes. This was checked by
+  pointing `ls-remote` at a remote that does not exist, in a throwaway copy of `ci.py`.
+- **A harness bug, fixed before the outcome above.** The first run stopped on F-3's
+  `git tag`: this machine's git config sets `tag.gpgsign`, which forces an annotated tag. The
+  fixture tags now pass `-c tag.gpgsign=false`, as fixture commits already did. It was a harness
+  error, not a prediction outcome.
+- **Overlap to note.** The canon-cli session (PR #47) records a held "cut-descriptor immutability
+  check" in its `DESIGN.md` §4.5, pending its S-9. This gate change is that check, made now on
+  Emil's instruction. S-9 may want to point here.

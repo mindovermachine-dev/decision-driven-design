@@ -11,6 +11,7 @@ failure.
 | `validate-claims.py --decisions` | `decisions/accept/`: a decision with principal, resolution, `made` and `basedOn` | `decisions/refuse/*.yaml`: no `basedOn` (escaped decision); no principal |
 | `validate-releases.py` | `releases/accept/`: a format 2 descriptor | `releases/refuse/no-ratified-head/`, `releases/refuse/unresolved-basis/`; `expect` names the message |
 | `check-release-head.py` | built by `ci.py` in a throwaway git repository: the ratified head plus only the descriptor | the descriptor cut from before the ratified head ("is not an ancestor"); an unratified commit merged after it ("changed between the ratified head") |
+| `ci.py`'s releases gate on a cut release (correction of 2026-11-02) | built in throwaway repositories with a bare `origin`: the tag only on `origin`, later work on top, the descriptor unchanged (cut decided from the remote); no `origin` and a local tag ("offline", local tags decide) | the descriptor's `ratified_head` changed after the cut ("changed after it was cut") |
 | `validate-core-order.py` | `core-order/accept/`: two documents, a backward edge, an embed matching the graph | `core-order/refuse/forward-edge/` (E4), `core-order/refuse/drifted-embed/` (E6); `expect` names the code |
 
 **Why the core-order documents end in `.md.fixture`.** `validate-core-order.py` scans every `*.md`

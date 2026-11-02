@@ -54,14 +54,67 @@ def git(*args, cwd):
     return r.stdout.strip()
 
 
-def tag_exists(version):
-    return subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"refs/tags/{version}"],
-                          cwd=ROOT, capture_output=True).returncode == 0
+def cut_tags(root: Path, versions):
+    """Which versions are cut, and at which commit: {version: commit}, and a note saying how that
+    was decided (correction of 2026-11-02, item 3(a)). The remote decides: a clone that has not
+    fetched a tag, or holds a stale one (`git fetch` never overwrites a local tag), would otherwise
+    re-guard a cut release at HEAD. Local tags decide only when origin cannot be reached, and the
+    note says so."""
+    try:
+        r = subprocess.run(["git", "ls-remote", "--tags", "origin"], cwd=root, capture_output=True,
+                           text=True, timeout=60)
+        reached, why = r.returncode == 0, (r.stderr.strip().splitlines() or ["no origin"])[0]
+    except subprocess.TimeoutExpired:
+        reached, why = False, "git ls-remote timed out"
+    if reached:
+        refs = {}
+        for line in r.stdout.splitlines():
+            sha, ref = line.split("\t")
+            name = ref.removeprefix("refs/tags/")
+            if name.endswith("^{}"):
+                refs[name[:-3]] = sha          # an annotated tag: the commit it points at
+            else:
+                refs.setdefault(name, sha)
+        return {v: refs[v] for v in versions if v in refs}, "cut decided from origin (git ls-remote --tags origin)"
+    local = {}
+    for v in versions:
+        q = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"refs/tags/{v}^{{commit}}"],
+                           cwd=root, capture_output=True, text=True)
+        if q.returncode == 0:
+            local[v] = q.stdout.strip()
+    return local, f"offline: origin not reachable ({why}); cut decided from LOCAL tags, which may be missing or stale"
+
+
+def release_cuts(root: Path, descriptors):
+    """For each descriptor: if its version is cut, its file at HEAD must equal the file at the tag
+    (item 3(b)); if not cut, the release-head guard runs at HEAD (DDD-dec-84)."""
+    cut, note = cut_tags(root, [d.stem for d in descriptors])
+    code, out = 0, note
+    for d in descriptors:
+        v, rel = d.stem, d.relative_to(root).as_posix()
+        if v not in cut:
+            c, o = run(["scripts/check-release-head.py", rel, "--at", "HEAD"], cwd=root)
+            out += "\n" + o
+            code = code or c
+            continue
+        at = subprocess.run(["git", "show", f"{cut[v]}:{rel}"], cwd=root, capture_output=True)
+        head = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=root, capture_output=True)
+        if at.returncode != 0:
+            out += (f"\n  {v}: cut at {cut[v][:7]}, but that commit or its {rel} is not in this clone; "
+                    "run git fetch --force --tags origin")
+            code = 1
+        elif head.stdout != at.stdout:
+            out += (f"\n  {v}: {rel} at HEAD differs from the file at the tag ({cut[v][:7]}): the descriptor "
+                    "changed after it was cut. A cut release's descriptor is immutable")
+            code = 1
+        else:
+            out += f"\n  {v}: cut at {cut[v][:7]}; {rel} at HEAD equals the file at the tag; immutable, not re-guarded"
+    return code, out
 
 
 def gate_releases():
-    """spec/release-format.md under DDD-dec-84: every descriptor validates, and every descriptor
-    not yet cut satisfies the release-head guard at the head under test."""
+    """spec/release-format.md under DDD-dec-84: every descriptor validates; a descriptor not yet cut
+    satisfies the release-head guard at HEAD; a cut one is unchanged since its tag."""
     rel = ROOT / "releases"
     descriptors = sorted(rel.glob("*.yaml")) if rel.is_dir() else []
     if not descriptors:
@@ -69,14 +122,8 @@ def gate_releases():
     code, out = run(["scripts/validate-releases.py", "releases/"])
     if code != 0:
         return code, out
-    for d in descriptors:
-        if tag_exists(d.stem):
-            out += f"\n  {d.stem}: cut (tag exists); immutable, not re-guarded"
-            continue
-        c, o = run(["scripts/check-release-head.py", str(d.relative_to(ROOT)), "--at", "HEAD"])
-        out += "\n" + o
-        code = code or c
-    return code, out
+    c, o = release_cuts(ROOT, descriptors)
+    return c, out + "\n" + o
 
 
 def gate_claims():
@@ -221,6 +268,51 @@ def guard_scenarios(tmp: Path):
     commit(d, "canon-extra.md", "unratified\n", "a change after ratification")
     at = commit(d, "releases/v9.9.0.yaml", descriptor(r), "descriptor")
     yield ("refuse/merged-after", "changed between the ratified head", *guard(d, at))
+
+    # The releases gate on a cut release (correction of 2026-11-02, item 3). Each case clones a bare
+    # origin that holds the tag, the way GitHub holds it, or has no origin at all.
+    def cut_origin(name):
+        w = repo(name + "-src")
+        commit(w, "canon.md", "one\n", "canon")
+        r = commit(w, "canon.md", "two\n", "ratified canon")
+        x = commit(w, "releases/v9.9.0.yaml", descriptor(r), "descriptor")
+        git("-c", "user.name=fixture", "-c", "user.email=fixture@invalid", "-c", "tag.gpgsign=false",
+            "tag", "-a", "-m", "v9.9.0", "v9.9.0", x, cwd=w)
+        bare = tmp / (name + ".git")
+        git("clone", "-q", "--bare", str(w), str(bare), cwd=tmp)
+        c = tmp / name
+        git("clone", "-q", "--no-tags", str(bare), str(c), cwd=tmp)
+        return c, r
+
+    def gate(d):
+        return release_cuts(d, [d / "releases" / "v9.9.0.yaml"])
+
+    # F-1, accept: the tag is on origin and not in the clone; later work on top; descriptor unchanged.
+    # The old gate re-guarded this at HEAD and refused it ("changed between the ratified head").
+    d, r = cut_origin("cut-tag-only-on-origin")
+    commit(d, "later.md", "after the cut\n", "later work")
+    code, out = gate(d)
+    if "from origin" not in out:
+        code = 1
+    yield ("accept/cut-tag-only-on-origin", None, code, out)
+
+    # F-2, refuse: as F-1, but ratified_head is changed after the cut (023c2c4, c7424ad).
+    d, r = cut_origin("cut-descriptor-edited")
+    commit(d, "later.md", "after the cut\n", "later work")
+    commit(d, "releases/v9.9.0.yaml", descriptor(git("rev-parse", "HEAD", cwd=d)), "ratified_head moved after the cut")
+    yield ("refuse/cut-descriptor-edited", "changed after it was cut", *gate(d))
+
+    # F-3, accept: no origin; a local tag decides, and the output says so.
+    d = repo("cut-offline")
+    commit(d, "canon.md", "one\n", "canon")
+    r = commit(d, "canon.md", "two\n", "ratified canon")
+    x = commit(d, "releases/v9.9.0.yaml", descriptor(r), "descriptor")
+    git("-c", "tag.gpgsign=false", "tag", "v9.9.0", x, cwd=d)
+    commit(d, "later.md", "after the cut\n", "later work")
+    code, out = gate(d)
+    if "offline" not in out:
+        code = 1
+    yield ("accept/cut-offline-local-tag", None, code, out)
 
 
 GATES = [
