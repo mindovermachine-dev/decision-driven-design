@@ -14,8 +14,9 @@ team should check its changes. It argues that a test suite checks your code agai
 world, not the world, and it uses that to sort checks into three kinds. Each kind has a right
 place to run. It ends with a number you can compute from your own incident history.
 
-**How settled this is.** This is an argument, checked against DORA's published findings but not
-against DORA's underlying data, which is not public. It is a check that the framework explains
+**How settled this is.** Reported, partially. The correspondence with DORA's published findings
+is real, and it is checked below. It was not checked against DORA's underlying data, which is not
+public. It is a check that the framework explains
 published results after the fact, not a statistical test. It names two places where the framework
 adds nothing new, one place where it may be wrong, and one prediction nobody has tested yet.
 
@@ -306,11 +307,11 @@ offered *to* the research programme, not one this framework can settle.
 
 - **The 2024 cluster anomaly.** DORA's medium cluster had a lower change failure rate than its
   high cluster, which a naive reading of the framework says should not happen. The defence in §6
-  is weak and is not accepted. The discrepancy is open.
+  is weak and should not be treated as settled. The discrepancy is open.
 - **Progressive delivery over environment fidelity.** The prediction in §7 has not been tested. It
   needs DORA's response-level data, which is not public.
 - **The partition is not clean.** Which tier a decision belongs to is undecidable in general (§4.3).
-  The obvious cases are enough to act on, but the tiers are a guide, not a proof.
+  The obvious cases are enough to act on, but the decision set cannot be cleanly partitioned.
 
 ## Where this comes from
 

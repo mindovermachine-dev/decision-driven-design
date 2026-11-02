@@ -103,6 +103,9 @@ implementation is *(not settled yet)*.
   `realizes`, `enforces`, `realizes_step`, `composes`, `binds`, `renders`, `at_tier`,
   `versioned_as`, `realises_version`, `in_target`, `stamped_with` and `graph_hash` do not exist in
   this vocabulary.
+- The Product Framework's `pf:` namespace ends with this vocabulary. None of its classes is carried
+  in any namespace, including `pf:DesignSystem`, `pf:ContentStore`, `pf:Cio`, `pf:Token` and
+  `pf:ReificationRule`: catalogues are packages, not What.
 - Two edges are decision-side, not What-side: a decision's anchor (the How vocabulary's
   `sdlc:anchor`) and supersession (the protocol's `supersedes`). The What graph itself carries
   `sdlc:succeeds` between elements.
@@ -140,7 +143,7 @@ concepts of [`what.md`](what.md) to their terms.
 | Wire names | `sdlc:wireName` |
 
 An edition reference may not resolve from the product that names it. That is the protocol's "not
-reachable", and resolving it is Writ's `explain`, not a check this vocabulary requires.
+reachable", and resolving it is Writ's `explain`, not a check the What's own checker requires.
 
 ## Authoring scopes, as data
 
@@ -251,8 +254,8 @@ conforms is computed by the gate, from the What's scenarios and the recorded run
 | Section | Rests on |
 |---|---|
 | Identity | `DDD-dec-63` (the identity form, §3 kind immutable, §4 nothing re-minted under P, §8 creating anchors, Round 6); `DDD-dec-64` P-2 (one containment edge), P-3 (what is an element) |
-| What-versions and hashes | `DDD-dec-63` §6; `DDD-dec-73` (RDFC-1.0 qualified three ways, superseding `DDD-dec-63`'s form); Round 4 of the What move (graph name not hashed); successor item M-12, tracked as Hafeok/varve#192 |
-| Encoding | `DDD-dec-51` (§9 cut down; Varve) |
+| What-versions and hashes | `DDD-dec-63` §6; `DDD-dec-73` (RDFC-1.0 qualified three ways, superseding `DDD-dec-63`'s form; the graph name not hashed, Round 4 of the What move); successor item M-12, tracked as Hafeok/varve#192 |
+| Encoding | `DDD-dec-51` (§9 cut down; Varve); Round 1, Q-3 of the What move (the `pf:` namespace ends); `DDD-dec-57` |
 | The vocabulary | `what/ontology.ttl` (each term's `dct:source`); `DDD-dec-64` P-4 (`DeclaredTarget`), P-6 (the kinds the move added); `DDD-dec-57` |
 | Authoring scopes | `DDD-dec-46`; `DDD-dec-64` P-7, with its multi-scope rule (Round 5); Writ product definition, Draft 2, chapter 2; `DDD-dec-43` (gathering) |
 | The conformance wire | Product Framework v1.11.0 §6.3.1, moved with the What (Round 1, Q-1), with `actor` renamed `subject` (Q-5); `DDD-dec-64` P-1, R-1, R-2 (wire names); `DDD-dec-52` (answers are ground readings); the scalar alphabet from v1.11.0 §3.3 |

@@ -14,17 +14,18 @@ Start in the folder that matches yours.
 
 | Folder | For | Start with |
 |---|---|---|
-| [`sdlc/`](sdlc/) | Building software: specifying what a product is and does, deciding how it is built, and changing both under control | [`sdlc/README.md`](sdlc/README.md) |
+| [`sdlc/`](sdlc/) | Building software, as an agentic design framework: specifying what a product is and does, deciding how it is built, and changing both under control | [`sdlc/README.md`](sdlc/README.md) |
 | [`organizations/`](organizations/) | Designing and running organisations. Four predictions so far, not yet a method | [`organizations/README.md`](organizations/README.md) |
 
-**What an application is.** The framework's principle is stated once, in general terms, in the
-principle repository. An application states it again in one domain's vocabulary. In software, it
-is called the conservation of specification demand. In general it is the conservation principle of
-determination demand. An application applies the principle; it does not restate or change it.
+**What an application is.** The framework's principle is stated once, in general terms, for any
+actor, in the principle repository. Each application is a projection of that principle into one
+domain, not a restatement of it. The conservation of specification demand is what the conservation
+principle of determination demand is called when the actor is building software. That relationship,
+general principle and domain projection, is the structure the framework prescribes for itself.
 
 **How these documents are written.** Every document here says in its opening who it is for, what
 you can do after reading it, and how settled it is. Points that are not settled are marked where
-they arise and listed near the end. The decisions and claims a document rests on are in its
+they arise, and a document that has any lists them near the end. The decisions and claims a document rests on are in its
 closing section, "Where this comes from", for reviewers.
 
 **What these documents do not carry.** None of them is canon. Where a document and a claim

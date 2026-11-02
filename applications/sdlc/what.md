@@ -4,7 +4,7 @@
 reader: architects, developers and product owners specifying a software product
 act: write a product's What, change it under control, and hand it to the people and agents who build from it
 pin: v5.15.2
-basis: [DDD-dec-41, DDD-dec-42, DDD-dec-43, DDD-dec-44, DDD-dec-45, DDD-dec-46, DDD-dec-47, DDD-dec-51, DDD-dec-52, DDD-dec-55, DDD-dec-57, DDD-dec-58, DDD-dec-63, DDD-dec-64, DDD-dec-73]
+basis: [DDD-dec-41, DDD-dec-42, DDD-dec-43, DDD-dec-54, DDD-dec-44, DDD-dec-45, DDD-dec-46, DDD-dec-47, DDD-dec-51, DDD-dec-52, DDD-dec-55, DDD-dec-57, DDD-dec-58, DDD-dec-63, DDD-dec-64, DDD-dec-73]
 status: current
 supersedes: e5a332d:applications/sdlc/what.md
 -->
@@ -24,8 +24,8 @@ After reading it you can:
 yet)*. None of it has yet been tried on a real product beyond the worked example, so try it before
 you rely on it.
 
-**The worked example** is a small web shop, Acme Shop. Customers place orders and staff refund
-them. Its whole What is in [`what/examples/acme-shop.ttl`](what/examples/acme-shop.ttl), and
+**The worked example** is a small web shop, Acme Shop. Customers place orders and ask for refunds,
+and staff can see every order. Its whole What is in [`what/examples/acme-shop.ttl`](what/examples/acme-shop.ttl), and
 every example below comes from it unless it says "if you added".
 
 ---
@@ -48,19 +48,22 @@ Three things make a What more than a requirements document:
    so an implementation can be checked against them over a defined wire, in any language. Nothing
    is checked against what someone remembers the What to be.
 
-In the framework's own terms, the What is the software's declared ground and its tolerance. It is
-what every act in the software reads, and the bar each act must meet. Step 1 of the method reads
-its map of acts off the What instead of inventing one ([`../../method/`](../../method/)).
+In the framework's own terms, the What as a whole is the software's declared ground, over which
+decisions are made, and the tolerance each act must meet. A system is not a coordinate of any act;
+it is part of that ground and tolerance. Step 1 of the method reads its act addresses off the What
+instead of inventing them ([`../../method/`](../../method/)).
 
 **What the What does not cover.**
 - **How the software is built and deployed.** That is the How ([`how.md`](how.md)).
 - **Delivery.** Features, releases, "done", versions and roadmaps are not part of this framework.
+- **Work units, seams and verification as a process.** These are retired too. What holds the How
+  against the code is a gate, Writ ([`how.md`](how.md)).
 - **Who holds authority over the What.** That is the authority profile (`authority.md`, which
   lands with pull request #45). This document says what authority ranges over, not how it is held.
 - **Checking production data against the What.** That is a useful add-on that reads the What. It
   is not part of the framework, and nothing here depends on it.
 - **Catalogues of components, tokens and strings.** Those belong to the design system or content
-  store that supplies them, which is a product of its own.
+  store that supplies them, which is a package: a product of its own, with its own genesis grant.
 
 ---
 
@@ -75,10 +78,10 @@ A decision is not itself part of the What. It sits beside the What, attached to 
 current form of any part of the What is the result of the decisions anchored to it, so the What's
 history is its decision history.
 
-*In Acme Shop:* the whole What, 44 elements, arrived in one founding decision, and the product
+*In Acme Shop:* the whole What, 44 elements under the product node, arrived in one founding decision, and the product
 owner signed a second record accepting it. The rule "a refund cannot exceed what was paid" came in
 with that founding decision. If someone later loosened it, that would be a new decision anchored
-to the `Order` entity. The founding decision would stay on record.
+to that invariant, the part of the What it changes. The founding decision would stay on record.
 
 ### Adding something new
 
@@ -87,7 +90,7 @@ that creates it. Anchor that decision to the **narrowest part that already exist
 everything you are adding**.
 
 *In Acme Shop:* if you added a `Cancel order` command, its decision would anchor to the
-`Ordering` domain. A whole new `Shipping` domain would anchor to the product itself. So did the
+`Ordering` bounded context, where the other commands sit. A whole new `Shipping` domain would anchor to the product itself. So did the
 founding decision, which created `Ordering`. Anchoring to the product is the normal case for a new
 domain, not a loophole.
 
@@ -101,8 +104,9 @@ other parts name: a wire contract changed.
 ### Who may change what
 
 Every product has one **founding grant**, its genesis grant, held by the person who brought the
-product into being. It covers everything in the product. Every other right to change the What is
-delegated from it, directly or through others.
+product into being, or by whoever it has since been transferred to. It covers everything in the
+product. Every other right to change the What is delegated from it, directly or through a chain of
+delegations.
 
 A delegated right is an **authoring scope**: a set of kinds of thing in the What, such as UI
 steps, interactions or content keys, optionally limited to one part of the What and everything
@@ -135,7 +139,8 @@ schema, a Jira board. You can gather them from there. A tool is a **source**, ne
 - **Out-of-scope material is never proposed.** A Decider drawn in Figma is refused because Figma
   is not a source of Deciders, not because the Decider is wrong.
 - **Gaps route work.** Something the source *could* supply but did not is work for that tool.
-  Something no work in that tool could supply is routed to a source that can.
+  Something no work in that tool could supply is routed to a sanctioned source, and through it to a
+  person who can accept it.
 - **Completeness has two halves.** A What is complete when every kind it needs is covered. Covered
   means two things: a source that can supply the kind, and a person whose scope lets them accept it.
   A completeness check reports each needed kind as covered (and by whom), coverable but not yet
@@ -148,7 +153,7 @@ built where ([`how.md`](how.md)). Both are checks over one What, run in both dir
 
 ## How the What is organised
 
-A product owns **domains** and **systems**:
+A product owns one or more **domains** and one or more **systems**:
 
 - A **domain** owns meaning and rules: what an `Order` is, that a refund cannot exceed what was
   paid, which events an order emits.
@@ -156,8 +161,8 @@ A product owns **domains** and **systems**:
   and which platform it runs on.
 
 A system uses whole domains; it never owns one. When you are unsure where something belongs, ask:
-**would two systems disagree about it?** If they must agree, it belongs in the domain. If they may
-differ, it belongs in the system. A refund is a refund in the customer app and in the staff tool,
+**would two systems disagree about it?** If they would disagree, it belongs in the system. If they
+must agree, it belongs in the domain. A refund is a refund in the customer app and in the staff tool,
 so refund rules live in the domain. The two apps navigate differently, so navigation lives in each
 system.
 
@@ -178,8 +183,9 @@ systems talking through Translations (below), but it never absorbs it.
 
 ### Journeys across systems
 
-A journey is a path through several systems' flows, linked where it crosses from one system to
-another. It belongs to the product, and it owns nothing.
+A journey is a product-level, derived composition: a declared path through single-system flows,
+linked where it crosses from one system to another. It belongs to the product, and it owns
+nothing.
 
 - **Every crossing is a Translation, or it is a finding.**
 - **A journey refers to flows; it does not contain them.** Remove a journey and nothing else
@@ -210,7 +216,7 @@ act in it.
 - **Fields have one set of types:** string, integer, number, boolean and date.
 
 *In Acme Shop:* the `Order` entity has the fields `customer_id`, `paid_total` and
-`refunded_total`, and the invariants "order has lines" and "refund within paid".
+`refunded_total`, and the invariants "order has lines", "refund within paid" and "refund by owner".
 
 **Reference data is part of the What.** Some data defines what the system means: the valid
 shipping methods, the tax categories, the product taxonomy, the accepted currencies. Behaviour is
@@ -317,8 +323,8 @@ may see is a selection applied over the fold's output (see "Who may act"). A Pro
 scoped View declares the fields its fold is keyed by, and every field a scope rule reads must be one
 of them.
 
-**Two checks keep the model honest.** A field belongs on an aggregate only if some Decider reads
-it. A Decider must have at least one reachable rejection. Each check, when it fails, points at an
+**Two checks keep the model honest.** A field belongs on an aggregate if and only if some Decider
+reads it. A Decider must have at least one reachable rejection. Each check, when it fails, points at an
 invariant nobody has modelled.
 
 ### Named algorithms — computation you name instead of deriving
@@ -338,8 +344,8 @@ prevent.
 
 ### The UI step
 
-A UI step is the point in a flow where a person sees something and acts. It is What: it says what
-a screen is *for* and what it *means*, never how it looks.
+A UI step is the point in a flow where a person sees something and acts. It is What, owned by
+product and design: it says what a screen is *for* and what it *means*, never how it looks.
 
 **Meaning, not widgets.** A UI step may refer only to abstract interaction objects, never to a
 concrete control from a design system. Each interaction in a step is typed as exactly one abstract
@@ -365,9 +371,9 @@ system, because the staff tool and the shop may offer the same command to differ
   written as literal strings in a UI step. The words themselves are not the What's.
 
 **Intent is specification debt.** Whatever intent was used to decide something must be promoted
-into the model. Intent therefore shrinks steadily toward a pure statement of purpose. The
+into the model. Intent therefore shrinks monotonically toward a pure statement of purpose: it never grows. The
 **intent-reliance rate**, how often building a screen needed intent to settle something the model
-did not, measures the debt. When intent was needed, promote the missing abstract interaction object,
+did not, measures the debt. The rate is a What-side signal, and stays one. When intent was needed, promote the missing abstract interaction object,
 context of use or meaning into the What. A missing choice of concrete control is not the What's
 gap: it is a missing How binding, and debt on the How's coverage.
 
@@ -439,9 +445,10 @@ It owns its page graph, its flows, its UI steps and its triggers. A flow belongs
 system. The behaviour a flow invokes belongs to the domain, so every system using that domain
 shares it. Quality demands that bind only one system are placed inside it.
 
-**System identity is What; deployment identity is How.** The What says "Acme Shop is a consumer
-shop, using the Ordering domain, targeting iOS, Android and the web". The How says "the iOS bundle
-is `com.acme.shop`, and the web is served at `shop.acme.com` from these runtimes". In the How, a
+**System identity is What; deployment identity is How.** For a consumer shop app, the What says
+"this is a consumer shop application, using the Ordering domain, targeting iOS, Android and the
+web". The How says "the iOS bundle is `com.acme.shop`, and the web is served at `shop.acme.com`
+from these runtimes". (In the worked example, `shop-bff` targets the web only.) In the How, a
 target declaration ties a deployable unit to the system, and a contract states what the unit must
 satisfy.
 
@@ -542,8 +549,8 @@ A system, or the product on behalf of every system, declares:
 The catalogue itself, the components, tokens and strings, belongs to the design system or content
 store. It is a product of its own, with its own founding grant, typically a design team's. Nothing
 in a catalogue is part of the What of a product that uses it. The edition a What names may not be
-reachable from your product; resolving it is the governance tooling's job, not a check this
-framework requires.
+reachable from your product; resolving it is the governance tooling's job, not a check the What's
+own checker requires.
 
 **The What carries obligations, never widgets or words.** Three obligations follow from declaring
 these targets:
@@ -580,8 +587,8 @@ A product's What conforms at a stated position when it is **described and in for
 1. **Described.** The What graph satisfies the shapes of the vocabulary edition it names, and every
    part has an identity in the required form.
 2. **In force.** Every part has an accepted chain of decisions back to the genesis grant, under the
-   authority profile. *(Not settled yet: this half cannot be claimed until the authority profile
-   lands.)*
+   authority profile. The authority profile is therefore part of conformance, and this half cannot
+   be claimed until the profile exists. It lands with pull request #45.
 3. **Versioned.** The position is named by a What-version record, whose list of parts and whose
    hash can be recomputed from the graph.
 
@@ -605,8 +612,6 @@ the shapes, the identity form and the hash law. The What graph is stored in Varv
   that every automated or external trigger acts as a kind of subject; the scenario-per-pair half of
   subject coverage; and claim justification. Each is a query over the same graph. Until they are
   written, check them by hand.
-- **"In force" waits for the authority profile.** The second half of conformance, and how
-  attestations are held, depend on the authority profile, which lands with pull request #45.
 
 ## Where this comes from
 
@@ -616,7 +621,7 @@ the sessions that made them are in [`meta/sessions/`](../../meta/sessions/).
 | Section | Rests on |
 |---|---|
 | What a What is | `DDD-dec-41` (the opinionated What; a system is ground and tolerance), `DDD-dec-42` (only the What moved; How and Delivery retired), `DDD-dec-51` (one graph; one conformance level; Varve) |
-| What the What does not cover | `DDD-dec-42` (Delivery retired), `DDD-dec-44` (data conformance an add-on), `DDD-dec-46`, `DDD-dec-47` (authority), `DDD-dec-57` (catalogues are packages) |
+| What the What does not cover | `DDD-dec-42` (Delivery, work units, seams and verification as a process retired), `DDD-dec-54` (the gate is Writ), `DDD-dec-44` (data conformance an add-on), `DDD-dec-46`, `DDD-dec-47` (authority), `DDD-dec-57` (catalogues are packages) |
 | Every change is a decision | `DDD-dec-42`, `DDD-dec-55` |
 | Adding something new | `DDD-dec-63` §8, ruled in Round 6 of the What move |
 | What keeps its identity | `DDD-dec-63` §3 (kind immutable; `succeeds`); `DDD-dec-64` P-3 (fields are elements) |

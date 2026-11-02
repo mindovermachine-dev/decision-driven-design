@@ -30,10 +30,11 @@ python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verd
 
 When last run, on 2026-11-02 with rdflib 7.6.0, it printed 112 ok or note lines, 1 expected
 warning (the anchor self-test below) and 0 failures. All 38 records are conformant under the
-reference implementation of the decision record protocol on `main`, run unmodified. Without rdflib, the anchor and verdict
+reference implementation of the decision record protocol on `main`, run unmodified. An earlier count
+found 36: 21 version 1 records and 15 written on 2026-10-28. Two have been added since. Without rdflib, the anchor and verdict
 steps are reported as **SKIP**, never as passed.
 
-[`build.py`](build.py) builds the records. It makes fresh throwaway keys on every run. It refuses to
+[`build.py`](build.py) builds the records. It makes fresh throwaway keys on every run and discards them when it ends. It refuses to
 build if it would change a record that is already published, or if the protocol token on `main`
 and the one this repository has decided on ever disagree.
 
@@ -61,7 +62,7 @@ effect list, region list or native file kind.
 |---|---|---|---|---|---|
 | constraint | `LAYER@1` | four ranked layers; no upward dependency; a component in no layer is a violation (no orphans) | the package product (its What is empty) | `IMP-layer@2` | the product node, `https://acme.example/products/shop`: the narrowest element covering both systems' code |
 | binding | `PURE@1` | every Decider is realised, in each language target of each system using its domain, by an element whose component uses no effect | the package product | `IMP-pure@2` (proposed by the agent) | the Ordering bounded context |
-| contract | `RESID@1` | every data store holding personal data is in an EU-jurisdiction region, as declared and as observed, read within a day | the package product | `IMP-resid@2` | the residency quality demand in the What |
+| contract | `RESID@1` | every data store holding personal data is in an EU-jurisdiction region, as declared and as observed, read within a day | the package product | `IMP-resid@2` | the residency quality demand in the What, an architectural constraint (a quality demand of the second kind) |
 
 A fourth, `REST@2`, is a binding: every Command is served at `POST /commands/{wire name}`. It shows
 "specified once" a third time. It reads each Command's wire name, and is anchored at the Ordering
@@ -90,8 +91,8 @@ Acme Shop's What is itself held as decisions:
 ## Two targets each
 
 Acme Shop declares two systems. `shop-api` is realised in **C#** and deployed on **Azure**.
-`shop-bff` is realised in **TypeScript** and deployed on **AWS** (`TGT-shop-api`,
-`TGT-shop-bff`). Each decision is therefore evaluated in two targets.
+`shop-bff` is realised in **TypeScript** and deployed on **AWS** (`TGT-shop-api@1`,
+`TGT-shop-bff@1`, each since superseded by version 2). Each decision is therefore evaluated in two targets.
 
 The per-target shape lives only in the vocabulary edition records (`VOC-csharp@1`,
 `VOC-typescript@1`, `VOC-azure@1`, `VOC-aws@1`). Adding the second language touched no decision.
@@ -116,7 +117,7 @@ same.
 
 ## The facts, and what is hand-written
 
-No fact projector or reporter exists yet. Writ's code-facts specification is not written, and the
+No fact projector or reporter edition exists yet. Writ's code-facts specification is not written, and the
 editions name their fact source as `"status": "not built"`. So the fact files under
 [`facts/`](facts/) are hand-written: they are what an edition *would* emit.
 [`facts/manifest.json`](facts/manifest.json) gives each one its provenance: projector or reporter;
@@ -150,10 +151,11 @@ as a pass.
    from `ACC-1@1` and `REL@2`) names a record held here whose hash matches its pin. A test edit of
    one word in `LAYER@1` turns both lines red.
 3. Every signature verifies over its record's canonical form.
-4. The authority chain holds. The acceptance's signer holds a grant. That grant was signed by the
-   genesis holder. The genesis is an origin. All three are signed, and the acceptor is a human, not
-   an agent. This is a stand-in check for the authority profile, which the checker does not yet
-   implement.
+4. The authority chain is a **test stand-in** for the authority profile, which was unwritten when
+   these records were made and is not yet in this repository. The checker verifies that the
+   acceptance's signer holds a grant, that the grant was signed by the genesis holder, that the
+   genesis is an origin, that all three are signed, and that the acceptor is a human, not an
+   agent.
 5. Exactly six How records are in force, all version 2: the ones `ACC-1@2` pins. `ACC-1@1` is
    superseded and puts nothing in force. No record in force names a provisional identifier. One
    What decision is in force, the founding `WHAT-found@1`. `what@1`'s graph hash and element list

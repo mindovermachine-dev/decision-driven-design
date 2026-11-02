@@ -44,19 +44,18 @@ one example carries the whole method, is planned but not done *(not settled yet)
 ## How the general framework reads in software
 
 The framework's principle is stated once, in general terms, in the principle repository. In
-software it is called the **conservation of specification demand**: for a task at a stated
-assurance level, the decisions the task needs are fixed, and every one of them gets made, by
-someone, at some price. The words of the general framework read like this here:
+software it is called the **conservation of specification demand**. The words of the general
+framework read like this here:
 
 | In the general framework | In software |
 |---|---|
-| A determination | a decision in the work: a feature choice, an architecture decision, a test criterion |
+| A determination | a decision in the software delivery lifecycle: a feature choice, an architecture decision record, a test criterion |
 | Ground | what the work reads: the repository, the schemas, the live environment, the source of truth |
-| The four places a decision can live | an encoded constraint; a mechanical check; a person's or model's judgment; nobody's (the unhandled case) |
-| An actor | a role in the work: a person, a model or a program, each pinned in its own way |
-| Seam demand | the contract between roles, and the orchestration that connects them |
+| The four places a decision can live | an encoded constraint; a CI check; a person's or model's judgment; nobody's (the unhandled case) |
+| An actor | a role in the work's DAG: a person, a model or a program, each pinned accordingly |
+| Seam demand | the interface contract between roles; the orchestration layer |
 | Encoding and verifying | pinning the ground you control; verifying third-party APIs and the live environment |
-| Which decisions close | which decisions a model can own, and which need a person |
+| The floor, in the predicate | which decisions a model can own (the predicate closes), and which need a person |
 
 <!-- ddd:ref id=term:floor -->
 <!-- ddd:ref id=DDD-frame-01 -->
@@ -65,12 +64,12 @@ someone, at some price. The words of the general framework read like this here:
 ## Three things the framework changes in practice
 
 **Who gets which decision is not a matter of taste.** A model can own a decision when the test of
-whether it was decided right can be checked over digital ground. Otherwise it needs a person chosen
-for judgment on open questions: a senior engineer, a domain expert. How much autonomy a role can
+whether it was decided right can be checked over digital ground. Otherwise it needs an actor selected
+for competence on open predicates: a senior engineer, a domain expert. How much autonomy a role can
 have is bounded by how far its decisions close.
 
 **Orchestration is a seam, and it has a price.** An orchestrator is cheap to specify and expensive
-on every run. It is a bottleneck, and the one place that can poison the whole system. A system
+on every run. It is a bottleneck, and the poisonable centre of the system. A system
 designed this way gets cheaper over time by turning recurring coordination decisions into encoded
 rules, each with a check, instead of paying for judgment on every run.
 
@@ -78,11 +77,12 @@ rules, each with a check, instead of paying for judgment on every run.
 own clock, not on your build. So their checks run on a schedule, and a source you cannot reach is
 *unknown*, never a pass ([`../../apparatus/encode-verify.md`](../../apparatus/encode-verify.md)).
 
-## Tooling
+## Reference implementation
 
-[`product-cli`](https://github.com/mindovermachine-dev/product-cli) is the authoring tool for this
-application. It manages features, architecture decisions, test criteria and dependencies, builds
-the graph, assembles bundles, runs audits and serves the engineering graph. Its companion
+[`product-cli`](https://github.com/mindovermachine-dev/product-cli) is the reference
+implementation: the authoring layer for this application. It owns features, architecture decision
+records, test criteria and dependencies, builds the derived graph, assembles curated bundles, runs
+audits and serves the engineering graph. Its companion
 orchestration harness is designed against the patterns of the earlier implementation document
 (below). Writ, the gate that holds How decisions, is defined but not yet built
 ([`how.md`](how.md)).
@@ -93,8 +93,13 @@ orchestration harness is designed against the patterns of the earlier implementa
 - **The earlier design documents.** Before version 4, this folder had four design documents:
   foundations, an entity reference, autonomy levels and an implementation architecture. They were
   removed at the version 4 restructuring and are recoverable from history at `219ad6c`, under their
-  former `docs/` paths. Whether to restore them is not decided. They predate the current register,
-  so restoring them would mean reconciling them with canon, which wins wherever they conflict.
+  former `docs/` paths. Whether to restore them is not decided. Nothing in them is deprecated. They
+  remain correct as engineering guidance; where they reach for a foundational justification, that
+  justification now lives in canon, stated more generally and more carefully. Per-role autonomy, in
+  the autonomy-levels document, is exactly the actor model's pinning resolution, and its ceiling is
+  set by closure. They predate the current register (they say "law" where canon says
+  "principle"). Reconciling them is the restoring session's work, and canon wins wherever they
+  conflict.
 
 ## Where this comes from
 
