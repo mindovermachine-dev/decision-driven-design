@@ -1,6 +1,6 @@
 # canon — design
 
-**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`); Gate 2 in progress.**
+**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`). Gate 2 built and stopped for review: `land`, `release`, `ratify`, `changelog` and `issue-refs`, with tests. Where the build departs from this design, §12 says so.**
 This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form), `DDD-dec-102` (SHACL
 via Varve), and Round 1's `DDD-dec-103` (retirement across two Varve versions), `DDD-dec-104` (the
 changelog as a projection), `DDD-dec-105` (Basis enforced), `DDD-dec-106` (local only) and
@@ -294,8 +294,11 @@ remedy is a new version, or Emil finishing the Release by hand. That is stated, 
 canon ratify <version> [--head <sha>]
 ```
 
-- Default head: the parent of the commit that added or last changed `releases/<version>.yaml`
-  on the current branch. That is the commit before the descriptor, the v0.5.0 process.
+- Default head: **`HEAD`**, the commit the principal ratifies. It must already carry the
+  descriptor and its `CHANGELOG.md` section. *Changed at Gate 2 (§12, S-11).* The design first
+  said "the commit before the descriptor", which was v0.5.0's process. Under `DDD-dec-104`,
+  adding a descriptor also changes `CHANGELOG.md`. A head from before the descriptor would then
+  see two files change after it, and rule 7 would refuse the release.
 - **Refuses** if the descriptor is cut (tag exists, by the three-way test of §4.3), if
   `ratified_head` is already set to a different sha (`--force` is not offered; a changed head
   means a new descriptor commit, per rule 7), if the head is not an ancestor of `HEAD`, or if
@@ -312,15 +315,20 @@ As Varve's `eng/changelog.cs`: `CHANGELOG.md` is the projection of `releases/`, 
 SemVer precedence.
 
 ```
-canon changelog              write CHANGELOG.md from releases/ (and tags)
+canon changelog              write CHANGELOG.md from releases/
+canon changelog --tail-sha256  the SHA-256 of the frozen tail, for canon.yaml
 canon changelog --check      CHANGELOG.md is exactly the projection; fails on a hand edit
 ```
 
 **Ruled** (`DDD-dec-104`). `CHANGELOG.md` here holds the 4.x headings "kept unedited, as history
 of the earlier numbering", and `v0.1.0` to `v0.4.0` have no descriptors. The projection owns
 everything from v0.5.0 up. The older part is a frozen tail: everything from the first heading
-below v0.5.0 to the end, checked byte for byte against a SHA-256 recorded in `canon.yaml`. A
-descriptor whose tag exists renders as cut. One whose tag does not exist renders as proposed.
+below v0.5.0 to the end, checked byte for byte against a SHA-256 recorded in `canon.yaml`.
+**No section says whether its version is cut** (§12, S-10). `DDD-dec-104`'s resolution lists
+"whether it is cut", and the Gate 1 text said so too. Built that way, the projection would change
+when a tag is pushed, with no commit to show for it, and `CHANGELOG.md` would go stale on every
+release. A section shows the date, "pre-release" when the descriptor says so, and the descriptor's
+path. Whether a version is cut is asked of its tag.
 
 The first run fixes S-3: `CHANGELOG.md` at `c7424ad` still heads v0.5.0 "Ready to try (proposed)"
 and says "Proposed, not cut", though the tag exists.
@@ -649,3 +657,50 @@ Written now, before any of it runs, so G2 and G3 can be held to them.
 
 Still open from this design, for a later round: S-9 (the edited cut descriptor) and the start
 commit for `Refs #N` (§4.6).
+
+---
+
+## 12. As built at Gate 2, and where it departs
+
+Built on 2026-11-02 at `tools/canon/`: one tool project (`src/Canon`) and one test project
+(`tests/Canon.Tests`, 32 tests, Detroit style). The session's `predictions.md` (P-8 to P-12)
+records every operation, predicted before it ran.
+
+| Design said | Built | Why |
+|---|---|---|
+| §2, §3.1: `System.CommandLine` | Hand-parsed arguments (`Cli.cs` and one file per command) | As Varve's `eng/` scripts are. Five commands with a few flags each do not need a parser library, and plain parsing is easier to audit. It is one package fewer, and it stays AOT-clean |
+| §3.1: Varve packages pinned | Not referenced yet | Gate 2 is git, GitHub and YAML. The `Varve.*` pins arrive with the shapes at Gate 3, in `Graph/` only (§1) |
+| §9.1: `global.json` SDK `10.0.401`, as Varve | `10.0.100`, `rollForward: latestFeature` | The devcontainer feature installs the newest 10.0 SDK, whatever its band. Any 10.0 SDK from 10.0.100 up builds canon. Locally it was 10.0.403 |
+| §3.4: a recorded-response replay server for GitHub | A real HTTP/1.1 server on `127.0.0.1`, port 0, holding state (`GitHubServer.cs`) | No response was ever recorded, so a replay would have replayed invented data. The server answers the two REST shapes from what the test put there. `HttpListener` was tried first. Under parallel tests it raced for ports and crashed the test host once (exit 134), so it was replaced |
+| §4.3 step 8: Release name `title` | Name `<version> — <title>`, the tag message | One string for one release, rule 2's composition |
+| §4.3: changelog check last (step 9) | The changelog check is step 6, before the tag. `--plan` stops before step 7 (the tag) | So that nothing irreversible happens before every check has passed |
+| §4.3: GitHub unreachable | Exit 2, nothing created | A release that cannot ask whether the version exists does not proceed |
+| §4.4: default head before the descriptor | `HEAD` (S-11) | §4.4, above |
+| §4.5: cut status rendered | Not rendered (S-10) | §4.5, above. **Departs from a line of `DDD-dec-104`'s resolution**, and is flagged for Emil, not decided |
+| §4.6: a Refs start commit, "measured at G2" | `6aad807`, this session's charter (`canon.yaml`) | Every non-merge commit descending from it carries Refs. `main`'s own latest commits carry none, and do not descend from it. `UNVERIFIED — Emil review` |
+
+**Two findings from the tests:**
+
+- **Git configuration in the environment outranks every file.** This container injects its
+  signing key through `GIT_CONFIG_COUNT` / `GIT_CONFIG_KEY_n` / `GIT_CONFIG_VALUE_n`. The first
+  run of the signed-tag test therefore signed with the session's real key, not the test's own.
+  The tests now clear those variables, and the test verifies the tag against the test key alone
+  (`git tag -v` with an allowed-signers file). canon itself is unchanged: in real use, the
+  environment's key is the one meant.
+- **`DDD-dec-104` and rule 7 constrain the order of a release's commits** (S-11). A ratified head
+  must carry the descriptor and its changelog section, and only the `ratified_head` line may
+  follow it. `ReleaseRepository.cs` builds a repository that way, and `canon release` cuts it.
+
+**Applied to this repository at Gate 2:**
+
+- `canon.yaml` declares the layout, the tail hash, the Refs start and `DDD-dec-105`'s two commits.
+- `CHANGELOG.md` is the projection (`DDD-dec-104`). The tail was checked byte-identical, and its
+  hash matches an independent `sha256sum`.
+- `canon issue-refs --basis` over the whole history the Basis rule covers passes: 281 commits
+  in the range, Basis checked on 72.
+- `canon ratify v0.5.0` and `canon release v0.5.0 --plan` both refuse v0.5.0 as cut. In a fresh
+  clone with no tags at all, `release` finds it through `ls-remote` and the published GitHub
+  Release (D-5).
+- CI and the devcontainer gain the .NET SDK and three steps after `scripts/ci.py`: canon's
+  tests, `changelog --check` and `issue-refs --basis` (§9).
+

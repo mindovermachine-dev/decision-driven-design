@@ -23,3 +23,18 @@ Add-only. The table above stands as written at the end of Gate 1.
 | S-6 | **Done.** Q-7 confirmed the headroom | — |
 | S-8 | **Cite the protection decision.** Emil's ruling on `main`'s protection (Varve's set, `pipeline (devcontainer)` required, no bypass, `land/**`, `v*` tags restricted to Emil) is filed by another session. DESIGN.md §4.2 says `DDD-dec-<pending>` until its id is known | This session, once the id is known |
 | S-9 | **A cut descriptor was edited.** `releases/v0.5.0.yaml` on `main` had `ratified_head` changed in `023c2c4` and `c7424ad`, after `v0.5.0` was tagged at `e5a332d`, against `spec/release-format.md` rule 6. Restore it to its blob at the tag, or rule an exception. canon's immutability check (DESIGN.md §4.5) waits on this | **Emil** |
+
+## After Gate 2 (2026-11-02)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-3 | **Done.** `CHANGELOG.md` is the projection (P-10) | — |
+| S-8 | **Still open.** No branch holds the protection decision at the end of Gate 2 | This session, once its id is known |
+| S-9 | **Done on `main`** by `288471f` (the descriptor restored to its state at the tag), and `ci.py` now refuses an edited cut descriptor (`e8fde2a`) | — |
+| S-10 | **The changelog renders no cut status**, which departs from one line of `DDD-dec-104`'s resolution ("whether it is cut"). Rendering it makes the projection change when a tag is pushed, so `CHANGELOG.md` would go stale on every release. Rule it: supersede that line, or keep it and accept a follow-up commit after every cut | **Emil** |
+| S-11 | **Release order under `DDD-dec-104`.** The ratified head must carry the descriptor and its changelog section, and only the `ratified_head` line may follow. `canon ratify` defaults to `HEAD`. This differs from v0.5.0's process, whose head preceded the descriptor. No rule changes, but the release procedure should say so | Emil to confirm; then the release procedure |
+| S-12 | **The Refs start commit** is `6aad807` (`canon.yaml`), Claude's measured choice | Emil |
+| S-13 | **P-13** (CI green with the .NET feature) is tested on push, not here | The PR's CI run |
+| S-14 | Gates 3 and 4: shapes, `canon check`, `canon pins` (R-7), the parallel run, retirement | Later, after review |

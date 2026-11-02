@@ -82,3 +82,17 @@ Add-only. Nothing above this heading is edited.
   `v0.5.0` was tagged at `e5a332d`. `023c2c4` and `c7424ad` set `ratified_head` to `02298d3`,
   then `7aa3fb0`, and both are later than the tagged commit. A cut descriptor is immutable
   (`spec/release-format.md` rule 6). The tag still points at `e5a332d`. This is S-9.
+
+## Amendment 2 — 2026-11-02: Gate 2's scope; main merged again
+
+Add-only. Nothing above this heading is edited.
+
+- **Scope.** Round 1 opened Gate 2. In scope: `tools/canon/` (source, tests, build files),
+  `canon.yaml` at the root, `CHANGELOG.md` rewritten as the projection (`DDD-dec-104`), and the
+  .NET SDK added to `.devcontainer/devcontainer.json` and `.github/workflows/validate.yml`
+  (DESIGN.md §9). Still out of scope: `scripts/` (unchanged) and any canon content. The session
+  stops at the end of Gate 2.
+- **Base.** `main` moved to `e8fde2a` (S-9 corrected; `ci.py` decides "cut" from origin). Taken
+  by a signed merge (`78ccb60`) with no conflicts.
+- **Pull request.** [#47](https://github.com/mindovermachine-dev/decision-driven-design/pull/47),
+  draft, in Varve's PR form. Ratification is Emil's landing by fast-forward after CI is green.

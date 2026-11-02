@@ -111,3 +111,90 @@ Written before the validator ran, and appended late, in this same commit: the va
 on the five files before this prediction was written down. Prediction as it stood: valid at 85
 (71 + main's `DDD-dec-85` to `93` + 5). Outcome: valid at 85, exit 0. Recorded as a lapse in
 order, not a held prediction.
+
+# Gate 2 — canon's repository operations
+
+Environment: .NET SDK 10.0.403 at `/usr/share/dotnet` (already in the container; feature band
+4xx, the band Varve's `global.json` names with `10.0.401`). nuget.org reachable through the proxy.
+
+## P-8 — the first build
+
+Prediction: the first `dotnet build tools/canon` under Varve's settings (warnings as errors,
+`latest-recommended` analysis, code style enforced) fails on at least one analyzer diagnostic,
+not on a type error. Falsifier: it builds clean first time.
+
+## P-9 — the v0.5.0 case (D-5), as tests
+
+Prediction: in a real repository with `releases/v0.5.0.yaml` and a bare remote, `canon release
+v0.5.0 --plan` exits 1 at step 2 in each of three states, naming where the tag was found:
+(a) a local tag only; (b) a tag on the remote only, in a clone that never fetched it (the v0.5.0
+lesson: `scripts/ci.py`'s local test would say "not cut"); (c) a GitHub Release only, served by a
+local HTTP server speaking GitHub's REST shape. In a fourth state, nowhere, it proceeds, and
+without `--plan` it cuts a signed tag, pushes it, and creates the Release. Falsifier: any of
+(a)–(c) passes step 2, or (d) leaves an unsigned tag.
+
+## P-10 — `canon changelog --check` on this repository (D-6)
+
+Prediction: exits 1 on `CHANGELOG.md` as it stands (the v0.5.0 section is hand-written and says
+"Proposed, not cut"). After `canon changelog` writes the projection, `--check` exits 0, the 4.x
+tail is byte-identical to before, and `scripts/ci.py` still passes. Falsifier: `--check` passes
+now, or the tail changes.
+
+## P-11 — `canon issue-refs` on this repository
+
+Prediction: `canon issue-refs --basis --base 99d0a0f^` (the full history the Basis rule covers)
+exits 0. The Refs check passes on this branch's own commits (`origin/main..HEAD`, all `Refs #46`),
+and main's later commits brought in by merge are exempt because they do not descend from the Refs
+start commit. Falsifier: any refusal on this repository's history under those settings.
+
+## P-12 — `canon ratify v0.5.0`
+
+Prediction: exits 1, refusing because `v0.5.0` is cut (tag found). Falsifier: it edits the file.
+
+Outcome for P-8 (appended): **refuted.** The first `dotnet build src/Canon` succeeded with no
+diagnostic. The first build of the test project failed, on CS1591 (no XML comment on public test
+methods) and one xUnit analyzer rule (xUnit2029). CS1591 is now off in the test project only, with
+the reason in its file. The prediction was about the tool, which built clean.
+
+Outcome for P-9 (appended): **held, after two defects in the tests themselves.**
+- First run: 11 of 12. The unsigned-tag test reached `git tag -s` because this container injects
+  a signing key through `GIT_CONFIG_COUNT` environment variables, which outrank every config file.
+  That also meant the signed-tag test had signed with the session's real key. The tests now clear
+  `GIT_CONFIG_*`, `GIT_AUTHOR_*` and `GIT_COMMITTER_*`, and the signed-tag test verifies the tag
+  against the test's own key (`git tag -v`).
+- Later runs: `HttpListener` raced for ports under parallel tests ("Address already in use"), and
+  once crashed the test host (exit 134, accept after stop). It was replaced by a `TcpListener`
+  server on port 0.
+- After both fixes: 32 of 32, five consecutive runs, about 7 s each. (a), (b) and (c) each refuse
+  at step 2 naming the site; (d) cuts a signed tag that verifies, pushes it, and creates the
+  Release. `--plan` makes no change. An unreachable GitHub exits 2 and leaves no tag.
+
+**On this repository (D-5):** in a fresh `--no-tags` clone of `origin/main` (0 local tags),
+`canon release v0.5.0 --plan` refused at step 2: `[remote] refs/tags/v0.5.0 on origin (ls-remote:
+3622d0c7b8bb); [github-release] a GitHub Release (tag v0.5.0, published)`. Exit 1. It did the
+same with no token.
+
+Outcome for P-10 (appended): **held.** `canon changelog --check` exited 1 on `CHANGELOG.md` as it
+stood. `canon changelog` wrote the projection; `--check` then exited 0. The tail from
+`## 4.7 — The volume layer (boundary charter)` to the end is byte-identical, and its SHA-256
+(`51f888f2…cab02`) matches `sha256sum` over the same lines. `scripts/ci.py` passes, all seven
+gates. The hand-written v0.5.0 section (its sub-headings and bullets) is replaced by the
+descriptor's summary, as `DDD-dec-104` rules. The old text stays in history at `e8fde2a`.
+
+Outcome for P-11 (appended): **held.** `canon issue-refs --basis --base 99d0a0f^`: ok, 281
+commits, Refs checked on 5, Basis on 72. Over the branch's own range (`origin/main..HEAD`): ok.
+The Refs start is `6aad807` (`canon.yaml`). `main`'s own latest commits, which carry no Refs, do
+not descend from it.
+
+Outcome for P-12 (appended): **held.** `canon ratify v0.5.0` exited 1: "v0.5.0 is cut, so its
+descriptor is immutable", finding it in all three places (local tag, `ls-remote`, the published
+Release). The file is unchanged (`cmp`).
+
+## P-13 — Gate 2 lands green in CI
+
+Prediction: the pushed branch's `validate` run (devcontainer, now with the .NET feature) passes:
+`scripts/ci.py`, then `dotnet test` (32), `changelog --check`, `issue-refs --basis`. The
+commands were run locally in that order from `tools/canon/`; from the repository root,
+`dotnet test --project` fails, because `global.json` is found from the current directory. That is
+why the workflow changes into `tools/canon` first. Falsifier: any step red. The most likely cause
+would be the devcontainer feature, whose install was not run here.
