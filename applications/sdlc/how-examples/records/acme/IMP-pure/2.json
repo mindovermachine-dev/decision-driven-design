@@ -1,0 +1,36 @@
+{
+  "protocol": "dpp/1",
+  "id": "IMP-pure",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import PURE@1 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS, unchanged.",
+  "by": "spiffe://acme.example/agent/proposer",
+  "at": "2026-10-28",
+  "why": {
+    "ref": "PURE@1@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "PURE@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:355ca5fdb6591768046fe2020f303e5469a3cae22eefe9ad8f5e1e1e5701f225"
+    },
+    {
+      "ref": "REL@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:0b5b6552f24608e43ccfbc2ababf694c844a0ff95b7a5c244c7fc0fbe15a6e18"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "IMP-pure@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:05ab351f6449b0b0c02b39444fe16ce678072c26cfa4cc21604c1f438e15df97"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+    "imports": "PURE@1@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the Ordering bounded context: in the landed What the Deciders of Ordering sit in its one bounded context, which is the narrowest element covering them (ruling 1). Version 1 anchored at the domain, which the provisional graph made narrowest."
+  },
+  "attributedTo": "mailto:architect@acme.example"
+}

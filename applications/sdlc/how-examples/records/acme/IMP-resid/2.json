@@ -1,0 +1,35 @@
+{
+  "protocol": "dpp/1",
+  "id": "IMP-resid",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Import RESID@1 from the package https://vendor.example/packages/ref-arch, in force within https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK, unchanged.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-28",
+  "why": {
+    "ref": "RESID@1@https://vendor.example/packages/ref-arch"
+  },
+  "basedOn": [
+    {
+      "ref": "RESID@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:a04dbc5364badfc5c2f898129d82ca0897a00de773e37b1c0893fe3b7c7054a4"
+    },
+    {
+      "ref": "REL@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:0b5b6552f24608e43ccfbc2ababf694c844a0ff95b7a5c244c7fc0fbe15a6e18"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "IMP-resid@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:3a7d736157ac1a6e52212a0f967dc7340279e6d1eb4ce7c2982890c14448cec4"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "import",
+    "anchor": "https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK",
+    "imports": "RESID@1@https://vendor.example/packages/ref-arch",
+    "note": "Anchored at the quality demand it realises (what.md §3.6)."
+  }
+}

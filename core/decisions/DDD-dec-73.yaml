@@ -1,0 +1,89 @@
+format: 1
+id: DDD-dec-73
+kind: decision
+supersedes: DDD-dec-63
+statement: |
+  The identity form and hash law of DDD-dec-63 stand, with the RDFC-1.0 ruling qualified three ways, from Varve. One: it is RDFC-1.0 over RDF 1.2 canonical N-Quads, with lowercase language tags, ECHAR for BS, HT, LF, FF, CR, quote and backslash, and UCHAR with uppercase hex for the other C0 controls, DEL, U+FFFE and U+FFFF. Two: canonicalisation is per named graph, never across graphs. Three: a triple term never contains a blank node. Everything else in DDD-dec-63 is carried unchanged: P as the product node, P/what/<ULID> keys, rdfs:label names, identity kept across rename, property change and move, succeeds for kind change, split and merge, element descriptions, and the What-version record.
+principal: Emil
+made: |
+  2026-10-30, Round 3 of the Product Framework What move session, recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md ("The RDFC-1.0 ruling on DDD-dec-63 gains three qualifications from Varve … Record them on DDD-dec-63 by supersession"). Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-63
+
+  Parts 1 to 5, 7 and 8 of DDD-dec-63, and part 6's record, hashes and equalities, stand unchanged.
+  So do its Round 1 rulings and its note on the corrected basis: one hash law for graph content
+  across the estate, and the store's form is Varve's. DDD-dec-63 is left unchanged, and this
+  decision supersedes it.
+
+  ## The three qualifications (Round 3)
+
+  | # | Qualification | In Varve (4dea5a7) | In this repository |
+  |---|---|---|---|
+  | 1 | RDFC-1.0 over **RDF 1.2 canonical N-Quads**: lowercase language tags; ECHAR for BS, HT, LF, FF, CR, `"` and `\`; UCHAR (`\u` and four uppercase hex digits) for U+0000–U+0007, VT, U+000E–U+001F, DEL, U+FFFE and U+FFFF; every other character as itself | `src/Varve.Turtle/Escapes.cs` (`WriteLineString`); `docs/spec/rdf-canon.md`: "a language tag is written in lowercase", with RDF 1.2 N-Triples §3 cited | `what/canonical-form-vectors.json`: six vectors with expected bytes taken from those sources; `what/check.py` holds each tool to them |
+  | 2 | Canonicalisation is **per named graph, never across graphs** | `rdf-canon.md` §6.2: with blank nodes related across named graphs, one dataset can take two canonical forms, because a related hash omits the graph of the quad that relates two nodes. Its SHACL report digest canonicalises "as triples in the default graph" | the What is one graph and is canonicalised alone, as triples, with no graph label in the canonical form. Each element description is canonicalised alone (DDD-dec-63 §6). `what/check.py` asserts every quad is in the default graph before hashing |
+  | 3 | **A triple term never contains a blank node** | `RdfCanonicaliser` refuses one: "RDFC-1.0 is defined over RDF 1.1 datasets" | a What graph holding one is not hashable. `what/check.py` refuses it before hashing, with a planted vector |
+
+  **The graph name is not hashed.** Ruled 2026-10-30 (Round 4 of the session record; headed
+  "Round 3" by Emil), as triples only:
+
+  > The hash covers the graph's triples and not the name of the graph any store holds it in; the
+  > name is a partition's address, not content, and the same What in product-cli's draft log and
+  > in Writ's guest partition must hash identically. Varve's report digest is the precedent.
+
+  ## The two tools, checked against qualification 1 (Round 3)
+
+  | Vector | pyoxigraph 0.5.13, RDFC-1.0 | pyld 3.3.0, URDNA2015 |
+  |---|---|---|
+  | a literal holding a tab | `"a\tb"`: conforms | `"a\tb"`: conforms |
+  | an uppercase language tag, `@EN-GB` | `@en-gb`: conforms | `@EN-GB`: **does not conform** |
+  | BS and FF, given as ECHAR | `\b`, `\f`: conforms | double-escaped (`\\b`): **does not conform**; refused when raw |
+  | VT and DEL, given as UCHAR | `\u000B`, `\u007F`: conforms | `\u` not decoded and re-escaped: **does not conform** |
+  | quote, backslash, LF and CR | conforms | a backslash before `n` is misread: **does not conform** |
+  | non-ASCII, given as UCHAR | written as itself: conforms | `\u` not decoded: **does not conform** |
+
+  - **pyoxigraph** writes RDF 1.2 canonical N-Quads on all six vectors given directly. It also does
+    so on the tab, language-tag, BS/FF and VT/DEL cases when they pass through rdflib's serialiser,
+    which is the path `what/check.py` uses. It is the hash law's
+    implementation of record in this repository's checks.
+  - **pyld** implements URDNA2015 over RDF 1.1 N-Quads, with a parser that does not decode UCHAR.
+    It is not an implementation of this hash law. It is kept as a cross-check, used only on graphs
+    with no language tag, no backslash and no control character other than HT, LF and CR, which
+    are the inputs on which it was measured to agree.
+  - **The example's earlier agreement was vacuous on qualification 1.** The acme-shop graph has 94
+    literals, none language-tagged and none holding a control character. The hashes in
+    `what/vectors.json` and in `what@2` are unchanged, and pyoxigraph's canonical form of the example
+    is unaffected by the qualifications.
+
+  ## Falsifiers, as DDD-dec-63's, sharpened
+
+  - **Two conforming implementations, two hashes.** Ruled 2026-10-30: "the second implementation
+    is Varve's canonicaliser, by published vectors", and Varve is not built in this repository.
+    - **What Varve delivers.** A Varve session computes RDFC-1.0 hashes with
+      `RdfCanonicaliser.Canonicalise` for the six cases and the acme-shop What at `what@2`. It
+      delivers `vectors-varve.json` in the shape of `vectors.json`, with each entry naming the
+      Varve version and the ADR 0059 revision, and confirms that the blank-node-in-triple-term case
+      is refused.
+    - **What happens here.** `what/check.py` then holds pyoxigraph and Varve to equality. If they
+      differ, this falsifier fires.
+    - **Until then** M-12 is open (Hafeok/varve#192), and the hash law has one checked
+      implementation here.
+  - **pyld stays a gated cross-check** (ruled 2026-10-30). "An RDF 1.1 canonicaliser agreeing on a
+    graph with no language tags and no control characters is the false agreement a second
+    implementation exists to expose."
+  - **A shared or cross-graph blank node** (qualification 2) or **a blank node in a triple term**
+    (qualification 3) in a What graph. Either makes it unhashable, and the check refuses it.
+
+  ## Writ
+
+  Writ's definition carries the same three as [D2.12], as Emil states it. Hafeok/writ is at 6737ac9,
+  which holds Draft 2 through D2.9. The definition is the authority, held outside that repository.
+  Successor item M-4 covers Writ's protocol page.
+basedOn:
+  - DDD-dec-63
+  - DDD-dec-42
+  - DDD-dec-51
+notes: |
+  Filed from the move session; its id is from the move's range (63 onward). Id 73 was checked free
+  on 2026-10-30 on every branch of both repositories: downstream holds up to 72, upstream 39.
+  Varve read at 4dea5a7: src/Varve.Turtle/Escapes.cs, src/Varve.Rdf/RdfCanonicaliser.cs and
+  docs/spec/rdf-canon.md. Nothing in core/claims/ changes.

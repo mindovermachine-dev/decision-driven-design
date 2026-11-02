@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://decision-driven-design.dk/ns/sdlc/conformance/1/decision-request.schema.json",
+  "title": "ConformanceDecisionRequest",
+  "description": "One Decider scenario on the behavioural-conformance wire (what.md §6). A conformance runner reads a JSON ARRAY of requests on stdin and writes a JSON ARRAY of outcomes on stdout — one outcome per request, IN THE SAME ORDER — then exits 0; the array position is the only correlation, so ordering is load-bearing and there is no per-request id. For a decision request the runner folds `given` — a sequence of prior events — into fresh aggregate state (a clean slate per request; scenarios never share state), then decides the single `when` command against that state, answering with a ConformanceDecisionResponse. Every payload value on this wire is drawn from the WIRE SCALAR ALPHABET (§3.3): `boolean`, 64-bit signed `integer`, and `string` only; a field a payload schema declares as `number` or `date` (§3.2, §3.3) travels AS A STRING here, because the wire has no native number-with-fraction or date type. Self-contained: this schema shares no `$ref` across files and inlines every reusable shape in `$defs`.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "given",
+    "when"
+  ],
+  "properties": {
+    "given": {
+      "type": "array",
+      "description": "The prior events the runner folds, in order, into fresh aggregate state before deciding `when`. May be empty (the empty history — decide against the initial state). Each item is an EventRef.",
+      "items": {
+        "$ref": "#/$defs/eventRef"
+      }
+    },
+    "when": {
+      "description": "The single command decided against the folded state. A CommandRef.",
+      "$ref": "#/$defs/commandRef"
+    },
+    "subject": {
+      "description": "The authenticated subject issuing `when` (what.md, Product Framework §3.3, §3.7): its subject kind and its claims. Supplied BESIDE the command, never inside its `with` — the command is what the caller sent, the subject is what the system's authentication established. Absent means no subject: conformant only for a Decider whose subject alphabet is empty; a scenario that names a subject must send it.",
+      "$ref": "#/$defs/subjectRef"
+    }
+  },
+  "$defs": {
+    "subjectRef": {
+      "description": "A subject on the wire: the subject-kind wire name and its claims. A claim value is a wire scalar or — for a claim the subject kind declares set-valued — an array of wire scalars: the one list-valued position on this wire, confined to the subject block so payload equality is unchanged (§3.3).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The subject-kind wire name (§3.7)."
+        },
+        "claims": {
+          "type": "object",
+          "description": "Claim wire name → wire scalar, or an array of wire scalars for a set-valued claim. Absent means no claims.",
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/scalar"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/scalar"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "scalar": {
+      "description": "A wire scalar (§3.3): the only value types that cross this wire. `boolean`, a 64-bit signed `integer`, or a `string`. A payload field declared `number` or `date` (§3.2) is carried here AS A STRING — the wire alphabet has no fractional-number or date type, so those cross as their string form.",
+      "type": [
+        "boolean",
+        "integer",
+        "string"
+      ]
+    },
+    "eventRef": {
+      "description": "A reference to an event with its payload. EITHER a bare id string (shorthand for that event with the EMPTY payload) OR an object naming the `event` id and its `with` payload. A missing `with` is the empty payload. Payload values are wire scalars (§3.3).",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Bare event wire name — the event with an empty payload."
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "event"
+          ],
+          "properties": {
+            "event": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The event's wire name (what.md §6)."
+            },
+            "with": {
+              "type": "object",
+              "description": "The event payload: field wire name → wire scalar. Absent means the empty payload.",
+              "additionalProperties": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "commandRef": {
+      "description": "A reference to a command with its payload. EITHER a bare id string (shorthand for that command with the EMPTY payload) OR an object naming the `command` id and its `with` payload. A missing `with` is the empty payload. Payload values are wire scalars (§3.3).",
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Bare command wire name — the command with an empty payload."
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "command"
+          ],
+          "properties": {
+            "command": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The command's wire name (what.md §6)."
+            },
+            "with": {
+              "type": "object",
+              "description": "The command payload: field wire name → wire scalar. Absent means the empty payload.",
+              "additionalProperties": {
+                "$ref": "#/$defs/scalar"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

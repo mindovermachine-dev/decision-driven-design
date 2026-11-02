@@ -1,0 +1,7 @@
+# Fold of the Order summary Projector in the acme-shop example What (what.md §3.4), keyed by
+# customer_id. Held by digest, as the Decider's logic is.
+projector: order-summary
+keyed_by: customer_id
+fold:
+  order-placed: { orders: "state.orders + 1", paid: "state.paid + event.paid_total" }
+  order-refunded: { refunded: "state.refunded + event.amount" }
