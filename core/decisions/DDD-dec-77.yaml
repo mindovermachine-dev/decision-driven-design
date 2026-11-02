@@ -1,0 +1,55 @@
+format: 1
+id: DDD-dec-77
+kind: decision
+statement: |
+  The rulings the authority-profile charter states as already made: the genesis grant as defined on 2026-10-27, with transfer by decision, unavailability with a fallback who may act and not transfer, and loss without fallback as a new product; a product as the decision space, with a package as a product with an empty What and its own genesis, provenance and never authority in another product; a scope as a set of ontology classes optionally narrowed to one element's within* subtree, derived kinds in no scope, and a decision touching more than one scope in force only while it holds a valid acceptance under each; no machine identity accepts, reviews, grants or waives; signature, acceptor and acceptance time required for force, acceptance being a human holder's signature over the version hash under a grant live at that position; baselines ratchet and waivers expire; scope evaluated at signing and recorded; force local, basedOn provenance only.
+principal: Emil
+made: 2026-11-02, in the charter of the authority-profile session, under "Already ruled; do not reopen", committed verbatim at meta/sessions/2026-11-02-authority-profile/prompt.md before any other work; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings, verbatim from the charter
+
+  > * The genesis grant, verbatim from 2026-10-27: root of change authority over one product;
+  >   held by the human who brought the product into being; unscoped within the product, scoped
+  >   to nothing outside it; delegates from nothing; every other grant delegates from it; every
+  >   change resolves to it; a product with no genesis has no authority. Transfer by decision
+  >   (holder signs, successor accepts, prior closed not deleted); unavailability with a fallback
+  >   who may act and not transfer; loss without fallback is a new product with `basedOn` import.
+  > * A product is the decision space; its What and its realisation are scopes within it; a
+  >   package is a product with an empty What and its own genesis, provenance and never authority
+  >   in another product.
+  > * Scope: a set of ontology classes, optionally narrowed to one element's `within*` subtree;
+  >   derived kinds in no scope; a decision touching kinds in more than one scope needs a valid
+  >   acceptance under each, from the same or different holders, in force only when all are live.
+  > * A machine identity never accepts, reviews, grants or waives; no configuration makes it
+  >   possible; the attempt is refused and recorded.
+  > * The protocol's optional `signature`, `acceptedBy`, `acceptedAt` are required under this
+  >   profile for a decision to be in force; acceptance is a signature by a human holder over the
+  >   version hash under a grant live at that position.
+  > * Baseline on an acceptance; landings only shrink it; only a fresh acceptance grows it.
+  >   Waiver: a signed, expiring answer to an open question that changes no decision.
+  > * Scope is evaluated at signing and the result recorded; a later change to the graph does not
+  >   re-evaluate it.
+  > * Force is local; `basedOn` carries provenance only.
+
+  ## What is new against earlier decisions
+
+  - The first ruling restates DDD-dec-46, with "transfer by decision" spelled as three acts.
+  - The second restates DDD-dec-46's space and DDD-dec-66's package (an empty What).
+  - The third restates DDD-dec-64 P-7 with its multi-scope rule, ruled in Round 5 of the move.
+  - The fourth extends Writ's G3 to "machine identity" and to waivers and grants, and adds "no
+    configuration makes it possible".
+  - The fifth restates DDD-dec-47. Its acceptedBy and acceptedAt are read by Round 1, F-1 of this
+    session: they are the by and at of a signed acceptance record (dpp-1.md A-10).
+  - The sixth and seventh restate Writ's [D2] baseline, waiver and scope paragraphs as rulings of
+    this repository.
+  - The eighth restates DDD-dec-54 ruling 3 and Writ [D2.6].
+basedOn:
+  - DDD-dec-46
+  - DDD-dec-47
+  - DDD-dec-54
+  - DDD-dec-66
+  - DDD-dec-64
+notes: |
+  Filed from the authority-profile session (meta/sessions/2026-11-02-authority-profile/). Next free
+  id checked at arrival: 77. main holds up to 73, the unmerged branch claude/ready-to-try-2026-11-02
+  holds 74 to 76, and upstream holds up to 39.
