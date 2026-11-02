@@ -1,10 +1,11 @@
-"""Check the How worked examples: conformance, pins, signatures, the authority chain, anchors,
-expressibility per target, supersession across the import, and the verdicts.
+"""Check the How worked examples: conformance, pins, signatures, the authority profile over the
+positioned log (applications/sdlc/authority.md), anchors, expressibility per target, supersession
+across the import, the verdicts, and the baseline and waiver against them.
 
     python3 applications/sdlc/how-examples/check.py
 
-Conformance, pins, signatures and expressibility need the Python standard library and
-ssh-keygen. Anchors and verdicts need rdflib (a SPARQL 1.1 engine); without it those steps are
+Conformance, pins, signatures, the authority evaluation and expressibility need the Python
+standard library and ssh-keygen. Anchors and verdicts need rdflib (a SPARQL 1.1 engine); without it those steps are
 reported as SKIP, never as passed. Exit status is non-zero on any failure. Anchor warnings are
 printed and are not failures (ruling 1 of 2026-10-28: "the checker should warn").
 
@@ -29,6 +30,8 @@ A = "https://acme.example/products/shop/decisions"
 P = "https://acme.example/products/shop"          # the product IRI and product node (DDD-dec-63)
 WHAT_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-shop.ttl")   # the landed What
 VECTORS = os.path.join(REPO, "applications", "sdlc", "what", "vectors.json")
+VECTORS4 = os.path.join(REPO, "applications", "sdlc", "what", "vectors-4.json")
+WHAT4_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-shop-4.ttl")   # the What after CUR@1 (what@4)
 TODAY = datetime.date(2026, 10, 28)          # the evaluation date: the examples' position (version 2, the landed What)
 # Fact terms: read from code or from a deployment, so each needs a mapping in a target's
 # vocabulary edition (how-vocabulary.md, "Fact terms"). Every other sdlc: term is What-side or
@@ -77,7 +80,8 @@ def pins(start):
             if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
             elif e in records[k].get("basedOn", []): todo.append(e["ref"])
     return hops, bad
-for start in (f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@3@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
+for start in (f"ACC-1@3@{A}", f"ACC-what@2@{A}", f"ACC-cur-how@1@{A}", f"REV-curfmt@1@{A}", f"WAIV-resid@1@{A}", f"what@4@{A}",
+              f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@3@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
               f"ACC-1@1@{A}", "REL@2@https://vendor.example/packages/ref-arch"):   # version 2 first; version 1 as history
     hops, bad = pins(start)
     ok(not bad, f"pins from {start.split('@')[0]}: {hops} references" + ("" if bad else ", every target held here and matching its pin")
@@ -98,27 +102,65 @@ for k, r in sorted(records.items()):
         ok(verify(r, r["by"]), f"signature on {k.split('@')[0]}@{r['version']} ({r['system'].split('/')[2]}) verifies over its canonical form, by {r['by']}")
 report.append("note a signature shows a key signed the content; which person holds the key is the authority profile's matter, not shown here")
 
-# ---- the authority chain (test stand-in for the unwritten authority profile)
-def auth(r): return r.get(AU, {})
+# ---- the authority profile (applications/sdlc/authority.md), over the positioned log
+# The reference evaluator judges every act landed in log/acme.json, position by position. It is the
+# profile written as code and is not Writ's suite (DDD-dec-86, Q-7). The pre-profile stand-ins
+# (GEN@1, GEN@2, GRANT-*@1/2, ACC-1@1/2, ACC-what@1) are held as dpp/1 records and landed in no
+# position, so under the profile they put nothing in force.
+sys.path.insert(0, os.path.join(REPO, "applications", "sdlc", "authority"))
+from evaluate import evaluate
+def signer(rec):
+    return rec["signature"]["key"] if rec.get("signature") and verify(rec, rec["by"]) else None
+LOG = json.load(open(os.path.join(HERE, "log", "acme.json")))
+res = evaluate(records, LOG["headers"], signer, dpp.record_hash, dpp.record_hash)
+VLOG = json.load(open(os.path.join(HERE, "log", "vendor.json")))
+vres = evaluate(records, VLOG["headers"], signer, dpp.record_hash, dpp.record_hash)
+ok(not vres["problems"] and all(j["valid"] for j in vres["judgements"]) and vres["snapshots"][1]["genesis_holder"] == "mailto:holder@vendor.example",
+   "the vendor's log: GEN@2 re-founds the package under a kept test key, as acme's GEN@3 did (Round 3, P-9): a valid founding, held by its founder")
+ok(not res["problems"], f"the log: {len(LOG['headers'])} positions, each header naming its position, the previous header's hash, "
+   "a monotone clock and its records by pinned hash, and covered by its own hash" + "".join(f"; {x}" for x in res["problems"]))
+acts = [j for j in res["judgements"] if j["kind"] != "record" or not j["landed"]]
+for j in acts:
+    name = j["ref"].split("@")[0] + "@" + j["ref"].split("@")[1]
+    if j["landed"]:
+        is_act = records[j["ref"]].get(AU, {}).get("record") is not None
+        ok(j["valid"], f"p{j['position']} {name}: " + (f"a valid {j['kind']}" if is_act else f"landed ({j['kind']}): a proposal or record, no force of its own")
+           + ("" if j["valid"] else f" — the evaluator refuses it: {j['why']}"))
+    else:
+        want = next(e["reason"] for h in LOG["headers"] for e in h.get("refused", []) if e["ref"] == j["ref"])
+        ok(not j["valid"] and j["why"] == want, f"p{j['position']} {name}: refused and recorded — {j['why']}")
+snaps, last = res["snapshots"], max(res["snapshots"])
+def at(p_): return snaps[p_]
+def short(k): return k.split("@")[0] + "@" + k.split("@")[1]
+CUR = f"CUR@1@{A}"
+ok(CUR in at(5)["partly_accepted"] and CUR not in at(5)["in_force"] and CUR in at(6)["in_force"],
+   "CUR@1 touches a What kind and a How kind: at p5, accepted under the What grant only, it is not in force; at p6, "
+   "accepted under the How grant too, by another holder, it is (the multi-scope rule)")
+ok({"GRANT-lead", "GRANT-ctr"} <= at(10)["live_grants"] and not ({"GRANT-lead", "GRANT-ctr"} & at(11)["live_grants"]),
+   "REVK-lead@1 at p11 revokes GRANT-lead, and GRANT-ctr, delegated below it, falls with it from that position")
+ok(f"CURFMT@1@{A}" in at(11)["in_force"] and f"CURFMT@1@{A}" in at(last)["in_force"],
+   "CURFMT@1, accepted under GRANT-ctr at p10 before the revocation, stays in force: the acceptance was valid at its position")
+arch = records[f"ACC-1@3@{A}"]["signature"]["key"]
+ok(arch in at(12)["keys"].get("mailto:architect@acme.example", []) and arch not in at(13)["keys"]["mailto:architect@acme.example"]
+   and verify(records[f"ACC-1@3@{A}"], "mailto:architect@acme.example"),
+   "KEY-architect@1 at p13 rotates the architect's key: ACC-1@3, signed at p4 by the closed key, still verifies under the key bound at its position, and its decisions stay in force")
+W_ = f"WAIV-resid@1@{A}"
+ok(W_ in at(14)["live_waivers"] and W_ not in at(last)["live_waivers"],
+   f"WAIV-resid@1 is live at p14 ({at(14)['clock']}) and has expired at p15 ({at(last)['clock']}): expiry is read from header clocks only")
+ok(at(last)["genesis_holder"] == "mailto:holder@acme.example" and "GEN" in at(last)["live_grants"],
+   "GEN@3 founds the log: the genesis is live and held by its founder")
+for p_ in sorted(snaps):
+    s = snaps[p_]
+    report.append(f"note p{p_} {s['clock']}: {len(s['in_force'])} in force; grants live {sorted(s['live_grants'])}"
+                  + (f"; waivers live {[short(w) for w in s['live_waivers']]}" if s["live_waivers"] else "")
+                  + (f"; partly accepted {[short(d) for d in s['partly_accepted']]}" if s["partly_accepted"] else ""))
 superseded_refs = {e["ref"] for r in records.values() for e in r.get("supersedes", [])}
-in_force = set()
-for k, acc in records.items():
-    if auth(acc).get("record") != "acceptance" or not k.endswith("acme.example/products/shop/decisions"): continue
-    if k in superseded_refs:   # a superseded acceptance puts nothing in force (ACC-1@1, by ruling 4)
-        report.append(f"note {k.split('@')[0]}@{acc['version']} is superseded; nothing it accepted is in force through it"); continue
-    grant = records[auth(acc)["grant"]]
-    gen = records[auth(grant)["delegatesFrom"]]
-    chain = (auth(grant).get("grantee") == acc["by"] and gen["by"] == auth(gen)["holder"] == grant["by"]
-             and not gen["basedOn"] and acc["by"].startswith("mailto:")
-             and all(verify(x, x["by"]) for x in (acc, grant, gen)))
-    if ok(chain, f"{k.split('@')[0]}: accepted by a human holder of a grant delegating from the genesis, all three signed"):
-        pinned = {e["ref"] for e in acc["basedOn"]}
-        in_force |= set(auth(acc)["accepts"]) & pinned
-how_in_force = {k for k in in_force if records[k][SD]["record"] in ("import", "target-declaration")}
-what_in_force = {k for k in in_force if records[k][SD]["record"] == "what-change"}
+in_force = at(last)["in_force"]
+how_in_force = {k for k in in_force if records[k].get(SD, {}).get("record") in ("import", "target-declaration")}
+what_in_force = {k for k in in_force if "delta" in records[k].get(SD, {})}
 ok(len(how_in_force) == 6 and all(k.split("@")[1] == "2" for k in how_in_force),
-   f"How in force at the examples' position: {len(how_in_force)} records (two target declarations, four imports), all version 2")
-ok(what_in_force == {f"WHAT-found@1@{A}"}, f"What in force: {sorted(k.split('@')[0] for k in what_in_force)}, the founding decision, accepted under the What grant")
+   f"How in force at the log's last position: {len(how_in_force)} records (two target declarations, four imports), all version 2, re-accepted under the profile by ACC-1@3")
+ok(what_in_force == {f"WHAT-found@1@{A}", CUR}, f"What in force: {sorted(short(k) for k in what_in_force)}: the founding decision and CUR@1")
 provisional = sorted(k for k in in_force if "/what#" in json.dumps(records[k]))
 ok(not provisional, "ruling 4: no record in force names a provisional What identifier (…/what#…); each was superseded, none edited"
    + (f"; still in force {provisional}" if provisional else ""))
@@ -169,9 +211,9 @@ import hashlib
 WV = max((k for k in records if k.startswith("what@") and k not in superseded_refs), key=lambda k: int(k.split("@")[1]))
 report.append(f"note the What-version in force is {WV.split('@')[0]}@{WV.split('@')[1]}; earlier versions are superseded")
 wv = records[WV][SD]
-vec = json.load(open(VECTORS))
+vec = json.load(open(VECTORS if WV.split("@")[1] in ("1", "2", "3") else VECTORS4))
 ok(wv["canon"] == "rdfc-1.0" and wv["graphHash"] == vec["graphHash"] and wv["elements"] == vec["elements"],
-   f"{WV.split('@')[0]}@{WV.split('@')[1]}: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal what/vectors.json, which what/check.py recomputes from the graph")
+   f"{WV.split('@')[0]}@{WV.split('@')[1]}: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal the vectors of the graph it names, which what/check.py recomputes")
 ok({e["ref"] for e in records[WV]["basedOn"]} == what_in_force, "the What-version pins exactly the What decisions in force")
 found = records[f"WHAT-found@1@{A}"][SD]
 ok(found["delta"]["hash"] == "sha256:" + hashlib.sha256(open(WHAT_TTL, "rb").read()).hexdigest() and found["anchor"] == P,
@@ -192,7 +234,7 @@ if rdflib:
     def T(name): return URIRef(f"{NS}/target#{name}")
     manifest = json.load(open(os.path.join(HERE, "facts", "manifest.json")))["facts"]
     def base():
-        g = Graph(); g.parse(WHAT_TTL)
+        g = Graph(); g.parse(WHAT4_TTL)
         for t in targets.values():               # in-force How records become facts the gate reads
             sysiri = URIRef(t[SD]["anchor"])
             g.add((sysiri, S.target, T(t[SD]["language"]["target"])))
@@ -218,7 +260,7 @@ if rdflib:
                 f.add((URIRef(f"{NS}/region/{entry['target']}#{region}"), S.jurisdiction, Literal(j)))
         return g + f
     # ---- anchors (ruling 1): warn when a narrower element covers everything governed today
-    what = Graph(); what.parse(WHAT_TTL)
+    what = Graph(); what.parse(WHAT4_TTL)
     parent = dict(what.subject_objects(S.within))
     def chain(x):
         out = [x]
@@ -284,6 +326,67 @@ if rdflib:
         got = verdicts.get(key)
         shown = got if isinstance(got, str) else (f"{len(got)} violation(s)" + "".join(f"\n       {v}" for v in got))
         ok(got == expected.get(key), f"verdict {key}: {shown}")
+
+    # ---- the authority profile, against the graph: scope results, CUR@1's delta, baselines, the waiver
+    what3 = Graph(); what3.parse(WHAT_TTL)
+    def kind(g, e):
+        ks = [o for o in g.objects(URIRef(e), RDF.type) if str(o).startswith(NS + "#")]
+        return "sdlc:" + str(ks[0])[len(NS) + 1:] if len(ks) == 1 else None
+    bad, n_items = [], 0
+    for k, r in records.items():
+        au = r.get(AU, {})
+        if au.get("record") not in ("acceptance", "review", "waiver") or "touches" not in au: continue
+        for d, items in au["touches"].items():
+            for it in items:
+                n_items += 1
+                e = URIRef(it["element"])
+                if [str(x) for x in chain(e)] != it["path"]: bad.append(f"{short(k)}: path of {it['element']}")
+                if it["class"] not in ("sdlc:Import", "sdlc:TargetDeclaration", "sdlc:Binding", "sdlc:Constraint", "sdlc:Contract") \
+                        and kind(what, it["element"]) != it["class"]: bad.append(f"{short(k)}: class of {it['element']}")
+    for k, r in records.items():
+        sc = r.get(AU, {}).get("scope")
+        w = sc.get("within") if isinstance(sc, dict) else None   # the stand-ins' scopes are words
+        if w and [str(x) for x in chain(URIRef(w))] != r[AU]["scope"]["withinPath"]: bad.append(f"{short(k)}: withinPath")
+    ok(not bad, f"scope results: every recorded item ({n_items}) names its element's class and its within* path as the What graph has them, "
+       "and every grant's subtree path is the graph's" + (f"; wrong {bad}" if bad else ""))
+    cur = records[CUR][SD]
+    sha = lambda f: "sha256:" + hashlib.sha256(open(f, "rb").read()).hexdigest()
+    els3 = {s for s in what3.subjects() if isinstance(s, URIRef)}
+    els4 = {s for s in what.subjects() if isinstance(s, URIRef)}
+    def desc(g, e):
+        out = Graph(); todo, seen = [e], set()
+        while todo:
+            x = todo.pop()
+            if x in seen: continue
+            seen.add(x)
+            for p_, o in g.predicate_objects(x):
+                out.add((x, p_, o))
+                if isinstance(o, rdflib.BNode): todo.append(o)
+        return out
+    from rdflib.compare import isomorphic
+    changed = {str(e) for e in els3 & els4 if not isomorphic(desc(what3, e), desc(what, e))}
+    ok(cur["delta"]["before"]["hash"] == sha(WHAT_TTL) and cur["delta"]["after"]["hash"] == sha(WHAT4_TTL)
+       and {str(e) for e in els4 - els3} == {c["element"] for c in cur["creates"]} and not (els3 - els4)
+       and changed == {c["element"] for c in cur["changes"]},
+       f"CUR@1's delta: before is what@3's graph and after is what@4's, byte for byte; it creates exactly "
+       f"{[c['element'].rsplit('/', 1)[1] for c in cur['creates']]}, changes exactly {[label(URIRef(c['element'])) for c in cur['changes']]}, retires nothing")
+    base_ = records[f"ACC-1@3@{A}"][AU]["baseline"]
+    imp_of = {records[k][SD]["imports"].split("@")[0]: k for k in imports}
+    unbaselined = []
+    for key, rows in verdicts.items():
+        if isinstance(rows, str): continue
+        dec, tgt_ = key.split("|")[:2]
+        for row in rows:
+            if {"decision": imp_of[dec], "subject": row.split(" — ")[0], "target": tgt_} not in base_: unbaselined.append(f"{key}: {row}")
+    ok(not unbaselined, f"baseline: every violation the verdicts report is in ACC-1@3's baseline ({len(base_)} entries, by decision, element and target), "
+       "so each is reported as baselined debt, not as a new violation" + (f"; not baselined {unbaselined}" if unbaselined else ""))
+    wv_ = records[f"WAIV-resid@1@{A}"][AU]["question"]
+    qkey = f"{records[wv_['decision']][SD]['imports'].split('@')[0]}|{wv_['target']}|{wv_['provenance']}"
+    ok(isinstance(verdicts.get(qkey), str) and verdicts[qkey].startswith("open question"),
+       f"WAIV-resid@1 answers an open question ({qkey}), not a violation and not a coverage gap: waived at p14, reported open again at p15")
+    report.append("note limit: the verdicts are computed as of the readings (2026-10-28), not re-evaluated at the log's clocks. At p15's "
+                  "header clock every reading is older than RESID's P1D, so a gate evaluating there would report every RESID verdict as an open question. "
+                  "The fixture's readings were never landed in the log")
 
 print("\n".join(report + warnings + failures))
 print(f"\n{len(report)} ok/notes, {len(warnings)} warnings, {len(failures)} failures or skips")

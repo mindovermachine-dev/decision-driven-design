@@ -1,0 +1,28 @@
+{
+  "protocol": "dpp/1",
+  "id": "GEN",
+  "version": "2",
+  "system": "https://vendor.example/packages/ref-arch",
+  "statement": "Genesis grant over the product https://vendor.example/packages/ref-arch, held by mailto:holder@vendor.example: the founding of its authority log under the authority profile.",
+  "by": "mailto:holder@vendor.example",
+  "at": "2026-11-02",
+  "why": "A test-fixture re-founding, not a transfer. GEN@1 was signed by a throwaway key discarded with its build; this founding binds the holder's key, kept with the fixture from here on (authority.md §2.6, A-5 as widened in Round 3).",
+  "basedOn": [],
+  "supersedes": [
+    {
+      "ref": "GEN@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:8f4c2d2793060b1390484a3ebd5474ec862f268e45610d735e8266518d712cb5"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "genesis",
+    "product": "https://vendor.example/packages/ref-arch",
+    "holder": "mailto:holder@vendor.example",
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4RhPwsFAcgMF0QP2QIBwsYgrXAkU484YEzTgVZioYq vendor-holder-p@test-genesis"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgnhGE/CwUByAwXRA/ZAgHCxiCtc\nCRTjzhgTNOBVmKhioAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAECFWSvQvi+wkNSTXn1R/rf04J4kn/H8A5Fk/NYfTmBARu\nUhqmx/TNeSlL2MYXUxmUi7sDChFMBLrnwT18cXMuUD\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4RhPwsFAcgMF0QP2QIBwsYgrXAkU484YEzTgVZioYq vendor-holder-p@test-genesis"
+  }
+}

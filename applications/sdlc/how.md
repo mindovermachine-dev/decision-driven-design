@@ -29,7 +29,7 @@ It does not define:
 
 | Not here | Where it is |
 |---|---|
-| Force: genesis, grants, scopes, acceptance, baseline, waiver | the authority profile (`DDD-dec-47`; `DDD-dec-54` ruling 4) |
+| Force: genesis, grants, scopes, acceptance, baseline, waiver | the authority profile (`DDD-dec-47`; `DDD-dec-54` ruling 4): [`authority.md`](authority.md), 2026-11-02 |
 | The gate's verbs, positions, partitions and guarantees | Writ (`DDD-dec-54` ruling 5) |
 | The record, the reference, the resolver, the hash law | the Decision Provenance Protocol, token `dpp/1` (`DDD-dec-62`, superseding `DDD-dec-53`) |
 | The What's element kinds and their identities | the moved What (`DDD-dec-41`, `DDD-dec-42`, `DDD-dec-51`) |
@@ -39,6 +39,11 @@ It does not define:
 | Data conformance (old §13) | an add-on, outside the framework (`DDD-dec-44`) |
 
 ### 1.2 Preconditions this document does not have — the weakest point first
+
+**Update, 2026-11-02 (the authority profile).** Precondition 3 is discharged:
+[`authority.md`](authority.md). The examples' stand-in authority records are superseded under it,
+in a positioned log (`how-examples/log/acme.json`), and the checker runs the profile's reference
+evaluator in place of the stand-in check.
 
 **Update, 2026-10-28 (the move).** Preconditions 1 and 2 are discharged: the What has moved
 ([`what.md`](what.md)) and its identity form is ruled (`DDD-dec-63`). The provisional records
@@ -556,7 +561,7 @@ why the split is a provenance value: it shows in the verdict.
 | D-3 | Writ, the log | reporter readings, and readings of another system's versions listing, are recorded at a position before any verdict uses them (G1). Reporter readings are answered by Draft 2's reports partition and hashed reporter inputs, as Emil states them. The versions-listing reading is still open |
 | D-4 | Writ, `check` | the What graph is readable by `check` at p, since bindings join over it; and the evaluator binds `?anchor` and `?target` |
 | D-5 | Writ, `explain` | show anchor, kind, the import chain, and "rests on superseded version" from the last recorded reading |
-| D-6 | the authority profile | a baseline entry attaches to (decision, element, target) and is added only by a decision. A waiver never covers a coverage gap. Map `acceptedBy` and `acceptedAt` to the acceptance record's `by` and `at`, since `dpp/1` A-10 removed them as record members and an undotted member may not be invented. The examples do this |
+| D-6 | the authority profile | a baseline entry attaches to (decision, element, target) and is added only by a decision. A waiver never covers a coverage gap. Map `acceptedBy` and `acceptedAt` to the acceptance record's `by` and `at`, since `dpp/1` A-10 removed them as record members and an undotted member may not be invented. The examples do this. **Answered (2026-11-02):** authority.md §4.1 (Round 1, F-1, ruled as read), §4.3 and §4.4 |
 | D-7 | — | **Answered (ruled 2026-10-28, Round 3).** The token is `dpp/1` (`DDD-dec-62`). `main` already ships it, so nothing is renamed |
 | D-8 | the move | fix the What element identity form and the kind names this document reads (§1.2) |
 

@@ -1,0 +1,287 @@
+{
+ "system": "https://acme.example/products/shop/decisions",
+ "note": "A fixture of a positioned log (authority.md §6.1): positions, header clocks, chained header hashes. Hand-built; no writer produced it.",
+ "headers": [
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "1",
+   "clock": "2026-11-02T09:00:00Z",
+   "records": [
+    {
+     "ref": "GEN@3@https://acme.example/products/shop/decisions",
+     "hash": "sha256:ed2db4b598dbbc2ad1e7ec25d92308018322473ca1d172a5268741157390dce0"
+    },
+    {
+     "ref": "ATTR-agent@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:73fc85b6d0cab52eb575ea4f068534aa23d4d5db05bc3e15bf43177fbd32d548"
+    }
+   ],
+   "refused": [],
+   "hash": "sha256:3f1dd8335ba60658b42f996a2002005f8c15ea97fba69b260a25c2a8fd24b3b9"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "2",
+   "clock": "2026-11-02T09:10:00Z",
+   "records": [
+    {
+     "ref": "WHAT-found@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:5563b140bb9bcebf90a08282cdcd9ac6e3e74f5a4dae7fda2e573600fdb50ac3"
+    },
+    {
+     "ref": "TGT-shop-api@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:592043c9ad83d12c6aa08ae557f264fd764aa3db78ed55ac8dd80b4eca4672e8"
+    },
+    {
+     "ref": "TGT-shop-bff@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:e7cc796452d1c222473def738a999f7bc7442c4be25652cc33b1d368f705ec34"
+    },
+    {
+     "ref": "IMP-layer@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:1cf61d4f8058bf72c485a11d32586f36d047743220714c861a96b47b665ed395"
+    },
+    {
+     "ref": "IMP-pure@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:6c869a85b1df9ad02724a58acebd89c4e9aba95558260760cf0e7afeca249471"
+    },
+    {
+     "ref": "IMP-rest@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:b3e706e8c0d28479ba9ecbbf9f97a8dc5c330b7634a721cd89ba3e6b0b6ab516"
+    },
+    {
+     "ref": "IMP-resid@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:afbdbcaeec42aa7ac8e6339ce15303dd0c35d85b4f475e24dc854c6e79de6cbd"
+    },
+    {
+     "ref": "GRANT-what@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:77ea97516be7864b199db3237fbc54cf65d8b71d9cba38590a675481d8334bb2"
+    },
+    {
+     "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
+     "hash": "sha256:8e832d15791ed53946f4227905bade57723800a58af4d03501b8d5c218d051bb"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:3f1dd8335ba60658b42f996a2002005f8c15ea97fba69b260a25c2a8fd24b3b9",
+   "hash": "sha256:10f90035159b1840b8e3f2044e80297982990f17ee9475a9571f0ef6c38ce7d8"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "3",
+   "clock": "2026-11-02T09:20:00Z",
+   "records": [
+    {
+     "ref": "GACC-what@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:14036e671b22f711317fe44380c06f8aec3799e2906b6ace483181ea42f35f2f"
+    },
+    {
+     "ref": "GACC-how@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:2d2a5b87c6e35ad9ebb4424e55ce5d1d96a95a1225746eda5a3546a782229f0f"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:10f90035159b1840b8e3f2044e80297982990f17ee9475a9571f0ef6c38ce7d8",
+   "hash": "sha256:fd0d03936bda4d628e6cc5d93db75f20f39b8efdc0b47ba034da6b324477238d"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "4",
+   "clock": "2026-11-02T09:30:00Z",
+   "records": [
+    {
+     "ref": "ACC-what@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:ca7ca934527220605acc693afddcf5ddc03226545b87710991987f369e78ab81"
+    },
+    {
+     "ref": "ACC-1@3@https://acme.example/products/shop/decisions",
+     "hash": "sha256:50a363d3510d0b00d647d6bd24dd838fd37b22e9720048a05ac122e7c9313c6b"
+    }
+   ],
+   "refused": [
+    {
+     "ref": "ACC-agent@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:65ba3fa35fda5e7bcea1ba2349d8cce65d854fe09c1a6b0731d260c440205ba9",
+     "reason": "a record carrying attributedTo is never an act of authority"
+    }
+   ],
+   "previous": "sha256:fd0d03936bda4d628e6cc5d93db75f20f39b8efdc0b47ba034da6b324477238d",
+   "hash": "sha256:6fb0c6a73721b767c47b76eabf2f9484fd946d0a99c7c74e72cff875e2808cd9"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "5",
+   "clock": "2026-11-02T10:00:00Z",
+   "records": [
+    {
+     "ref": "CUR@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:a842dd7edaf70ebada2ca91bb094c441abcb9cf391a6f762723cc535ec498ec1"
+    },
+    {
+     "ref": "ACC-cur-what@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:39b133524f23479bae9521ec441125b4971874e1f054e2881b8d6f64c7aba39a"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:6fb0c6a73721b767c47b76eabf2f9484fd946d0a99c7c74e72cff875e2808cd9",
+   "hash": "sha256:33e4954160140477539532f7a0f23692da4fdb76c76af9b4e654600e79f0e8cc"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "6",
+   "clock": "2026-11-02T10:30:00Z",
+   "records": [
+    {
+     "ref": "ACC-cur-how@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:c2e1581e161de91b3c7be99450a766c40010e07b8d3529296b5ed938255367a8"
+    },
+    {
+     "ref": "what@4@https://acme.example/products/shop/decisions",
+     "hash": "sha256:b8f2f0c3ae1220eea37b2ea1e99fd371108c3b21fa7ee94b33d05814c31f5f49"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:33e4954160140477539532f7a0f23692da4fdb76c76af9b4e654600e79f0e8cc",
+   "hash": "sha256:0105db6fbec61ed86d55c7e2bd3857d3e870ecefbd39a93ae85c7b8495721a56"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "7",
+   "clock": "2026-11-02T11:00:00Z",
+   "records": [
+    {
+     "ref": "GRANT-lead@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:f4e3c3e0d3ae7f32f22883cec42c99c58a37028816c482b6dda6208deec2f070"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:0105db6fbec61ed86d55c7e2bd3857d3e870ecefbd39a93ae85c7b8495721a56",
+   "hash": "sha256:f0f7fd085092dc502f21e9a386b65cd832b4b205ca44be24653f30bbf41377b0"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "8",
+   "clock": "2026-11-02T11:10:00Z",
+   "records": [
+    {
+     "ref": "GACC-lead@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:4e423041c8b860787aa6b276d15e3325b6be249b695cf3409fc0897f186bf54b"
+    },
+    {
+     "ref": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:2e43a227e1335beac916dc563c9a826cfea4de00dc1c86c010a5c5ae6d2cece6"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:f0f7fd085092dc502f21e9a386b65cd832b4b205ca44be24653f30bbf41377b0",
+   "hash": "sha256:8e68fbcae8af5768e4e4f52bcb07b705bf215be837915727a9b5e79d79dc8bb6"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "9",
+   "clock": "2026-11-02T11:20:00Z",
+   "records": [
+    {
+     "ref": "GACC-ctr@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:98bd27615300cf350b50c5e4fbb515d51b0c91cf5da2345906b2c12b2aa81e0b"
+    },
+    {
+     "ref": "CURFMT@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:c5316a274ecc79033188709a02621f207142725ef83777b7bab69cb40bb1d113"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:8e68fbcae8af5768e4e4f52bcb07b705bf215be837915727a9b5e79d79dc8bb6",
+   "hash": "sha256:9fb9d01d0cece7585517aebda97d8c654c7f75d907f0dbe9ded682c0b26b5938"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "10",
+   "clock": "2026-11-02T11:30:00Z",
+   "records": [
+    {
+     "ref": "ACC-curfmt@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:e928ba9ff881c20b39f1fe2c7dd655019f7789f48de1be86c97dca1b456fbda1"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:9fb9d01d0cece7585517aebda97d8c654c7f75d907f0dbe9ded682c0b26b5938",
+   "hash": "sha256:6260a6c5d71765e56b6571aa07369285e37e4e827f916ab3c460806709bb270d"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "11",
+   "clock": "2026-11-03T09:00:00Z",
+   "records": [
+    {
+     "ref": "REVK-lead@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:5b68930111982a17d6b7b71ec2b156fd5583f82483ee96973145e4f8b037fe0b"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:6260a6c5d71765e56b6571aa07369285e37e4e827f916ab3c460806709bb270d",
+   "hash": "sha256:da246d31a9931230621d88aa290a4ebb873dcf74ed19353e6cb635d119e094e0"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "12",
+   "clock": "2026-11-03T09:30:00Z",
+   "records": [
+    {
+     "ref": "CURFMT@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:ae821cc3456ed059d1f57ffcca0fc0987a1d06d31410a198077ccfccc4706105"
+    }
+   ],
+   "refused": [
+    {
+     "ref": "ACC-curfmt@2@https://acme.example/products/shop/decisions",
+     "hash": "sha256:9145ad9beb2449b6b2fb5f4fac4f4452f17ede53bc1e66cde042da5a73070834",
+     "reason": "grant GRANT-ctr is not live"
+    }
+   ],
+   "previous": "sha256:da246d31a9931230621d88aa290a4ebb873dcf74ed19353e6cb635d119e094e0",
+   "hash": "sha256:0fe9458604457fa1705c1bc2c10c4857e6d03b8a73aa755080715e4ed897f396"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "13",
+   "clock": "2026-11-04T09:00:00Z",
+   "records": [
+    {
+     "ref": "KEY-architect@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:ec276cd35b04ce71ac19cd1481fc860054143c2f7b60e6fccdf93f74ff152ca4"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:0fe9458604457fa1705c1bc2c10c4857e6d03b8a73aa755080715e4ed897f396",
+   "hash": "sha256:f9faa9ef8761a859c09a1103bf8b3829872aeefa914b028bcebbf4ea599ebe14"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "14",
+   "clock": "2026-11-04T09:30:00Z",
+   "records": [
+    {
+     "ref": "WAIV-resid@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:58f83d71996a5ae333c62a1da85a901cda2502eb54dda67d1e89aa7e8fa88c7e"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:f9faa9ef8761a859c09a1103bf8b3829872aeefa914b028bcebbf4ea599ebe14",
+   "hash": "sha256:ef61dc9710948abdfab5c987a6e1f7206ffc9ffb45e4a0c1e8903fe40cc052ca"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "15",
+   "clock": "2026-11-12T09:00:00Z",
+   "records": [
+    {
+     "ref": "REV-curfmt@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:65c32bb2598000db0573739bc81428be729f7f1fd8cb6c3de425b7b07c675506"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:ef61dc9710948abdfab5c987a6e1f7206ffc9ffb45e4a0c1e8903fe40cc052ca",
+   "hash": "sha256:149485a692933c7b4dce78c6dec18a4fefa89a6358159e210151580c4e3ba250"
+  }
+ ]
+}

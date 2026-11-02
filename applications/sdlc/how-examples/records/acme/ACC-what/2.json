@@ -1,0 +1,477 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-what",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the What grant: the founding decision this record is based on.",
+  "by": "mailto:owner@acme.example",
+  "at": "2026-11-02",
+  "why": "The product owner re-accepts the founding graph under the profile; the stand-in ACC-what@1 put nothing in force under it.",
+  "basedOn": [
+    {
+      "ref": "WHAT-found@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:5563b140bb9bcebf90a08282cdcd9ac6e3e74f5a4dae7fda2e573600fdb50ac3"
+    },
+    {
+      "ref": "GRANT-what@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:77ea97516be7864b199db3237fbc54cf65d8b71d9cba38590a675481d8334bb2"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-what@2@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "WHAT-found@1@https://acme.example/products/shop/decisions"
+    ],
+    "touches": {
+      "WHAT-found@1@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAM0RKJ7T4099SW1N77",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM0RKJ7T4099SW1N77",
+            "https://acme.example/products/shop/what/01M610JNAM3FKSYQJ0NPEMRJQ5",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAM10QDGKF29GWXSHK1",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM10QDGKF29GWXSHK1",
+            "https://acme.example/products/shop/what/01M610JNAMFTV81M9FR1TXEN03",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:ScopeRule",
+          "element": "https://acme.example/products/shop/what/01M610JNAM10YNEPYPSXB6RMCT",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM10YNEPYPSXB6RMCT",
+            "https://acme.example/products/shop/what/01M610JNAMFTV81M9FR1TXEN03",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:SystemRoot",
+          "element": "https://acme.example/products/shop/what/01M610JNAM18X2V4SPKEV6G1M5",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM18X2V4SPKEV6G1M5",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAM2HPRB9QBTYD15XZ7",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM2HPRB9QBTYD15XZ7",
+            "https://acme.example/products/shop/what/01M610JNAMJPDE0DG2T4TY6X9A",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Event",
+          "element": "https://acme.example/products/shop/what/01M610JNAM3FKSYQJ0NPEMRJQ5",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM3FKSYQJ0NPEMRJQ5",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:DeclaredTarget",
+          "element": "https://acme.example/products/shop/what/01M610JNAM4J9NN1M290V2F9WH",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM4J9NN1M290V2F9WH",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Scenario",
+          "element": "https://acme.example/products/shop/what/01M610JNAM51J0KCR35NQCD9YC",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM51J0KCR35NQCD9YC",
+            "https://acme.example/products/shop/what/01M610JNAMMP5V59XRNHD39R5A",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAM71CMH9AJ4YSGX3MV",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM71CMH9AJ4YSGX3MV",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:UIStep",
+          "element": "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:System",
+          "element": "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:ContentKey",
+          "element": "https://acme.example/products/shop/what/01M610JNAM8Y7FS4CTRQQV5KR5",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM8Y7FS4CTRQQV5KR5",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAM959BR6Y50HZ3WME4",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM959BR6Y50HZ3WME4",
+            "https://acme.example/products/shop/what/01M610JNAM3FKSYQJ0NPEMRJQ5",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Interaction",
+          "element": "https://acme.example/products/shop/what/01M610JNAM967F0A5307C936ZR",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM967F0A5307C936ZR",
+            "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Interaction",
+          "element": "https://acme.example/products/shop/what/01M610JNAM9S56WC3FTWZWGS35",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAM9S56WC3FTWZWGS35",
+            "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Invariant",
+          "element": "https://acme.example/products/shop/what/01M610JNAMBBMM4NHG16BQTNRE",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMBBMM4NHG16BQTNRE",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Invariant",
+          "element": "https://acme.example/products/shop/what/01M610JNAMBF0DD4V6Y2W1XFC7",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMBF0DD4V6Y2W1XFC7",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAMBV0GKE9KYASYPJCA",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMBV0GKE9KYASYPJCA",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Command",
+          "element": "https://acme.example/products/shop/what/01M610JNAMC74SDA3DVDE332WB",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMC74SDA3DVDE332WB",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Entity",
+          "element": "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Command",
+          "element": "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Projector",
+          "element": "https://acme.example/products/shop/what/01M610JNAMD2PDDKQRCW18Z0E4",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMD2PDDKQRCW18Z0E4",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Interaction",
+          "element": "https://acme.example/products/shop/what/01M610JNAMEGJXF540DC0FMQXC",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMEGJXF540DC0FMQXC",
+            "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:ScopeRule",
+          "element": "https://acme.example/products/shop/what/01M610JNAMF373V3PH2FNTY837",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMF373V3PH2FNTY837",
+            "https://acme.example/products/shop/what/01M610JNAMFTV81M9FR1TXEN03",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:View",
+          "element": "https://acme.example/products/shop/what/01M610JNAMFTV81M9FR1TXEN03",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMFTV81M9FR1TXEN03",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Trigger",
+          "element": "https://acme.example/products/shop/what/01M610JNAMGPYXD4X3VAE9RBC0",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMGPYXD4X3VAE9RBC0",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:ArchitecturalConstraint",
+          "element": "https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:BoundedContext",
+          "element": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAMHGKDY5GHJRB7FGRM",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMHGKDY5GHJRB7FGRM",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:SubjectKind",
+          "element": "https://acme.example/products/shop/what/01M610JNAMHKDH8MYYBGG3DBMA",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMHKDH8MYYBGG3DBMA",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Trigger",
+          "element": "https://acme.example/products/shop/what/01M610JNAMHZ5N0XY7Z0YCH227",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMHZ5N0XY7Z0YCH227",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:StateAnnotation",
+          "element": "https://acme.example/products/shop/what/01M610JNAMJD5JN6VT0J0KZQW0",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMJD5JN6VT0J0KZQW0",
+            "https://acme.example/products/shop/what/01M610JNAM76HYQ9AXTP6ZDY81",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Event",
+          "element": "https://acme.example/products/shop/what/01M610JNAMJPDE0DG2T4TY6X9A",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMJPDE0DG2T4TY6X9A",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:DeclaredTarget",
+          "element": "https://acme.example/products/shop/what/01M610JNAMM87QX4FY174WWP2R",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMM87QX4FY174WWP2R",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Decider",
+          "element": "https://acme.example/products/shop/what/01M610JNAMMP5V59XRNHD39R5A",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMMP5V59XRNHD39R5A",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:SubjectKind",
+          "element": "https://acme.example/products/shop/what/01M610JNAMMSAY8ZWD1TMMZ8HH",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMMSAY8ZWD1TMMZ8HH",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAMPJPTACP44JCE5B2S",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMPJPTACP44JCE5B2S",
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:ContextOfUse",
+          "element": "https://acme.example/products/shop/what/01M610JNAMPMZF1RVXMWH5WTHK",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMPMZF1RVXMWH5WTHK",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAMQHZ7H4Y0GVEQAWBG",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMQHZ7H4Y0GVEQAWBG",
+            "https://acme.example/products/shop/what/01M610JNAMMSAY8ZWD1TMMZ8HH",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Invariant",
+          "element": "https://acme.example/products/shop/what/01M610JNAMRDJE9PM59PYRRD3J",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMRDJE9PM59PYRRD3J",
+            "https://acme.example/products/shop/what/01M610JNAMCAGMKBDKSY0GQ0S1",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:System",
+          "element": "https://acme.example/products/shop/what/01M610JNAMV23W7Y9YQKZPJ4ZA",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMV23W7Y9YQKZPJ4ZA",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Flow",
+          "element": "https://acme.example/products/shop/what/01M610JNAMWPGKQNH3B0N3KBTH",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMWPGKQNH3B0N3KBTH",
+            "https://acme.example/products/shop/what/01M610JNAM8K9PG653537FE7EG",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M610JNAMXAPW6HP60ZS6H37V",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMXAPW6HP60ZS6H37V",
+            "https://acme.example/products/shop/what/01M610JNAMC74SDA3DVDE332WB",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Domain",
+          "element": "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "supersedes": [
+    {
+      "ref": "ACC-what@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a9a3abbac00efbb612bcb578a996fc3a7ece30141e6be768491d476998a7ba24"
+    }
+  ],
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPYhct43lE6JeyVIZEdOTjTfHlV\naVflAM8WbmKN56q5UAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAECcYxASy0MrubyGVc7bcVVBtvkDt0w1XX5NHytaDn1464\n/s6HG1HFhevq2uVCM50xX6iWWdQhut81v/7EptNMYK\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID2IXLeN5ROiXslSGRHTk403x5VWlX5QDPFm5ijeequV acme-owner-p@test-genesis"
+  }
+}

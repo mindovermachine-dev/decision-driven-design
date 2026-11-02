@@ -1,0 +1,30 @@
+format: 1
+id: DDD-dec-91
+kind: decision
+supersedes: DDD-dec-72
+statement: |
+  product-cli's re-pin to the moved What, recorded in DDD-dec-72, is unblocked. Its sequencing condition ("after the authority profile's pull request, because an acceptance of a moved What means nothing until the authority profile exists") is discharged by the pull request that lands applications/sdlc/authority.md, at its merge. Everything else in DDD-dec-72 is carried unchanged, its [PROPOSED] details and its weakest point included: the re-pin's target is the tag of the merge that ratifies the move, and the edits are acts in product-cli and in Writ's definition, not here. product-cli's draft log claims dpp/1 conformance and Writ's provenance-conformant class, never the authority profile.
+principal: Emil
+made: |
+  2026-11-02, the authority-profile session, as step 6 of the plan Emil approved in Round 1 ("Supersession of whatever in DDD-dec-46, -54, -64 this document now states more precisely … the supersession of -47 is right"), recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-72
+
+  - The ruled parts: the re-pin; where it is recorded; the end of pf:.
+  - The [PROPOSED] table of what the re-pin names, with the What-version in force now what@4
+    rather than what@3. The edition hash is the same, since neither the ontology nor the shapes
+    changed.
+  - The weakest point: the tag does not exist until Emil merges.
+
+  ## What changes
+
+  - **The sequencing, discharged.** Round 1, Q-4 of the move: "own PR, sequenced after this one and
+    before product-cli's re-pin". This is that pull request. The re-pin waits only on its merge and
+    the tag.
+  - **What product-cli may claim** (authority.md §6.3; charter: "product-cli's draft log never
+    claims it"). dpp/1 conformance and Writ's provenance-conformant class.
+basedOn:
+  - DDD-dec-72
+  - DDD-dec-86
+notes: |
+  DDD-dec-72 is left unchanged. The re-pin itself stays successor item M-2 of the move session.

@@ -1,0 +1,39 @@
+{
+  "protocol": "dpp/1",
+  "id": "GRANT-lead",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:architect@acme.example grants mailto:lead@acme.example authority to accept bindings within the Ordering bounded context, and to delegate within that.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-11-02",
+  "why": "A narrower How scope, delegated from the architect's (authority.md §3.2: a subset, and only because GRANT-how says it may delegate).",
+  "basedOn": [
+    {
+      "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:8e832d15791ed53946f4227905bade57723800a58af4d03501b8d5c218d051bb"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "grant",
+    "parent": "GRANT-how",
+    "grantee": "mailto:lead@acme.example",
+    "mayDelegate": "yes",
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICArp8wYIKwsJViL4Gc4GfPTNXdIXhB+i2s15xRFVmUi acme-lead@test-genesis",
+    "scope": {
+      "classes": [
+        "sdlc:Binding"
+      ],
+      "within": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+      "withinPath": [
+        "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+        "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+        "https://acme.example/products/shop"
+      ]
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjzIJARKXB/Xwc2mOiqdp/REKBn\nE/isFxYhdElN1dkN4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEDE5B0HhZ8nopY6M8EPgLjAzJRBICv64j6vO7EG6tdv2Q\n01JSrFrKO6pDJRVVJni2LYyOREnZHtui0wR96BbPgH\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8yCQESlwf18HNpjoqnaf0RCgZxP4rBcWIXRJTdXZDe acme-architect-p1@test-genesis"
+  }
+}

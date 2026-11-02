@@ -1,0 +1,68 @@
+{
+  "protocol": "dpp/1",
+  "id": "GRANT-what",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:holder@acme.example grants mailto:owner@acme.example authority to accept What decisions over every authored What element kind, anywhere in https://acme.example/products/shop.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-11-02",
+  "why": "The What scope as a set of ontology classes (authority.md §3.1); supersedes the stand-in GRANT-what@1, whose scope was a word.",
+  "basedOn": [
+    {
+      "ref": "GEN@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:ed2db4b598dbbc2ad1e7ec25d92308018322473ca1d172a5268741157390dce0"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "grant",
+    "parent": "GEN",
+    "grantee": "mailto:owner@acme.example",
+    "scope": {
+      "classes": [
+        "sdlc:ArchitecturalConstraint",
+        "sdlc:BoundedContext",
+        "sdlc:Command",
+        "sdlc:ContentKey",
+        "sdlc:ContextMapping",
+        "sdlc:ContextOfUse",
+        "sdlc:Decider",
+        "sdlc:DeclaredTarget",
+        "sdlc:Domain",
+        "sdlc:Entity",
+        "sdlc:Event",
+        "sdlc:Field",
+        "sdlc:Flow",
+        "sdlc:Interaction",
+        "sdlc:Invariant",
+        "sdlc:NamedAlgorithm",
+        "sdlc:Projector",
+        "sdlc:QualityDemand",
+        "sdlc:ReferenceData",
+        "sdlc:Relation",
+        "sdlc:RuntimeBound",
+        "sdlc:Scenario",
+        "sdlc:ScopeRule",
+        "sdlc:StateAnnotation",
+        "sdlc:SubjectKind",
+        "sdlc:System",
+        "sdlc:SystemRoot",
+        "sdlc:Trigger",
+        "sdlc:UIStep",
+        "sdlc:ValueObject",
+        "sdlc:View"
+      ]
+    },
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID2IXLeN5ROiXslSGRHTk403x5VWlX5QDPFm5ijeequV acme-owner-p@test-genesis"
+  },
+  "supersedes": [
+    {
+      "ref": "GRANT-what@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:738c43ab8b207944f9959faa5256e051f110e328ad789d4394c424b8fb35084d"
+    }
+  ],
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2IToAqv8lLBpVPxPaXq87TS5/N\nAF80JMuY1pkvoyO4UAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBWzGuS+fR1vfxL5g3OR3ejBxucK+8tTe5MJIZce9EKNr\nf2RpYJwfbS9700dAwYK92f4kMm+oVz5pz7s+1RIbsN\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINiE6AKr/JSwaVT8T2l6vO00ufzQBfNCTLmNaZL6MjuF acme-holder-p@test-genesis"
+  }
+}

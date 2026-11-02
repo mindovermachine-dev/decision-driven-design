@@ -200,3 +200,34 @@ dialog showed it.
   is not a defect. The authority-profile session re-checks and starts at `DDD-dec-85`.
 - **`prerelease: true` is confirmed.** The descriptor's `UNVERIFIED — Emil review` comment on it
   is replaced by this confirmation, as an editorial change citing Round 4.
+
+## Editorial instruction — 2026-11-02, after PR #43 merged
+
+Given by Emil in the claude.ai conversation, verbatim:
+
+> "The where this is the wrong tool part of our readme needs to change - it should lead with all
+> the reasons why someone should use it. And the one about it hasnt been show to work should be
+> last"
+
+Carried out as an editorial change to `README.md`, with no ratification act, landed on `main` by
+fast-forward after CI was green. The text came with the instruction in two blocks:
+- a new opening with a "Why use it" table, replacing the old "What it gives you" section and
+  "Weakest point" paragraph;
+- "Where it is the wrong tool", moved after "Quick start", with "shown to work" as its last
+  bullet.
+
+Every id cited in the new text was checked before commit against the live claim files, at the
+pin `v5.15.2` (`084bce7`, equal to upstream `main`), and in this repository:
+
+| Id | Where | Status | Table says |
+|---|---|---|---|
+| `DDD-ground-06`, `DDD-ground-01`, `DDD-floor-02`, `DDD-hyp-05`, `DDD-agent-01` | upstream, pinned | projected | Projected |
+| `DDD-floor-01` | upstream, pinned | reported | Reported |
+| `DDD-address-01`, `-02`, `-03` | here | projected | Projected |
+| `DDD-dec-62`, `DDD-dec-74` | here | ruled decisions | Ruled |
+
+Readings — Claude, `UNVERIFIED — Emil review`, recorded and not edited into the README:
+- **`DDD-floor-01`.** It is reported on toy actors only (its region). It states overflow ∩ open as
+  sufficient for escape, not necessary.
+- **`DDD-agent-01`.** It claims that grounding "reduces drift relative to context-carried
+  instruction". The README row says "is the remedy", which is stronger.

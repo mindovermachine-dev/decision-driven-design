@@ -1,0 +1,28 @@
+{
+  "protocol": "dpp/1",
+  "id": "GEN",
+  "version": "3",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Genesis grant over the product https://acme.example/products/shop, held by mailto:holder@acme.example: the founding of its authority log under the authority profile.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-11-02",
+  "why": "A test-fixture re-founding, not a transfer: the profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key, kept with the fixture from here on. It is the last re-founding (authority.md Appendix A, A-5, ruled 2026-11-02). In a real product the founder keeps their key.",
+  "basedOn": [],
+  "dk.decision-driven-design.authority": {
+    "record": "genesis",
+    "product": "https://acme.example/products/shop",
+    "holder": "mailto:holder@acme.example",
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINiE6AKr/JSwaVT8T2l6vO00ufzQBfNCTLmNaZL6MjuF acme-holder-p@test-genesis"
+  },
+  "supersedes": [
+    {
+      "ref": "GEN@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:b0213ac191ebad70fb313be76228aa87804cb88f304dd3ba2dd97026bb89a5d4"
+    }
+  ],
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2IToAqv8lLBpVPxPaXq87TS5/N\nAF80JMuY1pkvoyO4UAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAiqJBNXI2tLNI2z9+0mDwOcCjyan9NihAcXqVGXanUq8\nkgQUK5FJkwtjcLUJX2X4vahqtVh7sKAA0fnTpdwJcL\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINiE6AKr/JSwaVT8T2l6vO00ufzQBfNCTLmNaZL6MjuF acme-holder-p@test-genesis"
+  }
+}

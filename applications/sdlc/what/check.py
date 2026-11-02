@@ -1,7 +1,7 @@
 """Check the moved What: the ontology, the shapes, the identity form and the hash law.
 
     python3 applications/sdlc/what/check.py                  # check
-    python3 applications/sdlc/what/check.py --write-vectors  # rewrite vectors.json (a new edition only)
+    python3 applications/sdlc/what/check.py --write-vectors  # rewrite the vectors files (a new edition or a new example only)
 
 Needs rdflib and pyshacl (SHACL), pyoxigraph (RDFC-1.0, the hash law's implementation of record
 here) and pyld (URDNA2015). pyld is not RDF 1.2 canonical N-Quads (DDD-dec-73): it keeps language
@@ -9,6 +9,11 @@ tags' case and mis-escapes BS, FF and the other controls, so it is only a cross-
 graphs where it cannot diverge. A conforming second implementation is successor item M-12. Without
 a needed tool its steps are reported as SKIP, never as passed. Exit status is non-zero on any
 failure or skip.
+
+Two What graphs are checked, each against its own vectors: examples/acme-shop.ttl (what@1 to
+what@3) against vectors.json, and examples/acme-shop-4.ttl (what@4, after the authority profile's
+worked decision CUR@1) against vectors-4.json. The shapes' planted defects and M-12 run on the
+first only; M-12's vectors are the first graph's (Round 4, ruling 2).
 
 The second implementation is Varve's RdfCanonicaliser, by published vectors (M-12, ruled
 2026-10-30): when what/vectors-varve.json is present, step 5 holds pyoxigraph and Varve to equality.
@@ -31,11 +36,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SDLC = "https://decision-driven-design.dk/ns/sdlc#"
 PF = "https://productframework.org/ns"
 ULID = re.compile(r"/what/[0-9A-HJKMNP-TV-Z]{26}$")
-EXAMPLE = os.path.join(HERE, "examples", "acme-shop.ttl")
+EXAMPLES = [("examples/acme-shop.ttl", "vectors.json", True), ("examples/acme-shop-4.ttl", "vectors-4.json", False)]
 P = "https://acme.example/products/shop"
 failures, report = [], []
 
+TAG = ""   # the second example's checks are tagged, so each line says which graph it is about
 def ok(cond, msg):
+    msg = (f"[{TAG}] " if TAG else "") + msg
     (report if cond else failures).append(("ok   " if cond else "FAIL ") + msg)
     return cond
 
@@ -43,7 +50,7 @@ def text(name):
     return open(os.path.join(HERE, name), encoding="utf-8").read()
 
 # ---- 1. closure, and the end of pf:
-for name in ("ontology.ttl", "shapes.ttl", "examples/acme-shop.ttl"):
+for name in ("ontology.ttl", "shapes.ttl") + tuple(e for e, _, _ in EXAMPLES):
     ok(PF not in text(name), f"{name}: no pf: term (the pf: namespace ends with this move)")
 try:
     import rdflib
@@ -54,12 +61,15 @@ except ImportError:
     failures.append("SKIP closure, shapes, identity: rdflib is not installed")
 if rdflib:
     S = Namespace(SDLC)
-    onto, shapes, what = Graph(), Graph(), Graph()
-    onto.parse(os.path.join(HERE, "ontology.ttl")); shapes.parse(os.path.join(HERE, "shapes.ttl")); what.parse(EXAMPLE)
+    onto, shapes = Graph(), Graph()
+    onto.parse(os.path.join(HERE, "ontology.ttl")); shapes.parse(os.path.join(HERE, "shapes.ttl"))
+    graphs = {}
+    for ex, _, _ in EXAMPLES:
+        graphs[ex] = Graph(); graphs[ex].parse(os.path.join(HERE, ex))
     defined = {s for s in onto.subjects() if isinstance(s, URIRef) and str(s).startswith(SDLC)}
     def used(g):
         return {t for tr in g for t in tr if isinstance(t, URIRef) and str(t).startswith(SDLC)}
-    for label, g in (("shapes", shapes), ("example", what)):
+    for label, g in [("shapes", shapes)] + [(ex, graphs[ex]) for ex, _, _ in EXAMPLES]:
         missing = sorted(str(t)[len(SDLC):] for t in used(g) - defined
                          if not str(t)[len(SDLC):].endswith("Shape"))
         ok(not missing, f"closure: every sdlc: term the {label} use is defined in the ontology" + (f"; missing {missing}" if missing else ""))
@@ -73,69 +83,78 @@ if rdflib:
     report.append("note term provenance: " + ", ".join(f"{k} {len(v)}" for k, v in sorted(sources.items())) +
                   " (schema/ moved from product-cli; § added from the Product Framework; move ruled in DDD-dec-64)")
 
-    # ---- 3. identity (before shapes, so a failure here is reported as itself)
-    subjects = {s for s in what.subjects() if not isinstance(s, BNode)}
-    ok(URIRef(P) in subjects and (URIRef(P), RDF.type, S.Product) in what, "identity: the product node is the product IRI P")
-    bad = sorted(str(s) for s in subjects if s != URIRef(P) and not (str(s).startswith(P + "/what/") and ULID.search(str(s))))
-    ok(not bad, f"identity: every other subject is P/what/<ULID> ({len(subjects) - 1} elements)" + (f"; not {bad}" if bad else ""))
-    keys = [str(s).rsplit("/", 1)[1] for s in subjects if s != URIRef(P)]
-    ok(len(keys) == len({k.upper() for k in keys}), "identity: keys are unique under case folding")
-    elements = sorted(subjects, key=str)
-    owner = {}
-    def description(e):
-        out, todo, seen = Graph(), [e], set()
-        while todo:
-            n = todo.pop()
-            if n in seen: continue
-            seen.add(n)
-            for p, o in what.predicate_objects(n):
-                out.add((n, p, o))
-                if isinstance(o, BNode):
-                    owner.setdefault(o, set()).add(e); todo.append(o)
-        return out
-    descriptions = {e: description(e) for e in elements}
-    shared = sorted(str(b) for b, es in owner.items() if len(es) > 1)
-    ok(not shared, f"identity: no blank node is shared between elements ({len(owner)} blank nodes)")
-    covered = sum(len(d) for d in descriptions.values())
-    ok(covered == len(what), f"identity: every triple lies in exactly one element's description ({covered} of {len(what)})")
-    orphans = [b for b in set(what.subjects()) if isinstance(b, BNode) and b not in owner]
-    ok(not orphans, "identity: every blank node is reachable from an element")
+    def check_example(EXAMPLE, selftests):
+        what = graphs[EXAMPLE]
+        # ---- 3. identity (before shapes, so a failure here is reported as itself)
+        subjects = {s for s in what.subjects() if not isinstance(s, BNode)}
+        ok(URIRef(P) in subjects and (URIRef(P), RDF.type, S.Product) in what, "identity: the product node is the product IRI P")
+        bad = sorted(str(s) for s in subjects if s != URIRef(P) and not (str(s).startswith(P + "/what/") and ULID.search(str(s))))
+        ok(not bad, f"identity: every other subject is P/what/<ULID> ({len(subjects) - 1} elements)" + (f"; not {bad}" if bad else ""))
+        keys = [str(s).rsplit("/", 1)[1] for s in subjects if s != URIRef(P)]
+        ok(len(keys) == len({k.upper() for k in keys}), "identity: keys are unique under case folding")
+        elements = sorted(subjects, key=str)
+        owner = {}
+        def description(e):
+            out, todo, seen = Graph(), [e], set()
+            while todo:
+                n = todo.pop()
+                if n in seen: continue
+                seen.add(n)
+                for p, o in what.predicate_objects(n):
+                    out.add((n, p, o))
+                    if isinstance(o, BNode):
+                        owner.setdefault(o, set()).add(e); todo.append(o)
+            return out
+        descriptions = {e: description(e) for e in elements}
+        shared = sorted(str(b) for b, es in owner.items() if len(es) > 1)
+        ok(not shared, f"identity: no blank node is shared between elements ({len(owner)} blank nodes)")
+        covered = sum(len(d) for d in descriptions.values())
+        ok(covered == len(what), f"identity: every triple lies in exactly one element's description ({covered} of {len(what)})")
+        orphans = [b for b in set(what.subjects()) if isinstance(b, BNode) and b not in owner]
+        ok(not orphans, "identity: every blank node is reachable from an element")
 
-    # ---- 4. logic digests
-    base = os.path.join(HERE, "examples", "logic")
-    files = {"sha256:" + hashlib.sha256(open(os.path.join(base, f), "rb").read()).hexdigest(): f for f in sorted(os.listdir(base))}
-    for e, d in sorted(what.subject_objects(S.logic)):
-        ok(str(d) in files, f"logic: {what.value(e, RDFS.label)} carries the digest of {files.get(str(d), 'no artefact here')}")
+        # ---- 4. logic digests
+        base = os.path.join(HERE, "examples", "logic")
+        files = {"sha256:" + hashlib.sha256(open(os.path.join(base, f), "rb").read()).hexdigest(): f for f in sorted(os.listdir(base))}
+        for e, d in sorted(what.subject_objects(S.logic)):
+            ok(str(d) in files, f"logic: {what.value(e, RDFS.label)} carries the digest of {files.get(str(d), 'no artefact here')}")
 
-    # ---- 2. shapes, with planted defects
-    try:
-        import pyshacl
-    except ImportError:
-        pyshacl = None
-        failures.append("SKIP shapes: pyshacl is not installed")
-    if pyshacl:
-        def validate(g):
-            conforms, rg, txt = pyshacl.validate(g, shacl_graph=shapes, ont_graph=onto, inference="rdfs", advanced=True)
-            msgs = sorted({str(m) for m in rg.objects(None, URIRef("http://www.w3.org/ns/shacl#resultMessage"))})
-            return conforms, msgs
-        conforms, msgs = validate(what)
-        ok(conforms, "shapes: the acme-shop example conforms" + ("" if conforms else "".join(f"\n       {m}" for m in msgs)))
-        W = Namespace(P + "/what/")
-        decider = next(what.subjects(RDF.type, S.Decider))
-        trigger = next(what.subjects(RDF.type, S.Trigger))
-        plants = [
-            ("a readable key", lambda g: [g.add((W["order-detail"], RDF.type, S.UIStep)), g.add((W["order-detail"], S.within, next(g.subjects(RDF.type, S.System)))), g.add((W["order-detail"], RDFS.label, rdflib.Literal("x")))], "DDD-dec-63 §2"),
-            ("a Decider with no rejection", lambda g: g.remove((decider, S.rejects, None)), "§3.4 Decider justification"),
-            ("a user trigger acting as a process", lambda g: [g.add((next(g.objects(trigger, S.subject)), S.nature, S.natureProcess)), g.remove((next(g.objects(trigger, S.subject)), S.nature, S.natureHuman))], "§3.7 A trigger's subject"),
-            ("an element within two elements", lambda g: g.add((decider, S.within, URIRef(P))), "DDD-dec-63 §2 An element is within exactly one"),
-            ("a command no trigger issues", lambda g: g.remove((trigger, S.issues, None)), "§3.2.0 Pattern conformance"),
-            ("a payload field with no wire name", lambda g: g.remove((next(f for f in g.subjects(RDF.type, S.Field) if (f, S.within, next(g.subjects(RDF.type, S.Command))) in g), S.wireName, None)), "what.md §6 A field of a command"),
-            ("two events with one wire name", lambda g: [g.set((e, S.wireName, rdflib.Literal("order-placed"))) for e in list(g.subjects(RDF.type, S.Event))], "what.md §6 Wire names are unique"),
-        ]
-        for name, plant, expect in plants:
-            g = Graph(); g += what; plant(g)
-            c, m = validate(g)
-            ok(not c and any(x.startswith(expect) for x in m), f"shapes self-test: {name} is caught ({expect})")
+        # ---- 2. shapes, with planted defects
+        try:
+            import pyshacl
+        except ImportError:
+            pyshacl = None
+            failures.append("SKIP shapes: pyshacl is not installed")
+        if pyshacl:
+            def validate(g):
+                conforms, rg, txt = pyshacl.validate(g, shacl_graph=shapes, ont_graph=onto, inference="rdfs", advanced=True)
+                msgs = sorted({str(m) for m in rg.objects(None, URIRef("http://www.w3.org/ns/shacl#resultMessage"))})
+                return conforms, msgs
+            conforms, msgs = validate(what)
+            ok(conforms, "shapes: the acme-shop example conforms" + ("" if conforms else "".join(f"\n       {m}" for m in msgs)))
+            W = Namespace(P + "/what/")
+            decider = next(what.subjects(RDF.type, S.Decider))
+            trigger = next(what.subjects(RDF.type, S.Trigger))
+            plants = [
+                ("a readable key", lambda g: [g.add((W["order-detail"], RDF.type, S.UIStep)), g.add((W["order-detail"], S.within, next(g.subjects(RDF.type, S.System)))), g.add((W["order-detail"], RDFS.label, rdflib.Literal("x")))], "DDD-dec-63 §2"),
+                ("a Decider with no rejection", lambda g: g.remove((decider, S.rejects, None)), "§3.4 Decider justification"),
+                ("a user trigger acting as a process", lambda g: [g.add((next(g.objects(trigger, S.subject)), S.nature, S.natureProcess)), g.remove((next(g.objects(trigger, S.subject)), S.nature, S.natureHuman))], "§3.7 A trigger's subject"),
+                ("an element within two elements", lambda g: g.add((decider, S.within, URIRef(P))), "DDD-dec-63 §2 An element is within exactly one"),
+                ("a command no trigger issues", lambda g: g.remove((trigger, S.issues, None)), "§3.2.0 Pattern conformance"),
+                ("a payload field with no wire name", lambda g: g.remove((next(f for f in g.subjects(RDF.type, S.Field) if (f, S.within, next(g.subjects(RDF.type, S.Command))) in g), S.wireName, None)), "what.md §6 A field of a command"),
+                ("two events with one wire name", lambda g: [g.set((e, S.wireName, rdflib.Literal("order-placed"))) for e in list(g.subjects(RDF.type, S.Event))], "what.md §6 Wire names are unique"),
+            ]
+            for name, plant, expect in (plants if selftests else []):
+                g = Graph(); g += what; plant(g)
+                c, m = validate(g)
+                ok(not c and any(x.startswith(expect) for x in m), f"shapes self-test: {name} is caught ({expect})")
+        return what, elements, descriptions
+
+    checked = {}
+    for ex, vecname, selftests in EXAMPLES:
+        TAG = "" if selftests else ex.split("/")[-1]
+        checked[ex] = check_example(ex, selftests)
+    TAG = ""
 
 # ---- 5. hashes: RDFC-1.0 over RDF 1.2 canonical N-Quads, one graph alone, no blank node in a
 #         triple term (DDD-dec-73, the three qualifications of Round 3, 2026-10-30)
@@ -193,76 +212,82 @@ if impls:
         except ValueError: refused = True
         ok(refused, "qualification 3: a triple term holding a blank node is refused before hashing")
 if rdflib and OF_RECORD in impls:
-    import pyoxigraph as ox
-    ttl = [q for q in ox.parse(path=EXAMPLE, format=ox.RdfFormat.TURTLE)]
-    try: refuse_blank_in_triple_terms(ttl); clean = True
-    except ValueError: clean = False
-    ok(clean, f"qualification 3: no triple term in the example holds a blank node ({sum(isinstance(q.object, ox.Triple) for q in ttl)} triple terms)")
-    # A cross-check by a non-conforming tool is valid only where it cannot diverge. Measured on the
-    # input it is fed (rdflib's N-Triples), pyld diverges on a language tag, on a control character
-    # other than HT, LF and CR, and on a backslash (a literal backslash before a letter is read as an
-    # escape). The gate is closed if any literal holds one of those.
-    lits = [o for o in what.objects() if isinstance(o, rdflib.Literal)]
-    gate = not any(l.language or "\\" in str(l) or any((ord(c) < 0x20 and c not in "\t\n\r") or ord(c) == 0x7F or c in "\ufffe\uffff" for c in str(l)) for l in lits)
-    for name, v in list(impls.items()):
-        if isinstance(v, tuple):
-            f, conforms = v
-            if conforms or gate:
-                impls[name] = f
-            else:
-                del impls[name]
-                report.append(f"note {name} not used: the example holds a language tag or control character it writes wrongly")
-    report.append(f"note the example holds {len(lits)} literals, {sum(1 for l in lits if l.language)} language-tagged; the cross-check gate is {'open' if gate else 'closed'}")
-    # A synthetic vector: blank nodes inside one element's description, in an RDF list.
-    synthetic = ('<https://x.example/p/what/01M610JNAMYTKTBXP8KD0BQ2G0> <https://decision-driven-design.dk/ns/sdlc#given> _:l1 .\n'
-                 '_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:e1 .\n'
-                 '_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .\n'
-                 '_:e1 <https://decision-driven-design.dk/ns/sdlc#value> "100"^^<http://www.w3.org/2001/XMLSchema#integer> .\n')
-    got = {}
-    for name, f in impls.items():
-        canon = {"graph": f(nquads(what)), "synthetic": f(synthetic)}
-        canon.update({str(e): f(nquads(d)) for e, d in descriptions.items()})
-        got[name] = {k: h(v) for k, v in canon.items()}
-    names = list(got)
-    if len(names) == 2:
-        diff = sorted(k for k in got[names[0]] if got[names[0]][k] != got[names[1]][k])
-        ok(not diff, f"hashes: {names[1]}, a gated RDF 1.1 cross-check and not a conforming second implementation (DDD-dec-73; M-12), agrees with {names[0]} on the graph hash, a synthetic vector and {len(descriptions)} element hashes"
-           + (f"; differ on {diff}" if diff else ""))
-    mine = got[names[0]]
-    vec = {"canon": "rdfc-1.0", "hash": "sha256", "example": "examples/acme-shop.ttl",
-           "graphHash": mine["graph"], "synthetic": {"nTriples": synthetic, "hash": mine["synthetic"]},
-           "elements": [{"iri": str(e), "hash": mine[str(e)]} for e in elements]}
-    vpath = os.path.join(HERE, "vectors.json")
-    if "--write-vectors" in sys.argv:
-        json.dump(vec, open(vpath, "w"), indent=1); open(vpath, "a").write("\n")
-        report.append("note vectors.json written")
-    held = json.load(open(vpath)) if os.path.exists(vpath) else None
-    ok(held == vec, f"hashes: equal to vectors.json (graph {mine['graph'][:19]}…, {len(vec['elements'])} elements)")
+    for EXAMPLE, vecname, m12 in EXAMPLES:
+        TAG = "" if m12 else EXAMPLE.split("/")[-1]
+        what, elements, descriptions = checked[EXAMPLE]
+        import pyoxigraph as ox
+        ttl = [q for q in ox.parse(path=os.path.join(HERE, EXAMPLE), format=ox.RdfFormat.TURTLE)]
+        try: refuse_blank_in_triple_terms(ttl); clean = True
+        except ValueError: clean = False
+        ok(clean, f"qualification 3: no triple term in the example holds a blank node ({sum(isinstance(q.object, ox.Triple) for q in ttl)} triple terms)")
+        # A cross-check by a non-conforming tool is valid only where it cannot diverge. Measured on the
+        # input it is fed (rdflib's N-Triples), pyld diverges on a language tag, on a control character
+        # other than HT, LF and CR, and on a backslash (a literal backslash before a letter is read as an
+        # escape). The gate is closed if any literal holds one of those.
+        lits = [o for o in what.objects() if isinstance(o, rdflib.Literal)]
+        gate = not any(l.language or "\\" in str(l) or any((ord(c) < 0x20 and c not in "\t\n\r") or ord(c) == 0x7F or c in "\ufffe\uffff" for c in str(l)) for l in lits)
+        for name, v in list(impls.items()):
+            if isinstance(v, tuple):
+                f, conforms = v
+                if conforms or gate:
+                    impls[name] = f
+                else:
+                    del impls[name]
+                    report.append(f"note {name} not used: the example holds a language tag or control character it writes wrongly")
+        report.append(f"note the example holds {len(lits)} literals, {sum(1 for l in lits if l.language)} language-tagged; the cross-check gate is {'open' if gate else 'closed'}")
+        # A synthetic vector: blank nodes inside one element's description, in an RDF list.
+        synthetic = ('<https://x.example/p/what/01M610JNAMYTKTBXP8KD0BQ2G0> <https://decision-driven-design.dk/ns/sdlc#given> _:l1 .\n'
+                     '_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> _:e1 .\n'
+                     '_:l1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .\n'
+                     '_:e1 <https://decision-driven-design.dk/ns/sdlc#value> "100"^^<http://www.w3.org/2001/XMLSchema#integer> .\n')
+        got = {}
+        for name, f in impls.items():
+            canon = {"graph": f(nquads(what)), "synthetic": f(synthetic)}
+            canon.update({str(e): f(nquads(d)) for e, d in descriptions.items()})
+            got[name] = {k: h(v) for k, v in canon.items()}
+        names = list(got)
+        if len(names) == 2:
+            diff = sorted(k for k in got[names[0]] if got[names[0]][k] != got[names[1]][k])
+            ok(not diff, f"hashes: {names[1]}, a gated RDF 1.1 cross-check and not a conforming second implementation (DDD-dec-73; M-12), agrees with {names[0]} on the graph hash, a synthetic vector and {len(descriptions)} element hashes"
+               + (f"; differ on {diff}" if diff else ""))
+        mine = got[names[0]]
+        vec = {"canon": "rdfc-1.0", "hash": "sha256", "example": EXAMPLE,
+               "graphHash": mine["graph"], "synthetic": {"nTriples": synthetic, "hash": mine["synthetic"]},
+               "elements": [{"iri": str(e), "hash": mine[str(e)]} for e in elements]}
+        vpath = os.path.join(HERE, vecname)
+        if "--write-vectors" in sys.argv:
+            json.dump(vec, open(vpath, "w"), indent=1); open(vpath, "a").write("\n")
+            report.append(f"note {vecname} written")
+        held = json.load(open(vpath)) if os.path.exists(vpath) else None
+        ok(held == vec, f"hashes: equal to {vecname} (graph {mine['graph'][:19]}…, {len(vec['elements'])} elements)")
 
-    # ---- M-12: Varve's canonicaliser, the second implementation, by published vectors (ruled
-    # 2026-10-30). Varve is never built here. vectors-varve.json is vectors.json's shape, plus the six
-    # canonical-form cases and the triple-term refusal. Every entry names "varveVersion" and
-    # "adr0059" (the ADR 0059 revision); the graph hash's pair is top-level.
-    vvpath = os.path.join(HERE, "vectors-varve.json")
-    if not os.path.exists(vvpath):
-        report.append("note M-12 open: vectors-varve.json is not yet delivered (Hafeok/varve#192); "
-                      f"the hash law has one checked implementation here, {OF_RECORD}")
-    else:
-        vv = json.load(open(vvpath))
-        entries = [vv] + vv.get("elements", []) + vv.get("cases", [])
-        unnamed = sum(1 for e in entries if not (e.get("varveVersion") and e.get("adr0059")))
-        ok(not unnamed, f"M-12: every Varve entry names the Varve version and the ADR 0059 revision" + (f"; {unnamed} do not" if unnamed else ""))
-        ok(vv.get("graphHash") == vec["graphHash"], f"M-12: Varve's graph hash for the acme-shop What equals {OF_RECORD}'s")
-        theirs = {e["iri"]: e["hash"] for e in vv.get("elements", [])}
-        ours = {e["iri"]: e["hash"] for e in vec["elements"]}
-        diff = sorted(k for k in set(theirs) | set(ours) if theirs.get(k) != ours.get(k))
-        ok(not diff, f"M-12: Varve's element hashes equal {OF_RECORD}'s ({len(ours)} elements)" + (f"; differ on {diff}" if diff else ""))
-        cf = json.load(open(os.path.join(HERE, "canonical-form-vectors.json")))
-        vc = {c.get("name"): c for c in vv.get("cases", [])}
-        bad = [c["name"] for c in cf["cases"] if vc.get(c["name"], {}).get("canonical") != c["canonical"]]
-        ok(not bad, f"M-12: Varve's canonical form equals the expected bytes, and so {OF_RECORD}'s, on all {len(cf['cases'])} cases"
-           + (f"; differs or missing on {bad}" if bad else ""))
-        ok(vv.get("tripleTermWithBlankNode", {}).get("refused") is True, "M-12: Varve confirms that a triple term holding a blank node is refused")
+        # ---- M-12: Varve's canonicaliser, the second implementation, by published vectors (ruled
+        # 2026-10-30). Varve is never built here. vectors-varve.json is vectors.json's shape, plus the six
+        # canonical-form cases and the triple-term refusal. Every entry names "varveVersion" and
+        # "adr0059" (the ADR 0059 revision); the graph hash's pair is top-level.
+        vvpath = os.path.join(HERE, "vectors-varve.json")
+        if not m12:
+            pass
+        elif not os.path.exists(vvpath):
+            report.append("note M-12 open: vectors-varve.json is not yet delivered (Hafeok/varve#192); "
+                          f"the hash law has one checked implementation here, {OF_RECORD}")
+        else:
+            vv = json.load(open(vvpath))
+            entries = [vv] + vv.get("elements", []) + vv.get("cases", [])
+            unnamed = sum(1 for e in entries if not (e.get("varveVersion") and e.get("adr0059")))
+            ok(not unnamed, f"M-12: every Varve entry names the Varve version and the ADR 0059 revision" + (f"; {unnamed} do not" if unnamed else ""))
+            ok(vv.get("graphHash") == vec["graphHash"], f"M-12: Varve's graph hash for the acme-shop What equals {OF_RECORD}'s")
+            theirs = {e["iri"]: e["hash"] for e in vv.get("elements", [])}
+            ours = {e["iri"]: e["hash"] for e in vec["elements"]}
+            diff = sorted(k for k in set(theirs) | set(ours) if theirs.get(k) != ours.get(k))
+            ok(not diff, f"M-12: Varve's element hashes equal {OF_RECORD}'s ({len(ours)} elements)" + (f"; differ on {diff}" if diff else ""))
+            cf = json.load(open(os.path.join(HERE, "canonical-form-vectors.json")))
+            vc = {c.get("name"): c for c in vv.get("cases", [])}
+            bad = [c["name"] for c in cf["cases"] if vc.get(c["name"], {}).get("canonical") != c["canonical"]]
+            ok(not bad, f"M-12: Varve's canonical form equals the expected bytes, and so {OF_RECORD}'s, on all {len(cf['cases'])} cases"
+               + (f"; differs or missing on {bad}" if bad else ""))
+            ok(vv.get("tripleTermWithBlankNode", {}).get("refused") is True, "M-12: Varve confirms that a triple term holding a blank node is refused")
+    TAG = ""
 
 print("\n".join(report + failures))
 print(f"\n{len(report)} ok/notes, {len(failures)} failures or skips")

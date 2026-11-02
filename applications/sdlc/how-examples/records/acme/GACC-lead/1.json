@@ -1,0 +1,25 @@
+{
+  "protocol": "dpp/1",
+  "id": "GACC-lead",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:lead@acme.example accepts the grant GRANT-lead@1.",
+  "by": "mailto:lead@acme.example",
+  "at": "2026-11-02",
+  "why": "A grant is live from its grantee's acceptance.",
+  "basedOn": [
+    {
+      "ref": "GRANT-lead@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:f4e3c3e0d3ae7f32f22883cec42c99c58a37028816c482b6dda6208deec2f070"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "grant-acceptance",
+    "grant": "GRANT-lead@1@https://acme.example/products/shop/decisions"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgICunzBggrCwlWIvgZzgZ89M1d0\nheEH6LazXnFEVWZSIAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEC8K3R3k+YHTnYNIg18/UQ/OQbfI6PWJciU7nAVM549Fi\nNCclGlyrhxjLAzLuPM5Ttrn1Zyi9L0uIQUQA0KGdgP\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICArp8wYIKwsJViL4Gc4GfPTNXdIXhB+i2s15xRFVmUi acme-lead@test-genesis"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "protocol": "dpp/1",
+  "id": "CURFMT",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The field currency of Place order is accepted by every realising handler only if it is one of ISO 4217's active alphabetic codes.",
+  "by": "mailto:lead@acme.example",
+  "at": "2026-11-02",
+  "why": "A malformed currency must be rejected at the edge, not stored.",
+  "basedOn": [],
+  "dk.decision-driven-design.sdlc": {
+    "record": "decision",
+    "kind": "binding",
+    "binds": "sdlc:Field",
+    "anchor": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ"
+  }
+}

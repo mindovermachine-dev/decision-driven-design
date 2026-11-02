@@ -1,23 +1,28 @@
-"""Build the How worked-example records, pinned, and signed with throwaway test keys.
+"""Build the How worked-example records, pinned, and signed with test keys.
 
     python3 applications/sdlc/how-examples/build.py [keys-dir]     # from the repository root
 
-Writes records/, locations.json and facts/manifest.json. With no keys directory it makes three
-throwaway ed25519 keys in a temporary directory and discards them, so every run signs afresh.
-The records committed at 88bf686 were built with keys that are not in the repository; check.py
+Writes records/, locations.json, facts/manifest.json and log/acme.json. The keys are the fixture's
+test keys in test-keys/ (Round 2 of 2026-11-02, P-6), generated only when missing. Records built
+before that ruling were signed with throwaway keys that are not in the repository; check.py
 verifies them from the public keys they carry.
 
 TOKEN is the protocol token the records carry: dpp/1, ruled 2026-10-28 (Round 3) and filed as
 DDD-dec-62, which supersedes DDD-dec-53. The build still refuses to run unless the reference
 implementation on main accepts that token unmodified: no substitution, ever (Round 2, ruling 1).
 
-Keys are always throwaway test keys for the test genesis's declared test holders. No real key is
-ever used for a fixture or held by a session (Round 3, ruling 1).
+Keys are always test keys of the test genesis's declared test holders. No real key is ever used
+for a fixture or held by a session (Round 3, ruling 1). Since 2026-11-02 they are kept for the
+fixture's life, never used outside it (authority-profile session, Round 2, P-6).
 
 Ruling 4 of 2026-10-28: these records anchor to provisional What identifiers. They live in the
 test product only. When the What lands with its identity form, each is superseded by a new
 version against the real identifiers. This script is then extended to write those versions; it
 never rewrites a version already published.
+
+Since 2026-11-02 it also writes the product's authority history under applications/sdlc/authority.md:
+the records and a positioned log, log/acme.json. That part needs rdflib, because each acceptance
+records its scope result read from the What graph. It refuses to rewrite a landed header.
 """
 import json, os, re, subprocess, sys, tempfile, shutil
 
@@ -30,12 +35,19 @@ if MAIN != TOKEN:
     sys.exit(f"refusing to build: records would carry {TOKEN!r}, the reference implementation on main accepts {MAIN!r}. "
              "The token on main and DDD-dec-62 disagree: settle that before building.")
 dpp = type(sys)("dpp"); exec(src, dpp.__dict__)
-if len(sys.argv) > 1:
-    KEYS = sys.argv[1]
-else:
-    KEYS = tempfile.mkdtemp()
-    import atexit; atexit.register(shutil.rmtree, KEYS, True)   # throwaway: discarded when the build ends
-    for k in ("vendor-holder", "acme-holder", "acme-architect", "acme-owner"):
+# Keys. Since Round 2 of the authority-profile session (2026-11-02, P-6): "keep the test keys for
+# the fixture's life. Commit them beside the fixture, marked as test keys of a declared test holder,
+# never used outside the fixture, and rotated only by a new founding that the record states as such."
+# The authority history's keys live in test-keys/ and are generated only when missing. The keys of
+# the records built before that ruling (version 1 and 2, the vendor's) were discarded after their
+# builds. Those records are loaded, never re-signed, and a new record needing one of those keys
+# refuses (see sign below).
+KEYS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "test-keys")
+HISTORY_KEYS = ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
+                "acme-lead", "acme-contractor", "acme-agent", "vendor-holder-p")
+os.makedirs(KEYS, exist_ok=True)
+for k in HISTORY_KEYS:
+    if not os.path.exists(os.path.join(KEYS, k)):
         subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", f"{k}@test-genesis", "-f", os.path.join(KEYS, k)], check=True)
 
 V = "https://vendor.example/packages/ref-arch"
@@ -54,6 +66,9 @@ def ref(sys_, id_, ver):
     return {"ref": f"{id_}@{ver}@{sys_}", "hash": dpp.record_hash(r)}
 
 def sign(rec, key):
+    if not os.path.exists(os.path.join(KEYS, key)):
+        sys.exit(f"refusing to build: a new record must be signed by {key}, whose key was discarded before the "
+                 "test keys were kept (Round 2 of 2026-11-02, P-6). Its holder needs a founding ruling to act again.")
     pub = open(os.path.join(KEYS, key + ".pub")).read().strip()
     with tempfile.TemporaryDirectory() as d:
         p = os.path.join(d, "c"); open(p, "wb").write(dpp.canonical(rec))
@@ -437,6 +452,270 @@ put(A, "what", "3", f"What-version 3 of {P}.", PO,
                         "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()
                                                             + open("applications/sdlc/what/shapes.ttl", "rb").read()).hexdigest()},
             "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})
+
+# ================================================================ the authority profile (2026-11-02)
+# The history of acme under applications/sdlc/authority.md, in a positioned log
+# (log/acme.json). Every record here is new: nothing above is edited (DDD-dec-86, Q-9).
+#
+# Why acme is founded again. The records above were built before the profile existed: their
+# authority members are stand-ins, and the keys that signed them were throwaway and were
+# discarded when their build ended (Round 3 of 2026-10-28, as implemented). So the profile's log
+# for acme opens with GEN@3: the same holder and the same P under a new key, superseding GEN@2 for
+# provenance. Ruled (Round 2 of 2026-11-02, A-5): "GEN@3 stands as the last re-founding. Same
+# holder, same IRI, new key, recorded as a test-fixture re-founding and not as a transfer. It is
+# acceptable only because item 2 ends the cause." Item 2 keeps the keys, in test-keys/.
+import datetime
+try:
+    import rdflib
+except ImportError:
+    sys.exit("refusing to build: the authority history records each acceptance's scope result, "
+             "which is read from the What graph with rdflib (pip install rdflib)")
+S_ = rdflib.Namespace("https://decision-driven-design.dk/ns/sdlc#")
+def pub(k): return open(os.path.join(KEYS, k + ".pub")).read().strip()
+H_, O_, A1_, A2_, L_, C_, G_ = (pub(k) for k in ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
+                                               "acme-lead", "acme-contractor", "acme-agent"))
+LEAD, CTR = "mailto:lead@acme.example", "mailto:contractor@acme.example"
+WHAT4_TTL = "applications/sdlc/what/examples/acme-shop-4.ttl"
+VEC4 = json.load(open("applications/sdlc/what/vectors-4.json"))
+g3, g4 = rdflib.Graph(), rdflib.Graph()
+g3.parse(WHAT_TTL); g4.parse(WHAT4_TTL)
+PARENT = {str(s): str(o) for s, o in g4.subject_objects(S_.within)}
+def path(e):
+    out = [e]
+    while out[-1] in PARENT: out.append(PARENT[out[-1]])
+    return out
+def kind_of(g, e):
+    ks = [str(o) for o in g.objects(rdflib.URIRef(e), rdflib.RDF.type) if str(o).startswith(str(S_))]
+    assert len(ks) == 1, (e, ks)
+    return "sdlc:" + ks[0][len(str(S_)):]
+def item(cls, e): return {"class": cls, "element": e, "path": path(e)}
+
+# The scopes. The What scope is every authored What element kind of sdlc edition 1: every class
+# within* sdlc:WhatElement, less the product node (the genesis's alone) and the derived kinds
+# (authority.md §3.1). The How scope is the How's record classes and the code it governs.
+onto = rdflib.Graph(); onto.parse("applications/sdlc/what/ontology.ttl")
+sub = {}
+for s, o in onto.subject_objects(rdflib.RDFS.subClassOf): sub.setdefault(str(o), []).append(str(s))
+def below(c): return [x for s in sub.get(c, []) for x in [s] + below(s)]
+WHAT_CLASSES = sorted("sdlc:" + c[len(str(S_)):] for c in below(str(S_.WhatElement))
+                      if c not in (str(S_.Product), str(S_.Journey)))
+HOW_CLASSES = ["sdlc:Binding", "sdlc:CodeElement", "sdlc:Component", "sdlc:Constraint", "sdlc:Contract",
+               "sdlc:Exclusion", "sdlc:Import", "sdlc:Retention", "sdlc:TargetDeclaration"]
+BC, CMD = LANDED["bc-ordering"], W + "01M610JNAMCQ2R6MG31Q07DWMX"
+CUR_FIELD = W + "01M6DV7NZXBJYTCMTHJY6FQMRZ"
+def ref_(i, v): return ref(A, i, v)
+def R(i, v): return f"{i}@{v}@{A}"
+
+positions = []   # [(clock, [(id, ver)], [(id, ver, reason)])]
+def pos(clock, landed, refused=()):
+    positions.append((clock, landed, list(refused)))
+def act(i, v, clock, statement, by, why, key, au, basedOn=(), **extra):
+    return put(A, i, v, statement, by, why, basedOn=basedOn, key=key, at=clock[:10], **{AU: au}, **extra)
+
+C1, C2, C3, C4, C5, C6, C7, C8 = ("2026-11-02T09:00:00Z", "2026-11-02T09:10:00Z", "2026-11-02T09:20:00Z",
+                                  "2026-11-02T09:30:00Z", "2026-11-02T10:00:00Z", "2026-11-02T10:30:00Z",
+                                  "2026-11-02T11:00:00Z", "2026-11-02T11:10:00Z")
+C9, C10, C11, C12, C13, C14, C15 = ("2026-11-02T11:20:00Z", "2026-11-02T11:30:00Z", "2026-11-03T09:00:00Z",
+                                    "2026-11-03T09:30:00Z", "2026-11-04T09:00:00Z", "2026-11-04T09:30:00Z",
+                                    "2026-11-12T09:00:00Z")
+
+# ---- p1: the founding, and the agent named a machine
+act("GEN", "3", C1, f"Genesis grant over the product {P}, held by {AH}: the founding of its authority log under the authority profile.", AH,
+    "A test-fixture re-founding, not a transfer: the profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key, kept with the fixture from here on. It is the last re-founding (authority.md Appendix A, A-5, ruled 2026-11-02). In a real product the founder keeps their key.",
+    "acme-holder-p", {"record": "genesis", "product": P, "holder": AH, "firstKey": H_}, supersedes=[ref_("GEN", "2")])
+act("ATTR-agent", "1", C1, f"{AGENT} is software; {AR} is responsible for it.", AH,
+    "The proposing agent is named a machine, so nothing it signs is ever an act of authority here (authority.md §5.1).",
+    "acme-holder-p", {"record": "attribution", "machine": AGENT, "responsible": AR}, basedOn=[ref_("GEN", "3")])
+pos(C1, [("GEN", "3"), ("ATTR-agent", "1")])
+
+# ---- p2: the decisions the stand-ins accepted, landed for acceptance; the two grants
+act("GRANT-what", "2", C2, f"{AH} grants {PO} authority to accept What decisions over every authored What element kind, anywhere in {P}.", AH,
+    "The What scope as a set of ontology classes (authority.md §3.1); supersedes the stand-in GRANT-what@1, whose scope was a word.",
+    "acme-holder-p", {"record": "grant", "parent": "GEN", "grantee": PO, "scope": {"classes": WHAT_CLASSES}, "firstKey": O_},
+    basedOn=[ref_("GEN", "3")], supersedes=[ref_("GRANT-what", "1")])
+act("GRANT-how", "3", C2, f"{AH} grants {AR} authority to accept How decisions and the code they govern, anywhere in {P}, and to delegate within that.", AH,
+    "The How-and-code scope as a set of classes, delegable (authority.md §3.1, §3.2); supersedes the stand-in GRANT-how@2.",
+    "acme-holder-p", {"record": "grant", "parent": "GEN", "grantee": AR, "scope": {"classes": HOW_CLASSES}, "mayDelegate": "yes",
+                      "firstKey": A1_},
+    basedOn=[ref_("GEN", "3")], supersedes=[ref_("GRANT-how", "2")])
+HOW6 = [("TGT-shop-api", "2"), ("TGT-shop-bff", "2"), ("IMP-layer", "2"), ("IMP-pure", "2"), ("IMP-rest", "2"), ("IMP-resid", "2")]
+pos(C2, [("WHAT-found", "1")] + HOW6 + [("GRANT-what", "2"), ("GRANT-how", "3")])
+
+# ---- p3: the grantees accept their grants, signing with the keys the grantor vouched for
+act("GACC-what", "1", C3, f"{PO} accepts the grant GRANT-what@2.", PO, "Authority is never imposed: a grant is live from its grantee's acceptance (authority.md §3.3).",
+    "acme-owner-p", {"record": "grant-acceptance", "grant": R("GRANT-what", "2")}, basedOn=[ref_("GRANT-what", "2")])
+act("GACC-how", "1", C3, f"{AR} accepts the grant GRANT-how@3.", AR, "Authority is never imposed: a grant is live from its grantee's acceptance (authority.md §3.3).",
+    "acme-architect-p1", {"record": "grant-acceptance", "grant": R("GRANT-how", "3")}, basedOn=[ref_("GRANT-how", "3")])
+pos(C3, [("GACC-what", "1"), ("GACC-how", "1")])
+
+# ---- p4: the re-acceptances under the profile; the agent's attempt, refused
+def how_items(i, v):
+    sd = records[(A, i, v)][SD]
+    return [item({"import": "sdlc:Import", "target-declaration": "sdlc:TargetDeclaration"}[sd["record"]], sd["anchor"])]
+found_items = sorted((item(kind_of(g3, str(e)), str(e)) for e in set(g3.subjects(S_.within))), key=lambda x: x["element"])
+assert all(x["class"] in WHAT_CLASSES for x in found_items), "the What scope must cover every kind the founding creates"
+act("ACC-what", "2", C4, "Accepted under the What grant: the founding decision this record is based on.", PO,
+    "The product owner re-accepts the founding graph under the profile; the stand-in ACC-what@1 put nothing in force under it.",
+    "acme-owner-p", {"record": "acceptance", "grant": R("GRANT-what", "2"), "accepts": [R("WHAT-found", "1")],
+                     "touches": {R("WHAT-found", "1"): found_items}},
+    basedOn=[ref_("WHAT-found", "1"), ref_("GRANT-what", "2")], supersedes=[ref_("ACC-what", "1")])
+exp = json.load(open(os.path.join(ROOT, "expected.json")))
+IMPORT_OF = {"LAYER": R("IMP-layer", "2"), "PURE": R("IMP-pure", "2"), "REST": R("IMP-rest", "2"), "RESID": R("IMP-resid", "2")}
+baseline = []
+for k, rows in sorted(exp.items()):
+    if not isinstance(rows, list): continue
+    dec, tgt_ = k.split("|")[:2]
+    for row in rows:
+        e = {"decision": IMPORT_OF[dec], "subject": row.split(" — ")[0], "target": tgt_}
+        if e not in baseline: baseline.append(e)
+act("ACC-1", "3", C4,
+    "Accepted under the How grant: the two target declarations and the four imports this record is based on, at the pinned versions, with the violations known at this position as their baseline.",
+    AR, "The architect re-accepts under the profile; the baseline is the violations the fixture's readings show, each by decision, element and target, so they are debt the gate reports and a landing may only shrink (authority.md §4.3).",
+    "acme-architect-p1", {"record": "acceptance", "grant": R("GRANT-how", "3"), "accepts": [R(i, v) for i, v in HOW6],
+                          "touches": {R(i, v): how_items(i, v) for i, v in HOW6}, "baseline": baseline},
+    basedOn=[ref_(i, v) for i, v in HOW6] + [ref_("GRANT-how", "3")], supersedes=[ref_("ACC-1", "2")])
+act("ACC-agent", "1", C4, "Accepted under the How grant: IMP-pure@2.", AGENT,
+    "The agent proposed IMP-pure@2 and here tries to accept it. It is refused and recorded: a machine never accepts (authority.md §5.1).",
+    "acme-agent", {"record": "acceptance", "grant": R("GRANT-how", "3"), "accepts": [R("IMP-pure", "2")],
+                   "touches": {R("IMP-pure", "2"): how_items("IMP-pure", "2")}},
+    basedOn=[ref_("IMP-pure", "2"), ref_("GRANT-how", "3")], attributedTo=AR)
+pos(C4, [("ACC-what", "2"), ("ACC-1", "3")], [("ACC-agent", "1", "a record carrying attributedTo is never an act of authority")])
+
+# ---- p5, p6: one decision, two scopes, two holders
+CUR_ITEMS = [item("sdlc:Field", CUR_FIELD), item("sdlc:Command", CMD), item("sdlc:Binding", CMD)]
+def sha(p_): return "sha256:" + hashlib.sha256(open(p_, "rb").read()).hexdigest()
+put(A, "CUR", "1",
+    "The command Place order carries a payload field currency (wire name currency), after lines: an ISO 4217 alphabetic code. Every money-bearing command of Place order's kind is exposed with its currency as a JSON string in each language target.",
+    PO, "Orders were placed in one implied currency; the field makes it explicit on the wire (a What change), and the second sentence binds how it is carried (a How binding), so the decision touches kinds in both scopes.",
+    key="acme-owner-p", at=C5[:10],
+    **{SD: {"record": "decision", "kind": "binding", "binds": "sdlc:Field", "anchor": CMD,
+            "creates": [{"element": CUR_FIELD, "class": "sdlc:Field", "within": CMD}],
+            "changes": [{"element": CMD, "class": "sdlc:Command"}],
+            "delta": {"mediaType": "text/turtle", "before": {"path": WHAT_TTL, "hash": sha(WHAT_TTL)},
+                      "after": {"path": WHAT4_TTL, "hash": sha(WHAT4_TTL)}}}})
+act("ACC-cur-what", "1", C5, "Accepted under the What grant: CUR@1, for the What kinds it touches.", PO,
+    "The owner accepts the field and the command's changed field order. The binding half is not in the What scope, so CUR@1 is not yet in force (authority.md §4.2).",
+    "acme-owner-p", {"record": "acceptance", "grant": R("GRANT-what", "2"), "accepts": [R("CUR", "1")], "touches": {R("CUR", "1"): CUR_ITEMS}},
+    basedOn=[ref_("CUR", "1"), ref_("GRANT-what", "2")])
+pos(C5, [("CUR", "1"), ("ACC-cur-what", "1")])
+act("ACC-cur-how", "1", C6, "Accepted under the How grant: CUR@1, for the How kind it touches.", AR,
+    "The architect accepts the binding half. With both acceptances live, CUR@1 is in force from this position (authority.md §4.2).",
+    "acme-architect-p1", {"record": "acceptance", "grant": R("GRANT-how", "3"), "accepts": [R("CUR", "1")], "touches": {R("CUR", "1"): CUR_ITEMS}},
+    basedOn=[ref_("CUR", "1"), ref_("GRANT-how", "3")])
+put(A, "what", "4", f"What-version 4 of {P}.", PO,
+    "Names the What in force after CUR@1: what@3's graph with the field currency created and Place order's field order changed (DDD-dec-63 §6).",
+    basedOn=[ref_("WHAT-found", "1"), ref_("CUR", "1")], supersedes=[ref_("what", "3")], status="accepted", key="acme-owner-p", at=C6[:10],
+    **{SD: {"record": "what-version", "product": P,
+            "edition": records[(A, "what", "3")][SD]["edition"],
+            "canon": "rdfc-1.0", "graphHash": VEC4["graphHash"], "elements": VEC4["elements"]}})
+pos(C6, [("ACC-cur-how", "1"), ("what", "4")])
+
+# ---- p7 to p10: delegation two levels down, and an acceptance under it
+act("GRANT-lead", "1", C7, f"{AR} grants {LEAD} authority to accept bindings within the Ordering bounded context, and to delegate within that.", AR,
+    "A narrower How scope, delegated from the architect's (authority.md §3.2: a subset, and only because GRANT-how says it may delegate).",
+    "acme-architect-p1", {"record": "grant", "parent": "GRANT-how", "grantee": LEAD, "mayDelegate": "yes", "firstKey": L_,
+                          "scope": {"classes": ["sdlc:Binding"], "within": BC, "withinPath": path(BC)}},
+    basedOn=[ref_("GRANT-how", "3")])
+pos(C7, [("GRANT-lead", "1")])
+act("GACC-lead", "1", C8, f"{LEAD} accepts the grant GRANT-lead@1.", LEAD, "A grant is live from its grantee's acceptance.",
+    "acme-lead", {"record": "grant-acceptance", "grant": R("GRANT-lead", "1")}, basedOn=[ref_("GRANT-lead", "1")])
+act("GRANT-ctr", "1", C8, f"{LEAD} grants {CTR} authority to accept bindings within the command Place order.", LEAD,
+    "A contractor's scope, delegated from the lead's: narrower again. It does not say it may delegate, so it cannot.",
+    "acme-lead", {"record": "grant", "parent": "GRANT-lead", "grantee": CTR, "firstKey": C_,
+                  "scope": {"classes": ["sdlc:Binding"], "within": CMD, "withinPath": path(CMD)}},
+    basedOn=[ref_("GRANT-lead", "1")])
+pos(C8, [("GACC-lead", "1"), ("GRANT-ctr", "1")])
+act("GACC-ctr", "1", C9, f"{CTR} accepts the grant GRANT-ctr@1.", CTR, "A grant is live from its grantee's acceptance.",
+    "acme-contractor", {"record": "grant-acceptance", "grant": R("GRANT-ctr", "1")}, basedOn=[ref_("GRANT-ctr", "1")])
+put(A, "CURFMT", "1",
+    "The field currency of Place order is accepted by every realising handler only if it is one of ISO 4217's active alphabetic codes.",
+    LEAD, "A malformed currency must be rejected at the edge, not stored.", at=C9[:10],
+    **{SD: {"record": "decision", "kind": "binding", "binds": "sdlc:Field", "anchor": CUR_FIELD}})
+pos(C9, [("GACC-ctr", "1"), ("CURFMT", "1")])
+CURFMT_ITEMS = [item("sdlc:Binding", CUR_FIELD)]
+act("ACC-curfmt", "1", C10, "Accepted under the contractor's grant: CURFMT@1.", CTR,
+    "Within the contractor's scope: a binding inside Place order.",
+    "acme-contractor", {"record": "acceptance", "grant": R("GRANT-ctr", "1"), "accepts": [R("CURFMT", "1")],
+                        "touches": {R("CURFMT", "1"): CURFMT_ITEMS}},
+    basedOn=[ref_("CURFMT", "1"), ref_("GRANT-ctr", "1")])
+pos(C10, [("ACC-curfmt", "1")])
+
+# ---- p11, p12: the lead's grant is revoked, and the contractor's falls with it
+act("REVK-lead", "1", C11, f"{AR} revokes GRANT-lead.", AR,
+    "The lead has left the team. Acts made under the grant stand; from here no new one may be made under it or under any grant below it (authority.md §3.5).",
+    "acme-architect-p1", {"record": "revocation", "revokes": "GRANT-lead", "under": "GRANT-how"}, basedOn=[ref_("GRANT-lead", "1")])
+pos(C11, [("REVK-lead", "1")])
+put(A, "CURFMT", "2",
+    "The field currency of Place order is accepted by every realising handler only if it is one of ISO 4217's active or historic alphabetic codes.",
+    AGENT, "Proposed by the agent: historic codes appear in refunds of old orders.", at=C12[:10], attributedTo=AR,
+    supersedes=[ref_("CURFMT", "1")],
+    **{SD: {"record": "decision", "kind": "binding", "binds": "sdlc:Field", "anchor": CUR_FIELD}})
+act("ACC-curfmt", "2", C12, "Accepted under the contractor's grant: CURFMT@2.", CTR,
+    "The contractor tries to accept the agent's proposal under a grant whose chain was revoked. It is refused and recorded.",
+    "acme-contractor", {"record": "acceptance", "grant": R("GRANT-ctr", "1"), "accepts": [R("CURFMT", "2")],
+                        "touches": {R("CURFMT", "2"): CURFMT_ITEMS}},
+    basedOn=[ref_("CURFMT", "2"), ref_("GRANT-ctr", "1")], supersedes=[ref_("ACC-curfmt", "1")])
+pos(C12, [("CURFMT", "2")], [("ACC-curfmt", "2", "grant GRANT-ctr is not live")])
+
+# ---- p13, p14: a key rotation; a waiver on the open question, live until a header-clock time
+act("KEY-architect", "1", C13, f"{AR} rotates their signing key.", AR,
+    "Planned rotation: the new key opens and the old one closes here, signed by the key it closes. Acceptances the old key signed keep verifying against it at their positions (authority.md §5.3).",
+    "acme-architect-p1", {"record": "key-binding", "act": "rotate", "holder": AR, "key": A2_, "closes": A1_})
+pos(C13, [("KEY-architect", "1")])
+act("WAIV-resid", "1", C14,
+    "Waived until 2026-11-11T00:00:00Z: the open question on IMP-resid@2 in the azure target for deployment-observed facts. The specification stands; the azure reporter is not built, so the data is missing, not the decision wrong.",
+    AR, "A signed, expiring answer to an open question that changes no decision (authority.md §4.4). It expires by header clock.",
+    "acme-architect-p2", {"record": "waiver", "grant": R("GRANT-how", "3"),
+                          "question": {"decision": R("IMP-resid", "2"), "target": "azure", "provenance": "deployment-observed"},
+                          "expires": "2026-11-11T00:00:00Z", "touches": {R("IMP-resid", "2"): how_items("IMP-resid", "2")}},
+    basedOn=[ref_("IMP-resid", "2"), ref_("GRANT-how", "3")])
+pos(C14, [("WAIV-resid", "1")])
+
+# ---- p15: a review, after the waiver's expiry
+act("REV-curfmt", "1", C15, "Request for change on CURFMT@2: name the historic codes accepted, rather than all of them.", AR,
+    "A review under a grant that could have accepted the version. It has no force and stays in the log (authority.md §4.5).",
+    "acme-architect-p2", {"record": "review", "grant": R("GRANT-how", "3"), "reviews": R("CURFMT", "2"), "verdict": "request-change",
+                          "touches": {R("CURFMT", "2"): CURFMT_ITEMS}},
+    basedOn=[ref_("CURFMT", "2"), ref_("GRANT-how", "3")])
+pos(C15, [("REV-curfmt", "1")])
+
+# ---- the log: headers chained, each covered by its hash under the hash law (authority.md §6.1)
+headers, prev = [], None
+for n, (clock, landed, refused) in enumerate(positions, 1):
+    hd = {"system": A, "position": str(n), "clock": clock,
+          "records": [ref_(i, v) for i, v in landed],
+          "refused": [dict(ref_(i, v), reason=why) for i, v, why in refused]}
+    if prev: hd["previous"] = prev
+    hd["hash"] = dpp.record_hash(hd)
+    headers.append(hd); prev = hd["hash"]
+LOG = os.path.join(ROOT, "log", "acme.json")
+if os.path.exists(LOG):
+    held_log = json.load(open(LOG))["headers"]
+    if held_log != headers[:len(held_log)]:
+        sys.exit("refusing to build: the log's landed headers would change. A log is appended to, never rewritten.")
+os.makedirs(os.path.dirname(LOG), exist_ok=True)
+json.dump({"system": A, "note": "A fixture of a positioned log (authority.md §6.1): positions, header clocks, chained header hashes. Hand-built; no writer produced it.",
+           "headers": headers}, open(LOG, "w"), indent=1, ensure_ascii=False)
+open(LOG, "a").write("\n")
+
+# ================================================================ the vendor package, re-founded
+# Ruled (authority-profile session, Round 3, 2026-11-02, P-9): "one re-founding ruling for every test
+# product in the repository, not one per product. The vendor package is re-founded once under kept
+# test keys exactly as acme was, recorded as a test-fixture re-founding". Its log opens with GEN@2;
+# its earlier records stay provenance until landed and accepted under it (authority.md §2.6).
+VC1 = "2026-11-02T08:00:00Z"
+put(V, "GEN", "2", f"Genesis grant over the product {V}, held by {VH}: the founding of its authority log under the authority profile.", VH,
+    "A test-fixture re-founding, not a transfer. GEN@1 was signed by a throwaway key discarded with its build; this founding binds the holder's key, kept with the fixture from here on (authority.md §2.6, A-5 as widened in Round 3).",
+    supersedes=[ref(V, "GEN", "1")], key="vendor-holder-p", at=VC1[:10],
+    **{AU: {"record": "genesis", "product": V, "holder": VH, "firstKey": pub("vendor-holder-p")}})
+vh = {"system": V, "position": "1", "clock": VC1, "records": [ref(V, "GEN", "2")], "refused": []}
+vh["hash"] = dpp.record_hash(vh)
+VLOG = os.path.join(ROOT, "log", "vendor.json")
+if os.path.exists(VLOG) and json.load(open(VLOG))["headers"] != [vh][:len(json.load(open(VLOG))["headers"])]:
+    sys.exit("refusing to build: the vendor log's landed headers would change. A log is appended to, never rewritten.")
+json.dump({"system": V, "note": "A fixture of a positioned log (authority.md §6.1) for the vendor package: its re-founding. Hand-built; no writer produced it.",
+           "headers": [vh]}, open(VLOG, "w"), indent=1, ensure_ascii=False)
+open(VLOG, "a").write("\n")
 
 # ---------------------------------------------------------------- write: new versions only
 out = os.path.join(ROOT, "records")

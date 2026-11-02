@@ -1,0 +1,47 @@
+{
+  "protocol": "dpp/1",
+  "id": "WAIV-resid",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Waived until 2026-11-11T00:00:00Z: the open question on IMP-resid@2 in the azure target for deployment-observed facts. The specification stands; the azure reporter is not built, so the data is missing, not the decision wrong.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-11-04",
+  "why": "A signed, expiring answer to an open question that changes no decision (authority.md §4.4). It expires by header clock.",
+  "basedOn": [
+    {
+      "ref": "IMP-resid@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:afbdbcaeec42aa7ac8e6339ce15303dd0c35d85b4f475e24dc854c6e79de6cbd"
+    },
+    {
+      "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:8e832d15791ed53946f4227905bade57723800a58af4d03501b8d5c218d051bb"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "waiver",
+    "grant": "GRANT-how@3@https://acme.example/products/shop/decisions",
+    "question": {
+      "decision": "IMP-resid@2@https://acme.example/products/shop/decisions",
+      "target": "azure",
+      "provenance": "deployment-observed"
+    },
+    "expires": "2026-11-11T00:00:00Z",
+    "touches": {
+      "IMP-resid@2@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Import",
+          "element": "https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMGQQ2DJENWGA6MWCK",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgyhYindzozvGgPjuVgGDYPHRhG4\n1pFMXoyeREokz6/N4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEDiwbUq3VJK8Crqi9I8M8Rlqsk4LOlaJqEPaOFLe3T03Q\nCiZpAY/blqe8LYG9EpBE6Oow0gofpvz3EjauuifbkM\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoWIp3c6M7xoD47lYBg2Dx0YRuNaRTF6MnkRKJM+vze acme-architect-p2@test-genesis"
+  }
+}

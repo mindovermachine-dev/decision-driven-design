@@ -1,0 +1,54 @@
+format: 1
+id: DDD-dec-93
+kind: decision
+supersedes: DDD-dec-92
+statement: |
+  Round 2's rulings of the authority profile stand as DDD-dec-92 records them, with two changes from Round 3. First, key loss is not holder loss. A genesis holder who loses a key still holds the genesis, and A-9 for the genesis reads "by a new key binding vouched by a fallback; absent any fallback, by the new-product path". The fallback vouches as a grantor vouches for a first key, applied upward, and still may not transfer. Round 2's "by transfer" is withdrawn. Second, A-5 is widened to every test product in the repository: each is re-founded once under kept test keys as a test-fixture re-founding, not a transfer. The vendor package is re-founded by its GEN@2 as acme was by GEN@3, and the next test product needs no ruling. The one-time rebuild of the 25 history records, A-8's precision and A-11's reading are ruled as applied.
+principal: Emil
+made: 2026-11-02, Round 3 of the authority-profile session, recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-92
+
+  Items 1, 2 and 4, and every reading of item 3 except A-9's genesis clause. The rebuild of the 25
+  records, recorded in DDD-dec-92, is "accepted … Do not undo it".
+
+  ## Q-11, ruled (Round 3)
+
+  > key loss is not holder loss, and A-9's "by transfer" is withdrawn. A genesis holder who loses a
+  > key still holds the genesis. What is needed is a new key binding, and the one party the holder
+  > pre-authorised is the fallback. So: the genesis holder binds a new key, and the fallback vouches
+  > for that binding, the same vouching a grantor gives a new holder's first key (Q-3), applied
+  > upward because the genesis has no grantor. The fallback still may not transfer. Only when both
+  > the holder and every fallback have lost their keys is there no path, and that is the ruled
+  > new-product case.
+
+  Landed in authority.md §2.5 and §5.3:
+  - **The vouch.** A key-binding with act "vouch", signed by the holder of a live fallback of the
+    genesis under that grant, naming the genesis holder and the new key.
+  - **The binding.** The holder's key-binding with act "add", signed by the new key, pinning the
+    vouch and optionally closing the lost keys.
+  - **A reading.** The vouch does not wait for the holder to be filed unavailable, because the
+    holder is present and keyless, not absent. The property run exercises it in its scripted
+    histories.
+
+  ## P-9, ruled (Round 3)
+
+  > one re-founding ruling for every test product in the repository, not one per product. The
+  > vendor package is re-founded once under kept test keys exactly as acme was, recorded as a
+  > test-fixture re-founding, and A-5's wording is widened to cover all fixtures so the next test
+  > product needs no ruling.
+
+  Landed: the vendor's GEN@2 at position 1 of how-examples/log/vendor.json, signed by the kept key
+  test-keys/vendor-holder-p; authority.md §2.6 and A-5.
+
+  ## Ruled as applied
+
+  A-8: at is compared at the precision it carries. A-11: a How decision counts as the one element it
+  creates, of its kind's class at its anchor.
+basedOn:
+  - DDD-dec-92
+  - DDD-dec-86
+  - DDD-dec-46
+notes: |
+  DDD-dec-92 is left unchanged. Next free id re-checked on every branch of both repositories before
+  filing (R-14): this branch holds up to 92, and upstream up to 39.

@@ -1,0 +1,38 @@
+format: 1
+id: DDD-dec-90
+kind: decision
+supersedes: DDD-dec-64
+statement: |
+  The What's move choices of DDD-dec-64 stand: P-1 wire names with R-1 and R-2, P-2 sdlc:within, P-3 what is an element, P-4 sdlc:DeclaredTarget, P-5 the title of §3.5, and P-6 the ontology's kinds. P-7 is stated as the authority profile states it. A scope is a set of ontology classes, optionally narrowed to one element's within* subtree, recorded with its path when the grant is signed. Derived kinds are in no scope, which in sdlc edition 1 means sdlc:Journey. A grant delegates only if it says so, and only a subset of its grantor's scope. Each acceptance records, at signing, the items a decision touches (class, element, within* path). A decision is in force only while live acceptances together cover every item, which is the multi-scope rule as inherited. Tools are gathering sources and grant nothing.
+principal: Emil
+made: |
+  2026-11-02, the authority-profile session, as step 6 of the plan Emil approved in Round 1 ("Supersession of whatever in DDD-dec-46, -54, -64 this document now states more precisely … the supersession of -47 is right"), recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-64
+
+  P-1 to P-6, R-1 and R-2 exactly as ruled in Rounds 2 and 5 of the move session, with their
+  landing (what.md, what/ontology.ttl, what/shapes.ttl). Nothing in them changes.
+
+  ## P-7, stated more precisely (authority.md §3.1, §3.2, §4.2)
+
+  - **The scope's form.** {classes, within?, withinPath?}. The path is read from the graph at
+    signing, so a later graph change does not re-evaluate it (DDD-dec-85).
+  - **Derived kinds.** sdlc:Journey is the only one in edition 1 (ruled, Round 2, A-12).
+  - **Delegation** (DDD-dec-86, Q-8, ruled as proposed). Only if the grant says so, and only a
+    subset.
+  - **What a decision touches.** Ruled in Round 2 (A-11): "every element the decision creates,
+    changes or retires, per the scope wording". A How decision is the one element it creates:
+    - a What change touches the kinds of the elements it creates, changes or retires;
+    - a How decision touches its kind's class at its anchor;
+    - other How records touch their record class.
+  - **The multi-scope rule**, as Round 5 ruled it and the profile inherits it: "a decision that
+    touches kinds in more than one scope needs a valid acceptance under each scope, from the same
+    or different holders, and is in force only when all are live." The profile meets it by
+    coverage: every touched item is covered by a live acceptance. The worked decision CUR@1
+    (how-examples) is not in force under one acceptance and is in force under both.
+basedOn:
+  - DDD-dec-64
+  - DDD-dec-85
+  - DDD-dec-86
+notes: |
+  DDD-dec-64 is left unchanged.

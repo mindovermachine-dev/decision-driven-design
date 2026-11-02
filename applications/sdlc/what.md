@@ -45,7 +45,7 @@ inventing them.
 | Work units, seams, verification as a process (PF §5, §6 except §6.3.1) | retired (`DDD-dec-42`). The gate is Writ (`DDD-dec-54`) |
 | Two Pillars conformance (PF §8) | dropped (`DDD-dec-42`). This repository consumes canon by pin |
 | Data conformance (PF §13) | an add-on that reads the What, outside the framework (`DDD-dec-44`) |
-| Force: the genesis grant, grants, acceptance, baselines, waivers | the genesis grant and the authority profile, in their own pull request after this one (Round 1, Q-4). Defined by `DDD-dec-46` and `DDD-dec-47` |
+| Force: the genesis grant, grants, acceptance, baselines, waivers | the genesis grant and the authority profile, in their own pull request after this one (Round 1, Q-4). Defined by `DDD-dec-46` and `DDD-dec-47`. *Update, 2026-11-02:* [`authority.md`](authority.md) (`DDD-dec-85`, `DDD-dec-86`) |
 | Catalogues: components, tokens, strings | packages with their own genesis (`DDD-dec-57`) |
 | The §4–§7 classes of the old `pf:` ontology | not carried in any namespace. The `pf:` namespace ends with this move (Round 1, Q-3) |
 
@@ -685,6 +685,10 @@ rule on scopes that the profile inherits rather than chooses: the multi-scope ru
 - **Kind is immutable** (`DDD-dec-63` §3), so a scope's boundary cannot be crossed by
   reclassifying an element.
 
+*Update, 2026-11-02.* The profile carries the multi-scope rule as inherited, and it states how
+the kinds a decision touches are recorded at signing ([`authority.md`](authority.md) §3.1, §4.2).
+The acme example's `CUR@1` touches kinds in both scopes and is accepted under each (§9).
+
 The product owner's What scope and the architect's How scope are two grants over two sets of
 kinds of one product. That is Writ's "two grants over two subgraphs of the same log" (Writ product
 definition, Draft 2, chapter 2).
@@ -810,7 +814,8 @@ stated position when:
    every element is in the identity form (`DDD-dec-63`).
 2. **In force.** Every element has an accepted decision chain back to the genesis, under the
    authority profile (`DDD-dec-47`). The authority profile is therefore part of conformance, and
-   this half cannot be claimed until it exists (Q-4).
+   this half cannot be claimed until it exists (Q-4). *Update, 2026-11-02:* it exists, in
+   [`authority.md`](authority.md). "In force" is its §4.7, over a positioned log.
 3. **Versioned.** The position is named by a What-version record whose element list and graph
    hash recompute from the graph.
 

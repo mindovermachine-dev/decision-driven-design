@@ -1,0 +1,75 @@
+format: 1
+id: DDD-dec-86
+kind: decision
+statement: |
+  The authority profile (applications/sdlc/authority.md) rests on these rulings. An acceptance is its own signed record, whose by and at are the acceptor and the time, pinning the decision's version hash. Every authority-bearing field is a hashed dotted member, never extensions. Writ's [D2.11] clock rule is adopted as stated. The genesis is founded, not accepted. Every other grant is live only from its grantee's signed acceptance, and a transfer needs the successor's. A grant is revoked by its grantor or any holder above it, its chain falls from that position, and acts made before stand. Closing the prior genesis on transfer is not a revocation. An acceptance may be revoked. Keys are bound per product, the grantor vouching for a new holder's first key, and a close may carry a since position for compromise. A review is signed under a grant that could have accepted and has no force. A machine is an identity named in a signed attribution record, and any record carrying attributedTo is refused as an act of authority. A team is not a holder. The profile requires a positioned log, and every time-dependent evaluation reads header clocks, waiver expiry being a header-clock time. There is one conformance class, authority-conformant, with thirteen properties and a reference evaluator that is not Writ's suite. A grant delegates only if it says so, and only a subset of its own scope. The worked example extends the acme shop product, and what@4 is its cost. The profile covers the violation-description field, and attestations are a successor item.
+principal: Emil
+made: 2026-11-02, Round 1 of the authority-profile session, approving the plan at meta/sessions/2026-11-02-authority-profile/plan.md with the rulings recorded verbatim in that directory's rulings.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  Each item is quoted from Round 1, then stated as the profile carries it.
+
+  ## Readings of ruled material (F-1 to F-3)
+
+  - **F-1, ruled as read.** "An acceptance is its own signed record whose by and at are the
+    acceptor and the time, and which pins the decision's version hash. acceptedBy/acceptedAt as
+    fields were Draft 3's shorthand and are gone with A-10." The profile: authority.md §4.1.
+  - **F-2, ruled.** "hashed members, never extensions … extensions is for what may change without
+    a new version, and nothing authority-bearing may." It replaces the charter's "using extensions
+    for what the protocol does not define". The profile: authority.md §1.3. Every authority field
+    is in the dotted member dk.decision-driven-design.authority.
+  - **F-3, [D2.11] stated.** Header clocks are monotone by the writer's clamp
+    (ts = max(clock, head)). A backwards wall-clock step yields equal timestamps, never a refusal.
+    As-recorded replay is a fixture import through a writer whose injected clock returns each
+    recorded timestamp in turn. G6 is re-evaluation of the recorded log, served as-of. The stamped
+    instant is the staging instant under group commit. The profile: authority.md §6.
+
+  ## The charter's questions
+
+  - **Q-1, as answered.** The genesis is founded, not accepted. Every other grant, a transfer's
+    new genesis and a fallback grant included, is live only from its grantee's signed grant
+    acceptance. A grant is also the grantor's signed act. §2, §3.3.
+  - **Q-2, as answered.** Revocation is by the grantor or any holder above it in the chain. Acts
+    made under the grant before the revocation stay valid at their positions, and the chain below
+    falls from the revocation's position. Grants delegate from a grant's id, not its version, so
+    a transfer's close of the prior genesis is not a revocation. Supersession narrows a chain and
+    revokes nothing. An acceptance may be revoked. §3.5, §4.6.
+  - **Q-3, as answered.** Keys are bound per product. A key belongs to one holder in a product,
+    and a closed key never signs again there. Verification uses the binding live at the act's
+    position. The grantor vouches for a new holder's first key, and the genesis holder's first key
+    is self-bound in the founding. A close may carry since, and acceptances signed by the key from
+    since lose force from the close until re-accepted. §5.3.
+  - **Q-4, as answered.** A review is signed under a grant that could have accepted, has no force,
+    and stays in the log. §4.5.
+  - **Q-5, as answered.** A machine is an identity named in a signed attribution record. Any record
+    carrying attributedTo is refused as an acceptance, review, grant, waiver or key binding. A
+    grant to an identity is the grantor's attestation that it is one person. A team is not a
+    holder. §5.1, §5.2.
+  - **Q-6, ruled.** "expiry is a header-clock time, and Writ follows. A position does not advance
+    on a quiet product, so a position-based expiry never fires exactly where a waiver most needs
+    to; a header-clock time is deterministic because the clock is in the log ([D2.3])." The profile
+    requires a positioned log, and a non-positioned system claims dpp/1 conformance only. §6.
+  - **Q-7, as answered.** One class, authority-conformant, with thirteen properties. The reference
+    evaluator is labelled as not Writ's suite. §8.
+
+  ## New questions
+
+  - **Q-8, as proposed.** "A grant delegates only if it says so, and only a subset of its own
+    scope." §3.2.
+  - **Q-9, ruled.** "extend the acme shop product. Records are added, never edited; what@4 is the
+    correct cost of a decision that adds a What field." how-examples/.
+  - **Q-10, as proposed.** The violation-description field is covered by the profile (§7), and
+    attestations are a successor item.
+
+  ## Where Writ is amended (Emil's act, recorded not performed)
+
+  Writ's definition: a waiver's review-by is a header-clock time, not a position (Q-6, "amended
+  today").
+basedOn:
+  - DDD-dec-85
+  - DDD-dec-46
+  - DDD-dec-47
+  - DDD-dec-54
+  - DDD-dec-64
+notes: |
+  Section numbers are authority.md's. Departures the writing found after Round 1 are in authority.md
+  Appendix A, each flagged UNVERIFIED — Emil review, and are not ruled by this decision.

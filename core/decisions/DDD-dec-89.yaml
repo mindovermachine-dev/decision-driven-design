@@ -1,0 +1,31 @@
+format: 1
+id: DDD-dec-89
+kind: decision
+supersedes: DDD-dec-54
+statement: |
+  The rulings of the How charter in DDD-dec-54 stand, and ruling 4's terms are now defined. Force comes from the authority profile (applications/sdlc/authority.md): the genesis (§2), grants and scopes (§3), acceptance, baseline and waiver (§4). The How redefines none of them. A baseline is a list of entries on an acceptance, each a decision, an element and a target. A waiver is a signed answer to an open question, live until a header-clock time, which changes no decision and never covers a coverage gap.
+principal: Emil
+made: |
+  2026-11-02, the authority-profile session, as step 6 of the plan Emil approved in Round 1 ("Supersession of whatever in DDD-dec-46, -54, -64 this document now states more precisely … the supersession of -47 is right"), recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-54
+
+  Rulings 1, 2, 3, 5 and 6, verbatim there: anchoring; every change is a decision; a package is a
+  product with its own genesis, provenance never authority; the gate is Writ; the protocol token
+  (dpp/1, DDD-dec-62). Ruling 4's sentence is carried, and its terms are now pointers.
+
+  ## Ruling 4, stated more precisely
+
+  | Term | authority.md |
+  |---|---|
+  | genesis | §2 |
+  | grants | §3.2 to §3.5 |
+  | scopes | §3.1, §4.2 |
+  | acceptance | §4.1, §4.7 |
+  | baseline | §4.3: {decision, subject, target} on an acceptance (how.md D-6) |
+  | waiver | §4.4: expiry by header clock (DDD-dec-86, Q-6) |
+basedOn:
+  - DDD-dec-54
+  - DDD-dec-86
+notes: |
+  DDD-dec-54 is left unchanged.

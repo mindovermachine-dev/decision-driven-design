@@ -1,0 +1,26 @@
+{
+  "protocol": "dpp/1",
+  "id": "REVK-lead",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:architect@acme.example revokes GRANT-lead.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-11-03",
+  "why": "The lead has left the team. Acts made under the grant stand; from here no new one may be made under it or under any grant below it (authority.md §3.5).",
+  "basedOn": [
+    {
+      "ref": "GRANT-lead@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:f4e3c3e0d3ae7f32f22883cec42c99c58a37028816c482b6dda6208deec2f070"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "revocation",
+    "revokes": "GRANT-lead",
+    "under": "GRANT-how"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjzIJARKXB/Xwc2mOiqdp/REKBn\nE/isFxYhdElN1dkN4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBsbenbaLYtHn1JSlu2bfBb+2RZUvgWDSuZdyLDmUg1Na\n9NW0h/e1xjqxy5pFOQwzxJUvDnCY7q72NFMwXQQJIO\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8yCQESlwf18HNpjoqnaf0RCgZxP4rBcWIXRJTdXZDe acme-architect-p1@test-genesis"
+  }
+}
