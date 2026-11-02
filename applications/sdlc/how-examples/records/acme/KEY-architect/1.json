@@ -1,0 +1,23 @@
+{
+  "protocol": "dpp/1",
+  "id": "KEY-architect",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:architect@acme.example rotates their signing key.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-11-04",
+  "why": "Planned rotation: the new key opens and the old one closes here, signed by the key it closes. Acceptances the old key signed keep verifying against it at their positions (authority.md §5.3).",
+  "basedOn": [],
+  "dk.decision-driven-design.authority": {
+    "record": "key-binding",
+    "act": "rotate",
+    "holder": "mailto:architect@acme.example",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGn+RtahOafGs+9D07K1llPKiftsgSK6iUgOrswt4X5A acme-architect-p2@test-genesis",
+    "closes": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgI/yR1XF6vd81e/8aZ6vXyBixPW\nJUCTGQJSu+Meceq3MAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAFBfRBrxvTcLBGG7VligK77gd+ORnyIPwMlvOPbCzmvj\nL6C7Gd3SlPJWyt3dXwlFTbTamSqU1qX+wMoRdOwSsF\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+  }
+}

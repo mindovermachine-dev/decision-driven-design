@@ -1,0 +1,53 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-curfmt",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the contractor's grant: CURFMT@2.",
+  "by": "mailto:contractor@acme.example",
+  "at": "2026-11-03",
+  "why": "The contractor tries to accept the agent's proposal under a grant whose chain was revoked. It is refused and recorded.",
+  "basedOn": [
+    {
+      "ref": "CURFMT@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:ae821cc3456ed059d1f57ffcca0fc0987a1d06d31410a198077ccfccc4706105"
+    },
+    {
+      "ref": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a5ee8fb8fbea6818178839ae6487c77aa35c240e017b0d39624455f5117ac1b7"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "CURFMT@2@https://acme.example/products/shop/decisions"
+    ],
+    "touches": {
+      "CURFMT@2@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Binding",
+          "element": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+          "path": [
+            "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "supersedes": [
+    {
+      "ref": "ACC-curfmt@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:b1e3ad09748273012f39e0bbd18397b7ef959db63cd5234890386bcc5b93e7d1"
+    }
+  ],
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxKvNb6/5NQwWAZy6flu0josioi\nPNRcaRlzoU1/+HVx4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAKs6AQAvAfN2+zSW6xG6uQcV15Nyi/oUdKF8+j75dp9g\nDR4FEcOHdFqD+0KgJ9SFX9APzKZV3wFCj/gs1t/1MD\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSrzW+v+TUMFgGcun5btI6LIqIjzUXGkZc6FNf/h1ce acme-contractor@test-genesis"
+  }
+}

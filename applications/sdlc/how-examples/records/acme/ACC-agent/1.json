@@ -1,0 +1,46 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-agent",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the How grant: IMP-pure@2.",
+  "by": "spiffe://acme.example/agent/proposer",
+  "at": "2026-11-02",
+  "why": "The agent proposed IMP-pure@2 and here tries to accept it. It is refused and recorded: a machine never accepts (authority.md §5.1).",
+  "basedOn": [
+    {
+      "ref": "IMP-pure@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:6c869a85b1df9ad02724a58acebd89c4e9aba95558260760cf0e7afeca249471"
+    },
+    {
+      "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:d309a7ed11407ef84aac0f488d8f9afcd92a18e5b206a2a822fa9e5f54396202"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-how@3@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "IMP-pure@2@https://acme.example/products/shop/decisions"
+    ],
+    "touches": {
+      "IMP-pure@2@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Import",
+          "element": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "attributedTo": "mailto:architect@acme.example",
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgs2r/NDH7SfwtqqDa5zznFVcKxC\neU5fVW0anesQ6x7BkAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAECMb3e2p4r1bOpEWQoPcPHgT930MgiIkPCqA4apaMr9wE\n6m02y3Wgfoy2bTUbqoAm9U3Q5Q7hEKSO14G1MhnaMG\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILNq/zQx+0n8Laqg2uc85xVXCsQnlOX1VtGp3rEOsewZ acme-agent@test-genesis"
+  }
+}

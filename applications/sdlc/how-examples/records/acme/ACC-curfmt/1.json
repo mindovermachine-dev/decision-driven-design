@@ -1,0 +1,47 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-curfmt",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the contractor's grant: CURFMT@1.",
+  "by": "mailto:contractor@acme.example",
+  "at": "2026-11-02",
+  "why": "Within the contractor's scope: a binding inside Place order.",
+  "basedOn": [
+    {
+      "ref": "CURFMT@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:c5316a274ecc79033188709a02621f207142725ef83777b7bab69cb40bb1d113"
+    },
+    {
+      "ref": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a5ee8fb8fbea6818178839ae6487c77aa35c240e017b0d39624455f5117ac1b7"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "CURFMT@1@https://acme.example/products/shop/decisions"
+    ],
+    "touches": {
+      "CURFMT@1@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Binding",
+          "element": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+          "path": [
+            "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgxKvNb6/5NQwWAZy6flu0josioi\nPNRcaRlzoU1/+HVx4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAWfSE63H1J1f3K+7MWWcaswcHkcHx9WzniCUJ1tLd/Q3\nHFvNuWGXmxmxYqiIsyALMVD7Z98Vgz4qZpxUgwtxEM\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSrzW+v+TUMFgGcun5btI6LIqIjzUXGkZc6FNf/h1ce acme-contractor@test-genesis"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "protocol": "dpp/1",
+  "id": "ACC-cur-what",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Accepted under the What grant: CUR@1, for the What kinds it touches.",
+  "by": "mailto:owner@acme.example",
+  "at": "2026-11-02",
+  "why": "The owner accepts the field and the command's changed field order. The binding half is not in the What scope, so CUR@1 is not yet in force (authority.md §4.2).",
+  "basedOn": [
+    {
+      "ref": "CUR@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a842dd7edaf70ebada2ca91bb094c441abcb9cf391a6f762723cc535ec498ec1"
+    },
+    {
+      "ref": "GRANT-what@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:99e3b20b2b03d67071060cca3689c6b8e8a10113452fa0022a2bcb53e1ee9900"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "acceptance",
+    "grant": "GRANT-what@2@https://acme.example/products/shop/decisions",
+    "accepts": [
+      "CUR@1@https://acme.example/products/shop/decisions"
+    ],
+    "touches": {
+      "CUR@1@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Field",
+          "element": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+          "path": [
+            "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Command",
+          "element": "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        },
+        {
+          "class": "sdlc:Binding",
+          "element": "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+          "path": [
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgWJVMocbtJlzdsZgO3LcIYBxLT9\nBEN+mHib86Q8DVpmgAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAED/moOaUerbTApWYZWZRCGmkYCFy5Rl7cmYofiU3Ih4Zv\n55WiKDr8vihSZyGbWASE1zHWMOXfo3JkNU9OMwmrAJ\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiVTKHG7SZc3bGYDty3CGAcS0/QRDfph4m/OkPA1aZo acme-owner-p@test-genesis"
+  }
+}

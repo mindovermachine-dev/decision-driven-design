@@ -1,0 +1,24 @@
+{
+  "protocol": "dpp/1",
+  "id": "CURFMT",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The field currency of Place order is accepted by every realising handler only if it is one of ISO 4217's active or historic alphabetic codes.",
+  "by": "spiffe://acme.example/agent/proposer",
+  "at": "2026-11-03",
+  "why": "Proposed by the agent: historic codes appear in refunds of old orders.",
+  "basedOn": [],
+  "attributedTo": "mailto:architect@acme.example",
+  "supersedes": [
+    {
+      "ref": "CURFMT@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:c5316a274ecc79033188709a02621f207142725ef83777b7bab69cb40bb1d113"
+    }
+  ],
+  "dk.decision-driven-design.sdlc": {
+    "record": "decision",
+    "kind": "binding",
+    "binds": "sdlc:Field",
+    "anchor": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ"
+  }
+}

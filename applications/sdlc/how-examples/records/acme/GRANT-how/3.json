@@ -1,0 +1,47 @@
+{
+  "protocol": "dpp/1",
+  "id": "GRANT-how",
+  "version": "3",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:holder@acme.example grants mailto:architect@acme.example authority to accept How decisions and the code they govern, anywhere in https://acme.example/products/shop, and to delegate within that.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-11-02",
+  "why": "The How-and-code scope as a set of classes, delegable (authority.md §3.1, §3.2); supersedes the stand-in GRANT-how@2.",
+  "basedOn": [
+    {
+      "ref": "GEN@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:114f327ef95cd859ec6abda1186273c700136e48361127dfbff3e64c95379a03"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "grant",
+    "parent": "GEN",
+    "grantee": "mailto:architect@acme.example",
+    "scope": {
+      "classes": [
+        "sdlc:Binding",
+        "sdlc:CodeElement",
+        "sdlc:Component",
+        "sdlc:Constraint",
+        "sdlc:Contract",
+        "sdlc:Exclusion",
+        "sdlc:Import",
+        "sdlc:Retention",
+        "sdlc:TargetDeclaration"
+      ]
+    },
+    "mayDelegate": "yes",
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+  },
+  "supersedes": [
+    {
+      "ref": "GRANT-how@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:7bd7310156cb18eca5adaa1cd4acdd49226e8748f474dd83873c94b7335a4d1b"
+    }
+  ],
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPF+yHtwndaZj8EnS5hEhNec7G6\nu1KCSxeFUuCEuGhHcAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEC/Fi+D2ByJwTTm9z5vc5bDKoxBNMU3En8HiftyXZEL/z\nvrydR8AENF3RS9y0PhirBXAezqY0u6xyPO3ENhJHYP\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxfsh7cJ3WmY/BJ0uYRITXnOxurtSgksXhVLghLhoR3 acme-holder-p@test-genesis"
+  }
+}

@@ -37,12 +37,35 @@ nothing here is acceptable into a real product.
 | `…/what#qd-residency-eu` | `…/what/01M610JNAMGQQ2DJENWGA6MWCK` |
 | `…/what#decider-order`, `#command-*` (in the code's citations) | `…/what/01M610JNAMMP5V59XRNHD39R5A`, `…/what/01M610JNAMCQ2R6MG31Q07DWMX`, `…/what/01M610JNAMC74SDA3DVDE332WB` |
 
+**Under the authority profile (2026-11-02).** The product's authority history is now a positioned
+log, [`log/acme.json`](log/acme.json), with 15 positions, judged by the profile's reference
+evaluator ([`../authority.md`](../authority.md) §9; `DDD-dec-86`, Q-9). 25 records are added and
+none is edited:
+
+- `GEN@3` founds the log. The stand-ins' keys were discarded, so no act under them can be signed
+  (authority.md A-5, `UNVERIFIED — Emil review`).
+- Two class-scoped grants and their acceptances.
+- Re-acceptances of the founding What decision and the six How records, with a baseline.
+- `CUR@1`, one decision under two scopes: a new What field and a binding. `what@4` names the graph
+  after it ([`../what/examples/acme-shop-4.ttl`](../what/examples/acme-shop-4.ttl), with hashes in
+  `../what/vectors-4.json`).
+- Two levels of delegation and a revocation that takes the lower one down.
+- A key rotation.
+- A waiver that expires by header clock.
+- A review.
+- Two refused attempts, recorded in their headers.
+
+The stand-in authority records (`GEN@1`, `GEN@2`, `GRANT-*@1/2`, `ACC-1@1/2`, `ACC-what@1`) stay as
+history, landed at no position, and under the profile they put nothing in force. `build.py` now
+needs rdflib, because each acceptance records its scope result read from the What graph. It
+refuses to rewrite a landed header. The public halves of the history's keys are in `log/acme-keys.json`, so a rebuild reproduces every record; a new act by one of these holders cannot be signed, because the private halves were discarded, and the build refuses it (authority.md A-5).
+
 ```
 python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verdict step
 ```
 
-At this commit, with rdflib 7.6.0, the script prints 105 ok or note lines, 1 expected warning
-(its anchor self-test) and 0 failures. All 36 records (21 of version 1, 15 written on 2026-10-28)
+At this commit, with rdflib 7.6.0, the script prints 222 ok or note lines, 1 expected warning
+(its anchor self-test) and 0 failures. All 63 records (25 of them written on 2026-11-02)
 are conformant under the reference implementation on `main`, run unmodified. The records were rebuilt with `dpp/1` and fresh test
 keys on 2026-10-28 (Round 3). The `decprov/1` set they replace was never conformant to any
 protocol on `main`; it remains in this branch's history at `d11df86`. `build.py` still refuses to
@@ -152,13 +175,16 @@ whether the How is right.
    here whose hash matches its pin. A test edit of one word in `LAYER@1` turns both lines
    red.
 3. Every signature verifies over its record's canonical form.
-4. The authority chain is a **test stand-in** for the unwritten authority profile. The
-   acceptance's signer holds a grant. That grant was signed by the genesis holder. The genesis
-   is an origin. All three are signed, and the acceptor is a human identity, not an agent.
-5. Exactly six How records are in force, all version 2: those `ACC-1@2` pins. `ACC-1@1` is
-   superseded and puts nothing in force. No record in force names a provisional identifier. One
-   What decision is in force, the founding `WHAT-found@1`. `what@1`'s graph hash and element list
-   equal `../what/vectors.json`, and `../what/check.py` recomputes those from the graph.
+4. The authority profile, over the positioned log: every header's position, chain, monotone clock
+   and pins; every act judged by `../authority/evaluate.py` as the header records it (landed
+   valid, or refused with the header's reason); the multi-scope decision not in force at p5 and in
+   force at p6; the revoked chain falling at p11 while `CURFMT@1` stays in force; the rotated key
+   still verifying `ACC-1@3`; the waiver live at p14 and expired at p15. Against the What graph:
+   every recorded scope item's class and path, `CUR@1`'s delta, every reported violation in the
+   baseline, and the waived question being an open question.
+5. Six How records are in force at the last position, all version 2, re-accepted by `ACC-1@3`. The
+   What decisions in force are `WHAT-found@1` and `CUR@1`. No record in force names a provisional
+   identifier. The What-version in force, `what@4`, equals `../what/vectors-4.json`.
 6. Each imported decision is expressible in each declared target: every fact term its violation
    description reads is mapped by that target's edition.
 7. Supersession across the import is shown and changes nothing in force. There are four notes:

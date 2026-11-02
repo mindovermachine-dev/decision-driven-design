@@ -1,0 +1,46 @@
+{
+  "protocol": "dpp/1",
+  "id": "REV-curfmt",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Request for change on CURFMT@2: name the historic codes accepted, rather than all of them.",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-11-12",
+  "why": "A review under a grant that could have accepted the version. It has no force and stays in the log (authority.md §4.5).",
+  "basedOn": [
+    {
+      "ref": "CURFMT@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:ae821cc3456ed059d1f57ffcca0fc0987a1d06d31410a198077ccfccc4706105"
+    },
+    {
+      "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:d309a7ed11407ef84aac0f488d8f9afcd92a18e5b206a2a822fa9e5f54396202"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "review",
+    "grant": "GRANT-how@3@https://acme.example/products/shop/decisions",
+    "reviews": "CURFMT@2@https://acme.example/products/shop/decisions",
+    "verdict": "request-change",
+    "touches": {
+      "CURFMT@2@https://acme.example/products/shop/decisions": [
+        {
+          "class": "sdlc:Binding",
+          "element": "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+          "path": [
+            "https://acme.example/products/shop/what/01M6DV7NZXBJYTCMTHJY6FQMRZ",
+            "https://acme.example/products/shop/what/01M610JNAMCQ2R6MG31Q07DWMX",
+            "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+            "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+            "https://acme.example/products/shop"
+          ]
+        }
+      ]
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgaf5G1qE5p8az70PTsrWWU8qJ+2\nyBIrqJSA6uzC3hfkAAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEC2gXQopCf3FD0/1bsQrqj72BagvCW+DaX/FQIuO1ORZq\nqpR9Qft6YiDVIargCQK1zWaVjWwdCgG7bbZ3s8M1EH\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGn+RtahOafGs+9D07K1llPKiftsgSK6iUgOrswt4X5A acme-architect-p2@test-genesis"
+  }
+}

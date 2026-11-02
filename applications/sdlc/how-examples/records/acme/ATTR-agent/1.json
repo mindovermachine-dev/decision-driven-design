@@ -1,0 +1,26 @@
+{
+  "protocol": "dpp/1",
+  "id": "ATTR-agent",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "spiffe://acme.example/agent/proposer is software; mailto:architect@acme.example is responsible for it.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-11-02",
+  "why": "The proposing agent is named a machine, so nothing it signs is ever an act of authority here (authority.md §5.1).",
+  "basedOn": [
+    {
+      "ref": "GEN@3@https://acme.example/products/shop/decisions",
+      "hash": "sha256:114f327ef95cd859ec6abda1186273c700136e48361127dfbff3e64c95379a03"
+    }
+  ],
+  "dk.decision-driven-design.authority": {
+    "record": "attribution",
+    "machine": "spiffe://acme.example/agent/proposer",
+    "responsible": "mailto:architect@acme.example"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPF+yHtwndaZj8EnS5hEhNec7G6\nu1KCSxeFUuCEuGhHcAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAa2kSgZB0xvG9YpNaBEu/Q7E50Ug0C4HC+vM/n+nQ2gM\niBS00c3aEMixRYtJsVuWMYYpQtn8qyi8iU1Yyy8VMH\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxfsh7cJ3WmY/BJ0uYRITXnOxurtSgksXhVLghLhoR3 acme-holder-p@test-genesis"
+  }
+}
