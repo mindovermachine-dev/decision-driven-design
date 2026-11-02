@@ -1,30 +1,37 @@
-# Production Is Ground
+# Production is ground — where to verify, and what DORA's metrics measure
 
-**Location:** proposed `applications/sdlc/production-as-ground.md`. An application of the encode/verify
-split (`apparatus/encode-verify.md`) and the closure principle (`apparatus/closure-principle.md`) to
-software delivery, tested against the DORA research programme.
+<!-- ddd:doc
+reader: engineering and delivery leads deciding where their team should verify changes, and people who use the DORA metrics
+act: sort their team's checks into what a validator should catch, what needs real traffic, and what needs real users; and compute how many change failures were self-inflicted
+pin: v5.15.2
+basis: [term:floor, DDD-floor-01, DDD-measure-01]
+status: current
+supersedes: e5a332d:applications/sdlc/production-as-ground.md
+-->
 
-**Status: reported, partially. The correspondence with DORA's published findings is real and is
-checked below, including two places the framework fails to add anything and one place it may be
-wrong.** The framework was *not* validated against DORA's underlying data — that data is not public;
-only aggregate findings are. This is a retrodiction check against published results, not a statistical
-test, and it is presented as such.
+Read this if you lead a delivery team, or use the DORA metrics, and want to decide where your
+team should check its changes. It argues that a test suite checks your code against a copy of the
+world, not the world, and it uses that to sort checks into three kinds. Each kind has a right
+place to run. It ends with a number you can compute from your own incident history.
 
----
+**How settled this is.** This is an argument, checked against DORA's published findings but not
+against DORA's underlying data, which is not public. It is a check that the framework explains
+published results after the fact, not a statistical test. It names two places where the framework
+adds nothing new, one place where it may be wrong, and one prediction nobody has tested yet.
 
-**Upstream basis.** This document is part of the software projection; it builds on the
-principle repo's canon (`actor-indexed-determination`). The `core/NN` references below resolve
-there, pinned at a version and a status in `graph/upstream.yaml`:
+The argument uses two ideas from the framework's apparatus. The
+[encode/verify split](../../apparatus/encode-verify.md) separates writing a belief down from
+checking it against the world. The [closure principle](../../apparatus/closure-principle.md) says
+when a check can be mechanical.
 
 <!-- ddd:ref id=term:floor -->
-<!-- ddd:ref id=DDD-measure-01 -->
 <!-- ddd:ref id=DDD-floor-01 -->
 
 ## 1. The claim, stated carefully
 
 A tempting formulation is: *"you cannot know whether software works before it is in production."*
 **That is too strong and the framework rejects it.** Compilers, type checkers, and test suites close
-predicates. `core/03` holds: digital work with checkable predicates has zero intrinsic floor. Taken
+predicates. The framework holds that digital work with checkable predicates has zero intrinsic floor. Taken
 literally, the strong claim would make nearly all software floor-exposed, which is false and would
 contradict the framework's own central result.
 
@@ -37,11 +44,11 @@ The defensible version is about **ground**, not about knowledge:
 Which makes the gap an instance of something already named:
 
 > **A test suite is an encoded observation of ground you do not control.** It encodes what production
-> was believed to look like when the test was written. Per `encode-verify.md`, *you cannot amortise an
+> was believed to look like when the test was written. As the encode/verify split puts it, *you cannot amortise an
 > observation of something you do not control* — so that belief has an expiry date and no alarm on it.
 
 Green tests over drifted fixtures is the **poisoned ground** signature exactly
-(`apparatus/closure-principle.md`): the reasoning is sound, the premises are stale, and the result is
+(see the closure principle): the reasoning is sound, the premises are stale, and the result is
 confident and wrong.
 
 **So the reframed claim:**
@@ -98,7 +105,7 @@ The framework says the same thing without needing to observe it:
 > **So AI increases unverified demand in flight.** Generation capacity grew; verification capacity did
 > not. The gap widens, and the framework's escape term grows with it.
 
-This is `core/10`'s structure at the organisational scale: **production capacity outran verification
+This is the framework's cost structure at the organisational scale: **production capacity outran verification
 capacity, and the surplus went into the escaped store.** Not a defect in the model's output — a
 mis-allocation, exactly the sort the conservation principle predicts when one store's throughput
 increases and the others do not.
@@ -150,7 +157,7 @@ exception matters:
 The middle tier is why the naive two-way cut fails. *"Does this query hold at production traffic"* is
 a **technical** question whose predicate does not close statically — you can benchmark against
 substitutes, but the real answer requires real load. Likewise correctness against production's actual
-`P(input)`, which is `core/09`'s deployment-distribution caveat arriving in practice: you do not have
+`P(input)`, which is the framework's deployment-distribution caveat arriving in practice:<!-- ddd:ref id=DDD-measure-01 --> you do not have
 production's input distribution in staging.
 
 **And this is what progressive delivery is *for*.** Canaries and shadow traffic are not a
@@ -182,8 +189,8 @@ rate: **deployment is their primary verifier**, so every closable decision they 
 to production to be checked there. Deploying faster discovers those errors sooner; it does not stop
 manufacturing them.
 
-*Caveat, and it is real: classifying a decision by predicate closure is `core/03`'s undecidable-in-
-general problem. In practice you do not need the general solution — the abundant cases (published
+*Caveat, and it is real: classifying a decision by predicate closure is undecidable in
+general, as the framework itself states. In practice you do not need the general solution — the abundant cases (published
 rules, static constraints, schema conformance) are obvious. But the framework should not claim the
 decision set can be cleanly partitioned, because it cannot.*
 
@@ -250,7 +257,7 @@ your copy and the source of truth.
 **Why this is not obvious.** Both families reduce failure risk, and industry advice treats them as
 complementary rungs on one ladder. The framework says they are **different in kind**: one shrinks the
 encode/verify gap by *verifying against the source of truth*, the other shrinks it by *improving the
-copy*. Per `encode-verify.md`, only the first can close it, because the second is still an encoded
+copy*. By the encode/verify split, only the first can close it, because the second is still an encoded
 observation of ground you do not control.
 
 **How it could fail.** If test-environment fidelity predicts performance as strongly as progressive
@@ -279,10 +286,10 @@ offered *to* the research programme, not one this framework can settle.
 - **The AI finding is the framework's best case** (§3): generation capacity outran verification
   capacity, and the surplus went to escape. Derived, not observed — and it yields a specific
   intervention.
-- **Batch size and feedback latency are not the framework's contributions** (§4). Cite Reinertsen and
+- **Batch size and feedback latency are not the framework's contributions** (§5). Cite Reinertsen and
   Lean.
-- **The 2024 cluster anomaly is an open discrepancy** (§5), not a resolved one.
-- **The progressive-delivery-over-fidelity prediction** (§6) is the only genuinely novel, falsifiable
+- **The 2024 cluster anomaly is an open discrepancy** (§6), not a resolved one.
+- **The progressive-delivery-over-fidelity prediction** (§7) is the only genuinely novel, falsifiable
   claim here — and it is offered to DORA, not settled by this document.
 
 ---
@@ -292,3 +299,29 @@ offered *to* the research programme, not one this framework can settle.
 > **Production is the only ground that is not a copy. Everything shipped before it was verified against
 > an encoded belief about the world, and the whole apparatus of continuous delivery is an empirical
 > programme for shrinking the interval during which that belief goes unchecked.**
+
+---
+
+## Not settled yet
+
+- **The 2024 cluster anomaly.** DORA's medium cluster had a lower change failure rate than its
+  high cluster, which a naive reading of the framework says should not happen. The defence in §6
+  is weak and is not accepted. The discrepancy is open.
+- **Progressive delivery over environment fidelity.** The prediction in §7 has not been tested. It
+  needs DORA's response-level data, which is not public.
+- **The partition is not clean.** Which tier a decision belongs to is undecidable in general (§4.3).
+  The obvious cases are enough to act on, but the tiers are a guide, not a proof.
+
+## Where this comes from
+
+| Section | Rests on |
+|---|---|
+| 1. The claim, stated carefully | Zero intrinsic floor for digital work with checkable predicates: upstream `DDD-floor-01` (reported) and `term:floor`, from `core/03`; the encode/verify split, `apparatus/encode-verify.md`; poisoned ground, `apparatus/closure-principle.md` |
+| 3. The finding that tests the framework | The cost structure of upstream `core/10` |
+| 4.1 Three tiers | The deployment-distribution caveat of upstream `core/09`, `DDD-measure-01` (projected) |
+| 4.3 What this predicts | Undecidability of closure in general, upstream `core/03` |
+| 2, 3, 5, 6, 7 | DORA's published findings (2023 and 2024 reports); Reinertsen and Lean batch-size theory |
+
+Upstream references resolve in the principle repository at the pin in `graph/upstream.yaml`. The
+earlier text of this page is at `e5a332d`. The cross-references in §8 were off by one in that text
+and are corrected here.
