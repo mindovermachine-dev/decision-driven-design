@@ -34,7 +34,23 @@ Verbatim:
 
 ### Where each ruling landed
 
-Filled in as the work lands (`plan.md`, Part 4).
+| Ruling | Landed | State |
+|---|---|---|
+| F-1 acceptance record | authority.md §4.1; `DDD-dec-88` supersedes `-47` | ruled |
+| F-2 hashed members, never extensions | authority.md §1.3; authority-vocabulary.md; every new record | ruled |
+| F-3 `[D2.11]` | authority.md §6.2, verbatim as stated; the evaluator accepts equal clocks and refuses a backward step | ruled |
+| Q-1 founded, not accepted; grant acceptance; transfer accepted | §2.2, §2.3, §3.3; `DDD-dec-87`; acme `GACC-*`; A4 | ruled |
+| Q-2 revocation, chain falls; transfer close not a revocation; acceptance revocation | §2.3, §3.5, §4.6; acme p11; A5, A6 | ruled |
+| Q-3 keys per product; first key by the grantor; `since` | §5.3; acme p13; A8 | ruled. Key loss (A-9) is flagged |
+| Q-4 review | §4.5; acme p15 | ruled |
+| Q-5 attribution; `attributedTo` refused; teams | §5.1, §5.2; acme p1, p4; A2 | ruled |
+| Q-6 expiry by header clock; Writ follows | §4.4, §6.2; acme p14, p15; A10 | ruled. Writ's amendment is Emil's act |
+| Q-7 one class, 13 properties, reference evaluator | §8; `authority/evaluate.py`, `authority/properties.py` (1,000 histories, 0 failures; 8 mutations each caught) | ruled. The subset rule folded into A3 (A-13) |
+| Q-8 delegation | §3.2; acme p7, p8; A3 | ruled |
+| Q-9 acme, `what@4` | `how-examples/log/acme.json`, 25 records; `what/examples/acme-shop-4.ttl`, `what/vectors-4.json` | ruled. The re-founding is flagged (A-5) |
+| Q-10 the violation-description field; attestations | §7; successor item P-3 | ruled |
+| "Ids from 77" | superseded by R-14: 85 onward | R-14 |
+| Seven commits, the PR when green | `e88eb6f`, `71d0fdf` (R-14), `e84d637`, `dbffc27`, `0933cd9`, `308c9a8`, `533ac8e`, `637ea7f`, and the commit of this table | done |
 
 ## R-14, 2026-11-02 — the ids move to 85 onward
 
