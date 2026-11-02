@@ -397,3 +397,40 @@ changes, and `scripts/ci.py` passes. Falsifier: a dead link, or an unsourced wro
 Prediction: `grep -i phoenix` over every file G5 creates or changes returns nothing. The case is
 named only as upstream names it: "the first independent application case" (T2b). Falsifier: any
 hit.
+
+Outcome P-14, GitHub: **held.** After the push of `7ef4634`, `GET /repos/…/license?ref=claude/ready-to-try-2026-11-02`
+reports path `LICENSE`, `spdx_id` `MPL-2.0`.
+
+Outcome P-16 in CI: **held.** At `f199fb0`, `pipeline (devcontainer)` succeeded on push and on
+the pull request, including the `releases` gate and the three guard scenarios, which build git
+repositories inside the container.
+
+Outcome P-19: **held.** `diff` of the old README's lines 1 to 194 against `why.md` shows one
+changed line (the title) and two added lines (the provenance note). Both are flagged
+`UNVERIFIED — Emil review`. No other sentence needed to change to stand alone.
+
+Outcome P-20: **held.** A script compared the seven statements quoted in the step 1 card with the
+live claim files: `DDD-ground-06` and `DDD-ground-01` from upstream `main` (= `v5.15.2`), and
+`DDD-address-01` to `05` here. 7 of 7 match, all `projected`. The nine `[PROPOSED]` cards each
+quote their draft line verbatim, 9 of 9, and say "not filed" in every other field. The step 1
+card marks "Cost and relocation" as not filed, and the principal's role as not filed. Its exit
+check is a reading of `DDD-ground-06`'s falsifier, flagged `UNVERIFIED — Emil review`.
+
+Outcome P-21: **held.** All 16 command lines in `method/quick-start.md` appear verbatim in Varve's
+README at `v0.1.0-preview.15`. The two sentences quoted from that README ("Then write, read, go
+back, and read the history", and the `--anonymous` sentence) are there verbatim. The act map has
+five occurrences. o4, the as-of read, depends on o1 only and is concurrent with o2 in causal
+order. The page states the standing (subject, not dependency; exposition, not evidence; not run
+in this session) and the junior-engineer falsifier, with running it Emil's act. The axes are
+named as the page's weakest point.
+
+Outcome P-22: **held.** The README opens with what the method is, a "ready to try" banner
+(`DDD-dec-74`) and its weakest point. It then covers what step 1 gives (three points, each cited
+to a claim), four wrong-tool cases (each cited to `DDD-dec-74`, `DDD-address-02` or
+`DDD-ground-06`), the ten-step status table, the quick start, a repository map, and a community
+table in Varve's form (Contributing, Governance, Security, Conduct, Licensing, Changes, Agents).
+123 relative links across the README, `why.md` and `method/` resolve, 0 dead. Licensee still
+reports MPL-2.0 (the README now references MPL-2.0). `scripts/ci.py`: all gates passed.
+
+Outcome P-23: **held.** `grep -il phoenix README.md why.md method/*.md`: no hits. The case is
+named "the first independent application case" (T2b).
