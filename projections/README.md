@@ -28,7 +28,7 @@ Two mechanisms back that up here, and they are not the same instrument:
 | | What it catches |
 |---|---|
 | **The manifest** | which projections cite claim *X*, and which predate its last change — a grep |
-| **`graph/upstream.yaml` + `validate-core-order.py`** | a `ddd:ref` to an unpinned upstream id (W5); a pinned id whose statement, region, or canonical text moved while its status held (W6) |
+| **`graph/upstream.yaml` + `scripts/validate-core-order.py`** | a `ddd:ref` to an unpinned upstream id (W5); a pinned id whose statement, region, or canonical text moved while its status held (W6) |
 
 A projection that cites canon in prose alone is uninstrumented. Cite by `ddd:ref` and pin the id.
 

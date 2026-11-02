@@ -156,3 +156,17 @@ and a drifted embed (E6). Each accept tree exits 0, and each refuse case exits 1
 expected error code. The fixtures' prose carries no `ddd:embed` or `ddd:ref` of an upstream id,
 so the repository-wide E13 scan is unchanged. Falsifier: an accept tree that fails, or a refuse
 case that passes or fails for a different code.
+
+Outcome P-9: **held in substance, wrong in one letter.** The three reports and the five files
+under `migration/` are recorded as 100% renames. `validate-core-order.py` is not recorded as a
+rename: the shim keeps the root path alive, so git records a modification at the root and an
+addition under `scripts/`. With `-B -M`, git reports a 100% copy to `scripts/` and a rewrite of
+the root file. The moved file's blob is `428bbf7`, identical to the old root blob, so its content
+is unchanged. The prediction should have said "copy" given a shim at the same path. The shim
+and the script gave byte-identical output to the pre-move checker on `core/` (exit 0; 74 pins,
+0 basis-loss, 0 content-drift, 1 shadowed) and on `.` (exit 1; R-7's 4 E13 errors). No file
+under `core/decisions/` or another session's `meta/sessions/` changed. Updated: README.md (the
+checker's row), the PR template (now one `scripts/ci.py` line), SECURITY.md and
+`projections/README.md`. The CI workflow is rewritten under P-12, and `CLAUDE.md` under P-7.
+`meta/graph-tool-mvp.md` and the comment in `graph/upstream.yaml` name the checker without a
+path and were left.

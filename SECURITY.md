@@ -26,7 +26,7 @@ scope:
 - **The Decision Provenance Protocol** (`spec/decision-provenance/`). Any way to make a record
   verify that its declared signer did not sign, to make two parties canonicalise one record
   differently, or to rebind a record to a decision or a What element it was not made for.
-- **The checkers** (`scripts/`, `validate-core-order.py`, the `check*.py` and `build*.py` files).
+- **The checkers** (`scripts/`, the root `validate-core-order.py` shim, the `check*.py` and `build*.py` files).
   They read YAML and clone the pinned upstream ref. Any way a crafted file in a pull request makes
   them execute code, write outside the working tree, or report a clean result over an invalid
   graph.

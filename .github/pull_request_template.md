@@ -23,9 +23,7 @@ act; nothing self-ratifies.
 
 ---
 
-- [ ] `python3 scripts/validate-claims.py core/claims/` passes
-- [ ] `python3 scripts/validate-claims.py core/decisions/ --decisions` passes
-- [ ] `python3 validate-core-order.py core/` passes
+- [ ] `python3 scripts/ci.py` passes (every gate: claims, decisions, core order and pins, the What, the How examples, fixtures)
 - [ ] Every commit that changes canon carries a `Basis:` line
 - [ ] Decision ids checked across every branch of both repositories
 - [ ] A session record exists under `meta/sessions/`, with `prompt.md` and `bootstrap.md` committed first

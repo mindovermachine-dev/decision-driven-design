@@ -124,7 +124,7 @@ The framework as nodes. Files are storage; the graph is the object.
 | [`core/decisions/`](core/decisions/) | Decision nodes (`DDD-dec-NN`); the load-bearing edge is `decision --basedOn--> claim` |
 | [`spec/claim-format.md`](spec/claim-format.md) | The claim schema (format version 1) and its validation rules |
 | [`scripts/validate-claims.py`](scripts/validate-claims.py) | Validates `core/claims/` and `core/decisions/` against the spec |
-| [`validate-core-order.py`](validate-core-order.py) | Validates docs, embeds and the cross-repo pins. **Canonical invocation: `python3 validate-core-order.py core/`** — run against the repository root (`.`) it misreads this repository's own registry ids and reports spurious E13 errors on a clean tree; a fix for that mode is tracked, the `core/` invocation is authoritative |
+| [`scripts/validate-core-order.py`](scripts/validate-core-order.py) | Validates docs, embeds and the cross-repo pins (moved from the root by `DDD-dec-80`; a root shim runs it until after v0.5.0). **Canonical invocation: `python3 scripts/validate-core-order.py core/`** — run against the repository root (`.`) it misreads this repository's own registry ids and reports spurious E13 errors on a clean tree; a fix for that mode is tracked, the `core/` invocation is authoritative |
 
 ### Meta — the honesty layer and the program
 
