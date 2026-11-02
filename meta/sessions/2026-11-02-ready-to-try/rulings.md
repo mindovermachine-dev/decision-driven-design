@@ -122,3 +122,54 @@ Added after filing; the Round 2 entry above is not edited. Its "Filed as" column
 
 Claude's readings beyond the dialog's words are flagged `UNVERIFIED — Emil review` in the notes
 of `DDD-dec-79` to `DDD-dec-82`.
+
+## Round 3 — 2026-11-02
+
+Given by Emil through the question dialog in the claude.ai conversation, after an independent
+review of the G3 execution at `227630b` (16 commits verified, CI green on push and pull
+request). The questions and answers are verbatim. Option text is recorded where the dialog
+showed it.
+
+> Q: "R-9 — GitHub reports the licence as NOASSERTION because LICENSE.md sits beside LICENSE.
+> Renaming LICENSE.md makes GitHub detect MPL-2.0 (tested with licensee). Which?"
+>
+> A: "Rename to LICENSING.md (Recommended)" (option text: "Stays at the root beside LICENSE and
+> NOTICE; GitHub detects MPL-2.0")
+
+> Q: "R-10 — the release-head guard (DDD-dec-39) exists only in the principle repository. The
+> v0.5.0 release descriptor here needs either a port of the guard or a stated manual check.
+> Which?"
+>
+> A: "Port the guard (Recommended)" (option text: "Copy check-release-head.py and the release
+> format into this repo, as a gate in ci.py, before v0.5.0")
+
+> Q: "R-11 — the standard asks for every commit to reference an issue (Refs #N). This session
+> has no issue. Which?"
+>
+> A: "Open an issue now (Recommended)" (option text: "The session opens one issue for itself;
+> commits from here carry Refs #N; enforcement in ci.py follows later")
+
+> Q: "G3 review — approve the G3 execution as delivered and proceed to G5? This also accepts
+> DDD-dec-82's two flagged readings: an incompatible change to a ruled step before 1.0 is MINOR,
+> and 'editorial' means wording that changes no ruling, plus links and tooling. It also accepts
+> the description and topics drafted in repo-standard.yaml."
+>
+> A: "Approve, proceed to G5 (Recommended)" (option text: "Readings and repo-standard wording
+> confirmed")
+
+### Confirmations
+
+- **`DDD-dec-82`.** Both readings flagged `UNVERIFIED — Emil review` in its notes are confirmed
+  as of Round 3. An incompatible supersession of a ruled step before 1.0 is MINOR. "Editorial"
+  means wording that changes no ruling, plus links and tooling. The decision is not edited; this
+  entry is the confirmation.
+- **`.github/repo-standard.yaml`.** The description and topics are confirmed. The file's
+  `UNVERIFIED — Emil review` comment is removed as an editorial change citing this round.
+- **G3.** The execution at `227630b` is approved, and the session proceeds to G5.
+
+### Reviewer's finding (editorial)
+
+The independent review found that `scripts/ci.py` crashes with a traceback in the How gate when
+`ssh-keygen` is absent, and that `scripts/requirements.txt` lists only Python packages. The fix
+checks for `ssh-keygen` first and fails with a message naming it, and lists the system
+dependencies.
