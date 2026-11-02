@@ -43,7 +43,9 @@ evaluator ([`../authority.md`](../authority.md) §9; `DDD-dec-86`, Q-9). 25 reco
 none is edited:
 
 - `GEN@3` founds the log. The stand-ins' keys were discarded, so no act under them can be signed
-  (authority.md A-5, `UNVERIFIED — Emil review`).
+  It is the acme fixture's one re-founding, as a test fixture and not as a transfer (authority.md
+  §2.6, A-5, ruled). The vendor package is re-founded the same way by its `GEN@2`, in `log/vendor.json`
+  (Round 3, P-9).
 - Two class-scoped grants and their acceptances.
 - Re-acceptances of the founding What decision and the six How records, with a baseline.
 - `CUR@1`, one decision under two scopes: a new What field and a binding. `what@4` names the graph
@@ -64,8 +66,8 @@ refuses to rewrite a landed header. The history's keys are kept for the fixture'
 python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verdict step
 ```
 
-At this commit, with rdflib 7.6.0, the script prints 222 ok or note lines, 1 expected warning
-(its anchor self-test) and 0 failures. All 63 records (25 of them written on 2026-11-02)
+At this commit, with rdflib 7.6.0, the script prints 225 ok or note lines, 1 expected warning
+(its anchor self-test) and 0 failures. All 64 records (26 of them written on 2026-11-02)
 are conformant under the reference implementation on `main`, run unmodified. The records were rebuilt with `dpp/1` and fresh test
 keys on 2026-10-28 (Round 3). The `decprov/1` set they replace was never conformant to any
 protocol on `main`; it remains in this branch's history at `d11df86`. `build.py` still refuses to

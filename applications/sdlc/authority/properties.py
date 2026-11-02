@@ -335,6 +335,16 @@ def scripted(rnd):
     if rnd.random() < 0.5:   # the grant above b's is revoked: b's falls with it, and b's next act is refused
         put(g.rec(h, {"record": "revocation", "revokes": gaid, "under": gid}, key=k))
         put(g.rec(b, {"record": "acceptance", "grant": gb, "accepts": [d], "touches": {d: items}}, basedOn=[d, gb], key=g.keys[b][-1]))
+    # Q-11 (Round 3): the genesis holder loses their key; the fallback vouches; the holder binds and acts
+    kh2 = "k-h-lost"
+    g.keys[h].append(kh2)
+    if rnd.random() < 0.7:
+        v = g.rec(f, {"record": "key-binding", "act": "vouch", "holder": h, "key": kh2, "under": g.records[fg]["id"]}, key=g.keys[f][-1])
+        put(v)
+        put(g.rec(h, {"record": "key-binding", "act": "add", "holder": h, "key": kh2, "vouch": v, "closes": [k]}, basedOn=[v], key=kh2))
+        k = kh2
+    else:   # no vouch: a self-signed binding by the new key is refused
+        put(g.rec(h, {"record": "key-binding", "act": "add", "holder": h, "key": kh2}, key=kh2))
     if rnd.random() < 0.5:   # F before any unavailability: refused
         put(g.rec(f, {"record": "acceptance", "grant": fb, "accepts": [d], "touches": {d: items}}, basedOn=[d, fb], key=g.keys[f][-1]))
     u = g.rec(a, {"record": "unavailability", "grant": gaid, "from": "2026-11-01T00:00:00Z"}, key=g.keys[a][-1]); put(u)
@@ -555,6 +565,8 @@ def main():
             k = r.get(AU, {}).get("record") or "proposal"
             if k == "genesis" and r.get("supersedes"):
                 k = "genesis (transfer)"
+            if k == "key-binding" and (r[AU].get("act") == "vouch" or r[AU].get("vouch")):
+                k = "key-binding (vouched, Q-11)"
             if k == "grant-acceptance" and records[r[AU]["grant"]][AU]["record"] == "genesis":
                 k = "grant-acceptance (of a transfer)"
             g = r.get(AU, {}).get("grant")

@@ -44,7 +44,7 @@ dpp = type(sys)("dpp"); exec(src, dpp.__dict__)
 # refuses (see sign below).
 KEYS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "test-keys")
 HISTORY_KEYS = ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
-                "acme-lead", "acme-contractor", "acme-agent")
+                "acme-lead", "acme-contractor", "acme-agent", "vendor-holder-p")
 os.makedirs(KEYS, exist_ok=True)
 for k in HISTORY_KEYS:
     if not os.path.exists(os.path.join(KEYS, k)):
@@ -697,6 +697,25 @@ os.makedirs(os.path.dirname(LOG), exist_ok=True)
 json.dump({"system": A, "note": "A fixture of a positioned log (authority.md §6.1): positions, header clocks, chained header hashes. Hand-built; no writer produced it.",
            "headers": headers}, open(LOG, "w"), indent=1, ensure_ascii=False)
 open(LOG, "a").write("\n")
+
+# ================================================================ the vendor package, re-founded
+# Ruled (authority-profile session, Round 3, 2026-11-02, P-9): "one re-founding ruling for every test
+# product in the repository, not one per product. The vendor package is re-founded once under kept
+# test keys exactly as acme was, recorded as a test-fixture re-founding". Its log opens with GEN@2;
+# its earlier records stay provenance until landed and accepted under it (authority.md §2.6).
+VC1 = "2026-11-02T08:00:00Z"
+put(V, "GEN", "2", f"Genesis grant over the product {V}, held by {VH}: the founding of its authority log under the authority profile.", VH,
+    "A test-fixture re-founding, not a transfer. GEN@1 was signed by a throwaway key discarded with its build; this founding binds the holder's key, kept with the fixture from here on (authority.md §2.6, A-5 as widened in Round 3).",
+    supersedes=[ref(V, "GEN", "1")], key="vendor-holder-p", at=VC1[:10],
+    **{AU: {"record": "genesis", "product": V, "holder": VH, "firstKey": pub("vendor-holder-p")}})
+vh = {"system": V, "position": "1", "clock": VC1, "records": [ref(V, "GEN", "2")], "refused": []}
+vh["hash"] = dpp.record_hash(vh)
+VLOG = os.path.join(ROOT, "log", "vendor.json")
+if os.path.exists(VLOG) and json.load(open(VLOG))["headers"] != [vh][:len(json.load(open(VLOG))["headers"])]:
+    sys.exit("refusing to build: the vendor log's landed headers would change. A log is appended to, never rewritten.")
+json.dump({"system": V, "note": "A fixture of a positioned log (authority.md §6.1) for the vendor package: its re-founding. Hand-built; no writer produced it.",
+           "headers": [vh]}, open(VLOG, "w"), indent=1, ensure_ascii=False)
+open(VLOG, "a").write("\n")
 
 # ---------------------------------------------------------------- write: new versions only
 out = os.path.join(ROOT, "records")

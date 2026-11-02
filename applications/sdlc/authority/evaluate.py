@@ -82,6 +82,7 @@ class State:
         self.machines = {}         # identity -> position named
         self.acceptances = {}      # ref -> {by, grant, accepts, touches, covered, key, position, revoked, baseline}
         self.reaccept = {}         # acceptance ref -> position from which it needs re-acceptance
+        self.vouches = {}          # a fallback's vouch ref -> (genesis holder, key), until bound
         self.reviews = {}
         self.waivers = {}          # ref -> {question, expires, position, revoked}
         self.unavail = {}          # ref -> {grant, from, until, ended}
@@ -402,6 +403,25 @@ def act_waiver(st, ref, rec, au, key, p, records, record_hash):
 def act_key_binding(st, ref, rec, au, key, p, records, record_hash):
     holder, act = au["holder"], au["act"]
     need(holder not in st.machines, "a machine-named identity holds no key")
+    if act == "vouch":   # Q-11 (Round 3): a fallback of the genesis vouches for its holder's new key
+        g = st.grants.get(au.get("under"))
+        need(g is not None and g.fallback_of == st.genesis and g.grantee == rec["by"] and st.live(g.id),
+             "only the live holder of a fallback of the genesis vouches for the genesis holder's key")
+        need(holder == st.grants[st.genesis].grantee, "a fallback vouches only for the genesis holder's key")
+        signed_by_live_key(st, rec["by"], key)
+        need(st.key_owner.get(au["key"], holder) == holder and au["key"] not in st.closed_keys,
+             "the vouched key is bound to another holder or closed")
+        st.vouches[ref] = (holder, au["key"])
+        return
+    if act == "add" and au.get("vouch"):   # the genesis holder binds the vouched key, signing with it
+        need(st.vouches.get(au["vouch"]) == (holder, au["key"]) and pins(rec, au["vouch"]),
+             "it pins no fallback's vouch for this holder and key")
+        need(rec["by"] == holder and key == au["key"], "the holder binds the vouched key, signed by it")
+        st.open_key(holder, au["key"], p)
+        for old in au.get("closes", []):
+            st.close_key(holder, old, p)
+        del st.vouches[au["vouch"]]
+        return
     if act == "rotate":
         need(rec["by"] == holder and key == au["closes"], "a rotation is the holder's, signed by the key it closes")
         signed_by_live_key(st, holder, key)

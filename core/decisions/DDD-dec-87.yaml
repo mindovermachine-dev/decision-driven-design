@@ -26,12 +26,13 @@ resolution: |
     times. The fallback acts only while its primary is unavailable and may not transfer.
     Ruled in Round 2 (DDD-dec-92, A-6): "any grant may have a fallback, and a fallback delegates
     from its primary".
-  - **Loss and keys** (§2.5). Ruled in Round 2 (A-9): "key loss is handled by a holder above, and
-    for the genesis by transfer where a fallback exists, otherwise by the ruled new-product path".
-    Who signs that transfer is open as Q-11.
+  - **Loss and keys** (§2.5). Key loss is not holder loss (Round 3, Q-11, DDD-dec-93). For the
+    genesis: "by a new key binding vouched by a fallback; absent any fallback, by the new-product
+    path". The fallback still may not transfer.
   - **Adoption** (§2.6). A product with records but no positioned log founds its log. Its earlier
-    records are provenance until landed and accepted. Ruled in Round 2 (A-5): GEN@3 is the last
-    re-founding of the acme fixture, a test-fixture re-founding and not a transfer.
+    records are provenance until landed and accepted. Ruled in Round 2 (A-5) and widened in Round 3
+    (P-9): each test product is re-founded once under kept test keys, as a test-fixture re-founding
+    and not a transfer (acme GEN@3, vendor GEN@2), and the next needs no ruling.
 basedOn:
   - DDD-dec-46
   - DDD-dec-85

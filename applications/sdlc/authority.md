@@ -1,14 +1,13 @@
 # The authority profile — force over a product
 
-**Status: written 2026-11-02 to the plan ruled in Round 1, with Appendix A ruled in Round 2 except
-one clause of A-9 (Q-11); not yet ratified.** This is the
+**Status: written 2026-11-02 to the plan ruled in Round 1, with Appendix A ruled in Round 2 and
+Q-11 and the fixtures' re-founding ruled in Round 3; not yet ratified (Emil merges #45).** This is the
 profile the Decision Provenance Protocol leaves to its adopters (`dpp-1.md` §9.4). It says what
 makes a decision in force in a product, who may make it so, and how that authority is founded,
 delegated and transferred. The session is `meta/sessions/2026-11-02-authority-profile/`. The
-charter's rulings are `DDD-dec-85`, Round 1's are `DDD-dec-86`, and Round 2's are `DDD-dec-92`. Emil ratifies by merging.
+charter's rulings are `DDD-dec-85`, Round 1's are `DDD-dec-86`, Round 2's are `DDD-dec-92`, and Round 3's are `DDD-dec-93`. Emil ratifies by merging.
 
-**Register.** *Ruled* cites a decision. After Round 2 no `UNVERIFIED` mark remains, and Q-11 (§2.5) is the one open
-question. `UNVERIFIED — Emil review` marked a choice the writing had
+**Register.** *Ruled* cites a decision. After Round 3 no `UNVERIFIED` mark remains and nothing is open. `UNVERIFIED — Emil review` marked a choice the writing had
 to make that no ruling covers. Each such choice is also listed in Appendix A. Section numbers are
 the ones `DDD-dec-86` cites.
 
@@ -151,15 +150,22 @@ may act and may not transfer."
 genesis founds a new product, and the old product's decisions are imported by basedOn, which keeps
 provenance and records that authority was re-founded."
 
-*Ruled (Round 2, A-9):* "key loss is handled by a holder above, and for the genesis by transfer where
-a fallback exists, otherwise by the ruled new-product path". So a genesis holder who has lost every
-key, with no fallback, is in the position of loss.
+**Key loss is not holder loss.** *Ruled (Round 3, Q-11):* "A genesis holder who loses a key still
+holds the genesis. What is needed is a new key binding, and the one party the holder pre-authorised
+is the fallback." A-9 for the genesis reads: "by a new key binding vouched by a fallback; absent any
+fallback, by the new-product path". Round 2's "by transfer" is withdrawn.
 
-**Open, Q-11: who signs that transfer.** The clause "for the genesis by transfer where a fallback
-exists" meets two earlier rulings: a transfer is signed by the holder (`DDD-dec-46`), whose keys are
-lost here, and a fallback "may act and may not transfer" (`DDD-dec-46`; `DDD-dec-85`). Until it is
-ruled, the evaluator refuses a transfer signed by anyone but the holder, a fallback included. The
-profile states no third path.
+- **The vouch.** The holder of a live fallback of the genesis signs a `key-binding` with
+  `act: "vouch"`, naming the genesis holder and the new key, under their fallback grant (`under`).
+  It is the same vouching a grantor gives a new holder's first key (§5.3), applied upward, because
+  the genesis has no grantor. It does not wait for the holder to be filed unavailable: the holder
+  is present and keyless, not absent.
+- **The binding.** The genesis holder signs a `key-binding` with `act: "add"`, signed by the new
+  key itself. It names and pins the vouch, and may close the lost keys (`closes`). The key is live
+  from that position.
+- **No transfer.** The fallback still may not transfer.
+- **No path.** Only when the holder and every fallback have lost their keys is there no path. That
+  is the ruled new-product case above.
 
 ### 2.6 Adopting the profile
 
@@ -168,9 +174,19 @@ founding is that log's first position. Earlier records are held as `dpp/1` recor
 provenance. They confer no force until they are landed in the log and accepted under it. The acme
 shop example does this (§9). Its stand-ins were signed by keys that no longer exist, so its
 founding names the same holder and P under a new key, superseding the stand-in genesis for
-provenance. *Ruled (Round 2, A-5):* "GEN@3 stands as the last re-founding. Same holder, same IRI,
-new key, recorded as a test-fixture re-founding and not as a transfer. It is acceptable only because
-item 2 ends the cause." Item 2 keeps the fixture's test keys (§9).
+provenance.
+
+**Test fixtures, re-founded once.** *Ruled (Round 2, A-5; widened in Round 3, P-9):*
+- **The once.** Every test product in this repository whose stand-in records were signed by
+  discarded keys is re-founded once. The founding is under a key kept with the fixture, with the
+  same holder and the same product IRI. Its record states that it is a test-fixture re-founding,
+  not a transfer.
+- **Which they were.** acme shop by `GEN@3`, and the vendor package by `GEN@2`. These are the last
+  re-foundings.
+- **The next test product** is founded under kept test keys from the start and needs no ruling.
+- **Why it holds.** It is acceptable only because the keys are now kept for each fixture's life
+  (§9), which ends the cause. Outside test fixtures there is no re-founding: a real founder keeps
+  their key, and loss is §2.5.
 
 ---
 
@@ -414,7 +430,7 @@ A holder is one person. A team is expressed as several grants.
   the grantee's acceptance, which it signs (§3.3).
 - **A transfer** vouches for the successor's the same way (§2.3).
 
-**The `key-binding` record.** It has three acts:
+**The `key-binding` record.** It has three acts, and a fourth for the genesis alone (§2.5):
 - **`add`.** It binds a further key. It is signed by a live key of the holder. If the holder has no
   live key, a holder above them in the chain binds it, under their grant (ruled, Round 2, A-9;
   for the genesis, §2.5).
@@ -422,6 +438,9 @@ A holder is one person. A team is expressed as several grants.
   key it closes.
 - **`close`.** It is signed by the holder, or by a holder above them, under their grant. A closed
   key never signs again in the product, and is never bound again.
+- **`vouch`.** Only for the genesis holder, by the holder of a live fallback of the genesis,
+  naming the holder and the new key. It opens nothing. The holder's `add` that pins it, signed by
+  the new key, opens it (§2.5; Round 3, Q-11).
 
 **Compromise: `since`.** A `close` may carry `since`, a position at or before its own.
 - **What stands.** Acceptances signed by that key from `since` stay valid at their positions, so
@@ -607,6 +626,7 @@ profile is right, or that any real log implements it.
   - They are rotated only by a new founding that says so in its record.
   - The 25 records of 2026-11-02 were rebuilt once, before ratification, so that their keys are
     these (session `rulings.md`, Round 2).
+  - The vendor package's re-founding key, `vendor-holder-p`, is kept there too (Round 3, P-9).
 
 ---
 
@@ -614,7 +634,7 @@ profile is right, or that any real log implements it.
 
 The charter's answers, and Round 1's rulings on them, are `DDD-dec-86`. A ruled departure is
 listed with its ruling. Round 2 (`DDD-dec-92`) ruled every reading Round 1 left open, all as
-proposed. One clause of A-9 is open, as Q-11.
+proposed. Round 3 (`DDD-dec-93`) replaced A-9's genesis clause (Q-11) and widened A-5 (P-9).
 
 | # | The proposal said | This profile says | Reason | State |
 |---|---|---|---|---|
@@ -622,11 +642,11 @@ proposed. One clause of A-9 is open, as Q-11.
 | A-2 | `acceptedBy` and `acceptedAt` are required | they are the acceptance record's `by` and `at` | `dpp-1.md` A-10 removed them as fields | ruled, F-1 |
 | A-3 | revocation of a grant, its chain falling | also: the close at a transfer is not a revocation, a grant's supersession is not one, and an acceptance may be revoked | without the first, every transfer voids every grant | ruled, Q-2 |
 | A-4 | keys per namespace; D7 where it fits | namespace is the product; the grantor vouches for the first key; `since` on a close | under delegation D7 would have the genesis holder vouch for people they never granted | ruled, Q-3 |
-| A-5 | (not raised) | acme's log opens with a new founding, `GEN@3`: the same holder and P under a new key, superseding the stand-in `GEN@2` for provenance | the stand-ins' keys were discarded after their builds, so no act under them can be signed. In a real product the founder keeps their key | ruled, Round 2: the last re-founding; the keys are kept (P-6) |
+| A-5 | (not raised) | each test product is re-founded once under a kept key, with the same holder and IRI, as a test-fixture re-founding: acme by `GEN@3`, the vendor by `GEN@2`; the next test product needs no ruling | the stand-ins' keys were discarded after their builds, so no act under them can be signed. In a real product the founder keeps their key | ruled, Round 2; widened to every test product in Round 3 (P-9) |
 | A-6 | fallback for the genesis | any grant may have a fallback, granted by its primary's holder and delegating from the primary, with the primary's scope; it may do what the primary may, delegation included, except transfer | "may act" read as everything its primary may; one rule for every grant | ruled, Round 2 |
 | A-7 | (not raised) | records a header lists are judged in that order | several acts at one position (a close and an act signed by the closing key) need an order. The header's order is in the hash | ruled, Round 2 |
 | A-8 | (not raised) | an act of authority whose `at` differs from its header's clock is refused | `at` is never read for force, but a record that disagrees with its own position is not an act anyone should rely on | ruled, Round 2: "an act whose at differs from its header's clock is refused" |
-| A-9 | (not raised) | a holder with no live key gets one bound by a holder above. For the genesis, as ruled: by transfer where a fallback exists, otherwise the new-product path (§2.5) | the first-key rule, applied again; the genesis has no one above | ruled, Round 2; the genesis-with-a-fallback clause is open (Q-11, §2.5) |
+| A-9 | (not raised) | a holder with no live key gets one bound by a holder above. For the genesis, "by a new key binding vouched by a fallback; absent any fallback, by the new-product path" (§2.5) | the first-key rule, applied again; the genesis has no one above | ruled, Round 2; the genesis clause ruled in Round 3 (Q-11), "by transfer" withdrawn |
 | A-10 | a machine is any identity with an `attributedTo` | a machine is named by an attribution record; `attributedTo` refuses, it does not classify | `attributedTo` is a record member, not an identity property | ruled, Q-5 |
 | A-11 | (not raised) | what a decision touches (§4.2): a What change, its elements' kinds; a How decision, its kind's class at its anchor; other How records, their record class | the multi-scope rule needs a computable "touches" | ruled, Round 2, with the scope wording (§4.2) |
 | A-12 | (not raised) | in sdlc edition 1 the derived element kind is `sdlc:Journey` | the ontology's own comment ("derived composition"). `sdlc:State` is a projection's state space, not an element kind | ruled, Round 2 |

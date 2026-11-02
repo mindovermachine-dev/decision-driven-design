@@ -103,3 +103,29 @@ Verbatim:
 | 4 the verdicts as of the readings | the checker's note, unchanged; successor item P-7 reworded to wait on an engine | ruled |
 | R-14 | — | confirmed |
 | No watch on #45 | no subscription | ruled |
+
+## Round 3, 2026-11-02 — recorded in `DDD-dec-93`, superseding `DDD-dec-92`
+
+Verbatim:
+
+> Round 3, authority-profile session (2026-11-02).
+>
+> The one-time rebuild — accepted. Ids, versions, statements, positions and clocks unchanged; keys, signatures, hashes and pins changed; no ratified record changed; the kept keys verify; a second build writes nothing. That is the right trade and it is recorded where it should be. Do not undo it.
+>
+> A-8 precision and A-11 (a How decision counts as the one element it creates, of its kind’s class at its anchor) — ruled as applied.
+>
+> Q-11 — ruled: key loss is not holder loss, and A-9’s “by transfer” is withdrawn. A genesis holder who loses a key still holds the genesis. What is needed is a new key binding, and the one party the holder pre-authorised is the fallback. So: the genesis holder binds a new key, and the fallback vouches for that binding, the same vouching a grantor gives a new holder’s first key (Q-3), applied upward because the genesis has no grantor. The fallback still may not transfer. Only when both the holder and every fallback have lost their keys is there no path, and that is the ruled new-product case. A-9 for the genesis reads: “by a new key binding vouched by a fallback; absent any fallback, by the new-product path”.
+>
+> P-9 — ruled: one re-founding ruling for every test product in the repository, not one per product. The vendor package is re-founded once under kept test keys exactly as acme was, recorded as a test-fixture re-founding, and A-5’s wording is widened to cover all fixtures so the next test product needs no ruling.
+>
+> Then #45 is ratified by merge.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| The one-time rebuild | kept as it is | ruled: "Do not undo it" |
+| A-8 precision; A-11's reading | as applied in Round 2's landing | ruled |
+| Q-11, key loss is not holder loss | authority.md §2.5 and §5.3: a `key-binding` with `act: "vouch"` by a live fallback of the genesis, then the holder's `add` signed by the new key, pinning the vouch and optionally closing the lost keys; A-9's row; `DDD-dec-87`'s loss bullet. `evaluate.py` implements both acts; `properties.py`'s scripted histories exercise them (280 vouched bindings valid in 1,000 histories, 0 property failures) | ruled. Reading: the vouch does not wait for the holder to be filed unavailable, because the holder is present and keyless, not absent (`DDD-dec-93`) |
+| P-9, one re-founding ruling for every test product | the vendor's `GEN@2`, `how-examples/log/vendor.json` p1, signed by `test-keys/vendor-holder-p`; authority.md §2.6 and A-5 widened; `test-keys/README.md` | ruled. The How checker confirms the vendor's founding: 225 ok, 1 expected warning, 0 failures |
+| #45 ratified by merge | — | Emil's act |

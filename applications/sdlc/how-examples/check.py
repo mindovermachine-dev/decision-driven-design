@@ -113,6 +113,10 @@ def signer(rec):
     return rec["signature"]["key"] if rec.get("signature") and verify(rec, rec["by"]) else None
 LOG = json.load(open(os.path.join(HERE, "log", "acme.json")))
 res = evaluate(records, LOG["headers"], signer, dpp.record_hash, dpp.record_hash)
+VLOG = json.load(open(os.path.join(HERE, "log", "vendor.json")))
+vres = evaluate(records, VLOG["headers"], signer, dpp.record_hash, dpp.record_hash)
+ok(not vres["problems"] and all(j["valid"] for j in vres["judgements"]) and vres["snapshots"][1]["genesis_holder"] == "mailto:holder@vendor.example",
+   "the vendor's log: GEN@2 re-founds the package under a kept test key, as acme's GEN@3 did (Round 3, P-9): a valid founding, held by its founder")
 ok(not res["problems"], f"the log: {len(LOG['headers'])} positions, each header naming its position, the previous header's hash, "
    "a monotone clock and its records by pinned hash, and covered by its own hash" + "".join(f"; {x}" for x in res["problems"]))
 acts = [j for j in res["judgements"] if j["kind"] != "record" or not j["landed"]]
