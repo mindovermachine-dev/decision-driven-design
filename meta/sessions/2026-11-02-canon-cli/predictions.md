@@ -198,3 +198,11 @@ commands were run locally in that order from `tools/canon/`; from the repository
 `dotnet test --project` fails, because `global.json` is found from the current directory. That is
 why the workflow changes into `tools/canon` first. Falsifier: any step red. The most likely cause
 would be the devcontainer feature, whose install was not run here.
+
+Outcome for P-13 (appended): **held.** At `831065c`, both `validate` runs succeeded: push run
+41459547967 and pull-request run 41459556320. The job log of the pull-request run shows, in
+order: `scripts/ci.py` "all gates passed", including main's new release-head fixtures (F-1 to
+F-3); `dotnet test` "total: 32, failed: 0, succeeded: 32" (4.6 s) in the devcontainer with the
+.NET feature; `changelog: CHANGELOG.md is the projection of releases/`; and
+`issue-refs: ok. 8 commits in e8fde2a676cb..2f691f049370; Refs checked on 8, Basis on 2`, the
+range taken from `GITHUB_BASE_REF` against GitHub's merge ref.
