@@ -45,3 +45,28 @@ New items:
 | A-2 | Turn on Discussions | Repository settings → Features |
 | A-3 | Apply `.github/repo-standard.yaml`: the description, topics, Discussions and the `Signed Commits` ruleset. Review the description and topics first; they are flagged `UNVERIFIED` | `repo-standard` apply, as Varve does |
 | A-4 | Create the two boards: Roadmap (one card per method step, 1 to 10) and Work (WIP limit 2 in *In progress*) | Projects |
+
+## Update — 2026-11-02, end of G5 and G6 (add-only)
+
+| Id | Status |
+|---|---|
+| R-5 | Done: README, `why.md`, `method/`, quick start (G5) |
+| R-6 | Done as proposed: the CHANGELOG heading and `releases/v0.5.0.yaml`, unratified (G6) |
+| R-7 | Still open: `validate-core-order.py .` misreads local ids. Not fixed, not filed |
+| R-9 | Done: `LICENSING.md`; GitHub reports MPL-2.0 at the branch ref |
+| R-10 | Done: `DDD-dec-84`; the guard is ported and is a `ci.py` gate |
+| R-11 | Issue #44 opened; commits carry `Refs #44` from `c57c4de`. Enforcement in `ci.py` follows later |
+| R-12 | Open: the root shim goes in the first release after v0.5.0 |
+
+New items:
+
+| Id | Item | Waits on |
+|---|---|---|
+| R-13 | **Ratify v0.5.0.** Fill `ratified_head` in `releases/v0.5.0.yaml` with the head Emil ratifies, normally the commit before the descriptor. Until then the `releases` gate is red by design. A ruled change after that point means a new descriptor commit naming the new head (spec §4 rule 7) | Emil |
+| R-14 | **Decision-id overlap.** The authority-profile session (`claude/bold-franklin-i7b16g`, plan at `50b463b`) names `DDD-dec-77` to `83` provisionally, read before this branch filed 77 to 82. This branch skipped 83 and took 84. That session's recheck will see 77 to 82 and 84 taken | Emil; that session's recheck |
+| R-15 | **Port the release workflow.** Tag and GitHub Release from the descriptor on merge, as upstream's `release.yml`. Until then Emil cuts `v0.5.0` by hand at the merged head, after `main`'s CI has run the guard there (`DDD-dec-84`) | A later session |
+| R-16 | **The junior-engineer test** of the quick start: the example's falsifier | Emil |
+| R-17 | Step 1's card leaves "Cost and relocation" and the principal's role unfiled, and its exit check is a flagged reading of `DDD-ground-06`. Filling them is a ruling | Emil |
+
+Emil's admin acts, still open and not attempted: A-1 Maturity → Experimental, A-2 Discussions on,
+A-3 apply `.github/repo-standard.yaml`, A-4 the two boards.

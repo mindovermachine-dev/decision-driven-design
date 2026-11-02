@@ -464,3 +464,16 @@ or the scratch copy failing.
 Outcome P-24: **held.** `git diff --numstat CHANGELOG.md` gives 40 lines added and 0 removed. The
 `## v0.5.0 — Ready to try (proposed)` section sits above `## 4.7`, and says the 4.x headings are
 kept unedited as history.
+
+Outcome P-25, before the descriptor commit: **held in scratch.** The descriptor was tested in a
+scratch worktree on top of `c56bbb4`, in the commit structure the real one will have.
+- With `ratified_head` empty, `scripts/ci.py` failed on `releases` alone. Every other gate
+  stayed `ok`. The message was `v0.5.0: ratified_head missing or not a hex SHA of 7-40 chars: None
+  (format 2 records the head the principal ratified)`.
+- With `ratified_head` set to the commit before the descriptor, the validator accepted it. The
+  guard reported `ratified_head c56bbb4 at 9a53e6b … ok: the merged head is the ratified head plus
+  at most the descriptor`, and the gate passed.
+
+The real descriptor is the branch's last commit and adds only `releases/v0.5.0.yaml`, so that
+the commit before it can be ratified. Its CI result is reported in the session's reply, not
+here: writing it here would add a commit after the descriptor, which spec §4 rule 7 forbids.
