@@ -5,41 +5,24 @@ each decision where it is resolved, and say which actor, whether person, program
 each one and who answers for it. This repository is the method's software projection: the step
 cards, the claims they rest on, and the decisions that rule them.
 
-> **Ready to try, not ready to use (`DDD-dec-74`).** Only step 1 of ten is ruled, and it is ruled
-> *for test*: the claims it rests on are projected, and the independent case that tests them has
-> not run. Steps 2 to 10 are `[PROPOSED]`. Try step 1, tell us what happened, and do not rely on
-> any of it yet.
+**v0.5.0 is a preview: ready to try, not ready to use (`DDD-dec-74`).** The register of each
+reason below is stated beside it, and the [status table](#status-step-by-step) gives each step's.
 
-**Weakest point.** No step of the method has been exercised on a case outside the framework. Every
-example here, including the quick start, was written inside it.
+## Why use it
 
-## What it gives you
+| You get | Canon | Register |
+|---|---|---|
+| **An address for every decision.** Every act occurrence gets an address: its position on the ground axes you declared, plus the chain of acts it sits in. Decisions anchor to those addresses through applicability predicates, so a decision that matches no address shows up as a candidate escape instead of hiding | `DDD-ground-06`, `DDD-ground-01` | Projected |
+| **The fan-out of a change, before you make it.** A change to a shared component is an escaped decision at every occurrence the change's own decision does not cover. The map lists those occurrences for the person making the change | `DDD-address-02`, `DDD-address-03` | Projected |
+| **Which acts depend on which.** Occurrences are ordered by the state changes in each one's reading, not by timestamps. An act depends on another only if it reads what the other changed | `DDD-address-01` | Projected |
+| **The right actor for each determination.** Whether a person, a program or a model should make a determination depends on how its result can be checked, and on the arrangement around it, not on the task alone. Change the arrangement and what cannot be discharged moves | `DDD-floor-02` | Projected |
+| **Where to invest in checking.** Where results cannot be checked quickly and objectively, you end up relying on choosing the worker instead. The method shows which work that is before you hand it to a model | `DDD-hyp-05` | Projected |
+| **Why escapes happen.** Work beyond an actor's capacity escapes where the decisions it sheds carry no verifier. Overflow alone produces retries, not escapes | `DDD-floor-01` | **Reported** |
+| **Agents that stay on course.** Long-running agent drift is decisions made with no basis. Grounding agents in an external claim graph, with a basis cited per decision, is the remedy, and this repository is run that way | `DDD-agent-01` | Projected |
+| **Decisions with provenance.** Every decision is a file with its principal, its basis and what it supersedes. Records signed under `dpp/1` can be verified by another system | `DDD-dec-62`, [`spec/decision-provenance/`](spec/decision-provenance/) | Ruled |
 
-What step 1 gives you today, and the canon behind it:
-
-- **An address for every act.** Each act occurrence gets a position on declared ground axes plus
-  its layer path, with the actor left out. Decisions and actors then have a place to be anchored,
-  and every later artefact has an address to attach to (`DDD-ground-06`;
-  [step 1](method/01-map-and-index-acts.md)).
-- **A causal order instead of timestamps.** Occurrences are ordered by which state changes are in
-  whose ground reading, so you can see which acts actually depend on which (`DDD-address-01`).
-- **Reuse kept out of identity.** Every occurrence is its own act, and shared code is a
-  derivation edge from many occurrences to one component. That is what later lets a change to a
-  shared component show its fan-out (`DDD-address-02`, `DDD-address-03`).
-
-All three are **projected**: argued, with falsifiers stated, not yet tested.
-
-## Where it is the wrong tool
-
-- **You need a method that has been shown to work.** None of this one has been, yet. Every step is
-  projected or `[PROPOSED]` (`DDD-dec-74`).
-- **You can only read the work back from existing code.** Step 1 maps forward from the domain and
-  the request, never back from code. Code reuse is not evidence of what the acts are
-  (`DDD-address-02`; [step 1](method/01-map-and-index-acts.md)).
-- **You cannot say what the ground is.** An address is blind to every axis nobody declared. If the
-  ground cannot be declared, the map will look complete and will not be (`DDD-ground-06`).
-- **Nobody can rule.** Addresses are relative to a *ruled* decomposition. Without a principal who
-  rules it, there is nothing for the map to be relative to (`DDD-ground-06`).
+What step 1 gives you today, worked through on a real system, is in the
+[quick start](#quick-start).
 
 ## Status, step by step
 
@@ -70,6 +53,20 @@ the write alone, although it runs after the delete.
 Varve is the **subject** of the design, not a dependency. The example is **exposition, not
 evidence**. It is falsified by the junior-engineer test: someone at first contact performs the step
 and cannot name the value it gave them. Running that test is Emil's act, and it has not been run.
+
+## Where it is the wrong tool
+
+- **You can only read the work back from existing code.** Step 1 maps forward from the domain and
+  the request, never back from code. Code reuse is not evidence of what the acts are
+  (`DDD-address-02`; [step 1](method/01-map-and-index-acts.md)).
+- **You cannot say what the ground is.** An address is blind to every axis nobody declared. If the
+  ground cannot be declared, the map will look complete and will not be (`DDD-ground-06`).
+- **Nobody can rule.** Addresses are relative to a *ruled* decomposition. Without a principal who
+  rules it, there is nothing for the map to be relative to (`DDD-ground-06`).
+- **You need a method that has been shown to work.** None of this one has been, yet. No step has
+  been exercised on a case outside the framework; every example here, including the quick start,
+  was written inside it. Every step is projected or `[PROPOSED]` (`DDD-dec-74`), and step 1 waits
+  on its first independent application case.
 
 ## The repository
 
