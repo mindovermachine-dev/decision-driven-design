@@ -224,3 +224,21 @@ ruleset is `Signed Commits`, with Varve's two bypass actors. The description and
 marked `UNVERIFIED — Emil review`. The public API check of the settings is recorded below.
 
 `scripts/ci.py` at this commit: all gates passed, exit 0.
+
+Outcome P-8, detection: **not held.** At `afd918d`, `GET /repos/…/license?ref=claude/ready-to-try-2026-11-02`
+returns `LICENSE` (blob `d0a1fa1`, the MPL-2.0 file) and reports `NOASSERTION`. Licensee 10.1.0,
+run locally, explains why. It matches `LICENSE` exactly as MPL-2.0 (100%, exact matcher), but it
+also reads two more files:
+
+- `LICENSE.md` matches no single licence. Any second licence file that does not match makes the
+  project `NOASSERTION`.
+- The README's licence line named "Apache-2.0" for the old releases. Licensee read that as an
+  Apache-2.0 reference.
+
+Each cause breaks detection on its own (tested on copies). The README line was Claude's own
+wording and is reworded to name no licence ("their earlier licences, as `LICENSE.md` states").
+`LICENSE.md` is kept, because Emil's instruction names it. With it, the repository will still
+read `NOASSERTION` on GitHub after the merge. Renaming the file to `LICENSING.md`, or moving it to
+`docs/licensing.md`, makes licensee report MPL-2.0 (tested); `COPYING.md` does not. The choice
+is Emil's, R-9. The prediction was wrong in assuming that `LICENSE.md` beside `LICENSE` is
+harmless, as it is in neither Varve nor licensee.
