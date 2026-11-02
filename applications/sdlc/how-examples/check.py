@@ -31,7 +31,7 @@ WHAT_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-
 VECTORS = os.path.join(REPO, "applications", "sdlc", "what", "vectors.json")
 TODAY = datetime.date(2026, 10, 28)          # the evaluation date: the examples' position (version 2, the landed What)
 # Fact terms: read from code or from a deployment, so each needs a mapping in a target's
-# vocabulary edition (how-vocabulary.md, "Fact terms"). Every other sdlc: term is What-side or
+# vocabulary edition (how-reference.md, "Fact terms"). Every other sdlc: term is What-side or
 # derived by the gate from records, and needs none.
 PROJECTOR_TERMS = {"Component", "inLayer", "dependsOn", "CodeElement", "inComponent", "realises",
                    "usesApi", "handlesRoute", "method", "path"}
