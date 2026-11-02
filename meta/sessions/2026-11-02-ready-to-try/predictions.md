@@ -68,3 +68,9 @@ Re-signing changed no tree (bootstrap amendment 1), and amendment 1 touched only
 id, exit 0. The pin check runs against a fresh shallow clone of `v5.15.2`. Falsifier: any count,
 warning or exit code differs. What it breaks: the claim that a re-sign leaves the record
 unchanged, which bootstrap amendment 1 rests on.
+
+Outcome, at `03cd154` (the prediction's commit): claims valid at 31 with the same 6 single-limb
+warnings (`DDD-cost-18`, `-24`, `-27`; `DDD-org-02`, `-03`, `-04`), exit 0. Decisions valid at 50,
+exit 0. Pins: 74 resolved, 0 basis-loss, 0 content-drift, 1 shadowed id; core OK, exit 0. The pin
+check shallow-cloned the pinned ref afresh, with `DDD_UPSTREAM_DIR` unset. Every exit code was
+read directly, not through a pipe (P-1's lesson). Held.
