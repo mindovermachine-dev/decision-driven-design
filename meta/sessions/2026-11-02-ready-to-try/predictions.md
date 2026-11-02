@@ -460,3 +460,7 @@ This is the guard doing its job: an unratified release cannot go green. It confl
 `AGENTS.md` ("it must pass before a push"), and the conflict is pushed knowingly, on Emil's
 instruction, and flagged in the report. Falsifier: red on any other gate, green on `releases`,
 or the scratch copy failing.
+
+Outcome P-24: **held.** `git diff --numstat CHANGELOG.md` gives 40 lines added and 0 removed. The
+`## v0.5.0 — Ready to try (proposed)` section sits above `## 4.7`, and says the 4.x headings are
+kept unedited as history.

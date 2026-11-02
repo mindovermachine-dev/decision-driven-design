@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.5.0 — Ready to try (proposed)
+
+**Proposed, not cut.** The release is cut on Emil's merge, at the head Emil ratifies, under the
+release-head guard (`DDD-dec-84`). Its descriptor is [`releases/v0.5.0.yaml`](releases/v0.5.0.yaml).
+
+From this release on, the version is the method's (`DDD-dec-75`), under SemVer as `DDD-dec-82` maps
+it. It stays below 1.0 until all ten steps are ruled. v0.5.0 continues the git tags `v0.1.0` to
+`v0.4.0`. **The 4.x headings below are kept unedited, as history of the earlier numbering.**
+
+### The method
+- **Ready to try, not ready to use** (`DDD-dec-74`). The front door states every step at its
+  register.
+- **`method/`**: ten step cards. Step 1, *map and index acts*, is ruled for test. Its claims
+  (`DDD-ground-06`, `DDD-ground-01` upstream; `DDD-address-01` to `05` here) are projected and
+  wait on T2b. Steps 2 to 10 are `[PROPOSED]` and carry only what is filed.
+- **The quick start** runs step 1 on the HTTP slice of Varve `v0.1.0-preview.15` (`DDD-dec-77`).
+  It is exposition, not evidence. Its falsifier, the junior-engineer test, has not been run.
+- **`README.md`** rewritten for practitioners. The theory text moved, unchanged, to `why.md`.
+
+### Stewardship
+- The Mind Over Machine stewardship standard is adopted as it applies (`DDD-dec-76`). Its
+  applicability is ruled item by item (`DDD-dec-81`), with three stated departures
+  (`DDD-dec-78`, and the signing exception) in `GOVERNANCE.md`.
+- **Copyleft**: CC BY-SA 4.0 for text, MPL-2.0 for code (`DDD-dec-79`); `LICENSE`, `NOTICE` and
+  `LICENSING.md`. Earlier releases keep their earlier licences.
+- `AGENTS.md` is the tool-neutral agent entry. `SECURITY.md`, `CODE_OF_CONDUCT.md`, issue and PR
+  templates, `.github/repo-standard.yaml` (declared, not yet applied) and a devcontainer.
+- **One gate entry point**: `scripts/ci.py` runs claims, decisions, core order and pins, the What,
+  the How examples, releases and checker fixtures. CI runs it inside the devcontainer.
+- The release format and the release-head guard are ported from the principle repository at
+  `v5.15.2` (`DDD-dec-84`).
+- Root build records moved to `meta/history/`, and `validate-core-order.py` to `scripts/` with a
+  root shim (`DDD-dec-80`). Paths in records resolve at the record's own commit.
+
+### Also since v0.4.0
+Everything landed on `main` between `v0.4.0` (2026-08-10) and this release ships in it. That
+includes the act address claims (`DDD-dec-38`), the Product Framework What and How
+(`DDD-dec-41` to `DDD-dec-73`) and the upstream pin advances to `v5.15.2`. The decisions are the
+record. This changelog did not track them under 4.x.
+
 ## 4.7 — The volume layer (boundary charter)
 
 The boundary charter (R4, Emil 2026-08-09; upstream decision `DDD-dec-09`): the principle layer
