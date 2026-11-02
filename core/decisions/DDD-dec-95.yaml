@@ -1,0 +1,62 @@
+format: 1
+id: DDD-dec-95
+kind: decision
+statement: |
+  Documents under applications/ are written for the people who use them, to format F1-F8: an opening that names the reader, what they can do and how settled it is; a ddd:doc block; no ids in running text, with unsettled points marked in words; order by the reader's task; reference material in its own document; deliberation in the session record; a closing basis table; and no change of content. Invisible ddd:ref markers sit at the point of use only where a rule rests on a projected claim. what.md and how.md each split into a practitioner document and a reference document, and how-vocabulary.md merges into how-reference.md. Acme Shop stays the example for the What and How beside Varve for the method. The scope is applications/ only, with apparatus/ next.
+principal: Emil
+made: |
+  2026-11-02, Round 1 of the applications-for-readers session; ruled "agreed go with your recommendations" on Claude's recommendations 1, 3, 4 and 5 for the rulings gate1-proposal.md requested, recorded verbatim at meta/sessions/2026-11-02-applications-for-readers/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The format, F1 to F8
+
+  The full text is meta/sessions/2026-11-02-applications-for-readers/gate1-proposal.md, "The
+  proposed format", adopted as written with one amendment.
+
+  - **F1** The opening names the task, who uses the document, what they can do after reading it,
+    and how settled it is, in words. No provenance comes before the content.
+  - **F2** A ddd:doc block under the title (DDD-dec-94).
+  - **F3** No decision or claim ids, Product Framework section numbers, session paths or register
+    tags in running text. Decided is the default and goes unmarked. An unsettled point says so in
+    words where it arises, and is listed in a "Not settled yet" section.
+  - **F4** Order follows the reader's task. Terms are defined at first use. One worked example
+    per folder.
+  - **F5** Identities, hash laws, wire protocols, vocabularies and record layouts go to a
+    reference document.
+  - **F6** Rejected alternatives, departures, questions put to the principal and source maps
+    belong to the session record. The earlier text stays reachable through supersedes.
+  - **F7** Every document closes with "Where this comes from": section to basis, plus source
+    attribution.
+  - **F8** Content does not change. A rule that cannot be restated without changing it is
+    reported, not fixed.
+
+  **Amendment.** Where a rule rests on a projected claim, an invisible ddd:ref marker sits at the
+  point of use, so the pin check warns when the claim moves. Decisions get no marker. If the Gate 3
+  first-contact test fires against F3, the markers go with it.
+
+  ## The split
+
+  what.md becomes what.md (practitioners) and what-reference.md (tool builders). how.md becomes
+  how.md and how-reference.md, and how-vocabulary.md merges into how-reference.md. Each document
+  links to its other half in its opening.
+
+  ## The examples
+
+  Acme Shop remains the worked example of the What and the How: it has a full What, decision
+  records and a checker that runs. Varve remains the method's example (DDD-dec-77). sdlc/README.md
+  says why there are two. Writing Varve's What, so that one example carries the whole method, is
+  an [OPEN] successor item.
+
+  ## Scope and sequence
+
+  applications/ only; apparatus/ is reformatted next. authority.md (PR #45) is reformatted after
+  that PR merges. The session runs Gate 2 (the rewrite, one commit per document, each with an
+  equivalence table) and Gate 3 (the pre-registered first-contact test), then stops for Emil's
+  review.
+basedOn:
+  - DDD-dec-94
+  - DDD-dec-74
+  - DDD-dec-77
+notes: |
+  Weakest points named with the recommendations: the point-of-use markers are a rule added before
+  Gate 3 tests the format; the split makes two more files to keep in step; until Varve's What
+  exists, a reader moving from the method into the What switches examples.

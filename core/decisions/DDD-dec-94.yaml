@@ -1,0 +1,56 @@
+format: 1
+id: DDD-dec-94
+kind: decision
+statement: |
+  The doc-format rulings of 2026-10-26 are re-filed on main: only canon carries authority, and canon is both repositories' core/; every other folder exists for a named reader doing a named act; a document outside canon opens with a ddd:doc block (reader, act, pin, basis, status, supersedes) whose schema is spec/doc-format.md; a reformatted document replaces its old text in place and names it in supersedes; local canon in a basis is written ID@status; and, adopting the pilot's amendment, running text says status in words a reader can use and keeps decision, claim and promotion ids out.
+principal: Emil
+made: |
+  The rulings re-filed were given by Emil on 2026-10-26 in the doc format session (pre-session rulings 1 and 2, Gate 1 rulings 1, 3 and 4, Gate 2 ruling 1), recorded only on branch claude/doc-format, which shares no history with main. Their re-filing, with the pilot's amendment, was ruled on 2026-11-02 in the applications-for-readers session ("agreed go with your recommendations", recommendation 2), recorded verbatim at meta/sessions/2026-11-02-applications-for-readers/rulings.md. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Why this is re-filed
+
+  The 2026-10-26 rulings govern every document outside canon, and they existed only on an
+  orphaned branch. That branch shares no history with main, so it cannot merge, and its decision
+  id DDD-dec-39 has since been given to the release-head guard. A ruling that governs documents
+  but lives where no document can reach it is basis loss in this repository's own sense
+  (DDD-agent-01). This decision restores the rulings to main without changing them.
+
+  ## The rulings, as given on 2026-10-26
+
+  | Source | Ruling |
+  |---|---|
+  | Pre-session 1 | Only canon carries authority. Every other folder exists for a named reader doing a named act. A document there is ground for that act, and its format follows from what that reader needs. |
+  | Gate 1, ruling 1 | Canon is upstream core/ and this repository's core/ (reading A). |
+  | Pre-session 2 | The format lives in spec/doc-format.md, in this repository. A document outside canon opens with a ddd:doc block: reader, act, pin, basis, status. A validator checks it, at warning level first. |
+  | Gate 1, ruling 3 | A reformatted document replaces its old text in place, and names the old text in a supersedes: <commit>:<path> field. |
+  | Gate 1, ruling 4 | basis may name a held result, held:<session-dir>/<item-id>. |
+  | Gate 2, ruling 1 | A local canon entry in basis carries the status it was read at, as ID@status. |
+
+  ## The pilot's amendment, ruled now
+
+  The 2026-10-26 pilot's readers listed decision ids, promotion numbers and "held" markers among
+  the things they did not understand. The amendment it proposed is adopted: in running text, say
+  a document's status, and the status of what it rests on, in words the reader can use; keep
+  claim, term, decision and promotion ids out of the prose. Ids belong in the ddd:doc block and
+  in the document's basis table.
+
+  ## Not re-filed
+
+  - **The check (W8 to W15).** It was written against the old history's validate-core-order.py.
+    Porting it to scripts/ is a successor item. Until it lands, a ddd:doc block is a convention,
+    not a gate.
+  - **The folder charters (ddd:charter).** Gate 2 ruling 2 accepted them as a whole, but their
+    readers and acts name the old tree. They are re-proposed folder by folder as each folder is
+    reformatted, starting with applications/ (DDD-dec-95).
+  - **Gate 2 rulings 3 and 4** (way-of-working.md §5, CLAUDE.md). Both were to be made at a
+    Gate 4 that never ran. AGENTS.md has since replaced CLAUDE.md as the instruction file
+    (DDD-dec-81). Both are carried as successor items, to be re-proposed against the current
+    tree.
+basedOn:
+  - DDD-agent-01
+  - DDD-dec-04
+  - DDD-dec-81
+notes: |
+  The 2026-10-26 session's record, including the pilot evidence, is on branch claude/doc-format
+  at df9d05b. spec/doc-format.md is ported from that branch with its check section marked not
+  yet ported; nothing else is copied from it.
