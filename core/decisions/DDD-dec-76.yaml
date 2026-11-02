@@ -1,0 +1,31 @@
+format: 1
+id: DDD-dec-76
+kind: decision
+statement: |
+  The repository adopts the Mind Over Machine open-source stewardship standard in full, as it applies to a specification repository. Every item of the standard applies unless a ruled applicability table states why it does not, or how it applies differently, as a stated deviation.
+principal: Emil
+made: |
+  2026-11-02, Round 1 of the ready-to-try session, recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("4. we adopt the full as it applies to us"), answering question 4 of the proposal; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > 4. we adopt the full as it applies to us
+
+  ## The standard
+
+  As published by the organisation in mindovermachine-dev/.github, profile/README.md, section
+  "Open Source stewardship" (fourteen items, read at HEAD 2f4982a on 2026-11-02). Varve adopted
+  it in full and records its deviations in its GOVERNANCE.md; this repository follows that form.
+
+  ## Not settled — G3
+
+  Which items apply as written, which apply differently, and which deviations are stated, are
+  ruled at gate G3 on meta/sessions/2026-11-02-ready-to-try/applicability.md. Until then no
+  item is booked as a deviation, and GOVERNANCE.md is not written.
+basedOn:
+  - DDD-dec-74
+  - DDD-dec-20
+  - DDD-dec-39
+notes: |
+  Reading recorded — Claude, UNVERIFIED — Emil review. "As it applies to us" is read as Varve's
+  form: adoption is the default, and every departure is stated with its reason.
