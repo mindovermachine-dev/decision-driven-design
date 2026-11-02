@@ -17,10 +17,11 @@ resolution: |
 
   - **The scope's form.** {classes, within?, withinPath?}. The path is read from the graph at
     signing, so a later graph change does not re-evaluate it (DDD-dec-85).
-  - **Derived kinds.** sdlc:Journey in edition 1. UNVERIFIED — Emil review (authority.md A-12).
+  - **Derived kinds.** sdlc:Journey is the only one in edition 1 (ruled, Round 2, A-12).
   - **Delegation** (DDD-dec-86, Q-8, ruled as proposed). Only if the grant says so, and only a
     subset.
-  - **What a decision touches.** UNVERIFIED — Emil review (A-11):
+  - **What a decision touches.** Ruled in Round 2 (A-11): "every element the decision creates,
+    changes or retires, per the scope wording". A How decision is the one element it creates:
     - a What change touches the kinds of the elements it creates, changes or retires;
     - a How decision touches its kind's class at its anchor;
     - other How records touch their record class.

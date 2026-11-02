@@ -1,12 +1,14 @@
 # The authority profile — force over a product
 
-**Status: written 2026-11-02 to the plan ruled in Round 1; not yet ratified.** This is the
+**Status: written 2026-11-02 to the plan ruled in Round 1, with Appendix A ruled in Round 2 except
+one clause of A-9 (Q-11); not yet ratified.** This is the
 profile the Decision Provenance Protocol leaves to its adopters (`dpp-1.md` §9.4). It says what
 makes a decision in force in a product, who may make it so, and how that authority is founded,
 delegated and transferred. The session is `meta/sessions/2026-11-02-authority-profile/`. The
-charter's rulings are `DDD-dec-85`, and Round 1's are `DDD-dec-86`. Emil ratifies by merging.
+charter's rulings are `DDD-dec-85`, Round 1's are `DDD-dec-86`, and Round 2's are `DDD-dec-92`. Emil ratifies by merging.
 
-**Register.** *Ruled* cites a decision. `UNVERIFIED — Emil review` marks a choice the writing had
+**Register.** *Ruled* cites a decision. After Round 2 no `UNVERIFIED` mark remains, and Q-11 (§2.5) is the one open
+question. `UNVERIFIED — Emil review` marked a choice the writing had
 to make that no ruling covers. Each such choice is also listed in Appendix A. Section numbers are
 the ones `DDD-dec-86` cites.
 
@@ -131,8 +133,8 @@ may act and may not transfer."
 - **A fallback is a grant.** It carries `fallbackOf` naming its primary. It is granted by the
   primary's holder and delegates from the primary. Its scope is the primary's at every position,
   so it carries none of its own. Like any grant, it is live only from its holder's acceptance
-  (§3.3). `UNVERIFIED — Emil review` (Appendix A, A-6): that the fallback delegates from its
-  primary, and that any grant, not only the genesis, may have one.
+  (§3.3). *Ruled (Round 2, A-6):* "any grant may have a fallback, and a fallback delegates from
+  its primary".
 - **Unavailability.** It is a signed record naming the grant, with `from` and an optional `until`,
   both header-clock times (§6.2). The holder files it, or a holder above them in the chain does.
   The holder ends it early with an availability record.
@@ -149,8 +151,15 @@ may act and may not transfer."
 genesis founds a new product, and the old product's decisions are imported by basedOn, which keeps
 provenance and records that authority was re-founded."
 
-A genesis holder who has lost every key, with no fallback, is in the same position: no act of
-theirs can be signed (§5.3). `UNVERIFIED — Emil review` (A-9).
+*Ruled (Round 2, A-9):* "key loss is handled by a holder above, and for the genesis by transfer where
+a fallback exists, otherwise by the ruled new-product path". So a genesis holder who has lost every
+key, with no fallback, is in the position of loss.
+
+**Open, Q-11: who signs that transfer.** The clause "for the genesis by transfer where a fallback
+exists" meets two earlier rulings: a transfer is signed by the holder (`DDD-dec-46`), whose keys are
+lost here, and a fallback "may act and may not transfer" (`DDD-dec-46`; `DDD-dec-85`). Until it is
+ruled, the evaluator refuses a transfer signed by anyone but the holder, a fallback included. The
+profile states no third path.
 
 ### 2.6 Adopting the profile
 
@@ -159,7 +168,9 @@ founding is that log's first position. Earlier records are held as `dpp/1` recor
 provenance. They confer no force until they are landed in the log and accepted under it. The acme
 shop example does this (§9). Its stand-ins were signed by keys that no longer exist, so its
 founding names the same holder and P under a new key, superseding the stand-in genesis for
-provenance (A-5).
+provenance. *Ruled (Round 2, A-5):* "GEN@3 stands as the last re-founding. Same holder, same IRI,
+new key, recorded as a test-fixture re-founding and not as a transfer. It is acceptable only because
+item 2 ends the cause." Item 2 keeps the fixture's test keys (§9).
 
 ---
 
@@ -267,7 +278,9 @@ An `acceptance` record:
 - **What an acceptance records.** For each decision it accepts, it records in `touches` the items
   that decision touches. Each item is `{class, element, path}`: the class, the element, and the
   element's `within*` path as the graph had it at signing.
-- **What a decision touches.** `UNVERIFIED — Emil review` (A-11):
+- **What a decision touches.** *Ruled (Round 2, A-11):* "'touches' means every element the
+  decision creates, changes or retires, per the scope wording" (what.md §5.1). It is ruled as
+  proposed, and is read so that a How decision is the one element it creates:
   - a What change touches each element it creates, changes or retires, with that element's kind;
   - a How decision touches the class of its kind (`sdlc:Constraint`, `sdlc:Binding`,
     `sdlc:Contract`) at its anchor;
@@ -403,8 +416,8 @@ A holder is one person. A team is expressed as several grants.
 
 **The `key-binding` record.** It has three acts:
 - **`add`.** It binds a further key. It is signed by a live key of the holder. If the holder has no
-  live key, a holder above them in the chain binds it, under their grant. `UNVERIFIED — Emil
-  review` (A-9).
+  live key, a holder above them in the chain binds it, under their grant (ruled, Round 2, A-9;
+  for the genesis, §2.5).
 - **`rotate`.** It binds a new key and closes an old one at the same position. It is signed by the
   key it closes.
 - **`close`.** It is signed by the holder, or by a holder above them, under their grant. A closed
@@ -447,7 +460,9 @@ covered by the header hash"), with the profile's records in it.
   being evaluated, never a process clock: grant liveness, unavailability windows, key validity,
   waiver expiry, session leases.
 - **A record's own `at`** is its author's claim (`dpp-1.md` §11.4). It is never read for force. An
-  act of authority whose `at` does not fall on its header's date is refused.
+  act of authority whose `at` differs from its header's clock is refused (ruled, Round 2, A-8). The
+  comparison is at the precision `at` carries: a date-only `at` must be the clock's date, and an
+  `at` with a time must be the clock.
 - **`[D2.11]`, as Emil states it (Round 1, F-3):**
   - Header clocks are monotone by the writer's clamp: ts = max(clock, head). A backwards
     wall-clock step yields equal timestamps, never a refusal. The evaluator therefore accepts equal
@@ -586,15 +601,20 @@ profile is right, or that any real log implements it.
 - **The verdicts' date.** They are computed as of the readings (2026-10-28). A gate evaluating at
   p15's clock would find every reading older than `RESID`'s P1D, and would report every `RESID`
   verdict as an open question. The checker says so.
-- **The keys.** The acme log can be extended by a later build only if that build has the holders'
-  keys. They are discarded after every build (A-5; successor item).
+- **The keys.** *Ruled (Round 2, P-6):* "keep the test keys for the fixture's life".
+  - They are in [`how-examples/test-keys/`](how-examples/test-keys/), declared there as the test
+    holders' test keys, never used outside the fixture.
+  - They are rotated only by a new founding that says so in its record.
+  - The 25 records of 2026-11-02 were rebuilt once, before ratification, so that their keys are
+    these (session `rulings.md`, Round 2).
 
 ---
 
 ## Appendix A — Decisions: every departure from the charter's proposal
 
 The charter's answers, and Round 1's rulings on them, are `DDD-dec-86`. A ruled departure is
-listed with its ruling. An unruled one is `UNVERIFIED — Emil review`.
+listed with its ruling. Round 2 (`DDD-dec-92`) ruled every reading Round 1 left open, all as
+proposed. One clause of A-9 is open, as Q-11.
 
 | # | The proposal said | This profile says | Reason | State |
 |---|---|---|---|---|
@@ -602,17 +622,17 @@ listed with its ruling. An unruled one is `UNVERIFIED — Emil review`.
 | A-2 | `acceptedBy` and `acceptedAt` are required | they are the acceptance record's `by` and `at` | `dpp-1.md` A-10 removed them as fields | ruled, F-1 |
 | A-3 | revocation of a grant, its chain falling | also: the close at a transfer is not a revocation, a grant's supersession is not one, and an acceptance may be revoked | without the first, every transfer voids every grant | ruled, Q-2 |
 | A-4 | keys per namespace; D7 where it fits | namespace is the product; the grantor vouches for the first key; `since` on a close | under delegation D7 would have the genesis holder vouch for people they never granted | ruled, Q-3 |
-| A-5 | (not raised) | acme's log opens with a new founding, `GEN@3`: the same holder and P under a new key, superseding the stand-in `GEN@2` for provenance | the stand-ins' keys were discarded after their builds, so no act under them can be signed. In a real product the founder keeps their key | `UNVERIFIED — Emil review` |
-| A-6 | fallback for the genesis | any grant may have a fallback, granted by its primary's holder and delegating from the primary, with the primary's scope; it may do what the primary may, delegation included, except transfer | "may act" read as everything its primary may; one rule for every grant | `UNVERIFIED — Emil review` |
-| A-7 | (not raised) | records a header lists are judged in that order | several acts at one position (a close and an act signed by the closing key) need an order. The header's order is in the hash | `UNVERIFIED — Emil review` |
-| A-8 | (not raised) | an act of authority whose `at` is not its header's date is refused | `at` is never read for force, but a record that disagrees with its own position is not an act anyone should rely on | in Claude's Q-6 answer; Round 1 ruled Q-6 on expiry only, so `UNVERIFIED — Emil review` |
-| A-9 | (not raised) | a holder with no live key gets one bound by a holder above; a genesis holder with none and no fallback is in the position of loss (§2.5) | the first-key rule, applied again; the genesis has no one above | `UNVERIFIED — Emil review` |
+| A-5 | (not raised) | acme's log opens with a new founding, `GEN@3`: the same holder and P under a new key, superseding the stand-in `GEN@2` for provenance | the stand-ins' keys were discarded after their builds, so no act under them can be signed. In a real product the founder keeps their key | ruled, Round 2: the last re-founding; the keys are kept (P-6) |
+| A-6 | fallback for the genesis | any grant may have a fallback, granted by its primary's holder and delegating from the primary, with the primary's scope; it may do what the primary may, delegation included, except transfer | "may act" read as everything its primary may; one rule for every grant | ruled, Round 2 |
+| A-7 | (not raised) | records a header lists are judged in that order | several acts at one position (a close and an act signed by the closing key) need an order. The header's order is in the hash | ruled, Round 2 |
+| A-8 | (not raised) | an act of authority whose `at` differs from its header's clock is refused | `at` is never read for force, but a record that disagrees with its own position is not an act anyone should rely on | ruled, Round 2: "an act whose at differs from its header's clock is refused" |
+| A-9 | (not raised) | a holder with no live key gets one bound by a holder above. For the genesis, as ruled: by transfer where a fallback exists, otherwise the new-product path (§2.5) | the first-key rule, applied again; the genesis has no one above | ruled, Round 2; the genesis-with-a-fallback clause is open (Q-11, §2.5) |
 | A-10 | a machine is any identity with an `attributedTo` | a machine is named by an attribution record; `attributedTo` refuses, it does not classify | `attributedTo` is a record member, not an identity property | ruled, Q-5 |
-| A-11 | (not raised) | what a decision touches (§4.2): a What change, its elements' kinds; a How decision, its kind's class at its anchor; other How records, their record class | the multi-scope rule needs a computable "touches" | `UNVERIFIED — Emil review` |
-| A-12 | (not raised) | in sdlc edition 1 the derived element kind is `sdlc:Journey` | the ontology's own comment ("derived composition"). `sdlc:State` is a projection's state space, not an element kind | `UNVERIFIED — Emil review` |
-| A-13 | thirteen properties | thirteen. The subset rule (Q-8) is part of A3, and A9 checks what the profile holds, leaving the ratchet over landings to G11 | the mutation run found no property checking the subset rule | the count is ruled (Q-7); what A3 and A9 contain is `UNVERIFIED — Emil review` |
-| A-14 | a refusal is recorded | in the header of its position, with its reason, not as a record of its own | a refusal is the log's act, not an authority act; the header's hash covers it | `UNVERIFIED — Emil review` |
-| A-15 | (not raised) | `status` carries no force | `dpp-1.md` §3.4 leaves its meaning to the profile, and force is computed | `UNVERIFIED — Emil review` |
+| A-11 | (not raised) | what a decision touches (§4.2): a What change, its elements' kinds; a How decision, its kind's class at its anchor; other How records, their record class | the multi-scope rule needs a computable "touches" | ruled, Round 2, with the scope wording (§4.2) |
+| A-12 | (not raised) | in sdlc edition 1 the derived element kind is `sdlc:Journey` | the ontology's own comment ("derived composition"). `sdlc:State` is a projection's state space, not an element kind | ruled, Round 2 |
+| A-13 | thirteen properties | thirteen. The subset rule (Q-8) is part of A3, and A9 checks what the profile holds, leaving the ratchet over landings to G11 | the mutation run found no property checking the subset rule | ruled, Round 2: "as written" |
+| A-14 | a refusal is recorded | in the header of its position, with its reason, not as a record of its own | a refusal is the log's act, not an authority act; the header's hash covers it | ruled, Round 2: it matches Writ's "written to the log with the agent as cause" |
+| A-15 | (not raised) | `status` carries no force | `dpp-1.md` §3.4 leaves its meaning to the profile, and force is computed | ruled, Round 2 |
 
 ---
 

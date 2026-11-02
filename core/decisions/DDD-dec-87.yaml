@@ -24,14 +24,14 @@ resolution: |
     and "closing the prior genesis on transfer is not a revocation".
   - **Fallback and unavailability** (§2.4). Filed with from and optional until, as header-clock
     times. The fallback acts only while its primary is unavailable and may not transfer.
-    UNVERIFIED — Emil review (authority.md A-6): that any grant may have a fallback, that a
-    fallback delegates from its primary and is granted by its holder, and that it may delegate as
-    its primary may.
-  - **Loss and keys** (§2.5). A genesis holder with no live key and no fallback cannot act.
-    UNVERIFIED — Emil review (A-9).
+    Ruled in Round 2 (DDD-dec-92, A-6): "any grant may have a fallback, and a fallback delegates
+    from its primary".
+  - **Loss and keys** (§2.5). Ruled in Round 2 (A-9): "key loss is handled by a holder above, and
+    for the genesis by transfer where a fallback exists, otherwise by the ruled new-product path".
+    Who signs that transfer is open as Q-11.
   - **Adoption** (§2.6). A product with records but no positioned log founds its log. Its earlier
-    records are provenance until landed and accepted. The acme example's re-founding (GEN@3) is
-    UNVERIFIED — Emil review (A-5).
+    records are provenance until landed and accepted. Ruled in Round 2 (A-5): GEN@3 is the last
+    re-founding of the acme fixture, a test-fixture re-founding and not a transfer.
 basedOn:
   - DDD-dec-46
   - DDD-dec-85

@@ -1,0 +1,49 @@
+format: 1
+id: DDD-dec-92
+kind: decision
+statement: |
+  Round 2 of the authority profile. GEN@3 is the acme fixture's last re-founding: a test-fixture re-founding, not a transfer. The fixture's test keys are kept for its life, committed beside it, declared as test keys of the test holders, never used outside it, and rotated only by a new founding that says so in its record. Every reading authority.md Appendix A left unruled is ruled as proposed. Any grant may have a fallback, which delegates from its primary. A header's records are judged in listed order. An act whose at differs from its header's clock is refused. Key loss is handled by a holder above, and for the genesis by transfer where a fallback exists, otherwise by the new-product path. "Touches" is every element a decision creates, changes or retires. sdlc:Journey is the only derived kind. A3 and A9 stand as written. Refusals are header entries. status carries no force. The example's verdicts stand as of their readings, and re-evaluating them at the log's clocks waits for an engine.
+principal: Emil
+made: 2026-11-02, Round 2 of the authority-profile session, recorded verbatim in meta/sessions/2026-11-02-authority-profile/rulings.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The rulings (quoted from Round 2)
+
+  1. **A-5.** "GEN@3 stands as the last re-founding. Same holder, same IRI, new key, recorded as a
+     test-fixture re-founding and not as a transfer. It is acceptable only because item 2 ends the
+     cause."
+  2. **P-6.** "keep the test keys for the fixture's life. Commit them beside the fixture, marked as
+     test keys of a declared test holder, never used outside the fixture, and rotated only by a new
+     founding that the record states as such … This is the same model as Bailiff's test holder."
+  3. **The unruled readings, all as proposed.** A-6, A-7, A-8, A-9, A-11, A-12, A-13, A-14, A-15,
+     with the glosses quoted in rulings.md.
+  4. **The verdicts as of the readings.** Accepted, with the checker's note. Re-evaluation at the
+     log's clocks is a successor item that waits for an engine.
+
+  ## How each landed
+
+  - **Items 1 and 2.** The 25 records of 2026-11-02 were rebuilt once, before any merge, with the
+    keys now kept in applications/sdlc/how-examples/test-keys/. Their keys had been discarded by
+    the build that made them, so without the rebuild item 2 could not end the cause. Ids, versions,
+    statements, positions and clocks are unchanged. Keys, signatures, hashes and the log's pins
+    change. No ratified record changed. GEN@3's why says "a test-fixture re-founding, not a
+    transfer".
+  - **A-8.** The comparison is at the precision at carries: a date-only at must be the clock's
+    date, and an at with a time must be the clock. That is the reading, since dpp/1 §3.4 lets at be
+    a date only.
+  - **A-11.** It is ruled "as proposed", and read so that a How decision is the one element it
+    creates, of its kind's class at its anchor. Otherwise a How decision touches nothing, and no
+    acceptance could cover it.
+
+  ## Open: Q-11
+
+  For the genesis, A-9's "by transfer where a fallback exists" meets two rulings. A transfer is
+  signed by the holder (DDD-dec-46), whose keys are the ones lost. A fallback "may act and may not
+  transfer" (DDD-dec-46; DDD-dec-85). Who signs that transfer is not ruled. Until it is, the profile
+  states no third path and the evaluator refuses a fallback's transfer (authority.md §2.5).
+basedOn:
+  - DDD-dec-86
+  - DDD-dec-85
+  - DDD-dec-46
+notes: |
+  Next free id re-checked before filing, on every branch of both repositories (R-14): this branch
+  holds 85 to 91, claude/ready-to-try-2026-11-02 holds up to 84, and upstream up to 39.

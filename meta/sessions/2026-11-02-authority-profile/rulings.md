@@ -71,3 +71,35 @@ Verbatim:
 | Bootstrap and plan | `bootstrap.md`, "Next free decision id"; `plan.md`, status note and Part 4 | done |
 
 Round 1's verbatim "Ids from 77" is left as Emil wrote it; R-14 governs it.
+
+## Round 2, 2026-11-02 — recorded in `DDD-dec-92`
+
+Verbatim:
+
+> Round 2, authority-profile session (2026-11-02).
+>
+> 1. A-5 — ruled: GEN@3 stands as the last re-founding. Same holder, same IRI, new key, recorded as a test-fixture re-founding and not as a transfer. It is acceptable only because item 2 ends the cause.
+>
+> 2. P-6 — ruled: keep the test keys for the fixture’s life. Commit them beside the fixture, marked as test keys of a declared test holder, never used outside the fixture, and rotated only by a new founding that the record states as such. A fixture that cannot be extended is not a fixture; a throwaway key per build was the wrong trade. This is the same model as Bailiff’s test holder.
+>
+> 3. The unruled readings — all ruled as proposed: A-6 any grant may have a fallback, and a fallback delegates from its primary; A-7 records in one header are judged in listed order; A-8 an act whose at differs from its header’s clock is refused; A-9 key loss is handled by a holder above, and for the genesis by transfer where a fallback exists, otherwise by the ruled new-product path; A-11 “touches” means every element the decision creates, changes or retires, per the scope wording; A-12 sdlc:Journey is the only derived kind; A-13 as written; A-14 refusals are header entries, not records, which matches Writ’s “written to the log with the agent as cause”; A-15 status carries no force.
+>
+> 4. The example’s verdicts as of the readings — accepted, with the note the checker prints. Re-evaluation at the log’s own clocks is a successor item that waits for an engine, not for this PR.
+>
+> R-14 — the renumbering is correct and correctly recorded.
+>
+> No watch on #45. It is for the record; I ratify by merging.
+
+### Where each ruling landed
+
+| Ruling | Landed | State |
+|---|---|---|
+| 1 A-5, `GEN@3` the last re-founding | authority.md §2.6 and A-5; `GEN@3`'s `why` says "test-fixture re-founding, not a transfer" | ruled. **The 25 records of 2026-11-02 were rebuilt once, before ratification.** Their keys had been discarded by the build that made them, so with no rebuild item 2 could not end the cause: `GEN@3`'s holder could never sign again. The records keep their ids, versions, statements, positions and clocks. Their keys, signatures and hashes change, and so do the pins in the log. This happened on the PR branch before any merge, and is recorded here and in the commit. No ratified record changed |
+| 2 P-6, keep the test keys | `how-examples/test-keys/`, the seven private keys of the history with a README declaring them test keys of the declared test holders; `build.py` reads them and generates only missing ones; `log/acme-keys.json` and its refusal are removed | ruled. The stand-ins' keys (version 1 and 2 records, and the vendor's) were discarded earlier and cannot be recovered. The vendor's next act needs a founding ruling of its own (successor item P-9) |
+| 3 A-6, A-7, A-12, A-13, A-14, A-15 | authority.md Appendix A: state "ruled, Round 2"; flags cleared in §2.4, §3.1, §4.2, §5.3, §6.1 and in `DDD-dec-87`, `-90` | ruled |
+| 3 A-8, "an act whose at differs from its header's clock" | authority.md §6.2; `evaluate.py`: a date-only `at` must equal the clock's date, and an `at` with a time must equal the clock | ruled. Reading: "differs" is compared at the precision `at` carries, since `dpp/1` lets a record carry a date only (§3.4) |
+| 3 A-9, key loss | authority.md §5.3 and A-9: a holder above, as ruled | ruled for every grant but the genesis. **Flagged, not applied:** "for the genesis by transfer where a fallback exists" meets two earlier rulings. A transfer is signed by the holder (`DDD-dec-46`), whose key is lost here, and a fallback "may act and may not transfer" (`DDD-dec-46`; `DDD-dec-85`). Who signs that transfer is not ruled, so the evaluator still refuses a fallback's transfer. Question Q-11 for Emil |
+| 3 A-11, "touches" | authority.md §4.2 | ruled as proposed, with the scope wording quoted. Reading: a How decision creates one element, itself, of its kind's class at its anchor, so it "touches" that. Without this reading a How decision touches nothing, and no How acceptance could cover it |
+| 4 the verdicts as of the readings | the checker's note, unchanged; successor item P-7 reworded to wait on an engine | ruled |
+| R-14 | — | confirmed |
+| No watch on #45 | no subscription | ruled |
