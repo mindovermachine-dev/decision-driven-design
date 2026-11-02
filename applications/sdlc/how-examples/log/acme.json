@@ -9,15 +9,15 @@
    "records": [
     {
      "ref": "GEN@3@https://acme.example/products/shop/decisions",
-     "hash": "sha256:114f327ef95cd859ec6abda1186273c700136e48361127dfbff3e64c95379a03"
+     "hash": "sha256:ed2db4b598dbbc2ad1e7ec25d92308018322473ca1d172a5268741157390dce0"
     },
     {
      "ref": "ATTR-agent@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:fa86d537faf51ad8b64626b18f5c5c4b1a97cdeaa19a108c236d2d403ff6bf7f"
+     "hash": "sha256:73fc85b6d0cab52eb575ea4f068534aa23d4d5db05bc3e15bf43177fbd32d548"
     }
    ],
    "refused": [],
-   "hash": "sha256:8ca6e7b5b7a0ecf7d3067c0bb8f3b5c46ddc3f56ae14ffe9f329fc38f73e7871"
+   "hash": "sha256:3f1dd8335ba60658b42f996a2002005f8c15ea97fba69b260a25c2a8fd24b3b9"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -54,16 +54,16 @@
     },
     {
      "ref": "GRANT-what@2@https://acme.example/products/shop/decisions",
-     "hash": "sha256:99e3b20b2b03d67071060cca3689c6b8e8a10113452fa0022a2bcb53e1ee9900"
+     "hash": "sha256:77ea97516be7864b199db3237fbc54cf65d8b71d9cba38590a675481d8334bb2"
     },
     {
      "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
-     "hash": "sha256:d309a7ed11407ef84aac0f488d8f9afcd92a18e5b206a2a822fa9e5f54396202"
+     "hash": "sha256:8e832d15791ed53946f4227905bade57723800a58af4d03501b8d5c218d051bb"
     }
    ],
    "refused": [],
-   "previous": "sha256:8ca6e7b5b7a0ecf7d3067c0bb8f3b5c46ddc3f56ae14ffe9f329fc38f73e7871",
-   "hash": "sha256:34c2bf9a826651bb3b6eca0fe2c0c6eeccfb797247ec99e894bd04ebdb89df7a"
+   "previous": "sha256:3f1dd8335ba60658b42f996a2002005f8c15ea97fba69b260a25c2a8fd24b3b9",
+   "hash": "sha256:10f90035159b1840b8e3f2044e80297982990f17ee9475a9571f0ef6c38ce7d8"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -72,16 +72,16 @@
    "records": [
     {
      "ref": "GACC-what@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:9d0c94a1214a85b91e58670043e1c588a07aca3a3c44fa86aff3fa9a04ab498e"
+     "hash": "sha256:14036e671b22f711317fe44380c06f8aec3799e2906b6ace483181ea42f35f2f"
     },
     {
      "ref": "GACC-how@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:b7b140ef73acba6d5e5c6dc1786792b75205653e213807cd2be3effc9c7207e2"
+     "hash": "sha256:2d2a5b87c6e35ad9ebb4424e55ce5d1d96a95a1225746eda5a3546a782229f0f"
     }
    ],
    "refused": [],
-   "previous": "sha256:34c2bf9a826651bb3b6eca0fe2c0c6eeccfb797247ec99e894bd04ebdb89df7a",
-   "hash": "sha256:19be786a8dfddf561f8fa0b7eee1be2781433ecb28f34b4513a51f1c419aba46"
+   "previous": "sha256:10f90035159b1840b8e3f2044e80297982990f17ee9475a9571f0ef6c38ce7d8",
+   "hash": "sha256:fd0d03936bda4d628e6cc5d93db75f20f39b8efdc0b47ba034da6b324477238d"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -90,22 +90,22 @@
    "records": [
     {
      "ref": "ACC-what@2@https://acme.example/products/shop/decisions",
-     "hash": "sha256:b17929276a96e43ba1435497d9a3f1fc1b436c47ebe0b6e79810ac847b349977"
+     "hash": "sha256:ca7ca934527220605acc693afddcf5ddc03226545b87710991987f369e78ab81"
     },
     {
      "ref": "ACC-1@3@https://acme.example/products/shop/decisions",
-     "hash": "sha256:adb2bc90297343ba30db57c1504c22a7c855c686c962b79f9ed8e84d401deff5"
+     "hash": "sha256:50a363d3510d0b00d647d6bd24dd838fd37b22e9720048a05ac122e7c9313c6b"
     }
    ],
    "refused": [
     {
      "ref": "ACC-agent@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:fb3030c66e7ae35acc0cf43e46c3e4fe39d5097615c2373d4a01c57865998307",
+     "hash": "sha256:65ba3fa35fda5e7bcea1ba2349d8cce65d854fe09c1a6b0731d260c440205ba9",
      "reason": "a record carrying attributedTo is never an act of authority"
     }
    ],
-   "previous": "sha256:19be786a8dfddf561f8fa0b7eee1be2781433ecb28f34b4513a51f1c419aba46",
-   "hash": "sha256:d8187f87970ce60b789ab82ed00fb8b170ee3870650cb219e82ba6051feabd6e"
+   "previous": "sha256:fd0d03936bda4d628e6cc5d93db75f20f39b8efdc0b47ba034da6b324477238d",
+   "hash": "sha256:6fb0c6a73721b767c47b76eabf2f9484fd946d0a99c7c74e72cff875e2808cd9"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -118,12 +118,12 @@
     },
     {
      "ref": "ACC-cur-what@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:bb7987fbeddaa90e31356d969384526d3ed3accce55f798f3ffd5c2c7a239689"
+     "hash": "sha256:39b133524f23479bae9521ec441125b4971874e1f054e2881b8d6f64c7aba39a"
     }
    ],
    "refused": [],
-   "previous": "sha256:d8187f87970ce60b789ab82ed00fb8b170ee3870650cb219e82ba6051feabd6e",
-   "hash": "sha256:b2a474a698665a86fcafde51c56571dac860e3df4440b082b8680cbb3dffcee8"
+   "previous": "sha256:6fb0c6a73721b767c47b76eabf2f9484fd946d0a99c7c74e72cff875e2808cd9",
+   "hash": "sha256:33e4954160140477539532f7a0f23692da4fdb76c76af9b4e654600e79f0e8cc"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -132,7 +132,7 @@
    "records": [
     {
      "ref": "ACC-cur-how@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:3326c9b1f8d28f9b9b3832aee6095aaa5ac45f473275bf88cac92a5a6c914d63"
+     "hash": "sha256:c2e1581e161de91b3c7be99450a766c40010e07b8d3529296b5ed938255367a8"
     },
     {
      "ref": "what@4@https://acme.example/products/shop/decisions",
@@ -140,8 +140,8 @@
     }
    ],
    "refused": [],
-   "previous": "sha256:b2a474a698665a86fcafde51c56571dac860e3df4440b082b8680cbb3dffcee8",
-   "hash": "sha256:fe54f4dc425cc7ed48192c4d9e4e6bca82cc5f3d059bad7cf34971646763816f"
+   "previous": "sha256:33e4954160140477539532f7a0f23692da4fdb76c76af9b4e654600e79f0e8cc",
+   "hash": "sha256:0105db6fbec61ed86d55c7e2bd3857d3e870ecefbd39a93ae85c7b8495721a56"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -150,12 +150,12 @@
    "records": [
     {
      "ref": "GRANT-lead@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:b2d097adb358ac88f8ac53a80e7f52a7e10a34fe3adf5f7d24c681d998768474"
+     "hash": "sha256:f4e3c3e0d3ae7f32f22883cec42c99c58a37028816c482b6dda6208deec2f070"
     }
    ],
    "refused": [],
-   "previous": "sha256:fe54f4dc425cc7ed48192c4d9e4e6bca82cc5f3d059bad7cf34971646763816f",
-   "hash": "sha256:e631bb300afee28988d74d81574b0408aa9b1c0cc8f87b5a8b8a5c8d6764e716"
+   "previous": "sha256:0105db6fbec61ed86d55c7e2bd3857d3e870ecefbd39a93ae85c7b8495721a56",
+   "hash": "sha256:f0f7fd085092dc502f21e9a386b65cd832b4b205ca44be24653f30bbf41377b0"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -164,16 +164,16 @@
    "records": [
     {
      "ref": "GACC-lead@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:2a53b47cdc9e17e40d99b6407af08af5e62eaa905347ac7c01ca23743d08a43b"
+     "hash": "sha256:4e423041c8b860787aa6b276d15e3325b6be249b695cf3409fc0897f186bf54b"
     },
     {
      "ref": "GRANT-ctr@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:a5ee8fb8fbea6818178839ae6487c77aa35c240e017b0d39624455f5117ac1b7"
+     "hash": "sha256:2e43a227e1335beac916dc563c9a826cfea4de00dc1c86c010a5c5ae6d2cece6"
     }
    ],
    "refused": [],
-   "previous": "sha256:e631bb300afee28988d74d81574b0408aa9b1c0cc8f87b5a8b8a5c8d6764e716",
-   "hash": "sha256:dcc3ebf59ec604b2ac891d5bc948ddf6eca3e7fda8c34b0a0ed5428656a5f2b4"
+   "previous": "sha256:f0f7fd085092dc502f21e9a386b65cd832b4b205ca44be24653f30bbf41377b0",
+   "hash": "sha256:8e68fbcae8af5768e4e4f52bcb07b705bf215be837915727a9b5e79d79dc8bb6"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -182,7 +182,7 @@
    "records": [
     {
      "ref": "GACC-ctr@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:314455b5444930fa0697833972a57ed4d3c516bece8970af7acfdd85798387b8"
+     "hash": "sha256:98bd27615300cf350b50c5e4fbb515d51b0c91cf5da2345906b2c12b2aa81e0b"
     },
     {
      "ref": "CURFMT@1@https://acme.example/products/shop/decisions",
@@ -190,8 +190,8 @@
     }
    ],
    "refused": [],
-   "previous": "sha256:dcc3ebf59ec604b2ac891d5bc948ddf6eca3e7fda8c34b0a0ed5428656a5f2b4",
-   "hash": "sha256:819ed02c4473e22cdc2242193f398dccc919c223520bf2bb0ba2b684879aa95e"
+   "previous": "sha256:8e68fbcae8af5768e4e4f52bcb07b705bf215be837915727a9b5e79d79dc8bb6",
+   "hash": "sha256:9fb9d01d0cece7585517aebda97d8c654c7f75d907f0dbe9ded682c0b26b5938"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -200,12 +200,12 @@
    "records": [
     {
      "ref": "ACC-curfmt@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:b1e3ad09748273012f39e0bbd18397b7ef959db63cd5234890386bcc5b93e7d1"
+     "hash": "sha256:e928ba9ff881c20b39f1fe2c7dd655019f7789f48de1be86c97dca1b456fbda1"
     }
    ],
    "refused": [],
-   "previous": "sha256:819ed02c4473e22cdc2242193f398dccc919c223520bf2bb0ba2b684879aa95e",
-   "hash": "sha256:25dc3f1bfd2c8e5f3233874ca89b83f647373326e6810d8cd66f10578fe7205d"
+   "previous": "sha256:9fb9d01d0cece7585517aebda97d8c654c7f75d907f0dbe9ded682c0b26b5938",
+   "hash": "sha256:6260a6c5d71765e56b6571aa07369285e37e4e827f916ab3c460806709bb270d"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -214,12 +214,12 @@
    "records": [
     {
      "ref": "REVK-lead@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:be4d2b3f13f2f33230d5c8a67f5e9487ccda18e4538247468950643c203d0c94"
+     "hash": "sha256:5b68930111982a17d6b7b71ec2b156fd5583f82483ee96973145e4f8b037fe0b"
     }
    ],
    "refused": [],
-   "previous": "sha256:25dc3f1bfd2c8e5f3233874ca89b83f647373326e6810d8cd66f10578fe7205d",
-   "hash": "sha256:3844e4896830e02df57b0e2f22f0512dbf089afb10f9f59d5e5e00be91ada7d5"
+   "previous": "sha256:6260a6c5d71765e56b6571aa07369285e37e4e827f916ab3c460806709bb270d",
+   "hash": "sha256:da246d31a9931230621d88aa290a4ebb873dcf74ed19353e6cb635d119e094e0"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -234,12 +234,12 @@
    "refused": [
     {
      "ref": "ACC-curfmt@2@https://acme.example/products/shop/decisions",
-     "hash": "sha256:06719ae460f8a31160b469bb987ed8256cf0d8bbd878820a551314a1db196449",
+     "hash": "sha256:9145ad9beb2449b6b2fb5f4fac4f4452f17ede53bc1e66cde042da5a73070834",
      "reason": "grant GRANT-ctr is not live"
     }
    ],
-   "previous": "sha256:3844e4896830e02df57b0e2f22f0512dbf089afb10f9f59d5e5e00be91ada7d5",
-   "hash": "sha256:42a167a623c01624010ebd921406127619766ba5e05b91013b10d96af72b494f"
+   "previous": "sha256:da246d31a9931230621d88aa290a4ebb873dcf74ed19353e6cb635d119e094e0",
+   "hash": "sha256:0fe9458604457fa1705c1bc2c10c4857e6d03b8a73aa755080715e4ed897f396"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -248,12 +248,12 @@
    "records": [
     {
      "ref": "KEY-architect@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:fe37eedb54b623f3158cfc492d2d3392cd4f4f77fc7415c7223d48787bc0fcb8"
+     "hash": "sha256:ec276cd35b04ce71ac19cd1481fc860054143c2f7b60e6fccdf93f74ff152ca4"
     }
    ],
    "refused": [],
-   "previous": "sha256:42a167a623c01624010ebd921406127619766ba5e05b91013b10d96af72b494f",
-   "hash": "sha256:bde66b6be9befd9b5c27882d1634339b382101ddfdae7973e900dc1e141945bd"
+   "previous": "sha256:0fe9458604457fa1705c1bc2c10c4857e6d03b8a73aa755080715e4ed897f396",
+   "hash": "sha256:f9faa9ef8761a859c09a1103bf8b3829872aeefa914b028bcebbf4ea599ebe14"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -262,12 +262,12 @@
    "records": [
     {
      "ref": "WAIV-resid@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:a0a977736ed1e2b1b40022c6d4bd9e70e84bc8bae6f2e89a4cde175d921e5fa2"
+     "hash": "sha256:58f83d71996a5ae333c62a1da85a901cda2502eb54dda67d1e89aa7e8fa88c7e"
     }
    ],
    "refused": [],
-   "previous": "sha256:bde66b6be9befd9b5c27882d1634339b382101ddfdae7973e900dc1e141945bd",
-   "hash": "sha256:83a7ec646b64d5d9ea00fac9867882a20fe00ef5729c4938736bc1481b355add"
+   "previous": "sha256:f9faa9ef8761a859c09a1103bf8b3829872aeefa914b028bcebbf4ea599ebe14",
+   "hash": "sha256:ef61dc9710948abdfab5c987a6e1f7206ffc9ffb45e4a0c1e8903fe40cc052ca"
   },
   {
    "system": "https://acme.example/products/shop/decisions",
@@ -276,12 +276,12 @@
    "records": [
     {
      "ref": "REV-curfmt@1@https://acme.example/products/shop/decisions",
-     "hash": "sha256:89dc0cd153ea7be2e2c699fe6f0d139bc9426fc407ae8a887497cd2f3c3ef00b"
+     "hash": "sha256:65c32bb2598000db0573739bc81428be729f7f1fd8cb6c3de425b7b07c675506"
     }
    ],
    "refused": [],
-   "previous": "sha256:83a7ec646b64d5d9ea00fac9867882a20fe00ef5729c4938736bc1481b355add",
-   "hash": "sha256:b0ce1ddad7f4905bcbb74eb0ca2650b3dcf3af328470a115e4f96d626bba9992"
+   "previous": "sha256:ef61dc9710948abdfab5c987a6e1f7206ffc9ffb45e4a0c1e8903fe40cc052ca",
+   "hash": "sha256:149485a692933c7b4dce78c6dec18a4fefa89a6358159e210151580c4e3ba250"
   }
  ]
 }

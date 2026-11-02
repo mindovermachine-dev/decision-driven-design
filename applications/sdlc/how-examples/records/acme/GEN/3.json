@@ -6,13 +6,13 @@
   "statement": "Genesis grant over the product https://acme.example/products/shop, held by mailto:holder@acme.example: the founding of its authority log under the authority profile.",
   "by": "mailto:holder@acme.example",
   "at": "2026-11-02",
-  "why": "The profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key. Test product only; in a real product the founder keeps their key (authority.md Appendix A, A-5).",
+  "why": "A test-fixture re-founding, not a transfer: the profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key, kept with the fixture from here on. It is the last re-founding (authority.md Appendix A, A-5, ruled 2026-11-02). In a real product the founder keeps their key.",
   "basedOn": [],
   "dk.decision-driven-design.authority": {
     "record": "genesis",
     "product": "https://acme.example/products/shop",
     "holder": "mailto:holder@acme.example",
-    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxfsh7cJ3WmY/BJ0uYRITXnOxurtSgksXhVLghLhoR3 acme-holder-p@test-genesis"
+    "firstKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINiE6AKr/JSwaVT8T2l6vO00ufzQBfNCTLmNaZL6MjuF acme-holder-p@test-genesis"
   },
   "supersedes": [
     {
@@ -22,7 +22,7 @@
   ],
   "signature": {
     "scheme": "ssh-sig",
-    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPF+yHtwndaZj8EnS5hEhNec7G6\nu1KCSxeFUuCEuGhHcAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEDllEDffMI0xUpwOON62Ke2XYqe9MaXoR+h0eFdq9R9dU\ndEOpZ42LoCAYIsik/7iIbvVt3D6IU3sbPQiEje3f8E\n-----END SSH SIGNATURE-----\n",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDxfsh7cJ3WmY/BJ0uYRITXnOxurtSgksXhVLghLhoR3 acme-holder-p@test-genesis"
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg2IToAqv8lLBpVPxPaXq87TS5/N\nAF80JMuY1pkvoyO4UAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAiqJBNXI2tLNI2z9+0mDwOcCjyan9NihAcXqVGXanUq8\nkgQUK5FJkwtjcLUJX2X4vahqtVh7sKAA0fnTpdwJcL\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINiE6AKr/JSwaVT8T2l6vO00ufzQBfNCTLmNaZL6MjuF acme-holder-p@test-genesis"
   }
 }

@@ -58,7 +58,7 @@ none is edited:
 The stand-in authority records (`GEN@1`, `GEN@2`, `GRANT-*@1/2`, `ACC-1@1/2`, `ACC-what@1`) stay as
 history, landed at no position, and under the profile they put nothing in force. `build.py` now
 needs rdflib, because each acceptance records its scope result read from the What graph. It
-refuses to rewrite a landed header. The public halves of the history's keys are in `log/acme-keys.json`, so a rebuild reproduces every record; a new act by one of these holders cannot be signed, because the private halves were discarded, and the build refuses it (authority.md A-5).
+refuses to rewrite a landed header. The history's keys are kept for the fixture's life in [`test-keys/`](test-keys/): test keys of the declared test holders, never used outside the fixture (Round 2 of 2026-11-02, P-6). A rebuild reproduces every record, and a later session can extend the history.
 
 ```
 python3 applications/sdlc/how-examples/check.py      # needs rdflib for the verdict step
@@ -82,8 +82,9 @@ steps are reported as **SKIP**, never as passed.
 | The importing product's owner | `mailto:owner@acme.example` | a grant of the What scope, delegated from that genesis (`GRANT-what@1`) |
 | A proposing agent | `spiffe://acme.example/agent/proposer` | nothing: it may propose, it never accepts |
 
-All four human keys are throwaway ed25519 keys for the test genesis's declared test holders.
-`build.py` makes fresh ones on every run and discards them when it ends. No real key is ever used
+The four human keys of the version 1 and 2 records were throwaway ed25519 keys, made fresh on each
+build and discarded when it ended. Since Round 2 of 2026-11-02 the authority history's keys are
+kept in `test-keys/` instead. No real key is ever used
 for a fixture or held by a session (Round 3, ruling 1). Signatures are `ssh-sig` over the
 canonical form, namespace `decision-provenance`.
 

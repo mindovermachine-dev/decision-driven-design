@@ -211,7 +211,9 @@ def judge(st, ref, rec, p, signer, record_hash, records):
     # ---- every act of authority (authority.md §5.1, §5.2, §6.2)
     need("attributedTo" not in rec, "a record carrying attributedTo is never an act of authority")
     need(rec["by"] not in st.machines, f"{rec['by']} is named a machine")
-    need(rec["at"][:10] == st.clock[:10], "the record's at does not fall on its position's header date")
+    # A-8 (ruled, Round 2): an act whose at differs from its header's clock is refused, compared at the
+    # precision at carries (dpp/1 §3.4 lets it be a date only)
+    need(rec["at"] == (st.clock[:10] if len(rec["at"]) == 10 else st.clock), "the record's at differs from its header's clock")
     key = signer(rec)
     need(key is not None, "no signature that verifies for its by")
     globals()["act_" + kind.replace("-", "_")](st, ref, rec, au, key, p, records, record_hash)

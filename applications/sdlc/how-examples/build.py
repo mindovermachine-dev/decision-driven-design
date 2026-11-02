@@ -1,18 +1,19 @@
-"""Build the How worked-example records, pinned, and signed with throwaway test keys.
+"""Build the How worked-example records, pinned, and signed with test keys.
 
     python3 applications/sdlc/how-examples/build.py [keys-dir]     # from the repository root
 
-Writes records/, locations.json and facts/manifest.json. With no keys directory it makes three
-throwaway ed25519 keys in a temporary directory and discards them, so every run signs afresh.
-The records committed at 88bf686 were built with keys that are not in the repository; check.py
+Writes records/, locations.json, facts/manifest.json and log/acme.json. The keys are the fixture's
+test keys in test-keys/ (Round 2 of 2026-11-02, P-6), generated only when missing. Records built
+before that ruling were signed with throwaway keys that are not in the repository; check.py
 verifies them from the public keys they carry.
 
 TOKEN is the protocol token the records carry: dpp/1, ruled 2026-10-28 (Round 3) and filed as
 DDD-dec-62, which supersedes DDD-dec-53. The build still refuses to run unless the reference
 implementation on main accepts that token unmodified: no substitution, ever (Round 2, ruling 1).
 
-Keys are always throwaway test keys for the test genesis's declared test holders. No real key is
-ever used for a fixture or held by a session (Round 3, ruling 1).
+Keys are always test keys of the test genesis's declared test holders. No real key is ever used
+for a fixture or held by a session (Round 3, ruling 1). Since 2026-11-02 they are kept for the
+fixture's life, never used outside it (authority-profile session, Round 2, P-6).
 
 Ruling 4 of 2026-10-28: these records anchor to provisional What identifiers. They live in the
 test product only. When the What lands with its identity form, each is superseded by a new
@@ -34,16 +35,19 @@ if MAIN != TOKEN:
     sys.exit(f"refusing to build: records would carry {TOKEN!r}, the reference implementation on main accepts {MAIN!r}. "
              "The token on main and DDD-dec-62 disagree: settle that before building.")
 dpp = type(sys)("dpp"); exec(src, dpp.__dict__)
-if len(sys.argv) > 1:
-    KEYS = sys.argv[1]
-else:
-    KEYS = tempfile.mkdtemp()
-    import atexit; atexit.register(shutil.rmtree, KEYS, True)   # throwaway: discarded when the build ends
-    for k in ("vendor-holder", "acme-holder", "acme-architect", "acme-owner",
-              # the authority profile's history of acme (2026-11-02): the holder, the owner and the
-              # architect (two keys, for the rotation), a lead, a contractor and the agent
-              "acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
-              "acme-lead", "acme-contractor", "acme-agent"):
+# Keys. Since Round 2 of the authority-profile session (2026-11-02, P-6): "keep the test keys for
+# the fixture's life. Commit them beside the fixture, marked as test keys of a declared test holder,
+# never used outside the fixture, and rotated only by a new founding that the record states as such."
+# The authority history's keys live in test-keys/ and are generated only when missing. The keys of
+# the records built before that ruling (version 1 and 2, the vendor's) were discarded after their
+# builds. Those records are loaded, never re-signed, and a new record needing one of those keys
+# refuses (see sign below).
+KEYS = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "test-keys")
+HISTORY_KEYS = ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
+                "acme-lead", "acme-contractor", "acme-agent")
+os.makedirs(KEYS, exist_ok=True)
+for k in HISTORY_KEYS:
+    if not os.path.exists(os.path.join(KEYS, k)):
         subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-C", f"{k}@test-genesis", "-f", os.path.join(KEYS, k)], check=True)
 
 V = "https://vendor.example/packages/ref-arch"
@@ -62,6 +66,9 @@ def ref(sys_, id_, ver):
     return {"ref": f"{id_}@{ver}@{sys_}", "hash": dpp.record_hash(r)}
 
 def sign(rec, key):
+    if not os.path.exists(os.path.join(KEYS, key)):
+        sys.exit(f"refusing to build: a new record must be signed by {key}, whose key was discarded before the "
+                 "test keys were kept (Round 2 of 2026-11-02, P-6). Its holder needs a founding ruling to act again.")
     pub = open(os.path.join(KEYS, key + ".pub")).read().strip()
     with tempfile.TemporaryDirectory() as d:
         p = os.path.join(d, "c"); open(p, "wb").write(dpp.canonical(rec))
@@ -452,12 +459,11 @@ put(A, "what", "3", f"What-version 3 of {P}.", PO,
 #
 # Why acme is founded again. The records above were built before the profile existed: their
 # authority members are stand-ins, and the keys that signed them were throwaway and were
-# discarded when their build ended (Round 3 of 2026-10-28, as implemented). Under the profile no
-# act of the holder can be signed by a key nobody has. So the profile's log for acme opens with
-# GEN@3, the founding: the same holder and the same P, signed by a new key the founding binds,
-# superseding GEN@2 for provenance. In a real product the founder keeps their key and the log
-# opens with the genesis they already hold. That reading is flagged in authority.md Appendix A
-# (A-5), UNVERIFIED — Emil review.
+# discarded when their build ended (Round 3 of 2026-10-28, as implemented). So the profile's log
+# for acme opens with GEN@3: the same holder and the same P under a new key, superseding GEN@2 for
+# provenance. Ruled (Round 2 of 2026-11-02, A-5): "GEN@3 stands as the last re-founding. Same
+# holder, same IRI, new key, recorded as a test-fixture re-founding and not as a transfer. It is
+# acceptable only because item 2 ends the cause." Item 2 keeps the keys, in test-keys/.
 import datetime
 try:
     import rdflib
@@ -465,20 +471,7 @@ except ImportError:
     sys.exit("refusing to build: the authority history records each acceptance's scope result, "
              "which is read from the What graph with rdflib (pip install rdflib)")
 S_ = rdflib.Namespace("https://decision-driven-design.dk/ns/sdlc#")
-# The public halves of the history's keys, recorded once, so a rebuild reproduces the published
-# records (their firstKey and key fields are hashed). The private halves are discarded after every
-# build, as before; a new act by a holder whose key is recorded here cannot be signed, and the build
-# refuses it rather than sign with another key (authority.md A-5).
-KEYFILE = os.path.join(ROOT, "log", "acme-keys.json")
-PINNED = json.load(open(KEYFILE))["keys"] if os.path.exists(KEYFILE) else {}
-def fresh(k): return open(os.path.join(KEYS, k + ".pub")).read().strip()
-def pub(k): return PINNED.get(k) or fresh(k)
-_sign = sign
-def sign(rec, key):
-    if key in PINNED and PINNED[key] != fresh(key):
-        sys.exit(f"refusing to build: a new record must be signed by {key}, whose key was discarded after an earlier build. "
-                 "Its holder cannot act again in this fixture without their key (authority.md Appendix A, A-5).")
-    _sign(rec, key)
+def pub(k): return open(os.path.join(KEYS, k + ".pub")).read().strip()
 H_, O_, A1_, A2_, L_, C_, G_ = (pub(k) for k in ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2",
                                                "acme-lead", "acme-contractor", "acme-agent"))
 LEAD, CTR = "mailto:lead@acme.example", "mailto:contractor@acme.example"
@@ -528,7 +521,7 @@ C9, C10, C11, C12, C13, C14, C15 = ("2026-11-02T11:20:00Z", "2026-11-02T11:30:00
 
 # ---- p1: the founding, and the agent named a machine
 act("GEN", "3", C1, f"Genesis grant over the product {P}, held by {AH}: the founding of its authority log under the authority profile.", AH,
-    "The profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key. Test product only; in a real product the founder keeps their key (authority.md Appendix A, A-5).",
+    "A test-fixture re-founding, not a transfer: the profile's log for acme opens here. GEN@2 was a stand-in signed by a key discarded with its build, so no act under it can be signed; this founding binds the holder's key, kept with the fixture from here on. It is the last re-founding (authority.md Appendix A, A-5, ruled 2026-11-02). In a real product the founder keeps their key.",
     "acme-holder-p", {"record": "genesis", "product": P, "holder": AH, "firstKey": H_}, supersedes=[ref_("GEN", "2")])
 act("ATTR-agent", "1", C1, f"{AGENT} is software; {AR} is responsible for it.", AH,
     "The proposing agent is named a machine, so nothing it signs is ever an act of authority here (authority.md §5.1).",
@@ -704,10 +697,6 @@ os.makedirs(os.path.dirname(LOG), exist_ok=True)
 json.dump({"system": A, "note": "A fixture of a positioned log (authority.md §6.1): positions, header clocks, chained header hashes. Hand-built; no writer produced it.",
            "headers": headers}, open(LOG, "w"), indent=1, ensure_ascii=False)
 open(LOG, "a").write("\n")
-json.dump({"note": "Public keys of the acme authority history (authority.md §9). Throwaway test keys; the private halves were discarded after the build that made them.",
-           "keys": {k: pub(k) for k in ("acme-holder-p", "acme-owner-p", "acme-architect-p1", "acme-architect-p2", "acme-lead", "acme-contractor", "acme-agent")}},
-          open(KEYFILE, "w"), indent=1)
-open(KEYFILE, "a").write("\n")
 
 # ---------------------------------------------------------------- write: new versions only
 out = os.path.join(ROOT, "records")

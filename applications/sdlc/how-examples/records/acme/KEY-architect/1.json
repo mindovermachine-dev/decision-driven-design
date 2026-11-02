@@ -12,12 +12,12 @@
     "record": "key-binding",
     "act": "rotate",
     "holder": "mailto:architect@acme.example",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGn+RtahOafGs+9D07K1llPKiftsgSK6iUgOrswt4X5A acme-architect-p2@test-genesis",
-    "closes": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMoWIp3c6M7xoD47lYBg2Dx0YRuNaRTF6MnkRKJM+vze acme-architect-p2@test-genesis",
+    "closes": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8yCQESlwf18HNpjoqnaf0RCgZxP4rBcWIXRJTdXZDe acme-architect-p1@test-genesis"
   },
   "signature": {
     "scheme": "ssh-sig",
-    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgI/yR1XF6vd81e/8aZ6vXyBixPW\nJUCTGQJSu+Meceq3MAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEAFBfRBrxvTcLBGG7VligK77gd+ORnyIPwMlvOPbCzmvj\nL6C7Gd3SlPJWyt3dXwlFTbTamSqU1qX+wMoRdOwSsF\n-----END SSH SIGNATURE-----\n",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjzIJARKXB/Xwc2mOiqdp/REKBn\nE/isFxYhdElN1dkN4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEC9s3WllSeffRP1RmIbRJXiLkF9f6kU3r9k0MK7onNc09\n1YnIG395pCIqPcOd5unmYxu4zr/kO+EOYaNSQHR+4N\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8yCQESlwf18HNpjoqnaf0RCgZxP4rBcWIXRJTdXZDe acme-architect-p1@test-genesis"
   }
 }

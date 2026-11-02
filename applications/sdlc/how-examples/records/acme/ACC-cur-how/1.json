@@ -14,7 +14,7 @@
     },
     {
       "ref": "GRANT-how@3@https://acme.example/products/shop/decisions",
-      "hash": "sha256:d309a7ed11407ef84aac0f488d8f9afcd92a18e5b206a2a822fa9e5f54396202"
+      "hash": "sha256:8e832d15791ed53946f4227905bade57723800a58af4d03501b8d5c218d051bb"
     }
   ],
   "dk.decision-driven-design.authority": {
@@ -61,7 +61,7 @@
   },
   "signature": {
     "scheme": "ssh-sig",
-    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgI/yR1XF6vd81e/8aZ6vXyBixPW\nJUCTGQJSu+Meceq3MAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEDMYhgGTUmkwCeyaVhrf3XhkuKC0ULbk4waqJBoFbyeWZ\nkWO8hYVhKnNmm/Bv/BKiZnRM6RrGmwHx3JX5RU05gC\n-----END SSH SIGNATURE-----\n",
-    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICP8kdVxer3fNXv/Gmer18gYsT1iVAkxkCUrvjHnHqtz acme-architect-p1@test-genesis"
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgjzIJARKXB/Xwc2mOiqdp/REKBn\nE/isFxYhdElN1dkN4AAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBRjMj1J3WGEPUuoTpUpvoihQoiOLugPYdkiYgXzDPBiq\nREIuNo698KWq0S6UgtYRzpoXwOjCfOSpxI3aTENswA\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII8yCQESlwf18HNpjoqnaf0RCgZxP4rBcWIXRJTdXZDe acme-architect-p1@test-genesis"
   }
 }
