@@ -1,0 +1,268 @@
+#!/usr/bin/env python3
+"""ci.py — every gate of this repository, in order, from one entry point.
+
+The workflow runs this and nothing else (DDD-dec-81, item 3: pipelines runnable locally). Run it
+from the repository root:
+
+    python3 scripts/ci.py            # every gate
+    python3 scripts/ci.py fixtures   # named gates only
+    python3 scripts/ci.py --list     # the gates, in order
+
+Exit 0 when every gate passes, 1 otherwise. Each gate's own output is printed only when it fails.
+Dependencies: scripts/requirements.txt (Python), plus git and ssh-keygen on PATH, which are checked
+before any gate runs. The pins gate shallow-clones the pinned upstream ref
+(graph/upstream.yaml); set DDD_UPSTREAM_DIR to a local checkout to run offline.
+"""
+
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+PY = sys.executable
+FIX = ROOT / "scripts" / "fixtures"
+
+
+def run(args, cwd=ROOT):
+    r = subprocess.run([PY, *args], cwd=cwd, capture_output=True, text=True)
+    return r.returncode, (r.stdout + r.stderr)
+
+
+# System tools the gates need, and which gate needs each. Checked before any gate runs, so a
+# missing tool is named instead of surfacing as a traceback inside a checker.
+SYSTEM_TOOLS = [
+    ("git", "core-order (clones the pinned upstream ref), releases and fixtures (the guard)"),
+    ("ssh-keygen", "how (the How examples mint throwaway signing keys, DDD-dec-62)"),
+]
+
+
+def preflight():
+    missing = [(t, why) for t, why in SYSTEM_TOOLS if shutil.which(t) is None]
+    for t, why in missing:
+        print(f"FAIL preflight   {t} is not on PATH; needed by {why}. "
+              f"Install it, or use the devcontainer.")
+    return not missing
+
+
+def git(*args, cwd):
+    r = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args)}: {r.stderr.strip()}")
+    return r.stdout.strip()
+
+
+def tag_exists(version):
+    return subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"refs/tags/{version}"],
+                          cwd=ROOT, capture_output=True).returncode == 0
+
+
+def gate_releases():
+    """spec/release-format.md under DDD-dec-84: every descriptor validates, and every descriptor
+    not yet cut satisfies the release-head guard at the head under test."""
+    rel = ROOT / "releases"
+    descriptors = sorted(rel.glob("*.yaml")) if rel.is_dir() else []
+    if not descriptors:
+        return 0, "no release descriptors"
+    code, out = run(["scripts/validate-releases.py", "releases/"])
+    if code != 0:
+        return code, out
+    for d in descriptors:
+        if tag_exists(d.stem):
+            out += f"\n  {d.stem}: cut (tag exists); immutable, not re-guarded"
+            continue
+        c, o = run(["scripts/check-release-head.py", str(d.relative_to(ROOT)), "--at", "HEAD"])
+        out += "\n" + o
+        code = code or c
+    return code, out
+
+
+def gate_claims():
+    return run(["scripts/validate-claims.py", "core/claims/"])
+
+
+def gate_decisions():
+    return run(["scripts/validate-claims.py", "core/decisions/", "--decisions"])
+
+
+def gate_core_order():
+    return run(["scripts/validate-core-order.py", "core/"])
+
+
+def gate_what():
+    return run(["applications/sdlc/what/check.py"])
+
+
+def gate_how():
+    return run(["applications/sdlc/how-examples/check.py"])
+
+
+def expect_of(path: Path) -> str:
+    """The expected error text: an `# expect:` first line, or an `expect` file beside a tree."""
+    if path.is_dir():
+        return (path / "expect").read_text(encoding="utf-8").strip()
+    first = path.read_text(encoding="utf-8").splitlines()[0]
+    return first.removeprefix("# expect:").strip()
+
+
+def materialise(tree: Path, into: Path) -> Path:
+    """Copy a core-order fixture tree, dropping the .fixture suffix, and return its core/."""
+    dest = into / tree.name
+    shutil.copytree(tree, dest)
+    for f in dest.rglob("*.fixture"):
+        f.rename(f.with_suffix(""))
+    return dest / "core"
+
+
+def gate_fixtures():
+    lines, failed = [], 0
+
+    def accept(label, code, out):
+        nonlocal failed
+        ok = code == 0
+        failed += not ok
+        lines.append(f"  {'ok  ' if ok else 'FAIL'} accept {label}" + ("" if ok else f"\n{out}"))
+
+    def refuse(label, code, out, want):
+        nonlocal failed
+        ok = code != 0 and want in out
+        failed += not ok
+        why = "" if ok else (f" (exit {code}, expected text {want!r} "
+                             f"{'found' if want in out else 'not found'})\n{out}")
+        lines.append(f"  {'ok  ' if ok else 'FAIL'} refuse {label}{why}")
+
+    accept("claims/accept", *run(["scripts/validate-claims.py", str(FIX / "claims/accept")]))
+    for f in sorted((FIX / "claims/refuse").glob("*.yaml")):
+        refuse(f"claims/refuse/{f.name}", *run(["scripts/validate-claims.py", str(f)]), expect_of(f))
+
+    accept("decisions/accept",
+           *run(["scripts/validate-claims.py", str(FIX / "decisions/accept"), "--decisions"]))
+    for f in sorted((FIX / "decisions/refuse").glob("*.yaml")):
+        refuse(f"decisions/refuse/{f.name}",
+               *run(["scripts/validate-claims.py", str(f), "--decisions"]), expect_of(f))
+
+    with tempfile.TemporaryDirectory(prefix="ddd-fixtures-") as tmp:
+        tmp = Path(tmp)
+        core = materialise(FIX / "core-order/accept", tmp)
+        accept("core-order/accept", *run(["scripts/validate-core-order.py", str(core)]))
+        for tree in sorted(p for p in (FIX / "core-order/refuse").iterdir() if p.is_dir()):
+            core = materialise(tree, tmp)
+            refuse(f"core-order/refuse/{tree.name}",
+                   *run(["scripts/validate-core-order.py", str(core)]), expect_of(tree))
+
+    accept("releases/accept",
+           *run(["scripts/validate-releases.py", str(FIX / "releases/accept")]))
+    for tree in sorted(p for p in (FIX / "releases/refuse").iterdir() if p.is_dir()):
+        refuse(f"releases/refuse/{tree.name}",
+               *run(["scripts/validate-releases.py", str(tree)]), expect_of(tree))
+
+    with tempfile.TemporaryDirectory(prefix="ddd-guard-") as tmp:
+        for name, want, code, out in guard_scenarios(Path(tmp)):
+            (accept if want is None else lambda l, c, o: refuse(l, c, o, want))(
+                f"release-head/{name}", code, out)
+
+    return (1 if failed else 0), "\n".join(lines)
+
+
+def guard_scenarios(tmp: Path):
+    """The release-head guard in throwaway repositories (scripts/fixtures/README.md).
+
+    Yields (name, expected refusal text or None for accept, exit code, output). Each scenario
+    copies scripts/check-release-head.py into a fresh repository, because the guard runs git in
+    the repository it lives in."""
+    env = dict(os.environ, GIT_AUTHOR_NAME="fixture", GIT_AUTHOR_EMAIL="fixture@invalid",
+               GIT_COMMITTER_NAME="fixture", GIT_COMMITTER_EMAIL="fixture@invalid")
+
+    def repo(name):
+        d = tmp / name
+        (d / "scripts").mkdir(parents=True)
+        shutil.copy(ROOT / "scripts/check-release-head.py", d / "scripts")
+        subprocess.run(["git", "init", "-q", "-b", "main"], cwd=d, check=True, env=env)
+        return d
+
+    def commit(d, path, text, msg):
+        f = d / path
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(text, encoding="utf-8")
+        subprocess.run(["git", "add", "-A"], cwd=d, check=True, env=env)
+        subprocess.run(["git", "-c", "commit.gpgsign=false", "commit", "-q", "-m", msg],
+                       cwd=d, check=True, env=env)
+        return git("rev-parse", "HEAD", cwd=d)
+
+    def descriptor(head):
+        return f"format: 2\nversion: v9.9.0\nratified_head: {head}\n"
+
+    def guard(d, at):
+        r = subprocess.run([PY, "scripts/check-release-head.py", "releases/v9.9.0.yaml",
+                            "--at", at], cwd=d, capture_output=True, text=True)
+        return r.returncode, r.stdout + r.stderr
+
+    # Accept: the descriptor is the only change on top of the ratified head.
+    d = repo("ratified-plus-descriptor")
+    commit(d, "canon.md", "one\n", "canon")
+    r = commit(d, "canon.md", "two\n", "ratified canon")
+    at = commit(d, "releases/v9.9.0.yaml", descriptor(r), "descriptor")
+    yield ("accept/ratified-plus-descriptor", None, *guard(d, at))
+
+    # Refuse: cut BEFORE the ratified head (the v5.14.0 class upstream).
+    d = repo("cut-before")
+    base = commit(d, "canon.md", "one\n", "canon")
+    r = commit(d, "canon.md", "two\n", "ratified canon, on a branch")
+    git("checkout", "-q", "-b", "cut", base, cwd=d)
+    at = commit(d, "releases/v9.9.0.yaml", descriptor(r), "descriptor, cut from the old head")
+    yield ("refuse/cut-before", "is not an ancestor", *guard(d, at))
+
+    # Refuse: an unratified commit merged AFTER the ratified head (its mirror).
+    d = repo("merged-after")
+    commit(d, "canon.md", "one\n", "canon")
+    r = commit(d, "canon.md", "two\n", "ratified canon")
+    commit(d, "canon-extra.md", "unratified\n", "a change after ratification")
+    at = commit(d, "releases/v9.9.0.yaml", descriptor(r), "descriptor")
+    yield ("refuse/merged-after", "changed between the ratified head", *guard(d, at))
+
+
+GATES = [
+    ("claims", "core/claims/ against the claim format", gate_claims),
+    ("decisions", "core/decisions/: no escaped decisions", gate_decisions),
+    ("core-order", "core order, embeds, and upstream pins at the pinned ref", gate_core_order),
+    ("what", "the What: shapes, identity form, hash vectors", gate_what),
+    ("how", "the How examples: records, anchors, verdicts", gate_how),
+    ("releases", "release descriptors valid; the release-head guard for each not yet cut",
+     gate_releases),
+    ("fixtures", "each checker accepts its accept tree and refuses its refuse cases", gate_fixtures),
+]
+
+
+def main() -> int:
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    if "--list" in sys.argv:
+        for name, what, _ in GATES:
+            print(f"{name:11} {what}")
+        return 0
+    unknown = set(args) - {g[0] for g in GATES}
+    if unknown:
+        print(f"unknown gate(s): {', '.join(sorted(unknown))}; see --list", file=sys.stderr)
+        return 2
+    if not preflight():
+        print("\nFAILED: preflight")
+        return 1
+    failed = []
+    for name, what, fn in GATES:
+        if args and name not in args:
+            continue
+        code, out = fn()
+        print(f"{'ok  ' if code == 0 else 'FAIL'} {name:11} {what}", flush=True)
+        if name == "fixtures":
+            print(out, flush=True)
+        elif code != 0:
+            print(out.rstrip(), flush=True)
+        if code != 0:
+            failed.append(name)
+    print(f"\n{'FAILED: ' + ', '.join(failed) if failed else 'all gates passed'}")
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

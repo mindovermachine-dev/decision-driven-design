@@ -1,0 +1,31 @@
+format: 1
+id: DDD-dec-75
+kind: decision
+statement: |
+  The repository's version is the version of the method. It does not move because a claim's status changes or because the upstream pin advances.
+principal: Emil
+made: |
+  2026-11-02, Round 1 of the ready-to-try session, recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("3. The method"), answering question 3 of the proposal (the method, the claim graph, or the upstream pin); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > 3. The method
+
+  ## What it settles
+
+  At arrival the repository carried three version schemes: git tags v0.1.0 to v0.4.0 (the last
+  on 2026-08-10), CHANGELOG headings 4.x (last 4.7), and the upstream pin v5.15.2. Readers could
+  not tell which number described what they would be trying. One number now does: the method's.
+  The claim graph keeps its statuses and the pin keeps its tag; neither is a release number here.
+
+  ## Not settled — G6
+
+  The mapping of method changes to SemVer's MAJOR, MINOR and PATCH, the first version under the
+  scheme, and what becomes of the 4.x CHANGELOG headings are not ruled. They are gate G6 of the
+  session.
+basedOn:
+  - DDD-dec-74
+notes: |
+  Reading recorded — Claude, UNVERIFIED — Emil review. "The method" is read as the repository's
+  version tracking the method. If Emil meant something narrower, such as versioning only a
+  method/ directory, this decision is superseded.

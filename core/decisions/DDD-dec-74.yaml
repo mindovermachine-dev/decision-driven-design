@@ -1,0 +1,32 @@
+format: 1
+id: DDD-dec-74
+kind: decision
+statement: |
+  The repository presents Decision-Driven Design as ready to try, not ready to use. Its front door states every method step at the register it is filed at, and offers no step as usable beyond that register.
+principal: Emil
+made: |
+  2026-11-02, Round 1 of the ready-to-try session, recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("1. yes ready to try"), answering question 1 of the proposal committed verbatim in that session's prompt.md; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > 1. yes ready to try
+
+  ## Why not "ready to use"
+
+  Varve presents as ready to use because its product is exercised by gates. This repository's
+  product is the method. At the ruling, step 1 is ruled for test and projected, not reported; it
+  stands or falls on T2b. Steps 2 to 10 are [PROPOSED]. A front door that read as "ready to use"
+  would state the method above its register, which the framework's own status discipline forbids.
+  "Ready to try" is the register the method has: a preview a practitioner can run and report on.
+basedOn:
+  - DDD-dec-38
+  - DDD-address-01
+  - DDD-address-02
+  - DDD-address-03
+  - DDD-address-04
+  - DDD-address-05
+notes: |
+  Id. DDD-dec-74 is the first id above every branch of both repositories at arrival: upstream
+  holds up to DDD-dec-39, main up to DDD-dec-62, and the live move session's branch
+  claude/stoic-einstein-v3y8w9 holds DDD-dec-63 to DDD-dec-73. The claim on 74 onward is recorded
+  in the session's bootstrap.md and in the pull request, the DDD-dec-62 precedent.

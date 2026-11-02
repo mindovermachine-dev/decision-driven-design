@@ -1,0 +1,61 @@
+format: 1
+id: DDD-dec-81
+kind: decision
+statement: |
+  The rest of the stewardship applicability table (meta/sessions/2026-11-02-ready-to-try/applicability.md) is ruled as proposed. The items not settled by DDD-dec-78 to DDD-dec-80 apply as that table states. This includes the Maturity property moving from Exploring to Experimental, Varve's signing exception, Discussions turned on, a downstream work board with a WIP limit of 2 beside an upstream roadmap board of the method's steps, repository settings declared in .github/repo-standard.yaml, a devcontainer, scripts/ci.py as the single gate entry point, validator fixtures that must pass and must fail, AGENTS.md as the tool-neutral entry, and the repository description replaced.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Rule rest as proposed (Recommended)"); Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "The rest of G3 in applicability.md was not in those questions. It covers: Maturity
+  > Exploring → Experimental; one decision moving the root reports and migration/ to
+  > meta/history/ and validate-core-order.py to scripts/, with a root shim for one release;
+  > Varve's signing exception; a downstream board WIP limit of 2; Discussions on; and settings
+  > in repo-standard.yaml. Rule the rest of the table as proposed?"
+  >
+  > A: "Rule rest as proposed (Recommended)"
+
+  ## The table, as ruled
+
+  | # | Item | Ruled |
+  |---|---|---|
+  | 1 | Semantic Versioning | Applies; the mapping is DDD-dec-82 |
+  | 2 | Containerised development | Applies: a devcontainer with Python, the checkers' dependencies, git and ssh-keygen |
+  | 3 | Containerised pipelines, runnable locally | Applies: scripts/ci.py runs every gate in order; the workflow calls it and nothing else |
+  | 4 | Trunk-based development | Deviation, scoped (DDD-dec-78) |
+  | 5 | Non-blocking reviews | Deviation, scoped (DDD-dec-78) |
+  | 6 | Full traceability | Applies, adapted: sessions recorded in meta/sessions/; every session gets an issue and its commits carry Refs #N, enforced in scripts/ci.py once the first session has done it by hand |
+  | 7 | Agentic AI ready | Applies: AGENTS.md as the tool-neutral entry, CLAUDE.md pointing to it |
+  | 8 | Signed commits | Applies, with Varve's stated deviation: a Signed Commits ruleset on main; cloud-sandbox commits exempt through the bypass, attested by the push path and the session record |
+  | 9 | Detroit-style testing | Applies to the checkers: each validator gets a fixture it must accept and one it must refuse |
+  | 10 | Managed test data | Applies: the fixtures, and the How examples' throwaway keys (DDD-dec-62) |
+  | 11 | Highly componentised | Applies, as already done by the split (DDD-dec-04) |
+  | 12 | Open project management | Applies: an upstream roadmap board, one card per method step; a downstream work board with a WIP limit of 2 |
+  | 13 | User voice channel | Applies: Discussions on; the field-report issue template |
+  | 14 | Modern distribution | Applies, adapted: a GitHub Release per method version with the step cards attached, and a rendered site (Layer 3) |
+  | — | Maturity property | Exploring → Experimental; Incubating when step 1 is reported |
+  | — | Product property | Decision Driven Design, kept |
+  | — | Licence | DDD-dec-79 |
+  | — | Repository description | One line stating the projection and its preview status |
+  | — | Topics, Discussions, rulesets | Declared in .github/repo-standard.yaml |
+  | — | Root clean-up | DDD-dec-80 |
+
+  ## Whose hands
+
+  The organisation properties (Maturity), turning Discussions on, applying repo-standard.yaml
+  (rulesets, description, topics) and creating the boards need repository or organisation admin.
+  They are Emil's acts. The session writes the declarations and lists the acts, and does not
+  attempt them.
+basedOn:
+  - DDD-dec-76
+  - DDD-dec-74
+  - DDD-dec-04
+  - DDD-dec-62
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.
+
+  Reading — Claude, UNVERIFIED — Emil review. "The rest of the table as proposed" is read to
+  include every row of applicability.md not named in the dialog's summary, among them items 2,
+  3, 6, 7, 9, 10, 12 and 14 and the repository description, as written in that file at fcf7594.

@@ -1,0 +1,12 @@
+# The checkers' dependencies, pinned at the versions the gates pass with (scripts/ci.py).
+#
+# System dependencies, not installable by pip, and checked by scripts/ci.py before any gate runs:
+#   git         the core-order gate clones the pinned upstream ref; the releases gate and the
+#               release-head fixtures run the guard, which reads history
+#   ssh-keygen  the How examples mint throwaway signing keys (DDD-dec-62)
+# Python 3.11 or later. The devcontainer (.devcontainer/) provides all of these.
+PyYAML==6.0.3
+rdflib==7.6.0
+PyLD==3.3.0
+pyshacl==0.40.2
+pyoxigraph==0.5.13

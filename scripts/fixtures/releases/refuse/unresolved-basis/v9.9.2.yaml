@@ -1,0 +1,8 @@
+format: 2
+version: v9.9.2
+ratified_head: 0123abc
+title: 'Fixture: a basis id that names nothing'
+basis:
+  - DDD-fixture-99
+summary: |
+  Fixture. The validator must refuse this file: DDD-fixture-99 names no file in core/.

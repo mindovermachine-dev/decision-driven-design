@@ -1,0 +1,50 @@
+format: 1
+id: DDD-dec-79
+kind: decision
+statement: |
+  The repository moves to copyleft. Specification text is licensed CC BY-SA 4.0 and code, schemas, ontologies, shapes and executable artifacts MPL-2.0, replacing CC BY 4.0 and Apache-2.0. The change applies from the commit that lands it; material already released under the earlier licence stays available under it at the commits and tags that carried it.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Move to copyleft", option text "CC BY-SA 4.0 for text, MPL-2.0 for code, as Varve did; filed as a decision"), answering the G3 licence question; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "G3 — licence: the organisation's principles call for CopyLeft, but this repository is CC
+  > BY 4.0 (text) with Apache-2.0 (code). Which way?"
+  >
+  > A: "Move to copyleft" (option text: "CC BY-SA 4.0 for text, MPL-2.0 for code, as Varve did;
+  > filed as a decision")
+
+  ## Why
+
+  The organisation's stewardship page names "Open Source and CopyLeft" as a principle. Neither CC
+  BY 4.0 nor Apache-2.0 is copyleft. Varve made the same move for the same reason (its ADR 0031).
+  Under DDD-dec-76 the principle applies unless a ruled applicability table states otherwise, and
+  Emil ruled that it applies.
+
+  ## What changes
+
+  - LICENSE.md states the split. LICENSE carries the full MPL-2.0 text, and NOTICE carries the
+    MPL-2.0 notice with the file-level reading.
+  - The split follows the existing LICENSE.md. Prose is text. Source code, schemas, RDF ontologies,
+    SHACL shapes and executable artifacts are code.
+  - Tags v0.1.0 to v0.4.0 and every commit before this decision lands stay under CC BY 4.0 and
+    Apache-2.0. A licence grant already made cannot be withdrawn, and it is not.
+
+  ## Consent
+
+  Checked on 2026-11-02 against main at 2b6e4a7 with git log --format='%an <%ae>'. Every author
+  is Emil or an AI working under Emil (the table is in rulings.md, Round 2). No outside
+  contributor's consent is needed. After the first outside contribution, a further licence change
+  would need every contributor's consent, as Varve's GOVERNANCE.md records.
+basedOn:
+  - DDD-dec-76
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.
+
+  Not in scope. The principle repository (actor-indexed-determination) keeps its own licence,
+  which this repository does not rule; whether it follows is a matter for that repository.
+
+  Reading — Claude, UNVERIFIED — Emil review. That earlier releases stay available under the
+  earlier licences is how both CC and Apache grants work (they are irrevocable). This is stated
+  so that readers are not misled; it is not legal advice.

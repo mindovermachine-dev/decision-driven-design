@@ -1,0 +1,7 @@
+format: 2
+version: v9.9.1
+title: 'Fixture: format 2 with no ratified_head'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The validator must refuse this file: format 2 records the head the principal ratified.

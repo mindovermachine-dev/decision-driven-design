@@ -1,0 +1,62 @@
+format: 1
+id: DDD-dec-84
+kind: decision
+statement: |
+  The release-head guard governs this repository's releases from v0.5.0 on. The release format (format 2) and its two checkers are ported from the principle repository at v5.15.2: spec/release-format.md, scripts/check-release-head.py and scripts/validate-releases.py. scripts/ci.py runs them as a gate. Every descriptor validates, and every descriptor not yet cut must satisfy the guard at the head under test. A release is cut only from a merged head that is its ratified_head plus at most its descriptor.
+principal: Emil
+made: |
+  2026-11-02, Round 3 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Port the guard (Recommended)", option text "Copy check-release-head.py and the release format into this repo, as a gate in ci.py, before v0.5.0"), answering R-10; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "R-10 — the release-head guard (DDD-dec-39) exists only in the principle repository. The
+  > v0.5.0 release descriptor here needs either a port of the guard or a stated manual check.
+  > Which?"
+  >
+  > A: "Port the guard (Recommended)" (option text: "Copy check-release-head.py and the release
+  > format into this repo, as a gate in ci.py, before v0.5.0")
+
+  ## Why a decision here
+
+  DDD-dec-39 is an upstream decision and governs the principle repository's releases. Applying it
+  here is a new commitment for this repository: CI here starts refusing. DDD-dec-82 already says
+  the first release is cut "under the release-head guard"; this decision supplies the guard it
+  presupposed.
+
+  ## The port
+
+  Source: actor-indexed-determination at tag v5.15.2 (commit 084bce7). All three files were last
+  changed upstream at 1097055. They are copied unchanged, except for a header naming the source.
+  spec/release-format.md also gains a port note stating where this repository differs: its canon
+  gates are scripts/ci.py, its history is v0.1.0 to v0.4.0, and it has no release workflow yet.
+  Releases live under releases/, one descriptor per version, as upstream.
+
+  ## The gate
+
+  scripts/ci.py runs a `releases` gate. It validates every descriptor under releases/. For each
+  descriptor whose tag does not exist yet, it runs check-release-head.py at the head under test.
+  A format 2 descriptor without ratified_head fails validation, as upstream. A proposed release
+  whose head is not yet ratified is therefore red until the head is named, and it cannot merge
+  green.
+
+  ## Not ported
+
+  The release workflow (release.yml), which tags and publishes on merge. Until it is ported, Emil
+  cuts the tag by hand at the merged head, after main's CI has run the gate there.
+basedOn:
+  - DDD-dec-39
+  - DDD-dec-82
+  - DDD-dec-75
+  - DDD-dec-81
+notes: |
+  Id. DDD-dec-84 was checked free on every branch of both repositories on 2026-11-02. Upstream
+  holds up to DDD-dec-39 and main up to DDD-dec-73; this branch holds DDD-dec-74 to DDD-dec-82.
+  DDD-dec-83 is skipped on purpose. The authority-profile session's plan
+  (claude/bold-franklin-i7b16g, 50b463b, 09:31 UTC) names DDD-dec-77 to DDD-dec-83 as provisional,
+  read before this branch filed 77 to 82 at 09:30 UTC. Taking 84 avoids adding to that overlap.
+  How to resolve the overlap is Emil's.
+
+  Reading — Claude, UNVERIFIED — Emil review. "Before v0.5.0" is read as: the gate lands in this
+  pull request, ahead of the v0.5.0 descriptor. The upstream validator is kept unchanged, so
+  every basis id in a descriptor here must name a local claim or decision; upstream ids pinned in
+  graph/upstream.yaml do not resolve as basis.

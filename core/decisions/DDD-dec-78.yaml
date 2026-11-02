@@ -1,0 +1,36 @@
+format: 1
+id: DDD-dec-78
+kind: decision
+statement: |
+  Two items of the stewardship standard apply here as stated, scoped deviations, written into GOVERNANCE.md. Non-blocking reviews (item 5): merging stays the principal's ratification act, a blocking review, for any change that files, supersedes or ratifies a decision; editorial changes may reach main without it. Trunk-based development (item 4): a canon session may hold a branch open only for as long as its gates; everything not behind a gate lands on the trunk.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Accept both (Recommended)"), answering the G3 deviations question; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "G3 — deviations from the stewardship standard: merging stays your ratification act for
+  > anything that files or supersedes a decision (editorial changes may reach main without it),
+  > and canon sessions may hold a branch open only for as long as their gates. Accept both, stated
+  > as scoped deviations in GOVERNANCE.md?"
+  >
+  > A: "Accept both (Recommended)"
+
+  ## Item 5 — non-blocking reviews, deviated
+
+  The standard reviews releases, not merges. Here, a decision is ratified by the principal
+  merging the pull request that files it (every DDD-dec since DDD-dec-20 records this as its
+  ratification act). That merge is therefore a blocking review, the counterpart of the
+  standard's release review. It applies to anything that files, supersedes or ratifies a
+  decision, and so to every change under core/. Editorial changes (links, typos, community
+  files, tooling that changes no decision) may reach main without a ratification act.
+
+  ## Item 4 — trunk-based development, deviated
+
+  A canon session's branch lives only as long as its gates, and closes when its last gate is
+  ruled. Work not behind a gate does not wait on a session branch; it lands on the trunk.
+basedOn:
+  - DDD-dec-76
+  - DDD-dec-20
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.

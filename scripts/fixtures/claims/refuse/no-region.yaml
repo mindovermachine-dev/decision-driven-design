@@ -1,0 +1,12 @@
+# expect: region missing
+format: 1
+id: DDD-fixture-12
+kind: empirical
+statement: |
+  Fixture. A claim with no region, which the checker must refuse.
+status: projected
+evidence: []
+falsifier: |
+  The checker accepts this file.
+owner: none
+changed: v0.5.0

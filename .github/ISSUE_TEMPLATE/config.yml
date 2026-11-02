@@ -1,0 +1,23 @@
+# Blank issues are disabled deliberately. Every template below asks for the one thing that makes
+# its kind of report useful: the claim it targets, the act where the method bent, or the ground a
+# proposed decision rests on.
+blank_issues_enabled: false
+
+contact_links:
+  - name: A core claim is false (the floor, selection vs training, the measure, conservation)
+    url: https://github.com/mindovermachine-dev/actor-indexed-determination/issues
+    about: >-
+      Core claims are canon in the principle repository and are pinned here, not owned here.
+      Falsify them there.
+
+  - name: Question, idea, or what you tried
+    url: https://matrix.to/#/#mom-general:matrix.org
+    about: >-
+      The Mind over Machine community on Matrix, and the weekly office hours. Anything that is
+      not yet a specific piece of work belongs there rather than in an issue.
+
+  - name: Security problem, or material that must not be here
+    url: https://github.com/mindovermachine-dev/decision-driven-design/blob/main/SECURITY.md
+    about: >-
+      Report privately, never as a public issue. SECURITY.md has the address and the
+      five-working-day acknowledgement.

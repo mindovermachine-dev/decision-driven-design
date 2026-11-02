@@ -1,0 +1,11 @@
+terms:
+  - id: term:alpha
+    term: alpha
+    established_by: 01-alpha.md
+    status: settled
+    canonical_md: |
+      > **Alpha** — the first fixture term.
+  - id: term:beta
+    term: beta
+    established_by: 02-beta.md
+    status: settled
