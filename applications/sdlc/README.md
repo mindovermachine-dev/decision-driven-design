@@ -62,6 +62,7 @@ framework comprised — recoverable from this repository's git history — not a
 
 Written against v4:
 
+- **[what](what.md)** · moved 2026-10-28, not yet ratified — the opinionated specification of what a software application is and does (Product Framework §3 and §6.3.1, moved by `DDD-dec-41`…), in the identity form of `DDD-dec-63`; with its [ontology, shapes, example and checker](what/)
 - **[how](how.md)** · `[PROPOSED]`, unruled — the How as decisions: constraint, binding and contract, anchored in the What, held by Writ, shipped as packages and imported by `basedOn`; with its [vocabulary](how-vocabulary.md) and [worked decisions](how-examples/)
 - **production-as-ground** · pre-production predicates close over substitute ground; DORA's four keys instrument the encode/verify gap; the three tiers of feedback loop and which are eliminable
 

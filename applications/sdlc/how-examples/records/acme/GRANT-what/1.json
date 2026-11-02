@@ -1,0 +1,28 @@
+{
+  "protocol": "dpp/1",
+  "id": "GRANT-what",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "mailto:holder@acme.example grants mailto:owner@acme.example authority to accept What decisions anywhere in the product https://acme.example/products/shop.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-10-28",
+  "why": "The holder delegates the What scope to the product owner (what.md §5).",
+  "basedOn": [
+    {
+      "ref": "GEN@2@https://acme.example/products/shop/decisions",
+      "hash": "sha256:b0213ac191ebad70fb313be76228aa87804cb88f304dd3ba2dd97026bb89a5d4"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "grant",
+    "grantee": "mailto:owner@acme.example",
+    "scope": "what",
+    "delegatesFrom": "GEN@2@https://acme.example/products/shop/decisions"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkir4gyuxp45LK+UJeqLuJgRvzD\n8uHIl6vIpLUjDVM3sAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAED6OiYcWCYQoiWoCvSjuwd/MJYLxtOp6RgmahWI2cUvFT\n+vXwOFtrcjFjCzJ49+Fxb0oVywVDubrbvvZqK4kpIB\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIq+IMrsaeOSyvlCXqi7iYEb8w/LhyJeryKS1Iw1TN7 acme-holder@test-genesis"
+  }
+}

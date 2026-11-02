@@ -3,6 +3,7 @@
   "system": "https://acme.example/products/shop/decisions",
   "id": "IMP-layer",
   "versions": [
-    "1"
+    "1",
+    "2"
   ]
 }

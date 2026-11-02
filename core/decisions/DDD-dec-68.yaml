@@ -1,0 +1,39 @@
+format: 1
+id: DDD-dec-68
+kind: decision
+supersedes: DDD-dec-58
+statement: |
+  Coverage is generalised to every binding. Take each element of the bound sdlc: kind within the binding's anchor (sdlc:within*), and each target declared for it: by How target declarations, and by the What's contexts of use and declared targets. For each pair: it is realised; or it is debt, recorded as a baseline entry on the binding, which shrinks under the ratchet; or it is a boundary, recorded as an exclusion decision with its reason and reported not applicable. A waiver never covers a coverage gap.
+principal: Emil
+made: 2026-10-28, the Product Framework What move session, item 3 of its charter ("Supersede DDD-dec-55 to DDD-dec-61 with versions anchored to the real identifiers, per ruling 4 of 2026-10-28"), carrying out the obligation ruling 4 recorded on DDD-dec-58. The ruled content of DDD-dec-58 is carried unchanged; only its What identifiers are restated against the landed What (DDD-dec-63). Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## Carried from DDD-dec-58
+
+  Everything DDD-dec-58 ruled, and everything it left standing as proposed until the merge,
+  stands here unchanged. Read DDD-dec-58 for its rulings verbatim. DDD-dec-58 is left
+  unchanged, and this decision supersedes it.
+
+  ## Against the real identifiers
+
+  - **Element IRIs.** Coverage pairs are (element IRI, target), so a baseline entry and an exclusion
+    name an element by its ULID IRI. A rename does not move the pair (DDD-dec-63 §3).
+  - **Targets the What declares** are `sdlc:targetsContext` and `sdlc:DeclaredTarget` (what.md §4).
+    The reification and content pairs of DDD-dec-45 are computed from them (what.md §4.2).
+
+  ## The supersession obligation, discharged
+
+  Ruling 4 of 2026-10-28: "when the What lands with its identity form, each is superseded by a
+  version against the real identifiers, never edited". The What has landed (applications/sdlc/what.md)
+  in the identity form of DDD-dec-63. The How examples' records that DDD-dec-58 bound are
+  superseded by version 2 records (how-examples/README.md). No version 1 record was edited, and
+  build.py refuses to rewrite a published version. The checker is green against the landed What.
+  The examples remain a test product, and nothing in them is acceptable into a real product.
+basedOn:
+  - DDD-dec-58
+  - DDD-dec-63
+  - DDD-dec-54
+  - DDD-dec-45
+  - DDD-dec-47
+notes: |
+  Filed from the move session (meta/sessions/2026-10-28-product-framework-what-move/). Its id is
+  from the move's range, 63 onward (DDD-dec-62 notes).

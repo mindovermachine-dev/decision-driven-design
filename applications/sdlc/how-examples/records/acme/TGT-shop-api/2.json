@@ -1,0 +1,41 @@
+{
+  "protocol": "dpp/1",
+  "id": "TGT-shop-api",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The system https://acme.example/products/shop/what/01M610JNAMV23W7Y9YQKZPJ4ZA (shop-api) is realised in the language target csharp (edition 1) in the repository https://acme.example/repos/shop-api, and deployed as the unit https://acme.example/units/shop-api-prod on the platform target azure (edition 1).",
+  "by": "mailto:architect@acme.example",
+  "at": "2026-10-28",
+  "why": "Records which targets coverage ranges over for shop-api; anchored to the landed system (supersedes version 1).",
+  "basedOn": [
+    {
+      "ref": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:3f1c370392b78a55d7103313c4c72e93e24bb0c26752f5f2a832531a7363a956"
+    },
+    {
+      "ref": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+      "hash": "sha256:438d6c69905db0e8e1fda8c7c5eb0fb003e7cf4ee3d73f4ebf8ca4f1a2601a8c"
+    }
+  ],
+  "supersedes": [
+    {
+      "ref": "TGT-shop-api@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:a7bccebca48c9e2330f37005fad8797fe56d776b35046bca0c1dc6a77995d603"
+    }
+  ],
+  "status": "proposed",
+  "dk.decision-driven-design.sdlc": {
+    "record": "target-declaration",
+    "anchor": "https://acme.example/products/shop/what/01M610JNAMV23W7Y9YQKZPJ4ZA",
+    "language": {
+      "target": "csharp",
+      "edition": "VOC-csharp@1@https://vendor.example/packages/ref-arch",
+      "repository": "https://acme.example/repos/shop-api"
+    },
+    "platform": {
+      "target": "azure",
+      "edition": "VOC-azure@1@https://vendor.example/packages/ref-arch",
+      "unit": "https://acme.example/units/shop-api-prod"
+    }
+  }
+}

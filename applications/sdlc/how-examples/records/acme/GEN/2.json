@@ -1,0 +1,28 @@
+{
+  "protocol": "dpp/1",
+  "id": "GEN",
+  "version": "2",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "Genesis grant over the product https://acme.example/products/shop, held by mailto:holder@acme.example.",
+  "by": "mailto:holder@acme.example",
+  "at": "2026-10-28",
+  "why": "Supersedes GEN@1, which named the provisional product IRI; ruling 4 of 2026-10-28 replaces provisional identifiers once the What lands (DDD-dec-63). Test genesis.",
+  "basedOn": [],
+  "supersedes": [
+    {
+      "ref": "GEN@1@https://acme.example/products/shop/decisions",
+      "hash": "sha256:c5902c7b56bb4b4df01669a047a6a5ec1e4f4af333e985e2ffd063b074623e7d"
+    }
+  ],
+  "status": "accepted",
+  "dk.decision-driven-design.authority": {
+    "record": "genesis",
+    "product": "https://acme.example/products/shop",
+    "holder": "mailto:holder@acme.example"
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgkir4gyuxp45LK+UJeqLuJgRvzD\n8uHIl6vIpLUjDVM3sAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBHNLtq4XBxLo39Mfy4ijKXs/mjsVqFxJttlJqfz/9JIk\n5FDaw3XTiiT3qWFrSO3j5YkJaKXGGFPsw+33rYS/sM\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJIq+IMrsaeOSyvlCXqi7iYEb8w/LhyJeryKS1Iw1TN7 acme-holder@test-genesis"
+  }
+}

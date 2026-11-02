@@ -3,6 +3,7 @@
   "system": "https://vendor.example/packages/ref-arch",
   "id": "REST",
   "versions": [
-    "1"
+    "1",
+    "2"
   ]
 }

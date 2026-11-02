@@ -1,0 +1,106 @@
+format: 1
+id: DDD-dec-64
+kind: decision
+statement: |
+  The What as moved (applications/sdlc/what.md, what/ontology.ttl, what/shapes.ttl) rests on these choices, all now ruled.
+  - P-1: everything that appears on the wire carries an authored sdlc:wireName, distinct from the opaque key and the label. That is commands, events, payload fields, invariants in rejections, subject kinds and their claims, and view fields (R-2). It is stable by default and changed only by a decision that is a breaking change to the wire contract. It is unique product-wide for commands, events, invariants and subject kinds, and unique within its owner for fields (R-1).
+  - P-2: sdlc:within is the single containment edge.
+  - P-3: anything a binding, a baseline, reads, a scope key or a wire request names is an element.
+  - P-4: sdlc:DeclaredTarget declares design systems and content stores.
+  - P-5: §3.5 is "Named-algorithm primitives", with no subtitle.
+  - P-6: the ontology carries the §3 kinds, each with its dct:source.
+  - P-7: an authoring scope is a set of ontology classes, optionally narrowed to a subtree. Tools are gathering sources. A decision spanning scopes needs a live acceptance under each.
+principal: Emil
+made: |
+  P-1 ruled 2026-10-28 (Round 2); P-2 to P-7, R-1 and R-2 ruled 2026-10-30 (Round 5, "DDD-dec-64, one pass"), all as proposed, with P-7's multi-scope rule and R-2's amendment of P-1's list added by the ruling. Both rounds are recorded verbatim in meta/sessions/2026-10-28-product-framework-what-move/rulings.md. Proposed by Claude while writing step 2 of the plan Emil approved in Round 1. Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## P-1 — wire names (Round 2), with R-1 and R-2 (Round 5)
+
+  > Opaque keys were ruled for identity, and identity is not a wire contract. Every element kind
+  > that appears on the wire … carries sdlc:wireName: authored, unique within the product per kind,
+  > stable by default, and changed only by a decision that is by definition a breaking change to
+  > the wire contract … The REST projection and the conformance protocol use wireName, never the
+  > key and never the label. REST@2 stands.
+
+  - **R-1, where a wire name is unique.** "Wire names for commands, events, invariants and subject
+    kinds are unique product-wide; field wire names are unique within their owner."
+  - **R-2, view fields.** "View fields carry wire names. Amend P-1's list accordingly; 'everything
+    that appears on the wire' was the intent, and view fields do."
+
+  Landed: what.md §6; the ontology's sdlc:wireName; WireNameShape and FieldWireNameShape; REST@2.
+
+  ## P-2 — one containment edge
+
+  > One containment edge, sdlc:within, exactly one per element except the product node; subtree is
+  > within*. The relation's name is carried by the kind pair and enforced by the shapes; a reader
+  > that needs "ownership versus attachment" reads the kinds. No typed sub-properties.
+
+  Landed: the ontology; ElementIdentityShape and the per-kind containment shapes; what.md §2.2.
+
+  ## P-3 — what is an element
+
+  > Anything a binding, a baseline, reads, a scope key or a wire request names is an element with
+  > its own IRI; blank nodes only where nothing names the node. The cost (a field is an element,
+  > adding one is a What decision) is the correct cost: a wire contract changed.
+
+  Landed: sdlc:Interaction, sdlc:Field, sdlc:StateAnnotation, sdlc:ContentKey and sdlc:Scenario as
+  element kinds; what.md §2.2.
+
+  ## P-4 — declared targets
+
+  > One kind, sdlc:DeclaredTarget, with targetKind, edition as a dpp/1 reference, and locales for a
+  > content store. The dangling reference is not a weakness: it is the protocol's "not reachable"
+  > and is Writ's explain to resolve, not this tool's check to require.
+
+  Landed: the ontology; DeclaredTargetShape, which checks the reference's shape only; what.md §4.1.
+
+  ## P-5 — §3.5's title
+
+  > "Named-algorithm primitives", no subtitle; "floor" is canon's.
+
+  ## P-6 — the §3 kinds
+
+  > Q-2 named the file to take terms from, not the ceiling on terms; §3 is the authority on what the
+  > What contains, and a term tracing to a §3 section is sourced. The three renames (View, UIStep,
+  > SystemRoot) and isAggregateRoot as xsd:boolean stand. Keep the per-term dct:source as the
+  > audit trail.
+
+  ## P-7 — authoring scopes, with the multi-scope rule
+
+  > Scopes are sets of ontology classes, optionally narrowed to one element's within* subtree;
+  > derived kinds are in no scope; tools are gathering sources that propose and grant nothing. The
+  > multi-scope case: a decision that touches kinds in more than one scope needs a valid acceptance
+  > under each scope, from the same or different holders, and is in force only when all are live.
+  > That is the rule Writ already carries for scopes (its [D2] conjunction, the same shape as
+  > derived acceptance for blends); the authority profile inherits it rather than choosing. Record
+  > it on DDD-dec-64 so the profile PR cannot decide otherwise by accident.
+
+  **Recorded for the authority profile's pull request (M-1).** The multi-scope rule is ruled here,
+  in the What, before the profile exists. The profile inherits it and may not choose otherwise. A
+  profile that wants a different rule supersedes this decision; it does not decide silently. In
+  short, a decision spanning scopes is in force only while it holds a live, valid acceptance under
+  every scope it touches, from one holder or several.
+
+  Landed: what.md §5.1.
+
+  ## Also recorded, not choices
+
+  - Provider coverage moves to the How (authentication is How, PF v1.11.0 §3.7).
+  - Oracle conformance and the pure-core contract are How bindings.
+  - Attestations are left to the authority profile.
+  - The ontology and shapes lost their proposal markers with this ruling, which changed sdlc
+    edition 1's hash before it was tagged. The How examples' what@3 supersedes what@2 for that
+    reason, with the same graph.
+basedOn:
+  - DDD-dec-63
+  - DDD-dec-73
+  - DDD-dec-57
+  - DDD-dec-45
+  - DDD-dec-43
+  - DDD-dec-44
+  - DDD-dec-46
+  - DDD-dec-51
+notes: |
+  Filed unruled with step 2 of the move; P-1 ruled in Round 2; the rest ruled in Round 5 and this
+  file rewritten to the rulings. what/check.py enforces P-1, R-1 and R-2 over the example, with
+  planted defects.
