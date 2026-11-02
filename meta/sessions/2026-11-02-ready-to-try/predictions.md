@@ -477,3 +477,27 @@ scratch worktree on top of `c56bbb4`, in the commit structure the real one will 
 The real descriptor is the branch's last commit and adds only `releases/v0.5.0.yaml`, so that
 the commit before it can be ratified. Its CI result is reported in the session's reply, not
 here: writing it here would add a commit after the descriptor, which spec §4 rule 7 forbids.
+
+## P-26 — Round 4: the tail rebuilt
+
+Written on 2026-11-02, before the two commits and before any run. Nothing pushed is rewritten.
+Two commits go on top of `3797364`:
+- **A**: Round 4 in `rulings.md`, bootstrap amendment 4, the successor-items update and this
+  prediction;
+- **B**: `releases/v0.5.0.yaml` alone, with the `UNVERIFIED` comment on `prerelease` replaced by
+  Round 4's confirmation. `ratified_head` stays empty, and `prerelease: true` is unchanged.
+
+Prediction:
+- `git diff --name-only A B` is exactly `releases/v0.5.0.yaml`.
+- `scripts/ci.py` at B fails on `releases` alone, with the same message as P-25, and every other
+  gate is `ok`. So does CI.
+- With `ratified_head` set to A in a scratch copy, the guard reports "ok: the merged head is the
+  ratified head plus at most the descriptor", because A already carries the descriptor and B
+  changes only that file.
+- The parsed descriptor is identical before and after B, since only comments change.
+
+A is the head Emil ratifies. Its outcome is reported in the session's reply, not here, so that B
+stays the branch's last commit (spec §4 rule 7).
+
+Falsifier: a second file in A..B, a gate other than `releases` failing, or the scratch guard
+missing.

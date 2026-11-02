@@ -117,3 +117,12 @@ try: present the method as a preview (session 2026-11-02)". It links PR #43 and 
 Every commit from this amendment onward carries `Refs #44`. Earlier commits, up to `f20d8b6`
 (Round 3), do not, and are not rewritten. Enforcement in `scripts/ci.py` follows later, as
 `DDD-dec-81` item 6 and R-11 say.
+
+## Amendment 4 — 2026-11-02: DDD-dec-83 is never used
+
+Add-only. Nothing above this heading is edited.
+
+On Emil's Round 4 ruling for R-14 ("From 85 onward"), **`DDD-dec-83` is recorded as never used**.
+This session holds `DDD-dec-74` to `DDD-dec-82` and `DDD-dec-84`. The authority-profile session
+(`claude/bold-franklin-i7b16g`) re-checks and starts at `DDD-dec-85`. No decision file exists or
+will exist for `DDD-dec-83`. Ids are never reused, and the gap is not a defect.

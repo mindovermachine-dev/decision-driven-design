@@ -70,3 +70,10 @@ New items:
 
 Emil's admin acts, still open and not attempted: A-1 Maturity → Experimental, A-2 Discussions on,
 A-3 apply `.github/repo-standard.yaml`, A-4 the two boards.
+
+## Update — 2026-11-02, Round 4 (add-only)
+
+| Id | Status |
+|---|---|
+| R-14 | **Closed** by Round 4. `DDD-dec-83` is never used (bootstrap amendment 4). The authority-profile session starts at `DDD-dec-85` |
+| R-13 | Open. The head proposed for ratification moves to the commit before the rebuilt descriptor commit; the reply reports its SHA |

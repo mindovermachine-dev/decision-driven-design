@@ -173,3 +173,30 @@ The independent review found that `scripts/ci.py` crashes with a traceback in th
 `ssh-keygen` is absent, and that `scripts/requirements.txt` lists only Python packages. The fix
 checks for `ssh-keygen` first and fails with a message naming it, and lists the system
 dependencies.
+
+## Round 4 — 2026-11-02
+
+Given by Emil through the question dialog in the claude.ai conversation, after an independent
+review of `3797364`: 27 commits verified, and CI red on `releases` only, with `ratified_head`
+missing, as P-25 predicted. The questions and answers are verbatim, with option text where the
+dialog showed it.
+
+> Q: "R-14 — the authority-profile session (claude/bold-franklin-i7b16g) has nothing filed yet,
+> but its plan names DDD-dec-77 and 78. This branch already filed and pushed 77–82 and 84; 83 was
+> left free. Where should the authority session file?"
+>
+> A: "From 85 onward (Recommended)" (option text: "83 is recorded as never used; the authority
+> session re-checks and starts at 85")
+
+> Q: "The v0.5.0 descriptor sets prerelease: true, flagged UNVERIFIED. This matches 'ready to try
+> (preview)' and Varve's preview releases. Keep it?"
+>
+> A: "Keep prerelease: true (Recommended)" (option text: "GitHub marks v0.5.0 as a pre-release")
+
+### What follows from it
+
+- **`DDD-dec-83` is never used.** It is recorded as such in `bootstrap.md` (amendment 4) and in
+  `successor-items.md` (R-14 closed). No decision is filed for it: ids are never reused, and a gap
+  is not a defect. The authority-profile session re-checks and starts at `DDD-dec-85`.
+- **`prerelease: true` is confirmed.** The descriptor's `UNVERIFIED — Emil review` comment on it
+  is replaced by this confirmation, as an editorial change citing Round 4.
