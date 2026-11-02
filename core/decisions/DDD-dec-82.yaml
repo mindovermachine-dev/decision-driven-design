@@ -1,0 +1,50 @@
+format: 1
+id: DDD-dec-82
+kind: decision
+statement: |
+  The method's version follows SemVer under this mapping. It stays below 1.0 until all ten steps are ruled. MINOR moves when a step card is added or a step's register moves, whether from proposed to ruled to reported or back to open. PATCH moves for editorial changes. After 1.0, MAJOR moves when a ruled step is superseded incompatibly. The first release under the scheme is v0.5.0, continuing the existing tags v0.1.0 to v0.4.0, and the 4.x CHANGELOG headings stay as history.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("As proposed (Recommended)"), answering the G6 question; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "G6 — SemVer for the method: stay below 1.0 until all ten steps are ruled; MINOR when a
+  > step card is added or its register moves (proposed → ruled → reported, or back to open);
+  > PATCH for editorial changes; MAJOR after 1.0 when a ruled step is superseded incompatibly. The
+  > first release continues the existing tags as v0.5.0, and the 4.x CHANGELOG headings stay as
+  > history. Rule it?"
+  >
+  > A: "As proposed (Recommended)"
+
+  ## The mapping
+
+  | Change | Below 1.0 | From 1.0 |
+  |---|---|---|
+  | A ruled step superseded incompatibly | MINOR | MAJOR |
+  | A step card added, or a step's register moves (proposed → ruled → reported, or back to open) | MINOR | MINOR |
+  | Editorial (wording that changes no ruling, links, tooling) | PATCH | PATCH |
+
+  1.0 is reached when all ten steps are ruled. A claim's status change or an upstream pin advance
+  moves no number by itself (DDD-dec-75); it does so only through a step whose register it moves.
+
+  ## The first release
+
+  v0.5.0, continuing git tags v0.1.0 to v0.4.0. The CHANGELOG's 4.x headings are kept unedited as
+  history of the earlier numbering. The release is cut on Emil's merge of its descriptor, under the
+  release-head guard (upstream DDD-dec-39).
+basedOn:
+  - DDD-dec-75
+  - DDD-dec-74
+  - DDD-dec-39
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.
+
+  Readings confirmed. Round 2 confirms the reading of DDD-dec-75 flagged UNVERIFIED there (the
+  version moves when the method moves). DDD-dec-75 is not edited; rulings.md Round 2 records
+  the confirmation.
+
+  Readings — Claude, UNVERIFIED — Emil review. (1) Below 1.0, the ruling names no bump for an
+  incompatible supersession of a ruled step; the table books it as MINOR, as SemVer's 0.y.z
+  practice allows. (2) "Editorial" is glossed as wording that changes no ruling, links and
+  tooling.

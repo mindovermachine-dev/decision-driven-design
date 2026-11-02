@@ -106,3 +106,19 @@ Checked on 2026-11-02 against `origin/main` at `2b6e4a7`, with
 Committers are the same identities, plus `GitHub <noreply@github.com>` on Emil's merges. Every
 `Co-Authored-By` trailer names a Claude model. No third-party contributor holds copyright in the
 repository, so moving to copyleft needs no consent beyond Emil's.
+
+### Round 2 filed — 2026-11-02
+
+Added after filing; the Round 2 entry above is not edited. Its "Filed as" column reads:
+
+| Gate | Ruling | Decision |
+|---|---|---|
+| G4 | Varve, scoped | `DDD-dec-77` |
+| G3 | The two scoped deviations | `DDD-dec-78` |
+| G3 | Copyleft | `DDD-dec-79` |
+| G3 | The root move, with paths resolving at the record's commit | `DDD-dec-80` |
+| G3 | The rest of the applicability table | `DDD-dec-81` |
+| G6 | The SemVer mapping | `DDD-dec-82` |
+
+Claude's readings beyond the dialog's words are flagged `UNVERIFIED — Emil review` in the notes
+of `DDD-dec-79` to `DDD-dec-82`.

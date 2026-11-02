@@ -1,0 +1,37 @@
+format: 1
+id: DDD-dec-77
+kind: decision
+statement: |
+  The worked example of the quick start is Varve, scoped to the HTTP slice of Varve's own quick start: write, delete, read, read as-of, and the commit feed, with no RDF needed. The example pins Varve at a release tag. It states Varve as the subject of design, not as a dependency of the method or of this repository, and it is exposition, not evidence for the method.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Varve, scoped (Recommended)"), answering the G4 question; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "G4 — worked example for the quick start: Varve, scoped to the HTTP slice of its own quick
+  > start (write, delete, read, read as-of, commit feed — no RDF needed), pinned at a release tag,
+  > and stated as the subject of design, not a dependency?"
+  >
+  > A: "Varve, scoped (Recommended)"
+
+  ## What it settles
+
+  - **Subject.** Hafeok/varve. Phoenix stays out, as the Round 1 proposal said.
+  - **Scope.** The five HTTP operations of Varve's quick start. RDF, SPARQL and SHACL stay out of
+    the example, so that a reader needs no RDF to follow step 1.
+  - **Pin.** A release tag of Varve, named in the quick start. The tag is checked live when the
+    quick start is written (G5), not fixed here. At filing, Varve's newest tag is
+    v0.1.0-preview.15.
+  - **Standing.** Varve is the thing being designed in the example. Nothing in this repository
+    depends on it, and the example confers no evidence on any claim. Per DDD-dec-74 the front door
+    states the method at its register, and an example is not a register.
+basedOn:
+  - DDD-dec-74
+  - DDD-dec-73
+  - DDD-dec-20
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.
+
+  The example's falsifier, the junior-engineer test, is recorded with the quick start at G5.
+  Running it is Emil's act, not this session's.

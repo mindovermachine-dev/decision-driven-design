@@ -86,3 +86,23 @@ Decision ids, re-checked after the move across every branch of both repositories
 up to `DDD-dec-39`, downstream `main` up to `DDD-dec-62`, and `claude/stoic-einstein-v3y8w9` up
 to `DDD-dec-73` (head `5588e9a`, 2026-11-02 08:38 UTC). Only this branch holds `DDD-dec-74` to
 `DDD-dec-76`. The range is unchanged.
+
+## Amendment 2 — 2026-11-02: main moved; the id range widens
+
+Add-only. Nothing above this heading is edited.
+
+- **Base.** PR #42 (the What move) merged into `main` at 09:22 UTC, moving it from `1d0f40c` to
+  `2b6e4a7`. The branch took `main` by a signed merge (`736324c`), not a rebase, so the hashes in
+  amendment 1 still hold. One conflict, `meta/sessions/README.md`, was resolved by keeping both
+  rows in date order. Validators after the merge: 31 claims (6 warnings), 61 decisions, 74 pins,
+  0 basis-loss, all exiting 0.
+- **Decision ids.** Re-checked after the merge on every branch of both repositories. Upstream
+  holds up to `DDD-dec-39`, `main` up to `DDD-dec-73`, and nothing holds `DDD-dec-77` or above.
+  The session's range widens to `DDD-dec-74` to `DDD-dec-82`. `DDD-dec-77` to `82` file Round 2.
+- **Scope.** Round 2 ruled G3, G4 and G6, so the stops at those gates are lifted. The session now
+  stops for Emil's review at the end of G3's execution, and again at the end of G5. G6's
+  CHANGELOG heading and release descriptor follow G5 and are proposed only. The release is cut on
+  Emil's merge, under the release-head guard (upstream `DDD-dec-39`).
+- **Environment.** The checkers' Python dependencies were installed in this session's container
+  to run every gate: rdflib 7.6.0, PyLD 3.3.0, pyshacl 0.40.2, pyoxigraph 0.5.13, and PyYAML
+  6.0.3, which was already present. Python is 3.13 here; CI uses 3.11.

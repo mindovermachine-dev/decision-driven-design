@@ -1,0 +1,49 @@
+format: 1
+id: DDD-dec-80
+kind: decision
+statement: |
+  The build and migration records at the root move to meta/history/, namely PATCH-REPORT.md, RECONCILIATION-REPORT.md, migration-report.md and migration/. validate-core-order.py moves to scripts/, with a shim at the root that runs it, kept for one release. A path cited in a record resolves at the record's own commit, not at the head, so no ruled record is rewritten for the move.
+principal: Emil
+made: |
+  2026-11-02, Round 2 of the ready-to-try session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-02-ready-to-try/rulings.md ("Rule rest as proposed (Recommended)"), ruling the root clean-up in applicability.md as proposed; Emil's acceptance of the pull request is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "The rest of G3 in applicability.md was not in those questions. It covers: Maturity
+  > Exploring → Experimental; one decision moving the root reports and migration/ to
+  > meta/history/ and validate-core-order.py to scripts/, with a root shim for one release;
+  > Varve's signing exception; a downstream board WIP limit of 2; Discussions on; and settings
+  > in repo-standard.yaml. Rule the rest of the table as proposed?"
+  >
+  > A: "Rule rest as proposed (Recommended)"
+
+  ## The rule on paths
+
+  **A path cited in a record resolves at the record's own commit.** DDD-dec-07,
+  core/decisions/README.md, DDD-dec-10 and many session records cite these files by root path.
+  They stay correct as records of what was true when they were written. A reader following one
+  at the head looks in meta/history/ or scripts/, or reads the file at the record's commit. The
+  rule holds for every later move too, so that no move requires a ruled record to be edited.
+
+  ## What moves
+
+  | From | To |
+  |---|---|
+  | PATCH-REPORT.md | meta/history/PATCH-REPORT.md |
+  | RECONCILIATION-REPORT.md | meta/history/RECONCILIATION-REPORT.md |
+  | migration-report.md | meta/history/migration-report.md |
+  | migration/ | meta/history/migration/ |
+  | validate-core-order.py | scripts/validate-core-order.py, with a root shim |
+
+  Live instructions name the new path: the CI workflow, CLAUDE.md, the PR template, SECURITY.md
+  and the READMEs outside meta/ and core/decisions/. The root shim runs the moved script with the
+  same arguments and the same exit code. It is removed in the first release after v0.5.0, and
+  that removal is a PATCH under DDD-dec-82.
+basedOn:
+  - DDD-dec-76
+  - DDD-dec-20
+notes: |
+  Id. DDD-dec-77 to DDD-dec-82 were checked free on every branch of both repositories before filing, on 2026-11-02 after PR #42 merged: upstream holds up to DDD-dec-39, main up to DDD-dec-73, and only this branch holds DDD-dec-74 to DDD-dec-76.
+
+  Readings — Claude, UNVERIFIED — Emil review. (1) The path rule is stated to hold for later moves
+  too, not only this one. (2) Removing the shim is booked as a PATCH under DDD-dec-82.
