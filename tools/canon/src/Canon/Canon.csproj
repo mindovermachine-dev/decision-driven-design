@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>canon</AssemblyName>
+    <RootNamespace>Canon</RootNamespace>
+    <Version>0.1.0</Version>
+
+    <!-- A dotnet tool (DDD-dec-101). Packing is how it is built as one;
+         nothing publishes it (DDD-dec-106). -->
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>canon</ToolCommandName>
+    <PackageId>Canon</PackageId>
+    <Description>Gates and repository operations for the Decision-Driven Design canon repositories.</Description>
+    <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+
+    <IsAotCompatible>true</IsAotCompatible>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Canon.Tests" />
+  </ItemGroup>
+
+</Project>

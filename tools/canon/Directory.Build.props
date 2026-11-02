@@ -1,0 +1,37 @@
+<Project>
+
+  <!--
+    canon's build settings, after Varve's Directory.Build.props (DDD-dec-101;
+    tools/canon/DESIGN.md §3.1). Same framework, language and analysis level;
+    warnings are errors; usings are explicit so a reader sees where Varve enters.
+    Varve's DecisionDriven.Analyzers layering is not adopted (DESIGN.md §3.1).
+  -->
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' != ''">true</ContinuousIntegrationBuild>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Restores are locked: a package change shows in packages.lock.json
+         (DESIGN.md §1). CI restores in locked mode. -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode Condition="'$(CI)' != ''">true</RestoreLockedMode>
+  </PropertyGroup>
+
+</Project>

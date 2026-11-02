@@ -1,0 +1,29 @@
+<Project>
+
+  <!--
+    Central package management (DESIGN.md §3.1). Project files carry no
+    Version. Every pin is exact; a change is one reviewed line here plus the
+    lock files.
+
+    Gate 2 needs no Varve package: the repository operations are git, GitHub
+    and YAML. Varve.Rdf, Varve.Turtle, Varve.JsonLd, Varve.Shacl and
+    Varve.Shacl.Sparql (0.1.0-preview.15) arrive with the shapes at Gate 3,
+    in Canon/Graph/ only.
+  -->
+
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- canon.yaml and release descriptors. Varve's pin. Read through the
+         representation model only (YamlStream), so no reflection. -->
+    <PackageVersion Include="YamlDotNet" Version="18.1.0" />
+
+    <!-- Tests: Varve's runner and framework, on Microsoft.Testing.Platform. -->
+    <PackageVersion Include="xunit.v3" Version="4.0.2" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1" />
+  </ItemGroup>
+
+</Project>

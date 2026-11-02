@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Detroit style (DESIGN.md §3.4): real git repositories, a real bare
+       remote over file://, a real HTTP server for GitHub's REST shape. No
+       mocking library is referenced. -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <!-- Test methods are public for the runner and named as sentences; an
+         XML comment on each would repeat the name. Documentation is kept on
+         for IDE0005, and CS1591 is off for this project only. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/Canon/Canon.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+  </ItemGroup>
+
+</Project>

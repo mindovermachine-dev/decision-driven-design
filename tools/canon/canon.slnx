@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/Canon/Canon.csproj" />
+  <Project Path="tests/Canon.Tests/Canon.Tests.csproj" />
+</Solution>
