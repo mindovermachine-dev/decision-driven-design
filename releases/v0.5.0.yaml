@@ -1,0 +1,57 @@
+format: 2
+version: v0.5.0
+# PROPOSED, not ratified. No `commit`: cut wherever this file lands on main (spec §2 rule 3).
+# ratified_head: left empty on Emil's instruction, to be filled at ratification with the head Emil
+# ratifies (the commit before this descriptor on the branch). Until it is filled, the ported
+# validator refuses this file and the `releases` gate of scripts/ci.py is red, by design: an
+# unratified release cannot go green (spec §4 rule 7; DDD-dec-84).
+ratified_head:
+date: 2026-11-02
+# prerelease: Claude's proposal, matching "ready to try (preview)" (DDD-dec-74) and Varve's preview
+# releases. UNVERIFIED — Emil review.
+prerelease: true
+basis:
+  # The method's positioning and version scheme.
+  - DDD-dec-74
+  - DDD-dec-75
+  - DDD-dec-82
+  # Step 1, ruled for test: the act address claims and the decision that filed them. Its upstream
+  # basis, DDD-ground-06 and DDD-ground-01, is pinned in graph/upstream.yaml and cannot be cited
+  # here (the validator resolves basis against local files only).
+  - DDD-dec-38
+  - DDD-address-01
+  - DDD-address-02
+  - DDD-address-03
+  - DDD-address-04
+  - DDD-address-05
+  # The worked example.
+  - DDD-dec-77
+  # Stewardship, the licence, the root move and the guard this release is cut under.
+  - DDD-dec-76
+  - DDD-dec-78
+  - DDD-dec-79
+  - DDD-dec-80
+  - DDD-dec-81
+  - DDD-dec-84
+title: 'Ready to try: the method as a preview, with step 1 ruled for test'
+summary: |
+  **The first release whose version is the method's** (`DDD-dec-75`, mapped by `DDD-dec-82`).
+  Decision-Driven Design is presented as **ready to try, not ready to use** (`DDD-dec-74`): one of
+  ten steps is ruled, and it is ruled for test.
+
+  - **Step 1, map and index acts**, is ruled for test. Its claims are projected: `DDD-ground-06`
+    and `DDD-ground-01` upstream, and `DDD-address-01` to `05` here. They wait on T2b, the first
+    independent application case. Steps 2 to 10 are `[PROPOSED]`, and their cards carry only
+    what is filed.
+  - **A quick start** runs step 1 on the HTTP slice of Varve `v0.1.0-preview.15` (`DDD-dec-77`).
+    Varve is the subject of design, not a dependency. The example is exposition, not evidence, and
+    its falsifier, the junior-engineer test, has not been run.
+  - **A practitioner README.** The theory moved, unchanged, to `why.md`.
+  - **The stewardship standard**, adopted as it applies (`DDD-dec-76`, `DDD-dec-81`), with three
+    stated departures in `GOVERNANCE.md` (`DDD-dec-78` and the signing exception). **Copyleft**:
+    CC BY-SA 4.0 for text and MPL-2.0 for code (`DDD-dec-79`). `scripts/ci.py` runs every gate,
+    inside a devcontainer. The **release-head guard** is ported (`DDD-dec-84`), and this release is
+    its first instance here.
+
+  Everything on `main` since `v0.4.0` ships with it, including the Product Framework What and How
+  (`DDD-dec-41` to `DDD-dec-73`). Releases up to `v0.4.0` stay under CC BY 4.0 and Apache-2.0.
