@@ -1,0 +1,6 @@
+# The checkers' dependencies, pinned at the versions the gates pass with (scripts/ci.py).
+PyYAML==6.0.3
+rdflib==7.6.0
+PyLD==3.3.0
+pyshacl==0.40.2
+pyoxigraph==0.5.13

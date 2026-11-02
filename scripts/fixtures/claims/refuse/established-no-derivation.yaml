@@ -1,0 +1,16 @@
+# expect: requires a derivation
+format: 1
+id: DDD-fixture-13
+kind: formal
+statement: |
+  Fixture. An established claim whose only evidence is a computation, which the checker must refuse.
+status: established
+region: scripts/fixtures only
+evidence:
+  - kind: computation
+    ref: scripts/fixtures/README.md
+    note: fixture
+falsifier: |
+  The checker accepts this file.
+owner: none
+changed: v0.5.0

@@ -1,41 +1,28 @@
 name: validate
 
+# Every gate, on every push and pull request, inside the development container (DDD-dec-81,
+# items 2 and 3). scripts/ci.py is the single entry point; this workflow runs it and nothing
+# else, so a local `python3 scripts/ci.py` in the devcontainer is the same pipeline.
+#
+# No secrets. The principle repository is public, so the pins gate clones the pinned ref
+# anonymously, forks included. UPSTREAM_TOKEN is no longer read (P-12 of the ready-to-try
+# session).
+
 on:
   push:
-    paths:
-      - 'core/**'
-      - 'graph/**'
-      - 'apparatus/**'
-      - 'applications/**'
   pull_request:
-    paths:
-      - 'core/**'
-      - 'graph/**'
-      - 'apparatus/**'
-      - 'applications/**'
+
+permissions:
+  contents: read
 
 jobs:
-  validate:
+  pipeline:
+    name: pipeline (devcontainer)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: devcontainers/ci@v0.3
         with:
-          python-version: '3.11'
-      - name: Install deps
-        run: pip install pyyaml
-      - name: Local claims + decisions schema
-        run: |
-          python3 scripts/validate-claims.py core/claims/
-          python3 scripts/validate-claims.py core/decisions/ --decisions
-      - name: Upstream pins (E12/E13/W5) against the pinned ref
-        # The principle repository is public, so the pinned ref clones without credentials and this
-        # step runs everywhere, forks included. UPSTREAM_TOKEN is used when it is set (to lift the
-        # anonymous rate limit) and is not required.
-        env:
-          UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_TOKEN }}
-        run: |
-          if [ -n "$UPSTREAM_TOKEN" ]; then
-            git config --global url."https://x-access-token:${UPSTREAM_TOKEN}@github.com/".insteadOf "https://github.com/"
-          fi
-          python3 validate-core-order.py core/
+          imageName: ghcr.io/mindovermachine-dev/decision-driven-design-devcontainer
+          push: never
+          runCmd: python3 scripts/ci.py

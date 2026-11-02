@@ -1,0 +1,11 @@
+# expect: falsifier-presence
+format: 1
+id: DDD-fixture-11
+kind: empirical
+statement: |
+  Fixture. A projected claim with no falsifier, which the checker must refuse.
+status: projected
+region: scripts/fixtures only
+evidence: []
+owner: none
+changed: v0.5.0

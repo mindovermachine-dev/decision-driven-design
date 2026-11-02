@@ -1,0 +1,12 @@
+# expect: no accountable principal
+format: 1
+id: DDD-dec-912
+kind: decision
+statement: |
+  Fixture. A decision with no accountable principal, which the checker must refuse.
+made: |
+  Never; it is a fixture.
+resolution: |
+  Refuse.
+basedOn:
+  - DDD-fixture-01

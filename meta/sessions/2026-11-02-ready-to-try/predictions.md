@@ -170,3 +170,26 @@ checker's row), the PR template (now one `scripts/ci.py` line), SECURITY.md and
 `projections/README.md`. The CI workflow is rewritten under P-12, and `CLAUDE.md` under P-7.
 `meta/graph-tool-mvp.md` and the comment in `graph/upstream.yaml` name the checker without a
 path and were left.
+
+Outcome P-13: **held, after one correction its own clause foresaw.** All five refuse cases exit 1
+with the expected text: `falsifier-presence`, `region missing`, `requires a derivation`, `no
+basedOn edges` and `no accountable principal`, plus `E4` and `E6`. All three accept trees exit 0.
+The first layout stored the core-order documents as `*.md`. The repository-wide E13 scan then
+read the fixtures' `term:alpha` embeds as unpinned upstream embeds, and the real core-order run
+failed with 3 E13 errors. That was the falsifier P-13 named. Exempting the fixtures in the
+checker was rejected, because a skip-path in a canon checker is a loophole. Instead the documents
+are stored as `*.md.fixture`, and `ci.py` materialises each tree in a temporary directory. With
+that layout the real run is back to baseline: 74 pins, 0 errors.
+
+Outcome P-12, local: **held.** `python3 scripts/ci.py` runs the six gates in order, all ok, exit
+0, in 28 s. In a scratch copy, the claims accept fixture was broken (falsifier removed) and the
+forward-edge refuse case was defused (`requires: []`). `ci.py` then exited 1 and named both: `FAIL
+accept claims/accept`, and `FAIL refuse core-order/refuse/forward-edge (exit 0, expected text 'E4'
+not found)`. The workflow's only step after checkout runs `python3 scripts/ci.py` in the
+devcontainer, on every push and pull request, with no path filter and no secret. The CI run on
+the pushed branch is recorded below.
+
+Outcome P-11, local: **held.** `devcontainer.json` parses once its comments are stripped. A clean
+Python 3.11.18 venv that installed only `scripts/requirements.txt` (PyYAML 6.0.3, rdflib 7.6.0,
+PyLD 3.3.0, pyshacl 0.40.2, pyoxigraph 0.5.13) ran `scripts/ci.py` to "all gates passed", exit 0.
+The image build is CI's `pipeline (devcontainer)` job, recorded below.

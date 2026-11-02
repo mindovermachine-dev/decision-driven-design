@@ -1,0 +1,39 @@
+{
+  // The development container for Decision-Driven Design (DDD-dec-81, item 2).
+  //
+  // Everything the gates need and nothing else: Python 3.11 (the version CI has always used), the
+  // checkers' pinned dependencies (scripts/requirements.txt), git, and ssh-keygen (in the base
+  // image; the How examples mint throwaway keys with it, DDD-dec-62). CI builds this container and
+  // runs scripts/ci.py inside it, so a green run here is a green run there (item 3).
+  "name": "Decision-Driven Design",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.11-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "onCreateCommand": "pip install --no-cache-dir -r scripts/requirements.txt",
+  "postCreateCommand": "python3 scripts/ci.py --list",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "redhat.vscode-yaml",
+        "editorconfig.editorconfig",
+        "davidanson.vscode-markdownlint"
+      ],
+      "settings": {
+        "files.eol": "\n"
+      }
+    }
+  },
+
+  "remoteEnv": {
+    // Signing, as Varve does it (DDD-dec-81, item 8): a local session with a key signs like a
+    // human. Passing the agent socket and the TTY through makes that work inside the container.
+    "GH_TOKEN": "${localEnv:GH_TOKEN}",
+    "GPG_TTY": "${containerEnv:GPG_TTY}",
+    "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}"
+  }
+}

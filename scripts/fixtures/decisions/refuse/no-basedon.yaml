@@ -1,0 +1,11 @@
+# expect: no basedOn edges
+format: 1
+id: DDD-dec-911
+kind: decision
+statement: |
+  Fixture. An escaped decision, with no basedOn edge, which the checker must refuse.
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: |
+  Refuse.

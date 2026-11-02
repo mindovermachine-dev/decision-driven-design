@@ -1,0 +1,13 @@
+# Alpha
+
+<!-- ddd:contract
+requires: []
+establishes: [alpha]
+status: settled
+-->
+
+<!-- ddd:embed id=term:alpha -->
+> **Alpha** — the first fixture term, edited in the document instead of the graph.
+<!-- /ddd:embed -->
+
+The embed above was edited in the document, not in the graph. Expect E6.

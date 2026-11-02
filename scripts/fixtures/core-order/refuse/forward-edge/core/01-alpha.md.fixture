@@ -1,0 +1,13 @@
+# Alpha
+
+<!-- ddd:contract
+requires: [beta]
+establishes: [alpha]
+status: settled
+-->
+
+<!-- ddd:embed id=term:alpha -->
+> **Alpha** — the first fixture term.
+<!-- /ddd:embed -->
+
+Alpha uses beta before the later document establishes it. Expect E4.

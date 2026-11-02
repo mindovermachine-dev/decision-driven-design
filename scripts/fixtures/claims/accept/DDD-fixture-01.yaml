@@ -1,0 +1,14 @@
+format: 1
+id: DDD-fixture-01
+kind: empirical
+statement: |
+  Fixture. A projected empirical claim with a falsifier, which the checker must accept.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+breaks: |
+  Nothing; it is a fixture.
+owner: none
+changed: v0.5.0

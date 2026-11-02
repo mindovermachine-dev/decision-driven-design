@@ -1,0 +1,12 @@
+format: 1
+id: DDD-dec-901
+kind: decision
+statement: |
+  Fixture. A decision with a principal, a resolution, a made context and a basedOn edge, which the checker must accept.
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: |
+  Accept.
+basedOn:
+  - DDD-fixture-01

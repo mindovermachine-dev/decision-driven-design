@@ -1,0 +1,9 @@
+# Beta
+
+<!-- ddd:contract
+requires: [alpha]
+establishes: [beta]
+status: settled
+-->
+
+Beta builds on alpha, which an earlier document established.
