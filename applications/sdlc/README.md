@@ -101,3 +101,9 @@ schedule, and an unreachable source is `Unknown`, never a pass.
 owns features, ADRs, test criteria, dependencies; builds the derived graph; assembles curated bundles;
 runs audits; serves the engineering graph. The companion orchestration harness is designed against the
 patterns in `04-implementation.md`.
+
+That describes the Rust tool, which is the reference until its retirement. It is frozen at the tag
+`rust-final`. Its rewrite implements the What alone, `what.md` and its §6 wire protocol, and records
+the author's decisions over it as `dpp/1` records that carry no force. The rewrite is defined here,
+beside the What it implements: [`product-cli/product-definition.md`](product-cli/product-definition.md).
+Its code, ADRs and tests stay in the product-cli repository.
