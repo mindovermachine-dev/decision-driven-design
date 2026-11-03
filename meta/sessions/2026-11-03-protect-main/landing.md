@@ -114,3 +114,24 @@ Verified against the live repository at 08:47 UTC, read only:
 `UNVERIFIED — Emil review`: "A-2 and A-3" are not ids in this session's record. They are read as
 the two acts of this file after the landing: A-2 is step 2 (apply) and A-3 is check 2 (the
 direct-push probe).
+
+## Correction — 2026-11-03
+
+Add-only. Nothing above this heading is edited. Recorded by the contributing session
+(`meta/sessions/2026-11-03-contributing/`, issue #54) on Emil's ruling.
+
+The quotation under "Outcome" above is not Emil's words. It is Claude's wording in the prompt of
+2026-11-03 09:46, and it is wrong in one respect: it reads as if `repo-standard.yaml` was applied
+in one run, "the four rulesets: trunk, land, Release Tags, Signed Commits". It was applied in
+**two runs**:
+
+1. at `main` `5ccdf41`: the description, the topics, Discussions and the `Signed Commits` ruleset;
+2. at `main` `458d05b`: `trunk`, `land` and `Release Tags`.
+
+Emil, verbatim: "There were two runs: at 5ccdf41, the description, topics, Discussions and Signed
+Commits; at 458d05b, trunk, land and Release Tags." `GOVERNANCE.md`, "Repository settings", says
+the same.
+
+The ruleset ids verified above are consistent with it: `Signed Commits` (26434567) is lower than
+`trunk`, `land` and `Release Tags` (26435014 to 26435021). That ordering is consistent with the
+two runs; it is not evidence of them on its own.
