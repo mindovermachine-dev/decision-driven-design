@@ -192,3 +192,12 @@ tests pass with the tests' gates App at 5594102. `RepositoryDeclarationTests` as
 live pin equals 5594102. `scripts/ci.py`, `check --compare`, `changelog --check` and
 `issue-refs --basis` pass, and CI is green from app 15368 on the pushed head. Falsifier: any of
 these fails, or 5220446 survives outside a record.
+
+**P-13 — held locally; CI on the pushed head is reported on #51.** `git grep 5220446` finds it
+in records only: `rulings.md`, `DDD-dec-109`'s notes, `successor-items.md`, `findings.md` and
+this file. It also survives in one comment in `.github/repo-standard.yaml`, which says the App
+"replaced Varve's 5220446". That comment is a mention, not a pin. 66 tests pass, and the live
+pin equals 5594102. `ci.py`, `check --compare`, `changelog --check` and `issue-refs --basis`
+("11 commits in 155450925594..43d93063082c; Refs checked on 11, Basis on 2") pass. The decision
+validator's 14 warnings are `DDD-dec-111`'s recorded unresolved bases on older decisions (none of
+this session's), the same 14 as on `main`.
