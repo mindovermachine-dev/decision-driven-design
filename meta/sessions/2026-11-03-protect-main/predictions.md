@@ -157,3 +157,7 @@ working tree:
 **P-9 — held.** At `c933e08`: `scripts/ci.py` passes every gate, and `canon changelog --check`
 passes. `canon issue-refs --basis`: "5 commits in 320fccb9dc90..c933e0879999; Refs checked on 5,
 Basis on 1".
+
+**P-10 — held.** On `b73cc7f`, one check run: `pipeline (devcontainer)`, `completed`, `success`,
+app 15368. No `agent review` check appeared. The head to land is the commit that records this,
+once its own run is green (issue #51).
