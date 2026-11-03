@@ -161,3 +161,15 @@ Basis on 1".
 **P-10 — held.** On `b73cc7f`, one check run: `pipeline (devcontainer)`, `completed`, `success`,
 app 15368. No `agent review` check appeared. The head to land is the commit that records this,
 once its own run is green (issue #51).
+
+**Not predicted: the merge of `main`.** `main` moved from `320fccb` to `afba50f` (canon Gate 3,
+and the contributing session) while Round 2 was being built. `dacec94` was green, but it could no
+longer be fast-forwarded onto. The merge was made without a prediction, and is recorded here
+instead. It had three conflicts: `Cli.cs`, `meta/sessions/README.md` and `CONTRIBUTING.md`, each
+resolved by hand as the merge commit states. After it: `scripts/ci.py` passed, 66 canon tests
+passed, `changelog --check` passed, and `check --compare` reported that every case agrees. The
+canon session filed its S-20 decision as `DDD-dec-111` after seeing 109 and 110 here, so the ids
+do not collide.
+
+**P-11 — the merged head in CI.** `pipeline (devcontainer)` concludes `success` from app 15368 on
+the head that records this, and no `agent review` check appears. Falsifier: either fails.
