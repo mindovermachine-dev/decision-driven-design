@@ -1,0 +1,8 @@
+format: 2
+version: v9.9.16
+ratified_head: 0123abc
+title: 'v9.9.16: Doubled'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The title begins with a version.

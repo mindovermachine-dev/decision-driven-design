@@ -1,0 +1,8 @@
+format: 2
+version: 0.9.11
+ratified_head: 0123abc
+title: 'Fixture: a version with no v'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The version lacks its v; Python stops here.

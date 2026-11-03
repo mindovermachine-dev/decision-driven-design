@@ -1,0 +1,7 @@
+format: 2
+version: v9.9.26
+ratified_head: 0123abc
+title: 'Fixture: an empty basis'
+basis: []
+summary: |
+  Fixture. basis is an empty list, which is falsy.

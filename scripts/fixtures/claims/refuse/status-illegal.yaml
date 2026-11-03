@@ -1,0 +1,12 @@
+# expect: status missing or illegal
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. the status is not one of the four; Python stops here.
+status: draft
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0

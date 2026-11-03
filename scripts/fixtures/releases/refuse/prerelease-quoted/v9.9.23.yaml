@@ -1,0 +1,9 @@
+format: 2
+version: v9.9.23
+ratified_head: 0123abc
+title: 'Fixture: prerelease is the string yes'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. prerelease is quoted, so a string.
+prerelease: 'yes'

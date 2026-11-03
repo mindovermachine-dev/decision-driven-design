@@ -50,3 +50,37 @@ Add-only.
 | S-12 | **Ruled.** `6aad807` (`canon.yaml`) | — |
 | S-8 | **Still open.** No branch holds the protection decision at the 2026-11-03 check | This session or Gate 3, once its id is known |
 | S-15 | **Landing PR #47** by fast-forward: Emil's act (`canon land 47`, then `canon land 47 --main`). Gate 3 starts from `main` after it | **Emil** |
+
+## After the landing (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-9 | **Closed.** `releases/v0.5.0.yaml` was restored on `main` in `288471f`, and is byte-identical at `5ccdf41` to its blob at the tag `e5a332d`. `DDD-dec-104`'s notes gain a dated line saying so | — |
+| S-15 | **Done.** Emil landed PR #47 by `canon land 47` and `canon land 47 --main`; `main` is `5ccdf41` | — |
+| S-8 | **Still open.** The protection session takes `DDD-dec-108`. Cite it in DESIGN.md §4.2 once it is filed | This session, once `DDD-dec-108` exists |
+
+## At the end of Gate 3 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-14 | Gate 3 built: the shapes, `canon check`, the parallel run (47 cases agree; ledger `tools/canon/parallel-run.md`) | Emil's review, then landing |
+| S-16 | **Agreement B** (`DDD-dec-103`): a full re-run of `canon check --compare` after the Varve pin moves past `0.1.0-preview.15`. Each retirement then names both versions | After the next Varve release |
+| S-17 | **Gate 4**: one decision per validator retiring it from `scripts/ci.py`, after S-16; `ci.py` itself last | Emil |
+| S-18 | **The What's shapes** in `canon check` (DESIGN.md §5.5): `applications/sdlc/what/shapes.ttl` through Varve, and the hash vectors through `Varve.Rdf`'s RDFC-1.0, compared with `what/check.py` | A later gate |
+| S-19 | **`canon pins`** (DESIGN.md §4.7; R-7) and the `core-order` gate | A later gate |
+| S-20 | **Resolving `basedOn`.** Python does not resolve a decision's `basedOn`, so canon does not either (parity). Making it a rule would be a new decision | Emil, if wanted |
+| S-8 | **Still open.** `DDD-dec-108` (the protection decision) is not on any branch at the end of Gate 3 | This session, once it exists |
+| S-8 | **Closed.** `DDD-dec-108` (the protection decision) is filed on `claude/sharp-davinci-89xeil` (`458d05b`), and DESIGN.md §4.2 cites it, saying it was not yet landed when cited | — |
+
+## Round 4 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-20 | **Ruled: yes, as its own decision.** Both validators gain basedOn resolution together, with fixtures; upstream ids resolve through `graph/upstream.yaml`. Implemented after #53 lands, on a new branch from `main`; filed decisions that would fail are reported, not edited | This session, after #53 lands |
+| S-8 | `DDD-dec-108` has landed on `main` (`c06b359`, landed with `458d05b`); DESIGN.md §4.2 now says so | — |

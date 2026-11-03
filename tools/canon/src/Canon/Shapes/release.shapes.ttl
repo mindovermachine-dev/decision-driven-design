@@ -1,0 +1,183 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# Release descriptor shapes: spec/release-format.md (formats 1 and 2), ported rule for rule from
+# scripts/validate-releases.py's check_release. Python stops at an unsupported format and at an
+# ill-formed version; canon:ReleaseFormatOk and canon:ReleaseHeaderOk reproduce the two stops.
+# Basis resolves against the canon directories' file stems, which canon adds to the data as
+# canon:CanonFile nodes, by the one SHACL-SPARQL constraint here. A descriptor that is not a
+# mapping is code (Graph/CanonGraph.cs); the release-head guard and the cut checks are code
+# (git), in the releases gate.
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix canon: <https://decision-driven-design.dk/ns/canon/1#> .
+
+# ---- guards and helpers ----------------------------------------------------------------------
+
+canon:ReleaseFormatOk a sh:NodeShape ;
+  sh:property [ sh:path canon:format ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( 1 2 ) ] .
+
+canon:ReleaseHeaderOk a sh:NodeShape ;
+  sh:node canon:ReleaseFormatOk ;
+  sh:property [ sh:path canon:version ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                sh:pattern "^v(\\d+)\\.(\\d+)\\.(\\d+)$" ] .
+
+canon:Format2 a sh:NodeShape ;
+  sh:property [ sh:path canon:format ; sh:hasValue 2 ] .
+
+canon:TitleOk a sh:NodeShape ;
+  sh:property [ sh:path canon:title ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "\\S" ] .
+
+# ---- rules -----------------------------------------------------------------------------------
+
+canon:ReleaseFormat a sh:NodeShape ; canon:rule "REL-FORMAT" ;
+  sh:targetClass canon:Release ;
+  sh:message "format missing or unsupported" ;
+  sh:node canon:ReleaseFormatOk .
+
+canon:ReleaseVersion a sh:NodeShape ; canon:rule "REL-VERSION" ;
+  sh:targetClass canon:Release ;
+  sh:message "version missing or not v<major>.<minor>.<patch>" ;
+  sh:or ( [ sh:not canon:ReleaseFormatOk ] canon:ReleaseHeaderOk ) .
+
+canon:ReleaseFilename a sh:NodeShape ; canon:rule "REL-FILENAME" ;
+  sh:targetClass canon:Release ;
+  sh:message "filename disagrees with version" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:version ; sh:equals canon:fileStem ] ] ) .
+
+canon:ReleaseTitle a sh:NodeShape ; canon:rule "REL-TITLE-MISSING" ;
+  sh:targetClass canon:Release ;
+  sh:message "title missing" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ] canon:TitleOk ) .
+
+canon:ReleaseTitleOneLine a sh:NodeShape ; canon:rule "REL-TITLE-ONE-LINE" ;
+  sh:targetClass canon:Release ;
+  sh:message "title must be one line" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:not canon:TitleOk ]
+          [ sh:property [ sh:path canon:title ; sh:pattern "^\\s*\\S([^\\n]*\\S)?\\s*$" ] ] ) .
+
+# The tag message is "<version> — <title>"; a title that starts with a version would double it.
+# Python: the first space-separated word of the stripped title, with trailing ":—-" removed and
+# lower-cased, matches the version pattern.
+canon:ReleaseTitlePrefix a sh:NodeShape ; canon:rule "REL-TITLE-VERSION-PREFIX" ;
+  sh:targetClass canon:Release ;
+  sh:message "title starts with a version; the tag message is composed as '<version> — <title>', which would double it" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:not canon:TitleOk ]
+          [ sh:property [ sh:path canon:title ;
+                          sh:not [ sh:pattern "^\\s*[vV]\\d+\\.\\d+\\.\\d+[:—\\-]*( .*|\\s*)$" ; sh:flags "s" ] ] ] ) .
+
+canon:ReleaseCommit a sh:NodeShape ; canon:rule "REL-COMMIT" ;
+  sh:targetClass canon:Release ;
+  sh:message "commit is not a hex SHA of 7-40 chars (omit it to tag wherever this file lands)" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:commit ; sh:datatype xsd:string ; sh:pattern "^\\s*[0-9a-fA-F]{7,40}\\s*$" ] ] ) .
+
+canon:ReleaseDate a sh:NodeShape ; canon:rule "REL-DATE" ;
+  sh:targetClass canon:Release ;
+  sh:message "date is not YYYY-MM-DD" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:date ; sh:pattern "^\\d{4}-\\d{2}-\\d{2}$" ] ] ) .
+
+canon:ReleaseBasisPresent a sh:NodeShape ; canon:rule "REL-BASIS-MISSING" ;
+  sh:targetClass canon:Release ;
+  sh:message "basis missing or empty (a release cites the canon it pins)" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:basis ; sh:minCount 1 ] ]
+          [ sh:property [ sh:path canon:basisScalar ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ReleaseBasisList a sh:NodeShape ; canon:rule "REL-BASIS-NOT-LIST" ;
+  sh:targetClass canon:Release ;
+  sh:message "basis must be a list" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:basisScalar ; sh:not canon:Truthy ] ] ) .
+
+canon:ReleaseBasisEntry a sh:NodeShape ; canon:rule "REL-BASIS-ENTRY" ;
+  sh:targetClass canon:Release ;
+  sh:message "basis entry is not a DDD-<area>-<nn> id" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:basis ; sh:datatype xsd:string ; sh:pattern "^DDD-[a-z]+-\\d{2}$" ] ] ) .
+
+# Each well-formed basis id must name a file under the canon directories (Python resolves by file
+# stem, known_canon_ids). One result per unresolved id, as Python reports one line per id.
+canon:ReleaseBasisResolves a sh:NodeShape ; canon:rule "REL-BASIS-UNRESOLVED" ;
+  sh:targetClass canon:Release ;
+  sh:message "basis does not resolve to core/claims/ or core/decisions/" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        $this <https://decision-driven-design.dk/ns/canon/1#format> ?format .
+        FILTER (?format = 1 || ?format = 2)
+        $this <https://decision-driven-design.dk/ns/canon/1#version> ?version .
+        FILTER (isLiteral(?version) && datatype(?version) = <http://www.w3.org/2001/XMLSchema#string>
+                && regex(?version, "^v(\\\\d+)\\\\.(\\\\d+)\\\\.(\\\\d+)$"))
+        $this <https://decision-driven-design.dk/ns/canon/1#basis> ?value .
+        FILTER (isLiteral(?value) && datatype(?value) = <http://www.w3.org/2001/XMLSchema#string>
+                && regex(?value, "^DDD-[a-z]+-\\\\d{2}$"))
+        FILTER NOT EXISTS {
+          ?file a <https://decision-driven-design.dk/ns/canon/1#CanonFile> ;
+                <https://decision-driven-design.dk/ns/canon/1#fileStem> ?value .
+        }
+      }
+      """ ;
+  ] .
+
+canon:ReleaseSummary a sh:NodeShape ; canon:rule "REL-SUMMARY" ;
+  sh:targetClass canon:Release ;
+  sh:message "summary missing (release notes are written, not generated)" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:summary ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ; sh:pattern "\\S" ] ] ) .
+
+canon:ReleaseRatifiedHead a sh:NodeShape ; canon:rule "REL-RATIFIED-HEAD" ;
+  sh:targetClass canon:Release ;
+  sh:message "ratified_head missing or not a hex SHA of 7-40 chars (format 2 records the head the principal ratified)" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:not canon:Format2 ]
+          [ sh:property [ sh:path canon:ratified_head ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                          sh:pattern "^\\s*[0-9a-fA-F]{7,40}\\s*$" ] ] ) .
+
+canon:ReleaseRatifiedHeadFormat1 a sh:NodeShape ; canon:rule "REL-RATIFIED-HEAD-FORMAT1" ;
+  sh:targetClass canon:Release ;
+  sh:message "ratified_head is a format 2 field; declare format: 2 to use it" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          canon:Format2
+          [ sh:property [ sh:path canon:ratified_head ; sh:maxCount 0 ] ] ) .
+
+canon:ReleaseDraftFlag a sh:NodeShape ; canon:rule "REL-FLAG-BOOLEAN" ;
+  sh:targetClass canon:Release ;
+  sh:message "draft must be a boolean" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:draft ; sh:datatype xsd:boolean ] ;
+            sh:property [ sh:path canon:nullKey ; sh:not [ sh:in ( "draft" ) ] ] ] ) .
+
+canon:ReleasePrereleaseFlag a sh:NodeShape ; canon:rule "REL-FLAG-BOOLEAN" ;
+  sh:targetClass canon:Release ;
+  sh:message "prerelease must be a boolean" ;
+  sh:or ( [ sh:not canon:ReleaseHeaderOk ]
+          [ sh:property [ sh:path canon:prerelease ; sh:datatype xsd:boolean ] ;
+            sh:property [ sh:path canon:nullKey ; sh:not [ sh:in ( "prerelease" ) ] ] ] ) .
+
+# Python counts only the versions of descriptors that passed the header (format and version), so
+# both sides of a repeat must pass it here too.
+canon:ReleaseUniqueVersion a sh:NodeShape ; canon:rule "REL-DUPLICATE-VERSION" ;
+  sh:targetClass canon:Release ;
+  sh:message "duplicate versions: another descriptor declares this version" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        $this <https://decision-driven-design.dk/ns/canon/1#format> ?f1 ;
+              <https://decision-driven-design.dk/ns/canon/1#version> ?value .
+        FILTER ((?f1 = 1 || ?f1 = 2) && isLiteral(?value)
+                && datatype(?value) = <http://www.w3.org/2001/XMLSchema#string>
+                && regex(?value, "^v(\\\\d+)\\\\.(\\\\d+)\\\\.(\\\\d+)$"))
+        ?other a <https://decision-driven-design.dk/ns/canon/1#Release> ;
+               <https://decision-driven-design.dk/ns/canon/1#format> ?f2 ;
+               <https://decision-driven-design.dk/ns/canon/1#version> ?value .
+        FILTER ((?f2 = 1 || ?f2 = 2) && ?other != $this)
+      }
+      """ ;
+  ] .

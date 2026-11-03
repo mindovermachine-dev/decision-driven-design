@@ -1,0 +1,11 @@
+format: 1
+id: DDD-fixture-03
+kind: conceptual
+statement: |
+  Fixture. A conceptual claim with a test and no falsifier: accepted with the falsifier-strict warning.
+status: projected
+region: scripts/fixtures only
+evidence: []
+owner: none
+changed: v0.5.0
+test: "Counterexamples: none found."

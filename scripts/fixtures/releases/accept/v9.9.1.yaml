@@ -1,0 +1,10 @@
+format: 1
+version: v9.9.1
+title: 'Fixture: format 1, YAML-typed values'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. prerelease: yes is a boolean; date 2026-01-02 is a YAML date, read as written.
+prerelease: yes
+date: 2026-01-02
+commit: 4801fee

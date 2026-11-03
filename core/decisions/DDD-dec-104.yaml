@@ -58,3 +58,7 @@ notes: |
   the remote tags, as canon release and the releases gate ask them. A section renders the
   version, the title, the date, "pre-release" when the descriptor says so, the descriptor's
   path and its summary.
+
+  2026-11-03: S-9 closed. The v0.5.0 descriptor this note's first reading describes was restored
+  on main in 288471f, and at 5ccdf41 it is byte-identical to its blob at the tag (e5a332d). The
+  projection renders it as it was cut.
