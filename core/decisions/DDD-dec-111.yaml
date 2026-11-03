@@ -67,3 +67,12 @@ notes: |
   the hit list is recorded in data (graph/unresolved-basis.yaml), the policy's "already migrated"
   case, so the rule is an error for every entry not recorded. A new dangling basedOn is refused
   from this decision on, and the old ones stay visible as warnings.
+
+  Confirmed 2026-11-03 (add-only; nothing above is edited). Emil, in Round 5 of the canon CLI
+  session, recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md ("Confirm both
+  (Recommended)", option text "New dangling basedOn fails the gate; only the recorded history
+  warns"), confirmed both readings above: this repository's own terms (core/graph/terms.yaml)
+  resolve, and the rule is an error with the existing unresolved entries recorded and reported as
+  warnings. The two readings are ruled. In the same round Emil ruled S-21: the 14 recorded entries
+  are to be pinned at v5.15.2 by a decision of their own, after which they leave the record.
+
