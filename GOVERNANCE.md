@@ -59,6 +59,24 @@ point, [`scripts/ci.py`](scripts/ci.py), inside the development container
 and upstream pins, the What, the How examples, and the checker fixtures. Running
 `python3 scripts/ci.py` locally is the same pipeline.
 
+**A commit reaches `main` only once its own check has passed**
+([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)). The mechanism is `canon land`
+([`DDD-dec-101`](core/decisions/DDD-dec-101.yaml), [`tools/canon/`](tools/canon/DESIGN.md)):
+
+1. `canon land <pr>` pushes the pull request's head to `land/<name>`.
+2. CI runs there, and `pipeline (devcontainer)` goes green on that SHA.
+3. `canon land <pr> --main` fast-forwards `main` to `land/<name>`, then deletes `land/<name>`.
+   It never makes a merge commit.
+4. The `trunk` ruleset refuses everything else that it can see: a deletion of `main`, a
+   non-fast-forward push to it, and a push whose head has no successful
+   `pipeline (devcontainer)` check from GitHub Actions. Nobody bypasses it, the admin role
+   included.
+
+Only Emil can create or move a `land/` branch. Two paths stay open to someone with write access,
+and the `trunk` ruleset alone does not close them: a fast-forward of `main` to a commit already
+green on another branch, and a GitHub merge of a green pull request. Neither is how work lands
+here. `canon land` is ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml), notes).
+
 ### Departure 1 — merging is a blocking review for decisions (item 5)
 
 The standard requires human review for a release, not for a merge. **Here, merging the pull
@@ -102,7 +120,10 @@ and the file states the intent.
 
 | | What |
 |---|---|
-| **`Signed Commits`** ruleset on `main` | Signed commits required, with the admin role and the Claude GitHub App on the bypass list (see below) |
+| **`trunk`** ruleset on `main` | no deletion, no force push, **no bypass**; the required status check `pipeline (devcontainer)`, from GitHub Actions only ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
+| **`Signed Commits`** ruleset on `main` | Signed commits required, with the admin role and the Claude GitHub App on the **bypass list** (see below; [`DDD-dec-81`](core/decisions/DDD-dec-81.yaml)) |
+| **`land`** ruleset on `land/**` | creating, moving, deleting or force-moving a `land/` branch is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
+| **`Release Tags`** ruleset on `v*` tags | creating, deleting or force-moving a `v*` tag is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
 | **Discussions** | On |
 | **Description and topics** | One line stating the projection and its preview status |
 | **Maturity** (organisation property) | `Experimental`, moving to `Incubating` when step 1 is reported |
@@ -111,8 +132,8 @@ and the file states the intent.
 ### Departure 3 — the signing exception (item 8)
 
 Commits from AI sessions in the claude.ai cloud workspace are **exempt from the signature
-requirement**, through the ruleset's bypass. This is Varve's stated deviation, adopted for the
-same reason ([`DDD-dec-81`](core/decisions/DDD-dec-81.yaml)). Those sessions do sign, but with a
+requirement**, through the `Signed Commits` ruleset's bypass. This is Varve's stated deviation,
+adopted for the same reason ([`DDD-dec-81`](core/decisions/DDD-dec-81.yaml)). Those sessions do sign, but with a
 key the sandbox platform provides, which is registered to nobody, so GitHub reports
 `unknown_key`. Registering that key was rejected for Varve and is rejected here. The key is not
 ours, cannot be rotated by us and is reused across sessions, so registering it would let any such

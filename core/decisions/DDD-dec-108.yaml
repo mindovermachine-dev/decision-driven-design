@@ -1,0 +1,94 @@
+format: 1
+id: DDD-dec-108
+kind: decision
+statement: |
+  main is protected by Varve's set of rulesets, declared in .github/repo-standard.yaml beside Signed Commits. trunk, on the default branch: no deletion, no force push, the required check "pipeline (devcontainer)" from GitHub Actions, and no bypass. land, on land/**: creating, updating, deleting or force-moving a land/ branch is restricted to Emil. Release Tags, on v* tags: creating, deleting or force-moving a v* tag is restricted to Emil. A commit reaches main only by a fast-forward to a commit whose check has passed, and canon land (DDD-dec-101) is the landing mechanism. This adds to DDD-dec-81 and does not supersede it.
+principal: Emil
+made: |
+  2026-11-02, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-03-protect-main/prompt.md ("Varve's set (Recommended)"); filed by the protect-main session on 2026-11-03, after Emil's "lets do both"; Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Protecting main: which rulesets should repo-standard.yaml declare? DDD-dec-81 ruled
+  > only Signed Commits, so this is a new decision."
+  >
+  > A: "Varve's set (Recommended)" (option text: "trunk (no deletion or force-push, required
+  > check pipeline (devcontainer), no bypass), land/**, v* tags restricted to you, plus
+  > Signed Commits")
+
+  ## Why a decision
+
+  DDD-dec-81 ruled the settings that .github/repo-standard.yaml declares, and its only ruleset
+  is Signed Commits (item 8). Nothing protected main from deletion, from a force push, or from a
+  commit no gate had checked. The authority-profile work and two edits to the descriptor of the
+  cut release v0.5.0 reached main by direct push. The edits broke spec/release-format.md rule 6
+  and were corrected afterwards (the canon CLI session's S-9). The rulesets make the gates hold
+  by the platform, not by habit.
+
+  ## The rulesets
+
+  | Ruleset | On | Rules | Bypass |
+  |---|---|---|---|
+  | Signed Commits | ~DEFAULT_BRANCH | required_signatures | as DDD-dec-81: RepositoryRole 5, Integration 1236702 |
+  | trunk | ~DEFAULT_BRANCH | deletion, non_fast_forward, required_status_checks: "pipeline (devcontainer)" from integration 15368 (GitHub Actions), strict policy off | none |
+  | land | refs/heads/land/** | creation, update, deletion, non_fast_forward | User 2194785 (Emil) |
+  | Release Tags | refs/tags/v* | creation, deletion, non_fast_forward | User 2194785 (Emil) |
+
+  ## How work reaches the trunk
+
+  1. `canon land <pr>` pushes the pull request's head to land/<name>.
+  2. CI runs on that commit, and "pipeline (devcontainer)" goes green on its SHA.
+  3. `canon land <pr> --main` fast-forwards main to land/<name>, and deletes land/<name>.
+  4. The trunk ruleset refuses a deletion of main, a non-fast-forward push to it, and a push
+     whose head has no successful "pipeline (devcontainer)" check from GitHub Actions. No actor
+     bypasses it.
+
+  canon land automates this and rules nothing. The act is Emil's landing by fast-forward after
+  CI is green, as DDD-dec-78 makes the landing of a decision the ratification act. The rulesets,
+  not canon, refuse a push that breaks them. With no merge commit, the head under release is the
+  ratified head plus at most the descriptor, read directly, as DDD-dec-84's guard requires.
+
+  ## Whose hands
+
+  Applying the file needs repository admin. It is Emil's act, after this decision lands. The
+  session declares the rulesets and does not apply them (DDD-dec-81, "Whose hands").
+basedOn:
+  - DDD-dec-81
+  - DDD-dec-78
+  - DDD-dec-84
+  - DDD-dec-101
+  - DDD-dec-76
+notes: |
+  Id. DDD-dec-108 was checked free on every branch of both repositories at arrival (2026-11-03,
+  08:15 UTC): upstream holds up to DDD-dec-39 on its 27 branches, and no downstream branch of 48
+  holds a decision above DDD-dec-107. The canon CLI session, running in parallel, takes
+  DDD-dec-109 onward. Once this lands, its DESIGN.md §4.2 can cite this id (its S-8).
+
+  Ids read, not ruled. The integration id 15368 is the app of the four "pipeline (devcontainer)"
+  check runs on main's head 5ccdf41 (github-actions). The user id 2194785 is the GitHub author of
+  5ccdf41 (Hafeok, Emil's account, the same id Varve's rulesets name for its maintainer).
+
+  Reading — Claude, UNVERIFIED — Emil review. "land/**" in the option text names a pattern, not
+  its rules. It is read as Varve's land ruleset: creation, update, deletion and non_fast_forward,
+  with Emil the only bypass actor. "v* tags restricted to you" is read as Varve's tag ruleset
+  without its gates App, which this repository does not have: creation, deletion and
+  non_fast_forward, with Emil the only bypass actor. Pinning the required check to GitHub Actions
+  by integration id is the session prompt's instruction, not the ruling's text; Varve pins only
+  its "agent review" check. It means no other app can satisfy the check by posting a check run of
+  the same name.
+
+  Reading — Claude, UNVERIFIED — Emil review. "Refuses anything else" holds for main as far as
+  the trunk ruleset reaches, and it does not reach two paths. It does not refuse a fast-forward
+  of main, by someone with write access, to a commit already green on another branch, such as a
+  session branch's head. It does not refuse a GitHub merge of a pull request whose check is
+  green, which makes a merge commit. Varve names that merge as a second way in. Here canon land
+  never merges, and the land/ path is the convention this decision names. Neither path is closed
+  by the trunk ruleset alone.
+
+  Found at filing, UNVERIFIED — Emil review. The repository's events show every push of the past
+  ten days, cloud sessions' branches included, with Emil's account (Hafeok, 2194785) as the
+  actor, not an app. If GitHub evaluates a ruleset's User bypass against that actor, a cloud
+  session's push to land/** or of a v* tag would pass as Emil's, and "restricted to Emil" would
+  not separate Emil from the sessions working under Emil. The session record
+  (meta/sessions/2026-11-03-protect-main/) gives a check that settles it once the rulesets are
+  applied.
