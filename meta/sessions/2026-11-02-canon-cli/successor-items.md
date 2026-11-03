@@ -105,3 +105,13 @@ Add-only.
 | S-22 | **Ruled: both readings confirmed.** Add-only note in `DDD-dec-111` | — |
 | S-21 | **Ruled: pin them at `v5.15.2`.** A decision of its own, after #55 lands, on a new branch from `main` | This session, step 2 |
 | S-23 | **Ruled: #55 lands first**; the agent-review branch merges `main` afterwards | Emil's landing order |
+
+## S-21 blocked (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-15b | **Done.** Emil landed #55; `main` is `1554509` | — |
+| S-21 | **Blocked at verification**, before any pin was written (P-22). The 14 entries exist upstream at `v5.15.2`. The one term pins cleanly; the 13 decision entries cannot be pinned as the pin file and its checker stand | S-24 |
+| S-24 | **How to pin an upstream decision.** `validate-core-order.py` indexes upstream claims and terms, not decisions (E12 on a decision pin), and upstream decisions have no `status` to record as `status_at_pin`. Options: **(a)** extend the checker (and canon's `pins`, when ported) to index upstream `core/decisions/*.yaml`, pinning a decision with its `content_hash` (over its `statement`) and no `status_at_pin`, since W5 has no status to watch; **(b)** as (a), with a fixed `status_at_pin` such as `filed`, so that every pin carries one; **(c)** pin only `term:presumed-discharge` now, and leave the 13 decision entries recorded. Claude recommends **(a)**: it pins what exists without inventing a status, and the content hash still fires if an upstream decision's statement moves. (a) and (b) change a checker in `scripts/`, so they need a fixture that fails without the change | **Emil** |

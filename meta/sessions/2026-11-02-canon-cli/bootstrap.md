@@ -134,3 +134,15 @@ Add-only. Nothing above this heading is edited.
 - **Scope.** S-20 only: the decision; the rule in `scripts/validate-claims.py` and in canon's
   decision shapes, in one change; refuse fixtures; the history scan; the ledger entry. Out of
   scope: editing any filed decision.
+
+## Amendment 5 — 2026-11-03: #55 landed; S-21 started and stopped at a blocker
+
+Add-only. Nothing above this heading is edited.
+
+- **Base.** Emil landed PR #55. `main` is `1554509`, reached by fast-forward with no merge commit,
+  and no `land/` branch remains. The branch restarts from it under the same name.
+- **Decision ids**, re-checked on 2026-11-03 at 10:26 UTC on every branch of both repositories.
+  Upstream (27 branches) holds up to `DDD-dec-39`. `main` holds up to `DDD-dec-111`.
+  `claude/sharp-davinci-89xeil` (agent review) holds `DDD-dec-109` and `-110`. The next free id
+  is **`DDD-dec-112`**; it is taken for S-21 but **not filed**, because S-21 stopped (P-22,
+  S-24).

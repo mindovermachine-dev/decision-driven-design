@@ -410,3 +410,39 @@ the live decisions, which gave 14 / 14 findings, the 14 recorded entries, all wa
 sides. 41 of 47 rule codes were exercised. Both new codes were exercised by fixtures and by the
 live tree. `scripts/ci.py` passes all gates, its fixtures gate included. canon's 37 tests pass.
 The rule's agreement A is at Varve 0.1.0-preview.15 (`parallel-run.md`).
+
+# S-21 — pinning the 14 recorded entries (step 2 of Round 5)
+
+## P-22 — can an upstream decision be pinned as the pin file stands?
+
+Read before predicting. `scripts/validate-core-order.py`'s `load_upstream_graph` indexes, at the
+pinned ref, upstream `core/claims/*.yaml` and the terms and claims of `core/graph/*.yaml`. It
+does not index `core/decisions/`. Upstream decision files at `v5.15.2` have no `status` field
+(`DDD-dec-09` and `DDD-dec-39` read: `format`, `id`, `kind`, `statement`, `principal`, `made`,
+`resolution`, `notes`).
+
+Prediction: in a scratch copy of this repository, adding a pin `DDD-dec-39` to
+`graph/upstream.yaml` makes `validate-core-order.py core/` fail with
+`E12 pinned id 'DDD-dec-39' no longer exists upstream at the pinned ref`, although the file
+exists upstream at the ref. Adding a pin for `term:presumed-discharge`, with
+`status_at_pin: draft` and the `content_hash` the checker computes, passes with 75 pins and 0
+basis-loss. Falsifier: the decision pin passes, or the term pin fails.
+
+Outcome for P-22 (appended): **held, and it blocks step 2 as instructed.** In a scratch worktree
+of `main` at `1554509`:
+- pin `DDD-dec-39` → `FAIL E12 pinned id 'DDD-dec-39' no longer exists upstream at the pinned
+  ref`, and the gate fails (`core: FAILED`);
+- pin `term:presumed-discharge`, with `status_at_pin: draft` read from the tag and
+  `content_hash: sha256:5ba5b5e709e18fdbde1289b5a551802720b4eb4a4800e40007713212eb8faa48`
+  computed as the checker computes it → "75 pins resolved against the pinned ref, 0
+  basis-loss, 0 content-drift", `core: OK`.
+
+All 14 entries exist upstream at `v5.15.2`: one file each under upstream `core/decisions/` for
+`DDD-dec-09`, `-15`, `-17`, `-26`, `-37` and `-39`, and `term:presumed-discharge` in upstream
+`core/graph/terms.yaml` (status `draft`). The 13 decision entries cannot be pinned as specified,
+for two reasons:
+1. the pin checker does not index upstream decisions, so each would fire E12;
+2. upstream decisions carry no status, so there is no `status_at_pin` to read from the tag.
+
+Nothing was committed to `graph/` or `core/`. `DDD-dec-112` (the next free id) is not filed.
+Reported for Emil's ruling (S-24).
