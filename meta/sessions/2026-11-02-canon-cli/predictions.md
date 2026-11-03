@@ -283,3 +283,58 @@ Python's and whose cause is not the mapping.
 
 Prediction: CI runs `canon check --compare` after `scripts/ci.py` and is green on the Gate 3
 head. Falsifier: red.
+
+Outcome for P-15 (appended): **held, after a canon defect.** The first load was refused by Varve
+for all three kinds: "each value of sh:or is a SHACL list", and the same for `sh:in`. The cause
+was canon's, not Varve's. `common.ttl` and each kind's file were parsed separately into one
+builder, and both parses label blank nodes from `_:g0`. The two files' lists then shared nodes,
+which made them ill-formed lists. Varve was right to refuse them. The fix relabels blank nodes per
+resource, as the JSON-LD path already did per file. After it, all three shape sets load with no
+problem, the SPARQL constraint included, and no shape was changed to satisfy Varve. A second canon
+defect surfaced first: YamlDotNet's `Tag.Value` throws on an untagged scalar, and the exception
+crashed canon (exit 134). It is fixed, and any unexpected exception now exits 2 ("could not
+run"), never 134.
+
+Outcome for P-16, first run (appended): **D-2 refuted; D-1 held.** At commit `1690418` plus the
+uncommitted Gate 3 code, with Varve 0.1.0-preview.15, all 13 cases agreed on the first full run:
+verdict and the multiset of (file, rule, severity) findings. That covers 4 claims cases, 3
+decisions, 3 releases and the 3 live trees. The live claims gave 6 single-limb warnings on both
+sides, and every other case had 0 or 1 finding on both sides. No disagreement to record.
+
+**What that agreement is worth.** Little, yet. The fixtures exercise 7 of the 42 rules: falsifier
+presence, region, derivation, basedOn, principal, ratified_head and unresolved basis. The live
+tree adds an eighth, single-limb. Agreement on what is not exercised is not agreement.
+DESIGN.md §8.2 already says canon's fixtures go into the shared corpus, and Python must give its
+verdict on each. So the run continues below with fixtures added there.
+
+## P-18 — one refuse fixture per rule, and the typing edges
+
+Fixtures added to `scripts/fixtures/` (the shared corpus, which `scripts/ci.py`'s fixtures gate
+also runs). Each refuse case breaks one rule and carries the Python message it provokes
+(`# expect:` or `expect`). New accept files probe what the mapping must get right:
+- YAML 1.1 scalars: `prerelease: yes` is a boolean; a commit of `0123456` is an octal int, not a
+  string; `date: 2026-1-2` is a date; `format: "1"` is a string.
+- Truthiness: `""`, `0` and `[]` are missing.
+- The warnings: test-only falsifier, and a semicolon inside parentheses, which is not a limb.
+
+Prediction: at least one new case disagrees on the first run, in the YAML typing or truthiness
+edges, and the defect is canon's mapping. After fixes, every case agrees, and `scripts/ci.py`
+still passes, its fixtures gate included. Falsifier: zero disagreements on the first run, which
+would refute this as D-2 was refuted. Or a disagreement whose correct side is canon's, which would
+be a Python defect to record and fix there.
+
+Outcome for P-18 (appended): **held.** 34 refuse cases and 6 accept files were added under
+`scripts/fixtures/`, one refuse case per rule a single fixture can express. On the first run over
+them (run 2), **one case disagreed**, and it was canon's mapping, as predicted. That was **D-01**:
+`date: 2026-1-2`, which PyYAML reads as a string and canon read as a date. The next additions (an
+empty basis, a duplicate version, a non-mapping descriptor) produced a second disagreement,
+**D-02**, a defect in canon's design (DESIGN.md §5.2): two files with one id merged into one node.
+Both are recorded in `tools/canon/parallel-run.md` with cause and fix, and both are pinned by a
+fixture or a test. Neither correct side was canon's, so no Python defect was found. Final run (run
+5): 47 cases, every case agrees; 39 of 45 rule codes exercised, and the other six listed with
+their reasons. `scripts/ci.py`'s fixtures gate passes all 53 of its cases. Two loading defects of
+canon's, caught before any comparison ran: blank-node labels colliding across two Turtle files
+(P-15), and one SPARQL string escaped once too few times. Varve refused both, correctly.
+
+Measured against: Varve `0.1.0-preview.15`. Per `DDD-dec-103`, this is agreement A for each of
+the three validators. Agreement B, after a Varve bump, is still to come.

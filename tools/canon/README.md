@@ -4,8 +4,10 @@ The command-line tool for the Decision-Driven Design **canon repositories**: thi
 claims, decisions, pins, releases and session records. Product repositories that apply the
 method use product-cli's `ddd` instead (`DDD-dec-100`).
 
-**Status: Gate 2 (repository operations).** `canon check` and `canon pins`, the SHACL gates on
-Varve, are Gate 3. Until then `python3 scripts/ci.py` runs every gate, and canon runs beside it.
+**Status: Gate 3.** The repository operations (Gate 2) and `canon check`, the claim, decision
+and release gates as SHACL shapes on Varve (Gate 3). They run beside `python3 scripts/ci.py`, which
+still runs every gate, and `canon check --compare` compares the two
+([`parallel-run.md`](parallel-run.md)). `canon pins` and the What's shapes come later.
 Design: [`DESIGN.md`](DESIGN.md).
 
 ## Build and run
@@ -35,6 +37,7 @@ cd tools/canon && dotnet pack src/Canon -o "$HOME/.canon/feed" && dotnet tool in
 | `canon release <version> [--plan]` | Cut a landed descriptor: refuses if the version exists **locally, on the remote (`ls-remote`) or as a GitHub Release**; then the guard, the gates at the commit, the changelog, a **signed** tag, push, GitHub Release | Cutting the tag by hand |
 | `canon ratify <version> [--head <sha>]` | Fill `ratified_head` (default `HEAD`), one line, nothing committed | Editing the descriptor by hand |
 | `canon changelog [--check \| --tail-sha256]` | `CHANGELOG.md` as the projection of `releases/` above a frozen tail | Writing `CHANGELOG.md` by hand (`DDD-dec-104`) |
+| `canon check [gate ...] [--compare] [--markdown] [--list]` | The claims, decisions and releases gates through SHACL shapes on Varve (`src/Canon/Shapes/`), the release cut checks, and canon's verdicts on the shared fixtures. `--compare` runs the Python validators on every fixture and the live tree and fails on any disagreement | `scripts/validate-claims.py`, `validate-releases.py` (in parallel until retired, `DDD-dec-102`, `DDD-dec-103`) |
 | `canon issue-refs [--base <ref>] [--head <ref>] [--basis]` | `Refs #N` on every commit in the range; with `--basis`, a `Basis:` line on commits that change `core/` (`DDD-dec-105`) | Convention |
 
 Every command takes `--repo <path>` first (default: the current directory's repository). Exit

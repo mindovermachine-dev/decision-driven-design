@@ -60,3 +60,17 @@ Add-only.
 | S-9 | **Closed.** `releases/v0.5.0.yaml` was restored on `main` in `288471f`, and is byte-identical at `5ccdf41` to its blob at the tag `e5a332d`. `DDD-dec-104`'s notes gain a dated line saying so | — |
 | S-15 | **Done.** Emil landed PR #47 by `canon land 47` and `canon land 47 --main`; `main` is `5ccdf41` | — |
 | S-8 | **Still open.** The protection session takes `DDD-dec-108`. Cite it in DESIGN.md §4.2 once it is filed | This session, once `DDD-dec-108` exists |
+
+## At the end of Gate 3 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-14 | Gate 3 built: the shapes, `canon check`, the parallel run (47 cases agree; ledger `tools/canon/parallel-run.md`) | Emil's review, then landing |
+| S-16 | **Agreement B** (`DDD-dec-103`): a full re-run of `canon check --compare` after the Varve pin moves past `0.1.0-preview.15`. Each retirement then names both versions | After the next Varve release |
+| S-17 | **Gate 4**: one decision per validator retiring it from `scripts/ci.py`, after S-16; `ci.py` itself last | Emil |
+| S-18 | **The What's shapes** in `canon check` (DESIGN.md §5.5): `applications/sdlc/what/shapes.ttl` through Varve, and the hash vectors through `Varve.Rdf`'s RDFC-1.0, compared with `what/check.py` | A later gate |
+| S-19 | **`canon pins`** (DESIGN.md §4.7; R-7) and the `core-order` gate | A later gate |
+| S-20 | **Resolving `basedOn`.** Python does not resolve a decision's `basedOn`, so canon does not either (parity). Making it a rule would be a new decision | Emil, if wanted |
+| S-8 | **Still open.** `DDD-dec-108` (the protection decision) is not on any branch at the end of Gate 3 | This session, once it exists |

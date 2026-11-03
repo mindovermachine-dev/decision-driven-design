@@ -1,6 +1,6 @@
 # canon — design
 
-**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`). Gate 2 built, reviewed and ruled (Round 2, 2026-11-03): `land`, `release`, `ratify`, `changelog` and `issue-refs`, with tests. Where the build departs from this design, §12 says so.**
+**Status: Gate 2 landed (`5ccdf41`). Gate 3 built and stopped for review: the claim, decision and release shapes on Varve, `canon check`, and the parallel run with every case agreeing. Where a build departs from this design, §12 (Gate 2) and §13 (Gate 3) say so.**
 This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form), `DDD-dec-102` (SHACL
 via Varve), and Round 1's `DDD-dec-103` (retirement across two Varve versions), `DDD-dec-104` (the
 changelog as a projection), `DDD-dec-105` (Basis enforced), `DDD-dec-106` (local only) and
@@ -703,4 +703,39 @@ records every operation, predicted before it ran.
   Release (D-5).
 - CI and the devcontainer gain the .NET SDK and three steps after `scripts/ci.py`: canon's
   tests, `changelog --check` and `issue-refs --basis` (§9).
+
+---
+
+## 13. As built at Gate 3, and where it departs
+
+Built on 2026-11-03, measured against Varve **`0.1.0-preview.15`**. Predictions P-15 to P-18 are in
+the session's `predictions.md`, and the comparison and its ledger are in
+[`parallel-run.md`](parallel-run.md). The final run: **47 cases, every case agrees**, with 39 of
+45 rule codes exercised. Each of the other six has its reason recorded there.
+
+| Design said | Built | Why |
+|---|---|---|
+| §5.2: `@id` from the id, so that duplicates merge into one node and `sh:maxCount 1` refuses them | **Each file is its own blank node.** The ruled IRI `…/id/X` (`DDD-dec-107`) is kept as `canon:names`. Duplicates are a SHACL-SPARQL constraint, and they collapse to one `*` finding, as Python prints one line | **The design was wrong, and the parallel run caught it (D-02).** Merged nodes carried both files' values and broke rules neither file breaks |
+| §5.2: `basedOn` resolves by `sh:class` | **Not resolved.** Decision shapes check presence only | `validate-claims.py --decisions` does not resolve `basedOn`. Resolving it would be a new rule, not a port. If wanted, it is a decision of its own, after retirement |
+| §5.2: `kind` mapped to `@type` | `@type` is set by canon from the directory (`canon:Claim`, `canon:Decision`, `canon:Release`). `kind` stays a property | A missing or illegal `kind` must still be a node to report on, as Python reports it |
+| §5.2: the context applied from outside | As designed: `canon.context.jsonld` (`@vocab` = the canon namespace) passed as `JsonLdOptions.ExpandContext`, `@base` = `…/id/` | — |
+| §5.2: YAML read as JSON | YAML typed as **PyYAML's YAML 1.1 resolver** types it (`Graph/YamlJson.cs`): null, bool with yes/no/on/off, int with octal, hex, binary and sexagesimal, float, else string | The Python verdicts depend on it. `GraphTests` checks 30 scalars against PyYAML itself. Dates read as written (D-01) |
+| §5.2: canon's additions | `canon:sourcePath`, `canon:fileStem`, `canon:nullKey` (a key whose value is null, which JSON-LD drops), `canon:basisScalar` (a release `basis` that is not a list), `canon:CanonFile` stubs for the canon directories' file stems | Each carries a fact Python reads that RDF would otherwise lose |
+| §5.3: shapes as listed | 40 rule shapes (39 codes; `draft` and `prerelease` share REL-FLAG-BOOLEAN) over three files plus `common.ttl` (`canon:Truthy`, Python's truthiness). **Guards reproduce Python's early stops**: format, then status for claims; format, then version for releases. Three SPARQL constraints: unresolved basis and the two duplicate rules | Without the guards, a stopped file reports more than Python does |
+| §5.4: `canon:rule` and `sh:message` | As designed. Every rule is a node shape whose constraint is `sh:node`, `sh:or` or `sh:sparql`, so a result's source shape is the rule | — |
+| §2: a `Canon.Shapes` project | The shapes and the context are **embedded resources** of `Canon` (`src/Canon/Shapes/`) | One assembly fewer; the files are still data, readable by any tool |
+| §4.1: `canon check` runs every gate, with Python ones as external gates | It runs the **ported** gates (`claims`, `decisions`, `releases`, `fixtures`) and names the rest (`core-order`, `what`, `how`) as left to `scripts/ci.py` | CI runs `scripts/ci.py` in the same job, so running them twice adds time and nothing else. They join `canon check` when ported |
+| §4.1: the `releases` gate | Shapes, then the cut checks as `ci.py` does them since `e8fde2a`: "cut" decided from `origin`, falling back to local tags and saying so; a cut descriptor equal to its blob at the tag; the guard at HEAD for one not cut | Parity with the gate it will replace |
+| §8.3: the comparison | As designed, plus a **coverage line**: which rule codes the corpus exercised, and which it did not and so did not compare | Run 1 showed that agreement on a thin corpus says little |
+| §8.2: fixtures added to the shared corpus | As designed: 34 refuse cases and 6 accept files added under `scripts/fixtures/`, each read by both implementations (13 cases before, 47 after). `scripts/ci.py`'s fixtures gate passes all 53 cases | — |
+| §10 D-1, D-2 | D-1 held. D-2 was refuted on the first run, but the corpus then exercised 7 rules. With one fixture per rule, two disagreements appeared, both canon's | The prediction was right about where the risk lay (the mapping), and wrong about when it would show |
+
+**Findings, in short:**
+- **Two design defects found by the comparison, both canon's:** the date typing (D-01) and node
+  identity (D-02). Neither was suppressed, and both are pinned by a fixture or a test.
+- **Two loading defects found before any comparison, both canon's.** Blank nodes collided across
+  two Turtle files, and Varve refused the ill-formed lists. A SPARQL string was escaped once too
+  few times, and Varve refused the query. In both cases Varve was right.
+- **No Varve defect was found.** Every SHACL and SPARQL behaviour canon relied on matched the
+  specification and the Python verdicts.
 
