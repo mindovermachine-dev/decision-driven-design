@@ -86,3 +86,44 @@ at `320fccb`, as item 9's "a new branch from main" asks. Between them, Emil conf
 | Remove the bypass | `DDD-dec-110`; `.github/repo-standard.yaml`; `GOVERNANCE.md` Departure 3 |
 | 6 | `GOVERNANCE.md`, `CONTRIBUTING.md` |
 | 8 | `successor-items.md`, "Emil's admin acts" |
+
+## Round 3 — 2026-11-03
+
+Given in the session after the head `c4f9f9b`, verbatim:
+
+> Round 3, 2026-11-03. Emil's rulings, verbatim (claude.ai question dialog), after an
+> independent check of c4f9f9b (11 commits verified, CI green; of 7 PR comments in the
+> repository, the 5 by sessions carry performed_via_github_app 1236702, Emil's 2 carry none):
+>
+> Q: "If the gates App (5220446) can't be installed on mindovermachine-dev, which way?"
+> A: "New org-owned App (Recommended)" (option text: "Create a 'gates' App owned by
+> mindovermachine-dev (Checks: read & write, Pull requests: read). The session swaps the id
+> before you land")
+>
+> Q: "DDD-dec-109 goes beyond Varve in four flagged ways. Accept them? (1) every PR needs your
+> approval, not only ones with session commits; (2) an edited approval comment doesn't count;
+> (3) no land/** push trigger for the check; (4) the gates environment is not declared in
+> repo-standard.yaml."
+> A: "Accept all four (Recommended)" (option text: "Each follows from sessions and you
+> sharing one account")
+>
+> Result of Emil's check: the gates App id is 5594102  (new
+> org-owned App "mom-gates">).
+>
+> 1. Record Round 3 verbatim. Record the four confirmations as an add-only note in
+>    DDD-dec-109; do not edit its body.
+> 2. If the id changed, replace 5220446 everywhere it is pinned:
+>    - repo-standard.yaml's trunk ruleset
+>    - canon's pin read
+>    - the workflow
+>    - the tests
+>    - GOVERNANCE.md
+>    Record why it changed.
+> 3. Merge main if it moved. Run the gates, push, wait for green, report the head and the
+>    land commands. Refs #51. Do not land.
+
+| Item | Where it lands |
+|---|---|
+| The four confirmations | `DDD-dec-109`, notes, an add-only "Round 3" paragraph |
+| The id, 5220446 → 5594102 | `.github/repo-standard.yaml`, the tests, `GOVERNANCE.md`'s table, the workflow's header comment; why, in `findings.md` F-5 |
+| `main` merged | `0846ae7` |

@@ -116,3 +116,16 @@ notes: |
   environment is not declared in .github/repo-standard.yaml, because a declared kind is managed
   exhaustively and this session cannot read the repository's environments. Creating it is one of
   Emil's admin acts (the session record).
+
+  Round 3, 2026-11-03, add-only; nothing above is edited. Emil confirmed all four of the ways
+  this decision goes beyond Varve ("Accept all four (Recommended)", option text: "Each follows
+  from sessions and you sharing one account"; meta/sessions/2026-11-03-protect-main/rulings.md):
+  (1) every pull request needs the approval, not only one with a session's commits; (2) an
+  edited approval comment does not count; (3) there is no land/** push trigger for the check;
+  (4) the gates environment is not declared in .github/repo-standard.yaml. The readings above
+  that flag (1), (2) and (4) as UNVERIFIED, and the resolution's own statement of (3), stand as
+  ruled. The gates App is not Varve's 5220446. It is a new App owned by mindovermachine-dev,
+  "mom-gates", with integration id 5594102 (Emil's check, Round 3; "New org-owned App
+  (Recommended)", option text: "Create a 'gates' App owned by mindovermachine-dev (Checks: read &
+  write, Pull requests: read). The session swaps the id before you land"). The trunk ruleset
+  pins 5594102. Where the notes above name 5220446, read 5594102.
