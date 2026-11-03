@@ -33,6 +33,22 @@ depends on what it targets:
 - Assert intelligence where the acceptance predicate does not close, or deny it there either. The
   framework declines that verdict on purpose.
 
+## How a change reaches `main`
+
+Do not merge a pull request on GitHub. Work reaches `main` only by landing, which is Emil's act
+([`GOVERNANCE.md`](GOVERNANCE.md), "How work reaches the trunk"):
+
+1. **Emil comments `approve <head sha>` on the pull request**, by hand, naming at least the first
+   12 characters of its current head. The gates App posts the check `agent review`, green, on that
+   head ([`DDD-dec-109`](core/decisions/DDD-dec-109.yaml)). A push after the approval needs a new
+   one. An approval of an earlier head, an edited comment, or a comment made through an app
+   (every comment a Claude session writes) does not count.
+2. `canon land <pr>` pushes the head to `land/<name>`, and `pipeline (devcontainer)` runs there.
+3. `canon land <pr> --main` fast-forwards `main` to it, once both checks are green.
+
+`canon land` refuses a head without the gates App's green `agent review` whenever `main`'s
+`.github/repo-standard.yaml` requires the check.
+
 ## Discipline
 
 Corrections propagate. A change to a projection-local claim must be reflected in
