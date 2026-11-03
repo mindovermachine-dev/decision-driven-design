@@ -218,3 +218,14 @@ Prediction: with Round 2 recorded (`DDD-dec-104`'s amendment, the port note, `GO
 needs a `Basis:` line, and its ids must resolve, because it is after `e955210`. CI is green on the
 pushed head. `main` (`e8fde2a`) is an ancestor of the head, so `canon land 47` can fast-forward.
 Falsifier: any gate red, locally or in CI, or `main` not an ancestor of the head.
+
+Outcome for P-14 (appended 2026-11-03, after the landing): **held.** CI was green on
+`5ccdf412d77b34c47eba42f680243f5425bc49a7`, push run 41599551257 and pull-request run
+41599557114. `main` (`e8fde2a`) was an ancestor of it. The outcome was not committed before the
+landing, because a commit would have moved the head being landed.
+
+**The landing.** Emil ran `canon land 47`, then `canon land 47 --main`. `main` moved from `e8fde2a`
+to `5ccdf41` by fast-forward, with no merge commit: `git rev-list --merges 5ccdf41..origin/main` is
+empty, and `origin/main` is `5ccdf41` itself. `land/pr-47` was deleted, and no `land/*` ref
+remains on origin. GitHub recorded PR #47 as merged at 2026-11-03 08:11 UTC, because its head
+reached `main`. This was the first landing by `canon land` in this repository.

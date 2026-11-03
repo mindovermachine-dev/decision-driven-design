@@ -50,3 +50,13 @@ Add-only.
 | S-12 | **Ruled.** `6aad807` (`canon.yaml`) | — |
 | S-8 | **Still open.** No branch holds the protection decision at the 2026-11-03 check | This session or Gate 3, once its id is known |
 | S-15 | **Landing PR #47** by fast-forward: Emil's act (`canon land 47`, then `canon land 47 --main`). Gate 3 starts from `main` after it | **Emil** |
+
+## After the landing (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-9 | **Closed.** `releases/v0.5.0.yaml` was restored on `main` in `288471f`, and is byte-identical at `5ccdf41` to its blob at the tag `e5a332d`. `DDD-dec-104`'s notes gain a dated line saying so | — |
+| S-15 | **Done.** Emil landed PR #47 by `canon land 47` and `canon land 47 --main`; `main` is `5ccdf41` | — |
+| S-8 | **Still open.** The protection session takes `DDD-dec-108`. Cite it in DESIGN.md §4.2 once it is filed | This session, once `DDD-dec-108` exists |

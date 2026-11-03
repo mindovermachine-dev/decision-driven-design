@@ -101,3 +101,19 @@ Gate 3 starts from `main` after the landing.
 | S-11 | `spec/release-format.md`, port note item 4; `GOVERNANCE.md`, "Releases". Rule 7 is unchanged |
 | S-12 | `canon.yaml` (`issue-refs.from`) and DESIGN.md §4.6 and §12, flag dropped |
 | Landing | Emil runs `canon land 47`, then `canon land 47 --main` once `land/pr-47` is green |
+
+## Round 3 — after the landing, 2026-11-03
+
+Relayed in the session prompt, recorded verbatim:
+
+> Gate 2 is landed: Emil ran canon land 47 and canon land 47 --main. main is at 5ccdf41
+> and PR #47 is merged. Emil, 2026-11-03: "lets do both". The protection session runs in
+> parallel and takes DDD-dec-108; this session takes 109 onward. Re-check every branch
+> before filing.
+
+The prompt then sets Gate 3: a first commit recording P-14 and the landing, closing S-9, with a
+dated line added to `DDD-dec-104` and its earlier note not edited; then the shapes for claims,
+decisions and releases, the external JSON-LD context, `canon check` beside `scripts/ci.py` in CI,
+and every fixture compared, with disagreements recorded and never suppressed; predictions before
+each step; the Varve version measured against recorded (`DDD-dec-103`); a stop at the end of
+Gate 3, with the head and the `canon land` command reported, and no landing by Claude.
