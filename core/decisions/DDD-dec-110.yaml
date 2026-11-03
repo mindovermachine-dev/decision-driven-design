@@ -1,0 +1,47 @@
+format: 1
+id: DDD-dec-110
+kind: decision
+statement: |
+  The Signed Commits ruleset drops its Integration bypass for the Claude app (1236702). The admin role (RepositoryRole 5) stays its only bypass actor. Departure 3 of GOVERNANCE.md changes to match: the cloud-sandbox signing exception is no longer granted through the Claude app. This adds to DDD-dec-81 and DDD-dec-108 and supersedes neither.
+principal: Emil
+made: |
+  2026-11-03, Round 2 of the protect-main session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-03-protect-main/rulings.md ("Remove it (Recommended)"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Signed Commits keeps an Integration bypass (1236702, copied from Varve). Every recent
+  > commit is verified and every push comes from your account, so it appears unused. Remove
+  > it?"
+  >
+  > A: "Remove it (Recommended)" (option text: "Admin role stays the only bypass; a session
+  > commit that fails to sign is refused")
+
+  ## What changes
+
+  - .github/repo-standard.yaml: the Signed Commits ruleset's bypass_actors keeps only
+    RepositoryRole 5.
+  - GOVERNANCE.md, Departure 3: the exception that DDD-dec-81 item 8 adopted from Varve is
+    withdrawn from the Claude app. Session commits are signed with a registered key and verify
+    (the 40 most recent commits on main were all verified at 2026-11-03).
+
+  ## Evidence
+
+  1236702 is the Claude app (performed_via_github_app on this repository's issues and comments,
+  findings F-1). No commit among the 40 most recent on main needed the exception. Every push in
+  the repository's events, sessions' included, has Hafeok as its actor, not an app (F-1, and
+  Emil's check of the last 9 pushes).
+basedOn:
+  - DDD-dec-81
+  - DDD-dec-108
+notes: |
+  Id. As DDD-dec-109's note.
+
+  Reading — Claude, UNVERIFIED — Emil review. The option text says "a session commit that fails
+  to sign is refused". That holds for a push GitHub attributes to the Claude app. It may not
+  hold for the pushes this repository sees. Sessions push as Hafeok, and Hafeok holds the admin
+  role, which stays on the bypass list. If GitHub evaluates the bypass against that actor, a
+  session's unsigned commit pushed to main would still pass the signing rule. In practice main
+  moves only by canon land, after agent review (DDD-dec-109) and Emil's approval of the head, so
+  an unsigned commit reaches main only if Emil approves a head that contains one. Removing the
+  admin role entry too, or having canon land refuse an unverified commit in the range, would
+  close it. Neither is ruled.

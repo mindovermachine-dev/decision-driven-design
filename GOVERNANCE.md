@@ -10,7 +10,8 @@ it differs from another of them, that is a defect unless it says why.
 
 **Three departures from the standard are stated here, each with the decision that rules it:**
 merging as a blocking review for decisions (item 5), session branches that live as long as their
-gates (item 4), and the signing exception (item 8). Every other item applies as the standard
+gates (item 4), and the signing exception (item 8), which is now withdrawn
+([`DDD-dec-110`](core/decisions/DDD-dec-110.yaml)). Every other item applies as the standard
 writes it, or as `DDD-dec-81` adapts it.
 
 ## Who decides
@@ -59,23 +60,37 @@ point, [`scripts/ci.py`](scripts/ci.py), inside the development container
 and upstream pins, the What, the How examples, and the checker fixtures. Running
 `python3 scripts/ci.py` locally is the same pipeline.
 
-**A commit reaches `main` only once its own check has passed**
-([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)). The mechanism is `canon land`
+**A commit reaches `main` only once its own checks have passed, and Emil has approved it**
+([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml),
+[`DDD-dec-109`](core/decisions/DDD-dec-109.yaml)). The mechanism is `canon land`
 ([`DDD-dec-101`](core/decisions/DDD-dec-101.yaml), [`tools/canon/`](tools/canon/DESIGN.md)):
 
-1. `canon land <pr>` pushes the pull request's head to `land/<name>`.
-2. CI runs there, and `pipeline (devcontainer)` goes green on that SHA.
-3. `canon land <pr> --main` fast-forwards `main` to `land/<name>`, then deletes `land/<name>`.
-   It never makes a merge commit.
-4. The `trunk` ruleset refuses everything else that it can see: a deletion of `main`, a
-   non-fast-forward push to it, and a push whose head has no successful
-   `pipeline (devcontainer)` check from GitHub Actions. Nobody bypasses it, the admin role
-   included.
+1. **Emil approves the head.** He comments `approve <head sha>` on the pull request, by hand,
+   with at least 12 characters of the head. The gates App then posts the check `agent review`,
+   green, on that head ([`.github/workflows/agent-review.yml`](.github/workflows/agent-review.yml)).
+2. `canon land <pr>` pushes the pull request's head to `land/<name>`.
+3. CI runs there, and `pipeline (devcontainer)` goes green on that SHA.
+4. `canon land <pr> --main` fast-forwards `main` to `land/<name>`, then deletes `land/<name>`.
+   It never makes a merge commit. Both `canon land` steps refuse a head that does not carry the
+   gates App's green `agent review`.
+5. The `trunk` ruleset refuses everything else that it can see: a deletion of `main`, a
+   non-fast-forward push to it, and a push whose head lacks a successful
+   `pipeline (devcontainer)` check from GitHub Actions or a successful `agent review` check
+   from the gates App. Nobody bypasses it, the admin role included.
 
-Only Emil can create or move a `land/` branch. Two paths stay open to someone with write access,
-and the `trunk` ruleset alone does not close them: a fast-forward of `main` to a commit already
-green on another branch, and a GitHub merge of a green pull request. Neither is how work lands
-here. `canon land` is ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml), notes).
+**Why the approval is a comment, and why it must be by hand.** Sessions push and comment under
+Emil's account, so neither the rulesets nor a GitHub login can tell Emil from a session. Agent
+review counts a comment only when GitHub records no app as having made it, and only when it was
+not edited. A session's comments are made through the Claude app. The identity map is
+[`.github/identities.json`](.github/identities.json), read from `main`. A session is known on a
+commit by its `Claude-Session:` trailer, not by the account that pushed it. Every pull request needs
+the approval, whoever wrote its commits ([`DDD-dec-109`](core/decisions/DDD-dec-109.yaml)).
+
+Two paths stay open beside `canon land`: a fast-forward of `main` to a commit green on another
+branch, and a GitHub merge of a green pull request. Once `agent review` is required, both need
+Emil's approval of that head as well. Neither is how work lands here; `canon land` is. **Until
+the gates App is installed and the file re-applied, `agent review` is declared but not
+required**, and the landing works as before without step 1.
 
 ### Departure 1 — merging is a blocking review for decisions (item 5)
 
@@ -122,8 +137,8 @@ Emil then probed it the same day: a signed direct push to `main` was refused wit
 
 | | What |
 |---|---|
-| **`trunk`** ruleset on `main` | no deletion, no force push, **no bypass**; the required status check `pipeline (devcontainer)`, from GitHub Actions only ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
-| **`Signed Commits`** ruleset on `main` | Signed commits required, with the admin role and the Claude GitHub App on the **bypass list** (see below; [`DDD-dec-81`](core/decisions/DDD-dec-81.yaml)) |
+| **`trunk`** ruleset on `main` | no deletion, no force push, **no bypass**; the required status checks `pipeline (devcontainer)`, from GitHub Actions only ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)), and `agent review`, from the gates App only (`mom-gates`, owned by the organisation, integration id 5594102; [`DDD-dec-109`](core/decisions/DDD-dec-109.yaml); declared, not yet applied) |
+| **`Signed Commits`** ruleset on `main` | Signed commits required, with the admin role the only actor on the **bypass list** ([`DDD-dec-81`](core/decisions/DDD-dec-81.yaml), [`DDD-dec-110`](core/decisions/DDD-dec-110.yaml); the Claude GitHub App's entry removed, not yet applied) |
 | **`land`** ruleset on `land/**` | creating, moving, deleting or force-moving a `land/` branch is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
 | **`Release Tags`** ruleset on `v*` tags | creating, deleting or force-moving a `v*` tag is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
 | **Discussions** | On |
@@ -131,10 +146,21 @@ Emil then probed it the same day: a signed direct push to `main` was refused wit
 | **Maturity** (organisation property) | `Experimental`, moving to `Incubating` when step 1 is reported |
 | **Projects** | An upstream roadmap board and a downstream work board (below); not managed by the file |
 
-### Departure 3 — the signing exception (item 8)
+### Departure 3 — the signing exception (item 8), withdrawn
 
-Commits from AI sessions in the claude.ai cloud workspace are **exempt from the signature
-requirement**, through the `Signed Commits` ruleset's bypass. This is Varve's stated deviation,
+**Withdrawn** ([`DDD-dec-110`](core/decisions/DDD-dec-110.yaml)). Sessions here sign with a key
+registered on GitHub, and their commits verify. The 40 most recent commits on `main` were all
+verified on 2026-11-03. So the Claude GitHub App (integration 1236702) is no longer on the
+`Signed Commits` bypass list. The admin role stays the only bypass. A session commit that does
+not verify is refused, unless it reaches `main` in a push the admin bypass covers. Sessions push
+under Emil's account, so that bypass may cover their pushes too. That push can only be
+`canon land`, after Emil has approved the head ([`DDD-dec-110`](core/decisions/DDD-dec-110.yaml),
+notes).
+
+The exception, as it stood until then, is kept below for the record.
+
+Commits from AI sessions in the claude.ai cloud workspace were **exempt from the signature
+requirement**, through the `Signed Commits` ruleset's bypass. This was Varve's stated deviation,
 adopted for the same reason ([`DDD-dec-81`](core/decisions/DDD-dec-81.yaml)). Those sessions do sign, but with a
 key the sandbox platform provides, which is registered to nobody, so GitHub reports
 `unknown_key`. Registering that key was rejected for Varve and is rejected here. The key is not

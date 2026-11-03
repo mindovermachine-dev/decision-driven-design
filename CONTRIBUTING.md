@@ -100,11 +100,23 @@ Do not merge the pull request on GitHub, even if you can. Work reaches `main` on
 that it can see: a direct push without a green `pipeline (devcontainer)` on that exact SHA, a
 force-push and a deletion. Nobody bypasses it, the admin role included.
 
-Landing is Emil's act. He lands with `canon land` ([`tools/canon/`](tools/canon/DESIGN.md)):
+**Emil approves the head first** ([`DDD-dec-109`](core/decisions/DDD-dec-109.yaml)). He comments
+`approve <head sha>` on the pull request, by hand, naming at least the first 12 characters of its
+current head. The gates App then posts the check `agent review`, green, on that head, and the
+`trunk` ruleset requires it beside `pipeline (devcontainer)`. A push after the approval needs a
+new one. Some comments do not count: an approval of an earlier head, an edited comment, and a
+comment made through an app. Every comment a Claude session writes is made through the Claude
+app, even under Emil's login. Until the gates App is installed and `.github/repo-standard.yaml`
+re-applied, the check is declared but not yet required.
+
+Landing is Emil's act, after the approval. He lands with `canon land`
+([`tools/canon/`](tools/canon/DESIGN.md)), which refuses a head without the gates App's green
+`agent review` once `main`'s `.github/repo-standard.yaml` requires it:
 
 ```bash
 alias canon='dotnet run --project tools/canon/src/Canon -c Release --'
 
+                          # first: Emil's comment "approve <head sha>" on #47
 canon land 47 --print     # fetch, then show the pushes and make none
 canon land 47             # push the pull request's head to land/pr-47
                           # wait for pipeline (devcontainer) to go green on land/pr-47
@@ -112,7 +124,9 @@ canon land 47 --main      # fast-forward main to land/pr-47, then delete land/pr
 ```
 
 `canon land --commit <sha>` does the same for a commit with no pull request; its `land/` branch
-is named by the commit's first twelve characters unless `--name <name>` names it. A head that adds
+is named by the commit's first twelve characters unless `--name <name>` names it. Once
+`agent review` is required, such a commit cannot be approved, and it lands through a pull request
+instead. A head that adds
 a release descriptor lands on `land/release-<version>` instead. The second step refuses if
 `land/<name>` has moved, or if `main` is not an ancestor of it. Only Emil
 can create or move a `land/` branch.
