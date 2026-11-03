@@ -6,7 +6,7 @@ This is the definition of the rewritten product-cli. It replaces the Rust worksp
 
 Rulings are marked `[D1.n]` with their date where they land.
 - **Drafts 2 and 3.** Draft 2 adds D1.2 to D1.9. Draft 3 adds D1.10 to D1.15, ruled with ADR-0010, ADR-0011 and ADR-0012; they rest on `dpp/1` (specification 1.0, draft of 2026-10-27, decision-driven-design `spec/decision-provenance/dpp-1.md`).
-- **Draft 4** adds D1.16 to D1.24, ruled on 2026-11-03. D1.16 to D1.23 come from the gate checks of 2026-11-02 (A1 to A8); D1.24 supersedes D1.23. The checks were run against decision-driven-design `c7424ad`, Varve `c0a776b`, Writ `6737ac9` and the Rust tool `70395df`.
+- **Draft 4** adds D1.16 to D1.25, ruled on 2026-11-03. D1.16 to D1.23 come from the gate checks of 2026-11-02 (A1 to A8); D1.24 supersedes D1.23, and D1.25 adds step 0 to the order of work. The checks were run against decision-driven-design `c7424ad`, Varve `c0a776b`, Writ `6737ac9` and the Rust tool `70395df`.
 - **Superseded rulings** keep their number, with the ruling that replaces them named in place. The text below states the ruling in force.
 
 ## 1. The promise
@@ -370,7 +370,10 @@ This chapter may change without chapters 1 to 6 changing.
      - The How kinds are dropped: `ReificationRule`, `Cio`, design-system style and tokens, `versionedAs` and `targetsPlatform`.
      - The ownership edges become `sdlc:within` (`DDD-dec-64` P-2): `inContext`, `ownsDomain`, `ownsSystem`, `systemOf`, `journeyOf` and `boundedBy`.
    - **IRI subjects.** Each gets one minted `P/what/<ULID>`, with the old name as `rdfs:label`. The product IRI P is stated in the lift ADR.
-   - **Attribute blank nodes.** Each `pf:hasAttribute` blank node becomes an `sdlc:Field` element (P-3): `attrName` becomes `rdfs:label`, and `attrType` becomes `sdlc:fieldType`.
+   - **Blank nodes.** All 32 become elements (P-3), each keyed by (owning subject IRI, predicate, its own description, sorted). The key is unique over the frozen input.
+     - The 15 `pf:hasAttribute` nodes become `sdlc:Field` elements: `attrName` becomes `rdfs:label`, and `attrType` becomes `sdlc:fieldType`.
+     - The 7 `pf:offers` and 10 `pf:surfaces` nodes become `sdlc:Interaction` elements within their UI step.
+   - **Stored, not minted.** The ULIDs and the adopted wire names are stored in the map, each wire name with the reference to the review that adopted it. Lifting again therefore reproduces the golden bytes.
    - **Wire names are authored, not carried.** The input has none. The lift ADR states the rule that proposes one for every kind that requires one (`what.md` §6, R-1, R-2), and review adopts each.
 3. **Two fixtures.**
    - **The golden fixture.** The lift produces the new tool's canonical export of the self-hosted What. It imports through W1 and carries no violation under its edition. It is reviewed and committed. Lifting again with the same map is checked to reproduce the golden bytes, once, and the result is recorded. The self-hosted What holds no Decider, Projector, scenario, subject kind or scope rule, so this fixture fixes structure and surface only.
@@ -382,6 +385,12 @@ This chapter may change without chapters 1 to 6 changing.
 
 **Order of work:**
 
+0. `[D1.25]` (2026-11-03) Slice 0, the repository skeleton (ADR-0002, ADR-0003, ADR-0004):
+   - the eight layer projects, each with its public API baseline and a test that the layering analyzer refuses an upward reference;
+   - the Native AOT publish of the host on every supported runtime in CI, with a smoke test of the published binary;
+   - the package register: Varve, the analyzers, and the test-only packages.
+
+   It needs no `sdlc:` edition, so it does not wait for step 1's upstream.
 1. Pin the `sdlc:` edition and its shapes; the lift ADR and the lift map. This needs decision-driven-design #49, #50 and the edition-1 tag.
 2. The canonical graph, element hashes and the exporters (canonical N-Quads with artefacts, sorted Turtle), with their conformance suites; the What-version record; the logic media type's specification page and suite.
 3. The lift and both fixtures.
@@ -403,6 +412,7 @@ This chapter may change without chapters 1 to 6 changing.
     Those are decisions and valuations held in Writ over this tool's export.
   - **Declared targets are in it.** A system's design system and content store, declared as `sdlc:DeclaredTarget` at an edition (`what.md` §4.1, `DDD-dec-57`), are What. Their catalogues are packages; the bindings are Writ's.
   - The framework document stays whole as an open standard; this tool implements one part of it and says which.
+- **Licence.** Apache-2.0, from the commit after `rust-final` that replaced the licence (`59553ee`, merged at `53bd547`). MIT governs everything at `rust-final` and before it, and the Rust tool's releases.
 - **What carries over from the Rust workspace.**
   - **Carried:**
     - the name and the verb names;
@@ -450,5 +460,6 @@ As of 2026-11-03.
 | D1.1 | `DDD-dec-63` on `main`, and the What half of `sdlc:` published | decision-driven-design | **met** |
 | D1.17 | the What-version record's dotted member | decision-driven-design | **met**: fixed by `DDD-dec-63` §6 |
 | D1.7 | an RDF form of the logic | decision-driven-design | **withdrawn** with D1.7 (D1.16) |
-| D1.24 | the tag `rust-final` at `70395df` | product-cli | to make before the first rewrite pull request |
+| D1.24 | the tag `rust-final` at `70395df` | product-cli | **met**: tag object `d0cf1f1ec40eb55c271b8d4dadfefcd260c03312` |
+| D1.24 | the Rust tree removed from `main` | product-cli | **met**: mindovermachine-dev/product-cli#166, merged at `53bd54758ba71f7a810f91ddf3a6c83d5e653145` |
 | — | `applications/sdlc/README.md` points to the Rust product-cli as the reference implementation | decision-driven-design | amended with this definition's arrival; the Rust tool is the reference until retirement |
