@@ -41,6 +41,8 @@ internal static partial class PythonOracle
         (new(@"^\[retired-from\] retired_from illegal"), "CLAIM-RETIRED-FROM-ILLEGAL"),
         (new(@"^\[retired-from\] retired_from 'unrecoverable' requires"), "CLAIM-RETIRED-FROM-NOTES"),
         (new(@"^duplicate ids"), "DUPLICATE-ID"),
+        (new(@"^\[basis-resolves-recorded\]"), "DEC-BASEDON-UNRESOLVED-RECORDED"),
+        (new(@"^\[basis-resolves\]"), "DEC-BASEDON-UNRESOLVED"),
         (new(@"no accountable principal"), "DEC-PRINCIPAL"),
         (new(@"no basedOn edges"), "DEC-BASEDON"),
         (new(@"no resolution"), "DEC-RESOLUTION"),

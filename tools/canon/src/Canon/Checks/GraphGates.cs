@@ -59,22 +59,65 @@ internal static class GraphGates
         return (findings, load);
     }
 
-    public static (List<Finding> Findings, CanonGraph.Load Load) Decisions(string root, string target)
+    public static (List<Finding> Findings, CanonGraph.Load Load) Decisions(string root, string target, CanonConfig config)
     {
-        CanonGraph.Load load = CanonGraph.Read(CanonKind.Decision, Files(root, target), []);
+        CanonGraph.Load load = CanonGraph.Read(CanonKind.Decision, Files(root, target), Resolution(root, config));
         return ([.. load.Findings, .. DecisionShapes.Value.Validate(load)], load);
     }
 
-    /// <summary>The descriptors' validation, resolving basis against the canon directories' file stems in root, as Python does.</summary>
-    public static (List<Finding> Findings, CanonGraph.Load Load) Releases(string root, string target, CanonConfig config)
+    /// <summary>
+    /// What a decision's basedOn may resolve to in the live repository
+    /// (DDD-dec-111), read as validate-claims.py reads it: claim and decision
+    /// file stems, the pins of graph/upstream.yaml, the terms of
+    /// core/graph/terms.yaml, and the pairs of graph/unresolved-basis.yaml.
+    /// </summary>
+    public static CanonGraph.Resolution Resolution(string root, CanonConfig config)
     {
-        List<string> stems = config.CanonDirectories
+        List<string> pins = Sequence(root, config.Pins, "upstream", "pins").Select(n => Field(n, "id")).OfType<string>().ToList();
+        List<string> terms = Sequence(root, config.LocalTerms, null, "terms").Select(n => Field(n, "id")).OfType<string>().ToList();
+        List<(string, string)> recorded = Sequence(root, config.UnresolvedBasis, null, "entries")
+            .Select(n => (Field(n, "decision"), Field(n, "entry")))
+            .Where(p => p.Item1 is not null && p.Item2 is not null)
+            .Select(p => (p.Item1!, p.Item2!))
+            .ToList();
+        return new CanonGraph.Resolution(Stems(root, config), pins, terms, recorded);
+    }
+
+    private static List<string> Stems(string root, CanonConfig config) =>
+        config.CanonDirectories
             .Select(d => Path.Combine(root, d))
             .Where(Directory.Exists)
             .SelectMany(d => Directory.GetFiles(d, "*.yaml"))
             .Select(Path.GetFileNameWithoutExtension)
             .OfType<string>()
             .ToList();
+
+    private static IEnumerable<YamlDotNet.RepresentationModel.YamlMappingNode> Sequence(string root, string path, string? outer, string key)
+    {
+        string full = Path.Combine(root, path);
+        if (!File.Exists(full))
+        {
+            return [];
+        }
+
+        YamlDotNet.RepresentationModel.YamlMappingNode yaml = Yaml.LoadMapping(File.ReadAllText(full), path);
+        if (outer is not null)
+        {
+            yaml = Yaml.Mapping(yaml, outer) ?? new YamlDotNet.RepresentationModel.YamlMappingNode();
+        }
+
+        return yaml.Children.TryGetValue(new YamlDotNet.RepresentationModel.YamlScalarNode(key), out YamlDotNet.RepresentationModel.YamlNode? node)
+               && node is YamlDotNet.RepresentationModel.YamlSequenceNode sequence
+            ? sequence.Children.OfType<YamlDotNet.RepresentationModel.YamlMappingNode>()
+            : [];
+    }
+
+    private static string? Field(YamlDotNet.RepresentationModel.YamlMappingNode node, string key) => Yaml.Scalar(node, key);
+
+    /// <summary>The descriptors' validation, resolving basis against the canon directories' file stems in root, as Python does.</summary>
+    public static (List<Finding> Findings, CanonGraph.Load Load) Releases(string root, string target, CanonConfig config)
+    {
+        List<string> stems = Stems(root, config);
         CanonGraph.Load load = CanonGraph.Read(CanonKind.Release, Files(root, target), stems);
         List<Finding> findings = [.. load.Findings, .. ReleaseShapes.Value.Validate(load)];
         if (stems.Count == 0)

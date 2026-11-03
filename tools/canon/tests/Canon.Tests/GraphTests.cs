@@ -113,17 +113,21 @@ public sealed class GraphTests
             principal: Fixture
             made: never
             resolution: accept
-            basedOn: [DDD-fixture-01]
+            basedOn: [DDD-dec-84]
             """);
 
     private static void Repeated(string directory, string code, bool decisions, string text)
     {
         using Sandbox sandbox = new();
+
+        // basedOn must resolve (DDD-dec-111): canon resolves against the sandbox, which therefore
+        // carries the decision it names; Python resolves against this repository, which has it.
+        sandbox.Write("core/decisions/DDD-dec-84.yaml", "id: DDD-dec-84\n");
         sandbox.Write($"{directory}/a.yaml", text);
         sandbox.Write($"{directory}/b.yaml", text);
 
         List<Finding> canon = decisions
-            ? GraphGates.Decisions(sandbox.Work, directory).Findings
+            ? GraphGates.Decisions(sandbox.Work, directory, new CanonConfig()).Findings
             : GraphGates.Claims(sandbox.Work, directory).Findings;
         List<string> arguments = [Path.Combine(Repository(), "scripts/validate-claims.py"), Path.Combine(sandbox.Work, directory)];
         if (decisions)

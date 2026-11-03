@@ -65,7 +65,7 @@ internal static class CheckCommand
             (List<Finding> findings, List<string> notes) = name switch
             {
                 "claims" => (GraphGates.Claims(context.Root, CanonDirectory(context, "claims")).Findings, new List<string>()),
-                "decisions" => (GraphGates.Decisions(context.Root, CanonDirectory(context, "decisions")).Findings, new List<string>()),
+                "decisions" => (GraphGates.Decisions(context.Root, CanonDirectory(context, "decisions"), context.Config).Findings, new List<string>()),
                 "releases" => ReleasesGate(context),
                 _ => FixturesGate(context),
             };
@@ -162,7 +162,7 @@ internal static class CheckCommand
     private static (List<Finding> Findings, CanonGraph.Load Load) Canon(Context context, Case c) => c.Kind switch
     {
         CanonKind.Claim => GraphGates.Claims(context.Root, c.Target),
-        CanonKind.Decision => GraphGates.Decisions(context.Root, c.Target),
+        CanonKind.Decision => GraphGates.Decisions(context.Root, c.Target, context.Config),
         _ => GraphGates.Releases(context.Root, c.Target, context.Config),
     };
 

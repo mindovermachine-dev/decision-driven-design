@@ -24,6 +24,7 @@ compared.
 | `validate-claims.py` (claims) | `0.1.0-preview.15`, Gate 3 (below) | — | — |
 | `validate-claims.py --decisions` | `0.1.0-preview.15`, Gate 3 (below) | — | — |
 | `validate-releases.py` | `0.1.0-preview.15`, Gate 3 (below) | — | — |
+| `validate-claims.py --decisions`, basedOn resolution (`DDD-dec-111`), counted on its own | `0.1.0-preview.15`, S-20 (below) | — | — |
 
 No validator can be retired yet. Each needs a second full agreement after a Varve bump, and a
 decision naming both versions. The release-head guard and the cut checks (`check-release-head.py`,
@@ -118,3 +119,33 @@ compare: every case agrees
 | 3 | 44 | 44 | D-01 fixed; `date-one-digit` added |
 | 4 | 47 | 46 | Fixtures for the empty basis, a duplicate version, a non-mapping descriptor; D-02 |
 | 5 | 47 | 47 | D-02 fixed. A SPARQL escaping error in the new duplicate constraint made the release shapes fail to load once ("could not run", exit 2) before this run; it was fixed before any comparison ran |
+
+### S-20, basedOn resolution (`DDD-dec-111`): 2026-11-03
+
+The rule entered both implementations in one change, with fixtures (DDD-dec-111). Its agreement
+is counted on its own under `DDD-dec-103`: this is its agreement A. It needs a second full
+agreement after a Varve bump before the Python half can be retired with the rest of
+`validate-claims.py --decisions`.
+
+Varve `0.1.0-preview.15`. Base `main` at `6ad604f`, plus the S-20 change, the commit that adds
+this section. **First run: every case agrees (P-21 held). 49 cases in all (the 47 of Gate 3 and the two new decision fixtures), 41 of 47 rule codes
+exercised.** The two new codes, DEC-BASEDON-UNRESOLVED (error) and
+DEC-BASEDON-UNRESOLVED-RECORDED (warning), are exercised by the two new refuse fixtures and by
+the live tree. The decisions cases:
+
+| case | python | canon | findings (python / canon) | agree |
+|---|---|---|---|---|
+| `decisions/accept` | accept | accept | 0 / 0 | yes |
+| `decisions/refuse/basedon-missing-local.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/basedon-unpinned-upstream.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/empty-basedon.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-basedon.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-made.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-principal.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-resolution.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions (live: core/decisions)` | accept | accept | 14 / 14 | yes |
+
+The live tree's 14 findings on each side are the 14 entries recorded in
+`graph/unresolved-basis.yaml`, all warnings. The six rules not exercised are the six of Gate 3,
+for the reasons given there.
+

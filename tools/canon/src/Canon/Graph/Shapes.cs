@@ -107,7 +107,7 @@ internal sealed class Shapes
                 ? "*"
                 : load.Files.TryGetValue(CanonGraph.KeyOf(result.FocusNode), out string? path) ? path : "?";
             string message = result.Messages.Count > 0 ? Encoding.UTF8.GetString(result.Messages[0].Lexical) : code;
-            if (result.Value is { Kind: RdfTermKind.Literal } value && code is "REL-BASIS-ENTRY" or "REL-BASIS-UNRESOLVED")
+            if (result.Value is { Kind: RdfTermKind.Literal } value && code is "REL-BASIS-ENTRY" or "REL-BASIS-UNRESOLVED" or "DEC-BASEDON-UNRESOLVED" or "DEC-BASEDON-UNRESOLVED-RECORDED")
             {
                 message += ": " + Encoding.UTF8.GetString(value.Lexical);
             }

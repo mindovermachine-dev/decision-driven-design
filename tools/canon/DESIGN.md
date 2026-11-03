@@ -741,3 +741,21 @@ the session's `predictions.md`, and the comparison and its ledger are in
 - **No Varve defect was found.** Every SHACL and SPARQL behaviour canon relied on matched the
   specification and the Python verdicts.
 
+---
+
+## 14. S-20: basedOn resolves (`DDD-dec-111`)
+
+Ruled 2026-11-03 and built the same day in both implementations, with fixtures. The §13 row
+"`basedOn` not resolved" is superseded by it. An entry resolves to:
+- a canon file stem;
+- a pin in `graph/upstream.yaml`;
+- a term in `core/graph/terms.yaml`, the last a reading flagged in the decision's notes.
+
+The data the rule needs is added to the graph: `canon:UpstreamPin`, `canon:LocalTerm`, and
+`canon:RecordedUnresolved` for the pairs in `graph/unresolved-basis.yaml`. Two SHACL-SPARQL rules
+use it: `DEC-BASEDON-UNRESOLVED` (error) and `DEC-BASEDON-UNRESOLVED-RECORDED` (warning).
+
+The history scan found 14 unresolved entries in 12 filed decisions, all upstream ids not pinned
+here. They are recorded, not edited (S-21). The parallel run agreed on the first run (P-21), and
+the rule's own `DDD-dec-103` count starts at agreement A, Varve `0.1.0-preview.15`.
+
