@@ -1,0 +1,118 @@
+format: 1
+id: DDD-dec-109
+kind: decision
+statement: |
+  Ratification is Emil's alone through agent review, ported from Varve (ADR 0087). The trunk ruleset requires a second check, "agent review", posted only by the gates GitHub App. It is green only when the pull request's head carries a conversation comment "approve <head sha>" (at least 12 characters of the head) made by a human in .github/identities.json, by hand: not through any GitHub App, and not edited. canon agent-review judges a pull request, or the pull request behind a land/ push. A workflow that runs main's canon on pull_request_target and issue_comment posts the check as the gates App. canon land refuses when agent review is not green on the head. This adds to DDD-dec-108 and does not supersede it.
+principal: Emil
+made: |
+  2026-11-03, Round 2 of the protect-main session, given by Emil through the question dialog in the claude.ai conversation and recorded verbatim at meta/sessions/2026-11-03-protect-main/rulings.md ("Varve's agent review (Recommended)"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The ruling
+
+  > Q: "Sessions push as your account, so the rulesets cannot tell you from a session. How
+  > should this repository make ratification yours alone?"
+  >
+  > A: "Varve's agent review (Recommended)" (option text: "Install Varve's gates App here.
+  > Required check `agent review` on trunk, green only on your `approve <sha>` comment;
+  > `canon land` refuses without it")
+
+  ## Why a decision
+
+  DDD-dec-108 makes main move only to a checked commit, and restricts land/ to Emil. But every
+  push and every comment a session makes carries Emil's account, Hafeok, as its actor (Round 2;
+  findings F-2, F-4). The rulesets cannot tell Emil from a session, so "restricted to Emil" did
+  not restrict. DDD-dec-78 makes Emil's landing the ratification act, and nothing made that act
+  Emil's own.
+
+  ## Who is who
+
+  .github/identities.json, the counterpart of Varve's eng/identities.json, names Emil as the one
+  human: his GitHub login and user id, and his emails. It also names the Claude sessions as an
+  agent whose responsible human is Emil. A session is identified by its Claude-Session commit
+  trailer, not by the pushing account, and its GitHub writes by the app that performs them
+  (performed_via_github_app). A human's comment counts only when GitHub records no app as
+  having made it.
+
+  ## The rule
+
+  canon agent-review is green on a head H when, and only when, all of these hold:
+
+  1. A pull request has H as its current head. That is the pull request given, or for a land/
+     push, a pull request whose head is the pushed commit. A commit that is no pull request's
+     head is not green.
+  2. One of its conversation comments contains "approve <sha>", where <sha> is at least 12
+     hexadecimal characters and a prefix of H. An approval of an earlier head counts for nothing.
+  3. That comment's author has a login and a user id that match a human in the identity map,
+     and the human holds Approve for every agent in the pull request: its responsible human, or
+     a delegate.
+  4. The comment was not made through a GitHub App, since a session's comments are made through
+     the Claude app.
+  5. The comment was not edited after it was made, since an edit is not attributed to whoever
+     made it.
+
+  The identity map is main's. The judge reads it from main's checkout, never from the pull
+  request, so a change cannot authorise itself. Review submissions are not consulted.
+
+  Unlike Varve, every pull request needs the approval, not only one with an agent's commits.
+  Here a commit with no trailer, pushed under Emil's account, cannot be told from Emil's own.
+
+  ## The check, and who may post it
+
+  .github/workflows/agent-review.yml runs only on triggers whose workflow is main's:
+  pull_request_target and issue_comment. It checks out main by name, builds main's canon, and
+  runs `canon agent-review <pr> --post`, which reads the pull request through the API as data.
+  The verdict is a check run named "agent review", created or updated on the head with a token
+  of the gates App minted from the gates environment. The trunk ruleset requires "agent review"
+  from that App's integration id, so a job or app posting the same name does not satisfy it.
+  Unlike Varve, there is no push trigger on land/**. A session can push land/ (F-2), and a push
+  runs the pushed commit's workflow. The verdict a pull request earned is already on its head's
+  SHA when that SHA is pushed to land/.
+
+  ## Landing
+
+  1. Emil comments "approve <head sha>" on the pull request. The gates App posts "agent review"
+     green on that head.
+  2. `canon land <pr>` pushes the head to land/<name>, and "pipeline (devcontainer)" goes green
+     there.
+  3. `canon land <pr> --main` fast-forwards main.
+
+  canon land refuses, in both steps, when main's .github/repo-standard.yaml pins "agent review"
+  on trunk and the head carries no successful "agent review" check run from the pinned app.
+  The rulesets refuse the push to main anyway. canon checks first.
+basedOn:
+  - DDD-dec-108
+  - DDD-dec-78
+  - DDD-dec-101
+  - DDD-dec-81
+notes: |
+  Id. Checked on every branch of both repositories at 09:2x UTC on 2026-11-03, after main
+  reached 320fccb. Upstream (27 branches) holds up to DDD-dec-39. Downstream, the highest
+  decision file on any branch is DDD-dec-108, and no branch holds a file above it. The canon CLI
+  session has ruled its S-20 decision (6ad604f) but not filed it. By Round 2 ("the next id above
+  the highest held anywhere"), this round takes DDD-dec-109 and DDD-dec-110. The canon session
+  had earlier been told 109 onward, so its S-20 decision takes the next free id at its own check.
+
+  Ids read, not ruled. 2194785 is Emil's account (Hafeok), as in DDD-dec-108. 1236702 is the
+  Claude app, read from performed_via_github_app on this repository's issues and comments
+  (findings F-1). 5220446 is the gates App of Varve's .github/repo-standard.yaml. Emil is asked
+  to confirm it is the same App, installable on this organisation, before the ruleset relies on
+  it. Until then, the trunk ruleset's pin of "agent review" is declared, and it is not applied.
+
+  Reading — Claude, UNVERIFIED — Emil review. "From a listed identity" is read as: a human of the
+  map, by hand. A comment whose author is a listed human's login, made through the Claude app, is
+  a session's and does not count. That is the ruled tamper case "a session-authored comment must
+  not satisfy the check", and the only way to tell such a comment apart, because its login is
+  Emil's.
+
+  Reading — Claude, UNVERIFIED — Emil review. Rule 5 (an edited comment does not count) is not in
+  Varve. It is added because a session can edit a comment of Emil's under his account, through
+  the app, and the edit is not attributed. Whether GitHub moves updated_at for anything but an
+  edit, such as a reaction, was not tested. If it does, an approval goes stale and Emil comments
+  again, which fails safe.
+
+  Reading — Claude, UNVERIFIED — Emil review. The gates environment holds the App's key, and it
+  must be deployable from main only. A session can push any branch, with any workflow on it, so
+  an environment open to land/** or to every branch would hand the key to a session. The
+  environment is not declared in .github/repo-standard.yaml, because a declared kind is managed
+  exhaustively and this session cannot read the repository's environments. Creating it is one of
+  Emil's admin acts (the session record).

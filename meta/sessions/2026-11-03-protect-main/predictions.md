@@ -106,3 +106,32 @@ Add-only. **The expectation left open above** (the first landing under the rules
 `canon land --main` passes `trunk`): **held**. `320fccb` reached `main` by `canon land --main`
 after the rulesets were applied, with `pipeline (devcontainer)` green on it from app 15368
 (`landing.md`, "The second landing").
+
+### Round 2 predictions, written before each operation
+
+**P-6 — `DDD-dec-109` and `DDD-dec-110` filed.** `validate-claims.py core/decisions/
+--decisions` exits 0, valid at 88 (86 on `main` plus two). Every `basedOn` id resolves.
+Falsifier: a refusal, or a count other than 88.
+
+**P-7 — canon builds and its existing tests pass unchanged.** After `agent-review` is added and
+`land` gains its check, `dotnet build` has no warnings (warnings are errors), and the 32 tests
+present at `320fccb` pass with no edit to any of them. `land` asks GitHub nothing when `main`'s
+`.github/repo-standard.yaml` pins no `agent review`, and the existing land tests have no such
+file. Falsifier: a build error, or an existing test that fails or needs an edit.
+
+**P-8 — the new tests, tamper cases included, pass.** Each new test is run and passes. Then, to
+show it can fail, the session breaks the rule it guards, once each, and watches it go red. The
+three ruled tamper cases are a session-authored comment, a check from another app, and an
+approval of an older head. For each, the rule is disabled in a scratch edit that is never
+committed. Falsifier: a new test red against the real code, or a tamper test still green with its
+rule disabled.
+
+**P-9 — the repository's gates stay green.** `scripts/ci.py`, `canon changelog --check` and
+`canon issue-refs --basis` (from a full, not shallow, clone) pass at the branch's head.
+Falsifier: any of them fails.
+
+**P-10 — CI on the pushed head.** `pipeline (devcontainer)` concludes `success`, from app 15368.
+No check named `agent review` appears on the head. `.github/workflows/agent-review.yml` is new on
+this branch, so it does not exist on `main`, and `pull_request_target` and `issue_comment` run
+only `main`'s copy. Nothing on this branch can post that check. Falsifier: the pipeline fails, or
+an `agent review` check appears.
