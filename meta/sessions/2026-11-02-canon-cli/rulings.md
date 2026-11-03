@@ -117,3 +117,33 @@ decisions and releases, the external JSON-LD context, `canon check` beside `scri
 and every fixture compared, with disagreements recorded and never suppressed; predictions before
 each step; the Varve version measured against recorded (`DDD-dec-103`); a stop at the end of
 Gate 3, with the head and the `canon land` command reported, and no landing by Claude.
+
+## Round 4 — S-20, 2026-11-03
+
+Given by Emil through the question dialog in the claude.ai conversation, while PR #53 (Gate 3)
+waited to land. Recorded verbatim, when given.
+
+> Q: "S-20: neither the Python validator nor canon checks that a decision's basedOn ids resolve
+> to an existing claim or decision; only that basedOn is present. A dangling basedOn is basis
+> loss the gate cannot see. Make resolution a rule?"
+> A: "Yes, as its own decision (Recommended)" (option text: "A new decision; both validators
+> gain the rule together, with fixtures, so the parallel run stays a comparison. Upstream ids
+> resolve through graph/upstream.yaml")
+
+Instructions given with the ruling (summarised; the message is the record): record it now, in the
+follow-up to the merge of `main`; do not implement it on this branch. #53 lands as it is, once
+`main` is merged in. After Emil lands #53, start S-20 on a new branch from `main`:
+- re-check the ids on every branch of both repositories, take the next free id and report it;
+- file the decision;
+- add the rule to `scripts/validate-claims.py` and to canon's shapes in the same change, with
+  refuse fixtures for a missing local id and for an upstream id `graph/upstream.yaml` does not pin;
+- predict first;
+- run the gate over the current history, count and list the filed decisions that would fail
+  today, and report them for Emil's ruling without editing them;
+- record the new rule's agreement in the parallel-run ledger, as its own count under `DDD-dec-103`.
+
+Stop with green CI and the land commands.
+
+| Ruling | Landed as |
+|---|---|
+| S-20 | Recorded here. Implemented after #53 lands, on a new branch (successor items, S-20) |

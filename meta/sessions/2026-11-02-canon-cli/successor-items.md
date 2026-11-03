@@ -75,3 +75,12 @@ Add-only.
 | S-20 | **Resolving `basedOn`.** Python does not resolve a decision's `basedOn`, so canon does not either (parity). Making it a rule would be a new decision | Emil, if wanted |
 | S-8 | **Still open.** `DDD-dec-108` (the protection decision) is not on any branch at the end of Gate 3 | This session, once it exists |
 | S-8 | **Closed.** `DDD-dec-108` (the protection decision) is filed on `claude/sharp-davinci-89xeil` (`458d05b`), and DESIGN.md §4.2 cites it, saying it was not yet landed when cited | — |
+
+## Round 4 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-20 | **Ruled: yes, as its own decision.** Both validators gain basedOn resolution together, with fixtures; upstream ids resolve through `graph/upstream.yaml`. Implemented after #53 lands, on a new branch from `main`; filed decisions that would fail are reported, not edited | This session, after #53 lands |
+| S-8 | `DDD-dec-108` has landed on `main` (`c06b359`, landed with `458d05b`); DESIGN.md §4.2 now says so | — |

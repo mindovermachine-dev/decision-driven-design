@@ -338,3 +338,11 @@ canon's, caught before any comparison ran: blank-node labels colliding across tw
 
 Measured against: Varve `0.1.0-preview.15`. Per `DDD-dec-103`, this is agreement A for each of
 the three validators. Agreement B, after a Varve bump, is still to come.
+
+Outcome for P-17 (appended 2026-11-03, after `main` was merged in): **held.** CI was green on
+`1cfadfd52f8f810505f0f6be2292da8b2856aca0`, push run 41604441017 and pull-request run
+41604487104. The push run's log shows `canon check --compare` in CI: "rules exercised by the
+corpus: 39 of 45 …", "compare: every case agrees", "canon check: all gates passed". The outcome
+was not committed at `1cfadfd`, because a commit would have moved the head offered for landing.
+Before #53 landed, `main` moved to `320fccb` (the protect-main session, `DDD-dec-108`). It was
+merged in, and the head offered for landing is the commit that records this.
