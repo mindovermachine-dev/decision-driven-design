@@ -18,3 +18,7 @@ or `CHANGELOG.md` changed), `issue-refs --basis` against `origin/main` (every co
 > Refs checked on 2, Basis on 0". All exit 0.
 
 **P-3.** `pipeline (devcontainer)` is green on the pushed head.
+
+> **Outcome: held.** `pipeline (devcontainer)` `completed success` on `9828a1b`, from app
+> 15368 (GitHub Actions). This record is the commit after it; its own run is reported to Emil
+> with the head.
