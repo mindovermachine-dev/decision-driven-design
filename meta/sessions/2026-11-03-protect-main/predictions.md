@@ -75,3 +75,8 @@ shallow, so `99d0a0f` (`basis.from`) was not an ancestor of anything and the Bas
 covered no commit. After `git fetch --unshallow`: `Refs checked on 4, Basis on 1`, ok. CI checks
 out with `fetch-depth: 0`, so CI is not affected. The finding is S-3 below. `canon changelog
 --check`: ok.
+
+**P-5 — held.** On `a792949`, the branch's head at the first push, one check run:
+`pipeline (devcontainer)`, `completed`, `success`, app id 15368. The `trunk` ruleset's
+`integration_id` matches the app that posts the check. This outcome is recorded in a commit after
+`a792949`, so the head to land is that later commit, once its own run is green (issue #51).
