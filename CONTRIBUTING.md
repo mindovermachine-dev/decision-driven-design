@@ -79,6 +79,7 @@ cd tools/canon
 dotnet test --project tests/Canon.Tests -c Release
 dotnet run --project src/Canon -c Release -- changelog --check
 dotnet run --project src/Canon -c Release -- issue-refs --basis
+dotnet run --project src/Canon -c Release -- check --compare
 ```
 
 That is exactly what CI runs. Each command must exit 0.

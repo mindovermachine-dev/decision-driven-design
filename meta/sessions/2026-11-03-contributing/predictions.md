@@ -22,3 +22,10 @@ or `CHANGELOG.md` changed), `issue-refs --basis` against `origin/main` (every co
 > **Outcome: held.** `pipeline (devcontainer)` `completed success` on `9828a1b`, from app
 > 15368 (GitHub Actions). This record is the commit after it; its own run is reported to Emil
 > with the head.
+
+## After the merge of `origin/main` (`6ad604f`)
+
+**P-4.** The merge is clean: `main` touched no file this session changed. Every gate passes on the
+merge, including the sixth CI command, `canon check --compare`, which arrived with Gate 3.
+
+**P-5.** `pipeline (devcontainer)` is green on the pushed head.

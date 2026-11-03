@@ -28,6 +28,10 @@ Every relative link resolves (19 links, checked by path existence at the head).
   `push` and `pull_request`; the `pull_request` run checks out the merge with `main`, not the head.
   Rewritten.
 
+- **F-7. "That is exactly what CI runs."** After `origin/main` (`6ad604f`, Gate 3) was merged in,
+  `validate.yml` runs a sixth command, `canon check --compare`. Added to the list, so the sentence
+  holds again.
+
 ## Left as given, flagged for Emil
 
 - **F-5. Signing.** The commit-message table says every commit is signed with a registered key,
@@ -37,6 +41,13 @@ Every relative link resolves (19 links, checked by path existence at the head).
   Departure 3. Until it does, the two files disagree. `UNVERIFIED — Emil review`.
 - **F-6. `.github/repo-standard.yaml`'s header still reads "NOT YET APPLIED".** Out of the
   prompt's scope; now false. Not changed.
+
+- **F-8. The order of the apply runs.** `GOVERNANCE.md` follows the prompt: Signed Commits in the
+  first run (at `5ccdf41`), `trunk`, `land` and `Release Tags` in the second (at `458d05b`). The
+  protect-main session's `landing.md` (landed from `main` with the merge) quotes Emil's report as
+  "then the four rulesets: trunk, land, Release Tags, Signed Commits". Both say all four are
+  active; they differ on which run created Signed Commits. Left as the prompt states it.
+  `UNVERIFIED — Emil review`.
 
 ## Commands
 
