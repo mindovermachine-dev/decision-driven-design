@@ -29,3 +29,11 @@ or `CHANGELOG.md` changed), `issue-refs --basis` against `origin/main` (every co
 merge, including the sixth CI command, `canon check --compare`, which arrived with Gate 3.
 
 **P-5.** `pipeline (devcontainer)` is green on the pushed head.
+
+> **P-4 outcome: held.** The merge `099180d` (signed) had no conflicts. At `9775f2b`: `scripts/ci.py`
+> "all gates passed"; `dotnet test` 37 succeeded, 0 failed; `changelog --check` exit 0;
+> `issue-refs --basis` "ok. 5 commits in 6ad604fac9c2..9775f2bba4fe; Refs checked on 5, Basis on
+> 0"; `check --compare` "compare: every case agrees", "canon check: all gates passed".
+>
+> **P-5 outcome** is reported to Emil with the head rather than committed here: recording it would
+> move the head off the commit whose run it reports.
