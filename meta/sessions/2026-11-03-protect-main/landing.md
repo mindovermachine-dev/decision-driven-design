@@ -114,3 +114,24 @@ Verified against the live repository at 08:47 UTC, read only:
 `UNVERIFIED — Emil review`: "A-2 and A-3" are not ids in this session's record. They are read as
 the two acts of this file after the landing: A-2 is step 2 (apply) and A-3 is check 2 (the
 direct-push probe).
+
+## Correction — Round 2, 2026-11-03
+
+Add-only. The reading flagged `UNVERIFIED` at the end of "Outcome" above is wrong, and this
+replaces it (`rulings.md`, Round 2, item 0). A-2 and A-3 are the ready-to-try session's admin acts
+(`meta/sessions/2026-11-02-ready-to-try/successor-items.md`): A-2 "Turn on Discussions" and A-3
+"Apply `.github/repo-standard.yaml`". Both are done as of 2026-11-03. The probe (check 2) is a
+check, not an admin act.
+
+## The second landing — `320fccb`, 2026-11-03
+
+Emil landed `320fccb`, the "Outcome" record, with `canon land` (`--name protect-main-record`,
+then `--main`). Verified live at 09:06 UTC: `main` is at `320fccb9dc90`, and no `land/` branch
+exists. Before `--main`, `land/protect-main-record` was at `320fccb`, carrying two
+`pipeline (devcontainer)` check runs on that SHA, both `success` and both from app 15368: one
+from the push of the session branch, one from the `land/` push.
+
+**It was the first landing the `trunk` ruleset checked.** `458d05b` landed before the rulesets
+were applied. `320fccb` landed after, by a fast-forward of `main` to a commit with a successful
+`pipeline (devcontainer)` check from GitHub Actions. So `canon land --main` passes `trunk`, and
+the required check's `integration_id` (15368) can be satisfied.

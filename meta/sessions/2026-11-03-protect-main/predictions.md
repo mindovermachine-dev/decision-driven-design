@@ -99,3 +99,10 @@ Add-only. Emil landed `458d05b` with `canon land` and applied `.github/repo-stan
   landing is possible): **held**. `458d05b` reached `main` under `canon land`. The landing was
   made before the rulesets were applied, so it was not itself gated by `trunk`. The first
   landing under the ruleset will be the first test that `canon land --main` passes `trunk`.
+
+## Round 2 — 2026-11-03
+
+Add-only. **The expectation left open above** (the first landing under the ruleset tests that
+`canon land --main` passes `trunk`): **held**. `320fccb` reached `main` by `canon land --main`
+after the rulesets were applied, with `pipeline (devcontainer)` green on it from app 15368
+(`landing.md`, "The second landing").

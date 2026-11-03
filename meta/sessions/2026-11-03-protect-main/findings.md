@@ -62,3 +62,23 @@ Emil's. Neither of those closes the two paths. Stated in `GOVERNANCE.md` and in 
 notes. Varve accepts a merge of a pull request as a second way in. Whether this repository wants
 merges off (repository `merge:` settings, which `repo-standard.yaml` does not manage today) is
 Emil's question.
+
+## Round 2 — 2026-11-03
+
+Add-only.
+
+**F-1, its open half answered.** 1236702 is this organisation's Claude app. The REST API marks
+every issue, pull request and comment that a session made here with
+`performed_via_github_app: {id: 1236702, slug: claude}`, though the `user` is `Hafeok`. Issues
+#37 to #54 carry it, and so does this session's own comment on #51 (6598918330). Read from
+`GET /repos/.../issues` and `/issues/51/comments` at 09:2x UTC. The bypass entry named the right
+app. Emil ruled it removed regardless (S-2).
+
+**F-4 — what tells Emil from a session on GitHub.** Pushes and comments both carry `Hafeok` as
+the actor, so neither the rulesets nor a login can separate Emil from a session. Two things
+can. A commit made by a session carries a `Claude-Session:` trailer, which is the ruling's
+identifier. A comment made by a session carries `performed_via_github_app` (the Claude app).
+GitHub sets that field, and a session cannot clear it. Agent review uses both
+(`DDD-dec-109`).
+`UNVERIFIED — Emil review`: that no path open to a session posts a comment without the app.
+The evidence is every session comment here, all of which carry it.
