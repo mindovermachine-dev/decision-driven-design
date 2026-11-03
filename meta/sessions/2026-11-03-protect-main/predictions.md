@@ -173,3 +173,11 @@ do not collide.
 
 **P-11 — the merged head in CI.** `pipeline (devcontainer)` concludes `success` from app 15368 on
 the head that records this, and no `agent review` check appears. Falsifier: either fails.
+
+**P-11 — held.** On `0190521`: `pipeline (devcontainer)`, `success`, app 15368, and no
+`agent review` check. By then `main` had moved again, to `e70ab63` (the product-cli definition).
+That second merge (`55c2be8`) was clean and not predicted. Afterwards, every gate passed locally:
+`ci.py`, 66 tests, `check --compare`, `issue-refs --basis` and `changelog --check`.
+
+**P-12 — the head to land.** On the commit that records this, `pipeline (devcontainer)`
+concludes `success` from app 15368, and no `agent review` check appears. Falsifier: either fails.
