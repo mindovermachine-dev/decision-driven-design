@@ -1,0 +1,22 @@
+{
+  "humans": [
+    {
+      "id": "emil",
+      "name": "Emil Okkels Klein",
+      "github": "Hafeok",
+      "github_id": 2194785,
+      "emails": ["emil@okkels-klein.dk", "hannibal.okkels@gmail.com"],
+      "delegates": []
+    }
+  ],
+  "agents": [
+    {
+      "id": "claude-code",
+      "name": "Claude Code sessions",
+      "trailer": "Claude-Session",
+      "emails": ["claude+emil@okkels-klein.dk", "noreply@anthropic.com"],
+      "apps": [1236702],
+      "responsible": "emil"
+    }
+  ]
+}

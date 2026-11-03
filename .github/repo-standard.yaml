@@ -1,16 +1,20 @@
 # repo-standard declaration for mindovermachine-dev/decision-driven-design
 #
-# The repository's settings, declared (DDD-dec-81; the rulesets protecting main, DDD-dec-108). Written for the `repo-standard` tool Varve
-# uses, in the shape its `export` writes (Hafeok/varve, .github/repo-standard.yaml). Removing a
-# top-level key stops that kind of resource being managed.
+# The repository's settings, declared (DDD-dec-81; the rulesets protecting main, DDD-dec-108;
+# agent review, DDD-dec-109; the Signed Commits bypass, DDD-dec-110). Written for the
+# `repo-standard` tool Varve uses, in the shape its `export` writes (Hafeok/varve,
+# .github/repo-standard.yaml). Removing a top-level key stops that kind of resource being managed.
 #
-# NOT YET APPLIED. Applying this file needs repository admin, which is Emil's act. Until then it
-# is a declaration, and the repository and this file are expected to disagree on the description,
-# the topics, Discussions and the rulesets.
+# Applying this file needs repository admin, which is Emil's act. Emil applied it on 2026-11-03
+# as it stood at 320fccb (meta/sessions/2026-11-03-protect-main/landing.md). The `agent review`
+# check and the Signed Commits bypass below are NOT YET APPLIED: they wait for the gates App, its
+# environment and secrets, and a re-apply, in that order (the same session's successor items).
 #
-# Only what DDD-dec-81 and DDD-dec-108 rule is changed from the settings at 2026-11-02. Issues, projects and the
-# wiki stay as they were (all on). Labels, environments, secrets and Actions settings are left
-# out, so they are not managed here. Projects (the two boards) are not managed here either.
+# Only what DDD-dec-81, DDD-dec-108, DDD-dec-109 and DDD-dec-110 rule is changed from the settings
+# at 2026-11-02. Issues, projects and the wiki stay as they were (all on). Labels, environments,
+# secrets and Actions settings are left out, so they are not managed here. Environments stay out
+# on purpose: a declared kind is managed exhaustively, and the `gates` environment is created by
+# hand (DDD-dec-109's notes). Projects (the two boards) are not managed here either.
 repository:
   # The description and topics were confirmed by Emil in Round 3 of the ready-to-try session.
   description: "Decision-Driven Design for software: the method, its claim graph and its decisions. Ready to try (preview)."
@@ -48,8 +52,9 @@ rulesets:
   - actor_id: 5
     actor_type: RepositoryRole
     bypass_mode: always
-# trunk: what reaches main has passed its check (DDD-dec-108). A commit reaches main only by a
-# fast-forward to a commit whose `pipeline (devcontainer)` check has succeeded: `canon land <pr>`
+# trunk: what reaches main has passed its checks (DDD-dec-108, DDD-dec-109). A commit reaches main
+# only by a fast-forward to a commit whose `pipeline (devcontainer)` and `agent review` checks have
+# succeeded. Emil comments `approve <head sha>` on the pull request, then `canon land <pr>`
 # pushes it to land/<name>, CI runs there, and `canon land <pr> --main` fast-forwards main to it
 # (DDD-dec-101). No bypass, the admin role included.
 - name: trunk
@@ -74,6 +79,12 @@ rulesets:
         # GitHub Actions (github-actions), read from the check runs on main's head 5ccdf41: only
         # its check run counts, so no other app can satisfy the check under the same name.
         integration_id: 15368
+      # Emil's approval of the head (DDD-dec-109), posted by .github/workflows/agent-review.yml
+      # as the gates App. The App's id is Varve's (Hafeok/varve .github/repo-standard.yaml),
+      # NOT YET CONFIRMED by Emil as the App installed here. canon land reads this pin from
+      # main's copy of this file, and refuses a head without that App's green run.
+      - context: agent review
+        integration_id: 5220446
   bypass_actors: []
 # land/** is where a commit gets its check before main is fast-forwarded to it (DDD-dec-108):
 # only Emil creates, moves or deletes a land/ branch. User 2194785 is Emil's account (Hafeok),

@@ -13,7 +13,7 @@ using Canon.Infrastructure;
 namespace Canon;
 
 /// <summary>
-/// The command line. Hand-parsed, as Varve's eng/ scripts are: five commands
+/// The command line. Hand-parsed, as Varve's eng/ scripts are: six commands
 /// with a handful of flags each do not need a parser library, and an
 /// argument list read in plain code is easy to audit.
 /// </summary>
@@ -27,6 +27,7 @@ internal static class Cli
           ratify <version> [--head <sha>]                    fill ratified_head in releases/<version>.yaml
           changelog [--check | --tail-sha256]                CHANGELOG.md as the projection of releases/
           issue-refs [--base <ref>] [--head <ref>] [--basis] Refs #N, and Basis: on canon commits
+          agent-review <pr> [--post] | --commit <sha> [--post]  Emil's approval of the head (DDD-dec-109)
 
         exit codes: 0 done or conformant, 1 refused, 2 could not run
         """;
@@ -67,6 +68,7 @@ internal static class Cli
                 "ratify" => RatifyCommand.Run(context, tail),
                 "changelog" => ChangelogCommand.Run(context, tail),
                 "issue-refs" => IssueRefsCommand.Run(context, tail),
+                "agent-review" => AgentReviewCommand.Run(context, tail),
                 _ => UnknownCommand(rest[0], error),
             };
         }

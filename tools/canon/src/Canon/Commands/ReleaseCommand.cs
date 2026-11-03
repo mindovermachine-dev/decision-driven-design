@@ -217,7 +217,7 @@ internal static class ReleaseCommand
     /// written) when GitHub is required and cannot be asked. Repository from
     /// canon.yaml's github:, else the remote's URL. API from CANON_GITHUB_API.
     /// </summary>
-    internal static GitHubClient? GitHubFor(Context context, bool required)
+    internal static GitHubClient? GitHubFor(Context context, bool required, string command = "release", string? token = null)
     {
         string? repository = context.Config.GitHub
             ?? GitHubClient.RepositoryFromRemote(context.Git.Config($"remote.{context.Config.Remote}.url") ?? "");
@@ -225,14 +225,14 @@ internal static class ReleaseCommand
         {
             if (required)
             {
-                context.Err.WriteLine("release: cannot tell which GitHub repository this is; set github: in canon.yaml");
+                context.Err.WriteLine($"{command}: cannot tell which GitHub repository this is; set github: in canon.yaml");
             }
 
             return null;
         }
 
         string api = context.Env("CANON_GITHUB_API") ?? GitHubClient.DefaultApi;
-        return new GitHubClient(new Uri(api), repository, context.Env("GH_TOKEN") ?? context.Env("GITHUB_TOKEN"));
+        return new GitHubClient(new Uri(api), repository, token ?? context.Env("GH_TOKEN") ?? context.Env("GITHUB_TOKEN"));
     }
 
     private static void Pass(Context context, int step, string what) =>

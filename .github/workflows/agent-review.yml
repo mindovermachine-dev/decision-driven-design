@@ -1,0 +1,92 @@
+# Agent review (DDD-dec-109), ported from Varve's .github/workflows/agent-review.yml (ADR 0087).
+#
+# THE HAZARD. Sessions push and comment under Emil's account, so neither the rulesets nor a login
+# tell Emil from a session (DDD-dec-109). A check that runs the pull request's own code is judged
+# by the pull request: a `pull_request` run takes its workflow and checkout from it. And a
+# required check is matched by name, so any job called `agent review` would satisfy a check that
+# is not pinned to an app.
+#
+# THE RULE. The verdict is a check run named `agent review`, created or updated on the pull
+# request's head by the gates GitHub App, and the trunk ruleset requires that name from that
+# App's integration id (.github/repo-standard.yaml). The App's token is minted from the `gates`
+# environment, which must be deployable from main only. The job that posts it:
+#
+#   - runs only on triggers whose workflow comes from main: pull_request_target and
+#     issue_comment (a new comment). Unlike Varve, there is no push trigger on land/**: a session
+#     can push land/, and a push runs the pushed commit's workflow. The verdict a pull request
+#     earned is already on its head's SHA when that SHA is pushed to land/;
+#   - checks out main by name, builds main's canon, and runs `canon agent-review <pr> --post`,
+#     which reads the pull request through the API as data and never checks out, builds or runs
+#     anything from it;
+#   - approves only on a conversation comment "approve <sha>" (at least 12 characters of the
+#     head) by a human of main's .github/identities.json, made by hand (no app) and not edited.
+#
+# No job here runs on `pull_request` or `pull_request_review`, and no job is named
+# `agent review` (tools/canon/tests/Canon.Tests/RepositoryDeclarationTests.cs holds this).
+
+name: Agent review
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  issue_comment:
+    types: [created]
+
+permissions: {}
+
+concurrency:
+  group: agent-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: "true"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
+jobs:
+  # The verdict the trunk ruleset reads: the gates App's check run `agent review`.
+  judge:
+    name: agent review (judge)
+    if: >
+      github.event_name == 'pull_request_target'
+      || (github.event_name == 'issue_comment'
+          && github.event.issue.pull_request
+          && contains(github.event.comment.body, 'approve'))
+    runs-on: ubuntu-latest
+    environment: gates
+
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      checks: read
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # main, by name, on every path: never the pull request's head or merge ref.
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6
+        with:
+          global-json-file: tools/canon/global.json
+
+      - name: Mint the gates App's token
+        id: gates
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ secrets.GATES_APP_CLIENT_ID }}
+          private-key: ${{ secrets.GATES_APP_PRIVATE_KEY }}
+
+      - name: Judge with main's canon, and post the check
+        working-directory: tools/canon
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GATES_TOKEN: ${{ steps.gates.outputs.token }}
+          PR: ${{ github.event.pull_request.number || github.event.issue.number }}
+        run: dotnet run --project src/Canon -c Release -- agent-review "$PR" --post

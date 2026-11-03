@@ -14,8 +14,10 @@ using Canon.Infrastructure;
 namespace Canon.GitHub;
 
 /// <summary>
-/// The two GitHub REST calls canon makes: list a repository's releases, and
-/// create one. The base URL is a parameter (CANON_GITHUB_API, default
+/// The GitHub REST calls canon makes: list a repository's releases and create
+/// one; and, for agent review (DDD-dec-109), read a pull request, its commits
+/// and comments, the pull requests and check runs of a commit, and create or
+/// update a check run. The base URL is a parameter (CANON_GITHUB_API, default
 /// https://api.github.com), which is how the tests reach a real HTTP server
 /// speaking the same shape. The token is GH_TOKEN; it is sent as a header and
 /// never written anywhere.
@@ -94,6 +96,94 @@ internal sealed class GitHubClient : IDisposable
         return response.StatusCode == HttpStatusCode.Created && JsonNode.Parse(text) is JsonObject created
             ? created
             : throw new CanonException($"GitHub: creating the release {tag} answered {(int)response.StatusCode}");
+    }
+
+    /// <summary>GET repos/{owner}/{name}/{relative}, as JSON; anything but 200 is an error.</summary>
+    public JsonNode Get(string relative)
+    {
+        using HttpResponseMessage response = Send(HttpMethod.Get, $"repos/{repository}/{relative}", null);
+        string text = response.Content.ReadAsStringAsync().Result;
+        return response.StatusCode == HttpStatusCode.OK && JsonNode.Parse(text) is JsonNode node
+            ? node
+            : throw new CanonException($"GitHub: GET {relative} answered {(int)response.StatusCode}");
+    }
+
+    /// <summary>Every element of a paged list endpoint, page by page until an empty page.</summary>
+    public IReadOnlyList<JsonObject> GetAll(string relative)
+    {
+        List<JsonObject> all = [];
+        string separator = relative.Contains('?', StringComparison.Ordinal) ? "&" : "?";
+        for (int page = 1; page <= 100; page++)
+        {
+            if (Get($"{relative}{separator}per_page=100&page={page}") is not JsonArray items || items.Count == 0)
+            {
+                return all;
+            }
+
+            foreach (JsonNode? item in items)
+            {
+                if (item is JsonObject element)
+                {
+                    all.Add(element);
+                }
+            }
+        }
+
+        throw new CanonException($"GitHub: more than 10000 entries in {relative}; refusing to guess");
+    }
+
+    /// <summary>The check runs named <paramref name="name"/> on a commit, every app's.</summary>
+    public IReadOnlyList<JsonObject> CheckRuns(string sha, string name)
+    {
+        JsonNode runs = Get($"commits/{sha}/check-runs?check_name={Uri.EscapeDataString(name)}&filter=all&per_page=100");
+        List<JsonObject> found = [];
+        foreach (JsonNode? run in runs["check_runs"] as JsonArray ?? [])
+        {
+            if (run is JsonObject element)
+            {
+                found.Add(element);
+            }
+        }
+
+        return found;
+    }
+
+    /// <summary>
+    /// The verdict, as a completed check run on the head: this token's app's run
+    /// is updated if it has one (pinned to <paramref name="app"/> when given), so
+    /// the check has one row; otherwise one is created.
+    /// </summary>
+    public void PostCheck(string name, string head, bool success, string title, string summary, long? app)
+    {
+        long? existing = null;
+        foreach (JsonObject run in CheckRuns(head, name))
+        {
+            if (app is null || run["app"]?["id"]?.GetValue<long>() == app)
+            {
+                existing = run["id"]?.GetValue<long>();
+                break;
+            }
+        }
+
+        JsonObject body = new()
+        {
+            ["status"] = "completed",
+            ["conclusion"] = success ? "success" : "failure",
+            ["output"] = new JsonObject { ["title"] = title, ["summary"] = summary },
+        };
+        if (existing is null)
+        {
+            body["name"] = name;
+            body["head_sha"] = head;
+        }
+
+        using HttpResponseMessage response = existing is long id
+            ? Send(HttpMethod.Patch, $"repos/{repository}/check-runs/{id}", body.ToJsonString())
+            : Send(HttpMethod.Post, $"repos/{repository}/check-runs", body.ToJsonString());
+        if (response.StatusCode is not (HttpStatusCode.OK or HttpStatusCode.Created))
+        {
+            throw new CanonException($"GitHub: posting the check run '{name}' answered {(int)response.StatusCode}");
+        }
     }
 
     private HttpResponseMessage Send(HttpMethod method, string path, string? json)

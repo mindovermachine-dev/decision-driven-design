@@ -31,7 +31,8 @@ cd tools/canon && dotnet pack src/Canon -o "$HOME/.canon/feed" && dotnet tool in
 
 | Command | What it does | Replaces |
 |---|---|---|
-| `canon land <pr>` / `--main` / `--commit <rev>` | Push the head to `land/<name>`, then fast-forward `main` to exactly that commit once its checks pass. Never a merge | A GitHub merge (Varve's `eng/land.cs`) |
+| `canon land <pr>` / `--main` / `--commit <rev>` | Push the head to `land/<name>`, then fast-forward `main` to exactly that commit once its checks pass. Never a merge. Both steps refuse a head without the gates App's green `agent review` when `main`'s `.github/repo-standard.yaml` requires it (`DDD-dec-109`) | A GitHub merge (Varve's `eng/land.cs`) |
+| `canon agent-review <pr> [--post]` / `--commit <sha>` | Emil's approval of the head: green only on an unedited `approve <head sha>` comment, made by hand (no app), by a human of `.github/identities.json`. `--post` writes the verdict as the check `agent review` with `GATES_TOKEN` (`DDD-dec-109`) | Varve's `eng/agent-review.cs` |
 | `canon release <version> [--plan]` | Cut a landed descriptor: refuses if the version exists **locally, on the remote (`ls-remote`) or as a GitHub Release**; then the guard, the gates at the commit, the changelog, a **signed** tag, push, GitHub Release | Cutting the tag by hand |
 | `canon ratify <version> [--head <sha>]` | Fill `ratified_head` (default `HEAD`), one line, nothing committed | Editing the descriptor by hand |
 | `canon changelog [--check \| --tail-sha256]` | `CHANGELOG.md` as the projection of `releases/` above a frozen tail | Writing `CHANGELOG.md` by hand (`DDD-dec-104`) |

@@ -5,7 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using Canon.AgentReview;
+using Canon.GitHub;
 using Canon.Infrastructure;
 
 namespace Canon.Commands;
@@ -24,8 +27,11 @@ namespace Canon.Commands;
 /// exact commit whose checks ran on land/&lt;name&gt;. It never calls GitHub's
 /// merge API and never makes a merge commit.
 ///
-/// Not ported: land.cs's advisory look for an "approve &lt;sha&gt;" comment,
-/// which belongs to Varve's agent-review gate. This repository has none.
+/// Agent review (DDD-dec-109): when main's .github/repo-standard.yaml requires
+/// the check "agent review" on the trunk, pinned to an app, both steps refuse
+/// unless the head carries a successful "agent review" check run from that
+/// app. A run of the same name from any other app does not count. The pin is
+/// read from main, the commit being landed onto, never from the head.
 /// </summary>
 internal static partial class LandCommand
 {
@@ -106,6 +112,12 @@ internal static partial class LandCommand
             return Exit.Refused;
         }
 
+        if (AgentReviewRefusal(context, main, head, what) is string refusal)
+        {
+            context.Err.WriteLine(refusal);
+            return Exit.Refused;
+        }
+
         string? landed = git.RemoteRef(remote, land);
 
         if (!toMain)
@@ -150,6 +162,41 @@ internal static partial class LandCommand
         context.Out.WriteLine();
         context.Out.WriteLine($"land: {trunk} is at {head[..12]}.{(name.StartsWith("release-", StringComparison.Ordinal) ? " The release it carries is cut next: canon release " + name["release-".Length..] : "")}");
         return Exit.Ok;
+    }
+
+    /// <summary>
+    /// Why agent review refuses the head, or null when it is green or main
+    /// does not require it. Reading GitHub fails as could-not-run (a
+    /// CanonException), never as a pass.
+    /// </summary>
+    private static string? AgentReviewRefusal(Context context, string main, string head, string what)
+    {
+        ProcessResult standard = context.Git.Try("show", $"{main}:{RequiredChecks.DefaultPath}");
+        if (standard.Exit != 0
+            || !RequiredChecks.OnTrunk(standard.Output).TryGetValue(AgentReviewCommand.CheckName, out long? pinned))
+        {
+            return null;
+        }
+
+        if (pinned is null)
+        {
+            return $"land: main's {RequiredChecks.DefaultPath} requires '{AgentReviewCommand.CheckName}' with no app pinned; "
+                + "any app could post it, so canon does not trust it. Pin the gates App's integration_id.";
+        }
+
+        using GitHubClient github = ReleaseCommand.GitHubFor(context, required: true, "land")
+            ?? throw new CanonException("land: cannot read agent review without the GitHub repository");
+        foreach (JsonObject run in github.CheckRuns(head, AgentReviewCommand.CheckName))
+        {
+            if (run["app"]?["id"]?.GetValue<long>() == pinned && run["conclusion"]?.GetValue<string>() == "success")
+            {
+                context.Out.WriteLine($"land: '{AgentReviewCommand.CheckName}' is green on {head[..12]} from app {pinned}");
+                return null;
+            }
+        }
+
+        return $"land: '{AgentReviewCommand.CheckName}' is not green on {what} from app {pinned} (DDD-dec-109). "
+            + $"Emil's comment 'approve {head}' on the pull request comes first; the gates App then posts the check.";
     }
 
     /// <summary>release-&lt;version&gt;, when the head adds a descriptor the trunk does not have.</summary>
