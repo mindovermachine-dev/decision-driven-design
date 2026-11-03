@@ -16,18 +16,9 @@
 
 format: 1
 recorded: 2026-11-03
-entries:
-  - {decision: DDD-dec-11, entry: DDD-dec-09}
-  - {decision: DDD-dec-16, entry: DDD-dec-15}
-  - {decision: DDD-dec-18, entry: DDD-dec-17}
-  - {decision: DDD-dec-18, entry: DDD-dec-09}
-  - {decision: DDD-dec-20, entry: DDD-dec-17}
-  - {decision: DDD-dec-23, entry: DDD-dec-15}
-  - {decision: DDD-dec-27, entry: DDD-dec-26}
-  - {decision: DDD-dec-27, entry: term:presumed-discharge}
-  - {decision: DDD-dec-28, entry: DDD-dec-26}
-  - {decision: DDD-dec-38, entry: DDD-dec-37}
-  - {decision: DDD-dec-40, entry: DDD-dec-39}
-  - {decision: DDD-dec-76, entry: DDD-dec-39}
-  - {decision: DDD-dec-82, entry: DDD-dec-39}
-  - {decision: DDD-dec-84, entry: DDD-dec-39}
+# Emptied on 2026-11-03 by DDD-dec-112: the 14 entries recorded here by the history scan (12
+# decisions naming DDD-dec-09, -15, -17, -26, -37, -39 and term:presumed-discharge) all resolve
+# now, through the seven pins added to graph/upstream.yaml at v5.15.2. The list as recorded is in
+# history at the commit that added this file. It stays, empty, because DDD-dec-111 names it; the
+# rule now has no exceptions.
+entries: []

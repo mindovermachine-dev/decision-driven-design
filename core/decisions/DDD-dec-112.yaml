@@ -1,0 +1,63 @@
+format: 1
+id: DDD-dec-112
+kind: decision
+statement: |
+  The upstream ids named by filed decisions' basedOn are pinned in graph/upstream.yaml at the current ref, v5.15.2, with no pin advance: the decisions DDD-dec-09, -15, -17, -26, -37 and -39, and the term term:presumed-discharge. An upstream decision can be pinned. validate-core-order.py reads upstream core/decisions/ at the ref and derives a decision's standing there: superseded when some upstream decision at the ref lists it in supersedes:, as a string or a list, and in-force otherwise. A decision pin records that standing as status_at_pin and the checker's hash over its statement as content_hash. W5 fires when the standing at the ref differs from status_at_pin, E12 when the id is missing, and E13 as for claims. graph/unresolved-basis.yaml is emptied, and DDD-dec-111's rule has no exceptions.
+principal: Emil
+made: |
+  2026-11-03, given by Emil through the question dialog in the claude.ai conversation, in Round 5 (S-21, "Pin them at v5.15.2 (Recommended)") and Round 6 (S-24, "Derived standing + hash (Recommended)") of the canon CLI session, both recorded verbatim at meta/sessions/2026-11-02-canon-cli/rulings.md; Emil's landing of the branch is the ratification act
+resolution: |
+  ## The rulings
+
+  > Q: "S-21: 12 filed decisions cite upstream decisions (DDD-dec-09, -15, -17, -26, -37, -39)
+  > or the upstream term term:presumed-discharge, none of them pinned in graph/upstream.yaml.
+  > 14 entries in all; they exist upstream at v5.15.2. Which way?"
+  >
+  > A: "Pin them at v5.15.2 (Recommended)" (option text: "One decision adds the missing pins at
+  > the current ref (no pin advance); the entries leave the record and the rule has no
+  > exceptions")
+
+  > Q: "S-24: how should an upstream decision be pinned in graph/upstream.yaml?"
+  >
+  > A: "Derived standing + hash (Recommended)" (option text: "status_at_pin is in-force or
+  > superseded, computed from upstream supersedes: at the ref; content_hash over the statement
+  > too. W5 fires if a pinned decision is superseded upstream later")
+
+  ## Why S-24 was needed
+
+  Pinning the six decisions as the pin file stood was tried first, in a scratch copy, and failed
+  (predictions, P-22). validate-core-order.py indexed upstream claims and terms but not
+  decisions, so a decision pin fired E12 although the file exists at the ref. And an upstream
+  decision has no status field, so there was nothing to record as status_at_pin. A decision's
+  standing is the status-like fact it does have: whether a later decision supersedes it.
+
+  ## What it changes
+
+  - scripts/validate-core-order.py: load_upstream_graph reads upstream core/decisions/*.yaml,
+    with the standing as status. The content hash is the existing pinned_content_digest, over
+    statement, region and canonical_md; a decision has only the first.
+  - Fixtures, in scripts/ci.py's fixtures gate (scripts/fixtures/README.md), each failing without
+    the change: a decision pin that resolves; one that is missing (E12); two superseded at the
+    ref while pinned in-force, by a string supersedes: and by a list (W5); a statement drift
+    (W6). They are built against a local upstream with a tag, because v5.15.2 holds no
+    supersedes:.
+  - graph/upstream.yaml: seven pins at v5.15.2. Six decisions at in-force, each with its hash,
+    and term:presumed-discharge at draft; standings and hashes were read from the tag. The ref
+    is unchanged.
+  - graph/unresolved-basis.yaml: emptied. It stays, with no entries, because DDD-dec-111 names
+    it.
+basedOn:
+  - DDD-dec-111
+  - DDD-dec-84
+notes: |
+  Id. Checked on 2026-11-03 on every branch of both repositories. Upstream holds up to DDD-dec-39,
+  main up to DDD-dec-111, and claude/sharp-davinci-89xeil (agent review) up to DDD-dec-110. Taken
+  for S-21 at 10:26 UTC, not filed while S-21 was blocked (P-22), and filed now.
+
+  Checked against the tag, as Emil's independent check also found: the six upstream decisions
+  carry no status, and no upstream decision at v5.15.2 carries supersedes:. All six are therefore
+  in-force at the ref.
+
+  canon has no pins command yet (S-19). canon check resolves an upstream id only by its presence in
+  graph/upstream.yaml's pin list, not against the ref. So the standing and hash rule has no canon
+  counterpart yet; tools/canon/parallel-run.md records that.

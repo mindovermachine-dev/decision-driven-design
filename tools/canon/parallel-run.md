@@ -25,6 +25,7 @@ compared.
 | `validate-claims.py --decisions` | `0.1.0-preview.15`, Gate 3 (below) | — | — |
 | `validate-releases.py` | `0.1.0-preview.15`, Gate 3 (below) | — | — |
 | `validate-claims.py --decisions`, basedOn resolution (`DDD-dec-111`), counted on its own | `0.1.0-preview.15`, S-20 (below) | — | — |
+| `validate-core-order.py`, upstream decision pins (`DDD-dec-112`) | **No canon counterpart yet** (no `canon pins`, S-19); not comparable | — | — |
 
 No validator can be retired yet. Each needs a second full agreement after a Varve bump, and a
 decision naming both versions. The release-head guard and the cut checks (`check-release-head.py`,
@@ -148,4 +149,36 @@ the live tree. The decisions cases:
 The live tree's 14 findings on each side are the 14 entries recorded in
 `graph/unresolved-basis.yaml`, all warnings. The six rules not exercised are the six of Gate 3,
 for the reasons given there.
+
+### S-21 and S-24, upstream decision pins (`DDD-dec-112`): 2026-11-03
+
+**The new rule has no canon counterpart, so it has no first agreement.** It covers a decision's
+standing at the ref, `status_at_pin`, W5 and E12 for decisions, and the hash over a decision's
+statement. All of it lives in `validate-core-order.py`, which canon has not ported (`canon pins`,
+S-19). `canon check` resolves an upstream id only by its presence in `graph/upstream.yaml`'s pin
+list, never against the ref. So there is nothing to compare yet. The rule's `DDD-dec-103` count
+starts when `canon pins` exists. Until then its tests are the four `upstream-pins` scenarios in
+`scripts/ci.py`'s fixtures gate.
+
+What the change does to the existing comparison, re-run at the S-21 head with Varve
+`0.1.0-preview.15`: **49 cases, every case agrees.** The live decisions went from 14 / 14
+(the recorded warnings) to **0 / 0**, because the seven pins resolve every recorded entry and
+`graph/unresolved-basis.yaml` is empty. One rule code is therefore no longer exercised,
+DEC-BASEDON-UNRESOLVED-RECORDED (40 of 47 exercised, against 41 before): no entry is recorded,
+and none can be fixtured, because the record is read from the live repository. The refuse fixture
+`basedon-unpinned-upstream` was repointed from `DDD-dec-39`, which is now pinned and so resolves,
+to `DDD-dec-12`, upstream only and unpinned. Before the repoint, both implementations agreed that
+it was no longer refused. Both fixtures gates then failed on it, together. The decisions cases:
+
+| case | python | canon | findings (python / canon) | agree |
+|---|---|---|---|---|
+| `decisions/accept` | accept | accept | 0 / 0 | yes |
+| `decisions/refuse/basedon-missing-local.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/basedon-unpinned-upstream.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/empty-basedon.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-basedon.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-made.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-principal.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions/refuse/no-resolution.yaml` | refuse | refuse | 1 / 1 | yes |
+| `decisions (live: core/decisions)` | accept | accept | 0 / 0 | yes |
 

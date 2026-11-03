@@ -14,6 +14,7 @@ before any gate runs. The pins gate shallow-clones the pinned upstream ref
 (graph/upstream.yaml); set DDD_UPSTREAM_DIR to a local checkout to run offline.
 """
 
+import hashlib
 import os
 import shutil
 import subprocess
@@ -210,7 +211,93 @@ def gate_fixtures():
             (accept if want is None else lambda l, c, o: refuse(l, c, o, want))(
                 f"release-head/{name}", code, out)
 
+    with tempfile.TemporaryDirectory(prefix="ddd-pins-") as tmp:
+        for name, ok, why, out in pin_scenarios(Path(tmp)):
+            failed += not ok
+            lines.append(f"  {'ok  ' if ok else 'FAIL'} upstream-pins/{name}"
+                         + ("" if ok else f" ({why})\n{out}"))
+
     return (1 if failed else 0), "\n".join(lines)
+
+
+def pin_scenarios(tmp: Path):
+    """Pinning upstream decisions in validate-core-order.py (DDD-dec-112), in throwaway
+    repositories: a local upstream with a tag, and a downstream graph/upstream.yaml that pins it.
+
+    Yields (name, ok, why, output). W5 and W6 are warnings, so each scenario asserts the exact
+    findings, not the exit code alone. The expected content_hash is computed here, independently
+    of the checker: sha256 over statement, region and canonical_md joined by NUL, where a decision
+    has only a statement. Before DDD-dec-112 the checker did not read upstream decisions, so every
+    decision pin was an E12 and every scenario below failed."""
+    env = dict(os.environ, GIT_AUTHOR_NAME="fixture", GIT_AUTHOR_EMAIL="fixture@invalid",
+               GIT_COMMITTER_NAME="fixture", GIT_COMMITTER_EMAIL="fixture@invalid")
+    env.pop("DDD_UPSTREAM_DIR", None)
+
+    up = tmp / "upstream"
+    decisions = {
+        "DDD-dec-01": ("One: in force.", None),
+        "DDD-dec-02": ("Two: supersedes DDD-dec-03, as a string.", "DDD-dec-03"),
+        "DDD-dec-03": ("Three: superseded by DDD-dec-02.", None),
+        "DDD-dec-04": ("Four: supersedes DDD-dec-05, as a list.", ["DDD-dec-05"]),
+        "DDD-dec-05": ("Five: superseded by DDD-dec-04.", None),
+    }
+    for did, (statement, supersedes) in decisions.items():
+        f = up / "core" / "decisions" / f"{did}.yaml"
+        f.parent.mkdir(parents=True, exist_ok=True)
+        body = f"format: 1\nid: {did}\nkind: decision\nstatement: |\n  {statement}\n"
+        if isinstance(supersedes, str):
+            body += f"supersedes: {supersedes}\n"
+        elif supersedes:
+            body += "supersedes:\n" + "".join(f"  - {x}\n" for x in supersedes)
+        f.write_text(body, encoding="utf-8")
+    subprocess.run(["git", "init", "-q", "-b", "main"], cwd=up, check=True, env=env)
+    subprocess.run(["git", "add", "-A"], cwd=up, check=True, env=env)
+    subprocess.run(["git", "-c", "commit.gpgsign=false", "commit", "-q", "-m", "upstream"],
+                   cwd=up, check=True, env=env)
+    subprocess.run(["git", "-c", "tag.gpgsign=false", "tag", "v1.0.0"], cwd=up, check=True, env=env)
+
+    def digest(statement):
+        return "sha256:" + hashlib.sha256("\x00".join([statement, "", ""]).encode()).hexdigest()
+
+    def check(name, pins):
+        d = tmp / name
+        (d / "core").mkdir(parents=True)
+        (d / "graph").mkdir()
+        text = f"format: upstream/v1\nupstream:\n  repo: file://{up}\n  ref: v1.0.0\n  pins:\n"
+        for pid, status, h in pins:
+            text += f"    - id: {pid}\n      status_at_pin: {status}\n      content_hash: {h}\n"
+        (d / "graph" / "upstream.yaml").write_text(text, encoding="utf-8")
+        r = subprocess.run([PY, str(ROOT / "scripts/validate-core-order.py"), str(d / "core")],
+                           cwd=d, capture_output=True, text=True, env=env)
+        out = r.stdout + r.stderr
+        found = lambda code: [l for l in out.splitlines() if l.strip().split("  ")[-1].startswith(code)]
+        return r.returncode, out, found
+
+    one = ("DDD-dec-01", "in-force", digest(decisions["DDD-dec-01"][0]))
+
+    code, out, found = check("resolves", [one])
+    yield ("accept/decision-resolves", code == 0 and not found("E12") and not found("W5")
+           and not found("W6"), "expected exit 0 and no E12, W5 or W6", out)
+
+    code, out, found = check("missing", [one, ("DDD-dec-09", "in-force", digest("Nine."))])
+    e12 = found("E12")
+    yield ("refuse/decision-missing", code == 1 and len(e12) == 1 and "DDD-dec-09" in e12[0],
+           "expected exit 1 and exactly one E12, on DDD-dec-09", out)
+
+    code, out, found = check("superseded", [
+        ("DDD-dec-03", "in-force", digest(decisions["DDD-dec-03"][0])),
+        ("DDD-dec-05", "in-force", digest(decisions["DDD-dec-05"][0]))])
+    w5 = found("W5")
+    yield ("warn/decision-superseded", code == 0 and len(w5) == 2
+           and any("DDD-dec-03" in w and "'superseded'" in w for w in w5)
+           and any("DDD-dec-05" in w and "'superseded'" in w for w in w5) and not found("E12"),
+           "expected exit 0 and W5 on DDD-dec-03 (string supersedes:) and DDD-dec-05 (list)", out)
+
+    code, out, found = check("drift", [("DDD-dec-01", "in-force", digest("One: as it once read."))])
+    w6 = found("W6")
+    yield ("warn/decision-statement-drift", code == 0 and len(w6) == 1 and "DDD-dec-01" in w6[0]
+           and not found("E12") and not found("W5"),
+           "expected exit 0 and exactly one W6, on DDD-dec-01", out)
 
 
 def guard_scenarios(tmp: Path):

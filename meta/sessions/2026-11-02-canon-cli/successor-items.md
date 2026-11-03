@@ -115,3 +115,13 @@ Add-only.
 | S-15b | **Done.** Emil landed #55; `main` is `1554509` | — |
 | S-21 | **Blocked at verification**, before any pin was written (P-22). The 14 entries exist upstream at `v5.15.2`. The one term pins cleanly; the 13 decision entries cannot be pinned as the pin file and its checker stand | S-24 |
 | S-24 | **How to pin an upstream decision.** `validate-core-order.py` indexes upstream claims and terms, not decisions (E12 on a decision pin), and upstream decisions have no `status` to record as `status_at_pin`. Options: **(a)** extend the checker (and canon's `pins`, when ported) to index upstream `core/decisions/*.yaml`, pinning a decision with its `content_hash` (over its `statement`) and no `status_at_pin`, since W5 has no status to watch; **(b)** as (a), with a fixed `status_at_pin` such as `filed`, so that every pin carries one; **(c)** pin only `term:presumed-discharge` now, and leave the 13 decision entries recorded. Claude recommends **(a)**: it pins what exists without inventing a status, and the content hash still fires if an upstream decision's statement moves. (a) and (b) change a checker in `scripts/`, so they need a fixture that fails without the change | **Emil** |
+
+## S-21 and S-24 built (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-21 | **Built.** Seven pins at `v5.15.2`; `graph/unresolved-basis.yaml` emptied; `DDD-dec-111` has no exceptions | Emil's landing |
+| S-24 | **Built.** `DDD-dec-112`; `validate-core-order.py` reads upstream decisions with a derived standing; four fixture scenarios | Emil's landing |
+| S-19 | `canon pins` now has one more rule to port: upstream decision pins (standing, W5, E12, hash) | A later gate |

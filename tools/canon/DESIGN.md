@@ -759,3 +759,9 @@ The history scan found 14 unresolved entries in 12 filed decisions, all upstream
 here. They are recorded, not edited (S-21). The parallel run agreed on the first run (P-21), and
 the rule's own `DDD-dec-103` count starts at agreement A, Varve `0.1.0-preview.15`.
 
+S-21 and S-24 (`DDD-dec-112`, 2026-11-03): the 14 recorded entries are resolved by seven pins at
+`v5.15.2`, and `graph/unresolved-basis.yaml` is empty. Pinning an upstream decision needed
+`validate-core-order.py` to read upstream decisions, with a standing (`in-force` or `superseded`,
+from `supersedes:` at the ref) in place of a status. When `canon pins` is ported (§4.7), it ports
+this too.
+

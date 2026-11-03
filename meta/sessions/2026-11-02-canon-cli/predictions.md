@@ -446,3 +446,60 @@ for two reasons:
 
 Nothing was committed to `graph/` or `core/`. `DDD-dec-112` (the next free id) is not filed.
 Reported for Emil's ruling (S-24).
+
+# S-21 and S-24 — pinning upstream decisions (Round 6, `DDD-dec-112`)
+
+Ids re-checked on 2026-11-03 on every branch of both repositories: upstream up to `DDD-dec-39`
+(27 branches), `main` up to `DDD-dec-111`, `claude/sharp-davinci-89xeil` up to `-110`.
+`DDD-dec-112` is free.
+
+How the fixtures are built, read before predicting. `validate-core-order.py` reports W5 and W6 as
+warnings and exits 0 on them, so a W5 or drift case cannot be a refuse fixture judged by exit
+code. And `v5.15.2` holds no `supersedes:`, so the real ref cannot show a superseded decision. The
+four fixtures are therefore scenarios that `scripts/ci.py` builds in throwaway repositories, as it
+builds the release-head ones. Each has a local upstream repository with a tag, and a downstream
+`graph/upstream.yaml` that pins it. Each asserts the exact findings: exit code and the E12, W5 and
+W6 lines. Without the change, every decision pin is an E12, so every assertion fails.
+
+## P-23 — the checker change, the fixtures, the pins
+
+Predictions, before any of it runs:
+1. With the change, the four scenarios give: **resolves**, exit 0 with no E12, W5 or W6;
+   **missing**, exit 1 with exactly one E12, naming the missing id and not the present one;
+   **superseded**, exit 0 with W5 on both pinned decisions, one superseded by a string
+   `supersedes:` and one by a list; **drift**, exit 0 with exactly one W6. Without the change,
+   all four fail their assertions, each with an E12 on every decision pin. This is run, not
+   assumed.
+2. With the seven pins added at `v5.15.2` (six decisions at `in-force`,
+   `term:presumed-discharge` at `draft`): `validate-core-order.py core/` reports **81 pins, 0
+   basis-loss, 0 content-drift** (1 shadowed id, as before), and exits 0.
+3. **0 unresolved** in both validators: `validate-claims.py --decisions` reports no
+   `basis-resolves` finding of either class, and `canon check` none of
+   `DEC-BASEDON-UNRESOLVED(-RECORDED)`. `graph/unresolved-basis.yaml` is emptied.
+4. `canon check --compare` agrees on every case. The live decisions go from 14 / 14 warnings to
+   0 / 0.
+5. canon has no `pins` command, and `canon check` resolves an upstream id only by its presence in
+   the pin list, never against the ref. So the standing and hash rule has **no canon counterpart
+   yet**, and the ledger says so (S-19).
+
+Falsifier for each: the stated count or outcome differs.
+
+Outcome for P-23 (appended): **held in every part**, with one fixture corrected on the way.
+1. Without the change, all four scenarios failed. Each decision pin was an E12: `DDD-dec-01` three
+   times, and `-03`, `-05` and `-09` once each. With it, all four passed: resolves, missing (one
+   E12, on `DDD-dec-09`), superseded (W5 on `-03` by a string `supersedes:` and on `-05` by a
+   list), and drift (one W6).
+2. Read from the tag with the changed checker: all six decisions `in-force` (no `supersedes:` at
+   `v5.15.2`, as Emil's check found), and `term:presumed-discharge` `draft` with the hash measured
+   in P-22. `validate-core-order.py core/`: **"81 pins resolved against the pinned ref, 0
+   basis-loss, 0 content-drift, 1 shadowed id(s)"**, `core: OK`.
+3. `validate-claims.py --decisions`: "valid: 88 decisions", with no warning. `canon check`: no
+   `DEC-BASEDON-UNRESOLVED` finding of either class. **0 unresolved in both.**
+4. `canon check --compare`: every case agrees, and the live decisions went from 14 / 14 to 0 / 0.
+   On the way, the refuse fixture `basedon-unpinned-upstream` stopped refusing in both
+   implementations at once, because its `DDD-dec-39` was now pinned. It was repointed to
+   `DDD-dec-12` (upstream only, unpinned). Not a disagreement: both sides changed together, which is
+   the point of comparing them.
+5. As predicted, canon has no counterpart for the pin rule. The ledger records that, and the rule's
+   `DDD-dec-103` count waits for `canon pins`.
+`scripts/ci.py`: all gates pass, its fixtures gate included. canon: 37 tests, `changelog --check`.

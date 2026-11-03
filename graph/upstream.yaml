@@ -403,3 +403,30 @@ upstream:
     - id: DDD-ground-01
       status_at_pin: projected
       content_hash: sha256:eb4679f9878a220b8a4c39e785b1d3cd9f6ad7eb717a02d1eff6ff97ef359d93
+    # The basis of filed decisions whose basedOn named these upstream ids unpinned (DDD-dec-111's
+    # history scan, graph/unresolved-basis.yaml): pinned at the current ref, no advance
+    # (DDD-dec-112, Emil's ruling of 2026-11-03, S-21 and S-24). A decision's status_at_pin is its
+    # standing at the ref, derived by validate-core-order.py from upstream supersedes:
+    # (in-force or superseded); W5 fires if it is superseded later. Its content_hash is over its
+    # statement. Read from v5.15.2: all six in-force; term:presumed-discharge draft.
+    - id: DDD-dec-09
+      status_at_pin: in-force
+      content_hash: sha256:a0aeb0ffd9abe848d40ef5f6738ac4be5b3a4f0fbe6af26d03d5c92f267569d3
+    - id: DDD-dec-15
+      status_at_pin: in-force
+      content_hash: sha256:42bbba9d1e01351ba18960221ecae41adfd1a334bd3962200a82f2f44f366c59
+    - id: DDD-dec-17
+      status_at_pin: in-force
+      content_hash: sha256:e1f17990ad3d1a9655f384adac301cbeec75cd1a3967d790f3fd7c3ffb511602
+    - id: DDD-dec-26
+      status_at_pin: in-force
+      content_hash: sha256:12f0177365f6418bbdd793cb6aa981372310a638c4cd5e99624a2b4e23112a89
+    - id: DDD-dec-37
+      status_at_pin: in-force
+      content_hash: sha256:f2c031aa610f8f9d5a65d95e19cf4677bac8c7f0a334e54abace28a3cc80f675
+    - id: DDD-dec-39
+      status_at_pin: in-force
+      content_hash: sha256:8b1b44398656e1f5f73d4db7d34fec93d9d164d2bff8ffdb8c37c20543c12d46
+    - id: term:presumed-discharge
+      status_at_pin: draft
+      content_hash: sha256:5ba5b5e709e18fdbde1289b5a551802720b4eb4a4800e40007713212eb8faa48

@@ -189,3 +189,39 @@ lands between them:
 | S-22 | `DDD-dec-111` `notes:`, an add-only confirmation dated 2026-11-03; the body is unedited. The two readings are no longer `UNVERIFIED` |
 | S-21 | A decision of its own, filed in step 2 after #55 lands |
 | S-23 | Ordering: #55 lands first; the agent-review branch merges `main` afterwards |
+
+## Round 6 — S-24, 2026-11-03
+
+Given by Emil through the question dialog in the claude.ai conversation, after an independent
+check at `v5.15.2`: "the six upstream decisions carry no status field, and no upstream decision
+carries supersedes: at that tag". Recorded verbatim.
+
+> Q: "S-24: how should an upstream decision be pinned in graph/upstream.yaml?"
+> A: "Derived standing + hash (Recommended)" (option text: "status_at_pin is in-force or
+> superseded, computed from upstream supersedes: at the ref; content_hash over the statement
+> too. W5 fires if a pinned decision is superseded upstream later")
+
+Instructions given with the ruling (summarised; the message is the record). On the S-21 branch
+(`4e64a0f`):
+1. record this round;
+2. re-check the ids, and file `DDD-dec-112` covering S-21 and S-24, `basedOn` `DDD-dec-111` and
+   `DDD-dec-84`;
+3. change `validate-core-order.py`:
+   - `load_upstream_graph` reads `core/decisions/` at the ref;
+   - a decision's standing is `in-force`, or `superseded` when an upstream decision at the ref
+     lists it in `supersedes:` (as a string or as a list);
+   - a decision pin records that standing as `status_at_pin`, and the checker's hash over the
+     statement as `content_hash`;
+   - W5 fires on a standing change, E12 on a missing id, and E13 behaves as for claims;
+4. fixtures, each failing without the change: a decision pin that resolves; a missing one (E12);
+   one superseded at the ref while pinned in-force (W5); a statement drift (the hash);
+5. add the seven pins at `v5.15.2`: six decisions at `in-force`, `term:presumed-discharge` at
+   `draft`; empty or remove `graph/unresolved-basis.yaml`;
+6. if `canon pins` or `canon check` already resolves upstream ids, add the same rule there and
+   record its first agreement; if neither does, record that in the ledger;
+7. predict first: 81 pins, 0 basis-loss, 0 content-drift, 0 unresolved in both validators;
+   merge `main` last, push, wait for green, report the land commands, stop.
+
+| Ruling | Landed as |
+|---|---|
+| S-24 | `DDD-dec-112` (with S-21); `scripts/validate-core-order.py`; fixtures; the seven pins |

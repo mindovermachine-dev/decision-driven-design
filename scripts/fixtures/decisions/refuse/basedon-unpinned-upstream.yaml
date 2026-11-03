@@ -4,7 +4,8 @@ id: DDD-dec-907
 kind: decision
 statement: |
   Fixture. A basedOn naming an upstream id that graph/upstream.yaml does not pin (DDD-dec-111):
-  DDD-dec-39 is a decision of the principle repository, filed only there and not pinned here.
+  DDD-dec-12 is a decision of the principle repository, filed only there and not pinned here.
+  (Until DDD-dec-112 this fixture named DDD-dec-39, which that decision pinned.)
 principal: Fixture
 made: |
   Never; it is a fixture.
@@ -12,4 +13,4 @@ resolution: |
   Refuse.
 basedOn:
   - DDD-dec-84
-  - DDD-dec-39
+  - DDD-dec-12

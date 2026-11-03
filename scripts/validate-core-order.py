@@ -164,7 +164,8 @@ REF_RE_ID = re.compile(r"<!--\s*ddd:ref\s+id=([^\s>]+)\s*-->")
 
 
 def load_upstream_graph(clone_dir: Path):
-    """Index every upstream object by id: {id: {status, canonical_md}}.
+    """Index every upstream object by id: {id: {status, canonical_md}}. Decisions too, with a
+    derived standing for status (DDD-dec-112).
 
     Unlike load_graph (which only indexes embed-participating claims), E12/W5 need *every*
     claim id and its status, whether or not it carries canonical_md. Terms come from the
@@ -180,6 +181,30 @@ def load_upstream_graph(clone_dir: Path):
                 continue
             objs[d["id"]] = {
                 "status": str(d.get("status", "")),
+                "canonical_md": (d.get("canonical_md") or "").strip(),
+                "statement": (d.get("statement") or "").strip(),
+                "region": (d.get("region") or "").strip(),
+            }
+    # Upstream decisions (DDD-dec-112). A decision has no status field, so its standing is
+    # derived at the ref: "superseded" when some upstream decision at the ref lists it in
+    # supersedes: (a string or a list), else "in-force". Pinned, the standing is status_at_pin
+    # and W5 fires when it moves; the content hash is over the statement, as for a claim.
+    ddir = core / "decisions"
+    if ddir.is_dir():
+        decisions, superseded = {}, set()
+        for df in sorted(ddir.glob("*.yaml")):
+            d = yaml.safe_load(df.read_text(encoding="utf-8")) or {}
+            if not isinstance(d, dict) or "id" not in d:
+                continue
+            decisions[d["id"]] = d
+            sup = d.get("supersedes")
+            if isinstance(sup, str):
+                superseded.add(sup)
+            elif isinstance(sup, list):
+                superseded.update(str(x) for x in sup)
+        for did, d in decisions.items():
+            objs[did] = {
+                "status": "superseded" if did in superseded else "in-force",
                 "canonical_md": (d.get("canonical_md") or "").strip(),
                 "statement": (d.get("statement") or "").strip(),
                 "region": (d.get("region") or "").strip(),
