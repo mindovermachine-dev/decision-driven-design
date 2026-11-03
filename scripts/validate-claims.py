@@ -77,6 +77,13 @@ CHECK_CLASS = {
     # retired claims carry the field, and `unrecoverable` is always available, so
     # the rule can never be unsatisfiable.
     "retired-from": "error",
+    # DDD-dec-111: a decision's basedOn and basis entries resolve to a file in core/claims/ or
+    # core/decisions/, a pin in graph/upstream.yaml, or a term in core/graph/terms.yaml. Hit list
+    # 2026-11-03: 14 entries in 12 of 86 decisions, all upstream ids not pinned here. They are
+    # recorded in graph/unresolved-basis.yaml, the migration, and report at the warning class
+    # below; every other unresolved entry is an error.
+    "basis-resolves": "error",
+    "basis-resolves-recorded": "warning",
 }
 
 errors = []
@@ -199,8 +206,34 @@ def check_claim(c, where, default_format=None):
                  "searched (that the notes do record it is not mechanically checkable)")
 
 
+REPO = Path(__file__).resolve().parent.parent
+_RESOLVABLE = None
+
+
+def resolvable():
+    """What a basedOn entry may name (DDD-dec-111), from the live repository, as validate-releases.py
+    resolves a release's basis: claim and decision file stems, upstream pins, local terms; and the
+    (decision, entry) pairs recorded in graph/unresolved-basis.yaml."""
+    global _RESOLVABLE
+    if _RESOLVABLE is None:
+        ids = {p.stem for d in ("core/claims", "core/decisions") for p in (REPO / d).glob("*.yaml")}
+        upstream = REPO / "graph" / "upstream.yaml"
+        if upstream.exists():
+            ids |= {p["id"] for p in ((load(upstream) or {}).get("upstream") or {}).get("pins") or []}
+        terms = REPO / "core" / "graph" / "terms.yaml"
+        if terms.exists():
+            ids |= {t["id"] for t in (load(terms) or {}).get("terms") or []}
+        recorded = REPO / "graph" / "unresolved-basis.yaml"
+        pairs = set()
+        if recorded.exists():
+            pairs = {(e["decision"], e["entry"]) for e in (load(recorded) or {}).get("entries") or []}
+        _RESOLVABLE = (ids, pairs)
+    return _RESOLVABLE
+
+
 def check_decision(d, where):
-    """Minimal decision checks per ontology rule 1: no escaped decisions."""
+    """Minimal decision checks per ontology rule 1: no escaped decisions; and, by DDD-dec-111, a
+    basedOn that resolves."""
     did = d.get("id", where)
     if not d.get("principal"):
         err(did, "decision has no accountable principal (escaped decision)")
@@ -211,6 +244,22 @@ def check_decision(d, where):
         err(did, "decision has no resolution")
     if not d.get("made"):
         err(did, "decision has no made timestamp/context")
+    ids, recorded = resolvable()
+    for key in ("basedOn", "basis"):
+        entries = d.get(key)
+        if entries is None:
+            continue
+        for e in entries if isinstance(entries, list) else [entries]:
+            if e in ids:
+                continue
+            if (d.get("id"), e) in recorded:
+                flag("basis-resolves-recorded", did,
+                     f"{key} {e!r} does not resolve; recorded in graph/unresolved-basis.yaml "
+                     "for Emil's ruling (DDD-dec-111)")
+            else:
+                flag("basis-resolves", did,
+                     f"{key} {e!r} resolves to no file in core/claims/ or core/decisions/, no pin in "
+                     "graph/upstream.yaml and no term in core/graph/terms.yaml (DDD-dec-111)")
 
 
 def load(path):

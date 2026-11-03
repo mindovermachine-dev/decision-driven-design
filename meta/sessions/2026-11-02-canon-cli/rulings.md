@@ -147,3 +147,45 @@ Stop with green CI and the land commands.
 | Ruling | Landed as |
 |---|---|
 | S-20 | Recorded here. Implemented after #53 lands, on a new branch (successor items, S-20) |
+
+## Round 5 — S-21 and S-22, 2026-11-03
+
+Given by Emil through the question dialog in the claude.ai conversation, after an independent
+check of PR #55 at `98a37dc` ("2 commits verified, both CI runs green; main has since moved to
+e70ab63, so the head is no longer a fast-forward; the merge is clean"). Recorded verbatim.
+
+> Q: "S-21: 12 filed decisions cite upstream decisions (DDD-dec-09, -15, -17, -26, -37, -39)
+> or the upstream term term:presumed-discharge, none of them pinned in graph/upstream.yaml.
+> 14 entries in all; they exist upstream at v5.15.2. Which way?"
+> A: "Pin them at v5.15.2 (Recommended)" (option text: "One decision adds the missing pins at
+> the current ref (no pin advance); the entries leave the record and the rule has no
+> exceptions")
+>
+> Q: "S-22: DDD-dec-111's two readings: (1) this repository's own terms (core/graph/terms.yaml)
+> count as resolving; (2) the rule is an error, with the existing unresolved entries recorded
+> and reported as warnings, not a warning for all. Confirm both?"
+> A: "Confirm both (Recommended)" (option text: "New dangling basedOn fails the gate; only
+> the recorded history warns")
+
+Instructions given with the round (summarised; the message is the record). Two steps, and #55
+lands between them:
+1. **On #55:** record this round; record the S-22 confirmation as an add-only note in
+   `DDD-dec-111`; merge `origin/main` (`e70ab63`) with a signed merge; run the gates; push; wait
+   for green; report the head and the land commands. S-23: #55 lands before the agent-review
+   branch, which merges `main` afterwards. Stop.
+2. **After Emil lands #55, on a new branch from `main` (S-21):**
+   - re-check the ids and take the next free one;
+   - file the decision;
+   - verify each of the 14 entries upstream at `v5.15.2` before pinning it, stopping and
+     reporting if one does not exist;
+   - add the pins at ref `v5.15.2`, with no ref change, each with its `status_at_pin` read from
+     the tag;
+   - empty or remove `graph/unresolved-basis.yaml`;
+   - predict first: 74 + n pins, 0 basis-loss, 0 unresolved in both validators;
+   - push, wait for green, report the land commands. Stop.
+
+| Ruling | Landed as |
+|---|---|
+| S-22 | `DDD-dec-111` `notes:`, an add-only confirmation dated 2026-11-03; the body is unedited. The two readings are no longer `UNVERIFIED` |
+| S-21 | A decision of its own, filed in step 2 after #55 lands |
+| S-23 | Ordering: #55 lands first; the agent-review branch merges `main` afterwards |

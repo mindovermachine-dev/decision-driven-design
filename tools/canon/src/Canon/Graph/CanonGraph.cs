@@ -76,8 +76,28 @@ internal static partial class CanonGraph
         public IReadOnlyList<Source> Sources { get; } = sources;
     }
 
-    /// <summary>Reads the files into one dataset, with a stub canon:CanonFile node for each canon file stem given.</summary>
-    public static Load Read(CanonKind kind, IReadOnlyList<(string Path, string Text)> files, IEnumerable<string> canonStems)
+    /// <summary>
+    /// What a reference may resolve to, added to the graph as data: canon file
+    /// stems (canon:CanonFile, canon:fileStem), upstream pins (canon:UpstreamPin,
+    /// canon:pinId), local terms (canon:LocalTerm, canon:termId), and the
+    /// (decision, entry) pairs recorded as unresolved (canon:RecordedUnresolved,
+    /// canon:decisionId, canon:entry; DDD-dec-111).
+    /// </summary>
+    internal sealed record Resolution(
+        IReadOnlyCollection<string> Stems,
+        IReadOnlyCollection<string> Pins,
+        IReadOnlyCollection<string> Terms,
+        IReadOnlyCollection<(string Decision, string Entry)> Recorded)
+    {
+        public static Resolution None { get; } = new([], [], [], []);
+    }
+
+    /// <summary>Reads the files into one dataset, with the resolution's stub nodes.</summary>
+    public static Load Read(CanonKind kind, IReadOnlyList<(string Path, string Text)> files, IEnumerable<string> canonStems) =>
+        Read(kind, files, new Resolution(canonStems.ToList(), [], [], []));
+
+    /// <summary>Reads the files into one dataset, with the resolution's stub nodes.</summary>
+    public static Load Read(CanonKind kind, IReadOnlyList<(string Path, string Text)> files, Resolution resolution)
     {
         InMemoryDatasetBuilder builder = new();
         Dictionary<string, string> owners = new(StringComparer.Ordinal);
@@ -125,14 +145,35 @@ internal static partial class CanonGraph
         }
 
         RdfTerm type = Iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        RdfTerm canonFile = Iri(Namespace + "CanonFile");
-        RdfTerm fileStem = Iri(Namespace + "fileStem");
         int stub = 0;
-        foreach (string stem in canonStems)
+        void Stub(string cls, params (string Property, string Value)[] values)
         {
-            RdfTerm node = RdfTerm.BlankNode(Encoding.UTF8.GetBytes($"canonfile{stub++}"));
-            builder.Add(node, type, canonFile, default);
-            builder.Add(node, fileStem, RdfTerm.Literal(Encoding.UTF8.GetBytes(stem)), default);
+            RdfTerm node = RdfTerm.BlankNode(Encoding.UTF8.GetBytes($"stub{stub++}"));
+            builder.Add(node, type, Iri(Namespace + cls), default);
+            foreach ((string property, string value) in values)
+            {
+                builder.Add(node, Iri(Namespace + property), RdfTerm.Literal(Encoding.UTF8.GetBytes(value)), default);
+            }
+        }
+
+        foreach (string stem in resolution.Stems)
+        {
+            Stub("CanonFile", ("fileStem", stem));
+        }
+
+        foreach (string pin in resolution.Pins)
+        {
+            Stub("UpstreamPin", ("pinId", pin));
+        }
+
+        foreach (string term in resolution.Terms)
+        {
+            Stub("LocalTerm", ("termId", term));
+        }
+
+        foreach ((string decision, string entry) in resolution.Recorded)
+        {
+            Stub("RecordedUnresolved", ("decisionId", decision), ("entry", entry));
         }
 
         return new Load(builder.ToDataset(), owners, findings, sources);

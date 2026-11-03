@@ -1,0 +1,14 @@
+# expect: resolves to no file in core/claims/ or core/decisions/
+format: 1
+id: DDD-dec-906
+kind: decision
+statement: |
+  Fixture. A basedOn naming a local id that names no file (DDD-dec-111).
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: |
+  Refuse.
+basedOn:
+  - DDD-dec-84
+  - DDD-dec-999

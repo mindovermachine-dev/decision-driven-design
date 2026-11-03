@@ -1,0 +1,33 @@
+# graph/unresolved-basis.yaml — basedOn entries of filed decisions that resolve to nothing (DDD-dec-111).
+#
+# DDD-dec-111 makes a decision's basedOn (or basis) resolve: each entry names a file under
+# core/claims/ or core/decisions/, an id pinned in graph/upstream.yaml, or a term in
+# core/graph/terms.yaml. The history scan of 2026-11-03 found the entries below in decisions
+# filed before the rule. Filed decisions are not edited (AGENTS.md), so each is recorded here as
+# found. Both validators (scripts/validate-claims.py --decisions and canon check) report a recorded
+# entry as a warning, and any entry not recorded as an error. Every one names an id that exists in
+# the principle repository at the pinned ref (v5.15.2) and is not pinned here: 14 entries in 12
+# decisions, thirteen naming six upstream decisions (DDD-dec-09, -15, -17, -26, -37, -39) and one
+# naming an upstream term (term:presumed-discharge).
+#
+# This list only shrinks. An entry leaves it by Emil's ruling: for example, pinning the upstream
+# id in graph/upstream.yaml, which resolves it. Adding an entry would exempt a new dangling
+# basedOn, which is exactly the basis loss the rule exists to see; it needs a ruling of its own.
+
+format: 1
+recorded: 2026-11-03
+entries:
+  - {decision: DDD-dec-11, entry: DDD-dec-09}
+  - {decision: DDD-dec-16, entry: DDD-dec-15}
+  - {decision: DDD-dec-18, entry: DDD-dec-17}
+  - {decision: DDD-dec-18, entry: DDD-dec-09}
+  - {decision: DDD-dec-20, entry: DDD-dec-17}
+  - {decision: DDD-dec-23, entry: DDD-dec-15}
+  - {decision: DDD-dec-27, entry: DDD-dec-26}
+  - {decision: DDD-dec-27, entry: term:presumed-discharge}
+  - {decision: DDD-dec-28, entry: DDD-dec-26}
+  - {decision: DDD-dec-38, entry: DDD-dec-37}
+  - {decision: DDD-dec-40, entry: DDD-dec-39}
+  - {decision: DDD-dec-76, entry: DDD-dec-39}
+  - {decision: DDD-dec-82, entry: DDD-dec-39}
+  - {decision: DDD-dec-84, entry: DDD-dec-39}

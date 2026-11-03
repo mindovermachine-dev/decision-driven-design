@@ -53,6 +53,12 @@ internal sealed record CanonConfig
 
     public string Pins { get; init; } = "graph/upstream.yaml";
 
+    /// <summary>The projection's own term registry; a basedOn may name one of its terms (DDD-dec-111).</summary>
+    public string LocalTerms { get; init; } = "core/graph/terms.yaml";
+
+    /// <summary>The basedOn entries of filed decisions recorded as unresolved (DDD-dec-111).</summary>
+    public string UnresolvedBasis { get; init; } = "graph/unresolved-basis.yaml";
+
     /// <summary>The shared fixtures both implementations read (DESIGN.md §8.2).</summary>
     public string Fixtures { get; init; } = "scripts/fixtures";
 

@@ -84,3 +84,24 @@ Add-only.
 |---|---|---|
 | S-20 | **Ruled: yes, as its own decision.** Both validators gain basedOn resolution together, with fixtures; upstream ids resolve through `graph/upstream.yaml`. Implemented after #53 lands, on a new branch from `main`; filed decisions that would fail are reported, not edited | This session, after #53 lands |
 | S-8 | `DDD-dec-108` has landed on `main` (`c06b359`, landed with `458d05b`); DESIGN.md §4.2 now says so | — |
+
+## S-20 built (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-20 | **Built.** `DDD-dec-111`; the rule in `validate-claims.py` and canon's decision shapes; two refuse fixtures; the ledger's own count. Waits on review and landing | Emil |
+| S-21 | **The 14 recorded entries** (`graph/unresolved-basis.yaml`): 12 decisions whose `basedOn` names an upstream decision (`DDD-dec-09`, `-15`, `-17`, `-26`, `-37`, `-39`) or an upstream term (`term:presumed-discharge`) that is not pinned. Options: pin the upstream ids in `graph/upstream.yaml` (a pin advance, a decision), after which the entries leave the record; or rule them acceptable as recorded | **Emil** |
+| S-22 | **Two readings in `DDD-dec-111`'s notes**: local terms resolve, and the rule is an error with a record rather than a warning | **Emil** |
+| S-23 | **Landing order.** `claude/sharp-davinci-89xeil` (agent review, `DDD-dec-109`, `-110`) also changes `tools/canon/`. Whichever lands second merges `main` in first | Whichever session lands second |
+
+## Round 5 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-22 | **Ruled: both readings confirmed.** Add-only note in `DDD-dec-111` | — |
+| S-21 | **Ruled: pin them at `v5.15.2`.** A decision of its own, after #55 lands, on a new branch from `main` | This session, step 2 |
+| S-23 | **Ruled: #55 lands first**; the agent-review branch merges `main` afterwards | Emil's landing order |

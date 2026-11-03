@@ -3,9 +3,10 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 #
 # Decision shapes, ported from scripts/validate-claims.py's check_decision (--decisions): the
-# four checks of ontology rule 1. Each rule is a node shape whose constraint is sh:node or sh:or,
-# so a result's source shape is the rule itself, whose canon:rule names it, no escaped decisions. Python does not resolve basedOn, so
-# neither do these shapes; resolving it would be a new rule, not a port (predictions, Gate 3).
+# four checks of ontology rule 1, no escaped decisions. Each rule is a node shape whose constraint
+# is sh:node, sh:or or sh:sparql, so a result's source shape is the rule itself, whose canon:rule
+# names it. Python did not resolve basedOn at Gate 3, so neither did these shapes; DDD-dec-111
+# (S-20) made it a rule in both, at the end of this file.
 
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
@@ -42,6 +43,61 @@ canon:DecisionUniqueId a sh:NodeShape ; canon:rule "DEC-DUPLICATE-ID" ;
         ?other a <https://decision-driven-design.dk/ns/canon/1#Decision> ;
                <https://decision-driven-design.dk/ns/canon/1#id> ?value .
         FILTER (?other != $this)
+      }
+      """ ;
+  ] .
+
+# ---- DDD-dec-111: a decision's basedOn resolves ---------------------------------------------
+# Each basedOn or basis entry names a canon file (a stem under core/claims/ or core/decisions/),
+# an upstream pin (graph/upstream.yaml), or a local term (core/graph/terms.yaml). canon adds all
+# three to the data as canon:CanonFile, canon:UpstreamPin and canon:LocalTerm, and the pairs of
+# graph/unresolved-basis.yaml as canon:RecordedUnresolved. An unresolved entry is an error, unless
+# its (decision, entry) pair is recorded; then it is a warning. One result per entry, as
+# validate-claims.py reports one line per entry.
+
+canon:DecisionBasedOnResolves a sh:NodeShape ; canon:rule "DEC-BASEDON-UNRESOLVED" ;
+  sh:targetClass canon:Decision ;
+  sh:message "basedOn resolves to no file in core/claims/ or core/decisions/, no pin in graph/upstream.yaml and no term in core/graph/terms.yaml (DDD-dec-111)" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        { $this <https://decision-driven-design.dk/ns/canon/1#basedOn> ?value }
+        UNION
+        { $this <https://decision-driven-design.dk/ns/canon/1#basis> ?value }
+        FILTER NOT EXISTS { ?f a <https://decision-driven-design.dk/ns/canon/1#CanonFile> ;
+                               <https://decision-driven-design.dk/ns/canon/1#fileStem> ?value }
+        FILTER NOT EXISTS { ?p a <https://decision-driven-design.dk/ns/canon/1#UpstreamPin> ;
+                               <https://decision-driven-design.dk/ns/canon/1#pinId> ?value }
+        FILTER NOT EXISTS { ?t a <https://decision-driven-design.dk/ns/canon/1#LocalTerm> ;
+                               <https://decision-driven-design.dk/ns/canon/1#termId> ?value }
+        FILTER NOT EXISTS { $this <https://decision-driven-design.dk/ns/canon/1#id> ?id .
+                            ?r a <https://decision-driven-design.dk/ns/canon/1#RecordedUnresolved> ;
+                               <https://decision-driven-design.dk/ns/canon/1#decisionId> ?id ;
+                               <https://decision-driven-design.dk/ns/canon/1#entry> ?value }
+      }
+      """ ;
+  ] .
+
+canon:DecisionBasedOnRecorded a sh:NodeShape ; canon:rule "DEC-BASEDON-UNRESOLVED-RECORDED" ;
+  sh:targetClass canon:Decision ;
+  sh:severity sh:Warning ;
+  sh:message "basedOn does not resolve; recorded in graph/unresolved-basis.yaml for Emil's ruling (DDD-dec-111)" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        { $this <https://decision-driven-design.dk/ns/canon/1#basedOn> ?value }
+        UNION
+        { $this <https://decision-driven-design.dk/ns/canon/1#basis> ?value }
+        FILTER NOT EXISTS { ?f a <https://decision-driven-design.dk/ns/canon/1#CanonFile> ;
+                               <https://decision-driven-design.dk/ns/canon/1#fileStem> ?value }
+        FILTER NOT EXISTS { ?p a <https://decision-driven-design.dk/ns/canon/1#UpstreamPin> ;
+                               <https://decision-driven-design.dk/ns/canon/1#pinId> ?value }
+        FILTER NOT EXISTS { ?t a <https://decision-driven-design.dk/ns/canon/1#LocalTerm> ;
+                               <https://decision-driven-design.dk/ns/canon/1#termId> ?value }
+        $this <https://decision-driven-design.dk/ns/canon/1#id> ?id .
+        ?r a <https://decision-driven-design.dk/ns/canon/1#RecordedUnresolved> ;
+           <https://decision-driven-design.dk/ns/canon/1#decisionId> ?id ;
+           <https://decision-driven-design.dk/ns/canon/1#entry> ?value .
       }
       """ ;
   ] .

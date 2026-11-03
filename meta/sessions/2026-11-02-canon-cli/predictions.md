@@ -346,3 +346,67 @@ corpus: 39 of 45 …", "compare: every case agrees", "canon check: all gates pas
 was not committed at `1cfadfd`, because a commit would have moved the head offered for landing.
 Before #53 landed, `main` moved to `320fccb` (the protect-main session, `DDD-dec-108`). It was
 merged in, and the head offered for landing is the commit that records this.
+
+# S-20 — basedOn resolves (`DDD-dec-111`)
+
+The rule as it will be built: every entry of a decision's `basedOn` (or `basis`) must be one of
+- a file stem under `core/claims/` or `core/decisions/`;
+- an id pinned in `graph/upstream.yaml`;
+- a term in `core/graph/terms.yaml`, this repository's own term registry.
+
+The third is Claude's reading, `UNVERIFIED — Emil review`. A local term is neither a claim nor a
+decision, but it is a local id, and the ruling's point is basis loss. It is measured separately
+below. Entries are resolved against the live repository, as `validate-releases.py` resolves a
+release's basis.
+
+Measured before predicting: the values in use. 86 decisions carry the lists (74 `basedOn`, 12
+`basis`). Every entry is a `DDD-<area>-<nn>` id (283) or a `term:` id (12). There are no free
+text entries.
+
+## P-19 — the history scan
+
+Prediction, before the scan runs. **Some filed decisions fail today: at least 1 and at most 10.**
+Every failure is an id that exists in the principle repository but is not pinned, such as an
+upstream decision (`DDD-dec-NN` filed only upstream) or an unpinned upstream claim. None is a
+typo of a local id. At least one decision rests on a local term (`term:maturation` or another in
+`core/graph/terms.yaml`), so the third clause matters. Falsifier: 0 failures (the rule would bind
+nothing today); more than 10; or any failure that is a local typo, not an upstream id.
+
+## P-20 — the rule's class
+
+Prediction: because P-19 predicts a non-empty hit list, the rule enters `validate-claims.py`'s
+`CHECK_CLASS` as **`warning`**, under the validator's own policy: "a check is error class only
+when its hit list against the existing corpus is empty or already migrated". It is promoted to
+`error` by Emil's ruling on the failing decisions. canon's shape carries `sh:Warning` to match. The
+fixtures still prove the rule fires, as a warning. Falsifier: P-19 finds no failures, in which case
+the rule enters as `error`.
+
+## P-21 — the parallel run
+
+Prediction: with the rule in both implementations and the new fixtures, `canon check --compare`
+agrees on every case on the first run, including the warnings on the live tree. The rule's
+agreement starts its own count under `DDD-dec-103`. Falsifier: any disagreement.
+
+Outcome for P-19 (appended): **refuted on the count, held on the kind.** The scan of all 86 filed
+decisions found **12 failing**, above the predicted maximum of 10. They hold 14 unresolved
+entries: DDD-dec-11 (DDD-dec-09), -16 (-15), -18 (-17, -09), -20 (-17), -23 (-15), -27 (-26,
+`term:presumed-discharge`), -28 (-26), -38 (-37), -40 (-39), -76 (-39), -82 (-39) and -84 (-39).
+Every entry exists in the principle repository at `v5.15.2` (checked: one file each under
+upstream's `core/decisions/`, and `term:presumed-discharge` in upstream's `core/graph/terms.yaml`).
+None is pinned here, and none is a local typo. The local term clause decides one entry,
+DDD-dec-21's `term:maturation`. Without it DDD-dec-21 would fail too. Recorded unedited in
+`graph/unresolved-basis.yaml` for Emil's ruling. Claude first wrote "13 entries" in conversation;
+the count is 14.
+
+Outcome for P-20 (appended): **refuted, by a design choice made after the scan.** As a warning,
+the rule could not be tested by a refuse fixture, as the ruling's instruction requires. So it is
+an error, and the 14 entries found are recorded in data, which both validators read, and report as
+warnings. That is the CHECK_CLASS policy's "already migrated" case, with the record as the
+migration. `DDD-dec-111`'s notes flag it as Claude's reading.
+
+Outcome for P-21 (appended): **held.** On the first run with the rule in both implementations,
+every case agreed: 49 cases (Gate 3's 47 and the two new decision refuse fixtures). That includes
+the live decisions, which gave 14 / 14 findings, the 14 recorded entries, all warnings on both
+sides. 41 of 47 rule codes were exercised. Both new codes were exercised by fixtures and by the
+live tree. `scripts/ci.py` passes all gates, its fixtures gate included. canon's 37 tests pass.
+The rule's agreement A is at Varve 0.1.0-preview.15 (`parallel-run.md`).

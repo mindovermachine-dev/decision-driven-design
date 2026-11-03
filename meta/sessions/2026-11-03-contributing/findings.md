@@ -49,6 +49,9 @@ Every relative link resolves (19 links, checked by path existence at the head).
   active; they differ on which run created Signed Commits. Left as the prompt states it.
   `UNVERIFIED — Emil review`.
 
+  **Ruled, Round 1 (`rulings.md`):** two runs, as `GOVERNANCE.md` says. The landing record's
+  wording was Claude's prompt wording of 2026-11-03 09:46; corrected add-only in `landing.md`.
+
 ## Commands
 
 The five gate commands are those of `validate.yml`'s `runCmd`, in order, from the same
