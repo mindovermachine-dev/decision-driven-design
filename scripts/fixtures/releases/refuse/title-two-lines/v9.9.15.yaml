@@ -1,0 +1,8 @@
+format: 2
+version: v9.9.15
+ratified_head: 0123abc
+title: "First line\nsecond line"
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The title has a newline.

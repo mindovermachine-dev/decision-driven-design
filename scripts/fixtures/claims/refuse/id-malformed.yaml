@@ -1,0 +1,13 @@
+# expect: id does not match
+format: 1
+id: DDD-fixture-1
+kind: empirical
+statement: |
+  Fixture. the id has one digit.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0

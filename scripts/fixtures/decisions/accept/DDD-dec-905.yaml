@@ -1,0 +1,12 @@
+format: 1
+id: DDD-dec-905
+kind: decision
+statement: |
+  Fixture. Its edges are under basis, which counts as basedOn.
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: |
+  Accept.
+basis:
+  - DDD-fixture-01

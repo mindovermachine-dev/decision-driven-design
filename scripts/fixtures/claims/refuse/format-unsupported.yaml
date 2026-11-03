@@ -1,0 +1,13 @@
+# expect: format missing or unsupported
+format: 2
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. format 2 is not a claim format; Python stops here.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0

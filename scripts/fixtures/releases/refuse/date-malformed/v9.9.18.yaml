@@ -1,0 +1,9 @@
+format: 2
+version: v9.9.18
+ratified_head: 0123abc
+title: 'Fixture: a date with slashes'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The date is 2026/11/03.
+date: 2026/11/03

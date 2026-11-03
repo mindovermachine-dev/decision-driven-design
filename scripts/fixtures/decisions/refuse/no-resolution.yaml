@@ -1,0 +1,12 @@
+# expect: no resolution
+format: 1
+id: DDD-dec-902
+kind: decision
+statement: |
+  Fixture. No resolution.
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: ""
+basedOn:
+  - DDD-fixture-01

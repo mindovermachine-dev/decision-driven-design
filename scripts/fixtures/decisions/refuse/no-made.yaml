@@ -1,0 +1,11 @@
+# expect: no made timestamp
+format: 1
+id: DDD-dec-903
+kind: decision
+statement: |
+  Fixture. No made context.
+principal: Fixture
+resolution: |
+  Refuse.
+basedOn:
+  - DDD-fixture-01

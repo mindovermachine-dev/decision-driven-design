@@ -1,0 +1,14 @@
+# expect: retired_from is legal only
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. a projected claim carrying retired_from.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0
+retired_from: reported
