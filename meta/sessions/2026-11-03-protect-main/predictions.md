@@ -181,3 +181,14 @@ That second merge (`55c2be8`) was clean and not predicted. Afterwards, every gat
 
 **P-12 — the head to land.** On the commit that records this, `pipeline (devcontainer)`
 concludes `success` from app 15368, and no `agent review` check appears. Falsifier: either fails.
+
+## Round 3 — 2026-11-03
+
+**P-13 — the id swapped.** After the swap, `git grep 5220446` finds the id only in records:
+`rulings.md`, `DDD-dec-109`'s notes, `successor-items.md` R2-0, `findings.md` and this file.
+It is not in any pin, test, workflow or GOVERNANCE.md. canon's source has no id in it, because
+it reads the pin from `.github/repo-standard.yaml`, so its source does not change. All 66 canon
+tests pass with the tests' gates App at 5594102. `RepositoryDeclarationTests` asserts that the
+live pin equals 5594102. `scripts/ci.py`, `check --compare`, `changelog --check` and
+`issue-refs --basis` pass, and CI is green from app 15368 on the pushed head. Falsifier: any of
+these fails, or 5220446 survives outside a record.

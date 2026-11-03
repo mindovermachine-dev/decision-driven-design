@@ -137,7 +137,7 @@ Emil then probed it the same day: a signed direct push to `main` was refused wit
 
 | | What |
 |---|---|
-| **`trunk`** ruleset on `main` | no deletion, no force push, **no bypass**; the required status checks `pipeline (devcontainer)`, from GitHub Actions only ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)), and `agent review`, from the gates App only ([`DDD-dec-109`](core/decisions/DDD-dec-109.yaml); declared, not yet applied) |
+| **`trunk`** ruleset on `main` | no deletion, no force push, **no bypass**; the required status checks `pipeline (devcontainer)`, from GitHub Actions only ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)), and `agent review`, from the gates App only (`mom-gates`, owned by the organisation, integration id 5594102; [`DDD-dec-109`](core/decisions/DDD-dec-109.yaml); declared, not yet applied) |
 | **`Signed Commits`** ruleset on `main` | Signed commits required, with the admin role the only actor on the **bypass list** ([`DDD-dec-81`](core/decisions/DDD-dec-81.yaml), [`DDD-dec-110`](core/decisions/DDD-dec-110.yaml); the Claude GitHub App's entry removed, not yet applied) |
 | **`land`** ruleset on `land/**` | creating, moving, deleting or force-moving a `land/` branch is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |
 | **`Release Tags`** ruleset on `v*` tags | creating, deleting or force-moving a `v*` tag is restricted to Emil ([`DDD-dec-108`](core/decisions/DDD-dec-108.yaml)) |

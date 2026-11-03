@@ -43,3 +43,12 @@ land` reads the pin from `main` and refuses any later head without that check.
 | S-7 | **`updated_at` and reactions** (`DDD-dec-109`, notes): whether anything but an edit moves a comment's `updated_at`. If something does, an approval goes stale and Emil comments again | Seen at R2-5, or later |
 | S-8 | **The contributing session's branch** (`claude/optimistic-keller-trxr7y`, issue #54) rewrites CONTRIBUTING.md's landing section and GOVERNANCE.md's "Repository settings" paragraph. This branch adds the approve step to both files. Whichever lands second takes the approve step into its own text | That session, or this one, at the second landing |
 | S-9 | **canon in a shallow clone** (S-3 above) is still open in the canon CLI session | The canon CLI session |
+
+## After Round 3 (2026-11-03)
+
+Add-only. The table above stands as written.
+
+| # | Status | Closes it |
+|---|---|---|
+| R2-0 | **Done.** Gates App: "mom-gates", owned by `mindovermachine-dev`, integration id 5594102, with Checks: read and write and Pull requests: read (Round 3). Pinned in place of 5220446 | Done by Emil |
+| R2-1 to R2-5 | **Open, unchanged**, with the App now named: R2-2 installs "mom-gates"; R2-3's secrets are its client id and a private key | **Emil** |

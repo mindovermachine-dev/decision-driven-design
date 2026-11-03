@@ -82,3 +82,17 @@ GitHub sets that field, and a session cannot clear it. Agent review uses both
 (`DDD-dec-109`).
 `UNVERIFIED — Emil review`: that no path open to a session posts a comment without the app.
 The evidence is every session comment here, all of which carry it.
+
+## Round 3 — 2026-11-03
+
+Add-only.
+
+**F-5 — why the gates App's id changed, 5220446 → 5594102.** 5220446 was copied from Varve's
+`.github/repo-standard.yaml`, where it names Varve's gates App. Round 2 asked Emil to confirm it
+before anything relied on it (R2-0). Emil's Round 3 ruling covers the case where that App cannot
+be installed on `mindovermachine-dev`: a new App owned by the organisation. Emil created it:
+"mom-gates", integration id 5594102, with Checks: read and write and Pull requests: read. The
+id was swapped before any landing, as the ruling asks. It is pinned in one place,
+`.github/repo-standard.yaml`'s trunk ruleset, which both `canon land` and `canon agent-review
+--post` read. The tests hold it as the gates App's id, and one asserts the live pin equals it.
+`GOVERNANCE.md` and the workflow's header name it. canon's source has no id in it to change.

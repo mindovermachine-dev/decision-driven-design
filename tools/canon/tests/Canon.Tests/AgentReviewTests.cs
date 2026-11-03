@@ -24,7 +24,7 @@ public sealed class AgentReviewTests : IDisposable
     private const string Earlier = "fedcba0987654321fedcba0987654321fedcba09";
     private const long Emil = 2194785;
     private const long ClaudeApp = 1236702;
-    private const long GatesApp = 5220446;
+    private const long GatesApp = 5594102; // mom-gates, the org-owned gates App (Round 3)
     private const long Actions = 15368;
     private const string Session = "the change\n\nRefs #1\n\nClaude-Session: https://claude.ai/code/session_x";
 
@@ -61,7 +61,7 @@ public sealed class AgentReviewTests : IDisposable
               - context: pipeline (devcontainer)
                 integration_id: 15368
               - context: agent review
-                integration_id: 5220446
+                integration_id: 5594102
           bypass_actors: []
         """;
 
@@ -336,14 +336,14 @@ public sealed class LandUnderAgentReviewTests : IDisposable
     [Fact]
     public void AFailureFromTheGatesAppDoesNotCount()
     {
-        github.AddCheckRun(head, "agent review", 5220446, "failure");
+        github.AddCheckRun(head, "agent review", 5594102, "failure");
         ReleaseRepository.Expect(sandbox.Canon(github.Environment(), "land", "7"), 1);
     }
 
     [Fact]
     public void LandsBothStepsWhenTheGatesAppPostedSuccess()
     {
-        github.AddCheckRun(head, "agent review", 5220446, "success");
+        github.AddCheckRun(head, "agent review", 5594102, "success");
 
         ReleaseRepository.Expect(sandbox.Canon(github.Environment(), "land", "7"), 0);
         Assert.Equal(head, Remote("refs/heads/land/pr-7"));

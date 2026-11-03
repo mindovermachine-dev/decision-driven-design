@@ -56,7 +56,7 @@ public sealed class RepositoryDeclarationTests
         var checks = RequiredChecks.OnTrunk(Read(".github/repo-standard.yaml"));
 
         Assert.Equal(15368, checks["pipeline (devcontainer)"]);
-        Assert.NotNull(checks["agent review"]);
+        Assert.Equal(5594102, checks["agent review"]);
         Assert.All(checks, check => Assert.NotNull(check.Value));
     }
 

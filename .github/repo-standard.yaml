@@ -80,11 +80,12 @@ rulesets:
         # its check run counts, so no other app can satisfy the check under the same name.
         integration_id: 15368
       # Emil's approval of the head (DDD-dec-109), posted by .github/workflows/agent-review.yml
-      # as the gates App. The App's id is Varve's (Hafeok/varve .github/repo-standard.yaml),
-      # NOT YET CONFIRMED by Emil as the App installed here. canon land reads this pin from
-      # main's copy of this file, and refuses a head without that App's green run.
+      # as the gates App: "mom-gates", owned by mindovermachine-dev, integration id 5594102
+      # (Round 3 of the protect-main session; it replaced Varve's 5220446, which is not this
+      # organisation's). canon land reads this pin from main's copy of this file, and refuses a
+      # head without that App's green run.
       - context: agent review
-        integration_id: 5220446
+        integration_id: 5594102
   bypass_actors: []
 # land/** is where a commit gets its check before main is fast-forwarded to it (DDD-dec-108):
 # only Emil creates, moves or deletes a land/ branch. User 2194785 is Emil's account (Hafeok),

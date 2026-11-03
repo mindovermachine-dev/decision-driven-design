@@ -7,8 +7,9 @@
 # is not pinned to an app.
 #
 # THE RULE. The verdict is a check run named `agent review`, created or updated on the pull
-# request's head by the gates GitHub App, and the trunk ruleset requires that name from that
-# App's integration id (.github/repo-standard.yaml). The App's token is minted from the `gates`
+# request's head by the gates GitHub App ("mom-gates", owned by mindovermachine-dev, integration
+# id 5594102), and the trunk ruleset requires that name from that App's integration id
+# (.github/repo-standard.yaml, which canon reads; no id is written here). The App's token is minted from the `gates`
 # environment, which must be deployable from main only. The job that posts it:
 #
 #   - runs only on triggers whose workflow comes from main: pull_request_target and
