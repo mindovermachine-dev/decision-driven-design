@@ -229,3 +229,57 @@ to `5ccdf41` by fast-forward, with no merge commit: `git rev-list --merges 5ccdf
 empty, and `origin/main` is `5ccdf41` itself. `land/pr-47` was deleted, and no `land/*` ref
 remains on origin. GitHub recorded PR #47 as merged at 2026-11-03 08:11 UTC, because its head
 reached `main`. This was the first landing by `canon land` in this repository.
+
+# Gate 3 — the shapes and the parallel run
+
+Varve measured against: **`0.1.0-preview.15`** for `Varve.Rdf`, `Varve.Turtle`, `Varve.JsonLd`,
+`Varve.Shacl` and `Varve.Shacl.Sparql` (the latest on nuget.org on 2026-11-03, checked live; the
+same version as at Gate 1). The pins are exact in `tools/canon/Directory.Packages.props`.
+
+What the reading established before any code. The Python validators fix the rules the shapes must
+reproduce, including three behaviours a naïve port would miss:
+1. **Early stops.** An unsupported `format` ends a claim's checks, and so does an illegal `status`.
+   A release's checks end at an unsupported `format` or an ill-formed `version`. The shapes guard
+   each later rule on the earlier ones, so a stopped file reports exactly what Python reports.
+2. **Python truthiness.** An empty string, `0`, an empty list and `null` are all "missing".
+3. **YAML 1.1 scalars, as PyYAML reads them.** `yes`/`no`/`on`/`off` are booleans, a leading `0`
+   is octal, and `2026-1-2` is a date. canon's YAML-to-JSON step types plain scalars the same way.
+
+Three facts that are about YAML, not the graph, are carried into RDF by the mapping rather than
+checked in code:
+- a release `basis` that is not a list is mapped to `canon:basisScalar`;
+- a key with a null value is mapped to `canon:nullKey`;
+- the file's path and stem are added as `canon:sourcePath` and `canon:fileStem`.
+
+What stays code, as DESIGN §5.3 says: a file that does not parse or is not a mapping; the
+single-limb heuristic (text, not a constraint); the guard and the cut checks (git); the
+"no canon files" global.
+
+Not ported, because Python does not check it: **a decision's `basedOn` is not resolved** by
+`validate-claims.py --decisions`. Gate 1's design (§5.2) said it would be a shape. That would be a
+new rule, not a port, and it is left out. A release's `basis` is resolved, against the canon
+directories' file stems, as Python does.
+
+## P-15 — the shapes load
+
+Prediction: `claim.shapes.ttl`, `decision.shapes.ttl` and `release.shapes.ttl` parse with Varve's
+Turtle parser and load in `ShapesGraph.Load` with no problem. The one SPARQL constraint
+(`REL-BASIS-UNRESOLVED`) loads through `SparqlConstraints.Extension`. Falsifier: any load problem
+that needs the shapes changed to satisfy Varve rather than SHACL.
+
+## P-16 — the first comparison over the fixtures and the live tree (D-1, D-2)
+
+Prediction: the first full `canon check --compare` shows **at least one disagreement**, and it is
+in the claims gate (D-2): an evidence-shape mapping or the single-limb count. The decisions and
+releases gates agree on every fixture on the first run (D-1), except for disagreements that are
+mapping bugs in canon. Every disagreement is recorded in `tools/canon/parallel-run.md` with its
+cause and fix, and none is suppressed. After the fixes, the comparison agrees on every fixture
+and on the live tree, matching Python's verdict and the set of (file, rule) findings, warnings
+included (the 6 single-limb warnings on the live claims). Falsifier for D-2: zero disagreements on
+the first run. Falsifier for D-1: a disagreement in decisions or releases whose correct side is
+Python's and whose cause is not the mapping.
+
+## P-17 — CI
+
+Prediction: CI runs `canon check --compare` after `scripts/ci.py` and is green on the Gate 3
+head. Falsifier: red.
