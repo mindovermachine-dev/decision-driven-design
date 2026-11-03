@@ -135,3 +135,25 @@ No check named `agent review` appears on the head. `.github/workflows/agent-revi
 this branch, so it does not exist on `main`, and `pull_request_target` and `issue_comment` run
 only `main`'s copy. Nothing on this branch can post that check. Falsifier: the pipeline fails, or
 an `agent review` check appears.
+
+### Round 2 outcomes
+
+**P-6 — held.** At `b9536e3`, valid at 88, exit 0. Every `basedOn` id resolves.
+
+**P-7 — held.** `dotnet build canon.slnx -c Release`: no warnings, with warnings as errors. The
+32 tests present at `320fccb` pass with no edit to any of them. One compile error on the first
+build (CS0136, a reused local name in `AgentReviewCommand.cs`) was fixed before any test ran.
+
+**P-8 — held.** 61 tests: the 32 old ones and 29 new, all green. Each ruled tamper case was then
+broken once, in a scratch copy of the repository under the session's scratchpad, never in the
+working tree:
+- the session-comment rule disabled (a comment made through an app counts): red on
+  `ASessionAuthoredCommentDoesNotCount` and `ACommentThroughAnyOtherAppDoesNotCount`, and on
+  nothing else;
+- `canon land` ignoring the app id: red on `ASuccessFromAnotherAppDoesNotCount` alone;
+- any approved SHA counting, not only a prefix of the head: red on
+  `AnApprovalOfAnEarlierHeadDoesNotCount` alone.
+
+**P-9 — held.** At `c933e08`: `scripts/ci.py` passes every gate, and `canon changelog --check`
+passes. `canon issue-refs --basis`: "5 commits in 320fccb9dc90..c933e0879999; Refs checked on 5,
+Basis on 1".
