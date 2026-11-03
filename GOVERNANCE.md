@@ -114,9 +114,11 @@ at most the descriptor ([`spec/release-format.md`](spec/release-format.md), rule
 ## Repository settings
 
 The settings are declared in [`.github/repo-standard.yaml`](.github/repo-standard.yaml), written
-for the `repo-standard` tool Varve uses. **The file is not yet applied.** Applying it needs
-repository admin, which is Emil's act. Until it is applied, the repository and the file disagree,
-and the file states the intent.
+for the `repo-standard` tool Varve uses. **Emil applied it on 2026-11-03, in two runs.** The
+first, at `main` `5ccdf41`, applied the description, the topics, Discussions and the `Signed
+Commits` ruleset. The second, at `main` `458d05b`, created `trunk`, `land` and `Release Tags`.
+Emil then probed it the same day: a signed direct push to `main` was refused with `GH013`,
+"Required status check "pipeline (devcontainer)" is expected."
 
 | | What |
 |---|---|
