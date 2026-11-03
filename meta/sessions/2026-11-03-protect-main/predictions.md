@@ -44,3 +44,34 @@ Prediction: the `validate` workflow's one job, `pipeline (devcontainer)`, conclu
 the branch's head, with its check run from app id 15368 (the id `trunk` names). Falsifier: the job
 fails, or its app id is not 15368. If the app id differs, the `trunk` ruleset would never be
 satisfied and nothing could land, so that falsifier blocks the landing.
+
+## Outcomes
+
+Appended after the runs. The predictions above are not edited.
+
+**P-1 — held.** After `pip install -r scripts/requirements.txt`, `python3 scripts/ci.py` exited 0
+at `03ab5a8`, with all seven gates `ok`. `validate-claims.py core/decisions/ --decisions`: valid
+at 85.
+
+**P-2 — held.** At `c06b359`: valid at 86, exit 0, read directly. Every `basedOn` id resolves.
+The decision's notes were amended once before the push (the two paths the trunk ruleset does not
+close), and the change was folded into the same commit by a fixup, so `DDD-dec-108` lands as one
+commit.
+
+**P-3 — held.** At `dab0656`: `yaml.safe_load` parses the file. Four rulesets, in the order
+`Signed Commits`, `trunk`, `land`, `Release Tags`. `trunk`: `bypass_actors: []`, one check,
+`{context: pipeline (devcontainer), integration_id: 15368}`. `land` (branch) and `Release Tags`
+(tag): one bypass actor each, `User 2194785`. `Signed Commits` and `repository:` compare equal to
+`5ccdf41`. The diff to the header comment is the two citations of `DDD-dec-108` and "ruleset"
+made plural. The declaration was also read against the schema of Varve's `repo-standard`
+(`tools/repo-standard/src/RepoStandard/Declaration/DeclarationSchema.cs`): `name`, `target`
+(`branch` or `tag`) and `enforcement` are present on each ruleset. Its `rules` and `conditions`
+pass through unchecked, so GitHub validates them at apply. Running `repo-standard plan` was not
+possible: building Varve's tool from the clone was refused by this session's permissions.
+
+**P-4 — held, with a finding.** `scripts/ci.py` exited 0 at `61a3f6a`, as at P-2. Locally,
+`canon issue-refs --basis` first reported `Refs checked on 4, Basis on 0`. The clone was
+shallow, so `99d0a0f` (`basis.from`) was not an ancestor of anything and the Basis rule silently
+covered no commit. After `git fetch --unshallow`: `Refs checked on 4, Basis on 1`, ok. CI checks
+out with `fetch-depth: 0`, so CI is not affected. The finding is S-3 below. `canon changelog
+--check`: ok.
