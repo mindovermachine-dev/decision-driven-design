@@ -116,3 +116,21 @@ Add-only. Nothing above this heading is edited.
   stops at the end of Gate 3.
 - **Protection.** If Emil applies the protection rulesets during the session, branch pushes are
   unaffected. Only `land/**` and `main` are restricted, to Emil.
+
+## Amendment 4 — 2026-11-03: Gate 3 landed; S-20 starts from main
+
+Add-only. Nothing above this heading is edited.
+
+- **Base.** Emil landed PR #53, and `main` is `6ad604f`, reached by fast-forward with no merge
+  commit. The session's branch restarts from it under the same name (its pull request is
+  merged). S-20 goes to a new pull request.
+- **Decision ids**, re-checked on 2026-11-03 at 09:16 UTC on every branch of both
+  repositories. Upstream (27 branches) holds up to `DDD-dec-39`. `main` holds up to
+  `DDD-dec-108`. `claude/sharp-davinci-89xeil`, the protection session's agent-review round,
+  holds `DDD-dec-109` and `DDD-dec-110` and has not landed. This session filed nothing in
+  `109`/`110`, so nothing collides, though the session was told "109 onward" and that
+  session's bootstrap names this one as taking 109. **S-20 takes `DDD-dec-111`**, the next
+  free id.
+- **Scope.** S-20 only: the decision; the rule in `scripts/validate-claims.py` and in canon's
+  decision shapes, in one change; refuse fixtures; the history scan; the ledger entry. Out of
+  scope: editing any filed decision.
