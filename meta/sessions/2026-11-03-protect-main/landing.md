@@ -84,3 +84,33 @@ for the bypass (F-2). Delete it afterwards as Emil:
 ```bash
 git push origin --delete land/probe-session
 ```
+
+## Outcome — 2026-11-03
+
+Add-only. Nothing above this heading is edited. Emil's report, in the session:
+
+> Emil landed 458d05b with canon land (main at 458d05b, land/protect-main deleted), applied
+> repo-standard.yaml (description, topics, Discussions, then the four rulesets: trunk, land,
+> Release Tags, Signed Commits), and ran the probe as himself: a signed empty commit d270e4b
+> pushed directly to main was refused with GH013, "Required status check "pipeline
+> (devcontainer)" is expected." So the trunk ruleset is in force and has no bypass, even for the
+> admin. A-2 and A-3 are done.
+
+Verified against the live repository at 08:47 UTC, read only:
+
+- **Step 1, landed.** `origin/main` is `458d05bbed9b`. No `refs/heads/land/*` exists.
+- **Step 2, applied.** `GET /rulesets` lists four rulesets, all `active`: `trunk` (26435014),
+  `land` (26435017), `Release Tags` (26435021, target `tag`) and `Signed Commits` (26434567). The
+  description and the five topics match the file, and Discussions is on.
+- **Check 1.** `GET /rules/branches/main` gives `deletion`, `non_fast_forward`,
+  `required_signatures`, `required_status_checks`, as predicted.
+- **Check 2.** The probe `d270e4b` is a signed commit (`verified`, `valid`), authored by
+  `Hafeok`, whose parent is `458d05b`. Its message is the one given in check 2. It is not on
+  `main`. GitHub holds the object from the refused push. The refusal's text is Emil's report and
+  was not re-read here.
+- **Check 3** (F-2: whether `land/` excludes a cloud session) has not been run. It stays open as
+  S-5.
+
+`UNVERIFIED — Emil review`: "A-2 and A-3" are not ids in this session's record. They are read as
+the two acts of this file after the landing: A-2 is step 2 (apply) and A-3 is check 2 (the
+direct-push probe).

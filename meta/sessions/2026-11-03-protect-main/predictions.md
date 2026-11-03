@@ -80,3 +80,22 @@ out with `fetch-depth: 0`, so CI is not affected. The finding is S-3 below. `can
 `pipeline (devcontainer)`, `completed`, `success`, app id 15368. The `trunk` ruleset's
 `integration_id` matches the app that posts the check. This outcome is recorded in a commit after
 `a792949`, so the head to land is that later commit, once its own run is green (issue #51).
+
+## After the landing — 2026-11-03
+
+Add-only. Emil landed `458d05b` with `canon land` and applied `.github/repo-standard.yaml`
+(`landing.md`, "Outcome"). Read against `landing.md`'s expectations, written before the landing:
+
+- **The plan's expectation** (four rulesets created; the description, topics and Discussions
+  changed): **held** by the end state. The four rulesets are active and the repository settings
+  match the file. Emil applied the settings first, then the rulesets.
+- **Check 1** (rules on `main`: `deletion`, `non_fast_forward`, `required_signatures`,
+  `required_status_checks`): **held**, read live.
+- **Check 2** (a direct push to `main` refused with GH013, naming `pipeline (devcontainer)`, even
+  for the admin): **held**. Emil's signed empty commit `d270e4b` was refused with "Required
+  status check "pipeline (devcontainer)" is expected." `main` is still at `458d05b`. The
+  `trunk` ruleset is in force, and it has no bypass for the admin role.
+- **P-5's consequence** (`integration_id: 15368` matches the app that posts the check, so a
+  landing is possible): **held**. `458d05b` reached `main` under `canon land`. The landing was
+  made before the rulesets were applied, so it was not itself gated by `trunk`. The first
+  landing under the ruleset will be the first test that `canon land --main` passes `trunk`.
