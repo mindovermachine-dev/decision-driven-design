@@ -28,11 +28,11 @@ repository:
     wiki: true
     discussions: true
 rulesets:
-# main requires signed commits (item 8), with Varve's stated exception (GOVERNANCE.md, "The signing
-# exception"). Two bypass actors, as in Varve:
+# main requires signed commits (item 8). One bypass actor (DDD-dec-110):
 #   RepositoryRole 5     the admin role, Emil's.
-#   Integration 1236702  the Claude GitHub App, which pushes the commits of cloud AI sessions
-#                        whose sandbox key is registered to nobody.
+# Integration 1236702, the Claude GitHub App, was a second bypass copied from Varve, for cloud
+# sessions whose sandbox key is registered to nobody. Sessions here sign with a registered key, and
+# Emil ruled it removed (DDD-dec-110).
 # Merge commits made by GitHub are signed by GitHub and need no bypass.
 - name: Signed Commits
   target: branch
@@ -47,9 +47,6 @@ rulesets:
   bypass_actors:
   - actor_id: 5
     actor_type: RepositoryRole
-    bypass_mode: always
-  - actor_id: 1236702
-    actor_type: Integration
     bypass_mode: always
 # trunk: what reaches main has passed its check (DDD-dec-108). A commit reaches main only by a
 # fast-forward to a commit whose `pipeline (devcontainer)` check has succeeded: `canon land <pr>`
