@@ -234,8 +234,10 @@ The semantics are ported from `eng/land.cs` (Varve `5f5c5a9`), unchanged except 
 
 **What it automates; it rules nothing.** Emil ruled `main`'s protection on 2026-11-02: Varve's
 set, trunk with the required check `pipeline (devcontainer)` and no bypass, `land/**`, and `v*`
-tags restricted to Emil. A separate session files that ruling on its own branch, as
-`DDD-dec-<pending>` (S-8; cited here once its id is known). `canon land --main` automates the
+tags restricted to Emil. It is filed as **`DDD-dec-108`** by the protect-main session
+(`meta/sessions/2026-11-03-protect-main/`, on `claude/sharp-davinci-89xeil` at `458d05b` on
+2026-11-03, not yet landed when this was written): `trunk` on the default branch with the required
+check `pipeline (devcontainer)` and no bypass, `land/**` and `v*` tags restricted to Emil. `canon land --main` automates the
 landing that ruling defines. It does not create a new ratification act: the act is Emil's landing
 by fast-forward after CI is green, and `canon land` is one way to perform it. The rulesets, not
 canon, refuse a push that breaks them. canon only checks first what would make the push fail,

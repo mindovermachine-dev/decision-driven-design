@@ -74,3 +74,4 @@ Add-only.
 | S-19 | **`canon pins`** (DESIGN.md §4.7; R-7) and the `core-order` gate | A later gate |
 | S-20 | **Resolving `basedOn`.** Python does not resolve a decision's `basedOn`, so canon does not either (parity). Making it a rule would be a new decision | Emil, if wanted |
 | S-8 | **Still open.** `DDD-dec-108` (the protection decision) is not on any branch at the end of Gate 3 | This session, once it exists |
+| S-8 | **Closed.** `DDD-dec-108` (the protection decision) is filed on `claude/sharp-davinci-89xeil` (`458d05b`), and DESIGN.md §4.2 cites it, saying it was not yet landed when cited | — |
