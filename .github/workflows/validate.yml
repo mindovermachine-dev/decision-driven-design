@@ -29,7 +29,7 @@ jobs:
         with:
           imageName: ghcr.io/mindovermachine-dev/decision-driven-design-devcontainer
           push: never
-          # canon (tools/canon/) runs beside scripts/ci.py, not in place of it (DDD-dec-102). At
+          # canon (tools/canon/) runs beside scripts/ci.py, not in place of it (DDD-dec-102). From
           # Gate 2 it adds three checks no Python gate makes: its own tests, CHANGELOG.md as the
           # projection of releases/ (DDD-dec-104), and Refs #N with Basis: on canon commits over
           # the range under test (DDD-dec-105). GITHUB_BASE_REF is passed in so a pull request's
@@ -44,3 +44,7 @@ jobs:
             dotnet test --project tests/Canon.Tests -c Release
             dotnet run --project src/Canon -c Release -- changelog --check
             dotnet run --project src/Canon -c Release -- issue-refs --basis
+            # Gate 3: canon's graph gates (SHACL via Varve) beside scripts/ci.py's Python ones, and
+            # the comparison of the two over every fixture and the live tree (DDD-dec-102). A
+            # disagreement fails the run; it is recorded in tools/canon/parallel-run.md and fixed.
+            dotnet run --project src/Canon -c Release -- check --compare

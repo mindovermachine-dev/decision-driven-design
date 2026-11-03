@@ -1,0 +1,6 @@
+format: 2
+version: v9.9.21
+ratified_head: 0123abc
+title: 'Fixture: no summary'
+basis:
+  - DDD-dec-84

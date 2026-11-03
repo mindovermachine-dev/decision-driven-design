@@ -22,6 +22,17 @@
 
   <ItemGroup>
     <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="Varve.Rdf" />
+    <PackageReference Include="Varve.Turtle" />
+    <PackageReference Include="Varve.JsonLd" />
+    <PackageReference Include="Varve.Shacl" />
+    <PackageReference Include="Varve.Shacl.Sparql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The shapes and the JSON-LD context: data, embedded so the tool
+         carries them (DESIGN.md §5). Resource names are Canon.Shapes.<file>. -->
+    <EmbeddedResource Include="Shapes/*.ttl;Shapes/*.jsonld" LogicalName="Canon.Shapes.%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

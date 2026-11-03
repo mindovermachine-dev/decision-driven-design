@@ -1,0 +1,11 @@
+format: 1
+id: DDD-fixture-04
+kind: empirical
+statement: "Fixture. The measure I(V;X) is one proposition (notes; asides) about one thing."
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0

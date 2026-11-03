@@ -1,0 +1,7 @@
+format: 2
+version: v9.9.19
+ratified_head: 0123abc
+title: 'Fixture: a basis that is one string'
+basis: DDD-dec-84
+summary: |
+  Fixture. basis is a string, not a list.

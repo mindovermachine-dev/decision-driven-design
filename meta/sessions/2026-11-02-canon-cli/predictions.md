@@ -218,3 +218,131 @@ Prediction: with Round 2 recorded (`DDD-dec-104`'s amendment, the port note, `GO
 needs a `Basis:` line, and its ids must resolve, because it is after `e955210`. CI is green on the
 pushed head. `main` (`e8fde2a`) is an ancestor of the head, so `canon land 47` can fast-forward.
 Falsifier: any gate red, locally or in CI, or `main` not an ancestor of the head.
+
+Outcome for P-14 (appended 2026-11-03, after the landing): **held.** CI was green on
+`5ccdf412d77b34c47eba42f680243f5425bc49a7`, push run 41599551257 and pull-request run
+41599557114. `main` (`e8fde2a`) was an ancestor of it. The outcome was not committed before the
+landing, because a commit would have moved the head being landed.
+
+**The landing.** Emil ran `canon land 47`, then `canon land 47 --main`. `main` moved from `e8fde2a`
+to `5ccdf41` by fast-forward, with no merge commit: `git rev-list --merges 5ccdf41..origin/main` is
+empty, and `origin/main` is `5ccdf41` itself. `land/pr-47` was deleted, and no `land/*` ref
+remains on origin. GitHub recorded PR #47 as merged at 2026-11-03 08:11 UTC, because its head
+reached `main`. This was the first landing by `canon land` in this repository.
+
+# Gate 3 — the shapes and the parallel run
+
+Varve measured against: **`0.1.0-preview.15`** for `Varve.Rdf`, `Varve.Turtle`, `Varve.JsonLd`,
+`Varve.Shacl` and `Varve.Shacl.Sparql` (the latest on nuget.org on 2026-11-03, checked live; the
+same version as at Gate 1). The pins are exact in `tools/canon/Directory.Packages.props`.
+
+What the reading established before any code. The Python validators fix the rules the shapes must
+reproduce, including three behaviours a naïve port would miss:
+1. **Early stops.** An unsupported `format` ends a claim's checks, and so does an illegal `status`.
+   A release's checks end at an unsupported `format` or an ill-formed `version`. The shapes guard
+   each later rule on the earlier ones, so a stopped file reports exactly what Python reports.
+2. **Python truthiness.** An empty string, `0`, an empty list and `null` are all "missing".
+3. **YAML 1.1 scalars, as PyYAML reads them.** `yes`/`no`/`on`/`off` are booleans, a leading `0`
+   is octal, and `2026-1-2` is a date. canon's YAML-to-JSON step types plain scalars the same way.
+
+Three facts that are about YAML, not the graph, are carried into RDF by the mapping rather than
+checked in code:
+- a release `basis` that is not a list is mapped to `canon:basisScalar`;
+- a key with a null value is mapped to `canon:nullKey`;
+- the file's path and stem are added as `canon:sourcePath` and `canon:fileStem`.
+
+What stays code, as DESIGN §5.3 says: a file that does not parse or is not a mapping; the
+single-limb heuristic (text, not a constraint); the guard and the cut checks (git); the
+"no canon files" global.
+
+Not ported, because Python does not check it: **a decision's `basedOn` is not resolved** by
+`validate-claims.py --decisions`. Gate 1's design (§5.2) said it would be a shape. That would be a
+new rule, not a port, and it is left out. A release's `basis` is resolved, against the canon
+directories' file stems, as Python does.
+
+## P-15 — the shapes load
+
+Prediction: `claim.shapes.ttl`, `decision.shapes.ttl` and `release.shapes.ttl` parse with Varve's
+Turtle parser and load in `ShapesGraph.Load` with no problem. The one SPARQL constraint
+(`REL-BASIS-UNRESOLVED`) loads through `SparqlConstraints.Extension`. Falsifier: any load problem
+that needs the shapes changed to satisfy Varve rather than SHACL.
+
+## P-16 — the first comparison over the fixtures and the live tree (D-1, D-2)
+
+Prediction: the first full `canon check --compare` shows **at least one disagreement**, and it is
+in the claims gate (D-2): an evidence-shape mapping or the single-limb count. The decisions and
+releases gates agree on every fixture on the first run (D-1), except for disagreements that are
+mapping bugs in canon. Every disagreement is recorded in `tools/canon/parallel-run.md` with its
+cause and fix, and none is suppressed. After the fixes, the comparison agrees on every fixture
+and on the live tree, matching Python's verdict and the set of (file, rule) findings, warnings
+included (the 6 single-limb warnings on the live claims). Falsifier for D-2: zero disagreements on
+the first run. Falsifier for D-1: a disagreement in decisions or releases whose correct side is
+Python's and whose cause is not the mapping.
+
+## P-17 — CI
+
+Prediction: CI runs `canon check --compare` after `scripts/ci.py` and is green on the Gate 3
+head. Falsifier: red.
+
+Outcome for P-15 (appended): **held, after a canon defect.** The first load was refused by Varve
+for all three kinds: "each value of sh:or is a SHACL list", and the same for `sh:in`. The cause
+was canon's, not Varve's. `common.ttl` and each kind's file were parsed separately into one
+builder, and both parses label blank nodes from `_:g0`. The two files' lists then shared nodes,
+which made them ill-formed lists. Varve was right to refuse them. The fix relabels blank nodes per
+resource, as the JSON-LD path already did per file. After it, all three shape sets load with no
+problem, the SPARQL constraint included, and no shape was changed to satisfy Varve. A second canon
+defect surfaced first: YamlDotNet's `Tag.Value` throws on an untagged scalar, and the exception
+crashed canon (exit 134). It is fixed, and any unexpected exception now exits 2 ("could not
+run"), never 134.
+
+Outcome for P-16, first run (appended): **D-2 refuted; D-1 held.** At commit `1690418` plus the
+uncommitted Gate 3 code, with Varve 0.1.0-preview.15, all 13 cases agreed on the first full run:
+verdict and the multiset of (file, rule, severity) findings. That covers 4 claims cases, 3
+decisions, 3 releases and the 3 live trees. The live claims gave 6 single-limb warnings on both
+sides, and every other case had 0 or 1 finding on both sides. No disagreement to record.
+
+**What that agreement is worth.** Little, yet. The fixtures exercise 7 of the 42 rules: falsifier
+presence, region, derivation, basedOn, principal, ratified_head and unresolved basis. The live
+tree adds an eighth, single-limb. Agreement on what is not exercised is not agreement.
+DESIGN.md §8.2 already says canon's fixtures go into the shared corpus, and Python must give its
+verdict on each. So the run continues below with fixtures added there.
+
+## P-18 — one refuse fixture per rule, and the typing edges
+
+Fixtures added to `scripts/fixtures/` (the shared corpus, which `scripts/ci.py`'s fixtures gate
+also runs). Each refuse case breaks one rule and carries the Python message it provokes
+(`# expect:` or `expect`). New accept files probe what the mapping must get right:
+- YAML 1.1 scalars: `prerelease: yes` is a boolean; a commit of `0123456` is an octal int, not a
+  string; `date: 2026-1-2` is a date; `format: "1"` is a string.
+- Truthiness: `""`, `0` and `[]` are missing.
+- The warnings: test-only falsifier, and a semicolon inside parentheses, which is not a limb.
+
+Prediction: at least one new case disagrees on the first run, in the YAML typing or truthiness
+edges, and the defect is canon's mapping. After fixes, every case agrees, and `scripts/ci.py`
+still passes, its fixtures gate included. Falsifier: zero disagreements on the first run, which
+would refute this as D-2 was refuted. Or a disagreement whose correct side is canon's, which would
+be a Python defect to record and fix there.
+
+Outcome for P-18 (appended): **held.** 34 refuse cases and 6 accept files were added under
+`scripts/fixtures/`, one refuse case per rule a single fixture can express. On the first run over
+them (run 2), **one case disagreed**, and it was canon's mapping, as predicted. That was **D-01**:
+`date: 2026-1-2`, which PyYAML reads as a string and canon read as a date. The next additions (an
+empty basis, a duplicate version, a non-mapping descriptor) produced a second disagreement,
+**D-02**, a defect in canon's design (DESIGN.md §5.2): two files with one id merged into one node.
+Both are recorded in `tools/canon/parallel-run.md` with cause and fix, and both are pinned by a
+fixture or a test. Neither correct side was canon's, so no Python defect was found. Final run (run
+5): 47 cases, every case agrees; 39 of 45 rule codes exercised, and the other six listed with
+their reasons. `scripts/ci.py`'s fixtures gate passes all 53 of its cases. Two loading defects of
+canon's, caught before any comparison ran: blank-node labels colliding across two Turtle files
+(P-15), and one SPARQL string escaped once too few times. Varve refused both, correctly.
+
+Measured against: Varve `0.1.0-preview.15`. Per `DDD-dec-103`, this is agreement A for each of
+the three validators. Agreement B, after a Varve bump, is still to come.
+
+Outcome for P-17 (appended 2026-11-03, after `main` was merged in): **held.** CI was green on
+`1cfadfd52f8f810505f0f6be2292da8b2856aca0`, push run 41604441017 and pull-request run
+41604487104. The push run's log shows `canon check --compare` in CI: "rules exercised by the
+corpus: 39 of 45 …", "compare: every case agrees", "canon check: all gates passed". The outcome
+was not committed at `1cfadfd`, because a commit would have moved the head offered for landing.
+Before #53 landed, `main` moved to `320fccb` (the protect-main session, `DDD-dec-108`). It was
+merged in, and the head offered for landing is the commit that records this.

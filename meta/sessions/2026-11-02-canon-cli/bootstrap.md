@@ -96,3 +96,23 @@ Add-only. Nothing above this heading is edited.
   by a signed merge (`78ccb60`) with no conflicts.
 - **Pull request.** [#47](https://github.com/mindovermachine-dev/decision-driven-design/pull/47),
   draft, in Varve's PR form. Ratification is Emil's landing by fast-forward after CI is green.
+
+## Amendment 3 — 2026-11-03: Gate 2 landed; Gate 3 starts from main
+
+Add-only. Nothing above this heading is edited.
+
+- **Base.** `main` at `5ccdf41`, where Emil landed PR #47 by `canon land`. The session's
+  branch, `claude/nifty-carson-e3x9t2` (fixed by the harness), held exactly `5ccdf41` after the
+  landing. Its pull request is merged, so the branch restarts from `main` under the same name.
+  Gate 3's work starts there and goes to a new pull request.
+- **Decision ids**, re-checked on 2026-11-03 on every branch of both repositories. Upstream (27
+  branches) holds up to `DDD-dec-39`. `main` holds up to `DDD-dec-107`. No branch holds
+  `DDD-dec-108` or above yet. On Emil's word, the protection session takes `DDD-dec-108`, and
+  this session takes **`DDD-dec-109` onward**.
+- **Scope.** Gate 3 as DESIGN.md §5 and §8 design it: the shapes for claims, decisions and
+  releases, the JSON-LD context, `canon check` with `--compare`, CI running it beside
+  `scripts/ci.py`, and a ledger of every fixture's two verdicts. Out of scope: the What's shapes
+  (DESIGN.md §5.5, after these), `canon pins` (R-7), and any retirement (Gate 4). The session
+  stops at the end of Gate 3.
+- **Protection.** If Emil applies the protection rulesets during the session, branch pushes are
+  unaffected. Only `land/**` and `main` are restricted, to Emil.

@@ -1,0 +1,12 @@
+format: 1
+id: DDD-fixture-06
+kind: empirical
+statement: |
+  Fixture. changed is a YAML date (2026-11-03), which is truthy.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: 2026-11-03

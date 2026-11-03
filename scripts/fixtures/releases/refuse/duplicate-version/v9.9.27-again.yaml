@@ -1,0 +1,8 @@
+format: 2
+version: v9.9.27
+ratified_head: 0123abc
+title: 'Fixture: the second descriptor declaring v9.9.27'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. Versions are never reused; this file also disagrees with its name.

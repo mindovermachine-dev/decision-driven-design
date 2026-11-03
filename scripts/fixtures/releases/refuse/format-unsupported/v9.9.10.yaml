@@ -1,0 +1,8 @@
+format: 3
+version: v9.9.10
+ratified_head: 0123abc
+title: 'Fixture: format 3'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. Format 3 does not exist.

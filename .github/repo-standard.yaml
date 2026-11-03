@@ -6,7 +6,7 @@
 # .github/repo-standard.yaml). Removing a top-level key stops that kind of resource being managed.
 #
 # Applying this file needs repository admin, which is Emil's act. Emil applied it on 2026-11-03
-# as it stood at 320fccb (meta/sessions/2026-11-03-protect-main/landing.md). The `agent review`
+# (GOVERNANCE.md, "Repository settings"; meta/sessions/2026-11-03-protect-main/landing.md). The `agent review`
 # check and the Signed Commits bypass below are NOT YET APPLIED: they wait for the gates App, its
 # environment and secrets, and a re-apply, in that order (the same session's successor items).
 #

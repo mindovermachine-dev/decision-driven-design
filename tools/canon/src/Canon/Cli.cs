@@ -13,7 +13,7 @@ using Canon.Infrastructure;
 namespace Canon;
 
 /// <summary>
-/// The command line. Hand-parsed, as Varve's eng/ scripts are: six commands
+/// The command line. Hand-parsed, as Varve's eng/ scripts are: seven commands
 /// with a handful of flags each do not need a parser library, and an
 /// argument list read in plain code is easy to audit.
 /// </summary>
@@ -28,6 +28,7 @@ internal static class Cli
           changelog [--check | --tail-sha256]                CHANGELOG.md as the projection of releases/
           issue-refs [--base <ref>] [--head <ref>] [--basis] Refs #N, and Basis: on canon commits
           agent-review <pr> [--post] | --commit <sha> [--post]  Emil's approval of the head (DDD-dec-109)
+          check [gate ...] [--compare] [--markdown] [--list]  the graph gates (SHACL via Varve); --compare against Python
 
         exit codes: 0 done or conformant, 1 refused, 2 could not run
         """;
@@ -69,12 +70,20 @@ internal static class Cli
                 "changelog" => ChangelogCommand.Run(context, tail),
                 "issue-refs" => IssueRefsCommand.Run(context, tail),
                 "agent-review" => AgentReviewCommand.Run(context, tail),
+                "check" => CheckCommand.Run(context, tail),
                 _ => UnknownCommand(rest[0], error),
             };
         }
         catch (CanonException exception)
         {
             error.WriteLine("canon: " + exception.Message);
+            return Exit.CouldNotRun;
+        }
+#pragma warning disable CA1031 // Any other failure is canon's defect: it could not run, which is exit 2, never a pass.
+        catch (Exception exception)
+#pragma warning restore CA1031
+        {
+            error.WriteLine($"canon: internal error, could not run: {exception}");
             return Exit.CouldNotRun;
         }
     }

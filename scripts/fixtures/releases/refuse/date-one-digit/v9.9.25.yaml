@@ -1,0 +1,10 @@
+format: 2
+version: v9.9.25
+ratified_head: 0123abc
+title: 'Fixture: a date with one-digit month and day'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. date 2026-1-2 is a string to PyYAML (its implicit date needs two digits), and fails
+  YYYY-MM-DD. canon first read it as a date and accepted it: parallel-run.md, D-01.
+date: 2026-1-2

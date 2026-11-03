@@ -1,0 +1,14 @@
+# expect: retired claim requires retired_from
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. retired with notes but no retired_from.
+status: retired
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0
+notes: Killed by the fixture.

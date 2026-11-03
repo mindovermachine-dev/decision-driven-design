@@ -1,0 +1,9 @@
+format: 2
+version: v9.9.17
+ratified_head: 0123abc
+title: 'Fixture: a commit YAML reads as an octal int'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. commit 0123456 is an int under YAML 1.1, not a string.
+commit: 0123456
