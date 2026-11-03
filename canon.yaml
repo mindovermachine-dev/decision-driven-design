@@ -15,10 +15,10 @@ changelog:
   tail-sha256: 51f888f2d803205e4fec3c9db8c87be6186a75331270886718a6340cebfcab02
 
 issue-refs:
-  # The first commit the Refs #N rule covers: 6aad807, this session's charter, the first commit
-  # under issue #46. Measured in Gate 2 (predictions P-11). Every non-merge commit descending from
-  # it carries Refs; main's own latest commits (c7424ad and before) carry none and do not descend
-  # from it. UNVERIFIED — Emil review: the start is Claude's measured choice, not a ruling.
+  # The first commit the Refs #N rule covers: 6aad807, the canon CLI session's charter, the first
+  # commit under issue #46. Measured in Gate 2 (predictions P-11) and ruled by Emil on 2026-11-03
+  # ("Accept 6aad807", meta/sessions/2026-11-02-canon-cli/rulings.md, Round 2). Every non-merge
+  # commit descending from it carries Refs; main's commits before it carry none and are not covered.
   from: 6aad807085ca02b229643140c9ed06e6ea0b9d9f
   exempt-authors: []
 

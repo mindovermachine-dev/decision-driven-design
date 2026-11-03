@@ -1,6 +1,6 @@
 # canon — design
 
-**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`). Gate 2 built and stopped for review: `land`, `release`, `ratify`, `changelog` and `issue-refs`, with tests. Where the build departs from this design, §12 says so.**
+**Status: Gate 1 reviewed by Emil on 2026-11-02 (Round 1, `rulings.md`). Gate 2 built, reviewed and ruled (Round 2, 2026-11-03): `land`, `release`, `ratify`, `changelog` and `issue-refs`, with tests. Where the build departs from this design, §12 says so.**
 This design rests on `DDD-dec-100` (the boundary), `DDD-dec-101` (the form), `DDD-dec-102` (SHACL
 via Varve), and Round 1's `DDD-dec-103` (retirement across two Varve versions), `DDD-dec-104` (the
 changelog as a projection), `DDD-dec-105` (Basis enforced), `DDD-dec-106` (local only) and
@@ -354,8 +354,8 @@ Two additions:
 
 1. **A start commit for `Refs`.** Commits before the convention began (ready-to-try, amendment 3:
    before issue #44) are exempt by a recorded first commit in `canon.yaml`. They are not
-   rewritten. `UNVERIFIED — Emil review`: which commit that is gets measured at G2, as Basis's
-   was.
+   rewritten. Measured at G2 and ruled on 2026-11-03: `6aad807`, this session's first commit
+   (Round 2, S-12).
 2. **`--basis`, ruled** (`DDD-dec-105`). A non-merge commit that changes anything under `core/`
    must carry a `Basis:` line, from `99d0a0f` on. That is the commit that wrote the rule; all 71
    such commits since it comply, and all 20 misses predate it (P-5). From the commit that files
@@ -675,9 +675,9 @@ records every operation, predicted before it ran.
 | §4.3 step 8: Release name `title` | Name `<version> — <title>`, the tag message | One string for one release, rule 2's composition |
 | §4.3: changelog check last (step 9) | The changelog check is step 6, before the tag. `--plan` stops before step 7 (the tag) | So that nothing irreversible happens before every check has passed |
 | §4.3: GitHub unreachable | Exit 2, nothing created | A release that cannot ask whether the version exists does not proceed |
-| §4.4: default head before the descriptor | `HEAD` (S-11) | §4.4, above |
-| §4.5: cut status rendered | Not rendered (S-10) | §4.5, above. **Departs from a line of `DDD-dec-104`'s resolution**, and is flagged for Emil, not decided |
-| §4.6: a Refs start commit, "measured at G2" | `6aad807`, this session's charter (`canon.yaml`) | Every non-merge commit descending from it carries Refs. `main`'s own latest commits carry none, and do not descend from it. `UNVERIFIED — Emil review` |
+| §4.4: default head before the descriptor | `HEAD` (S-11) | §4.4, above. Ruled 2026-11-03; recorded in `spec/release-format.md`'s port note and `GOVERNANCE.md`. Rule 7 is unchanged |
+| §4.5: cut status rendered | Not rendered (S-10) | §4.5, above. Departs from a line of `DDD-dec-104`'s resolution. Ruled 2026-11-03, recorded as an add-only amendment in `DDD-dec-104`'s notes |
+| §4.6: a Refs start commit, "measured at G2" | `6aad807`, this session's charter (`canon.yaml`) | Every non-merge commit descending from it carries Refs. `main`'s own latest commits carry none, and do not descend from it. Ruled 2026-11-03 (S-12) |
 
 **Two findings from the tests:**
 

@@ -87,6 +87,12 @@ for editorial changes. From 1.0, MAJOR moves when a ruled step is superseded inc
 release is a decision, filed as a descriptor and cut on Emil's merge under the release-head guard
 (upstream `DDD-dec-39`). The cut happens only at the head Emil ratified.
 
+`CHANGELOG.md` is generated from the descriptors ([`DDD-dec-104`](core/decisions/DDD-dec-104.yaml)),
+so a release goes in two commits (ruled 2026-11-03). The first carries the descriptor and its
+`CHANGELOG.md` section, and is the head Emil ratifies. The second only fills `ratified_head`
+(`canon ratify`). The release-head guard is unchanged: the merged head is the ratified head plus
+at most the descriptor ([`spec/release-format.md`](spec/release-format.md), rule 7).
+
 ## Repository settings
 
 The settings are declared in [`.github/repo-standard.yaml`](.github/repo-standard.yaml), written

@@ -14,6 +14,14 @@
 > 3. **There is no release workflow yet.** Merging a descriptor does not cut a tag here. Emil cuts
 >    it by hand at the merged head, after `main`'s CI has run the guard there. Porting the
 >    workflow is a successor item.
+> 4. **The order of a release's commits** (ruled 2026-11-03, S-11 of the canon CLI session). Here
+>    `CHANGELOG.md` is the projection of `releases/` (`DDD-dec-104`), so adding a descriptor
+>    changes `CHANGELOG.md` too. The descriptor and its `CHANGELOG.md` section are therefore
+>    committed together, and that commit is the ratified head. `ratified_head` is then filled
+>    alone, in the next commit (`canon ratify <version>`, which defaults to `HEAD`). The rule
+>    itself is unchanged: the merged head is the ratified head plus at most the descriptor
+>    (rule 7). Only the order of the commits differs from `v0.5.0`'s, whose ratified head came
+>    before the descriptor.
 
 **Format version: 2.** This file is the versioned schema artifact for release descriptors — shape
 and validation rules only. It contains no process (how a release is proposed and reviewed is the

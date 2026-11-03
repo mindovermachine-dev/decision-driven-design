@@ -206,3 +206,15 @@ F-3); `dotnet test` "total: 32, failed: 0, succeeded: 32" (4.6 s) in the devcont
 .NET feature; `changelog: CHANGELOG.md is the projection of releases/`; and
 `issue-refs: ok. 8 commits in e8fde2a676cb..2f691f049370; Refs checked on 8, Basis on 2`, the
 range taken from `GITHUB_BASE_REF` against GitHub's merge ref.
+
+# Round 2 — the landing head
+
+## P-14 — the Round 2 commit is green and lands cleanly
+
+Prediction: with Round 2 recorded (`DDD-dec-104`'s amendment, the port note, `GOVERNANCE.md`,
+`canon.yaml`'s comment, DESIGN.md and the session record), `scripts/ci.py` passes all seven gates
+(decisions valid at 85). canon's `changelog --check` passes, because no descriptor changed.
+`issue-refs --basis` passes over `origin/main..HEAD`. The new commit touches `core/`, so it
+needs a `Basis:` line, and its ids must resolve, because it is after `e955210`. CI is green on the
+pushed head. `main` (`e8fde2a`) is an ancestor of the head, so `canon land 47` can fast-forward.
+Falsifier: any gate red, locally or in CI, or `main` not an ancestor of the head.

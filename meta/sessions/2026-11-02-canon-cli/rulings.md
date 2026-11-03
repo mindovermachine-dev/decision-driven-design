@@ -56,3 +56,48 @@ and a stop at the end of Gate 2.
 | Q-3 | `DDD-dec-107`. The namespace is new, so it is a decision |
 | Q-7 | `bootstrap.md`, amendment 1 |
 | Q-2 | No decision here. DESIGN.md §4.2 rewritten to automate the protection ruling; its id is cited once known (S-8) |
+
+## Round 2 — Gate 2 review, 2026-11-03
+
+Given by Emil through the question dialog in the claude.ai conversation, after an independent
+check of PR #47 at `e8f2055` ("11 commits verified, CI green, canon tests passed, changelog
+--check and issue-refs ok"). Recorded verbatim.
+
+> Q: "S-10: the generated CHANGELOG shows no "cut" status, departing from one line of
+> DDD-dec-104's resolution, because a tag push would otherwise make the file stale with no
+> commit to show for it. Whether a version is cut stays a fact of the remote tags. Accept
+> the departure?"
+> A: "Accept (Recommended)" (option text: "Record it as an add-only amendment to
+> DDD-dec-104; its resolution text is not rewritten")
+>
+> Q: "S-11: with the changelog as a projection, the ratified head is the commit that
+> already carries the descriptor and its CHANGELOG section, and canon ratify defaults to
+> HEAD. The order becomes: descriptor and changelog in one commit, then ratified_head filled
+> alone. Accept?"
+> A: "Accept (Recommended)" (option text: "Guard rule unchanged: the merged head is the
+> ratified head plus at most the descriptor")
+>
+> Q: "S-12: the Refs #N check starts at 6aad807, this session's first commit, chosen by the
+> session from the history. Rule it?"
+> A: "Accept 6aad807 (Recommended)" (option text: "Enforced from this session's first
+> commit on")
+>
+> Q: "Gate 2 is green. Land PR #47 now by fast-forward, before Gate 3?"
+> A: "Land Gate 2 now (Recommended)" (option text: "canon's repo operations and
+> DDD-dec-100..107 reach main; Gate 3 starts from main")
+
+Instructions given with the round (summarised; the message is the record): record the round;
+amend `DDD-dec-104` add-only for S-10; record S-11's order in `spec/release-format.md`'s port
+note and in `GOVERNANCE.md`'s "Releases" paragraph, saying the guard rule is unchanged; record
+`6aad807` as ruled where the session chose it; push, wait for CI green on the new head, and report
+the head and the `canon land` command. The landing is Emil's act, so Claude does not land it.
+Gate 3 starts from `main` after the landing.
+
+### Where each ruling landed
+
+| Ruling | Landed as |
+|---|---|
+| S-10 | `DDD-dec-104` `notes:`, an amendment dated 2026-11-03. The resolution is unchanged |
+| S-11 | `spec/release-format.md`, port note item 4; `GOVERNANCE.md`, "Releases". Rule 7 is unchanged |
+| S-12 | `canon.yaml` (`issue-refs.from`) and DESIGN.md §4.6 and §12, flag dropped |
+| Landing | Emil runs `canon land 47`, then `canon land 47 --main` once `land/pr-47` is green |

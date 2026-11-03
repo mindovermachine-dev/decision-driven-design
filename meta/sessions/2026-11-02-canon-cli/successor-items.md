@@ -38,3 +38,15 @@ Add-only.
 | S-12 | **The Refs start commit** is `6aad807` (`canon.yaml`), Claude's measured choice | Emil |
 | S-13 | **P-13** (CI green with the .NET feature) is tested on push, not here | The PR's CI run |
 | S-14 | Gates 3 and 4: shapes, `canon check`, `canon pins` (R-7), the parallel run, retirement | Later, after review |
+
+## After Round 2 (2026-11-03)
+
+Add-only.
+
+| # | Status or item | Closes it |
+|---|---|---|
+| S-10 | **Ruled.** `DDD-dec-104`, amendment in `notes:` (2026-11-03) | — |
+| S-11 | **Ruled.** `spec/release-format.md`, port note item 4; `GOVERNANCE.md`, "Releases". Rule 7 is unchanged | — |
+| S-12 | **Ruled.** `6aad807` (`canon.yaml`) | — |
+| S-8 | **Still open.** No branch holds the protection decision at the 2026-11-03 check | This session or Gate 3, once its id is known |
+| S-15 | **Landing PR #47** by fast-forward: Emil's act (`canon land 47`, then `canon land 47 --main`). Gate 3 starts from `main` after it | **Emil** |

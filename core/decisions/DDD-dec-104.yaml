@@ -47,3 +47,14 @@ notes: |
   c7424ad), so the descriptor no longer describes the commit that was tagged. The projection
   renders the descriptor as it is at the head. Whether the v0.5.0 descriptor is restored to its
   state at the tag is Emil's (successor item S-9). The projection does not decide it.
+
+  Amendment, 2026-11-03 (add-only; the resolution above is not rewritten). Ruled by Emil in
+  Round 2 of the canon CLI session, recorded verbatim at
+  meta/sessions/2026-11-02-canon-cli/rulings.md ("Accept (Recommended)", option text "Record it
+  as an add-only amendment to DDD-dec-104; its resolution text is not rewritten"). The
+  projection does not render whether a version is cut. The resolution's line "whether it is
+  cut" is superseded by this note. Rendering it would make CHANGELOG.md go stale whenever a tag
+  is pushed, with no commit to show for it. Whether a version is cut stays a fact of the tags:
+  the remote tags, as canon release and the releases gate ask them. A section renders the
+  version, the title, the date, "pre-release" when the descriptor says so, the descriptor's
+  path and its summary.
