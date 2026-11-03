@@ -1,0 +1,13 @@
+# expect: changed missing
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. changed is 0, which is falsy.
+status: projected
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: 0

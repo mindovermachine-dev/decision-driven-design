@@ -71,6 +71,49 @@
         "resolved": "6.0.1",
         "contentHash": "IQ4NXP/B3Ayzvw0rDQzVTYsCKyy0Jp9KI6aYcK7UnGVlR9+Awz++TIPCQtPYfLJfOpm8ajowMR09V7quD3sEHw=="
       },
+      "Varve.Derivation": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "4ZguICJ3r7Z0RtXwD6SK3E4+Wk3AxxxZNhUDE9d4NqN5xdEGfSEFZJERze6tvWlIBl4dgOAJSH/hbcIdq7L2LQ==",
+        "dependencies": {
+          "Varve.Rdf": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Iri": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "xvCl1dtTBO4z6rjBegOPJ5E5b+ClAJ4Og1oXAHh5Bt88Ldi+O2+gGZ7ufF/RmYXcXBxf+VC0UXPrS+uZraA6Yw=="
+      },
+      "Varve.Json.Canonical": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "MAcQEdxwA5TU7NvvVVrelgl5DMi2B2FdKsTHW7L1GNP5wQRQvjX5t0nqVrm6qVU/77sVlyGRqrVTss2yWkai0A=="
+      },
+      "Varve.Sparql": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "/dymL8yirmxzpFnzu2cIFkoK7w5+sJrI3lwVPxSQBkK2VeViZlde9U35AlyrsmgmVNeee3UulOlE6jWd0IJoLw==",
+        "dependencies": {
+          "Varve.Iri": "0.1.0-preview.15",
+          "Varve.Rdf": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Sparql.Evaluation": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "GaAo/1fiOesT+AWOao7tep0GChgtDdTHTw6O2jkn61KFnyu49JmCujXSyqhvVRuh54rvKXnydcoaGD4pm1b3Fw==",
+        "dependencies": {
+          "Varve.Iri": "0.1.0-preview.15",
+          "Varve.Rdf": "0.1.0-preview.15",
+          "Varve.Sparql": "0.1.0-preview.15",
+          "Varve.Xsd": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Xsd": {
+        "type": "Transitive",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "yr+G/DxeYHBzui96R7JIBOIQLwnal3sXVuq5a9BxnbMJfM+o1uu/NEWLQsAuKr7o+FGRqoIk2Rv8JJSBhWpVDQ=="
+      },
       "xunit.analyzers": {
         "type": "Transitive",
         "resolved": "2.2.0",
@@ -142,7 +185,67 @@
       "canon": {
         "type": "Project",
         "dependencies": {
+          "Varve.JsonLd": "[0.1.0-preview.15, )",
+          "Varve.Rdf": "[0.1.0-preview.15, )",
+          "Varve.Shacl": "[0.1.0-preview.15, )",
+          "Varve.Shacl.Sparql": "[0.1.0-preview.15, )",
+          "Varve.Turtle": "[0.1.0-preview.15, )",
           "YamlDotNet": "[18.1.0, )"
+        }
+      },
+      "Varve.JsonLd": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.0-preview.15, )",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "xCxgcz9oVX7SMQssmQLDzAtChccwVeIYegT7WwHII4RZfYXjWHhd6deCyKOWHWd+Y+PCMyO6bdFlczhaOQZbyQ==",
+        "dependencies": {
+          "Varve.Iri": "0.1.0-preview.15",
+          "Varve.Json.Canonical": "0.1.0-preview.15",
+          "Varve.Rdf": "0.1.0-preview.15",
+          "Varve.Xsd": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Rdf": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.0-preview.15, )",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "ZN4wRATTq0fVs5pY3pRQUHprjivvxI6V2l0SfM1z1dsoKdpUWS92oRg/T4UaeLImnr3HrelSInEBsj7wZkGXLQ==",
+        "dependencies": {
+          "Varve.Iri": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Shacl": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.0-preview.15, )",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "0pQ0BdorUNazD7JxdhtaM3HSon9asBMkzntv9HurFmzEiVFSVEBbUtuwafdnYZfEXVUNd8nLOcOCdMaXUIG/GQ==",
+        "dependencies": {
+          "Varve.Derivation": "0.1.0-preview.15",
+          "Varve.Iri": "0.1.0-preview.15",
+          "Varve.Rdf": "0.1.0-preview.15",
+          "Varve.Xsd": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Shacl.Sparql": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.0-preview.15, )",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "kZcuXOPbnSQlgKplPC/aA5y3sobMwwrPay9Ry3mtwstqiVUENd+JETpQ8VdHtju9H5azf3OgtCxPHka2s+uj6g==",
+        "dependencies": {
+          "Varve.Derivation": "0.1.0-preview.15",
+          "Varve.Rdf": "0.1.0-preview.15",
+          "Varve.Shacl": "0.1.0-preview.15",
+          "Varve.Sparql": "0.1.0-preview.15",
+          "Varve.Sparql.Evaluation": "0.1.0-preview.15"
+        }
+      },
+      "Varve.Turtle": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.0-preview.15, )",
+        "resolved": "0.1.0-preview.15",
+        "contentHash": "qR5oD3LNrif3cD9kIFyshL28FHz5TyMAq1DclctZADqSsEslwJeEPyDQofBbr223VCwUq1ur/r0e9IVDu8LQLw==",
+        "dependencies": {
+          "Varve.Rdf": "0.1.0-preview.15"
         }
       },
       "YamlDotNet": {

@@ -1,0 +1,12 @@
+# expect: no basedOn edges
+format: 1
+id: DDD-dec-904
+kind: decision
+statement: |
+  Fixture. basedOn is an empty list, which is falsy.
+principal: Fixture
+made: |
+  Never; it is a fixture.
+resolution: |
+  Refuse.
+basedOn: []

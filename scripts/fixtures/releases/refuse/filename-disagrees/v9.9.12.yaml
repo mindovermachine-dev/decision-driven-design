@@ -1,0 +1,8 @@
+format: 2
+version: v9.9.13
+ratified_head: 0123abc
+title: 'Fixture: the file name says v9.9.12'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. The file is v9.9.12.yaml; the version says v9.9.13.

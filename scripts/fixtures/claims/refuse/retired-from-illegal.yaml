@@ -1,0 +1,15 @@
+# expect: retired_from illegal
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. retired_from is not a status.
+status: retired
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0
+retired_from: abandoned
+notes: Killed by the fixture.

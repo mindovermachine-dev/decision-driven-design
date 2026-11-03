@@ -1,0 +1,20 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# Shapes shared by the claim, decision and release shapes (tools/canon/DESIGN.md §5).
+# canon:Truthy is Python's truthiness, which every "missing" rule of the Python validators uses:
+# an IRI or blank node (a mapping or reference), a non-empty string, a non-zero number, or true.
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix canon: <https://decision-driven-design.dk/ns/canon/1#> .
+
+canon:Truthy a sh:NodeShape ;
+  sh:or (
+    [ sh:nodeKind sh:BlankNodeOrIRI ]
+    [ sh:datatype xsd:string ; sh:minLength 1 ]
+    [ sh:datatype xsd:integer ; sh:not [ sh:in ( 0 ) ] ]
+    [ sh:datatype xsd:double ; sh:not [ sh:in ( 0.0E0 ) ] ]
+    [ sh:datatype xsd:boolean ; sh:in ( true ) ]
+  ) .

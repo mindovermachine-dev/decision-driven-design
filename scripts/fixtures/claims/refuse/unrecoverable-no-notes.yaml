@@ -1,0 +1,15 @@
+# expect: retired_from 'unrecoverable' requires
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. unrecoverable with no notes recording the search.
+status: retired
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0
+retired_from: unrecoverable
+supersedes: DDD-fixture-01

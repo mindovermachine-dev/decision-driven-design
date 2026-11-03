@@ -1,0 +1,13 @@
+format: 1
+id: DDD-fixture-05
+kind: empirical
+statement: "RETIRED — a fixture; it was two limbs; now it is a record."
+status: retired
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0
+retired_from: unrecoverable
+notes: "Searched the fixtures; the prior maturity is unknown."

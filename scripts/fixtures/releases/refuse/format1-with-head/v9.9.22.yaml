@@ -1,0 +1,8 @@
+format: 1
+version: v9.9.22
+ratified_head: 0123abc
+title: 'Fixture: format 1 with a ratified head'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. Format 1 carries ratified_head.

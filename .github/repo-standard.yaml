@@ -1,14 +1,14 @@
 # repo-standard declaration for mindovermachine-dev/decision-driven-design
 #
-# The repository's settings, declared (DDD-dec-81). Written for the `repo-standard` tool Varve
+# The repository's settings, declared (DDD-dec-81; the rulesets protecting main, DDD-dec-108). Written for the `repo-standard` tool Varve
 # uses, in the shape its `export` writes (Hafeok/varve, .github/repo-standard.yaml). Removing a
 # top-level key stops that kind of resource being managed.
 #
 # NOT YET APPLIED. Applying this file needs repository admin, which is Emil's act. Until then it
 # is a declaration, and the repository and this file are expected to disagree on the description,
-# the topics, Discussions and the ruleset.
+# the topics, Discussions and the rulesets.
 #
-# Only what DDD-dec-81 rules is changed from the settings at 2026-11-02. Issues, projects and the
+# Only what DDD-dec-81 and DDD-dec-108 rule is changed from the settings at 2026-11-02. Issues, projects and the
 # wiki stay as they were (all on). Labels, environments, secrets and Actions settings are left
 # out, so they are not managed here. Projects (the two boards) are not managed here either.
 repository:
@@ -50,4 +50,73 @@ rulesets:
     bypass_mode: always
   - actor_id: 1236702
     actor_type: Integration
+    bypass_mode: always
+# trunk: what reaches main has passed its check (DDD-dec-108). A commit reaches main only by a
+# fast-forward to a commit whose `pipeline (devcontainer)` check has succeeded: `canon land <pr>`
+# pushes it to land/<name>, CI runs there, and `canon land <pr> --main` fast-forwards main to it
+# (DDD-dec-101). No bypass, the admin role included.
+- name: trunk
+  target: branch
+  enforcement: active
+  conditions:
+    ref_name:
+      exclude: []
+      include:
+      - ~DEFAULT_BRANCH
+  rules:
+  - type: deletion
+  - type: non_fast_forward
+  - type: required_status_checks
+    parameters:
+      strict_required_status_checks_policy: false
+      do_not_enforce_on_create: false
+      # The one job of .github/workflows/validate.yml, by its job name. Renaming the job means
+      # renaming it here in the same change, or nothing can land.
+      required_status_checks:
+      - context: pipeline (devcontainer)
+        # GitHub Actions (github-actions), read from the check runs on main's head 5ccdf41: only
+        # its check run counts, so no other app can satisfy the check under the same name.
+        integration_id: 15368
+  bypass_actors: []
+# land/** is where a commit gets its check before main is fast-forwarded to it (DDD-dec-108):
+# only Emil creates, moves or deletes a land/ branch. User 2194785 is Emil's account (Hafeok),
+# read from the author of main's head 5ccdf41.
+- name: land
+  target: branch
+  enforcement: active
+  conditions:
+    ref_name:
+      exclude: []
+      include:
+      - refs/heads/land/**
+  rules:
+  - type: creation
+  # Declared with its parameter, as GitHub's export writes it, so a whole-ruleset comparison does
+  # not read it as drift (as Varve).
+  - type: update
+    parameters:
+      update_allows_fetch_and_merge: false
+  - type: deletion
+  - type: non_fast_forward
+  bypass_actors:
+  - actor_id: 2194785
+    actor_type: User
+    bypass_mode: always
+# v* tags name releases cut under the release-head guard (DDD-dec-84): creating, deleting or
+# force-moving one is restricted to Emil (DDD-dec-108). There is no gates App here, unlike Varve.
+- name: Release Tags
+  target: tag
+  enforcement: active
+  conditions:
+    ref_name:
+      exclude: []
+      include:
+      - refs/tags/v*
+  rules:
+  - type: creation
+  - type: deletion
+  - type: non_fast_forward
+  bypass_actors:
+  - actor_id: 2194785
+    actor_type: User
     bypass_mode: always

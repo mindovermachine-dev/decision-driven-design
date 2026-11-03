@@ -21,6 +21,15 @@
          representation model only (YamlStream), so no reflection. -->
     <PackageVersion Include="YamlDotNet" Version="18.1.0" />
 
+    <!-- Varve, from Gate 3, referenced by Canon/Graph/ only (DESIGN.md §1).
+         Exact pins, all at one version: the version every agreement in
+         tools/canon/parallel-run.md is measured against (DDD-dec-103). -->
+    <PackageVersion Include="Varve.Rdf" Version="0.1.0-preview.15" />
+    <PackageVersion Include="Varve.Turtle" Version="0.1.0-preview.15" />
+    <PackageVersion Include="Varve.JsonLd" Version="0.1.0-preview.15" />
+    <PackageVersion Include="Varve.Shacl" Version="0.1.0-preview.15" />
+    <PackageVersion Include="Varve.Shacl.Sparql" Version="0.1.0-preview.15" />
+
     <!-- Tests: Varve's runner and framework, on Microsoft.Testing.Platform. -->
     <PackageVersion Include="xunit.v3" Version="4.0.2" />
     <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.5.1" />

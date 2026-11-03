@@ -1,0 +1,9 @@
+format: 2
+version: v9.9.24
+ratified_head: 0123abc
+title: 'Fixture: draft is null'
+basis:
+  - DDD-dec-84
+summary: |
+  Fixture. draft is present and null.
+draft: 

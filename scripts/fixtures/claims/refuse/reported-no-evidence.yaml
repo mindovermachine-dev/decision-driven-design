@@ -1,0 +1,13 @@
+# expect: requires at least one evidence entry
+format: 1
+id: DDD-fixture-10
+kind: empirical
+statement: |
+  Fixture. reported with an empty evidence list.
+status: reported
+region: scripts/fixtures only
+evidence: []
+falsifier: |
+  The checker refuses this file.
+owner: none
+changed: v0.5.0

@@ -1,0 +1,47 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# Decision shapes, ported from scripts/validate-claims.py's check_decision (--decisions): the
+# four checks of ontology rule 1. Each rule is a node shape whose constraint is sh:node or sh:or,
+# so a result's source shape is the rule itself, whose canon:rule names it, no escaped decisions. Python does not resolve basedOn, so
+# neither do these shapes; resolving it would be a new rule, not a port (predictions, Gate 3).
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix canon: <https://decision-driven-design.dk/ns/canon/1#> .
+
+canon:DecisionPrincipal a sh:NodeShape ; canon:rule "DEC-PRINCIPAL" ;
+  sh:targetClass canon:Decision ;
+  sh:message "decision has no accountable principal (escaped decision)" ;
+  sh:node [ sh:property [ sh:path canon:principal ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] .
+
+canon:DecisionBasedOn a sh:NodeShape ; canon:rule "DEC-BASEDON" ;
+  sh:targetClass canon:Decision ;
+  sh:message "decision has no basedOn edges (escaped decision)" ;
+  sh:or ( [ sh:property [ sh:path canon:basis ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ]
+          [ sh:property [ sh:path canon:basedOn ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:DecisionResolution a sh:NodeShape ; canon:rule "DEC-RESOLUTION" ;
+  sh:targetClass canon:Decision ;
+  sh:message "decision has no resolution" ;
+  sh:node [ sh:property [ sh:path canon:resolution ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] .
+
+canon:DecisionMade a sh:NodeShape ; canon:rule "DEC-MADE" ;
+  sh:targetClass canon:Decision ;
+  sh:message "decision has no made timestamp/context" ;
+  sh:node [ sh:property [ sh:path canon:made ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] .
+
+canon:DecisionUniqueId a sh:NodeShape ; canon:rule "DEC-DUPLICATE-ID" ;
+  sh:targetClass canon:Decision ;
+  sh:message "duplicate ids: another file carries this id" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        $this <https://decision-driven-design.dk/ns/canon/1#id> ?value .
+        ?other a <https://decision-driven-design.dk/ns/canon/1#Decision> ;
+               <https://decision-driven-design.dk/ns/canon/1#id> ?value .
+        FILTER (?other != $this)
+      }
+      """ ;
+  ] .
