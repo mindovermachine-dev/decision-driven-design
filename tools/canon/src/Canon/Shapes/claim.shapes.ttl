@@ -1,0 +1,166 @@
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at https://mozilla.org/MPL/2.0/.
+#
+# Claim shapes: spec/claim-format.md (format 1), ported rule for rule from
+# scripts/validate-claims.py's check_claim (DDD-dec-102). One node shape per rule, its code in
+# canon:rule (DESIGN.md §5.4). Python stops checking a claim at an unsupported format, and again
+# at an illegal status; the guards canon:ClaimFormatOk and canon:ClaimStatusOk reproduce the two
+# stops, so a stopped claim reports exactly what Python reports. The single-limb warning is a
+# text heuristic, not a constraint, and is code (Graph/SingleLimb.cs).
+
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix canon: <https://decision-driven-design.dk/ns/canon/1#> .
+
+# ---- guards and helpers ----------------------------------------------------------------------
+
+canon:ClaimFormatOk a sh:NodeShape ;
+  sh:property [ sh:path canon:format ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( 1 ) ] .
+
+canon:ClaimStatusOk a sh:NodeShape ;
+  sh:node canon:ClaimFormatOk ;
+  sh:property [ sh:path canon:status ; sh:minCount 1 ; sh:maxCount 1 ;
+                sh:in ( "projected" "reported" "established" "retired" ) ] .
+
+canon:Live a sh:NodeShape ;
+  sh:property [ sh:path canon:status ; sh:minCount 1 ; sh:in ( "projected" "reported" "established" ) ] .
+
+canon:ReportedOrEstablished a sh:NodeShape ;
+  sh:property [ sh:path canon:status ; sh:minCount 1 ; sh:in ( "reported" "established" ) ] .
+
+canon:Established a sh:NodeShape ;
+  sh:property [ sh:path canon:status ; sh:minCount 1 ; sh:in ( "established" ) ] .
+
+canon:Retired a sh:NodeShape ;
+  sh:property [ sh:path canon:status ; sh:minCount 1 ; sh:in ( "retired" ) ] .
+
+canon:HasFalsifier a sh:NodeShape ;
+  sh:property [ sh:path canon:falsifier ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] .
+
+# A definition's falsifier is its test, for the kinds the spec gives one to.
+canon:TestStandsIn a sh:NodeShape ;
+  sh:property [ sh:path canon:kind ; sh:minCount 1 ; sh:in ( "conceptual" "normative" ) ] ;
+  sh:property [ sh:path canon:test ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] .
+
+# ---- rules -----------------------------------------------------------------------------------
+
+canon:ClaimFormat a sh:NodeShape ; canon:rule "CLAIM-FORMAT" ;
+  sh:targetClass canon:Claim ;
+  sh:message "format missing or unsupported" ;
+  sh:node canon:ClaimFormatOk .
+
+canon:ClaimId a sh:NodeShape ; canon:rule "CLAIM-ID" ;
+  sh:targetClass canon:Claim ;
+  sh:message "id does not match DDD-<area>-<nn>" ;
+  sh:or ( [ sh:not canon:ClaimFormatOk ]
+          [ sh:property [ sh:path canon:id ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                          sh:pattern "^DDD-[a-z]+-\\d{2}$" ] ] ) .
+
+canon:ClaimKind a sh:NodeShape ; canon:rule "CLAIM-KIND" ;
+  sh:targetClass canon:Claim ;
+  sh:message "kind missing or illegal" ;
+  sh:or ( [ sh:not canon:ClaimFormatOk ]
+          [ sh:property [ sh:path canon:kind ; sh:minCount 1 ; sh:maxCount 1 ;
+                          sh:in ( "formal" "empirical" "conceptual" "normative" ) ] ] ) .
+
+canon:ClaimStatus a sh:NodeShape ; canon:rule "CLAIM-STATUS" ;
+  sh:targetClass canon:Claim ;
+  sh:message "status missing or illegal" ;
+  sh:or ( [ sh:not canon:ClaimFormatOk ] canon:ClaimStatusOk ) .
+
+canon:ClaimStatement a sh:NodeShape ; canon:rule "CLAIM-STATEMENT" ;
+  sh:targetClass canon:Claim ;
+  sh:message "statement missing" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:property [ sh:path canon:statement ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimRegion a sh:NodeShape ; canon:rule "CLAIM-REGION" ;
+  sh:targetClass canon:Claim ;
+  sh:message "region missing (rule 5: 'everywhere' must be written to be claimed)" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:property [ sh:path canon:region ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimChanged a sh:NodeShape ; canon:rule "CLAIM-CHANGED" ;
+  sh:targetClass canon:Claim ;
+  sh:message "changed missing (staleness pin)" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:property [ sh:path canon:changed ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimEvidence a sh:NodeShape ; canon:rule "CLAIM-EVIDENCE" ;
+  sh:targetClass canon:Claim ;
+  sh:message "status 'reported' or 'established' requires at least one evidence entry" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:not canon:ReportedOrEstablished ]
+          [ sh:property [ sh:path canon:evidence ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimDerivation a sh:NodeShape ; canon:rule "CLAIM-DERIVATION" ;
+  sh:targetClass canon:Claim ;
+  sh:message "status 'established' requires a derivation evidence entry (credits filled if the theorem is borrowed)" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:not canon:Established ]
+          [ sh:property [ sh:path canon:evidence ; sh:qualifiedMinCount 1 ;
+                          sh:qualifiedValueShape [ sh:property [ sh:path canon:kind ; sh:hasValue "derivation" ] ] ] ] ) .
+
+canon:ClaimRetiredProvenance a sh:NodeShape ; canon:rule "CLAIM-RETIRED-PROVENANCE" ;
+  sh:targetClass canon:Claim ;
+  sh:message "retired claim requires supersedes or a notes entry naming what killed it" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:not canon:Retired ]
+          [ sh:property [ sh:path canon:supersedes ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ]
+          [ sh:property [ sh:path canon:notes ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimFalsifier a sh:NodeShape ; canon:rule "CLAIM-FALSIFIER" ;
+  sh:targetClass canon:Claim ;
+  sh:message "a live status requires a falsifier (or test, for conceptual/normative kinds)" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ] [ sh:not canon:Live ] canon:HasFalsifier canon:TestStandsIn ) .
+
+canon:ClaimFalsifierStrict a sh:NodeShape ; canon:rule "CLAIM-FALSIFIER-STRICT" ;
+  sh:targetClass canon:Claim ;
+  sh:severity sh:Warning ;
+  sh:message "carries test and no falsifier; every claim carries one, with no near-definitional exception" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ] [ sh:not canon:Live ] canon:HasFalsifier [ sh:not canon:TestStandsIn ] ) .
+
+canon:ClaimRetiredFrom a sh:NodeShape ; canon:rule "CLAIM-RETIRED-FROM-MISSING" ;
+  sh:targetClass canon:Claim ;
+  sh:message "retired claim requires retired_from (established | projected | reported | unrecoverable)" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:not canon:Retired ]
+          [ sh:property [ sh:path canon:retired_from ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+canon:ClaimRetiredFromOnlyRetired a sh:NodeShape ; canon:rule "CLAIM-RETIRED-FROM-NOT-RETIRED" ;
+  sh:targetClass canon:Claim ;
+  sh:message "retired_from is legal only on a retired claim" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          canon:Retired
+          [ sh:property [ sh:path canon:retired_from ; sh:maxCount 0 ] ] ) .
+
+canon:ClaimRetiredFromLegal a sh:NodeShape ; canon:rule "CLAIM-RETIRED-FROM-ILLEGAL" ;
+  sh:targetClass canon:Claim ;
+  sh:message "retired_from illegal" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:property [ sh:path canon:retired_from ;
+                          sh:in ( "established" "reported" "projected" "unrecoverable" ) ] ] ) .
+
+canon:ClaimUnrecoverableNotes a sh:NodeShape ; canon:rule "CLAIM-RETIRED-FROM-NOTES" ;
+  sh:targetClass canon:Claim ;
+  sh:message "retired_from 'unrecoverable' requires a notes entry recording what was searched" ;
+  sh:or ( [ sh:not canon:ClaimStatusOk ]
+          [ sh:not [ sh:property [ sh:path canon:retired_from ; sh:hasValue "unrecoverable" ] ] ]
+          [ sh:property [ sh:path canon:notes ; sh:qualifiedValueShape canon:Truthy ; sh:qualifiedMinCount 1 ] ] ) .
+
+# Python collects the id of every claim, valid or not, and reports the ids that repeat. Each file
+# is its own node, so a repeat is another claim node with the same canon:id.
+canon:ClaimUniqueId a sh:NodeShape ; canon:rule "CLAIM-DUPLICATE-ID" ;
+  sh:targetClass canon:Claim ;
+  sh:message "duplicate ids: another file carries this id" ;
+  sh:sparql [
+    sh:select """
+      SELECT $this ?value WHERE {
+        $this <https://decision-driven-design.dk/ns/canon/1#id> ?value .
+        ?other a <https://decision-driven-design.dk/ns/canon/1#Claim> ;
+               <https://decision-driven-design.dk/ns/canon/1#id> ?value .
+        FILTER (?other != $this)
+      }
+      """ ;
+  ] .

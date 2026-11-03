@@ -53,6 +53,15 @@ internal sealed record CanonConfig
 
     public string Pins { get; init; } = "graph/upstream.yaml";
 
+    /// <summary>The shared fixtures both implementations read (DESIGN.md §8.2).</summary>
+    public string Fixtures { get; init; } = "scripts/fixtures";
+
+    /// <summary>The Python claim and decision validator, for canon check --compare.</summary>
+    public string PythonClaims { get; init; } = "scripts/validate-claims.py";
+
+    /// <summary>The Python release validator, for canon check --compare.</summary>
+    public string PythonReleases { get; init; } = "scripts/validate-releases.py";
+
     /// <summary>The command every gate runs under; until Gate 3 it is scripts/ci.py.</summary>
     public IReadOnlyList<string> Gates { get; init; } = ["python3", "scripts/ci.py"];
 
@@ -88,6 +97,7 @@ internal sealed record CanonConfig
             CanonDirectories = (basis is null ? null : Yaml.Sequence(basis, "canon")) ?? defaults.CanonDirectories,
             Pins = (basis is null ? null : Yaml.Scalar(basis, "pins")) ?? defaults.Pins,
             Gates = Yaml.Sequence(yaml, "gates") is { Count: > 0 } gates ? gates : defaults.Gates,
+            Fixtures = Yaml.Scalar(yaml, "fixtures") ?? defaults.Fixtures,
         };
     }
 

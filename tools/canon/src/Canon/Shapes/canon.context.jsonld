@@ -1,0 +1,8 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "https://decision-driven-design.dk/ns/canon/1#",
+    "canon": "https://decision-driven-design.dk/ns/canon/1#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  }
+}
