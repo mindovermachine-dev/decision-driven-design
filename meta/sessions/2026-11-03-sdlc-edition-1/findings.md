@@ -17,7 +17,7 @@ are marked `UNVERIFIED — Emil review`.
 | P-7 | `what.md` §7.2, §3.7, §3.4, §3.1, §2.3 | **Held.** Also the companions list and §1.3's table gained `acme-shop-5.ttl` and `DDD-dec-113`, which P-7 did not list |
 | P-8 | product-cli's definition, D1.21 item 3, own commit | **Held** (`139fdb7`) |
 | P-9 | `scripts/ci.py` green; CI `pipeline (devcontainer)` green; `agent review` pending on Emil | `scripts/ci.py`: "all gates passed". canon's C# gates were run locally and all pass: 66 tests, `changelog --check`, `issue-refs --basis` ("5 commits … Refs checked on 5") and `check --compare` ("every case agrees"). CI is recorded in `landing.md`'s report on #49 |
-| P-10 | the descriptor commit, then the ratify commit | Recorded after the two commits are made, in the report on #49 |
+| P-10 | the descriptor commit, then the ratify commit; `releases` red between them, green after | **Failed at the first attempt** (F-7): after the ratify commit, `releases` stayed red, on the basis id pattern. After the fix the two commits were made again; their SHAs are in the report on #49 |
 
 ## Findings
 
@@ -65,6 +65,22 @@ are marked `UNVERIFIED — Emil review`.
 
   #48 moves sections into `what-reference.md`, so whichever file holds each section on #48's side
   takes these.
+
+- **F-7. The release validators refused a basis id of three digits.** Both
+  `scripts/validate-releases.py` and canon's `release.shapes.ttl` matched a basis entry against
+  `^DDD-[a-z]+-\d{2}$`. Decision ids passed 99 at DDD-dec-100, but no release had cited one, so
+  `v0.6.0`'s basis (`DDD-dec-113`) was the first to meet the pattern. It was found after the
+  descriptor and ratify commits (`2a0c778`, `4e7a019`): `scripts/ci.py` reported "v0.6.0: basis
+  entry is not a DDD-<area>-<nn> id: 'DDD-dec-113'", and `canon check` failed with it.
+  - **The fix.** `\d{2,}` in both implementations, and an accept fixture
+    (`releases/accept/v9.9.2.yaml`, basis `DDD-dec-100`). With the old pattern restored, the
+    fixture is refused; with the new one, it is accepted. `check --compare` reports "every case
+    agrees". Claim ids keep their two-digit pattern, which `claim-format.md` and both validators
+    share, and no claim id has passed 99.
+  - **The history.** Rule 7 lets nothing but the descriptor change after the ratified head. So
+    the branch was reset to `33bcd90`, before the descriptor, and force-pushed (this session's
+    own branch, unapproved). The fix was committed there, and the two release commits were made
+    again after it. `2a0c778` and `4e7a019` are not on the branch.
 
 ## Reconciliation
 

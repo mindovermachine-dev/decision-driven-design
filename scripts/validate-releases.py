@@ -25,7 +25,7 @@ except ImportError:
 
 SUPPORTED_FORMATS = {1, 2}
 VERSION_RE = re.compile(r"^v(\d+)\.(\d+)\.(\d+)$")
-ID_RE = re.compile(r"^DDD-[a-z]+-\d{2}$")
+ID_RE = re.compile(r"^DDD-[a-z]+-\d{2,}$")   # two digits or more: decision ids passed 99 at DDD-dec-100
 SHA_RE = re.compile(r"^[0-9a-f]{7,40}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 

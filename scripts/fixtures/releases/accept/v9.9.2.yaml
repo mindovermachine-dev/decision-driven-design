@@ -1,0 +1,7 @@
+format: 1
+version: v9.9.2
+title: 'Fixture: a basis id of three digits'
+basis:
+  - DDD-dec-100
+summary: |
+  Fixture. Decision ids passed 99 at DDD-dec-100; a basis entry of three digits is an id.

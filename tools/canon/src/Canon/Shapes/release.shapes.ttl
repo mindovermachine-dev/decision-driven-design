@@ -96,11 +96,12 @@ canon:ReleaseBasisList a sh:NodeShape ; canon:rule "REL-BASIS-NOT-LIST" ;
   sh:or ( [ sh:not canon:ReleaseHeaderOk ]
           [ sh:property [ sh:path canon:basisScalar ; sh:not canon:Truthy ] ] ) .
 
+# Two digits or more: decision ids passed 99 at DDD-dec-100 (found by v0.6.0, whose basis names DDD-dec-113).
 canon:ReleaseBasisEntry a sh:NodeShape ; canon:rule "REL-BASIS-ENTRY" ;
   sh:targetClass canon:Release ;
   sh:message "basis entry is not a DDD-<area>-<nn> id" ;
   sh:or ( [ sh:not canon:ReleaseHeaderOk ]
-          [ sh:property [ sh:path canon:basis ; sh:datatype xsd:string ; sh:pattern "^DDD-[a-z]+-\\d{2}$" ] ] ) .
+          [ sh:property [ sh:path canon:basis ; sh:datatype xsd:string ; sh:pattern "^DDD-[a-z]+-\\d{2,}$" ] ] ) .
 
 # Each well-formed basis id must name a file under the canon directories (Python resolves by file
 # stem, known_canon_ids). One result per unresolved id, as Python reports one line per id.
@@ -117,7 +118,7 @@ canon:ReleaseBasisResolves a sh:NodeShape ; canon:rule "REL-BASIS-UNRESOLVED" ;
                 && regex(?version, "^v(\\\\d+)\\\\.(\\\\d+)\\\\.(\\\\d+)$"))
         $this <https://decision-driven-design.dk/ns/canon/1#basis> ?value .
         FILTER (isLiteral(?value) && datatype(?value) = <http://www.w3.org/2001/XMLSchema#string>
-                && regex(?value, "^DDD-[a-z]+-\\\\d{2}$"))
+                && regex(?value, "^DDD-[a-z]+-\\\\d{2,}$"))
         FILTER NOT EXISTS {
           ?file a <https://decision-driven-design.dk/ns/canon/1#CanonFile> ;
                 <https://decision-driven-design.dk/ns/canon/1#fileStem> ?value .
