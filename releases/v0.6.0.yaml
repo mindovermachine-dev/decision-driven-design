@@ -1,5 +1,6 @@
 format: 2
 version: v0.6.0
+ratified_head: b6516777c0b0c6815ab6d1de46a77521c4689c4e
 # Cut by Emil with `canon release v0.6.0` once this file lands on main (spec §2 rule 3; DDD-dec-113,
 # E-6). No `commit`. ratified_head is filled in the next commit by `canon ratify v0.6.0`, naming the
 # commit that adds this file and its CHANGELOG.md section (spec, port note 4).
