@@ -1,0 +1,120 @@
+format: 1
+id: DDD-dec-113
+kind: decision
+statement: |
+  sdlc edition 1 is completed for its tag and shipped as release v0.6.0, a pre-release. A validation's data graph is the What graph merged with the edition's ontology.ttl, in the default graph, under SHACL Core class semantics with SHACL-SPARQL and no RDFS or OWL entailment; the ontology never enters a What graph's hash or its export. A shape is sh:Warning when it can only hold once an element authored later exists, and sh:Violation when it concerns an element's own form, identity or type boundary; a requirement added to an edition after an example is pinned enters as sh:Warning, and may become a violation only in a later edition once the pinned examples carry it; existing violations are not demoted. "Described" counts violations only and reports warnings. The edition gains the five checks of #50, three description checks, and sdlc:mapsFrom, a context mapping's direction, all as warnings. M-12's route stays Varve's published vectors (DDD-dec-73, unchanged). A new example graph, acme-shop-5.ttl, and a new What-version, what@5, carry the scenario and descriptions the earlier examples lack, with no pinned file edited.
+principal: Emil
+made: |
+  2026-11-06, Round 1 of the sdlc-edition-1 session, given by Emil in the session in answer to the proposals posted on #49 (issuecomment-6682039890), recorded verbatim at meta/sessions/2026-11-03-sdlc-edition-1/rulings.md; Emil's landing of the branch and his cut of v0.6.0 are the ratification acts
+resolution: |
+  ## E-1. The validation regime (#49 §1). As proposed.
+
+  - The data graph of a validation is the What graph merged with the edition's `ontology.ttl`, in
+    the default graph.
+  - SHACL Core class semantics (`rdf:type/rdfs:subClassOf*` over that merged graph) with
+    SHACL-SPARQL, and no RDFS or OWL entailment.
+  - The ontology is never part of a What graph's hash or of its export.
+  - It is stated in `what.md` §7.2 and in the header of `shapes.ttl`. `what/check.py` runs it:
+    pyshacl with `inference="none"` over `what ∪ ontology`.
+
+  ## E-2. Severities as a principle (#49 §2). The principle as proposed, with one clause.
+
+  - **The rule.** `sh:Warning` when a shape can only hold once an element authored later exists,
+    later in phase order or in a later write. `sh:Violation` when it concerns an element's own
+    form, identity or type boundary.
+  - **The clause, ruled.** "A requirement added to an edition after an example is pinned enters as
+    `sh:Warning`. It may become a violation only in a later edition, once the pinned examples carry
+    it. Existing violations are not demoted."
+  - **Warnings under the rule.** pattern conformance (§3.2.0); a command emits at least one event;
+    a view is built from at least one event; command coverage (§3.3); Decider justification
+    (§3.4); subject coverage, surface half (§3.7); scope coverage at the seam (§3.7).
+  - **Every other shape** keeps `sh:Violation`, by the table posted in Round 1.
+  - **Conformance.** "Described" (`what.md` §7.2) counts violations only, and reports warnings.
+
+  ## E-3. M-12 (#49 §3). DDD-dec-73 is kept unchanged and not superseded.
+
+  - M-12's route stays Varve's published vectors (`vectors-varve.json`).
+  - Recorded: product-cli's slice 0 admission test found that Varve `0.1.0-preview.15` already
+    reproduces `acme-shop.ttl`'s graph hash.
+  - product-cli's element-hash vectors, when they come, are a further cross-check, not a
+    substitute.
+  - `what/check.py`'s stale reference is corrected. `Hafeok/varve#192` is the SPARQL regex
+    timeout, not the vectors. DDD-dec-73 cites the same number and is not edited; this decision
+    records the correction.
+
+  ## E-4. The five shapes of #50. As proposed.
+
+  At `sh:Warning`, as written in #50:
+  - subject coverage for triggers;
+  - subject coverage for (command, subject kind) pairs;
+  - claim justification;
+  - Projector event coverage;
+  - state justification.
+
+  `what.md` §3.7's `[OPEN]` list is emptied, and §3.4 cites the new shapes.
+
+  ## E-5. The example gap. A new graph and a new What-version.
+
+  - No pinned file is edited: `acme-shop.ttl` (WHAT-found@1) and `acme-shop-4.ttl` (CUR@1,
+    what@4) stay as they are.
+  - `acme-shop-5.ttl` is `acme-shop-4.ttl` plus the (Place order, Customer) scenario and the E-7
+    descriptions filled in. It carries no findings.
+  - `what@5` names it, in the How examples, after a What change that creates the scenario and fills
+    the descriptions.
+  - In the same pull request, product-cli's behaviour fixture moves from `-4` to `-5` in
+    `applications/sdlc/product-cli/product-definition.md`, as its own commit.
+
+  ## E-6. How edition 1 ships.
+
+  - Release `v0.6.0`, format 2, `prerelease: true`, cut by Emil with `canon release`.
+  - Its `basis` names this decision, DDD-dec-63, -64, -72, -73 and -91.
+  - Its summary names `owl:versionIRI <https://decision-driven-design.dk/ns/sdlc/1>` and the
+    edition hash: sha256 over `ontology.ttl` then `shapes.ttl`, as tagged.
+  - Before the descriptor is written, `ontology.ttl` and `shapes.ttl` carry no `[PROPOSED]` or
+    `UNVERIFIED` marker. From the tag on, the edition is read-forever.
+
+  ## E-7. Every box says what it is. At `sh:Warning`, under E-2's clause.
+
+  - A Domain carries `sdlc:purpose`.
+  - A Bounded Context and a Subject Kind carry `sdlc:definition`, in business language.
+  - `SystemShape`'s existing `purpose` violation stays as it is; E-7 adds nothing for System.
+  - In `acme-shop.ttl` and `acme-shop-4.ttl` the warnings are asserted by name. In
+    `acme-shop-5.ttl` they are filled.
+
+  ## E-8. A context mapping has a direction. As proposed.
+
+  - `sdlc:mapsFrom`, at most once. When it is present, `sdlc:mapsTo` has exactly one value. The
+    mapping then reads: the concept in `mapsFrom` corresponds to the concept in `mapsTo`, and
+    `mapsFrom`'s meaning is the source.
+  - A mapping without `mapsFrom` is a warning, "direction undeclared".
+  - DDD's strategic pattern kinds (Customer–Supplier, Conformist, Anticorruption Layer and the
+    rest) are not proposed. They describe teams or realisation, not meaning, and belong in Writ as
+    How decisions.
+
+  ## Also ruled
+
+  - **Order.** This pull request goes first; #48 reconciles `what.md`.
+  - **Open, and not for this decision.** Q-C1 (where an external trigger enters) and Q-C2 (outside
+    systems with no What).
+basedOn:
+  - DDD-dec-63
+  - DDD-dec-64
+  - DDD-dec-73
+  - DDD-dec-91
+notes: |
+  Id. DDD-dec-112 is on main (the canon CLI session). 113 was checked free on every branch on
+  2026-11-06, and Emil named it in the ruling.
+
+  Readings — Claude, UNVERIFIED — Emil review. They are recorded with the rulings (R-a to R-c) and
+  applied as stated.
+  - R-a. "Existing violations are not demoted" is read as governing the clause and E-7's System
+    purpose. The seven charted shapes move to Warning by "the principle as proposed".
+  - R-b. E-8's new cardinalities enter as Warnings under the clause (mapsFrom at most once;
+    exactly one mapsTo with mapsFrom), with "direction undeclared". The existing violation, "a
+    context mapping connects two concepts", is kept and counted over mapsFrom and mapsTo together,
+    so that the directed form is admitted.
+  - R-c. E-4's five shapes were proposed at Warning, so the clause agrees.
+
+  Evidence. The regime table of #49 §1 and #50's results reproduce in this repository with
+  pyshacl 0.40.2 at c7424ad's ontology and shapes (Round 1). Varve's results are reported in #49
+  and were not re-run here.
