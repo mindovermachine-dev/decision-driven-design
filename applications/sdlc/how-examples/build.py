@@ -449,8 +449,7 @@ put(A, "what", "3", f"What-version 3 of {P}.", PO,
     basedOn=[ref(A, "WHAT-found", "1")], supersedes=[ref(A, "what", "2")], status="accepted", key="acme-owner", at="2026-11-02",
     **{SD: {"record": "what-version", "product": P,
             "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
-                        "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()
-                                                            + open("applications/sdlc/what/shapes.ttl", "rb").read()).hexdigest()},
+                        "hash": "sha256:5b9878c011cbab9c939c931c01421f8c5710c0c24b1cc07579716601274184da"},   # the ontology and shapes as they stood at 799cbe8, when what@3 and what@4 were published; DDD-dec-113 changed them before the tag (what@5)
             "canon": "rdfc-1.0", "graphHash": VEC["graphHash"], "elements": VEC["elements"]}})
 
 # ================================================================ the authority profile (2026-11-02)
@@ -477,9 +476,13 @@ H_, O_, A1_, A2_, L_, C_, G_ = (pub(k) for k in ("acme-holder-p", "acme-owner-p"
 LEAD, CTR = "mailto:lead@acme.example", "mailto:contractor@acme.example"
 WHAT4_TTL = "applications/sdlc/what/examples/acme-shop-4.ttl"
 VEC4 = json.load(open("applications/sdlc/what/vectors-4.json"))
-g3, g4 = rdflib.Graph(), rdflib.Graph()
-g3.parse(WHAT_TTL); g4.parse(WHAT4_TTL)
-PARENT = {str(s): str(o) for s, o in g4.subject_objects(S_.within)}
+WHAT5_TTL = "applications/sdlc/what/examples/acme-shop-5.ttl"
+VEC5 = json.load(open("applications/sdlc/what/vectors-5.json"))
+g3, g4, g5 = rdflib.Graph(), rdflib.Graph(), rdflib.Graph()
+g3.parse(WHAT_TTL); g4.parse(WHAT4_TTL); g5.parse(WHAT5_TTL)
+# Containment paths are read from the latest graph. Every element of acme-shop-4.ttl has the same
+# parent in acme-shop-5.ttl, so the paths of records built before what@5 are unchanged.
+PARENT = {str(s): str(o) for s, o in g5.subject_objects(S_.within)}
 def path(e):
     out = [e]
     while out[-1] in PARENT: out.append(PARENT[out[-1]])
@@ -678,6 +681,39 @@ act("REV-curfmt", "1", C15, "Request for change on CURFMT@2: name the historic c
                           "touches": {R("CURFMT", "2"): CURFMT_ITEMS}},
     basedOn=[ref_("CURFMT", "2"), ref_("GRANT-how", "3")])
 pos(C15, [("REV-curfmt", "1")])
+
+# ---- p16: sdlc edition 1 completed for its tag (DDD-dec-113). The example graphs pinned above stay
+# as they are; a new graph, acme-shop-5.ttl, carries what they lack under the edition's new checks:
+# a scenario for the pair (Place order, Customer) (E-5) and the descriptions of E-7. One What change,
+# accepted under the What grant, and what@5 naming the graph and the edition as held.
+C16 = "2026-11-13T09:00:00Z"
+DOMAIN, DECIDER = W + "01M610JNAMYTKTBXP8KD0BQ2G0", W + "01M610JNAMMP5V59XRNHD39R5A"
+SCN_EL = W + "01M6R528AR7NHDH4S9NBMDRXR5"
+DESCRIBED = [W + "01M610JNAMYTKTBXP8KD0BQ2G0", W + "01M610JNAMH5Y3FP9BFRZJ6QSS", W + "01M610JNAMMSAY8ZWD1TMMZ8HH", W + "01M610JNAMHKDH8MYYBGG3DBMA"]
+SCN_ITEMS = [item("sdlc:Scenario", SCN_EL)] + [item(kind_of(g5, e), e) for e in DESCRIBED]
+put(A, "SCN", "1",
+    "The Order Decider gains the scenario place an order as a customer: given nothing, when Place order is issued as Customer, then Order placed. The Ordering domain states its purpose, and the Ordering bounded context and the subject kinds Customer and Staff carry definitions.",
+    PO, "Under sdlc edition 1 as completed by DDD-dec-113, the pair (Place order, Customer) had no scenario, and four elements had no description: warnings, each a finding about what was not yet modelled. The change makes the What carry no findings.",
+    key="acme-owner-p", at=C16[:10],
+    **{SD: {"record": "what-change", "anchor": DOMAIN,
+            "creates": [{"element": SCN_EL, "class": "sdlc:Scenario", "within": DECIDER}],
+            "changes": [{"element": e, "class": kind_of(g5, e)} for e in DESCRIBED],
+            "delta": {"mediaType": "text/turtle", "before": {"path": WHAT4_TTL, "hash": sha(WHAT4_TTL)},
+                      "after": {"path": WHAT5_TTL, "hash": sha(WHAT5_TTL)}}}})
+act("ACC-scn-what", "1", C16, "Accepted under the What grant: SCN@1.", PO,
+    "The owner accepts the scenario and the descriptions. Every kind SCN@1 touches is a What kind, so it is in force from this position.",
+    "acme-owner-p", {"record": "acceptance", "grant": R("GRANT-what", "2"), "accepts": [R("SCN", "1")], "touches": {R("SCN", "1"): SCN_ITEMS}},
+    basedOn=[ref_("SCN", "1"), ref_("GRANT-what", "2")])
+put(A, "what", "5", f"What-version 5 of {P}.", PO,
+    "Names the What in force after SCN@1, under sdlc edition 1 as completed by DDD-dec-113 before the edition was tagged: what@4's graph with one scenario created and four elements described (DDD-dec-63 §6).",
+    basedOn=[ref_("WHAT-found", "1"), ref_("CUR", "1"), ref_("SCN", "1")], supersedes=[ref_("what", "4")],
+    status="accepted", key="acme-owner-p", at=C16[:10],
+    **{SD: {"record": "what-version", "product": P,
+            "edition": {"versionIRI": "https://decision-driven-design.dk/ns/sdlc/1",
+                        "hash": "sha256:" + hashlib.sha256(open("applications/sdlc/what/ontology.ttl", "rb").read()
+                                                            + open("applications/sdlc/what/shapes.ttl", "rb").read()).hexdigest()},
+            "canon": "rdfc-1.0", "graphHash": VEC5["graphHash"], "elements": VEC5["elements"]}})
+pos(C16, [("SCN", "1"), ("ACC-scn-what", "1"), ("what", "5")])
 
 # ---- the log: headers chained, each covered by its hash under the hash law (authority.md §6.1)
 headers, prev = [], None

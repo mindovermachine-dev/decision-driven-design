@@ -585,7 +585,7 @@ case.
 ## 9. The worked example: acme shop, under the profile
 
 The How examples' test product, extended (Round 1, Q-9). Records are added, never edited. The log
-is [`how-examples/log/acme.json`](how-examples/log/acme.json): 15 positions, hand-built, with no
+is [`how-examples/log/acme.json`](how-examples/log/acme.json): 16 positions, hand-built, with no
 writer behind it. Every key is a throwaway test key.
 
 | p | Header clock | Landed | What it shows |
@@ -603,13 +603,16 @@ writer behind it. Every key is a throwaway test key.
 | 13 | 2026-11-04 09:00 | `KEY-architect@1` | rotation: `ACC-1@3`, signed at p4 by the closed key, still verifies (§5.3) |
 | 14 | 09:30 | `WAIV-resid@1`, expiring 2026-11-11T00:00Z | a waiver on the open question `RESID`, azure, `deployment-observed`: live here |
 | 15 | 2026-11-12 09:00 | `REV-curfmt@1` | a review with no force (§4.5); the waiver has expired by header clock, and the question is open again |
+| 16 | 2026-11-13 09:00 | `SCN@1`; `ACC-scn-what@1` (owner); `what@5` | added for sdlc edition 1 (`DDD-dec-113`, E-5): a What change touching only What kinds, in force on one acceptance; `what@5` names the new graph and the completed edition |
 
 **What `how-examples/check.py` verifies against the What graph** (rdflib):
 
-- every recorded scope item's class and `within*` path, 61 items;
+- every recorded scope item's class and `within*` path, 66 items;
 - every grant's subtree path;
 - that `CUR@1`'s delta is exactly what@3's graph before and what@4's after: one element created,
   one changed, nothing retired;
+- that `SCN@1`'s delta is exactly what@4's graph before and what@5's after: one element created,
+  four changed, nothing retired;
 - that every violation the verdicts report is in `ACC-1@3`'s baseline;
 - that the waived question is an open question.
 

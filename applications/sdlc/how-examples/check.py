@@ -32,6 +32,8 @@ WHAT_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-
 VECTORS = os.path.join(REPO, "applications", "sdlc", "what", "vectors.json")
 VECTORS4 = os.path.join(REPO, "applications", "sdlc", "what", "vectors-4.json")
 WHAT4_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-shop-4.ttl")   # the What after CUR@1 (what@4)
+VECTORS5 = os.path.join(REPO, "applications", "sdlc", "what", "vectors-5.json")
+WHAT5_TTL = os.path.join(REPO, "applications", "sdlc", "what", "examples", "acme-shop-5.ttl")   # the What after SCN@1 (what@5; DDD-dec-113)
 TODAY = datetime.date(2026, 10, 28)          # the evaluation date: the examples' position (version 2, the landed What)
 # Fact terms: read from code or from a deployment, so each needs a mapping in a target's
 # vocabulary edition (how-vocabulary.md, "Fact terms"). Every other sdlc: term is What-side or
@@ -80,7 +82,7 @@ def pins(start):
             if e["ref"] not in records or dpp.record_hash(records[e["ref"]]) != e["hash"]: bad.append(e["ref"]) if e["ref"] not in bad else None
             elif e in records[k].get("basedOn", []): todo.append(e["ref"])
     return hops, bad
-for start in (f"ACC-1@3@{A}", f"ACC-what@2@{A}", f"ACC-cur-how@1@{A}", f"REV-curfmt@1@{A}", f"WAIV-resid@1@{A}", f"what@4@{A}",
+for start in (f"ACC-1@3@{A}", f"ACC-what@2@{A}", f"ACC-cur-how@1@{A}", f"REV-curfmt@1@{A}", f"WAIV-resid@1@{A}", f"ACC-scn-what@1@{A}", f"what@5@{A}", f"what@4@{A}",
               f"ACC-1@2@{A}", f"ACC-what@1@{A}", f"what@3@{A}", f"what@2@{A}", f"what@1@{A}", "REL@3@https://vendor.example/packages/ref-arch",
               f"ACC-1@1@{A}", "REL@2@https://vendor.example/packages/ref-arch"):   # version 2 first; version 1 as history
     hops, bad = pins(start)
@@ -145,8 +147,8 @@ ok(arch in at(12)["keys"].get("mailto:architect@acme.example", []) and arch not 
    and verify(records[f"ACC-1@3@{A}"], "mailto:architect@acme.example"),
    "KEY-architect@1 at p13 rotates the architect's key: ACC-1@3, signed at p4 by the closed key, still verifies under the key bound at its position, and its decisions stay in force")
 W_ = f"WAIV-resid@1@{A}"
-ok(W_ in at(14)["live_waivers"] and W_ not in at(last)["live_waivers"],
-   f"WAIV-resid@1 is live at p14 ({at(14)['clock']}) and has expired at p15 ({at(last)['clock']}): expiry is read from header clocks only")
+ok(W_ in at(14)["live_waivers"] and W_ not in at(15)["live_waivers"] and W_ not in at(last)["live_waivers"],
+   f"WAIV-resid@1 is live at p14 ({at(14)['clock']}) and has expired at p15 ({at(15)['clock']}): expiry is read from header clocks only")
 ok(at(last)["genesis_holder"] == "mailto:holder@acme.example" and "GEN" in at(last)["live_grants"],
    "GEN@3 founds the log: the genesis is live and held by its founder")
 for p_ in sorted(snaps):
@@ -160,7 +162,8 @@ how_in_force = {k for k in in_force if records[k].get(SD, {}).get("record") in (
 what_in_force = {k for k in in_force if "delta" in records[k].get(SD, {})}
 ok(len(how_in_force) == 6 and all(k.split("@")[1] == "2" for k in how_in_force),
    f"How in force at the log's last position: {len(how_in_force)} records (two target declarations, four imports), all version 2, re-accepted under the profile by ACC-1@3")
-ok(what_in_force == {f"WHAT-found@1@{A}", CUR}, f"What in force: {sorted(short(k) for k in what_in_force)}: the founding decision and CUR@1")
+SCN = f"SCN@1@{A}"
+ok(what_in_force == {f"WHAT-found@1@{A}", CUR, SCN}, f"What in force: {sorted(short(k) for k in what_in_force)}: the founding decision, CUR@1 and SCN@1")
 provisional = sorted(k for k in in_force if "/what#" in json.dumps(records[k]))
 ok(not provisional, "ruling 4: no record in force names a provisional What identifier (…/what#…); each was superseded, none edited"
    + (f"; still in force {provisional}" if provisional else ""))
@@ -211,7 +214,7 @@ import hashlib
 WV = max((k for k in records if k.startswith("what@") and k not in superseded_refs), key=lambda k: int(k.split("@")[1]))
 report.append(f"note the What-version in force is {WV.split('@')[0]}@{WV.split('@')[1]}; earlier versions are superseded")
 wv = records[WV][SD]
-vec = json.load(open(VECTORS if WV.split("@")[1] in ("1", "2", "3") else VECTORS4))
+vec = json.load(open({"4": VECTORS4, "5": VECTORS5}.get(WV.split("@")[1], VECTORS)))
 ok(wv["canon"] == "rdfc-1.0" and wv["graphHash"] == vec["graphHash"] and wv["elements"] == vec["elements"],
    f"{WV.split('@')[0]}@{WV.split('@')[1]}: canon rdfc-1.0, graph hash and {len(wv['elements'])} element hashes equal the vectors of the graph it names, which what/check.py recomputes")
 ok({e["ref"] for e in records[WV]["basedOn"]} == what_in_force, "the What-version pins exactly the What decisions in force")
@@ -234,7 +237,7 @@ if rdflib:
     def T(name): return URIRef(f"{NS}/target#{name}")
     manifest = json.load(open(os.path.join(HERE, "facts", "manifest.json")))["facts"]
     def base():
-        g = Graph(); g.parse(WHAT4_TTL)
+        g = Graph(); g.parse(WHAT5_TTL)   # the What in force (what@5)
         for t in targets.values():               # in-force How records become facts the gate reads
             sysiri = URIRef(t[SD]["anchor"])
             g.add((sysiri, S.target, T(t[SD]["language"]["target"])))
@@ -260,7 +263,7 @@ if rdflib:
                 f.add((URIRef(f"{NS}/region/{entry['target']}#{region}"), S.jurisdiction, Literal(j)))
         return g + f
     # ---- anchors (ruling 1): warn when a narrower element covers everything governed today
-    what = Graph(); what.parse(WHAT4_TTL)
+    what = Graph(); what.parse(WHAT5_TTL)   # the What in force (what@5)
     parent = dict(what.subject_objects(S.within))
     def chain(x):
         out = [x]
@@ -329,6 +332,7 @@ if rdflib:
 
     # ---- the authority profile, against the graph: scope results, CUR@1's delta, baselines, the waiver
     what3 = Graph(); what3.parse(WHAT_TTL)
+    what4 = Graph(); what4.parse(WHAT4_TTL)
     def kind(g, e):
         ks = [o for o in g.objects(URIRef(e), RDF.type) if str(o).startswith(NS + "#")]
         return "sdlc:" + str(ks[0])[len(NS) + 1:] if len(ks) == 1 else None
@@ -352,7 +356,7 @@ if rdflib:
     cur = records[CUR][SD]
     sha = lambda f: "sha256:" + hashlib.sha256(open(f, "rb").read()).hexdigest()
     els3 = {s for s in what3.subjects() if isinstance(s, URIRef)}
-    els4 = {s for s in what.subjects() if isinstance(s, URIRef)}
+    els4 = {s for s in what4.subjects() if isinstance(s, URIRef)}
     def desc(g, e):
         out = Graph(); todo, seen = [e], set()
         while todo:
@@ -364,12 +368,20 @@ if rdflib:
                 if isinstance(o, rdflib.BNode): todo.append(o)
         return out
     from rdflib.compare import isomorphic
-    changed = {str(e) for e in els3 & els4 if not isomorphic(desc(what3, e), desc(what, e))}
+    changed = {str(e) for e in els3 & els4 if not isomorphic(desc(what3, e), desc(what4, e))}
     ok(cur["delta"]["before"]["hash"] == sha(WHAT_TTL) and cur["delta"]["after"]["hash"] == sha(WHAT4_TTL)
        and {str(e) for e in els4 - els3} == {c["element"] for c in cur["creates"]} and not (els3 - els4)
        and changed == {c["element"] for c in cur["changes"]},
        f"CUR@1's delta: before is what@3's graph and after is what@4's, byte for byte; it creates exactly "
        f"{[c['element'].rsplit('/', 1)[1] for c in cur['creates']]}, changes exactly {[label(URIRef(c['element'])) for c in cur['changes']]}, retires nothing")
+    scn = records[SCN][SD]
+    els5 = {s for s in what.subjects() if isinstance(s, URIRef)}
+    changed5 = {str(e) for e in els4 & els5 if not isomorphic(desc(what4, e), desc(what, e))}
+    ok(scn["delta"]["before"]["hash"] == sha(WHAT4_TTL) and scn["delta"]["after"]["hash"] == sha(WHAT5_TTL)
+       and {str(e) for e in els5 - els4} == {c["element"] for c in scn["creates"]} and not (els4 - els5)
+       and changed5 == {c["element"] for c in scn["changes"]},
+       f"SCN@1's delta (DDD-dec-113, E-5): before is what@4's graph and after is what@5's, byte for byte; it creates exactly "
+       f"{[c['element'].rsplit('/', 1)[1] for c in scn['creates']]}, changes exactly {sorted(label(URIRef(c['element'])) for c in scn['changes'])}, retires nothing")
     base_ = records[f"ACC-1@3@{A}"][AU]["baseline"]
     imp_of = {records[k][SD]["imports"].split("@")[0]: k for k in imports}
     unbaselined = []

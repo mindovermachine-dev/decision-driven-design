@@ -282,6 +282,28 @@
    "refused": [],
    "previous": "sha256:ef61dc9710948abdfab5c987a6e1f7206ffc9ffb45e4a0c1e8903fe40cc052ca",
    "hash": "sha256:149485a692933c7b4dce78c6dec18a4fefa89a6358159e210151580c4e3ba250"
+  },
+  {
+   "system": "https://acme.example/products/shop/decisions",
+   "position": "16",
+   "clock": "2026-11-13T09:00:00Z",
+   "records": [
+    {
+     "ref": "SCN@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:9db7310e6e346b8994fb561ab3525c9d1e5b1eae446b13c179526f2738b65159"
+    },
+    {
+     "ref": "ACC-scn-what@1@https://acme.example/products/shop/decisions",
+     "hash": "sha256:cf8441ca393b30214880cd463b644d17491dbf1a3bda0bc838533020240345c5"
+    },
+    {
+     "ref": "what@5@https://acme.example/products/shop/decisions",
+     "hash": "sha256:317364cf5decad199a99b6ef1352b9ce348c4e6fa55273d72ec1a710570b8437"
+    }
+   ],
+   "refused": [],
+   "previous": "sha256:149485a692933c7b4dce78c6dec18a4fefa89a6358159e210151580c4e3ba250",
+   "hash": "sha256:0dac74bb10d6f45ba4c8784c394e909418e20ebfabf242e43af1405ac08db56e"
   }
  ]
 }

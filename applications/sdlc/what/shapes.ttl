@@ -12,6 +12,21 @@
 #  DDD-dec-63. The §5–§7 shapes (work unit, verification, feature, release) and how.shacl.ttl are
 #  not carried (Round 1, Q-3). Each sh:message names the section it enforces.
 #
+#  The validation regime (DDD-dec-113, E-1; what.md §7.2). The data graph of a validation is the
+#  What graph merged with this edition's ontology.ttl, in the default graph. Class targets and
+#  sh:class use SHACL Core class semantics (rdf:type/rdfs:subClassOf* over that merged graph), with
+#  SHACL-SPARQL, and no RDFS or OWL entailment. The ontology is never part of a What graph's hash or
+#  of its export.
+#
+#  Severities (DDD-dec-113, E-2). A shape is sh:Warning when it can only hold once an element
+#  authored later exists, later in phase order or in a later write; sh:Violation, the default, when
+#  it concerns an element's own form, identity or type boundary. A requirement added to an edition
+#  after an example is pinned enters as sh:Warning, and may become a violation only in a later
+#  edition, once the pinned examples carry it. Existing violations are not demoted. A severity
+#  belongs to the shape that holds the constraint, so a warning that is a SPARQL constraint has a
+#  node shape of its own, and a warning that is a property constraint carries it on the property
+#  shape. "Described" counts violations only, and reports warnings.
+#
 #  Run:  python3 applications/sdlc/what/check.py   (pyshacl over the example and the vectors)
 #################################################################
 
@@ -95,10 +110,49 @@ sdlc:RelationShape a sh:NodeShape ;
 
 sdlc:ContextMappingShape a sh:NodeShape ;
   sh:targetClass sdlc:ContextMapping ;
-  sh:property [ sh:path sdlc:mapsTo ; sh:minCount 2 ;
-    sh:message "§3.1 A context mapping must connect two concepts (an explicit declared correspondence, never assumed)." ] ;
   sh:property [ sh:path sdlc:rationale ; sh:minCount 1 ;
-    sh:message "§3.1 A context mapping must state the correspondence." ] .
+    sh:message "§3.1 A context mapping must state the correspondence." ] ;
+  sh:sparql [
+    sh:message "§3.1 A context mapping must connect two concepts (an explicit declared correspondence, never assumed), counted over mapsFrom and mapsTo." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        FILTER NOT EXISTS { $this sdlc:mapsFrom|sdlc:mapsTo ?a . $this sdlc:mapsFrom|sdlc:mapsTo ?b . FILTER (?a != ?b) }
+      }""" ] .
+
+# DDD-dec-113, E-8. Added after the examples were pinned, so a warning (E-2's clause).
+sdlc:ContextMappingDirectionShape a sh:NodeShape ;
+  sh:targetClass sdlc:ContextMapping ;
+  sh:severity sh:Warning ;
+  sh:property [ sh:path sdlc:mapsFrom ; sh:maxCount 1 ; sh:severity sh:Warning ;
+    sh:message "§3.1 A context mapping has at most one source concept (mapsFrom)." ] ;
+  sh:sparql [
+    sh:message "§3.1 A directed context mapping has exactly one mapsTo: the concept in mapsFrom corresponds to it, and mapsFrom's meaning is the source." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        $this sdlc:mapsFrom ?f .
+        { FILTER NOT EXISTS { $this sdlc:mapsTo ?x } } UNION { $this sdlc:mapsTo ?a , ?b . FILTER (?a != ?b) }
+      }""" ] ;
+  sh:sparql [
+    sh:message "§3.1 Direction undeclared: a context mapping names its source concept with mapsFrom." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE { FILTER NOT EXISTS { $this sdlc:mapsFrom ?f } }""" ] .
+
+# DDD-dec-113, E-7. Every box says what it is; added after the examples were pinned, so warnings.
+# A System's purpose stays the violation of SystemShape (§3.2.5).
+sdlc:DomainPurposeShape a sh:NodeShape ;
+  sh:targetClass sdlc:Domain ;
+  sh:severity sh:Warning ;
+  sh:property [ sh:path sdlc:purpose ; sh:minCount 1 ; sh:severity sh:Warning ;
+    sh:message "§3.1 A domain states its purpose." ] .
+
+sdlc:BoundedContextDefinitionShape a sh:NodeShape ;
+  sh:targetClass sdlc:BoundedContext ;
+  sh:severity sh:Warning ;
+  sh:property [ sh:path sdlc:definition ; sh:minCount 1 ; sh:severity sh:Warning ;
+    sh:message "§3.1 A bounded context carries a business-language definition, as an entity does." ] .
 
 sdlc:InvariantShape a sh:NodeShape ;
   sh:targetClass sdlc:Invariant ;
@@ -121,8 +175,14 @@ sdlc:CommandShape a sh:NodeShape ;
   sh:targetClass sdlc:Command ;
   sh:property [ sh:path sdlc:targets ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:Entity ;
     sh:message "§3.2 A command must target a real aggregate (entity)." ] ;
-  sh:property [ sh:path sdlc:emits ; sh:minCount 1 ; sh:class sdlc:Event ;
-    sh:message "§3.2.0 A command must emit at least one event." ] ;
+  sh:property [ sh:path sdlc:emits ; sh:class sdlc:Event ;
+    sh:message "§3.2.0 A command emits only events." ] ;
+  sh:property [ sh:path sdlc:emits ; sh:minCount 1 ; sh:severity sh:Warning ;
+    sh:message "§3.2.0 A command must emit at least one event." ] .
+
+sdlc:PatternConformanceShape a sh:NodeShape ;
+  sh:targetClass sdlc:Command ;
+  sh:severity sh:Warning ;
   sh:sparql [
     sh:message "§3.2.0 Pattern conformance: every Command traces to a Trigger." ;
     sh:select """
@@ -131,7 +191,9 @@ sdlc:CommandShape a sh:NodeShape ;
 
 sdlc:ViewShape a sh:NodeShape ;
   sh:targetClass sdlc:View ;
-  sh:property [ sh:path sdlc:projects ; sh:minCount 1 ; sh:class sdlc:Event ;
+  sh:property [ sh:path sdlc:projects ; sh:class sdlc:Event ;
+    sh:message "§3.2 A view projects only declared events." ] ;
+  sh:property [ sh:path sdlc:projects ; sh:minCount 1 ; sh:severity sh:Warning ;
     sh:message "§3.2 A view must be built from at least one declared event (no ghost views)." ] ;
   sh:property [ sh:path sdlc:hasState ; sh:class sdlc:State ] .
 
@@ -166,7 +228,9 @@ sdlc:DeciderShape a sh:NodeShape ;
   sh:targetClass sdlc:Decider ;
   sh:property [ sh:path sdlc:decidesFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:class sdlc:Entity ;
     sh:message "§3.3 A Decider decides for one aggregate." ] ;
-  sh:property [ sh:path sdlc:rejects ; sh:minCount 1 ; sh:class sdlc:Invariant ;
+  sh:property [ sh:path sdlc:rejects ; sh:class sdlc:Invariant ;
+    sh:message "§3.3 A Decider's rejections are invariants." ] ;
+  sh:property [ sh:path sdlc:rejects ; sh:minCount 1 ; sh:severity sh:Warning ;
     sh:message "§3.4 Decider justification: a Decider has at least one reachable rejection." ] ;
   sh:property [ sh:path sdlc:logic ; sh:maxCount 1 ; sh:pattern "^sha256:[0-9a-f]{64}$" ;
     sh:message "DDD-dec-63 §6 Authored logic is carried as a sha256: digest." ] ;
@@ -174,7 +238,11 @@ sdlc:DeciderShape a sh:NodeShape ;
     sh:message "§3.3 No foreign commands: a Decider handles only commands that target its aggregate." ;
     sh:select """
       PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
-      SELECT $this ?value WHERE { $this sdlc:handles ?value ; sdlc:decidesFor ?a . FILTER NOT EXISTS { ?value sdlc:targets ?a } }""" ] ;
+      SELECT $this ?value WHERE { $this sdlc:handles ?value ; sdlc:decidesFor ?a . FILTER NOT EXISTS { ?value sdlc:targets ?a } }""" ] .
+
+sdlc:CommandCoverageShape a sh:NodeShape ;
+  sh:targetClass sdlc:Decider ;
+  sh:severity sh:Warning ;
   sh:sparql [
     sh:message "§3.3 Command coverage: a Decider handles every command that targets its aggregate." ;
     sh:select """
@@ -191,6 +259,28 @@ sdlc:ProjectorShape a sh:NodeShape ;
     sh:select """
       PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
       SELECT $this ?value WHERE { $this sdlc:folds ?value ; sdlc:projectsFor ?v . FILTER NOT EXISTS { ?v sdlc:projects ?value } }""" ] .
+
+# DDD-dec-113, E-4 (#50): §3.4's event coverage and state justification, carried "as written".
+sdlc:ProjectorEventCoverageShape a sh:NodeShape ;
+  sh:targetClass sdlc:Projector ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:message "§3.4 Event coverage: a Projector folds every event its View projects." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE { $this sdlc:projectsFor ?v . ?v sdlc:projects ?value . FILTER NOT EXISTS { $this sdlc:folds ?value } }""" ] .
+
+sdlc:StateJustificationShape a sh:NodeShape ;
+  sh:targetClass sdlc:Field ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:message "§3.4 State justification: a field belongs on an aggregate if and only if some Decider reads it." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        $this sdlc:within ?a . ?a sdlc:isAggregateRoot true .
+        FILTER NOT EXISTS { ?d sdlc:reads $this }
+      }""" ] .
 
 sdlc:ScenarioShape a sh:NodeShape ;
   sh:targetClass sdlc:Scenario ;
@@ -223,7 +313,11 @@ sdlc:UIStepShape a sh:NodeShape ;
   sh:targetClass sdlc:UIStep ;
   sh:property [ sh:path sdlc:within ; sh:class sdlc:System ;
     sh:message "§3.2.5 A UI step is owned by a system." ] ;
-  sh:property [ sh:path sdlc:offeredTo ; sh:class sdlc:SubjectKind ] ;
+  sh:property [ sh:path sdlc:offeredTo ; sh:class sdlc:SubjectKind ] .
+
+sdlc:SurfaceCoverageShape a sh:NodeShape ;
+  sh:targetClass sdlc:UIStep ;
+  sh:severity sh:Warning ;
   sh:sparql [
     sh:message "§3.7 Actor coverage, surface half: a UI step that offers or surfaces something is offered to at least one human subject kind." ;
     sh:select """
@@ -324,6 +418,7 @@ sdlc:ScopeRuleShape a sh:NodeShape ;
 
 sdlc:ScopedViewShape a sh:NodeShape ;
   sh:targetClass sdlc:View ;
+  sh:severity sh:Warning ;
   sh:sparql [
     sh:message "§3.7 Scope coverage at the seam: a View a step surfaces is public, or has a scope rule for every subject kind the step is offered to." ;
     sh:select """
@@ -333,6 +428,55 @@ sdlc:ScopedViewShape a sh:NodeShape ;
         FILTER NOT EXISTS { $this sdlc:public true }
         FILTER NOT EXISTS { ?r sdlc:within $this ; sdlc:forSubject ?value }
       }""" ] .
+
+# DDD-dec-113, E-4 (#50): the three checks what.md §3.7 marked [OPEN]. Each binds only once the What
+# declares a subject kind.
+sdlc:TriggerSubjectCoverageShape a sh:NodeShape ;
+  sh:targetClass sdlc:Trigger ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:message "§3.7 Subject coverage: an automated or external trigger acts as a subject kind." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        FILTER EXISTS { ?any a sdlc:SubjectKind }
+        $this sdlc:source ?s . FILTER (?s IN (sdlc:sourceAutomated, sdlc:sourceExternal))
+        FILTER NOT EXISTS { $this sdlc:subject ?k }
+      }""" ] .
+
+sdlc:PairScenarioCoverageShape a sh:NodeShape ;
+  sh:targetClass sdlc:Command ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:message "§3.7 Subject coverage: every (command, subject kind) pair has a scenario issued as that kind." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this ?value WHERE {
+        { ?step sdlc:offeredTo ?value . ?i sdlc:within ?step ; sdlc:command $this . }
+        UNION
+        { ?t sdlc:issues $this ; sdlc:subject ?value . }
+        FILTER NOT EXISTS { ?sc a sdlc:Scenario ; sdlc:when ?w . ?w sdlc:command $this ; sdlc:asSubject ?value . }
+      }""" ] .
+
+sdlc:ClaimJustificationShape a sh:NodeShape ;
+  sh:targetClass sdlc:Field ;
+  sh:severity sh:Warning ;
+  sh:sparql [
+    sh:message "§3.7 Claim justification: a claim is read by a Decider or compared by a scope key." ;
+    sh:select """
+      PREFIX sdlc: <https://decision-driven-design.dk/ns/sdlc#>
+      SELECT $this WHERE {
+        $this sdlc:within ?k . ?k a sdlc:SubjectKind .
+        FILTER NOT EXISTS { ?d sdlc:reads $this }
+        FILTER NOT EXISTS { ?r sdlc:key ?key . ?key sdlc:claim $this }
+      }""" ] .
+
+# DDD-dec-113, E-7: a subject kind says what it is, in business language; a warning.
+sdlc:SubjectKindDefinitionShape a sh:NodeShape ;
+  sh:targetClass sdlc:SubjectKind ;
+  sh:severity sh:Warning ;
+  sh:property [ sh:path sdlc:definition ; sh:minCount 1 ; sh:severity sh:Warning ;
+    sh:message "§3.7 A subject kind carries a business-language definition, as an entity does." ] .
 
 #########################  WIRE NAMES — DDD-dec-64 P-1 (ruled 2026-10-28), R-1 and R-2 (ruled 2026-10-30)  #########################
 

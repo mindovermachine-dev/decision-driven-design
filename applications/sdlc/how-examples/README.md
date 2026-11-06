@@ -38,7 +38,7 @@ nothing here is acceptable into a real product.
 | `…/what#decider-order`, `#command-*` (in the code's citations) | `…/what/01M610JNAMMP5V59XRNHD39R5A`, `…/what/01M610JNAMCQ2R6MG31Q07DWMX`, `…/what/01M610JNAMC74SDA3DVDE332WB` |
 
 **Under the authority profile (2026-11-02).** The product's authority history is now a positioned
-log, [`log/acme.json`](log/acme.json), with 15 positions, judged by the profile's reference
+log, [`log/acme.json`](log/acme.json), with 16 positions, judged by the profile's reference
 evaluator ([`../authority.md`](../authority.md) §9; `DDD-dec-86`, Q-9). 25 records are added and
 none is edited:
 
@@ -56,6 +56,11 @@ none is edited:
 - A waiver that expires by header clock.
 - A review.
 - Two refused attempts, recorded in their headers.
+- `SCN@1` at p16 (`DDD-dec-113`, E-5): a What change that creates the scenario for (Place order,
+  Customer) and fills four descriptions, so that the What carries no findings under sdlc edition 1.
+  `what@5` names the graph after it ([`../what/examples/acme-shop-5.ttl`](../what/examples/acme-shop-5.ttl),
+  with hashes in `../what/vectors-5.json`) and the edition as completed. `what@3` and `what@4` keep the
+  edition hash they were published with.
 
 The stand-in authority records (`GEN@1`, `GEN@2`, `GRANT-*@1/2`, `ACC-1@1/2`, `ACC-what@1`) stay as
 history, landed at no position, and under the profile they put nothing in force. `build.py` now
@@ -183,11 +188,11 @@ whether the How is right.
    valid, or refused with the header's reason); the multi-scope decision not in force at p5 and in
    force at p6; the revoked chain falling at p11 while `CURFMT@1` stays in force; the rotated key
    still verifying `ACC-1@3`; the waiver live at p14 and expired at p15. Against the What graph:
-   every recorded scope item's class and path, `CUR@1`'s delta, every reported violation in the
+   every recorded scope item's class and path, `CUR@1`'s and `SCN@1`'s deltas, every reported violation in the
    baseline, and the waived question being an open question.
 5. Six How records are in force at the last position, all version 2, re-accepted by `ACC-1@3`. The
-   What decisions in force are `WHAT-found@1` and `CUR@1`. No record in force names a provisional
-   identifier. The What-version in force, `what@4`, equals `../what/vectors-4.json`.
+   What decisions in force are `WHAT-found@1`, `CUR@1` and `SCN@1`. No record in force names a
+   provisional identifier. The What-version in force, `what@5`, equals `../what/vectors-5.json`.
 6. Each imported decision is expressible in each declared target: every fact term its violation
    description reads is mapped by that target's edition.
 7. Supersession across the import is shown and changes nothing in force. There are four notes:

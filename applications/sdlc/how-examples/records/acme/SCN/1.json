@@ -1,0 +1,56 @@
+{
+  "protocol": "dpp/1",
+  "id": "SCN",
+  "version": "1",
+  "system": "https://acme.example/products/shop/decisions",
+  "statement": "The Order Decider gains the scenario place an order as a customer: given nothing, when Place order is issued as Customer, then Order placed. The Ordering domain states its purpose, and the Ordering bounded context and the subject kinds Customer and Staff carry definitions.",
+  "by": "mailto:owner@acme.example",
+  "at": "2026-11-13",
+  "why": "Under sdlc edition 1 as completed by DDD-dec-113, the pair (Place order, Customer) had no scenario, and four elements had no description: warnings, each a finding about what was not yet modelled. The change makes the What carry no findings.",
+  "basedOn": [],
+  "dk.decision-driven-design.sdlc": {
+    "record": "what-change",
+    "anchor": "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+    "creates": [
+      {
+        "element": "https://acme.example/products/shop/what/01M6R528AR7NHDH4S9NBMDRXR5",
+        "class": "sdlc:Scenario",
+        "within": "https://acme.example/products/shop/what/01M610JNAMMP5V59XRNHD39R5A"
+      }
+    ],
+    "changes": [
+      {
+        "element": "https://acme.example/products/shop/what/01M610JNAMYTKTBXP8KD0BQ2G0",
+        "class": "sdlc:Domain"
+      },
+      {
+        "element": "https://acme.example/products/shop/what/01M610JNAMH5Y3FP9BFRZJ6QSS",
+        "class": "sdlc:BoundedContext"
+      },
+      {
+        "element": "https://acme.example/products/shop/what/01M610JNAMMSAY8ZWD1TMMZ8HH",
+        "class": "sdlc:SubjectKind"
+      },
+      {
+        "element": "https://acme.example/products/shop/what/01M610JNAMHKDH8MYYBGG3DBMA",
+        "class": "sdlc:SubjectKind"
+      }
+    ],
+    "delta": {
+      "mediaType": "text/turtle",
+      "before": {
+        "path": "applications/sdlc/what/examples/acme-shop-4.ttl",
+        "hash": "sha256:a3636f3523292d64dc20c8dd88e32012f1926a41c6a541735110b6caa7bdc7ae"
+      },
+      "after": {
+        "path": "applications/sdlc/what/examples/acme-shop-5.ttl",
+        "hash": "sha256:45be24ef646100e088a34e20577f59bad50a28d90ed5d49a4f2eba9b0eb1ea00"
+      }
+    }
+  },
+  "signature": {
+    "scheme": "ssh-sig",
+    "value": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgPYhct43lE6JeyVIZEdOTjTfHlV\naVflAM8WbmKN56q5UAAAATZGVjaXNpb24tcHJvdmVuYW5jZQAAAAAAAAAGc2hhNTEyAAAA\nUwAAAAtzc2gtZWQyNTUxOQAAAEBXDvoR6SipPX3oae7kgY98qmldOuxr5fgvzMmghQ2CKX\nChZZchS6tx50Mh+jlNVJ4Rqd1Et+LgpV68IZbQJdwD\n-----END SSH SIGNATURE-----\n",
+    "key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID2IXLeN5ROiXslSGRHTk403x5VWlX5QDPFm5ijeequV acme-owner-p@test-genesis"
+  }
+}

@@ -20,6 +20,7 @@
 #                schema/ did not define it, though product-cli's exporter emits most of them;
 #    "§3.7"      added from Product Framework v1.11.0 at 55c9281, adopted by ruling (Round 1, Q-1);
 #    "move"      added by the move itself; ruled in DDD-dec-64 (Rounds 2 and 5).
+#                sdlc:mapsFrom was added under that provenance by DDD-dec-113 (E-8), before the tag.
 #
 #  Identity (DDD-dec-63, ruled): the product node is the product IRI P; every other element is
 #  P/what/<ULID>. No term below carries identity; rdfs:label is the human name.
@@ -195,6 +196,9 @@ sdlc:ContextMapping a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
   dct:source "schema/" .
 
 sdlc:mapsTo a owl:ObjectProperty ; rdfs:label "maps to" ; rdfs:domain sdlc:ContextMapping ; dct:source "schema/" .
+sdlc:mapsFrom a owl:ObjectProperty ; rdfs:label "maps from" ; rdfs:domain sdlc:ContextMapping ;
+  rdfs:comment "A context mapping's direction: the concept in mapsFrom corresponds to the concept in mapsTo, and mapsFrom's meaning is the source. At most one; with it, the mapping has exactly one mapsTo (DDD-dec-113, E-8)." ;
+  dct:source "move" .
 
 sdlc:ReferenceData a owl:Class ; rdfs:subClassOf sdlc:WhatElement ;
   rdfs:label "Reference Data" ;

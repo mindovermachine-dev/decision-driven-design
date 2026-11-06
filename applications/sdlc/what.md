@@ -17,9 +17,11 @@ they do not.
 - The vocabulary is [`what/ontology.ttl`](what/ontology.ttl), sdlc edition 1.
 - The constraints are [`what/shapes.ttl`](what/shapes.ttl).
 - The worked example is [`what/examples/acme-shop.ttl`](what/examples/acme-shop.ttl), the How
-  test product's What.
+  test product's What, with its later versions [`acme-shop-4.ttl`](what/examples/acme-shop-4.ttl)
+  and [`acme-shop-5.ttl`](what/examples/acme-shop-5.ttl). The last carries no findings.
 - [`what/check.py`](what/check.py) runs the shapes, the identity form and the hash law over the
-  example, and checks the hashes against [`what/vectors.json`](what/vectors.json).
+  examples, and checks the hashes against [`what/vectors.json`](what/vectors.json),
+  [`vectors-4.json`](what/vectors-4.json) and [`vectors-5.json`](what/vectors-5.json).
 - The wire schemas are in [`what/conformance/`](what/conformance/).
 - The How that realises a What is [`how.md`](how.md).
 
@@ -63,6 +65,7 @@ inventing them.
 | §9 is cut down to one graph and stable identity. §10 becomes one conformance level | `DDD-dec-51` |
 | The identity form | `DDD-dec-63` |
 | §3.7 from v1.11.0. `SubjectKind` and `subject`. No `pf:` | Round 1, Q-1, Q-3, Q-5 |
+| Edition 1 completed for its tag: the validation regime, violations and warnings, the five §3.4 and §3.7 checks, the description checks, a context mapping's direction, `acme-shop-5.ttl` | `DDD-dec-113` |
 
 ---
 
@@ -138,11 +141,20 @@ adding a field is a What decision, and that is the correct cost: a wire contract
   specification reached by the same decisions.
 - **No force.** A What-version confers none. Force stays with the decisions it pins.
 
-The example's hashes are in `what/vectors.json`. `what/check.py` computes them with pyoxigraph,
+**The ontology is never hashed.** A What graph's hash and its export cover the What graph alone,
+never the edition's `ontology.ttl`, which a validation merges in (§7.2; `DDD-dec-113`, E-1).
+
+The examples' hashes are in `what/vectors.json` (`acme-shop.ttl`, `what@1` to `what@3`),
+`what/vectors-4.json` (`acme-shop-4.ttl`, `what@4`) and `what/vectors-5.json` (`acme-shop-5.ttl`,
+`what@5`). The first two graphs are pinned by published records and never change.
+`what/check.py` computes them with pyoxigraph,
 which conforms to the canonical form on every vector in `what/canonical-form-vectors.json`. pyld
 (URDNA2015 over RDF 1.1 N-Quads) does not conform: it keeps uppercase language tags and
 mis-escapes controls. It serves only as a cross-check on graphs where it cannot diverge. A
-conforming second implementation is successor item M-12 (`DDD-dec-73`).
+conforming second implementation is successor item M-12 (`DDD-dec-73`): Varve's published vectors.
+*Recorded (`DDD-dec-113`, E-3):* product-cli's slice 0 admission test found Varve
+`0.1.0-preview.15` reproducing `acme-shop.ttl`'s graph hash. product-cli's element-hash vectors,
+when they come, are a further cross-check, not a substitute.
 
 ---
 
@@ -215,6 +227,18 @@ they relate, and **how they behave**" (PF §3.1). Within it sit:
 >   everything else a screen wants is a Projector's output, not a stored field (§3.4).
 > - **Machine-readable, with a constraint language.** The model must be expressible as a graph
 >   with validatable shapes (RDF + SHACL is the reference; an equivalent is conformant). (PF §3.1)
+
+**Every box says what it is** (`DDD-dec-113`, E-7). An entity carries a business-language
+`sdlc:definition`, and so do a bounded context and a subject kind. A domain states its
+`sdlc:purpose`, as a system does. The bounded-context, subject-kind and domain checks are
+warnings, because they were added after the examples were pinned (§7.2).
+
+**A context mapping has a direction** (`DDD-dec-113`, E-8). A mapping names the concepts it
+connects with `sdlc:mapsTo`. When it also names one with `sdlc:mapsFrom`, it has exactly one
+`mapsTo`, and it reads: the concept in `mapsFrom` corresponds to the concept in `mapsTo`, and
+`mapsFrom`'s meaning is the source. A mapping without `mapsFrom` is a warning, "direction
+undeclared". DDD's strategic pattern kinds (Customer–Supplier, Conformist, Anticorruption Layer
+and the rest) are not What: they describe teams or realisation, not meaning, and belong in the How.
 
 An entity's attributes are `sdlc:Field` elements within it. Their types come from the single
 datatype vocabulary: string, integer, number (`xsd:decimal`), boolean and date (PF §3.2.0).
@@ -479,8 +503,10 @@ Its rules are **no foreign events**, **event coverage** and **output containment
 **State justification and Decider justification.** Both carry over as written. "A field belongs
 on an aggregate if and only if some Decider reads it", and "a Decider must have **at least one
 reachable rejection**" (PF §3.4). Each is a finding that points at an unmodelled invariant. The
-v1.11.0 twin, **claim justification**, joins them (§3.7). These are What-side checks. The
-Decider-justification rule is in `what/shapes.ttl`.
+v1.11.0 twin, **claim justification**, joins them (§3.7). These are What-side checks, and all
+are in `what/shapes.ttl` as warnings (§7.2): Decider justification on `DeciderShape`, state
+justification as `StateJustificationShape`, and the Projector's event coverage as
+`ProjectorEventCoverageShape` (`DDD-dec-113`, E-4).
 
 ### 3.5 Named-algorithm primitives
 
@@ -587,17 +613,16 @@ none has authorization that is "*unstated*, not *absent*" (PF v1.11.0 §3.7).
 | **Scope coverage** | — | every surfaced View is public, or has a rule for every subject kind its step is offered to. Every claim a key reads belongs to the rule's subject kind. Every compared view field is a key of the fold |
 | **Claim justification** | state justification | a claim no Decider reads and no scope uses is dead, or the trace of an unmodelled authorization rule |
 
-`what/shapes.ttl` carries part of this:
-- the step half of subject coverage;
-- the source–nature agreement on triggers;
-- all three scope-coverage rules.
+`what/shapes.ttl` carries all of it (`DDD-dec-113`, E-4):
+- subject coverage: the step half (`SurfaceCoverageShape`), automated and external triggers
+  (`TriggerSubjectCoverageShape`), and a scenario per (command, subject kind) pair
+  (`PairScenarioCoverageShape`);
+- the source–nature agreement on triggers (`TriggerShape`);
+- the three scope-coverage rules (`ScopeRuleShape`, and `ScopedViewShape` at the seam);
+- claim justification (`ClaimJustificationShape`).
 
-`[OPEN]` These are not yet written as shapes:
-- that every automated or external trigger acts as a subject kind;
-- the scenario-per-pair half of subject coverage;
-- claim justification.
-
-Each is a query over the same graph.
+The coverage and justification checks are warnings: each finds what is not yet modelled, not a
+malformed element (§7.2).
 
 ---
 
@@ -811,7 +836,8 @@ The edges are in `what/ontology.ttl`, each with its source. Of PF §9's table:
 stated position when:
 
 1. **Described.** The What graph conforms to `what/shapes.ttl` at the sdlc edition it names, and
-   every element is in the identity form (`DDD-dec-63`).
+   every element is in the identity form (`DDD-dec-63`). It conforms when validation reports no
+   `sh:Violation`. Warnings are reported with the claim, and never count against it.
 2. **In force.** Every element has an accepted decision chain back to the genesis, under the
    authority profile (`DDD-dec-47`). The authority profile is therefore part of conformance, and
    this half cannot be claimed until it exists (Q-4). *Update, 2026-11-02:* it exists, in
@@ -821,6 +847,36 @@ stated position when:
 
 What it does not claim: that any realisation satisfies the What. That is a verdict at a position,
 computed and never stored.
+
+**The validation regime** (`DDD-dec-113`, E-1). "Conforms to `what/shapes.ttl`" means this, so
+that every implementation computes the same results:
+- **The data graph** is the What graph merged with the edition's `what/ontology.ttl`, in the
+  default graph. The vocabulary's enumerated individuals (the states, the interaction classes, the
+  AIOs) live in the ontology, so the What graph alone does not validate.
+- **The semantics** are SHACL Core's class semantics (`rdf:type/rdfs:subClassOf*` over that merged
+  graph), with SHACL-SPARQL, and no RDFS or OWL entailment.
+- **The ontology** is never part of a What graph's hash or of its export (§2.3).
+
+**Violations and warnings** (`DDD-dec-113`, E-2). Each shape has one severity:
+- `sh:Warning` when it can only hold once an element authored later exists, later in phase order
+  or in a later write: a finding about what is not yet modelled. A tool that refuses a write on a
+  failed shape refuses on violations only.
+- `sh:Violation` when it concerns an element's own form, identity or type boundary.
+- A requirement added to an edition after an example is pinned enters as `sh:Warning`. It may
+  become a violation only in a later edition, once the pinned examples carry it. Existing
+  violations are not demoted.
+
+In edition 1, the warnings are:
+- pattern conformance (§3.2.0);
+- a command emits at least one event, and a view is built from at least one;
+- command coverage (§3.3);
+- Decider and state justification, and the Projector's event coverage (§3.4);
+- subject coverage, claim justification and scope coverage at the seam (§3.7);
+- the description checks of §3.1 and §3.7;
+- a context mapping's direction (§3.1).
+
+Every other shape is a violation. `what/check.py` runs the regime with pyshacl, and compares each
+example's warnings, by message and focus node, with the set expected of it.
 
 ---
 
