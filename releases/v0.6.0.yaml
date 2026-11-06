@@ -1,0 +1,42 @@
+format: 2
+version: v0.6.0
+# Cut by Emil with `canon release v0.6.0` once this file lands on main (spec §2 rule 3; DDD-dec-113,
+# E-6). No `commit`. ratified_head is filled in the next commit by `canon ratify v0.6.0`, naming the
+# commit that adds this file and its CHANGELOG.md section (spec, port note 4).
+date: 2026-11-06
+# prerelease: ruled in Round 1 of the sdlc-edition-1 session (E-6, "release v0.6.0 with
+# prerelease: true"); the method stays "ready to try (preview)" (DDD-dec-74).
+prerelease: true
+basis:
+  # sdlc edition 1 completed for its tag, and how it ships.
+  - DDD-dec-113
+  # The identity form and the hash law; the move's choices; the canonical form.
+  - DDD-dec-63
+  - DDD-dec-64
+  - DDD-dec-73
+  # product-cli's re-pin to the moved What, and the decision that carries it unchanged.
+  - DDD-dec-72
+  - DDD-dec-91
+title: 'sdlc edition 1: the What''s vocabulary and shapes, tagged for product-cli'
+summary: |
+  **sdlc edition 1 is tagged** (`DDD-dec-113`). From this tag on, the edition is read-forever. A
+  later change is edition 2.
+
+  - **The edition** is `owl:versionIRI <https://decision-driven-design.dk/ns/sdlc/1>`, with the
+    edition hash
+    `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29`. The hash is sha256
+    over `applications/sdlc/what/ontology.ttl` then `shapes.ttl`, the bytes as tagged.
+    product-cli's step 1 pins this pair (`DDD-dec-72`, `DDD-dec-91`).
+  - **The validation regime** is stated (#49). The data graph is the What graph merged with
+    `ontology.ttl`, in the default graph. Validation uses SHACL Core class semantics with
+    SHACL-SPARQL, and no RDFS or OWL entailment. The ontology is never hashed.
+  - **Violations and warnings** (#49). A shape is a warning when it can only hold once an element
+    authored later exists. A requirement added after an example is pinned enters as a warning.
+    "Described" counts violations only.
+  - **The checks** of `what.md` §3.4 and §3.7 are now shapes (#50): subject coverage, claim and
+    state justification, and the Projector's event coverage. Also added: the description checks,
+    and a context mapping's direction (`sdlc:mapsFrom`).
+  - **`acme-shop-5.ttl`**, with `vectors-5.json` and `what@5`, is product-cli's behaviour fixture,
+    with no findings. The earlier example graphs are unchanged.
+
+  M-12 stays open, on Varve's published vectors (`DDD-dec-73`).

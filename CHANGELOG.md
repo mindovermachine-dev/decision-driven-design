@@ -4,6 +4,32 @@
      Edit the release descriptors, not this file. The headings from "## 4.7 — The volume layer (boundary charter)" on are a
      frozen tail, kept byte for byte (canon.yaml, changelog.tail-sha256). -->
 
+## v0.6.0 — sdlc edition 1: the What's vocabulary and shapes, tagged for product-cli
+
+2026-11-06 · pre-release · descriptor [`releases/v0.6.0.yaml`](releases/v0.6.0.yaml)
+
+**sdlc edition 1 is tagged** (`DDD-dec-113`). From this tag on, the edition is read-forever. A
+later change is edition 2.
+
+- **The edition** is `owl:versionIRI <https://decision-driven-design.dk/ns/sdlc/1>`, with the
+  edition hash
+  `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29`. The hash is sha256
+  over `applications/sdlc/what/ontology.ttl` then `shapes.ttl`, the bytes as tagged.
+  product-cli's step 1 pins this pair (`DDD-dec-72`, `DDD-dec-91`).
+- **The validation regime** is stated (#49). The data graph is the What graph merged with
+  `ontology.ttl`, in the default graph. Validation uses SHACL Core class semantics with
+  SHACL-SPARQL, and no RDFS or OWL entailment. The ontology is never hashed.
+- **Violations and warnings** (#49). A shape is a warning when it can only hold once an element
+  authored later exists. A requirement added after an example is pinned enters as a warning.
+  "Described" counts violations only.
+- **The checks** of `what.md` §3.4 and §3.7 are now shapes (#50): subject coverage, claim and
+  state justification, and the Projector's event coverage. Also added: the description checks,
+  and a context mapping's direction (`sdlc:mapsFrom`).
+- **`acme-shop-5.ttl`**, with `vectors-5.json` and `what@5`, is product-cli's behaviour fixture,
+  with no findings. The earlier example graphs are unchanged.
+
+M-12 stays open, on Varve's published vectors (`DDD-dec-73`).
+
 ## v0.5.0 — Ready to try: the method as a preview, with step 1 ruled for test
 
 2026-11-02 · pre-release · descriptor [`releases/v0.5.0.yaml`](releases/v0.5.0.yaml)
