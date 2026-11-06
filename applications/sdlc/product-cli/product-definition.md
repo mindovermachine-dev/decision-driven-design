@@ -377,7 +377,7 @@ This chapter may change without chapters 1 to 6 changing.
    - **Wire names are authored, not carried.** The input has none. The lift ADR states the rule that proposes one for every kind that requires one (`what.md` §6, R-1, R-2), and review adopts each.
 3. **Two fixtures.**
    - **The golden fixture.** The lift produces the new tool's canonical export of the self-hosted What. It imports through W1 and carries no violation under its edition. It is reviewed and committed. Lifting again with the same map is checked to reproduce the golden bytes, once, and the result is recorded. The self-hosted What holds no Decider, Projector, scenario, subject kind or scope rule, so this fixture fixes structure and surface only.
-   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-4.ttl` and its logic artefacts, at the edition tag, imported through W1. Its published element and graph hashes (`vectors-4.json`) are part of the test.
+   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-5.ttl` and its logic artefacts, at the edition tag, imported through W1. It carries no findings under the edition. Its published element and graph hashes (`vectors-5.json`) are part of the test. *Amended 2026-11-06 (decision-driven-design `DDD-dec-113`, E-5):* it was `acme-shop-4.ttl` and `vectors-4.json`. That graph is pinned by `CUR@1` and `what@4`, and lacks the (Place order, Customer) scenario and the E-7 descriptions; `acme-shop-5.ttl` is it plus both.
 4. **Acceptance.**
    - Both fixtures round-trip byte-identically (W7, W8).
    - The conformance suite passes: the framework CLI scenarios, and the seed round-trip property.
