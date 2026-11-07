@@ -52,3 +52,16 @@ In scope: the files above, this session record, and the session's row in
 `meta/sessions/README.md`. Out of scope: workflows, actions and the dispatcher (successor items),
 every claim file, every pin, `scripts/`, CI, `tools/canon/`, and this repository's own trunk
 governance (`DDD-dec-108` to `-110`, unchanged).
+
+## Continuation — Rounds 16 to 22 (2026-11-07)
+
+Add-only. Everything above stands as written.
+
+| Parameter | Value |
+|---|---|
+| Invocation | A second cloud session on 2026-11-07, with the prompt in `prompt-2.md`, verbatim, committed before any other change |
+| Branch | `claude/sdlc-pdlc-applications-0u6318`, the same branch. Head at arrival `d52b93f` (`d52b93ffae8024f3d6866553d2d04caaec3277da`), **not moved**. `main` at `1ab1de0`, not moved. No pull request is open |
+| Issue | #61, the same issue |
+| Decision ids | None new. Round 21 rules that `DDD-dec-114` and `DDD-dec-115` are amended in place: they are filed on this branch and not landed, so nothing is in force |
+| Upstream pin | `v5.15.2`, unchanged |
+| Gates | One gate, as before. G1: the amendments, the specs, the graph data, predictions before each operation, `scripts/ci.py` green, CI green on the pushed head, `landing.md` updated; then **stop for Emil**. G2 (rule, land) is Emil's |
