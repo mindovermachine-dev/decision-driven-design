@@ -218,7 +218,7 @@ lc:demandKind a owl:ObjectProperty ;
   rdfs:comment "The demand kind an occurrence's issue declares." ; dct:source "DDD-dec-115 S-8" .
 lc:forKind a owl:ObjectProperty ;
   rdfs:comment "On a dependency in the map: the demand kind the dependency applies to. A dependency with no lc:forKind applies to every kind." ;
-  dct:source "sdlc.md §17 (UNVERIFIED — Emil review)" .
+  dct:source "sdlc.md §16 (UNVERIFIED — Emil review)" .
 
 lc:Classification a owl:Class ;
   rdfs:comment "oC: the What owner's verdict on a reported defect, owed or new (Round 22). Read by the How and When owners." ;

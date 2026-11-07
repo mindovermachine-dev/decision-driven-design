@@ -30,3 +30,19 @@ repository copies or calls, and they are never run against this repository's tru
 | S-3 | **Wire the two `lc:` checkers into `scripts/ci.py`.** `applications/pdlc/graph/check.py` and `applications/sdlc/acts/check.py` run green here, but no gate runs them. `scripts/` was out of this session's scope | A successor session, once the specs are ruled |
 | S-4 | **Record kinds for the When owner's acts** (o2a, o16, an option's exit) in the authority profile (`pdlc.md` O-6) | A successor session |
 | S-5 | **Read takt's mechanism.** The squash, the landing and the issue closing live in `devx-cafe/takt-actions` and `devx-cafe/gh-tt`. They are not vendored in `how-we-work` and were not read. Nothing in the SDLC depends on them, since it drops the squash and replaces the landing. But `sdlc.md` §6's account of what takt does is only as good as the wiring that was read (findings F-7) | A successor session, if Emil wants takt's mechanism on record |
+
+## After Rounds 16 to 22 (the continuation, 2026-11-07)
+
+Add-only. The tables above stand as written. **`ontology.ttl` and `shapes.ttl` were not changed
+in this session** (prompt-2, item 6). The What schema changes are successor items, each by its own
+decision.
+
+| # | Item | Files it would change | Closes it |
+|---|---|---|---|
+| W-1 | **The observation need as a What element** (Round 17; `pdlc.md` §5). A new element kind, located like a §3.6 demand (product, system, flow, step, Decider, Projector), declaring the data needed and the acceptance or outcome it evidences. It is not a third §3.6 kind | `applications/sdlc/what/ontology.ttl` (the class and its properties, with `dct:source`); `what/shapes.ttl` (location, required fields; severity under `DDD-dec-113` E-2: a new requirement enters as `sh:Warning`); `what.md` §3 (a new subsection); a new example What graph and its vectors (no pinned example edited, as `DDD-dec-113` E-5 did); `what/check.py`'s expected warnings | A decision of its own, then a session |
+| W-2 | **The product-assurance declaration as a What element** (Rounds 18, 19; `pdlc.md` §4). Located like a §3.6 demand, inherited downward, stating how sure we must be that users perform the designed act. The levels need ruling first (`pdlc.md` O-7) | The same files as W-1, and the inheritance rule in `shapes.ttl` (a SPARQL constraint over `sdlc:within*`) | A decision of its own, after O-7 |
+| W-3 | **The conformance vectors** for both elements: element and graph hashes in a new vectors file for the new example, with the canonical form unchanged (`DDD-dec-63`, `-73`) | `what/vectors-6.json` (or the next free name) | With W-1 and W-2 |
+| W-4 | **The How side and the gates that read them.** The contract over `telemetry` facts anchored to an observation need (the H-9 pattern, `DDD-dec-70`). The presence check before ready-for-users (`sdlc.md` §17). The implementation-assurance How decision read by o9 and o11 (`sdlc.md` §5) | `applications/sdlc/how.md` and `how-vocabulary.md` (a worked example), and the judge and gate of N-3 and N-4 above | After W-1, with the reference implementation |
+| W-5 | **The authority profile's record kinds** for the classification verdict (oC) and the When owner's acts (o2a, o16, an option's exit). This widens S-4 above | `applications/sdlc/authority.md`, `authority-vocabulary.md` | A successor session |
+| W-6 | **The dispatcher's two new refusals**: an issue with no `kind:` label, and an owed or own-ground issue that carries a release for work. This widens N-1 above. The record writer (N-7) writes `lc:demandKind`, `lc:restores` and `lc:failureObservedAt` | N-1's and N-7's files | The next gate |
+| W-7 | **Wire the `lc:` checkers into `scripts/ci.py`** (S-3 above, unchanged). The SDLC checker now also computes the four DORA keys over its example | `scripts/ci.py`, `scripts/fixtures/` | A successor session |

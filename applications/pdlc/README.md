@@ -1,10 +1,14 @@
 # The PDLC Projection
 
 **The product lifecycle.** The PDLC places responsibility for a product among three owners:
-- the **What owner** holds what the product must do, and the assurance;
-- the **When owner**, the business and go-to-market, holds the order of all proposed changes and
-  when each reaches users;
-- the **How owner** holds the SDLC, the process of getting approved changes to production.
+- the **What owner** holds what the product must do: everything the How needs in order to
+  implement, including product assurance (how sure we can be that users do the act we designed)
+  and its observability needs (Rounds 17–19);
+- the **When owner**, the business and go-to-market, holds the order of all new demand and when
+  each change reaches users (Round 22);
+- the **How owner** holds the SDLC, the process of getting approved changes to production, with
+  implementation assurance, the order of owed and own-ground work, and the DORA keys as its
+  answerability (Rounds 19, 20, 22).
 
 The SDLC is a composite act within the PDLC (`DDD-dec-114`, Rounds 8 and 9).
 
@@ -13,7 +17,7 @@ directory is Claude's construction, awaiting Emil's review.
 
 | Document | What it is |
 |---|---|
-| **[pdlc](pdlc.md)** · `[PROPOSED]` | The PDLC: the stance (delivery does not decide when), the three owners, the placement rule, the four loci, priority as a When decision, the pull system and the option pool, ready for users and toggles, the seam to the SDLC, falsifiers and open items |
+| **[pdlc](pdlc.md)** · `[PROPOSED]` | The PDLC: the stance (delivery does not decide when), the three owners, the What owner's output (everything the How needs), the two assurances (product and implementation), evidence in use and observation needs, the placement rule, the four loci, priority as a When decision, the three kinds of demand and their sources of pull, the option pool for new demand, ready for users and toggles, the seam to the SDLC, falsifiers and open items |
 | **[graph/](graph/)** · `[PROPOSED]` | `lc:`, the lifecycle vocabulary (`ontology.ttl`); its shapes (`shapes.ttl`); the PDLC's acts on the act map (`acts.ttl`); an illustrative option pool (`example-pool.ttl`); and `check.py`, which validates the whole act map, PDLC and SDLC, with planted defects |
 
 ## Where things live

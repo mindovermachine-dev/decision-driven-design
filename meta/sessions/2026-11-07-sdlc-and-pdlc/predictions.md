@@ -146,3 +146,18 @@ Falsifier: any FAIL line, or any computed value other than those four.
 - The readings conform. Exit 0 for both.
 
 The expected arithmetic failure did not come.
+
+## P-8 — every gate, after the spec amendments (`python3 scripts/ci.py`)
+
+Prediction: "all gates passed". Decisions valid at 93. Pins unchanged (81, 0, 0, 1 shadowed).
+`pdlc.md` gains one `ddd:ref`, `term:capability`, which is pinned at `v5.15.2`, so no W5 fires.
+No gate reads `applications/pdlc/` or `applications/sdlc/acts/`. Both `lc:` checkers pass as in
+P-7 (17 plants; 10 plus 1, and the four DORA values). No claim changed, so `core/claims/` reports
+its 6 standing warnings.
+
+Falsifier: any gate red, a W5 or W6, or a checker failing.
+
+**Outcome.** As predicted. `scripts/ci.py`: "all gates passed", exit 0. 93 decisions. Pins 81, 0,
+0, 1 shadowed, and no W or E lines. Both checkers: "all checks passed". A misdirected batch
+before this run (the shell sat in the session folder) wrote nothing and ran nothing. It is noted
+here because its prediction text was rewritten and resent.

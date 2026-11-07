@@ -3,7 +3,8 @@
 **Register: `[PROPOSED]`, unruled.** This specification is the exposition of `DDD-dec-115`. It
 has two layers:
 - **What the decision files.** The decision files Emil's rulings: the request (2026-11-06),
-  Rounds 1 and 2, and Round 13 as ruled by Round 14 (verbatim in
+  Rounds 1 and 2, Round 13 as ruled by Round 14, and Rounds 19, 20 and 22, which entered by
+  amendment before landing (Round 21) (verbatim in
   [`meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md`](../../meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md)).
 - **What this text adds.** The text adds Claude's construction: the step cards, the landing's
   mechanics, the channel rules, the departures from Varve, the record's shape, the hotspots and
@@ -50,15 +51,25 @@ If either fails, the arrangement's force fails with it, and the ruled shape stay
 how also owns the process of getting changes to production").
 
 **Inputs, read as ground; the SDLC owns none of them:**
-- **a released issue**: the When owner's pull and rank (o2a), framed at o1;
+- **an issue**, by one of three entries (§16):
+  - for new demand, released by the When owner (o2a) and framed at o1;
+  - for owed demand, classified by the What owner (oC);
+  - for own-ground demand, framed by the How owner itself (oG), the one entry that starts inside
+    the SDLC;
 - **the What**: [`what.md`](what.md), owned in the PDLC;
-- **the assurance**: the What owner's.
+- **the product assurance**: the What owner's (Round 19).
+
+Implementation assurance is not an input: it is the How owner's own (§5).
 
 **Outputs, across the same seam:**
 - **production state, dark**: o13, read by the PDLC's ready-for-users act;
-- **the occurrence record**: from which the PDLC computes the forecast (§13).
+- **the occurrence record**: from which the PDLC computes the forecast (§13), with the DORA keys
+  (§18);
+- **telemetry of the product in use**: the How owner adds it (Round 16). Its presence is checked
+  before ready-for-users (§17).
 
-No calendar input enters. The SDLC is given an order and an assurance, and it returns a cadence.
+No calendar input enters. The SDLC is given an order for new demand and a product assurance, and
+it returns a cadence and its DORA keys.
 
 ## 2. The axes
 
@@ -219,17 +230,31 @@ rule for human occupants. It follows from the occupant's own grants in the ident
 - **A human who does not hold it** needs a holder's approve <sha>.
 - **An agent never holds Approve.** An AI-occupied issue always needs a human holder.
 
-**Assurance sets whether self-acceptance is enough.** The grant says who may approve. Assurance,
-which is the What owner's (`DDD-dec-114` P-1), says whether self-acceptance is enough. Two levels
-are proposed (`UNVERIFIED — Emil review`):
+**Implementation assurance sets whether self-acceptance is enough** (Round 19). The grant says
+who may approve. Implementation assurance says whether self-acceptance is enough.
 
-| Assurance level | o10 |
-|---|---|
-| **self** | A holder of Approve for the locus may accept their own work |
-| **independent** | The approver must be a holder of Approve who is not the occupant, nor a delegate the occupant holds. o11 refuses otherwise |
+*Ruled (Round 19):* implementation assurance, "how sure are we the feature is implemented
+correctly", is "the Assurance that the how must own". It is the How owner's, on the How's acts.
+It is three things, declared per What element or per act as a How decision:
 
-The issue's assurance level is read from the What element the change is anchored to, or declared
-on the issue under the What owner's scope. o11 reads it as ground.
+| Part | What it sets | Where it bites |
+|---|---|---|
+| **Mechanical checks** | Which checks must hold on the candidate: conformance cases from the Deciders, bound wiring, accessibility, toggle defaults | o9 |
+| **o10's depth** | What the approver must judge beyond o9: the residual decisions the diff touches that nothing verified (§14) | o10 |
+| **Independence** | Whether acceptance must come from someone other than the occupant. Two levels are proposed (`UNVERIFIED — Emil review`): **self**, where a holder of Approve for the locus may accept their own work; **independent**, where the approver is a holder of Approve who is neither the occupant nor a delegate the occupant holds, and o11 refuses otherwise | o10, judged at o11 |
+
+It is a How decision, anchored to the What element it governs (how.md: a constraint, anchored),
+or declared on the issue under the How scope. o9 and o11 read it as ground.
+
+**It is not product assurance.** Product assurance, how sure we can be that users do the act we
+designed, is the What owner's. It is judged at ready-for-users, not at o9 to o11
+(`../pdlc/pdlc.md` §4). The first version of this section put the independence levels under "the
+What owner's" assurance. Round 19 moved them to the How.
+
+**The How owner tunes it down until the outcomes move** (Round 20). Lowering any part shows, if it
+mattered, as change failure rate or failed ready-for-users verdicts (§18). "And if they don't
+thats fine - then it was properly not giving any value." So the How owner may keep removing
+verification while both outcomes hold still, and restores it when either moves.
 
 **Relation to Varve's ADR 0088.**
 - **Varve's rule.** Varve makes "review … non-blocking for a human's own commits and blocking for
@@ -243,8 +268,8 @@ on the issue under the What owner's scope. o11 reads it as ground.
   every pull request needs the approval, because a commit pushed under a human's account cannot
   be told from the human's own.
 
-**Falsifier.** A self-accepted change escapes at an assurance level that required independent
-acceptance, and the gate did not refuse it.
+**Falsifier.** A self-accepted change escapes at an implementation-assurance level that required
+independent acceptance, and the gate did not refuse it.
 
 ## 6. The landing
 
@@ -333,7 +358,10 @@ session behind it."
   - A label applied by anyone else is removed, and the refusal is recorded (o3, `lc:Refused`).
 - **The locus.** The issue carries exactly one `locus:` label (`locus:what`, `locus:how`,
   `locus:ground`, `locus:assurance`), set at o1 (Round 3). An issue without one is refused at
-  dispatch.
+  dispatch. `locus:assurance` means product assurance. A change to implementation assurance is
+  `locus:how` (Round 19).
+- **The kind.** The issue carries exactly one `kind:` label (`kind:new`, `kind:owed`,
+  `kind:own-ground`), set at its entry (§16). An issue without one is refused at dispatch.
 - **Which comments are instructions.** Comments that are all of these:
   1. by a human in the map, matched by login and user id;
   2. made by hand: GitHub records no App (`performed_via_github_app` is null);
@@ -492,7 +520,7 @@ Nothing here is stated from memory. Where the docs are silent, it says so.
 - **The issue body is the prompt**, read at a recorded position: the id of the last comment
   read, 0 for the body alone.
 - **The dispatcher's header is the bootstrap.** It holds the issue number and position, the
-  declared locus, the assurance level, the occupant, the base SHA, the dispatcher's run id and
+  declared locus, the demand kind, the implementation-assurance level, the occupant, the base SHA, the dispatcher's run id and
   the identity map's SHA.
 - **Both are committed by o4**, as `.sdlc/sessions/<N>/prompt.md` and `bootstrap.md`, before any
   other change. This is the convention this repository keeps for its own sessions
@@ -531,15 +559,20 @@ not argued").
   write is not a record.
 
 The checker is `python3 applications/sdlc/acts/check.py`, over an illustrative record of one
-invented issue ([`acts/example-record.ttl`](acts/example-record.ttl)). It has 7 planted defects.
+invented issues, #101 (new) and #103 (owed, restoring #101's deployment)
+([`acts/example-record.ttl`](acts/example-record.ttl)). It has 10 planted defects, plus one on a
+DORA reading.
+
+**Two fields, from Round 22.**
+- **`lc:demandKind`.** Every occurrence carries its issue's kind: new, owed or own-ground. A
+  missing kind is refused.
+- **`lc:restores`.** On an owed issue's o13, it names the earlier o13 it restores, with
+  `lc:failureObservedAt`.
 
 **It is the SDLC's output across the seam.** The PDLC computes the forecast from it: throughput
-from o13 occurrences, lead time from o2b to o13 (`../pdlc/pdlc.md` §1). DORA's keys come from it:
-- deployment frequency from o13;
-- lead time from o2b to o13;
-- change failure rate from o13 occurrences whose change is later reverted or fixed by a
-  How-locus issue;
-- recovery time from such a failure to its fix's o13.
+from new-demand o13 occurrences, flow time from o2b to o13 (`../pdlc/pdlc.md` §1). The DORA keys
+come from it too (§18). The kind lets the PDLC read the How owner's split of capacity across new,
+owed and own-ground work.
 
 ## 14. Hotspots and levers
 
@@ -550,7 +583,9 @@ Hotspots are where demand recurs at actor price. They are computed from the reco
   re-assembled per run. Each o6 is a decision supplied late at human price.
 - **The classes.** o6 is classified by the locus of the decision it supplied (`lc:suppliedLocus`):
   - **What.** The specification was incomplete upstream, in the PDLC. Lever: the What owner
-    receives it as an o0 contribution, a specification gap.
+    receives it as an o0 contribution, a specification gap. The What-locus share of o6 is the
+    PDLC's meter of the What's completeness (Round 18; `../pdlc/pdlc.md` §3), read across the
+    How → What seam.
   - **How.** The How was not declared, or the realisation plan (o1b) was incomplete. Lever: a How
     decision, or a fuller plan template.
   - **Code only.** The occupant's own judgment. Lever: the occupant's instructions and skills.
@@ -587,12 +622,110 @@ computation.
   `.github/identities.json` or the judge and is approved under its own version.
 - **A cost has an address.** Falsified by a cost that cannot be attached to any occurrence's
   address: then the axes are wrong (Round 2: "revisit after the first recorded issues").
-- **Self-acceptance is gated by assurance.** Falsified by a self-accepted change at an assurance
-  level that required independent acceptance, which the gate did not refuse (§5).
+- **Self-acceptance is gated by implementation assurance.** Falsified by a self-accepted change at
+  an implementation-assurance level that required independent acceptance, which the gate did not
+  refuse (§5).
 - **Dark is dark.** Falsified by a change that reaches users at o13, before o16
-  (`../pdlc/pdlc.md` §12).
+  (`../pdlc/pdlc.md` §14).
+- **The outcomes see escapes.** Falsified by an escape that reaches users and that neither change
+  failure rate nor the ready-for-users verdicts record. Then the outcome measures are blind, and
+  Round 20's guard on implementation assurance fails. `[PROPOSED]`, Claude's (Round 20). It
+  replaces Claude's Round 19 falsifier "implementation assurance falls, and neither measure
+  moves", which Emil withdrew.
+- **Owed work needs no When.** Falsified by an implementation bug that needs the When owner's
+  ordering to get fixed (Round 22).
 
-## 16. Open items
+## 16. Owed and own-ground demand
+
+*Ruled (Round 22):* "Adopt (Recommended)" (option text: "Bugs (owed) and debt (own-ground) enter
+the SDLC directly, ordered by How, answered for by DORA; When sees only cadence"). The classifier:
+"What owner (Recommended)". The kinds are defined in `../pdlc/pdlc.md` §9.
+
+| Kind | Arrives from | Enters at | Ordered by | Answered for by |
+|---|---|---|---|---|
+| New | The When owner's pull (o2a), framed at o1 | o1b, then o2b reading o2a | When owner | Cadence, the forecast |
+| Owed | The What owner's classification verdict, owed (oC): the software breaks the What in force | o1b, **without o2a** | How owner | Time to restore (§18) |
+| Own-ground | The How owner's own record: DORA trends, a dependency advisory, the arrangement, the platform (oG) | o1b, **without o2a** | How owner | The DORA keys' trend (§18) |
+
+**In the act map.** o1b's dependencies are scoped by kind (`lc:forKind`): on o1 for new, on oC for
+owed, on oG for own-ground. o2b reads o2a for new demand only. In the record, no occurrence of an
+owed or own-ground issue may have a release for work in its ground
+(`lc:NoReleaseForWorkOutsideNewShape`).
+
+**The issue declares its kind** (§8), and the record carries it (§13). From the record the PDLC
+reads:
+- cadence for new demand;
+- the DORA keys;
+- the How owner's split of capacity across the three kinds.
+
+The When owner sees owed and own-ground work only as cadence.
+
+**An owed fix is usually not dark.** It restores behaviour the What already promises, so it needs
+no new toggle and no o16. Its o13 records which deployment it restores.
+
+**The guard, from both sides** (Round 20's guard applied to Round 22):
+- **too little own-ground work** shows as rising change failure rate, lead time and time to
+  restore;
+- **too much** shows as falling cadence with no DORA improvement.
+
+The How owner answers for both.
+
+## 17. Ready for users reads the telemetry
+
+The ready-for-users verdict is the PDLC's (What owner, oR). The SDLC supplies two things to it:
+- the change in production, dark, with its verdicts;
+- the telemetry each observation need asks for (Rounds 16, 17).
+
+**The check.** Before the verdict, it is checked that the telemetry exists in production for each
+observation need that the change's What elements carry: the contract over `telemetry` facts
+anchored to the need has a reporter, and its facts arrive. This is the H-9 pattern (`DDD-dec-60`,
+now `DDD-dec-70`). A fact no reporter could supply is a reported gap, never "unknown".
+
+**In the record.** The verdict records each need checked (`lc:checksObservation`, with
+`lc:telemetryPresent`). A verdict that finds the change ready while any checked need's telemetry
+is absent is refused (`lc:ReadyNeedsTelemetryShape`, `../pdlc/graph/shapes.ttl`).
+
+**Until the What schema has observation needs** (successor items), the needs are named by IRI as
+strings, and the check is the What owner's judgment.
+
+## 18. The DORA keys: the How owner's answerability
+
+*Ruled (Round 20):* "the DORA metrics are what the How needs in order to prove that it is doing
+its job". They are the How owner's answerability, in upstream core/05 §5's sense: "the obligation
+to produce the chain". They cross the How → What and How → When seams, in the record.
+
+| Key | What it proves | Computed from the record | Query |
+|---|---|---|---|
+| **Change lead time** | Approved work reaches production fast | Per change: o4 (the charter, the session's first commit) to the o13 that deployed it. The reading is the median, in seconds | [`acts/dora/lead-time.rq`](acts/dora/lead-time.rq) |
+| **Deployment frequency** | Flow is continuous, with no batching to a calendar | Successful o13 occurrences in the window, per week | [`acts/dora/deploy-frequency.rq`](acts/dora/deploy-frequency.rq) |
+| **Change failure rate** | Implementation assurance is enough | Successful o13 occurrences that a later owed o13 restores (`lc:restores`), divided by all successful o13 | [`acts/dora/change-failure-rate.rq`](acts/dora/change-failure-rate.rq) |
+| **Failed-deployment recovery time** | Recovery is fast when implementation assurance was not enough | Per restoration: `lc:failureObservedAt` to the restoring o13. The reading is the median, in seconds. Owed demand only | [`acts/dora/time-to-restore.rq`](acts/dora/time-to-restore.rq) |
+
+**Production is an input.** Two values come from production, through the record:
+- whether a deployment failed: an owed issue's `lc:restores`, which follows the What owner's
+  classification;
+- when the failure was first observed: `lc:failureObservedAt`.
+
+Both are recorded by the dispatcher on the owed issue's o13.
+
+**The reading's shape.** Each reading is an `lc:DoraReading`:
+- its key;
+- its window;
+- one decimal value;
+- its unit (seconds, per week, ratio);
+- the number of occurrences it was computed over, so a reading over nothing is visible as such.
+
+The shape is `lc:DoraReadingShape` in [`acts/shapes.ttl`](acts/shapes.ttl). `acts/check.py`
+computes all four over the illustrative record. Each equals the value worked by hand: lead time
+17520 s (the median of #101's 17040 and #103's 18000), deployment frequency 2 per week, change
+failure rate 0.5, time to restore 21600 s. Every reading conforms. The numbers are invented, and
+show the computation only.
+
+**Which occurrences feed each key:** o4 and o13 (lead time); o13 (frequency); o13 with
+`lc:restores` (failure rate, time to restore). The flow time the PDLC's forecast uses, o2b to o13,
+is a different interval (`../pdlc/pdlc.md` §1).
+
+## 19. Open items
 
 | # | Item | Closes it |
 |---|---|---|
@@ -601,5 +734,5 @@ computation.
 | O-3 | When the axes are revisited: after the first recorded issues (Round 2) | Emil, on the record |
 | O-4 | The toggle state store (§7) | Emil |
 | O-5 | D-9: ADR 0239's delegate versus "an agent never holds Approve" | **Emil** |
-| O-6 | The assurance levels (§5): two are proposed | Emil |
+| O-6 | The implementation-assurance independence levels (§5): two are proposed | Emil |
 | O-7 | Whether the issue closes at o13 (the SDLC's part done) or at o16 (delivered). Proposed: at o13, with delivery recorded against the toggle | Emil |

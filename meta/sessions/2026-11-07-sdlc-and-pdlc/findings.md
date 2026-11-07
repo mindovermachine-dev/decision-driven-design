@@ -18,3 +18,17 @@ Emil. None changes a ruling.
 | F-10 | **Round 14's list of rounds does not name Round 6.** Round 6's stance was flagged "for review of the wording", and Round 14 approves "all your readings". The prompt's work item 3a states the stance as ruled. Recorded as ruled, with this flag | `rulings.md`, R-6 |
 | F-11 | **The act map's three causal-index readings are not in Round 14's list** (Rounds 3, 5, 7, 9–13). They stay `UNVERIFIED — Emil review` | `rulings.md`, R-AM; `sdlc.md` §3 |
 | F-12 | **A miscount in P-1.** The base decision count included `core/decisions/README.md`. The validator counted 93, not 94 | `predictions.md`, P-1 |
+
+## The continuation — Rounds 16 to 22 (2026-11-07)
+
+Add-only. The table above stands as written.
+
+| # | Finding | Where it went |
+|---|---|---|
+| C-1 | **Rounds 16 to 22 arrived after the first session's charter was cut.** The first session finished at `d52b93f` with Rounds 1 to 15, while the conversation went on. Round 19 contradicts `DDD-dec-114`'s first wording: the What owner owning "the assurance locus", and the How working "within the assurance the What owner set". Round 21 ruled how the new rounds enter: "Amend before landing (Recommended)". Nothing is in force until the branch lands, so `DDD-dec-114` and `-115` and the specs are amended in place on the same branch, and `rulings.md` gains the rounds. One pull request lands it all. No new decision id was taken. Each amendment names its round | `prompt-2.md`; `rulings.md`; both decisions' notes |
+| C-2 | **Round 22 overrides part of Round 11's ruled reading.** Round 11's reading (approved by Round 14) had the How owner contribute "arrangement changes and technical debt" to the option pool. Round 22 makes both own-ground demand, which bypasses the pool. The later round governs. The illustrative pool keeps its How-owner option, flagged | `DDD-dec-114` P-5; `pdlc.md` §10 |
+| C-3 | **Round 19 corrects a reading the first session wrote down.** `sdlc.md` §5 had the self/independent levels as "assurance, which is the What owner's". They are implementation assurance, and they are the How owner's | `sdlc.md` §5 |
+| C-4 | **A How-owner capability is a classification pin.** "A how owner that understands digital product development" (Round 16) is, in canon's terms, pinning by classification (`core/04`). That is the loosest pin. The encoded observation needs are the guard, and the pin is the backstop | `pdlc.md` §5 |
+| C-5 | **Two intervals, one name.** The first session used "lead time, o2b to o13" for the forecast. DORA's change lead time starts at the first commit. The forecast's interval is now called flow time (o2b to o13), and DORA's lead time is o4 to o13 | `pdlc.md` §1; `sdlc.md` §13, §18 |
+| C-6 | **`what.md` §5.1 says "the product owner's What scope".** Under Round 12 the classic product owner's priority is a When decision. `what.md` uses the phrase only for the holder of the What scope, so it does not contradict the PDLC. It is flagged for a later editorial pass, not edited here (`what.md` is outside this session's scope) | This finding |
+| C-7 | **A prediction miss.** After adding oC and oG, the PDLC checker was run before a prediction was written for that change | `predictions.md`, P-7 |
