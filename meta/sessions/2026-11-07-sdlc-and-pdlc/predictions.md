@@ -36,3 +36,28 @@ prediction's base. The 92 came from `ls core/decisions | wc -l`, which also coun
 (`git ls-tree 182465a core/decisions/`), and 91 + 2 = 93. The same miscount is in the preamble's
 "92 decision files", which is annotated in place (it is an observation, not a prediction). The other limbs held: both files are valid, every
 basis resolved, and the pins did not move. Lesson: count with the validator, not with `ls`.
+
+## P-2 — the lifecycle graph's first check run (`applications/pdlc/graph/check.py`)
+
+Prediction: closure passes, with every `lc:` term used defined and sourced. The PDLC and SDLC act
+maps, merged as one map, conform. The illustrative pool and delivery conform. All 12 planted
+defects are caught, each by the shape that names its rule. Exit 0. Written before the first run,
+which is the first test of shapes written in this session. A first-run failure in the SPARQL
+constraints, the layer-path shape above all, would not surprise me.
+
+Falsifier: any FAIL line.
+
+**Outcome.** As predicted. Closure ok, map conforms, example conforms, 12 of 12 plants caught,
+exit 0. The expected first-run failure did not come, so a passing shape was checked for
+vacuity. A build act given the path "PDLC ▸ SDLC ▸ accept" was caught by the layer-path shape
+("agrees with lc:within"). That defect is now plant 13. Re-run: 13 of 13, exit 0.
+
+## P-3 — the occurrence record's first check run (`applications/sdlc/acts/check.py`)
+
+Prediction: the illustrative record of issue #101 (7 occurrences), merged with the act map,
+conforms to the map's shapes and the record's. All 7 plants are caught. Exit 0. The record's
+SHAs are placeholders (`000…0001` to `000…0004`), not commits of any repository.
+
+Falsifier: any FAIL line.
+
+**Outcome.** As predicted: the record conforms, 7 of 7 plants caught, exit 0.

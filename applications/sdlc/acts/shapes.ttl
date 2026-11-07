@@ -1,0 +1,91 @@
+@prefix lc:   <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  The occurrence record's shape. [PROPOSED], unruled (applications/sdlc/sdlc.md §13;
+#  DDD-dec-115 S-6).
+#
+#  One record per occurrence, written by the dispatcher from edition 1. The record carries the
+#  occurrence's own address (concrete: the change locus is the issue's declared value, never
+#  lc:DeclaredLocus), its act site, its time index as the earlier occurrences in its ground
+#  reading, the ground position it read (DDD-dec-52), its occupant (beside the address, never in
+#  it), its cost, and its verdict. Cost fields are absent when the run did not report them, and
+#  never estimated.
+#
+#  The regime is lc:'s (applications/pdlc/graph/shapes.ttl header). The act map's shapes apply
+#  too, since the address is an lc:Address.
+#  Run:  python3 applications/sdlc/acts/check.py
+#################################################################
+
+lc:recordPrefixes sh:declare
+  [ sh:prefix "lc" ; sh:namespace "https://decision-driven-design.dk/ns/lifecycle#"^^xsd:anyURI ] .
+
+lc:OccurrenceShape a sh:NodeShape ;
+  sh:targetClass lc:Occurrence ;
+  sh:property [ sh:path lc:atAct ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "An occurrence names the one act site of the map it occurs at." ] ;
+  sh:property [ sh:path lc:issue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "An occurrence names its issue: the issue is the basis of every session (DDD-dec-115)." ] ;
+  sh:property [ sh:path lc:address ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Address ;
+                sh:message "An occurrence carries its concrete address." ] ;
+  sh:property [ sh:path ( lc:address lc:changeLocus ) ; sh:in ( lc:What lc:How lc:Ground lc:Assurance ) ;
+                sh:message "A recorded address carries the issue's declared locus, one of the four values (Round 4), never the map's placeholder." ] ;
+  sh:property [ sh:path lc:after ; sh:class lc:Occurrence ;
+                sh:message "The time index: each earlier occurrence named is a recorded occurrence (DDD-address-01)." ] ;
+  sh:property [ sh:path lc:readsIssuePosition ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "An occurrence records the issue position it read (DDD-dec-52)." ] ;
+  sh:property [ sh:path lc:readsHead ; sh:maxCount 1 ; sh:pattern "^[0-9a-f]{40}$" ;
+                sh:message "The head an occurrence read is a full 40-character SHA (DDD-dec-52)." ] ;
+  sh:property [ sh:path lc:occupant ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                sh:message "An occurrence names its occupant: an id in .github/identities.json, or program:<workflow>." ] ;
+  sh:property [ sh:path lc:occupantKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "human" "model" "program" ) ;
+                sh:message "An occurrence's occupant is a human, a model or a program." ] ;
+  sh:property [ sh:path lc:tokensIn ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "Input tokens, when reported, are one non-negative integer." ] ;
+  sh:property [ sh:path lc:tokensOut ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "Output tokens, when reported, are one non-negative integer." ] ;
+  sh:property [ sh:path lc:wallSeconds ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "An occurrence records its wall time in seconds." ] ;
+  sh:property [ sh:path lc:humanWaitSeconds ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "An occurrence records the human wait before it, in seconds (0 when none)." ] ;
+  sh:property [ sh:path lc:startedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+                sh:message "An occurrence records its wall-clock start, for measurement only." ] ;
+  sh:property [ sh:path lc:verdict ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Verdict ;
+                sh:message "An occurrence records its verdict." ] .
+
+lc:OccurrenceAgreesWithMapShape a sh:NodeShape ;
+  sh:targetClass lc:Occurrence ;
+  sh:sparql [
+    sh:message "A recorded address agrees with its act site's address on the surface and authority axes: a cost that lands at another position means the occurrence or the axes are wrong (sdlc.md §15)." ;
+    sh:prefixes lc:recordPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:atAct ?a ; lc:address ?ra .
+        ?a lc:address ?ma .
+        { ?ra lc:surfaceRead ?s1 . ?ma lc:surfaceRead ?s2 . FILTER (?s1 != ?s2) }
+        UNION
+        { ?ra lc:authorityRead ?r1 . ?ma lc:authorityRead ?r2 . FILTER (?r1 != ?r2) }
+      }""" ] .
+
+lc:ModelOccurrenceShape a sh:NodeShape ;
+  sh:targetClass lc:Occurrence ;
+  sh:sparql [
+    sh:message "An occurrence of o10 is never occupied by a model: an agent never holds Approve (Round 13)." ;
+    sh:prefixes lc:recordPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o10> ; lc:occupantKind ?k .
+        FILTER (?k != "human")
+      }""" ] .
+
+lc:DirectionLocusShape a sh:NodeShape ;
+  sh:targetClass lc:Occurrence ;
+  sh:sparql [
+    sh:message "An occurrence of o6 records the locus of the decision its direction supplied (What, How or code only), for the hotspot classes (sdlc.md §14)." ;
+    sh:prefixes lc:recordPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o6> .
+        FILTER NOT EXISTS { $this lc:suppliedLocus ?l . FILTER (?l IN (lc:What, lc:How, lc:CodeOnly)) }
+      }""" ] .

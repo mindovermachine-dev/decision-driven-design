@@ -1,0 +1,161 @@
+"""Check the lifecycle graph: the act map (PDLC and SDLC), the option pool and the toggles.
+
+    python3 applications/pdlc/graph/check.py
+
+[PROPOSED], unruled (DDD-dec-114, DDD-dec-115). Needs rdflib and pyshacl. Exit status is
+non-zero on any failure, and a missing tool fails rather than skips.
+
+The validation regime is sdlc edition 1's (DDD-dec-113, E-1): the data graph is the data merged
+with ontology.ttl, validated with no inference. "Conforms" means no sh:Violation.
+
+What it checks:
+  1. closure   every lc: term used by the shapes and the data is defined in ontology.ttl, and
+               every ontology term carries a dct:source;
+  2. map       the PDLC's acts (acts.ttl) and the SDLC's (applications/sdlc/acts/acts.ttl), as
+               one map, conform;
+  3. example   the illustrative pool and delivery (example-pool.ttl) conform;
+  4. plants    each planted defect is caught by the shape that names its rule, and the unplanted
+               data has no such result.
+"""
+import os, sys
+
+try:
+    from rdflib import Graph, Namespace, RDF, URIRef
+    from pyshacl import validate
+except ImportError as e:  # a missing tool is a failure, never a pass
+    sys.exit(f"FAIL  needs rdflib and pyshacl ({e}); see scripts/requirements.txt")
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.normpath(os.path.join(HERE, "..", "..", ".."))
+LC = Namespace("https://decision-driven-design.dk/ns/lifecycle#")
+DCT = URIRef("http://purl.org/dc/terms/source")
+ONTOLOGY = os.path.join(HERE, "ontology.ttl")
+SHAPES = os.path.join(HERE, "shapes.ttl")
+MAP = [os.path.join(HERE, "acts.ttl"), os.path.join(ROOT, "applications", "sdlc", "acts", "acts.ttl")]
+EXAMPLE = os.path.join(HERE, "example-pool.ttl")
+
+PREFIX = """@prefix lc: <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix m: <https://decision-driven-design.dk/ns/lifecycle/map#> .
+@prefix ex: <https://example.org/acme-shop/pdlc#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+"""
+
+# (name, base, turtle added to the base, a fragment of the sh:message that must catch it)
+PLANTS = [
+    ("exit decided by the How owner", "example",
+     "ex:opt5 lc:exit [ a lc:Declined ; lc:decidedBy lc:HowOwner ; lc:decidedAt \"2026-11-06\"^^xsd:date ; lc:reason \"x\" ] .",
+     "recorded When-owner decision"),
+    ("declined with no reason", "example",
+     "ex:opt5 lc:exit [ a lc:Declined ; lc:decidedBy lc:WhenOwner ; lc:decidedAt \"2026-11-06\"^^xsd:date ] .",
+     "carries its reason"),
+    ("expired inside its window", "example",
+     "ex:opt5 lc:exit [ a lc:Expired ; lc:decidedBy lc:WhenOwner ; lc:decidedAt \"2026-11-06\"^^xsd:date ] .",
+     "only once its market window has passed"),
+    ("an option that is a What change", "example",
+     "ex:opt5 lc:changesWhatElement <https://example.org/acme-shop/what/01M610JNAMCQ2R6MG31Q07DWMX> .",
+     "never a What change"),
+    ("toggle turned on without a verdict", "example",
+     "ex:t2 a lc:Toggle . ex:on2 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t2 .",
+     "Turning on an unready toggle is refused"),
+    ("toggle turned on with an unready verdict", "example",
+     "ex:t3 a lc:Toggle . ex:v3 a lc:ReadyForUsers ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:t3 ; lc:ready false ; lc:userSideShare \"none\" . "
+     "ex:on3 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t3 ; lc:readsVerdict ex:v3 .",
+     "Turning on an unready toggle is refused"),
+    ("ready-for-users given by the When owner", "example",
+     "ex:t4 a lc:Toggle . ex:v4 a lc:ReadyForUsers ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t4 ; lc:ready true ; lc:userSideShare \"none\" .",
+     "is the What owner's"),
+    ("toggle turned on by the What owner", "example",
+     "ex:on5 a lc:ToggleOn ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:reorder ; lc:readsVerdict ex:ready101 .",
+     "is the When owner's act"),
+    ("occupant inside an address", "map",
+     "m:o99 a lc:Act ; lc:label \"x\" ; lc:within m:build ; lc:layerPath \"PDLC ▸ SDLC ▸ build\" ; lc:heldBy lc:HowOwner ; "
+     "lc:occupantLens \"model\" ; lc:recurs \"once\" ; lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; "
+     "lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ; lc:occupantLens \"model\" ] .",
+     "never part of the address"),
+    ("an SDLC act whose path skips the PDLC", "map",
+     "m:o98 a lc:Act ; lc:label \"x\" ; lc:within m:build ; lc:layerPath \"SDLC ▸ build\" ; lc:heldBy lc:HowOwner ; "
+     "lc:occupantLens \"model\" ; lc:recurs \"once\" ; lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; "
+     "lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] .",
+     "begins PDLC ▸ SDLC"),
+    ("a layer path that disagrees with lc:within", "map",
+     "m:o97 a lc:Act ; lc:label \"x\" ; lc:within m:build ; lc:layerPath \"PDLC ▸ SDLC ▸ accept\" ; lc:heldBy lc:HowOwner ; "
+     "lc:occupantLens \"model\" ; lc:recurs \"once\" ; lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; "
+     "lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] .",
+     "agrees with lc:within"),
+    ("an act held by two owners", "map",
+     "m:o2a lc:heldBy lc:WhatOwner .",
+     "Exactly one owner holds each act"),
+    ("a cycle within one issue", "map",
+     "m:o1 lc:dependency [ a lc:Dependency ; lc:on m:o13 ; lc:because \"x\" ] .",
+     "does not depend on itself"),
+]
+
+
+def load(paths, extra=""):
+    g = Graph()
+    for p in paths:
+        g.parse(p, format="turtle")
+    if extra:
+        g.parse(data=PREFIX + extra, format="turtle")
+    return g
+
+
+def run(data):
+    merged = data + load([ONTOLOGY])
+    shapes = load([SHAPES])
+    conforms, results, text = validate(merged, shacl_graph=shapes, inference="none", advanced=True,
+                                       allow_warnings=True)
+    return conforms, text
+
+
+def closure():
+    onto = load([ONTOLOGY])
+    defined = {s for s in onto.subjects() if str(s).startswith(str(LC))}
+    used = set()
+    for p in [SHAPES, EXAMPLE] + MAP:
+        for t in load([p]):
+            for n in t:
+                if isinstance(n, URIRef) and str(n).startswith(str(LC)):
+                    used.add(n)
+    missing = sorted(str(u) for u in used - defined if not str(u).endswith("shapesPrefixes")
+                     and not str(u).endswith("Shape"))
+    unsourced = sorted(str(s) for s in defined if (s, DCT, None) not in onto)
+    return missing, unsourced
+
+
+def main():
+    fails = 0
+    missing, unsourced = closure()
+    if missing or unsourced:
+        fails += 1
+        print(f"FAIL  closure: undefined {missing}; without dct:source {unsourced}")
+    else:
+        print("ok    closure: every lc: term used is defined and sourced")
+
+    bases = {"map": load(MAP), "example": load([EXAMPLE])}
+    clean = {}
+    for name, g in bases.items():
+        conforms, text = run(g)
+        clean[name] = text
+        if conforms:
+            print(f"ok    {name}: conforms")
+        else:
+            fails += 1
+            print(f"FAIL  {name}: does not conform\n{text}")
+
+    for name, base, extra, fragment in PLANTS:
+        g = load(MAP if base == "map" else [EXAMPLE], extra)
+        conforms, text = run(g)
+        caught = (not conforms) and fragment in text and fragment not in clean[base]
+        if caught:
+            print(f"ok    plant caught: {name}")
+        else:
+            fails += 1
+            print(f"FAIL  plant not caught: {name} (expected a result naming {fragment!r})")
+
+    print("\nall checks passed" if not fails else f"\n{fails} check(s) failed")
+    sys.exit(1 if fails else 0)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,183 @@
+@prefix lc:   <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  lc: shapes — the act map, the option pool, ready for users and toggles. [PROPOSED], unruled.
+#
+#  The validation regime is sdlc edition 1's (DDD-dec-113, E-1), applied to lc:. The data graph
+#  is the graph merged with ontology.ttl, validated with SHACL Core class semantics and
+#  SHACL-SPARQL, and no RDFS or OWL entailment. Every shape here is sh:Violation: each concerns a
+#  record's own form, or a rule DDD-dec-114 states as a refusal. The occurrence record's shape is
+#  the SDLC's (applications/sdlc/acts/shapes.ttl).
+#
+#  Run:  python3 applications/pdlc/graph/check.py
+#################################################################
+
+lc:shapesPrefixes sh:declare
+  [ sh:prefix "lc" ; sh:namespace "https://decision-driven-design.dk/ns/lifecycle#"^^xsd:anyURI ] ,
+  [ sh:prefix "rdf" ; sh:namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#"^^xsd:anyURI ] .
+
+#########################  ACTS  #########################
+
+lc:ActShape a sh:NodeShape ;
+  sh:targetClass lc:Act ;
+  sh:property [ sh:path lc:label ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "An act says what it does (lc:label)." ] ;
+  sh:property [ sh:path lc:within ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:CompositeAct ;
+                sh:message "An act sits within exactly one composite act (DDD-ground-06, the layer path)." ] ;
+  sh:property [ sh:path lc:layerPath ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                sh:message "An act carries its layer path written out." ] ;
+  sh:property [ sh:path lc:address ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Address ;
+                sh:message "An act has exactly one address (DDD-ground-06 falsifier: one occurrence, one address)." ] ;
+  sh:property [ sh:path lc:heldBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "Exactly one owner holds each act, with control and liability (DDD-dec-114 P-2)." ] ;
+  sh:property [ sh:path lc:occupantLens ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "An act carries its occupant lens, beside the address." ] ;
+  sh:property [ sh:path lc:recurs ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "An act says how often it recurs." ] ;
+  sh:property [ sh:path lc:readsEarlier ; sh:class lc:Act ;
+                sh:message "Ground read from earlier issues names the act that produced it." ] ;
+  sh:property [ sh:path ( lc:dependency lc:on ) ; sh:class lc:Act ;
+                sh:message "A dependency is on another act of the map." ] .
+
+lc:DependencyShape a sh:NodeShape ;
+  sh:targetObjectsOf lc:dependency ;
+  sh:property [ sh:path lc:on ; sh:minCount 1 ; sh:maxCount 1 ;
+                sh:message "A dependency names the one act it is on." ] ;
+  sh:property [ sh:path lc:because ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A dependency names the state change in the act's ground reading (DDD-address-01)." ] .
+
+lc:AddressShape a sh:NodeShape ;
+  sh:targetClass lc:Address ;
+  sh:property [ sh:path lc:surfaceRead ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Surface ;
+                sh:message "An address has one position on the surface-read axis." ] ;
+  sh:property [ sh:path lc:changeLocus ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Locus ;
+                sh:message "An address has one position on the change-locus axis." ] ;
+  sh:property [ sh:path lc:authorityRead ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Authority ;
+                sh:message "An address has one position on the authority-read axis." ] ;
+  sh:property [ sh:path lc:occupantLens ; sh:maxCount 0 ;
+                sh:message "The occupant is never part of the address (DDD-ground-06)." ] ;
+  sh:property [ sh:path lc:occupant ; sh:maxCount 0 ;
+                sh:message "The occupant is never part of the address (DDD-ground-06)." ] ;
+  sh:property [ sh:path lc:heldBy ; sh:maxCount 0 ;
+                sh:message "The holding owner is not part of the address; it is the act's." ] .
+
+lc:LayerPathAgreesShape a sh:NodeShape ;
+  sh:targetClass lc:Act ;
+  sh:sparql [
+    sh:message "An act's written layer path agrees with lc:within*: it names every composite act above it, ends with its own, and begins with the outermost (DDD-ground-06)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:layerPath ?p .
+        { $this lc:within+ ?a . ?a lc:label ?l . FILTER ( !CONTAINS(?p, ?l) ) }
+        UNION { $this lc:within ?c . ?c lc:label ?cl . FILTER ( !STRENDS(?p, ?cl) ) }
+        UNION { $this lc:within+ ?r . FILTER NOT EXISTS { ?r lc:within ?x } ?r lc:label ?rl . FILTER ( !STRSTARTS(?p, ?rl) ) }
+      }""" ] .
+
+lc:SdlcWithinPdlcShape a sh:NodeShape ;
+  sh:targetClass lc:Act ;
+  sh:sparql [
+    sh:message "Every SDLC occurrence's layer path begins PDLC ▸ SDLC, and the SDLC sits within the PDLC (DDD-dec-114 P-1; Round 9)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:within+ ?s . ?s lc:label "SDLC" ; lc:within ?parent .
+        $this lc:layerPath ?p .
+        OPTIONAL { ?parent lc:label ?pl }
+        FILTER ( !STRSTARTS(?p, "PDLC ▸ SDLC") || !BOUND(?pl) || ?pl != "PDLC" )
+      }""" ] ;
+  sh:sparql [
+    sh:message "The SDLC composite act sits within the PDLC composite act (DDD-dec-114 P-1)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:within+ ?s . ?s lc:label "SDLC" .
+        FILTER NOT EXISTS { ?s lc:within ?p . ?p lc:label "PDLC" }
+      }""" ] .
+
+lc:NoSelfDependencyShape a sh:NodeShape ;
+  sh:targetClass lc:Act ;
+  sh:sparql [
+    sh:message "Within one issue, an act does not depend on itself through the map (DDD-address-01). Ground left by earlier issues is lc:readsEarlier, and repetition at one site (o5, o6) is told apart in the record, not the map." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE { $this (lc:dependency/lc:on)+ $this . }""" ] .
+
+#########################  THE OPTION POOL — DDD-dec-114 P-5  #########################
+
+lc:OptionShape a sh:NodeShape ;
+  sh:targetClass lc:Option ;
+  sh:property [ sh:path lc:contributor ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( lc:WhatOwner lc:WhenOwner lc:HowOwner ) ;
+                sh:message "An option names the owner scope that proposed it (o0)." ] ;
+  sh:property [ sh:path lc:need ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "An option states an outcome or need: who cannot do what." ] ;
+  sh:property [ sh:path lc:mattersBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                sh:message "An option states its market window: by when it matters." ] ;
+  sh:property [ sh:path lc:proposedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                sh:message "An option records when it entered the pool, for option age." ] ;
+  sh:property [ sh:path lc:changesWhatElement ; sh:maxCount 0 ;
+                sh:message "An option is never a What change: it enters as an outcome or need, and the What owner makes What decisions at o1 (DDD-dec-114 P-5)." ] ;
+  sh:property [ sh:path lc:exit ; sh:maxCount 1 ; sh:class lc:Exit ;
+                sh:message "An option leaves the pool at most once." ] .
+
+lc:ExitShape a sh:NodeShape ;
+  sh:targetClass lc:Exit ;
+  sh:property [ sh:path lc:decidedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue lc:WhenOwner ;
+                sh:message "Every option leaves the pool by a recorded When-owner decision (DDD-dec-114 P-5)." ] ;
+  sh:property [ sh:path lc:decidedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                sh:message "An exit records when it was decided." ] .
+
+lc:DeclinedShape a sh:NodeShape ;
+  sh:targetClass lc:Declined ;
+  sh:property [ sh:path lc:reason ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A declined option carries its reason (DDD-dec-114 P-5)." ] .
+
+lc:PulledShape a sh:NodeShape ;
+  sh:targetClass lc:Pulled ;
+  sh:property [ sh:path lc:issue ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A pulled option names the issue it became (o2a → o1)." ] ;
+  sh:property [ sh:path lc:rank ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A pulled option records its place in the When owner's order (chosen order, DDD-dec-114 P-8)." ] .
+
+lc:ExpiredShape a sh:NodeShape ;
+  sh:targetClass lc:Option ;
+  sh:sparql [
+    sh:message "An option expires only once its market window has passed (DDD-dec-114 P-5)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:mattersBy ?w ; lc:exit ?e . ?e a lc:Expired ; lc:decidedAt ?d .
+        FILTER ( ?d <= ?w )
+      }""" ] .
+
+#########################  READY FOR USERS AND TOGGLES — DDD-dec-114 P-4  #########################
+
+lc:ReadyForUsersShape a sh:NodeShape ;
+  sh:targetClass lc:ReadyForUsers ;
+  sh:property [ sh:path lc:decidedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue lc:WhatOwner ;
+                sh:message "The ready-for-users verdict is the What owner's (DDD-dec-114 P-4)." ] ;
+  sh:property [ sh:path lc:toggle ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Toggle ;
+                sh:message "A ready-for-users verdict concerns one toggle's change." ] ;
+  sh:property [ sh:path lc:ready ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+                sh:message "A ready-for-users verdict says ready or not." ] ;
+  sh:property [ sh:path lc:userSideShare ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A ready-for-users verdict states the user-side share it covers, or that none is needed (Round 7)." ] .
+
+lc:ToggleOnShape a sh:NodeShape ;
+  sh:targetClass lc:ToggleOn ;
+  sh:property [ sh:path lc:decidedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue lc:WhenOwner ;
+                sh:message "Turning a toggle on (o16) is the When owner's act (DDD-dec-114 P-4)." ] ;
+  sh:property [ sh:path lc:toggle ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Toggle ;
+                sh:message "o16 names the toggle it turns on." ] ;
+  sh:sparql [
+    sh:message "Turning on an unready toggle is refused: o16 reads a ready-for-users verdict for the same toggle that found it ready (DDD-dec-114 P-4)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:toggle ?t .
+        FILTER NOT EXISTS { $this lc:readsVerdict ?v . ?v a lc:ReadyForUsers ; lc:toggle ?t ; lc:ready true . }
+      }""" ] .

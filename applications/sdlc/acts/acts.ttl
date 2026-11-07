@@ -1,0 +1,145 @@
+@prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
+
+#################################################################
+#  The SDLC's act map, o1b to o13. [PROPOSED], unruled (applications/sdlc/sdlc.md §4).
+#
+#  A stream of state changes in causal order (DDD-address-01), with no spatial embedding of the
+#  categorical axes. Every act's layer path begins PDLC ▸ SDLC (DDD-dec-114 P-1). The PDLC's acts
+#  are in applications/pdlc/graph/acts.ttl, and the two files are one map: run
+#  python3 applications/pdlc/graph/check.py (the map, options, toggles) and
+#  python3 applications/sdlc/acts/check.py (the occurrence record).
+#
+#  The stages (frame, build, accept, land and run) are the act map's layers, read as composite
+#  acts. "Accept" and "land and run" are the map's names. o8 (the squash) and o14 (the release
+#  tag) were retired in Round 2, and their ids are not reused.
+#################################################################
+
+m:SDLC a lc:CompositeAct ; lc:label "SDLC" ; lc:within m:PDLC .
+m:frame a lc:CompositeAct ; lc:label "frame" ; lc:within m:SDLC .
+m:build a lc:CompositeAct ; lc:label "build" ; lc:within m:SDLC .
+m:accept a lc:CompositeAct ; lc:label "accept" ; lc:within m:SDLC .
+m:land a lc:CompositeAct ; lc:label "land and run" ; lc:within m:SDLC .
+
+# o1b — plan the realisation on the issue (Round 3: before anyone is allocated).
+m:o1b a lc:Act ;
+  lc:label "plan the realisation on the issue" ;
+  lc:within m:frame ; lc:layerPath "PDLC ▸ SDLC ▸ frame" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "human or model" ;
+  lc:recurs "per issue" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o1 ; lc:because "the framed issue, its locus declared" ] .
+
+# o2b — allocate the occupant: a label for an AI session, or a human assignee (the How owner's).
+m:o2b a lc:Act ;
+  lc:label "allocate the occupant: label for an AI session, or assign a human" ;
+  lc:within m:frame ; lc:layerPath "PDLC ▸ SDLC ▸ frame" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "human: the How owner" ;
+  lc:recurs "per issue" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o2a ; lc:because "the release for work (the seam's input)" ] ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o1b ; lc:because "the realisation plan" ] .
+
+# o3 — dispatch: the dispatcher starts the session in the ecosystem (Claude Code Action first).
+m:o3 a lc:Act ;
+  lc:label "dispatch: start the session, or record the human allocation" ;
+  lc:within m:frame ; lc:layerPath "PDLC ▸ SDLC ▸ frame" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: the dispatcher" ;
+  lc:recurs "per allocation" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o2b ; lc:because "the label, applied by the How owner" ] .
+
+# o4 — commit the charter: the issue body as prompt, the dispatcher's header as bootstrap.
+m:o4 a lc:Act ;
+  lc:label "commit the charter (prompt and bootstrap) before work" ;
+  lc:within m:build ; lc:layerPath "PDLC ▸ SDLC ▸ build" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "model or human" ;
+  lc:recurs "per issue" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o3 ; lc:because "the dispatch header and the issue body at a recorded position" ] .
+
+# o5 — a work run: one address, many occurrences told apart by the time index.
+m:o5 a lc:Act ;
+  lc:label "work run: change the code and the How decisions on the session branch" ;
+  lc:within m:build ; lc:layerPath "PDLC ▸ SDLC ▸ build" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "model or human" ;
+  lc:recurs "per event" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o4 ; lc:because "the committed charter" ] .
+
+# o6 — direct on the issue: a listed human's comment, by hand.
+m:o6 a lc:Act ;
+  lc:label "direct the session on the issue" ;
+  lc:within m:build ; lc:layerPath "PDLC ▸ SDLC ▸ build" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "human: a listed human, by hand" ;
+  lc:recurs "per comment" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o5 ; lc:because "the run's report on the issue" ] .
+
+# o7 — trunk-worthy: the session's own feedback on a branch head. Not acceptance evidence.
+m:o7 a lc:Act ;
+  lc:label "trunk-worthy: the fast checks on the pushed branch head" ;
+  lc:within m:build ; lc:layerPath "PDLC ▸ SDLC ▸ build" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: CI" ;
+  lc:recurs "per push" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o5 ; lc:because "the pushed branch head" ] .
+
+# o9 — gate the candidate: once, on the SHA ready/<N> names.
+m:o9 a lc:Act ;
+  lc:label "gate the candidate: every required check, once, on the ready/<N> SHA" ;
+  lc:within m:accept ; lc:layerPath "PDLC ▸ SDLC ▸ accept" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: CI" ;
+  lc:recurs "per candidate" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o5 ; lc:because "the session's head, pushed as ready/<N> (no squash)" ] .
+
+# o10 — approve <sha> on the issue, by a holder of Approve for the locus. Carries production acceptance.
+m:o10 a lc:Act ;
+  lc:label "approve <sha> on the issue: acceptance, production acceptance included" ;
+  lc:within m:accept ; lc:layerPath "PDLC ▸ SDLC ▸ accept" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:heldBy lc:LocusOwner ;
+  lc:occupantLens "human: a holder of Approve for the issue's locus" ;
+  lc:recurs "per candidate" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o9 ; lc:because "the gate's verdict on the candidate SHA" ] .
+
+# o11 — agent review: the gates App's check, judged by main's script on main's map.
+m:o11 a lc:Act ;
+  lc:label "agent review: the gates App's check on the candidate SHA" ;
+  lc:within m:accept ; lc:layerPath "PDLC ▸ SDLC ▸ accept" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:ApprovalAtHead ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: main's judging script, posted as the gates App" ;
+  lc:recurs "per comment" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o10 ; lc:because "the approve <sha> comment" ] ;
+  lc:readsEarlier m:o12 .
+
+# o12 — fast-forward main to the candidate SHA, by the gates App.
+m:o12 a lc:Act ;
+  lc:label "fast-forward main to the candidate SHA" ;
+  lc:within m:land ; lc:layerPath "PDLC ▸ SDLC ▸ land and run" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Trunk ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:ApprovalAtHead ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: the gates App" ;
+  lc:recurs "per change" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o9 ; lc:because "the required checks green on the SHA" ] ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o11 ; lc:because "agent review green on the SHA" ] .
+
+# o13 — deploy main to production, dark behind a toggle.
+m:o13 a lc:Act ;
+  lc:label "deploy main to production, dark behind a toggle" ;
+  lc:within m:land ; lc:layerPath "PDLC ▸ SDLC ▸ land and run" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Production ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "program: the deploy workflow" ;
+  lc:recurs "per change" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o12 ; lc:because "main at the new SHA" ] .

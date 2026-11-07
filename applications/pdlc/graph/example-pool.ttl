@@ -1,0 +1,58 @@
+@prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix ex:  <https://example.org/acme-shop/pdlc#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  An illustrative option pool and one delivery, for the acme shop. [PROPOSED], unruled.
+#  Invented to exercise the shapes; it records nothing that happened. pdlc.md §8 computes the
+#  pool's metrics over it as a worked example.
+#################################################################
+
+ex:opt1 a lc:Option ;
+  lc:contributor lc:WhenOwner ;
+  lc:need "A returning customer cannot reorder a past order in one step; it matters before the spring campaign." ;
+  lc:mattersBy "2027-03-01"^^xsd:date ;
+  lc:proposedAt "2026-11-02"^^xsd:date ;
+  lc:exit [ a lc:Pulled ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-11-05"^^xsd:date ; lc:issue 101 ; lc:rank 1 ] .
+
+ex:opt2 a lc:Option ;
+  lc:contributor lc:WhatOwner ;
+  lc:need "Support staff cannot tell a cancelled order from a refunded one (user feedback)." ;
+  lc:mattersBy "2027-01-31"^^xsd:date ;
+  lc:proposedAt "2026-10-20"^^xsd:date ;
+  lc:exit [ a lc:Pulled ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-11-05"^^xsd:date ; lc:issue 102 ; lc:rank 2 ] .
+
+ex:opt3 a lc:Option ;
+  lc:contributor lc:WhenOwner ;
+  lc:need "Wholesale buyers cannot pay by invoice; it matters for the trade fair." ;
+  lc:mattersBy "2026-10-15"^^xsd:date ;
+  lc:proposedAt "2026-09-01"^^xsd:date ;
+  lc:exit [ a lc:Expired ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-10-16"^^xsd:date ] .
+
+ex:opt4 a lc:Option ;
+  lc:contributor lc:HowOwner ;
+  lc:need "The How owner cannot deploy a change without a manual cache purge (technical debt)." ;
+  lc:mattersBy "2027-06-30"^^xsd:date ;
+  lc:proposedAt "2026-10-01"^^xsd:date ;
+  lc:exit [ a lc:Declined ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-11-05"^^xsd:date ;
+            lc:reason "Superseded by the hosting move the When owner has already ordered." ] .
+
+ex:opt5 a lc:Option ;
+  lc:contributor lc:WhenOwner ;
+  lc:need "A customer cannot save a basket across devices." ;
+  lc:mattersBy "2027-09-01"^^xsd:date ;
+  lc:proposedAt "2026-11-04"^^xsd:date .
+
+# Issue 101 landed dark behind ex:reorder; the What owner found it ready; the When owner turned it on.
+ex:reorder a lc:Toggle .
+
+ex:ready101 a lc:ReadyForUsers ;
+  lc:decidedBy lc:WhatOwner ;
+  lc:toggle ex:reorder ;
+  lc:ready true ;
+  lc:userSideShare "a help-centre article on reordering, published" .
+
+ex:on101 a lc:ToggleOn ;
+  lc:decidedBy lc:WhenOwner ;
+  lc:toggle ex:reorder ;
+  lc:readsVerdict ex:ready101 .

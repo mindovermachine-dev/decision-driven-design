@@ -1,0 +1,81 @@
+@prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
+
+#################################################################
+#  The PDLC's acts on the act map. [PROPOSED], unruled (applications/pdlc/pdlc.md §9).
+#
+#  Written as a stream of state changes in causal order: each act after the acts whose state
+#  changes are in its ground reading (DDD-address-01). No spatial embedding of the categorical
+#  axes. The SDLC's acts (o1b to o13) are in applications/sdlc/acts/acts.ttl; the two files are
+#  one map, validated together by check.py.
+#
+#  Ids. o14 was retired in Round 2 and is not reused; o15 was in the o1–o15 map Round 2 was
+#  ruled on and is not reused either. The ready-for-users act is oR, and the acts of using the
+#  product are oU (DDD-dec-114 P-4, P-1).
+#################################################################
+
+m:PDLC a lc:CompositeAct ; lc:label "PDLC" .
+
+# o0 — propose an option. Any owner; mostly the When owner (DDD-dec-114 P-5).
+m:o0 a lc:Act ;
+  lc:label "propose an option (an outcome or need, never a What change)" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:OptionPool ; lc:changeLocus lc:NoLocus ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:AnyOwner ;
+  lc:occupantLens "human: any owner, mostly the When owner" ;
+  lc:recurs "per option" .
+
+# o2a — release for work: the When owner pulls an option, in its chosen order (P-5, P-8).
+m:o2a a lc:Act ;
+  lc:label "release for work: pull an option (or decline it, or let it expire)" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:OptionPool ; lc:changeLocus lc:NoLocus ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:WhenOwner ;
+  lc:occupantLens "human: the When owner" ;
+  lc:recurs "per option exit" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o0 ; lc:because "the option, in the pool" ] ;
+  lc:readsEarlier m:o13 .
+
+# o1 — frame the issue, declaring its locus. Held by the owner of the declared locus (P-8; Round 3).
+m:o1 a lc:Act ;
+  lc:label "frame the issue, declaring its locus; turn the pulled need into What decisions where the locus is What" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:DeclaredLocus ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:LocusOwner ;
+  lc:occupantLens "human: the locus's owner; a session may draft, the owner accepts" ;
+  lc:recurs "per issue" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o2a ; lc:because "the pulled option (a need) and its rank" ] .
+
+# ... the SDLC, o1b to o13, runs here (applications/sdlc/acts/acts.ttl) ...
+
+# oR — ready for users: the What owner's verdict (P-4).
+m:oR a lc:Act ;
+  lc:label "ready for users: product acceptance met, by the software's share and the user-side share" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Production ; lc:changeLocus lc:What ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:WhatOwner ;
+  lc:occupantLens "human: the What owner" ;
+  lc:recurs "per toggle" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o13 ; lc:because "the change in production, dark, with its verdicts" ] .
+
+# o16 — turn the toggle on: the When owner's delivery decision (P-4).
+m:o16 a lc:Act ;
+  lc:label "turn the toggle on" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Production ; lc:changeLocus lc:NoLocus ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:WhenOwner ;
+  lc:occupantLens "human: the When owner" ;
+  lc:recurs "per delivery" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:oR ; lc:because "the ready-for-users verdict, ready" ] .
+
+# oU — the acts of using the product. One address, two kinds of occupant: the software (the How
+# owner's share) and its users (the user-side share). The What owner holds the allocation (P-1;
+# Round 7).
+m:oU a lc:Act ;
+  lc:label "use the product: the acts its acceptance is about" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:UseSite ; lc:changeLocus lc:NoLocus ; lc:authorityRead lc:NoAuthority ] ;
+  lc:heldBy lc:WhatOwner ;
+  lc:occupantLens "software (the How owner's share) or user (the user-side share: training, guidance, procedure)" ;
+  lc:recurs "per use" ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o16 ; lc:because "the toggle, on" ] .

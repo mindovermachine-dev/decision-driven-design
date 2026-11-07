@@ -1,0 +1,201 @@
+@prefix lc:   <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+
+#################################################################
+#  lc: — the lifecycle vocabulary of the PDLC and the SDLC. [PROPOSED], unruled.
+#
+#  The act map's form (method step 1; DDD-ground-06, DDD-address-01) for the product lifecycle:
+#  composite acts, act sites with addresses on declared axes, causal dependencies, an occupant
+#  lens kept out of the address, the option pool, the ready-for-users verdict and toggles, and
+#  the occurrence record (DDD-dec-114, DDD-dec-115).
+#
+#  This is NOT the sdlc: namespace. sdlc: edition 1 is read-forever from its tag (DDD-dec-113,
+#  E-6) and nothing here adds to it. lc: carries no version IRI until it is ruled.
+#  Every term carries its dct:source.
+#################################################################
+
+<https://decision-driven-design.dk/ns/lifecycle>
+  a owl:Ontology ;
+  rdfs:label "lc: — the lifecycle vocabulary (PDLC and SDLC), [PROPOSED]" ;
+  dct:source "applications/pdlc/pdlc.md; applications/sdlc/sdlc.md; DDD-dec-114; DDD-dec-115" .
+
+#########################  ACTS AND ADDRESSES  #########################
+
+lc:CompositeAct a owl:Class ;
+  rdfs:comment "An act that other acts sit within. Its members' layer paths pass through it (DDD-ground-06)." ;
+  dct:source "DDD-ground-06; DDD-dec-114 (the SDLC within the PDLC)" .
+
+lc:Act a owl:Class ;
+  rdfs:comment "An act site of the map: one address, possibly many occurrences told apart by the time index (DDD-address-01). Named oN as in the act map." ;
+  dct:source "method/01-map-and-index-acts.md; DDD-address-01" .
+
+lc:within a owl:ObjectProperty ;
+  rdfs:comment "The composite act an act or composite act sits within, one step of its layer path." ;
+  dct:source "DDD-ground-06" .
+
+lc:layerPath a owl:DatatypeProperty ;
+  rdfs:comment "The layer path written out, outermost first, joined by ' ▸ '. It must agree with lc:within*." ;
+  dct:source "DDD-ground-06; DDD-dec-114 P-1" .
+
+lc:address a owl:ObjectProperty ;
+  rdfs:comment "The act's address: its position on the declared axes. The layer path is the other half and is held on the act. The occupant is never part of it." ;
+  dct:source "DDD-ground-06" .
+
+lc:Address a owl:Class ;
+  rdfs:comment "A position on the declared axes." ;
+  dct:source "DDD-ground-06" .
+
+lc:surfaceRead a owl:ObjectProperty ;
+  rdfs:comment "Axis 1: the surface the act reads its ground from." ;
+  dct:source "rulings.md, the act map (axes accepted for now, Round 2)" .
+
+lc:changeLocus a owl:ObjectProperty ;
+  rdfs:comment "Axis 2: the DDD-frame-01 coordinate the change moves, as declared on the issue." ;
+  dct:source "DDD-dec-114 P-8; Round 4" .
+
+lc:authorityRead a owl:ObjectProperty ;
+  rdfs:comment "Axis 3: the authority the act reads." ;
+  dct:source "rulings.md, the act map" .
+
+lc:Surface a owl:Class ; rdfs:comment "A value of the surface-read axis." ; dct:source "rulings.md, the act map" .
+lc:Locus a owl:Class ; rdfs:comment "A value of the change-locus axis: a DDD-frame-01 coordinate." ; dct:source "DDD-dec-114 P-8" .
+lc:Authority a owl:Class ; rdfs:comment "A value of the authority-read axis." ; dct:source "rulings.md, the act map" .
+
+lc:OptionPool a lc:Surface ; rdfs:label "option pool" ; dct:source "DDD-dec-114 P-5 (PDLC surface; UNVERIFIED — Emil review)" .
+lc:IssueThread a lc:Surface ; rdfs:label "issue thread" ; dct:source "rulings.md, the act map" .
+lc:SessionBranch a lc:Surface ; rdfs:label "session branch" ; dct:source "rulings.md, the act map" .
+lc:Candidate a lc:Surface ; rdfs:label "candidate (ready/<N>)" ; dct:source "rulings.md, the act map" .
+lc:Trunk a lc:Surface ; rdfs:label "trunk" ; dct:source "rulings.md, the act map" .
+lc:Production a lc:Surface ; rdfs:label "production" ; dct:source "rulings.md, the act map" .
+lc:UseSite a lc:Surface ; rdfs:label "the product in use" ; dct:source "DDD-dec-114 P-1 (the acts of using the product; UNVERIFIED — Emil review)" .
+
+lc:What a lc:Locus ; rdfs:label "what (acceptance relation, tolerance)" ; dct:source "Round 4" .
+lc:How a lc:Locus ; rdfs:label "how (arrangement)" ; dct:source "Round 4" .
+lc:Ground a lc:Locus ; rdfs:label "ground" ; dct:source "Round 4" .
+lc:Assurance a lc:Locus ; rdfs:label "assurance" ; dct:source "Round 4" .
+lc:DeclaredLocus a lc:Locus ;
+  rdfs:label "the issue's declared locus" ;
+  rdfs:comment "In the map only: the act's position on this axis is the locus its issue declares. A record carries the concrete value." ;
+  dct:source "Round 3 (declared on the issue)" .
+lc:NoLocus a lc:Locus ;
+  rdfs:label "no coordinate (before framing)" ;
+  rdfs:comment "o0 and o2a: an option moves no coordinate, and ordering moves none (DDD-dec-114 P-8)." ;
+  dct:source "DDD-dec-114 P-5, P-8" .
+
+lc:NoAuthority a lc:Authority ; rdfs:label "none" ; dct:source "rulings.md, the act map" .
+lc:BaseIdentityMap a lc:Authority ; rdfs:label "base identity map" ; dct:source "rulings.md, the act map" .
+lc:ApprovalAtHead a lc:Authority ; rdfs:label "approval at head" ; dct:source "rulings.md, the act map" .
+lc:OwnerScope a lc:Authority ;
+  rdfs:label "an owner's scope grant" ;
+  rdfs:comment "PDLC acts read the grant of the owner scope they are made under (authority.md §3). UNVERIFIED — Emil review: added for the PDLC's acts." ;
+  dct:source "DDD-dec-114 P-1" .
+
+lc:dependsOn a owl:ObjectProperty ;
+  rdfs:comment "B lc:dependsOn A iff a state change A produces is in B's ground reading. The time index is the order this induces, not wall-clock." ;
+  dct:source "DDD-address-01" .
+
+lc:because a owl:DatatypeProperty ;
+  rdfs:comment "The state change of the depended-on act that is in this act's ground reading." ;
+  dct:source "method/quick-start.md (the act map's form)" .
+
+lc:Dependency a owl:Class ; rdfs:comment "A reified lc:dependsOn, carrying lc:on and lc:because." ; dct:source "method/quick-start.md" .
+lc:dependency a owl:ObjectProperty ; rdfs:comment "An act's reified dependency." ; dct:source "method/quick-start.md" .
+lc:on a owl:ObjectProperty ; rdfs:comment "The act a dependency is on." ; dct:source "method/quick-start.md" .
+
+lc:readsEarlier a owl:ObjectProperty ;
+  rdfs:comment "Ground this act reads that earlier occurrences of other issues produced at the named act (o2a reads the cadence from earlier o13s; o11 reads the base identity map). Kept apart from lc:dependency so the within-issue causal order between act sites stays acyclic." ;
+  dct:source "DDD-address-01; rulings.md, the act map (o11's reading)" .
+
+lc:heldBy a owl:ObjectProperty ;
+  rdfs:comment "The owner scope that holds the act, with control and liability (the placement rule). Not the occupant." ;
+  dct:source "DDD-dec-114 P-2" .
+
+lc:occupantLens a owl:DatatypeProperty ;
+  rdfs:comment "Who occupies the act, as a lens beside the address and never inside it: human, model, program, or a choice among them." ;
+  dct:source "DDD-ground-06 (the occupying actor is not a component of the address)" .
+
+lc:recurs a owl:DatatypeProperty ; rdfs:comment "How often the act recurs, e.g. per issue, per comment." ; dct:source "rulings.md, the act map" .
+lc:label a owl:DatatypeProperty ; rdfs:comment "What the act does, in a few words." ; dct:source "rulings.md, the act map" .
+
+#########################  OWNERS  #########################
+
+lc:OwnerRole a owl:Class ; rdfs:comment "An owner scope under the genesis grant (authority.md §2–3)." ; dct:source "DDD-dec-114 P-1" .
+lc:WhatOwner a lc:OwnerRole ; rdfs:label "What owner" ; dct:source "DDD-dec-114 P-1" .
+lc:WhenOwner a lc:OwnerRole ; rdfs:label "When owner (the business; go-to-market)" ; dct:source "DDD-dec-114 P-1; Rounds 10, 11" .
+lc:HowOwner a lc:OwnerRole ; rdfs:label "How owner" ; dct:source "DDD-dec-114 P-1" .
+lc:LocusOwner a lc:OwnerRole ;
+  rdfs:label "the owner of the issue's declared locus" ;
+  rdfs:comment "o1 and o10: held by the owner of the locus the issue declares (What owner for What and assurance, How owner for How, the ground's owner for ground). Not a scope of its own. UNVERIFIED — Emil review." ;
+  dct:source "DDD-dec-114 P-2, P-3; DDD-dec-115 S-5" .
+lc:AnyOwner a lc:OwnerRole ;
+  rdfs:label "any owner" ;
+  rdfs:comment "o0 only: any owner may propose an option. Not a scope." ;
+  dct:source "DDD-dec-114 P-5" .
+
+#########################  THE OPTION POOL  #########################
+
+lc:Option a owl:Class ;
+  rdfs:comment "A proposed change before ordering: an outcome or need, never a What change." ;
+  dct:source "DDD-dec-114 P-5" .
+lc:contributor a owl:ObjectProperty ; rdfs:comment "The owner scope that proposed the option (o0)." ; dct:source "DDD-dec-114 P-5" .
+lc:need a owl:DatatypeProperty ; rdfs:comment "The outcome or need: who cannot do what." ; dct:source "DDD-dec-114 P-5" .
+lc:mattersBy a owl:DatatypeProperty ; rdfs:comment "The end of the market window: by when the need matters." ; dct:source "DDD-dec-114 P-5" .
+lc:proposedAt a owl:DatatypeProperty ; rdfs:comment "When the option entered the pool (wall-clock, for option age)." ; dct:source "pdlc.md §8" .
+lc:changesWhatElement a owl:ObjectProperty ;
+  rdfs:comment "Forbidden on an option: an option never names a What element it changes. Present only so the shape can refuse it." ;
+  dct:source "DDD-dec-114 P-5" .
+lc:exit a owl:ObjectProperty ; rdfs:comment "The recorded When-owner decision by which the option left the pool." ; dct:source "DDD-dec-114 P-5" .
+lc:Exit a owl:Class ; rdfs:comment "An option's exit decision." ; dct:source "DDD-dec-114 P-5" .
+lc:Pulled a owl:Class ; rdfs:subClassOf lc:Exit ; rdfs:comment "Released for work at o2a." ; dct:source "DDD-dec-114 P-5" .
+lc:Declined a owl:Class ; rdfs:subClassOf lc:Exit ; rdfs:comment "Declined, with a reason." ; dct:source "DDD-dec-114 P-5" .
+lc:Expired a owl:Class ; rdfs:subClassOf lc:Exit ; rdfs:comment "Expired when its market window passed." ; dct:source "DDD-dec-114 P-5" .
+lc:decidedBy a owl:ObjectProperty ; rdfs:comment "The owner scope a decision was made under." ; dct:source "DDD-dec-114 P-2" .
+lc:decidedAt a owl:DatatypeProperty ; rdfs:comment "When the decision was made (wall-clock)." ; dct:source "pdlc.md §8" .
+lc:reason a owl:DatatypeProperty ; rdfs:comment "Why an option was declined." ; dct:source "DDD-dec-114 P-5" .
+lc:issue a owl:DatatypeProperty ; rdfs:comment "The issue number a pulled option became, or an occurrence belongs to." ; dct:source "DDD-dec-114 P-5; DDD-dec-115 S-4" .
+lc:rank a owl:DatatypeProperty ; rdfs:comment "The pulled option's position in the When owner's order at o2a." ; dct:source "DDD-dec-114 P-8 (chosen order)" .
+
+#########################  READY FOR USERS AND TOGGLES  #########################
+
+lc:Toggle a owl:Class ; rdfs:comment "A release toggle: created and retired by the How owner, turned on by the When owner." ; dct:source "DDD-dec-114 P-4; DDD-dec-115 S-3" .
+lc:ReadyForUsers a owl:Class ;
+  rdfs:comment "The What owner's verdict that product acceptance is met, by the software's share and the user-side share, for a toggle's change. The record holds the declaration and ground reading; the verdict is computed (DDD-dec-52)." ;
+  dct:source "DDD-dec-114 P-4" .
+lc:ToggleOn a owl:Class ; rdfs:comment "o16: the When owner's act of turning a toggle on." ; dct:source "DDD-dec-114 P-4" .
+lc:toggle a owl:ObjectProperty ; rdfs:comment "The toggle a verdict or act concerns." ; dct:source "DDD-dec-114 P-4" .
+lc:ready a owl:DatatypeProperty ; rdfs:comment "Whether the ready-for-users verdict found the change ready." ; dct:source "DDD-dec-114 P-4" .
+lc:readsVerdict a owl:ObjectProperty ; rdfs:comment "The ready-for-users verdict o16 read." ; dct:source "DDD-dec-114 P-4" .
+lc:userSideShare a owl:DatatypeProperty ; rdfs:comment "The user-side share the verdict covers: training, guidance, procedure, or none needed." ; dct:source "DDD-dec-114 P-1; Round 7" .
+
+#########################  THE OCCURRENCE RECORD (SDLC)  #########################
+
+lc:Occurrence a owl:Class ;
+  rdfs:comment "One occurrence of an act, as recorded by the dispatcher from edition 1." ;
+  dct:source "DDD-dec-115 S-6" .
+lc:atAct a owl:ObjectProperty ; rdfs:comment "The act site (oN) this occurrence is an occurrence of." ; dct:source "DDD-dec-115 S-6" .
+lc:after a owl:ObjectProperty ;
+  rdfs:comment "An earlier occurrence whose state change is in this occurrence's ground reading: the time index, recorded (DDD-address-01)." ;
+  dct:source "DDD-address-01; DDD-dec-115 S-6" .
+lc:readsHead a owl:DatatypeProperty ; rdfs:comment "The branch or candidate head SHA the occurrence read." ; dct:source "DDD-dec-52" .
+lc:readsIssuePosition a owl:DatatypeProperty ; rdfs:comment "The id of the last issue comment the occurrence read (0 when it read the body alone)." ; dct:source "DDD-dec-52" .
+lc:occupant a owl:DatatypeProperty ; rdfs:comment "The occupant's id in .github/identities.json, or 'program:<workflow>'. Held on the occurrence, never on its address." ; dct:source "DDD-ground-06; DDD-dec-115 S-5" .
+lc:occupantKind a owl:DatatypeProperty ; rdfs:comment "human, model or program." ; dct:source "rulings.md, the act map" .
+lc:tokensIn a owl:DatatypeProperty ; rdfs:comment "Model input tokens, as reported by the run. Absent when not reported; never estimated." ; dct:source "DDD-dec-115 S-6" .
+lc:tokensOut a owl:DatatypeProperty ; rdfs:comment "Model output tokens, as reported by the run. Absent when not reported; never estimated." ; dct:source "DDD-dec-115 S-6" .
+lc:wallSeconds a owl:DatatypeProperty ; rdfs:comment "Wall time of the occurrence in seconds." ; dct:source "DDD-dec-115 S-6" .
+lc:humanWaitSeconds a owl:DatatypeProperty ; rdfs:comment "Time the occurrence's issue waited on a human before this occurrence could start." ; dct:source "DDD-dec-115 S-6" .
+lc:startedAt a owl:DatatypeProperty ; rdfs:comment "Wall-clock start: for measurement only, never the time index." ; dct:source "DDD-address-01" .
+lc:verdict a owl:ObjectProperty ; rdfs:comment "The occurrence's outcome." ; dct:source "DDD-dec-115 S-6" .
+lc:Verdict a owl:Class ; rdfs:comment "An occurrence's outcome." ; dct:source "DDD-dec-115 S-6" .
+lc:Passed a lc:Verdict ; rdfs:label "passed" ; dct:source "DDD-dec-115 S-6" .
+lc:Failed a lc:Verdict ; rdfs:label "failed" ; dct:source "DDD-dec-115 S-6" .
+lc:Refused a lc:Verdict ; rdfs:label "refused (by a gate or the dispatcher)" ; dct:source "DDD-dec-115 S-6" .
+lc:Done a lc:Verdict ; rdfs:label "done (an act with no pass/fail, e.g. a direction)" ; dct:source "DDD-dec-115 S-6" .
+lc:suppliedLocus a owl:ObjectProperty ;
+  rdfs:comment "For o6 only: the locus of the decision a direction supplied (What, How, or lc:CodeOnly), for the hotspot classes." ;
+  dct:source "sdlc.md §14 (hotspot o5 ↔ o6)" .
+lc:CodeOnly a lc:Locus ; rdfs:label "code only (the occupant's own judgment)" ; dct:source "sdlc.md §14" .

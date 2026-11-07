@@ -1,0 +1,62 @@
+@prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
+@prefix r:   <https://example.org/acme-shop/record/101#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################################################################
+#  An illustrative occurrence record for one How-locus issue (#101), AI-occupied. [PROPOSED].
+#  Invented to exercise the shape. It records nothing that happened, and its numbers are not
+#  measurements. sdlc.md §13 reads hotspots off it as a worked example of the computation.
+#################################################################
+
+r:o3-1 a lc:Occurrence ; lc:atAct m:o3 ; lc:issue 101 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:How ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:readsIssuePosition 0 ;
+  lc:occupant "program:dispatch.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 41 ; lc:humanWaitSeconds 3600 ; lc:startedAt "2026-11-05T09:00:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Done .
+
+r:o4-1 a lc:Occurrence ; lc:atAct m:o4 ; lc:issue 101 ; lc:after r:o3-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 0 ; lc:readsHead "0000000000000000000000000000000000000001" ;
+  lc:occupant "claude-code" ; lc:occupantKind "model" ;
+  lc:tokensIn 18000 ; lc:tokensOut 1200 ;
+  lc:wallSeconds 95 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T09:01:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Done .
+
+r:o5-1 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o4-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 0 ; lc:readsHead "0000000000000000000000000000000000000002" ;
+  lc:occupant "claude-code" ; lc:occupantKind "model" ;
+  lc:wallSeconds 1460 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T09:03:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Done .
+
+r:o6-1 a lc:Occurrence ; lc:atAct m:o6 ; lc:issue 101 ; lc:after r:o5-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:How ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:readsIssuePosition 7001 ;
+  lc:occupant "emil" ; lc:occupantKind "human" ;
+  lc:wallSeconds 120 ; lc:humanWaitSeconds 5400 ; lc:startedAt "2026-11-05T11:00:00Z"^^xsd:dateTime ;
+  lc:suppliedLocus lc:What ;
+  lc:verdict lc:Done .
+
+r:o5-2 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o6-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 7002 ; lc:readsHead "0000000000000000000000000000000000000003" ;
+  lc:occupant "claude-code" ; lc:occupantKind "model" ;
+  lc:tokensIn 41000 ; lc:tokensOut 3900 ;
+  lc:wallSeconds 610 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T11:03:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Done .
+
+r:o9-1 a lc:Occurrence ; lc:atAct m:o9 ; lc:issue 101 ; lc:after r:o5-2 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 7002 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "program:on_ready.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 380 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T11:15:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Passed .
+
+r:o10-1 a lc:Occurrence ; lc:atAct m:o10 ; lc:issue 101 ; lc:after r:o9-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:How ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:readsIssuePosition 7003 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "emil" ; lc:occupantKind "human" ;
+  lc:wallSeconds 300 ; lc:humanWaitSeconds 7200 ; lc:startedAt "2026-11-05T13:30:00Z"^^xsd:dateTime ;
+  lc:verdict lc:Passed .
