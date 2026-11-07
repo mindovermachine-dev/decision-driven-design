@@ -1,0 +1,199 @@
+format: 1
+id: DDD-dec-114
+kind: decision
+statement: |
+  applications/pdlc/ is founded as the product lifecycle (the PDLC), with the SDLC as a composite act within it: every SDLC occurrence's layer path begins PDLC ▸ SDLC, and the seam between them is that composite act's boundary. The PDLC has three owners, each a scope under the product's genesis grant. The What owner owns the specification (acceptance relation and tolerance) and the assurance locus, because a product's success is allocated across the software and its users. The When owner is the business and the go-to-market owner: it owns the ordering of all proposed changes, judged by when each will have the best market impact, and when each is delivered, exercised at o2a (release for work) and o16 (turn a toggle on). The How owner owns the SDLC. Responsibility is placed per decision, not per role: for each boundary decision exactly one owner holds the act, with control and liability, and another owner's verdict enters only as read-only ground; a dispute escalates to the genesis grant holder. Each owner controls its own ground, and the seams supply ground to each, read-only for the receiver. The What owner's ready-for-users verdict, between o13 and o16, covers the software and the user-side share, and turning on a toggle without it is refused. The PDLC is a pull system: work moves only when the When owner pulls an option from the option pool. Any owner may propose an option (o0), and the When owner is the biggest contributor. An option enters as an outcome or need, never as a What change; the What owner turns a pulled option into What decisions at o1. Every option leaves the pool by a recorded When-owner decision: pulled (o2a), declined with a reason, or expired when its market window passed. Priority is a When decision, never the What owner's. One person may hold both the What and the When scopes, with each act recorded under its own scope; with no second party, the genesis grant holder reviews. Delivery does not decide when: the How owner's duty is the shortest lead time within the assurance the What owner set, and the forecast is computed from the SDLC's record. An issue declares its locus, the DDD-frame-01 coordinate the change moves: What (acceptance relation, tolerance), How (arrangement), ground or assurance; planning moves no coordinate and is not a locus. This adds to DDD-dec-42 and supersedes nothing: the What stays in applications/sdlc/, owned in the PDLC and read by the SDLC as ground. It is not the Product Framework's Delivery revived: it carries no releases, versions or timeline as artefacts.
+principal: Emil
+made: |
+  2026-11-06 and 2026-11-07, Rounds 3 to 15 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation (the question dialog where noted) and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md; Claude's readings in Rounds 3, 5, 7, 9, 10, 11, 12 and 13 were approved by Round 14 ("All your readings are approved"); Emil's landing of the branch is the ratification act
+resolution: |
+  ## The rulings this decision carries
+
+  Quoted from rulings.md, which holds them in full.
+
+  - **The premise (Round 8).** "The primary issue is that we are working in the SDLC and this is
+    describing the PDLC - so we need to change the premise." The PDLC lives at
+    "applications/pdlc/ (Recommended)". The What "Stays, read as ground (Recommended)". Both
+    applications are written in one session.
+  - **The SDLC within the PDLC (Round 9).** "And the SDLC is a subprocess under the PDLC." Ruled
+    reading (Round 14): the SDLC is a composite act within the PDLC, and every SDLC
+    occurrence's layer path begins PDLC ▸ SDLC. This is a relation in the act map, not a
+    directory layout.
+  - **The name (Round 15).** "It is the SDLC so its the same arrangement." The PDLC's main
+    document is the PDLC.
+  - **The loci (Round 4).** "Yes, four values (Recommended)": What (acceptance, tolerance) ·
+    How (arrangement) · ground · assurance. Planning stays outside as a non-coordinate.
+  - **The issue declares its locus (Round 3).** "Yes, declared on the issue (Recommended)". The
+    dispatcher refuses an issue without one.
+  - **The issue separates the work from its occupant (Round 3, ruled reading).** Realisation
+    planning (o1b) is inside the How locus. It is not the when-and-order planning, which is
+    "Outside, but recorded (Recommended)" (Round 3).
+  - **How and When (Round 5).** "the owner of the how also owns the process of getting changes to
+    production … the process of ordering all the proposed changes and in what order and when
+    they should be delivered is in the hands of the owner of the when." Release toggles: "Release
+    toggles (Recommended)".
+  - **The stance (Round 6).** "its the how owners responsibility to have approved work go
+    production as fast as possible within the quality constraints." Assurance: "What owner
+    (Recommended)".
+  - **Why the What owner holds assurance (Round 7).** "for a product we can do multiple things to
+    ensure success. One is on the implementation and the other is training your users." Ruled
+    reading (Round 14): only the What owner sees the whole demand, so it sets assurance and
+    chooses the mix between the software and the users.
+  - **The placement rule (Round 10).** "Adopt it (Recommended)". The When owner as go-to-market:
+    "I see when as the goto market so they know when a given feature will have the best impact".
+    Ready for users: "Yes, as a constraint (Recommended)".
+  - **The pull and the option pool (Round 11).** "the when as the business to decide. And is where
+    the pull actual is. The when should also be the biggest contributor to the option pool."
+    Options: "Yes, outcomes only (Recommended)". Exits: "Yes, recorded (Recommended)".
+  - **Priority (Round 12).** "this also solves the classic problem of a product owner, owning the
+    priority which is inherently wrong. That's a when decision". One person may hold both:
+    "Yes, acts kept apart (Recommended)".
+  - **Ground (Round 14).** "Ground is pr what how and when . Their ground is their own to control,
+    but the seams between them supplies some to each".
+
+  ## P-1. The PDLC and its owners
+
+  - **Three scopes.** The What, When and How owners are scopes under the product's genesis grant
+    (applications/sdlc/authority.md §2–3; DDD-dec-87, DDD-dec-85). Each is held by a grant. The
+    genesis holder may hold any of them.
+  - **The What owner.** It holds the What (acceptance relation and tolerance) and the assurance
+    locus. It chooses how much of the product's acceptance is met by the software and how much
+    by its users (training, guidance, procedure).
+  - **The When owner.** It is the business, where demand enters, and the go-to-market owner. It
+    holds the order of all proposed changes (o2a) and when each reaches users (o16).
+  - **The How owner.** It holds the SDLC, the arrangement from a released issue to production,
+    dark behind a toggle (DDD-dec-115).
+
+  ## P-2. The placement rule
+
+  - **Per decision.** For each boundary decision, exactly one owner holds the act, with control
+    and liability. Another owner's verdict enters it only as read-only ground. The argument is
+    core/05 §5: answerability, liability and control are separable, and liability without control
+    is unfair and ineffective.
+  - **The placement.**
+    - What the product must do, its acceptance and tolerance: the What owner.
+    - Assurance, and the mix between software and users: the What owner.
+    - Ready for users: the What owner. It reads the change in production, dark, with its
+      verdicts.
+    - The order of all proposed changes (o2a): the When owner. It reads the What elements, their
+      declared acceptance, and the cadence.
+    - Turning a change on (o16): the When owner. It reads the ready-for-users verdict.
+    - A date promised outside: the When owner, outside the arrangement. It reads the forecast.
+    - Cutting scope to meet a date: a What-locus decision of the What owner. It reads the When
+      owner's proposal.
+  - **The three rules.**
+    1. The When owner may propose a What change but never make one.
+    2. The What owner declares readiness but never picks the date.
+    3. A dispute escalates to the genesis grant holder, since escalation routes a determination
+       to an accountability-bearing actor (core/05 §5).
+  - **Relative importance.** The What owner declares each element's outcome and acceptance. The
+    When owner judges importance by when a feature will have the best market impact.
+  - **Falsifier.** A boundary decision that cannot be split into one owner's act and another
+    owner's ground. It is then jointly owned and belongs to the genesis grant holder, and the rule
+    has failed for it.
+
+  ## P-3. Ground
+
+  Each owner controls its own ground. Where ground crosses a seam, its producer supplies it and
+  the receiver reads it, read-only. A ground-locus issue declares whose ground it changes, and that
+  owner accepts it. Round 14's listing of seam-supplied ground is checked against the act map in
+  applications/pdlc/pdlc.md. It is not ruled here.
+
+  ## P-4. Ready for users, and toggles
+
+  - **The act.** Ready for users is the What owner's verdict, between o13 and o16. Product
+    acceptance is met, by the software's share and the user-side share together.
+  - **The constraint.** o16 reads that verdict. Turning on a toggle with no ready-for-users verdict
+    is refused.
+  - **Who holds the toggle.** Creating a toggle and retiring it are the How owner's, inside the
+    SDLC. Turning it on is the When owner's.
+
+  ## P-5. The pull system and the option pool
+
+  - **The pull.** Work moves only when the When owner pulls an option (o2a). The SDLC never pushes.
+    Its cadence flows back as the forecast.
+  - **o0, propose an option.** Any owner may occupy it, and the When owner is the biggest
+    contributor. The What owner contributes specification gaps and user feedback. The How owner
+    contributes arrangement changes and technical debt.
+  - **What an option is.** An option is an outcome or need (who cannot do what, by when it
+    matters), never a What change. The What owner turns a pulled option into What decisions at
+    o1.
+  - **How an option leaves.** Every option leaves the pool by a recorded When-owner decision:
+    pulled (o2a), declined with a reason, or expired when its market window passed. There is no
+    silent backlog, and option age and contributor share come from the record.
+
+  ## P-6. Priority is a When decision
+
+  - **The decision.** Priority is importance relative to the queue and the market window. That is
+    ground only the When owner holds, so priority is the When owner's decision and never the What
+    owner's.
+  - **One person, two scopes.** One person may hold both the What and the When scopes. Each act is
+    recorded under its own scope, so a When decision stays visible as one. With no second party to
+    dispute, the genesis grant holder reviews.
+
+  ## P-7. The stance
+
+  Delivery does not decide when. The How owner's duty is the shortest lead time within the
+  assurance the What owner set. The cadence that results is the forecast everyone else plans
+  against. A forecast is computed from the SDLC's record, never promised by it.
+
+  ## P-8. The locus
+
+  - **The definition.** An issue declares its locus: the DDD-frame-01 coordinate the change
+    moves. The four values:
+    - What: the acceptance relation and tolerance.
+    - How: the arrangement, How decisions and the code realising them, as one locus.
+    - Ground.
+    - Assurance.
+  - **One layer up.** A change to the arrangement of the work itself is How one layer up, told
+    apart by its layer path.
+  - **Planning is not a locus.** It moves no coordinate. Derived order comes from the causal index
+    (DDD-address-01). Chosen order among causally independent occurrences is the When owner's
+    decision recorded at o2a.
+
+  ## P-9. Relation to DDD-dec-42
+
+  - **Adds, supersedes nothing.** The What stays in applications/sdlc/, where DDD-dec-42 placed
+    it. It is owned in the PDLC and read by the SDLC as ground. Every change of the What is still
+    made by a decision anchored to a What element (DDD-dec-42 O-5).
+  - **Not Delivery revived.** This is not the Product Framework's Delivery revived (retired by
+    DDD-dec-42 O-2). It carries no releases, versions or timeline as artefacts. Ordering and
+    delivery are recorded decisions, and forecasts are computed from the record.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-85
+  - DDD-dec-87
+  - DDD-frame-01
+  - DDD-frame-02
+  - DDD-ground-06
+  - DDD-address-01
+notes: |
+  Id. Checked on every branch of both repositories at arrival on 2026-11-07. The highest held
+  downstream was DDD-dec-113 and upstream DDD-dec-39, so this decision takes DDD-dec-114
+  (bootstrap.md).
+
+  Basis route. DDD-frame-01, DDD-frame-02 and DDD-ground-06 are upstream and already pinned at
+  v5.15.2 in graph/upstream.yaml, so no pin is added. The prompt named DDD-address-01 as an
+  upstream claim to pin. It is this repository's own claim (core/claims/DDD-address-01.yaml), so
+  it resolves locally and is not pinned (bootstrap.md, arrival finding A-1).
+
+  Ruled readings. The readings of Rounds 3, 5, 7, 9, 10, 11, 12 and 13 were recorded as
+  UNVERIFIED — Emil review when given, and Round 14 approves them all. This decision states them
+  as ruled. Round 6's wording of the stance was also flagged for review. Round 14's "all your
+  readings" is read as covering it, and the charter carries the stance as ruled. That reading is
+  Claude's, UNVERIFIED — Emil review, and it is recorded in rulings.md.
+
+  Not ruled here, and Claude's (UNVERIFIED — Emil review):
+  - The coordinate "task" of DDD-frame-01's tuple is not one of the four locus values. Claude
+    reads it as what the issue itself names: a change of task is a new option, not a locus of an
+    existing issue.
+  - The ready-for-users verdict is read as a What-locus act that writes no What element. It
+    records a verdict over production ground and the user-side share, and is computed, not stored
+    (DDD-dec-49, DDD-dec-52): what is recorded is the declaration and the ground reading.
+  - The When owner's acts (o2a, o16, an option's exit) are recorded as decisions under the When
+    scope, signed like any acceptance under authority.md §4.1. Whether they need their own record
+    kinds in the authority profile is a successor item.
+
+  Canon names no owner roles. The three owners are this projection's, mapped to method step 7
+  (complete accountability), which is [PROPOSED]. The specs (applications/pdlc/pdlc.md) carry
+  the mapping as [PROPOSED].

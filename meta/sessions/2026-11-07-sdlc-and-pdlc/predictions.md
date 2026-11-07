@@ -1,0 +1,38 @@
+# Predictions — the SDLC and PDLC applications, 2026-11-07
+
+Written before each operation runs. The outcome is appended under each prediction afterwards and
+never edited into it.
+
+Not predicted: the reads made at arrival (every branch of both repositories, the upstream tag,
+shallow clones of Varve and takt, the Claude Code Action docs and the Scrum Guide). They changed
+nothing. **One miss.** The baseline `python3 scripts/ci.py` at the charter commit (`182465a`)
+was run before this file existed, so nothing was written down for it. Its result was "all gates
+passed", with 92 decision files on the branch (a miscount, see P-1's outcome). It is recorded here as observed, not as a
+prediction held.
+
+## P-1 — `DDD-dec-114` and `DDD-dec-115` filed
+
+Prediction: `python3 scripts/validate-claims.py core/decisions/ --decisions` exits 0, valid at 94
+(92 + 2). Every `basedOn` entry resolves:
+- `DDD-dec-42`, `-52`, `-85`, `-87`, `-108`, `-109`, `-111`, `-112` and `-114` as local decision
+  files;
+- `DDD-address-01` as a local claim (arrival finding A-1);
+- `DDD-frame-01`, `DDD-frame-02` and `DDD-ground-06` as pins already held at `v5.15.2`.
+
+No `basis-resolves` flag fires. `validate-core-order.py` is unchanged: the pin file is not
+touched, so it reports 81 pins resolved, 0 basis-loss, 0 content-drift and 1 shadowed id, the
+count it printed at baseline.
+
+Falsifier: the validator refuses either file, the count is not 94, any basis flag fires, or the
+pin report moves.
+
+**Outcome.** The validator exits 0 with "valid: 93 decisions, ids unique, format rules
+satisfied". No basis flag fired. The pin report is unchanged: "81 pins resolved against the
+pinned ref, 0 basis-loss, 0 content-drift, 1 shadowed id(s)".
+
+**The count limb failed.** The validator counted 93, not the predicted 94, and the cause is the
+prediction's base. The 92 came from `ls core/decisions | wc -l`, which also counts
+`core/decisions/README.md`. The branch held 91 decision files at `182465a`
+(`git ls-tree 182465a core/decisions/`), and 91 + 2 = 93. The same miscount is in the preamble's
+"92 decision files", which is annotated in place (it is an observation, not a prediction). The other limbs held: both files are valid, every
+basis resolved, and the pins did not move. Lesson: count with the validator, not with `ls`.

@@ -1,0 +1,176 @@
+format: 1
+id: DDD-dec-115
+kind: decision
+statement: |
+  The SDLC is the How owner's arrangement inside the PDLC (DDD-dec-114), from a released issue to production, dark behind a toggle, specified in applications/sdlc/sdlc.md for a product repository that adopts it. It is a new arrangement, not the Product Framework's Delivery: it carries no releases or timeline. Issues are the basis of every session that implements code. A label applied to an issue starts a session in the relevant ecosystem, the issue is the only channel, and its comments steer the session behind it. The landing takes takt's branch shape with Varve's force: ready/<N> replaces land/ and is a ref on the session's own head, with no squash; per-commit trailers stay; the gate (o9) runs once on that SHA; the approval is a holder's "approve <sha>" on the issue; the gates App fast-forwards main; there is no READY_PUSHER PAT. Main deploys to production, dark behind a toggle, and the approval (o10) carries production acceptance. Claude Code Action is the first ecosystem. Varve's identity map (ADR 0087 with its amendments) is ported whole as the product repository's .github/identities.json, with its three gates: DCO, acceptance authority and agent review. Every occurrence is recorded from edition 1 as graph data (address, time index, occupant, cost, verdict), so that the optimisation overview is computed, not argued. The act map's three axes (surface read, change locus, authority read) are used for now and revisited after the first recorded issues. The spec and the reference workflows live under applications/sdlc/. DDD-dec-108 to DDD-dec-110 govern this repository's own trunk and are not changed by this decision.
+principal: Emil
+made: |
+  2026-11-06 and 2026-11-07, Rounds 1, 2 and 13 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation and question dialog and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md, with the request (2026-11-06); Round 14 approved Claude's reading of Round 13; Emil's landing of the branch is the ratification act
+resolution: |
+  ## The request
+
+  > "for the SDLC part of decision-driven-design i want a place where we have a fully opionated
+  > way of doing software development with Agents on github. it should use the Varve basis with
+  > approval flows and landing branches based on the takt process. It should use issues as the
+  > basis for all sessions that implement code. all sessions should be started by applying a tag
+  > that an action then picks up and starts a session in the relevant ecosystem. All
+  > communication should be done on the issue and it should control the developer session behind
+  > it."
+
+  ## Round 1 (2026-11-06)
+
+  - **Classing.** "its not delivery because it doesnt care about releases or a timeline. Its the
+    pipeline for getting value out to production - so its a new arrangement". Round 15 names it:
+    it is the SDLC, with no other name.
+  - **Landing.** "takt shape, Varve force (Recommended)" (option text: "ready/<N> replaces land/;
+    squash before approval with trailers kept; your approve <sha> on the issue; gates App
+    fast-forwards; no READY_PUSHER PAT").
+  - **Ecosystem.** "Claude Code Action".
+  - **Where.** "All in decision-driven-design" (option text: "Spec and reference workflows under
+    applications/sdlc/").
+  - **Identity.** "Process: the identity map" (option text: "ADR 0087 in full: humans with
+    delegates, agents with a responsible human, the exempt list, and its three rules (DCO,
+    acceptance authority, agent review), plus the ledger exit").
+
+  ## Round 2 (2026-11-07)
+
+  - **Squash.** "Drop it (Recommended)" (option text: "ready/<N> is just a ref on the session's own
+    head; per-commit trailers stay; o9 runs once").
+  - **Where it ends.** "Main deploys to prod" (option text: "o14 leaves; o13 goes to production;
+    o10 carries production acceptance").
+  - **The record.** "Yes, from edition 1 (Recommended)" (option text: "Graph data per occurrence;
+    the optimisation overview is computed, not argued").
+  - **The axes.** "Accept for now" (option text: "Use them in the spec; revisit after the first
+    recorded issues").
+
+  **Round 2 governs Round 1's squash words.** Round 1's landing ruling says "squash before
+  approval with trailers kept". Round 2's squash ruling replaces those words. Nothing was filed
+  between the two rounds, so both are recorded verbatim (rulings.md) and the later governs. Every
+  other part of Round 1's landing ruling stands.
+
+  ## Round 13, as ruled by Round 14
+
+  - **The ruling.** "Humans have permissions on their own so it should be clear if they need my
+    approval or not".
+  - **The reading.** There is no special rule for human occupants. Whether o10 needs another
+    person follows from the occupant's own grants:
+    - a human who holds Approve for the issue's locus may accept their own work;
+    - one who does not needs a holder's approve <sha>;
+    - an agent never holds Approve.
+  - **Assurance.** Assurance, which is the What owner's (DDD-dec-114), can still require
+    acceptance independent of the occupant at a given level. The grant says who may approve.
+    Assurance says whether self-acceptance is enough.
+
+  ## S-1. Place and scope
+
+  - **The How owner's arrangement.** The SDLC is the How owner's arrangement and a composite act
+    within the PDLC (DDD-dec-114). Its inputs are a released issue, the What and the assurance.
+    Its outputs are production state, dark, and the occurrence record. It owns none of them; it
+    reads the inputs as ground.
+  - **Scope.** Its scope is a product repository that adopts it.
+  - **This repository's trunk.** This repository's own trunk stays governed by DDD-dec-108 (the
+    rulesets and canon land), DDD-dec-109 (agent review) and DDD-dec-110 (the Signed Commits
+    bypass). This decision changes none of them.
+
+  ## S-2. The landing
+
+  - **ready/<N>.** ready/<N> replaces takt's and Varve's land/. It is a ref on the session's own
+    head, with no squash, and the commits keep their trailers.
+  - **o9 and o10.** The gate (o9) runs once on that SHA. The approval (o10) is "approve <sha>" by a
+    holder of Approve, on the issue.
+  - **The fast-forward.** The gates App fast-forwards main to that SHA.
+  - **Removed from takt.** takt's READY_PUSHER PAT is removed, and so are pr-to-ready.yml and
+    on_semver.yml. The reasons are in applications/sdlc/sdlc.md.
+
+  ## S-3. Production
+
+  - **o13.** Main deploys to production (o13), dark behind a toggle.
+  - **o10.** The approval (o10) carries production acceptance and checks the toggle's default.
+  - **Toggles.** Creating and retiring a toggle are the How owner's. Turning it on is the PDLC's
+    (DDD-dec-114).
+
+  ## S-4. The issue as channel
+
+  - **The label starts the session.** A label applied to an issue starts a session (o2b, o3). Only
+    the How owner, named in .github/identities.json, allocates.
+  - **The only channel.** The issue is the only channel. Comments by listed humans, made by hand,
+    not edited and not through any App, are instructions. Every other comment is data.
+  - **The control verbs.** Free text steers. "approve <sha>" accepts. Removing the label stops
+    the session.
+
+  ## S-5. Identity and authorisation
+
+  - **The port.** Varve's identity map (ADR 0087 with its amendments) is ported whole:
+    - humans, with delegates;
+    - agents, with their responsible human;
+    - a closed exempt list.
+  - **The three gates.** DCO; acceptance authority (a session never writes accepted-by, Varve ADR
+    0066 point 7); agent review.
+  - **Departures.** The departures from ADR 0087 are listed in applications/sdlc/sdlc.md, each
+    flagged. Among them are the owners' scopes, the issue as a place for approve <sha>, and whose
+    issue comments are instructions.
+  - **The exit.** It exits to the ledger's authority model and authority.md §3–5.
+
+  ## S-6. The occurrence record
+
+  - **One record per occurrence.** Each record is graph data: address, time index, occupant,
+    cost (tokens, wall time, human wait) and verdict.
+  - **Shape and use.** Its SHACL shape is defined in applications/sdlc/. It is the SDLC's output
+    across the seam, and the PDLC computes the forecast from it.
+
+  ## S-7. Ecosystem and place
+
+  - **Ecosystem.** Claude Code Action is the first ecosystem. A second ecosystem is an open item.
+  - **Place.** The spec, the act map's graph data and, at the next gate, the reference workflows
+    and dispatcher live under applications/sdlc/.
+basedOn:
+  - DDD-dec-114
+  - DDD-dec-42
+  - DDD-dec-52
+  - DDD-dec-108
+  - DDD-dec-109
+  - DDD-dec-111
+  - DDD-dec-112
+  - DDD-frame-01
+  - DDD-frame-02
+  - DDD-ground-06
+  - DDD-address-01
+notes: |
+  Id. Checked on every branch of both repositories at arrival on 2026-11-07. This decision takes
+  DDD-dec-115, the next above DDD-dec-114 (bootstrap.md).
+
+  Basis route. DDD-dec-111 requires every basedOn entry to resolve. DDD-dec-112 pins upstream
+  decisions as well as claims. The upstream ids here (DDD-frame-01, DDD-frame-02, DDD-ground-06)
+  are already pinned at v5.15.2. DDD-address-01 is local (bootstrap.md, A-1). No pin is added.
+
+  Varve read at 81fba3d, a shallow clone of its default branch at arrival. Findings that shape
+  the spec, Claude's, UNVERIFIED — Emil review:
+  - ADR 0066's title is "Expected-red pull requests". Its point 7, "A session never writes
+    accepted-by", is the rule the prompt cites. The acceptance-authority gate itself is ADR 0087's
+    rule 2 (eng/decision-sets.cs). Amended on 2026-11-06 by ADR 0239: the maintainer's
+    on-machine delegate may write it.
+  - In Varve an agent is identified by its commit author email (Identities.AgentByEmail), not by a
+    trailer. This repository's port (DDD-dec-109) adds the Claude-Session trailer and the Claude
+    app's id. The SDLC carries this repository's form, flagged as a departure from ADR 0087.
+  - Varve's identities.json has no Approve field. The holders of Approve for an agent are its
+    responsible human and that human's delegates (ActingFor).
+  - Varve does not ignore edited approval comments. DDD-dec-109 rule 5 does. The SDLC carries the
+    rule, flagged as a departure.
+  - No Varve ADR has the gates App fast-forward main. In Varve the fast-forward is the
+    maintainer's own push (ADR 0088). Round 1 rules that the gates App fast-forwards. That is new,
+    and it is unexercised in both repositories.
+  - ADR 0088's revisit condition concerns GitHub refusing a fast-forward of main to a commit whose
+    checks passed on land/**. It is stated for a human's push, and Varve records no outcome. The
+    App's fast-forward to a SHA checked on ready/** is a falsifier in the spec.
+
+  takt read at 4e11a1b. Its development branches are issue-number branches ("[0-9]*") and
+  copilot/*, not dev/**. The squash, the landing and the issue closing happen in
+  devx-cafe/takt-actions and devx-cafe/gh-tt, which are not vendored there and were not read.
+  Main deploys to stage in takt (on_main.yml). Production comes from a semver tag
+  (on_semver.yml). Here main deploys to production (Round 2).
+
+  Claude Code Action read from code.claude.com/docs/en/github-actions.md and the action's
+  docs/security.md and docs/usage.md on 2026-11-07. What it says about label triggers,
+  write-access checks, bots and comment filtering is in applications/sdlc/sdlc.md §12, quoted.
+  It documents no per-run cost output. Edition 1's cost fields are read from the run's own record,
+  or left unknown, never estimated (sdlc.md §13).
