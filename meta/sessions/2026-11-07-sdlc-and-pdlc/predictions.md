@@ -90,3 +90,26 @@ A follow-up commit corrects `landing.md`, which said the head is named in a clos
 #61. No such report was posted, since the session was not asked to comment. The commit changes
 two Markdown files under `meta/sessions/`, which no gate reads, so CI is predicted green on it as
 well.
+
+## Continuation (Rounds 16 to 22)
+
+Not predicted: the reads at arrival (the branch head, `main`, `what.md` §3.0 to §5.1, how.md's H-9
+row, `DDD-dec-60` and `-70`). They changed nothing. The charter commit (`5ac00e6`) and the
+rulings commit (`6e8306c`) touch only `meta/sessions/`, which no gate reads.
+
+## P-6 — `DDD-dec-114` and `DDD-dec-115` amended in place (Round 21)
+
+Prediction: `validate-claims.py core/decisions/ --decisions` exits 0, still **93** decisions
+(amended, not added). `DDD-dec-114`'s `basedOn` gains `DDD-dec-70`, which holds the H-9 telemetry
+contract pattern (it supersedes `DDD-dec-60`, which the prompt cites), and `DDD-dec-64`, which
+rules the What's structure that the output table reads. `DDD-dec-115` gains nothing new. Every
+entry resolves: the new ones as local files, and the upstream ones as the three existing pins.
+The pin report is unchanged: 81 pins, 0 basis-loss, 0 content-drift, 1 shadowed id. No pin is
+added, because no new upstream id is cited.
+
+Falsifier: the validator refuses either file, the count moves, a basis flag fires, or the pin
+report moves.
+
+**Outcome.** As predicted. "valid: 93 decisions, ids unique, format rules satisfied". No basis
+flag fired. Pins: 81 resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. `DDD-dec-114`'s
+basedOn gained `DDD-dec-64` and `DDD-dec-70`. `DDD-dec-115`'s is unchanged.

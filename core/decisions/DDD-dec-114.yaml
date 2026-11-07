@@ -2,10 +2,10 @@ format: 1
 id: DDD-dec-114
 kind: decision
 statement: |
-  applications/pdlc/ is founded as the product lifecycle (the PDLC), with the SDLC as a composite act within it: every SDLC occurrence's layer path begins PDLC ▸ SDLC, and the seam between them is that composite act's boundary. The PDLC has three owners, each a scope under the product's genesis grant. The What owner owns the specification (acceptance relation and tolerance) and the assurance locus, because a product's success is allocated across the software and its users. The When owner is the business and the go-to-market owner: it owns the ordering of all proposed changes, judged by when each will have the best market impact, and when each is delivered, exercised at o2a (release for work) and o16 (turn a toggle on). The How owner owns the SDLC. Responsibility is placed per decision, not per role: for each boundary decision exactly one owner holds the act, with control and liability, and another owner's verdict enters only as read-only ground; a dispute escalates to the genesis grant holder. Each owner controls its own ground, and the seams supply ground to each, read-only for the receiver. The What owner's ready-for-users verdict, between o13 and o16, covers the software and the user-side share, and turning on a toggle without it is refused. The PDLC is a pull system: work moves only when the When owner pulls an option from the option pool. Any owner may propose an option (o0), and the When owner is the biggest contributor. An option enters as an outcome or need, never as a What change; the What owner turns a pulled option into What decisions at o1. Every option leaves the pool by a recorded When-owner decision: pulled (o2a), declined with a reason, or expired when its market window passed. Priority is a When decision, never the What owner's. One person may hold both the What and the When scopes, with each act recorded under its own scope; with no second party, the genesis grant holder reviews. Delivery does not decide when: the How owner's duty is the shortest lead time within the assurance the What owner set, and the forecast is computed from the SDLC's record. An issue declares its locus, the DDD-frame-01 coordinate the change moves: What (acceptance relation, tolerance), How (arrangement), ground or assurance; planning moves no coordinate and is not a locus. This adds to DDD-dec-42 and supersedes nothing: the What stays in applications/sdlc/, owned in the PDLC and read by the SDLC as ground. It is not the Product Framework's Delivery revived: it carries no releases, versions or timeline as artefacts.
+  applications/pdlc/ is founded as the product lifecycle (the PDLC), with the SDLC as a composite act within it: every SDLC occurrence's layer path begins PDLC ▸ SDLC, and the seam between them is that composite act's boundary. The PDLC has three owners, each a scope under the product's genesis grant. The What owner owns the specification: everything the How needs in order to implement, as located declarations in the What, including the acceptance relation and tolerance, its observability needs (where in the product, and what data) and product assurance: how sure we can be that users do the act we designed, an assurance on the use act, because a product's success is allocated across the software and its users (Rounds 7, 17, 18, 19). The How owner owns implementation assurance, how sure we are that the feature is implemented correctly, an assurance on the How's acts (Round 19). The When owner is the business and the go-to-market owner: it owns the ordering of all new demand (Round 22), judged by when each will have the best market impact, and when each is delivered, exercised at o2a (release for work) and o16 (turn a toggle on). The How owner owns the SDLC. Demand is of three kinds (Round 22): new demand, a need not yet in the What, goes through the option pool and is ordered by the When owner; owed demand, where the software does not meet the What in force, and own-ground demand, work on the How owner's own ground (technical debt, the arrangement, dependencies, platform), enter the SDLC directly, ordered by the How owner and answered for by the DORA keys. The What owner classifies a reported defect as owed or new. Telemetry of the product in use is the How owner's to add and crosses How → What as read-only ground; all other evidence of the product in use is the What owner's own ground, to gather (Round 16). The What-locus share of o6 directions is the meter of the What's completeness (Round 18). Responsibility is placed per decision, not per role: for each boundary decision exactly one owner holds the act, with control and liability, and another owner's verdict enters only as read-only ground; a dispute escalates to the genesis grant holder. Each owner controls its own ground, and the seams supply ground to each, read-only for the receiver. The What owner's ready-for-users verdict, between o13 and o16, covers the software and the user-side share, and turning on a toggle without it is refused. The PDLC is a pull system for new demand: new work moves only when the When owner pulls an option from the option pool (Rounds 11, 22). Any owner may propose an option (o0), and the When owner is the biggest contributor. An option enters as an outcome or need, never as a What change; the What owner turns a pulled option into What decisions at o1. Every option leaves the pool by a recorded When-owner decision: pulled (o2a), declined with a reason, or expired when its market window passed. Priority is a When decision, never the What owner's. One person may hold both the What and the When scopes, with each act recorded under its own scope; with no second party, the genesis grant holder reviews. Delivery does not decide when: the How owner's duty is the shortest lead time within the What (ground and tolerance) and the product assurance, and the forecast is computed from the SDLC's record (Rounds 6, 19). Lowered verification is guarded by outcomes read across seams: it shows as change failure rate and failed ready-for-users verdicts, which the How owner answers for; if lowering implementation assurance moves neither, the verification removed gave no value (Rounds 19, 20). An issue declares its locus, the DDD-frame-01 coordinate the change moves: What (acceptance relation, tolerance), How (arrangement), ground or assurance, where an assurance-locus issue changes product assurance and an implementation-assurance change is How-locus (Round 19); planning moves no coordinate and is not a locus. This adds to DDD-dec-42 and supersedes nothing: the What stays in applications/sdlc/, owned in the PDLC and read by the SDLC as ground. It is not the Product Framework's Delivery revived: it carries no releases, versions or timeline as artefacts.
 principal: Emil
 made: |
-  2026-11-06 and 2026-11-07, Rounds 3 to 15 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation (the question dialog where noted) and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md; Claude's readings in Rounds 3, 5, 7, 9, 10, 11, 12 and 13 were approved by Round 14 ("All your readings are approved"); Emil's landing of the branch is the ratification act
+  2026-11-06 and 2026-11-07, Rounds 3 to 22 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation (the question dialog where noted) and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md; Claude's readings in Rounds 3, 5, 7, 9, 10, 11, 12 and 13 were approved by Round 14 ("All your readings are approved"); Rounds 16 to 22 were given after the first session's charter was cut and entered by amendment in place before landing (Round 21, "Amend before landing (Recommended)"); Emil's landing of the branch is the ratification act
 resolution: |
   ## The rulings this decision carries
 
@@ -50,19 +50,42 @@ resolution: |
     "Yes, acts kept apart (Recommended)".
   - **Ground (Round 14).** "Ground is pr what how and when . Their ground is their own to control,
     but the seams between them supplies some to each".
+  - **Evidence in use (Round 16).** "I agree the telemetry is the hows to add and the rest is the
+    what to gather."
+  - **Observation needs (Round 17).** "what people needs to add their observability needs to the
+    specification so its clear where in the product they get their data and what data they need".
+  - **The What owner's output (Round 18).** "its more than the needs it's everything the how needs
+    in order to implement including the assurance". Assurance: "In the What, located
+    (Recommended)". The meter: "Yes (Recommended)".
+  - **Two assurances (Round 19).** "Assurance is the feature so its how sure can we be that our
+    users does the act we designed. Not how sure are we the feature is implemented correctly that
+    is the Assurance that the how must own". The guard: "Outcomes, read across seams
+    (Recommended)".
+  - **No value lost (Round 20).** "And if they don't thats fine - then it was properly not giving
+    any value. And the DORA metrics are what the How needs in order to prove that it is doing its
+    job".
+  - **Amend before landing (Round 21).** "Amend before landing (Recommended)".
+  - **Three kinds of demand (Round 22).** "determination pull will come from different sources".
+    Kinds: "Adopt (Recommended)". The classifier: "What owner (Recommended)".
 
   ## P-1. The PDLC and its owners
 
   - **Three scopes.** The What, When and How owners are scopes under the product's genesis grant
     (applications/sdlc/authority.md §2–3; DDD-dec-87, DDD-dec-85). Each is held by a grant. The
     genesis holder may hold any of them.
-  - **The What owner.** It holds the What (acceptance relation and tolerance) and the assurance
-    locus. It chooses how much of the product's acceptance is met by the software and how much
-    by its users (training, guidance, procedure).
-  - **The When owner.** It is the business, where demand enters, and the go-to-market owner. It
-    holds the order of all proposed changes (o2a) and when each reaches users (o16).
-  - **The How owner.** It holds the SDLC, the arrangement from a released issue to production,
-    dark behind a toggle (DDD-dec-115).
+  - **The What owner (amended, Rounds 18, 19).** It holds the What: everything the How needs in
+    order to implement (P-10). That includes the acceptance relation and tolerance, and product
+    assurance on the use act (P-11). It chooses how much of the product's acceptance is met by the
+    software and how much by its users (training, guidance, procedure). "The What owner" may be
+    several holders, one per scope (applications/sdlc/what.md §5.1).
+  - **The When owner (amended, Round 22).** It is the business, where new demand enters, and the
+    go-to-market owner. It holds the order of all new demand (o2a), and when each change reaches
+    users (o16).
+  - **The How owner (amended, Rounds 19, 22).** It holds:
+    - the SDLC, the arrangement from a released issue to production, dark behind a toggle
+      (DDD-dec-115);
+    - implementation assurance on its acts (P-11);
+    - the order of owed and own-ground demand (P-13).
 
   ## P-2. The placement rule
 
@@ -72,10 +95,16 @@ resolution: |
     is unfair and ineffective.
   - **The placement.**
     - What the product must do, its acceptance and tolerance: the What owner.
-    - Assurance, and the mix between software and users: the What owner.
+    - Product assurance, and the mix between software and users: the What owner (Round 19).
+    - Implementation assurance: the How owner. It reads the What and the product assurance
+      (Round 19).
+    - Owed or new, for a reported defect: the What owner. It reads the report and the What in
+      force (Round 22).
+    - The order of owed and own-ground demand: the How owner. It reads the classification verdict
+      and its own record (Round 22).
     - Ready for users: the What owner. It reads the change in production, dark, with its
       verdicts.
-    - The order of all proposed changes (o2a): the When owner. It reads the What elements, their
+    - The order of all new demand (o2a): the When owner (Round 22). It reads the What elements, their
       declared acceptance, and the cadence.
     - Turning a change on (o16): the When owner. It reads the ready-for-users verdict.
     - A date promised outside: the When owner, outside the arrangement. It reads the forecast.
@@ -110,11 +139,14 @@ resolution: |
 
   ## P-5. The pull system and the option pool
 
-  - **The pull.** Work moves only when the When owner pulls an option (o2a). The SDLC never pushes.
-    Its cadence flows back as the forecast.
+  - **The pull (amended, Round 22).** New work moves only when the When owner pulls an option
+    (o2a). The SDLC never pushes new demand. Its cadence flows back as the forecast. Owed and
+    own-ground demand do not go through the pool (P-13).
   - **o0, propose an option.** Any owner may occupy it, and the When owner is the biggest
-    contributor. The What owner contributes specification gaps and user feedback. The How owner
-    contributes arrangement changes and technical debt.
+    contributor. The What owner contributes specification gaps and user feedback. Round 11's
+    reading had the How owner contribute arrangement changes and technical debt. Under Round 22
+    those are own-ground demand and bypass the pool. The How owner contributes to the pool only
+    the new demand it detects.
   - **What an option is.** An option is an outcome or need (who cannot do what, by when it
     matters), never a What change. The What owner turns a pulled option into What decisions at
     o1.
@@ -133,8 +165,9 @@ resolution: |
 
   ## P-7. The stance
 
-  Delivery does not decide when. The How owner's duty is the shortest lead time within the
-  assurance the What owner set. The cadence that results is the forecast everyone else plans
+  Delivery does not decide when. The How owner's duty is the shortest lead time within the What
+  (ground and tolerance) and the product assurance (amended, Round 19: these are "the quality
+  constraints" of Round 6). The cadence that results is the forecast everyone else plans
   against. A forecast is computed from the SDLC's record, never promised by it.
 
   ## P-8. The locus
@@ -144,12 +177,79 @@ resolution: |
     - What: the acceptance relation and tolerance.
     - How: the arrangement, How decisions and the code realising them, as one locus.
     - Ground.
-    - Assurance.
+    - Assurance: an assurance-locus issue changes **product** assurance. A change to
+      implementation assurance is How-locus (Round 19).
   - **One layer up.** A change to the arrangement of the work itself is How one layer up, told
     apart by its layer path.
   - **Planning is not a locus.** It moves no coordinate. Derived order comes from the causal index
     (DDD-address-01). Chosen order among causally independent occurrences is the When owner's
     decision recorded at o2a.
+
+  ## P-10. The What owner's output (Round 18)
+
+  - **What it is.** At o1 the What owner frames everything the How needs in order to implement:
+    the full ground and tolerance for the How's acts (applications/sdlc/what.md §1.1). That covers
+    what.md §3.0 to §3.7, §4.1 and §4.2, together with the observation needs (P-12) and the
+    product-assurance declaration (P-11). The PDLC spec tables them.
+  - **The meter.** The What-locus share of o6 directions is the PDLC's meter of whether the What
+    gave the How everything it needed. It is read from the SDLC's record across the How → What
+    seam (Round 18).
+
+  ## P-11. Two assurances (Round 19)
+
+  - **Two acts, two assurances.** Assurance is a coordinate of each act's DDD-frame-01 tuple, so
+    there are two, on two different acts.
+  - **Product assurance.** It sits on the use act, occupied by users and software: how sure we
+    can be that users do the act we designed. It is the What owner's. It is met by the software
+    and the user-side share (Round 7), evidenced by observation needs and evidence in use
+    (Rounds 16, 17), and judged at ready-for-users. It lives in the What as a located
+    declaration (Round 18: "In the What, located").
+  - **Implementation assurance.** It sits on the How's acts (build, accept, land): how sure we
+    are that the feature is implemented correctly against the What. It is the How owner's. It is
+    met by mechanical checks (o9), o10's depth, and the independence of acceptance (Round 13).
+  - **Corrections.** This corrects Round 18's option text, whose "mechanical checks, o10 depth,
+    independence" is implementation assurance. It refines Round 6: "the quality constraints" the
+    How works within are the What and the product assurance.
+  - **The guard (Rounds 19, 20).** Outcomes are read across seams:
+    - lowered verification shows as change failure rate and failed ready-for-users verdicts, both
+      in the record the What and When owners read, and the How owner answers for them;
+    - if lowering implementation assurance moves neither, the verification removed gave no value,
+      and the How owner may keep tuning it down until the outcomes move;
+    - the DORA keys are the How owner's proof that it is doing its job, its answerability in
+      core/05 §5's sense.
+
+  ## P-12. Evidence in use and observation needs (Rounds 16, 17)
+
+  - **Telemetry is the How owner's to add.** Telemetry of the product in use crosses the
+    How → What seam as read-only ground, beside the change in production. The seam table gains
+    that row.
+  - **All other evidence is the What owner's own ground,** to gather: user research, support
+    signals, training outcomes.
+  - **The What owner adds its observability needs to the specification:** where in the product
+    the data comes from, and what data is needed (Round 17). Their form, an observation need as a
+    located What element, is proposed in the PDLC spec. It changes the What's schema, and goes by
+    its own decision.
+
+  ## P-13. Three kinds of demand (Round 22)
+
+  - **New demand.** A need not yet in the What. It goes through the option pool, is ordered by
+    the When owner (o2a) and is framed by the What owner (o1).
+  - **Owed demand.** A decision already in the What that the software does not meet: the demand
+    was allocated, but at the act nobody decided it (an escape). It enters the SDLC directly, is
+    ordered and restored by the How owner, and is measured as time to restore.
+  - **Own-ground demand.** Work on the How owner's own ground: technical debt, the arrangement,
+    dependencies, platform. It enters the SDLC directly, is ordered by the How owner, and is
+    justified by the DORA keys.
+  - **What the When owner sees.** It sees owed and own-ground work only as its effect on cadence.
+  - **The classification.** The What owner classifies a reported defect as owed (the software
+    breaks the What in force) or new (the What must change). Only the What owner holds the What
+    in force. The classification is its verdict, read by the How and When owners.
+  - **The guard is Round 20's, from both sides.**
+    - Too little own-ground work shows as rising change failure rate, lead time and time to
+      restore.
+    - Too much shows as falling cadence with no DORA improvement.
+  - **Round 5, refined.** "Ordering all the proposed changes" now reads: the When owner orders
+    all new demand.
 
   ## P-9. Relation to DDD-dec-42
 
@@ -163,6 +263,8 @@ basedOn:
   - DDD-dec-42
   - DDD-dec-85
   - DDD-dec-87
+  - DDD-dec-64
+  - DDD-dec-70
   - DDD-frame-01
   - DDD-frame-02
   - DDD-ground-06
@@ -197,3 +299,21 @@ notes: |
   Canon names no owner roles. The three owners are this projection's, mapped to method step 7
   (complete accountability), which is [PROPOSED]. The specs (applications/pdlc/pdlc.md) carry
   the mapping as [PROPOSED].
+
+  Amended in place on 2026-11-07, before landing (Round 21: "Amend before landing
+  (Recommended)"), from Rounds 16 to 22 given after the first session's charter was cut
+  (meta/sessions/2026-11-07-sdlc-and-pdlc/prompt-2.md). Each change names its round. The first
+  version is at d52b93f.
+  - Statement: the What owner's output and product assurance (Rounds 17, 18, 19); implementation
+    assurance (Round 19); new demand ordered by When (Round 22); the three kinds of demand (Round
+    22); evidence in use (Round 16); the meter (Round 18); the pull limited to new demand (Round
+    22); the stance's constraint and the guard (Rounds 19, 20); the assurance locus (Round 19).
+  - Resolution: the rulings list; P-1, P-2, P-5, P-7 and P-8 amended; P-10 to P-13 added.
+  - basedOn: DDD-dec-64 (the What's structure, which P-10 reads) and DDD-dec-70 (the telemetry
+    contract pattern, H-9, which P-12's observation need uses; it supersedes DDD-dec-60).
+  - Round 11's reading had the How owner contribute technical debt and arrangement changes to the
+    option pool. Round 22, the later round, makes those own-ground demand, outside the pool. P-5
+    says so.
+  - Round 20 withdrew a falsifier Claude proposed in Round 19 ("implementation assurance falls,
+    and neither measure moves"). It is not in this decision. The replacement, Claude's and
+    [PROPOSED], is in applications/pdlc/pdlc.md.
