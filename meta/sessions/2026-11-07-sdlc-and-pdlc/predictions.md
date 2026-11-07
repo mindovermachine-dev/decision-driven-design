@@ -61,3 +61,20 @@ SHAs are placeholders (`000…0001` to `000…0004`), not commits of any reposit
 Falsifier: any FAIL line.
 
 **Outcome.** As predicted: the record conforms, 7 of 7 plants caught, exit 0.
+
+## P-4 — every gate, with the specs and READMEs in place (`python3 scripts/ci.py`)
+
+Prediction: "all gates passed". Decisions valid at 93. The pin report is unchanged (81 pins, 0
+basis-loss, 0 content-drift, 1 shadowed id). The `ddd:ref` markers in the two new specs name
+only ids already pinned (`DDD-frame-01`, `DDD-frame-02`, `DDD-ground-06`, `term:answerability`,
+`term:liability`, `term:seam-identity`), so no W5 fires for an unpinned reference. No gate reads
+`applications/pdlc/` or `applications/sdlc/acts/` (S-3), so their files cannot fail a gate. The
+two `lc:` checkers are run separately and pass, as in P-2 and P-3 (13 and 7 plants).
+
+Falsifier: any gate red, a W5 or W6 on the new markers, or either checker failing.
+
+**Outcome.** As predicted. `scripts/ci.py`: "all gates passed", exit 0. Decisions valid at 93.
+Pins: 81 resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. No W5 or W6. Both `lc:`
+checkers: "all checks passed". Not predicted, and not new: `validate-claims.py core/claims/`
+reports its 6 standing single-limb warnings over 31 claims, the same as at `main`. No claim file
+was touched.

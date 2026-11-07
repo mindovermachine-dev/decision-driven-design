@@ -65,6 +65,9 @@ Written against v4:
 - **[what](what.md)** · moved 2026-10-28, not yet ratified — the opinionated specification of what a software application is and does (Product Framework §3 and §6.3.1, moved by `DDD-dec-41`…), in the identity form of `DDD-dec-63`; with its [ontology, shapes, example and checker](what/)
 - **[how](how.md)** · `[PROPOSED]`, unruled — the How as decisions: constraint, binding and contract, anchored in the What, held by Writ, shipped as packages and imported by `basedOn`; with its [vocabulary](how-vocabulary.md) and [worked decisions](how-examples/)
 - **production-as-ground** · pre-production predicates close over substitute ground; DORA's four keys instrument the encode/verify gap; the three tiers of feedback loop and which are eliminable
+- **[sdlc](sdlc.md)** · `[PROPOSED]`, unruled (`DDD-dec-115`) — the SDLC as an arrangement: the How owner's, from a released issue to production, dark behind a toggle. Issues drive agent sessions started by a label (Claude Code Action first); takt's `ready/<N>` shape with Varve's force and no squash; Varve's identity map ported; every occurrence recorded as graph data from edition 1; with its [act map, record shape and checker](acts/)
+
+**The What is owned in the PDLC and read here as ground** ([`../pdlc/`](../pdlc/README.md), `DDD-dec-114`, Round 8): it stays in this directory, where `DDD-dec-42` placed it, and the SDLC never writes it.
 
 > **Note.** The four historical documents were written before the v4 register (they say "law"
 > where `core/` now says "principle," and lean on the pre-review immune framing). If they are ever

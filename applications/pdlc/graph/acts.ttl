@@ -34,7 +34,7 @@ m:o2a a lc:Act ;
   lc:occupantLens "human: the When owner" ;
   lc:recurs "per option exit" ;
   lc:dependency [ a lc:Dependency ; lc:on m:o0 ; lc:because "the option, in the pool" ] ;
-  lc:readsEarlier m:o13 .
+  lc:readsEarlier m:o13 , m:o1 .
 
 # o1 — frame the issue, declaring its locus. Held by the owner of the declared locus (P-8; Round 3).
 m:o1 a lc:Act ;
