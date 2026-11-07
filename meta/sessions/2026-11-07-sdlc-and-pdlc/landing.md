@@ -2,7 +2,7 @@
 
 The session stops at a green head on `claude/sdlc-pdlc-applications-0u6318`. Nothing is landed.
 Everything below is Emil's to run, after ruling the specs or deciding to land them as
-`[PROPOSED]`. The head is named in the closing report on issue #61.
+`[PROPOSED]`. The head is the branch's last commit, reported to Emil when the session closed.
 
 **No pull request is open.** The session was not asked to open one. `canon land` lands a pull
 request, so one is opened first, on the branch above, by Emil or by a session he asks. Its number

@@ -78,3 +78,15 @@ Pins: 81 resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. No W5 or W6. Bo
 checkers: "all checks passed". Not predicted, and not new: `validate-claims.py core/claims/`
 reports its 6 standing single-limb warnings over 31 claims, the same as at `main`. No claim file
 was touched.
+
+## P-5 — CI on the pushed head
+
+Prediction: `pipeline (devcontainer)` succeeds on `9759c6b`, the same gates as P-4 in the
+devcontainer.
+
+**Outcome.** Run 286 (`validate`, event push): completed, success.
+
+A follow-up commit corrects `landing.md`, which said the head is named in a closing report on
+#61. No such report was posted, since the session was not asked to comment. The commit changes
+two Markdown files under `meta/sessions/`, which no gate reads, so CI is predicted green on it as
+well.
