@@ -1,0 +1,11 @@
+# Change lead time (DORA), per change: from the session's first commit to running in production.
+# The record's form: an issue's o4 occurrence (the charter, its first commit) to the o13 occurrence
+# that deployed it. One row per issue; the reading is the median of (deployed − committed), in
+# seconds. [PROPOSED] (applications/sdlc/sdlc.md §18). The forecast's flow time, o2b to o13, is a
+# different interval and is the PDLC's (pdlc.md §1).
+PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
+PREFIX m:  <https://decision-driven-design.dk/ns/lifecycle/map#>
+SELECT ?issue ?committed ?deployed WHERE {
+  ?c lc:atAct m:o4 ; lc:issue ?issue ; lc:startedAt ?committed .
+  ?d lc:atAct m:o13 ; lc:issue ?issue ; lc:startedAt ?deployed ; lc:verdict lc:Passed .
+}

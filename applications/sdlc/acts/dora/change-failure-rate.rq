@@ -1,0 +1,9 @@
+# Change failure rate (DORA): the share of successful o13 occurrences that a later owed issue's o13
+# restores (lc:restores). One row per deployment, with ?failed bound when it was restored; the
+# reading is failed / all. [PROPOSED] (sdlc.md §18).
+PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
+PREFIX m:  <https://decision-driven-design.dk/ns/lifecycle/map#>
+SELECT ?d ?failed WHERE {
+  ?d lc:atAct m:o13 ; lc:verdict lc:Passed .
+  OPTIONAL { ?fix lc:restores ?d . BIND(true AS ?failed) }
+}

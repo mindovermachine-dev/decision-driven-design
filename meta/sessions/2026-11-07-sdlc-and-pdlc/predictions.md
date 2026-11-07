@@ -113,3 +113,36 @@ report moves.
 **Outcome.** As predicted. "valid: 93 decisions, ids unique, format rules satisfied". No basis
 flag fired. Pins: 81 resolved, 0 basis-loss, 0 content-drift, 1 shadowed id. `DDD-dec-114`'s
 basedOn gained `DDD-dec-64` and `DDD-dec-70`. `DDD-dec-115`'s is unchanged.
+
+## P-7 — the lifecycle graph, amended for Rounds 16 to 22
+
+**A miss first.** After adding oC, oG and the `lc:forKind` dependencies, I ran
+`applications/pdlc/graph/check.py` before writing a prediction for that change. It printed "all
+checks passed", 13 of 13 plants caught. The run is recorded here as observed, not as a held
+prediction.
+
+Prediction, for both checkers after the remaining edits (the example classification and the
+telemetry check, four new PDLC plants, the record's demand kind, issue #103 restoring #101, the
+DORA queries and the reading shape):
+- `applications/pdlc/graph/check.py`: closure ok, so every new `lc:` term is defined and sourced.
+  The map conforms with oC, oG and the kind-scoped dependencies. The example conforms. **17 of 17**
+  plants caught. Exit 0.
+- `applications/sdlc/acts/check.py`: the record conforms with 13 occurrences. **10 of 10** plants
+  caught. The DORA keys compute to the hand-worked values: lead time 17520 seconds (the median of
+  17040 and 18000), deployment frequency 2 per week, change failure rate 0.5, time to restore 21600
+  seconds. The four readings conform. The bad-unit plant is caught. Exit 0.
+
+The likeliest failure is in the DORA arithmetic: rdflib's datetime and decimal handling, or the
+median of two Decimals.
+
+Falsifier: any FAIL line, or any computed value other than those four.
+
+**Outcome.** As predicted, in every part.
+- PDLC: closure ok, map and example conform, 17 of 17 plants caught.
+- SDLC: the record conforms, 10 of 10 plants caught, and the bad-unit plant caught (11 "plant
+  caught" lines).
+- DORA: lead time 17520 s over 2, deployment frequency 2 per week over 2, change failure rate 0.5
+  over 2, time to restore 21600 s over 1.
+- The readings conform. Exit 0 for both.
+
+The expected arithmetic failure did not come.

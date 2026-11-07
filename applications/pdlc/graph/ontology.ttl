@@ -76,7 +76,10 @@ lc:UseSite a lc:Surface ; rdfs:label "the product in use" ; dct:source "DDD-dec-
 lc:What a lc:Locus ; rdfs:label "what (acceptance relation, tolerance)" ; dct:source "Round 4" .
 lc:How a lc:Locus ; rdfs:label "how (arrangement)" ; dct:source "Round 4" .
 lc:Ground a lc:Locus ; rdfs:label "ground" ; dct:source "Round 4" .
-lc:Assurance a lc:Locus ; rdfs:label "assurance" ; dct:source "Round 4" .
+lc:Assurance a lc:Locus ;
+  rdfs:label "assurance (product assurance)" ;
+  rdfs:comment "An assurance-locus issue changes product assurance: how sure we can be that users do the act we designed. A change to implementation assurance is How-locus (Round 19)." ;
+  dct:source "Round 4; Round 19" .
 lc:DeclaredLocus a lc:Locus ;
   rdfs:label "the issue's declared locus" ;
   rdfs:comment "In the map only: the act's position on this axis is the locus its issue declares. A record carries the concrete value." ;
@@ -199,3 +202,61 @@ lc:suppliedLocus a owl:ObjectProperty ;
   rdfs:comment "For o6 only: the locus of the decision a direction supplied (What, How, or lc:CodeOnly), for the hotspot classes." ;
   dct:source "sdlc.md §14 (hotspot o5 ↔ o6)" .
 lc:CodeOnly a lc:Locus ; rdfs:label "code only (the occupant's own judgment)" ; dct:source "sdlc.md §14" .
+
+#########################  DEMAND KINDS — Round 22  #########################
+
+lc:DemandKind a owl:Class ;
+  rdfs:comment "The kind of demand an issue carries: new, owed or own-ground (DDD-dec-114 P-13)." ;
+  dct:source "DDD-dec-114 P-13; Round 22" .
+lc:NewDemand a lc:DemandKind ; rdfs:label "new" ;
+  rdfs:comment "A need not yet in the What. Through the option pool, ordered by the When owner." ; dct:source "Round 22" .
+lc:OwedDemand a lc:DemandKind ; rdfs:label "owed" ;
+  rdfs:comment "A decision in the What in force that the software does not meet. Enters the SDLC directly, ordered by the How owner." ; dct:source "Round 22" .
+lc:OwnGroundDemand a lc:DemandKind ; rdfs:label "own-ground" ;
+  rdfs:comment "Work on the How owner's own ground: technical debt, the arrangement, dependencies, platform. Enters the SDLC directly, ordered by the How owner." ; dct:source "Round 22" .
+lc:demandKind a owl:ObjectProperty ;
+  rdfs:comment "The demand kind an occurrence's issue declares." ; dct:source "DDD-dec-115 S-8" .
+lc:forKind a owl:ObjectProperty ;
+  rdfs:comment "On a dependency in the map: the demand kind the dependency applies to. A dependency with no lc:forKind applies to every kind." ;
+  dct:source "sdlc.md §17 (UNVERIFIED — Emil review)" .
+
+lc:Classification a owl:Class ;
+  rdfs:comment "oC: the What owner's verdict on a reported defect, owed or new (Round 22). Read by the How and When owners." ;
+  dct:source "DDD-dec-114 P-13" .
+lc:classifiedAs a owl:ObjectProperty ; rdfs:comment "The kind a classification found: lc:OwedDemand or lc:NewDemand." ; dct:source "Round 22" .
+lc:report a owl:DatatypeProperty ; rdfs:comment "The reported defect a classification judges, as stated." ; dct:source "Round 22" .
+
+#########################  EVIDENCE IN USE — Rounds 16, 17  #########################
+
+lc:checksObservation a owl:ObjectProperty ;
+  rdfs:comment "On a ready-for-users verdict: one observation need it checked for telemetry presence." ;
+  dct:source "DDD-dec-114 P-12; Round 17" .
+lc:observationNeed a owl:DatatypeProperty ;
+  rdfs:comment "The observation need checked, by its What element IRI as a string until the What schema defines the element (successor item)." ;
+  dct:source "Round 17 ([PROPOSED] form)" .
+lc:telemetryPresent a owl:DatatypeProperty ;
+  rdfs:comment "Whether the telemetry the observation need asks for exists in production." ;
+  dct:source "Round 16; DDD-dec-114 P-12" .
+
+#########################  DORA KEYS — Round 20  #########################
+
+lc:restores a owl:ObjectProperty ;
+  rdfs:comment "On an owed issue's o13 occurrence: the earlier o13 occurrence whose change failed and which this one restores. Feeds change failure rate and time to restore." ;
+  dct:source "DDD-dec-115 S-10" .
+lc:failureObservedAt a owl:DatatypeProperty ;
+  rdfs:comment "On a restoring o13 occurrence: when the failure was first observed in production." ;
+  dct:source "DDD-dec-115 S-10" .
+lc:DoraReading a owl:Class ;
+  rdfs:comment "One computed DORA key over a window, as the How owner's answerability (Round 20). Computed, never authored." ;
+  dct:source "DDD-dec-115 S-10" .
+lc:key a owl:ObjectProperty ; rdfs:comment "Which DORA key a reading is." ; dct:source "DDD-dec-115 S-10" .
+lc:DoraKey a owl:Class ; rdfs:comment "One of DORA's four keys." ; dct:source "production-as-ground.md §2" .
+lc:LeadTime a lc:DoraKey ; rdfs:label "change lead time" ; dct:source "production-as-ground.md §2" .
+lc:DeployFrequency a lc:DoraKey ; rdfs:label "deployment frequency" ; dct:source "production-as-ground.md §2" .
+lc:ChangeFailureRate a lc:DoraKey ; rdfs:label "change failure rate" ; dct:source "production-as-ground.md §2" .
+lc:TimeToRestore a lc:DoraKey ; rdfs:label "failed-deployment recovery time" ; dct:source "production-as-ground.md §2" .
+lc:windowStart a owl:DatatypeProperty ; rdfs:comment "Start of the reading's window." ; dct:source "DDD-dec-115 S-10" .
+lc:windowEnd a owl:DatatypeProperty ; rdfs:comment "End of the reading's window." ; dct:source "DDD-dec-115 S-10" .
+lc:value a owl:DatatypeProperty ; rdfs:comment "The reading's value, in its unit." ; dct:source "DDD-dec-115 S-10" .
+lc:unit a owl:DatatypeProperty ; rdfs:comment "The value's unit: seconds, per week, or ratio." ; dct:source "DDD-dec-115 S-10" .
+lc:fromOccurrences a owl:DatatypeProperty ; rdfs:comment "How many occurrences the reading was computed over." ; dct:source "DDD-dec-115 S-10" .

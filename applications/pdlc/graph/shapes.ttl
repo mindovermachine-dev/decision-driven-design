@@ -45,6 +45,8 @@ lc:ActShape a sh:NodeShape ;
 
 lc:DependencyShape a sh:NodeShape ;
   sh:targetObjectsOf lc:dependency ;
+  sh:property [ sh:path lc:forKind ; sh:class lc:DemandKind ;
+                sh:message "A dependency's lc:forKind names a demand kind (Round 22)." ] ;
   sh:property [ sh:path lc:on ; sh:minCount 1 ; sh:maxCount 1 ;
                 sh:message "A dependency names the one act it is on." ] ;
   sh:property [ sh:path lc:because ; sh:minCount 1 ; sh:datatype xsd:string ;
@@ -181,3 +183,26 @@ lc:ToggleOnShape a sh:NodeShape ;
         $this lc:toggle ?t .
         FILTER NOT EXISTS { $this lc:readsVerdict ?v . ?v a lc:ReadyForUsers ; lc:toggle ?t ; lc:ready true . }
       }""" ] .
+
+lc:ReadyNeedsTelemetryShape a sh:NodeShape ;
+  sh:targetClass lc:ReadyForUsers ;
+  sh:sparql [
+    sh:message "A ready-for-users verdict that finds the change ready has checked that the telemetry for each observation need exists: no checked need may lack it (Rounds 16, 17)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:ready true ; lc:checksObservation ?c . ?c lc:telemetryPresent false .
+      }""" ] .
+
+#########################  THE CLASSIFICATION VERDICT — Round 22  #########################
+
+lc:ClassificationShape a sh:NodeShape ;
+  sh:targetClass lc:Classification ;
+  sh:property [ sh:path lc:decidedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:hasValue lc:WhatOwner ;
+                sh:message "Only the What owner classifies a reported defect as owed or new: it holds the What in force (Round 22)." ] ;
+  sh:property [ sh:path lc:classifiedAs ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( lc:OwedDemand lc:NewDemand ) ;
+                sh:message "A classification finds the defect owed or new, nothing else (Round 22)." ] ;
+  sh:property [ sh:path lc:report ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A classification names the report it judges." ] ;
+  sh:property [ sh:path lc:decidedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
+                sh:message "A classification records when it was decided." ] .

@@ -1,0 +1,9 @@
+# Failed-deployment recovery time (DORA): from the failure first observed in production to the
+# restoring o13 occurrence. One row per restoration; the reading is the median of (restored −
+# observed), in seconds. Owed demand only (Round 22). [PROPOSED] (sdlc.md §18).
+PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
+PREFIX m:  <https://decision-driven-design.dk/ns/lifecycle/map#>
+SELECT ?fix ?observed ?restored WHERE {
+  ?fix lc:atAct m:o13 ; lc:verdict lc:Passed ; lc:restores ?d ; lc:failureObservedAt ?observed ;
+       lc:startedAt ?restored ; lc:demandKind lc:OwedDemand .
+}

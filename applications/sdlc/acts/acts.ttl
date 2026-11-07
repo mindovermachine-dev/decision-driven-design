@@ -12,7 +12,9 @@
 #
 #  The stages (frame, build, accept, land and run) are the act map's layers, read as composite
 #  acts. "Accept" and "land and run" are the map's names. o8 (the squash) and o14 (the release
-#  tag) were retired in Round 2, and their ids are not reused.
+#  tag) were retired in Round 2, and their ids are not reused. oG (own-ground framing) and the
+#  lc:forKind dependencies are Round 22's entry points: o1b depends on o1 (new), oC (owed) or oG
+#  (own-ground), and o2b on o2a for new demand only.
 #################################################################
 
 m:SDLC a lc:CompositeAct ; lc:label "SDLC" ; lc:within m:PDLC .
@@ -20,6 +22,17 @@ m:frame a lc:CompositeAct ; lc:label "frame" ; lc:within m:SDLC .
 m:build a lc:CompositeAct ; lc:label "build" ; lc:within m:SDLC .
 m:accept a lc:CompositeAct ; lc:label "accept" ; lc:within m:SDLC .
 m:land a lc:CompositeAct ; lc:label "land and run" ; lc:within m:SDLC .
+
+# oG — frame own-ground work: technical debt, the arrangement, dependencies, platform (Round 22).
+# The How owner's, from its own record; enters without o2a.
+m:oG a lc:Act ;
+  lc:label "frame own-ground work on an issue, declaring kind own-ground" ;
+  lc:within m:frame ; lc:layerPath "PDLC ▸ SDLC ▸ frame" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:How ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:HowOwner ;
+  lc:occupantLens "human: the How owner" ;
+  lc:recurs "per own-ground item" ;
+  lc:readsEarlier m:o13 .
 
 # o1b — plan the realisation on the issue (Round 3: before anyone is allocated).
 m:o1b a lc:Act ;
@@ -29,7 +42,9 @@ m:o1b a lc:Act ;
   lc:heldBy lc:HowOwner ;
   lc:occupantLens "human or model" ;
   lc:recurs "per issue" ;
-  lc:dependency [ a lc:Dependency ; lc:on m:o1 ; lc:because "the framed issue, its locus declared" ] .
+  lc:dependency [ a lc:Dependency ; lc:on m:o1 ; lc:forKind lc:NewDemand ; lc:because "the framed issue, its locus declared" ] ;
+  lc:dependency [ a lc:Dependency ; lc:on m:oC ; lc:forKind lc:OwedDemand ; lc:because "the What owner's verdict: owed" ] ;
+  lc:dependency [ a lc:Dependency ; lc:on m:oG ; lc:forKind lc:OwnGroundDemand ; lc:because "the How owner's own-ground issue" ] .
 
 # o2b — allocate the occupant: a label for an AI session, or a human assignee (the How owner's).
 m:o2b a lc:Act ;
@@ -39,7 +54,7 @@ m:o2b a lc:Act ;
   lc:heldBy lc:HowOwner ;
   lc:occupantLens "human: the How owner" ;
   lc:recurs "per issue" ;
-  lc:dependency [ a lc:Dependency ; lc:on m:o2a ; lc:because "the release for work (the seam's input)" ] ;
+  lc:dependency [ a lc:Dependency ; lc:on m:o2a ; lc:forKind lc:NewDemand ; lc:because "the release for work (the seam's input); new demand only" ] ;
   lc:dependency [ a lc:Dependency ; lc:on m:o1b ; lc:because "the realisation plan" ] .
 
 # o3 — dispatch: the dispatcher starts the session in the ecosystem (Claude Code Action first).

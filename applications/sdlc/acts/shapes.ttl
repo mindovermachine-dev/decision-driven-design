@@ -52,7 +52,11 @@ lc:OccurrenceShape a sh:NodeShape ;
   sh:property [ sh:path lc:startedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
                 sh:message "An occurrence records its wall-clock start, for measurement only." ] ;
   sh:property [ sh:path lc:verdict ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Verdict ;
-                sh:message "An occurrence records its verdict." ] .
+                sh:message "An occurrence records its verdict." ] ;
+  sh:property [ sh:path lc:demandKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:DemandKind ;
+                sh:message "An occurrence records its issue's demand kind (new, owed or own-ground), so the PDLC can read cadence, DORA and the How owner's split of capacity by kind (Round 22)." ] ;
+  sh:property [ sh:path lc:restores ; sh:class lc:Occurrence ;
+                sh:message "A restoration names the occurrence it restores." ] .
 
 lc:OccurrenceAgreesWithMapShape a sh:NodeShape ;
   sh:targetClass lc:Occurrence ;
@@ -89,3 +93,43 @@ lc:DirectionLocusShape a sh:NodeShape ;
         $this lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o6> .
         FILTER NOT EXISTS { $this lc:suppliedLocus ?l . FILTER (?l IN (lc:What, lc:How, lc:CodeOnly)) }
       }""" ] .
+
+lc:RestoresShape a sh:NodeShape ;
+  sh:targetSubjectsOf lc:restores ;
+  sh:sparql [
+    sh:message "Only an owed issue's o13 restores an earlier o13, and it records when the failure was observed (DDD-dec-115 S-10; Round 22)." ;
+    sh:prefixes lc:recordPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:restores ?d .
+        FILTER ( NOT EXISTS { $this lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o13> ; lc:demandKind lc:OwedDemand ; lc:failureObservedAt ?t }
+                 || NOT EXISTS { ?d lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o13> } )
+      }""" ] .
+
+lc:NoReleaseForWorkOutsideNewShape a sh:NodeShape ;
+  sh:targetClass lc:Occurrence ;
+  sh:sparql [
+    sh:message "Owed and own-ground demand enter without o2a: no occurrence of such an issue is recorded as reading a release for work (Round 22)." ;
+    sh:prefixes lc:recordPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:demandKind ?k ; lc:after+ ?e . ?e lc:atAct <https://decision-driven-design.dk/ns/lifecycle/map#o2a> .
+        FILTER ( ?k != lc:NewDemand )
+      }""" ] .
+
+#########################  DORA READINGS — Round 20  #########################
+
+lc:DoraReadingShape a sh:NodeShape ;
+  sh:targetClass lc:DoraReading ;
+  sh:property [ sh:path lc:key ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:DoraKey ;
+                sh:message "A DORA reading names one of the four keys." ] ;
+  sh:property [ sh:path lc:windowStart ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+                sh:message "A DORA reading states its window's start." ] ;
+  sh:property [ sh:path lc:windowEnd ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+                sh:message "A DORA reading states its window's end." ] ;
+  sh:property [ sh:path lc:value ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ;
+                sh:message "A DORA reading has one decimal value." ] ;
+  sh:property [ sh:path lc:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:in ( "seconds" "per week" "ratio" ) ;
+                sh:message "A DORA reading's unit is seconds, per week or ratio." ] ;
+  sh:property [ sh:path lc:fromOccurrences ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "A DORA reading says how many occurrences it was computed over: a reading over nothing is visible as such." ] .

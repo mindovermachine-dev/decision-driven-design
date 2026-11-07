@@ -67,6 +67,19 @@ PLANTS = [
     ("toggle turned on by the What owner", "example",
      "ex:on5 a lc:ToggleOn ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:reorder ; lc:readsVerdict ex:ready101 .",
      "is the When owner's act"),
+    ("a defect classified by the How owner", "example",
+     "ex:c2 a lc:Classification ; lc:decidedBy lc:HowOwner ; lc:report \"x\" ; lc:classifiedAs lc:OwedDemand ; lc:decidedAt \"2026-11-06\"^^xsd:date .",
+     "Only the What owner classifies"),
+    ("a classification that is neither owed nor new", "example",
+     "ex:c3 a lc:Classification ; lc:decidedBy lc:WhatOwner ; lc:report \"x\" ; lc:classifiedAs lc:OwnGroundDemand ; lc:decidedAt \"2026-11-06\"^^xsd:date .",
+     "owed or new, nothing else"),
+    ("ready for users with an observation need unmet", "example",
+     "ex:t6 a lc:Toggle . ex:v6 a lc:ReadyForUsers ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:t6 ; lc:ready true ; lc:userSideShare \"none\" ; "
+     "lc:checksObservation [ lc:observationNeed \"x\" ; lc:telemetryPresent false ] .",
+     "telemetry for each observation need exists"),
+    ("a dependency for a kind that is not a demand kind", "map",
+     "m:o1b lc:dependency [ a lc:Dependency ; lc:on m:o1 ; lc:forKind lc:What ; lc:because \"x\" ] .",
+     "names a demand kind"),
     ("occupant inside an address", "map",
      "m:o99 a lc:Act ; lc:label \"x\" ; lc:within m:build ; lc:layerPath \"PDLC ▸ SDLC ▸ build\" ; lc:heldBy lc:HowOwner ; "
      "lc:occupantLens \"model\" ; lc:recurs \"once\" ; lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; "

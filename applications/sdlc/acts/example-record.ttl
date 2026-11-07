@@ -4,16 +4,18 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 #################################################################
-#  An illustrative occurrence record for one How-locus issue (#101), AI-occupied. [PROPOSED].
+#  An illustrative occurrence record: one How-locus new-demand issue (#101), AI-occupied, through
+#  production; and one owed issue (#103) that restores #101's deployment (Round 22). [PROPOSED].
 #  Invented to exercise the shape. It records nothing that happened, and its numbers are not
 #  measurements. sdlc.md §13 reads hotspots off it as a worked example of the computation.
 #################################################################
 
-r:o3-1 a lc:Occurrence ; lc:atAct m:o3 ; lc:issue 101 ;
+r:o3-1 a lc:Occurrence ; lc:atAct m:o3 ; lc:issue 101 ; lc:after r:o2b-1 ;
   lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:How ; lc:authorityRead lc:BaseIdentityMap ] ;
   lc:readsIssuePosition 0 ;
   lc:occupant "program:dispatch.yml" ; lc:occupantKind "program" ;
   lc:wallSeconds 41 ; lc:humanWaitSeconds 3600 ; lc:startedAt "2026-11-05T09:00:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Done .
 
 r:o4-1 a lc:Occurrence ; lc:atAct m:o4 ; lc:issue 101 ; lc:after r:o3-1 ;
@@ -22,6 +24,7 @@ r:o4-1 a lc:Occurrence ; lc:atAct m:o4 ; lc:issue 101 ; lc:after r:o3-1 ;
   lc:occupant "claude-code" ; lc:occupantKind "model" ;
   lc:tokensIn 18000 ; lc:tokensOut 1200 ;
   lc:wallSeconds 95 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T09:01:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Done .
 
 r:o5-1 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o4-1 ;
@@ -29,6 +32,7 @@ r:o5-1 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o4-1 ;
   lc:readsIssuePosition 0 ; lc:readsHead "0000000000000000000000000000000000000002" ;
   lc:occupant "claude-code" ; lc:occupantKind "model" ;
   lc:wallSeconds 1460 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T09:03:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Done .
 
 r:o6-1 a lc:Occurrence ; lc:atAct m:o6 ; lc:issue 101 ; lc:after r:o5-1 ;
@@ -37,6 +41,7 @@ r:o6-1 a lc:Occurrence ; lc:atAct m:o6 ; lc:issue 101 ; lc:after r:o5-1 ;
   lc:occupant "emil" ; lc:occupantKind "human" ;
   lc:wallSeconds 120 ; lc:humanWaitSeconds 5400 ; lc:startedAt "2026-11-05T11:00:00Z"^^xsd:dateTime ;
   lc:suppliedLocus lc:What ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Done .
 
 r:o5-2 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o6-1 ;
@@ -45,6 +50,7 @@ r:o5-2 a lc:Occurrence ; lc:atAct m:o5 ; lc:issue 101 ; lc:after r:o6-1 ;
   lc:occupant "claude-code" ; lc:occupantKind "model" ;
   lc:tokensIn 41000 ; lc:tokensOut 3900 ;
   lc:wallSeconds 610 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T11:03:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Done .
 
 r:o9-1 a lc:Occurrence ; lc:atAct m:o9 ; lc:issue 101 ; lc:after r:o5-2 ;
@@ -52,6 +58,7 @@ r:o9-1 a lc:Occurrence ; lc:atAct m:o9 ; lc:issue 101 ; lc:after r:o5-2 ;
   lc:readsIssuePosition 7002 ; lc:readsHead "0000000000000000000000000000000000000004" ;
   lc:occupant "program:on_ready.yml" ; lc:occupantKind "program" ;
   lc:wallSeconds 380 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T11:15:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
   lc:verdict lc:Passed .
 
 r:o10-1 a lc:Occurrence ; lc:atAct m:o10 ; lc:issue 101 ; lc:after r:o9-1 ;
@@ -59,4 +66,55 @@ r:o10-1 a lc:Occurrence ; lc:atAct m:o10 ; lc:issue 101 ; lc:after r:o9-1 ;
   lc:readsIssuePosition 7003 ; lc:readsHead "0000000000000000000000000000000000000004" ;
   lc:occupant "emil" ; lc:occupantKind "human" ;
   lc:wallSeconds 300 ; lc:humanWaitSeconds 7200 ; lc:startedAt "2026-11-05T13:30:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
+  lc:verdict lc:Passed .
+
+r:o2b-1 a lc:Occurrence ; lc:atAct m:o2b ; lc:issue 101 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:How ; lc:authorityRead lc:BaseIdentityMap ] ;
+  lc:readsIssuePosition 0 ;
+  lc:occupant "emil" ; lc:occupantKind "human" ;
+  lc:wallSeconds 30 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T08:00:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
+  lc:verdict lc:Done .
+
+r:o11-1 a lc:Occurrence ; lc:atAct m:o11 ; lc:issue 101 ; lc:after r:o10-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Candidate ; lc:changeLocus lc:How ; lc:authorityRead lc:ApprovalAtHead ] ;
+  lc:readsIssuePosition 7003 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "program:agent-review.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 40 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T13:36:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
+  lc:verdict lc:Passed .
+
+r:o12-1 a lc:Occurrence ; lc:atAct m:o12 ; lc:issue 101 ; lc:after r:o11-1 , r:o9-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Trunk ; lc:changeLocus lc:How ; lc:authorityRead lc:ApprovalAtHead ] ;
+  lc:readsIssuePosition 7003 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "program:land.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 20 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T13:40:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
+  lc:verdict lc:Passed .
+
+r:o13-1 a lc:Occurrence ; lc:atAct m:o13 ; lc:issue 101 ; lc:after r:o12-1 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Production ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 7003 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "program:on_main.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 240 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-05T13:45:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:NewDemand ;
+  lc:verdict lc:Passed .
+
+# Issue #103, owed (the What owner's classification ex:class103): enters at o1b without o2a.
+r:o4-103 a lc:Occurrence ; lc:atAct m:o4 ; lc:issue 103 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 0 ; lc:readsHead "0000000000000000000000000000000000000004" ;
+  lc:occupant "claude-code" ; lc:occupantKind "model" ;
+  lc:wallSeconds 80 ; lc:humanWaitSeconds 1800 ; lc:startedAt "2026-11-06T10:00:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:OwedDemand ;
+  lc:verdict lc:Done .
+
+r:o13-103 a lc:Occurrence ; lc:atAct m:o13 ; lc:issue 103 ; lc:after r:o4-103 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:Production ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 9001 ; lc:readsHead "0000000000000000000000000000000000000005" ;
+  lc:occupant "program:on_main.yml" ; lc:occupantKind "program" ;
+  lc:wallSeconds 230 ; lc:humanWaitSeconds 0 ; lc:startedAt "2026-11-06T15:00:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:OwedDemand ;
+  lc:restores r:o13-1 ; lc:failureObservedAt "2026-11-06T09:00:00Z"^^xsd:dateTime ;
   lc:verdict lc:Passed .

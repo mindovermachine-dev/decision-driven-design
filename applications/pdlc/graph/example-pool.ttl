@@ -50,9 +50,19 @@ ex:ready101 a lc:ReadyForUsers ;
   lc:decidedBy lc:WhatOwner ;
   lc:toggle ex:reorder ;
   lc:ready true ;
-  lc:userSideShare "a help-centre article on reordering, published" .
+  lc:userSideShare "a help-centre article on reordering, published" ;
+  lc:checksObservation [ lc:observationNeed "https://example.org/acme-shop/what/observation-need-reorder-in-use" ; lc:telemetryPresent true ] .
 
 ex:on101 a lc:ToggleOn ;
   lc:decidedBy lc:WhenOwner ;
   lc:toggle ex:reorder ;
   lc:readsVerdict ex:ready101 .
+
+
+# A reported defect, classified by the What owner as owed: it entered the SDLC as issue #103 without
+# o2a (Round 22).
+ex:class103 a lc:Classification ;
+  lc:decidedBy lc:WhatOwner ;
+  lc:report "Reorder adds the out-of-stock line to the basket, against the Place order Decider's stock invariant." ;
+  lc:classifiedAs lc:OwedDemand ;
+  lc:decidedAt "2026-11-06"^^xsd:date .
