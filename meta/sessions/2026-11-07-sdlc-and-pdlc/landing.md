@@ -38,3 +38,16 @@ The branch is a fast-forward of `main` at `1ab1de0`. If `main` has moved, canon 
 branch is rebased first. A rebase changes every SHA, so the head is then approved again.
 
 No release is cut by this session.
+
+## After the continuation (Rounds 16 to 22), 2026-11-07
+
+Add-only. The steps above are unchanged. Only the head moved.
+
+- **The amended content** is at `eb8102c2e570819e979bf0259b13190196487590`, green on CI (run
+  42411491433). It holds the rulings of Rounds 16 to 22, `DDD-dec-114` and `-115` amended in place
+  (Round 21), the amended specs and the graph data.
+- **The head to approve and land** is this file's commit, the branch's last. It changes only
+  `landing.md` and `predictions.md` under `meta/sessions/`. Its full SHA is given in the closing
+  report to Emil, and CI runs on it as on every push.
+- **Still no pull request.** One is opened first, and its number is `<pr>` in the commands above.
+  `main` is still at `1ab1de0`, so the branch fast-forwards it.

@@ -161,3 +161,10 @@ Falsifier: any gate red, a W5 or W6, or a checker failing.
 0, 1 shadowed, and no W or E lines. Both checkers: "all checks passed". A misdirected batch
 before this run (the shell sat in the session folder) wrote nothing and ran nothing. It is noted
 here because its prediction text was rewritten and resent.
+
+## P-9 — CI on the continuation's head
+
+Prediction: `pipeline (devcontainer)` succeeds on `eb8102c`, as `scripts/ci.py` did locally (P-8).
+
+**Outcome.** Run 42411491433: completed, success. The commit after it changes only
+`landing.md` and this file, which no gate reads. CI is predicted green on it too.
