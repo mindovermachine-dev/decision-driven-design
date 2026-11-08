@@ -1,0 +1,50 @@
+format: 1
+id: DDD-dec-117
+kind: decision
+statement: |
+  product-cli carries the same grants and roles as the other systems, and the product framework (applications/sdlc/) carries roles. A scope ranges over decision kinds as well as What element kinds, so that an act which changes no element, such as vetting a specification's feasibility, can be granted. A role is a named, reusable scope that a grant may cite, and it is evaluated wherever the grant is. This supersedes product-cli's [D1.11], "No authority, ever", and amends the row of authority.md Appendix B that dropped roles.
+principal: Emil
+made: |
+  2026-11-08, in a claude.ai project conversation (message M-6, item 1, verbatim in meta/sessions/2026-11-08-specification-feasibility/prompt.md), with the proposals M-11 accepted, recorded at meta/sessions/2026-11-08-specification-feasibility/rulings.md as F-5; Emil's landing of the branch is the ratification act
+resolution: |
+  ## F-5. Grants and roles (M-6, item 1).
+
+  - **Ruled.** product-cli has the same grants and roles as the other systems. Only a holder of a
+    grant may vet a specification (DDD-dec-116, F-4). The product framework carries roles.
+  - **Supersedes** product-cli's `[D1.11]` (2026-10-30) in
+    `applications/sdlc/product-cli/product-definition.md` (§1, W10 and §8, "No authority, ever"):
+    the tool "holds no key and no grant, offers no acceptance under a grant".
+  - **Amends** `authority.md` Appendix B, the row "Roles and the closed claim vocabulary": roles
+    were dropped there as "a name for a scope nobody evaluates".
+  - **Restores** what the Rust tool had at `rust-final`: grants and grant acceptance
+    (`ledger-core/src/authority/grant.rs`), roles (`ledger-cli`, `RoleCmd`) and authoring scopes
+    (`product-core/src/pf/authoring_scope.rs`).
+
+  ## Accepted with M-11.
+
+  - **Scopes over decision kinds.** What §5.1 defines a scope as a set of What element kinds. A
+    scope also ranges over decision kinds. The vetting decision's kind (proposed as
+    `sdlc:FeasibilityVetting`) is one.
+  - **A role is evaluated.** A role is a named, reusable scope. A grant may cite a role; the grant
+    then means the role's scope, and the role is checked wherever the grant is. This meets Appendix
+    B's ground for dropping roles.
+basedOn:
+  - DDD-dec-46
+  - DDD-dec-64
+  - DDD-dec-85
+  - DDD-dec-86
+  - DDD-dec-92
+notes: |
+  Supersession of a non-DDD id. [D1.11] is a product-cli definition item, not a DDD-dec id, so it
+  is named in the resolution and not in a supersedes field. product-definition.md is not edited in
+  this session; marking [D1.11] superseded there is successor work.
+
+  Which ruling holds Appendix B. authority.md's header names DDD-dec-85, -86, -92 and -93 as its
+  rulings; Appendix B's row carries no id of its own. The basedOn names the three that ruled the
+  profile's content. UNVERIFIED — Emil review: which of them the roles row belongs to.
+
+  Open, not for this decision. Whether a role's grain comes from the Decision-Driven Organisations
+  grant map (rulings.md O-2).
+
+  Review trigger. Roles cited by grants are never evaluated in practice, or a grant's meaning
+  differs from its role's scope: Appendix B's ground returns.

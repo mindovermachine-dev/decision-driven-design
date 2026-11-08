@@ -1,0 +1,138 @@
+format: 1
+id: DDD-dec-116
+kind: decision
+statement: |
+  A specification's feasibility is decided per dependency on outside ground, in two layers. The What layer states the demand, the source and the owner's permission; the How layer decides whether the dependency can be realised loosely coupled, by three checkable conditions, and the How's decision is final on feasibility. product-cli holds the full feasibility verdict: it exposes a proposed change to the What at a pinned version as not yet vetted, any actor holding a grant for the vetting act vets it by any means, and product-cli records the resulting decision, which is projected until landing and stale once its pin is passed. Ground vetted feasible enters the What as a ground-sourced bounded context, mapped from with declared direction. Vetting holds per system: an admission, a What element within a system, admits a ground-sourced context as a whole for that system, and Deciders, Projectors and Views within the system may reach the context only through an admission. What may be used from the source is the data owner's decision, not the How's, at the grain the owner decides; an element passes only when it is both admitted and permitted.
+principal: Emil
+made: |
+  2026-11-08, in a claude.ai project conversation (messages M-2 to M-11, verbatim in meta/sessions/2026-11-08-specification-feasibility/prompt.md), with the proposals M-11 accepted ("All proposed are accepted"), recorded at meta/sessions/2026-11-08-specification-feasibility/rulings.md as F-1 to F-4 and F-6 to F-12; Emil's landing of the branch is the ratification act
+resolution: |
+  ## F-1. The constraint is organisational (M-2).
+
+  - A dependency on outside ground has three parts. The **demand** (which external reads and calls
+    our What implies) is our product's. The **source** (what exists, and its shape) is the owning
+    unit's. The **permission** (that we may use it, for what, under which terms) is the owning
+    unit's, as a decision in its own space referenced by `dpp/1`.
+  - A reference from another system confers no force (`authority.md` §1.1), so permission cannot
+    be a decision in our product.
+
+  ## F-2. Every dependency is loosely coupled, and the How decides (M-3).
+
+  - Every dependency on ground has a What layer and a How layer. The How layer decides feasibility.
+  - "Loose" is three conditions, each fitted to a How kind (`how.md` §4.2):
+    1. our code reads only the provider's published wire contract, pinned at an edition: a
+       constraint over code facts, gating `land`;
+    2. deploying our unit needs no deploy of theirs and no ordering between them: a contract over
+       `deployment-declared` facts, gating `land`;
+    3. when the provider is unavailable, our unit degrades or queues and does not fail: a What
+       quality demand (architectural constraint) held by a contract, gating `land` only in its
+       declared part.
+
+  ## F-3. product-cli holds the full verdict (M-4).
+
+  - product-cli carries the full feasibility verdict, so that it produces specifications the How
+    can land. The ground: the specification's data model is incomplete, and human actors infer the
+    rest. F-4 rules how the verdict reaches it.
+
+  ## F-4. Vetting is decoupled from Writ (M-5).
+
+  - product-cli exposes a specification as not yet vetted. Any actor holding a grant for the
+    vetting act (DDD-dec-117) vets it, by any means. product-cli records the decision. Writ is one
+    possible actor, not the required one.
+  - The vetting decision is a `dpp/1` record, anchored to the specification, `basedOn` its pinned
+    version (F-6), with a verdict, feasible or not, and a `why`.
+  - A later change to an element it covers leaves it pinned to an old version: stale, shown
+    without re-evaluation.
+  - A feasibility decision is projected; landing makes it reported. product-cli never fuses the
+    two.
+
+  ## F-6. The unit vetted (M-6, item 2).
+
+  - A proposed change to the What at a pinned version. Not a feature (DDD-dec-42).
+
+  ## F-7. Vetted ground carries forward (M-6).
+
+  - A vetting of ground made once in the How carries forward to others using the same ground.
+  - What carries: the source side (published contract at an edition, versioning, behaviour when
+    unavailable). What does not: permission (per consumer), consumer-side coupling, and shape fit
+    to the consumer's demand.
+
+  ## F-8. Vetted ground becomes What (M-7).
+
+  - Ground vetted feasible enters the domain model as entities in a **ground-sourced bounded
+    context**, whose meaning is the source's. Our contexts map from it with direction declared
+    (`sdlc:mapsFrom` names the source; DDD-dec-113 E-8).
+  - A holder of a grant scoped over the entity kinds adds them by a What decision `basedOn` the
+    How's vetting, pinned to the source's edition. No tool adds them (DDD-dec-43).
+  - A new edition of the source is a What change that supersedes the entities.
+
+  ## F-9. Vetting is per system (M-8).
+
+  - An **admission** is a What element within a system, naming what it admits (F-11), `basedOn`
+    the How's vetting for that system. Being within the system lets a grant narrowed to the
+    system's subtree add it (What §5.1).
+  - The check: an element within system S that reaches a ground-sourced context with no admission
+    for it within S is a violation. It is closed over the What, and product-cli computes it.
+
+  ## F-10. What admissions gate (M-9, item 1).
+
+  - Deciders, Projectors and Views. A Decider reaches context C by `sdlc:reads` of a field within an
+    entity in C; a Projector by `sdlc:folds` of an event that `sdlc:changes` an entity in C, or by
+    `sdlc:keyedBy` a field in C; a View by `sdlc:projects` of such an event.
+
+  ## F-11. The unit of admission (M-9, item 2).
+
+  - A ground-sourced context as a whole: if one entity can be had from the integration, all can.
+
+  ## F-12. Permission is the owner's (M-10).
+
+  - What may be used from an integration (for example through its OAuth2 scopes) is the data
+    owner's decision, at the grain the owner decides: context, entity or field. It is not part of
+    feasibility.
+  - An element passes only if its context is admitted for its system and every field it reaches is
+    covered by the owner's permission. An unresolvable reference to the owner's decision is
+    `Unknown`, never a pass.
+  - The map from the owner's access scopes to fields is part of the owner's decision.
+basedOn:
+  - DDD-dec-42
+  - DDD-dec-43
+  - DDD-dec-45
+  - DDD-dec-52
+  - DDD-dec-57
+  - DDD-dec-63
+  - DDD-dec-64
+  - DDD-dec-65
+  - DDD-dec-85
+  - DDD-dec-113
+  - DDD-address-03
+notes: |
+  Id. DDD-dec-115 is the highest on any branch (claude/sdlc-pdlc-applications-0u6318, unlanded).
+  116 and 117 were checked free on every branch of both repositories on 2026-11-08.
+
+  Grain. F-5 (grants and roles) is DDD-dec-117, because it supersedes product-cli's [D1.11] and
+  amends authority.md Appendix B; this decision rests on it for "a holder of a grant".
+
+  Not ruled. W-1 to W-5 in rulings.md were withdrawn or corrected in the conversation. O-1 (whose
+  What holds a ground-sourced context when the source belongs to no product) is DDD-dec-113's Q-C2
+  and stays open; O-2 (whether owners come from the Decision-Driven Organisations grant map) is
+  open.
+
+  Readings — Claude, UNVERIFIED — Emil review: R-a to R-d in rulings.md. R-b reads M-3 ("the how
+  must dictate") and M-4 ("product-cli must contain the full feasibility verdict") together through
+  M-5: the How's actor decides, product-cli records.
+
+  Review triggers. Each accepted proposal carried a falsifier; a firing is a review trigger:
+  - F-1: the integration blockers of the first organisational case mostly do not trace to a
+    missing decision by an owning unit.
+  - F-2: features crossing a dependency the How judged loosely coupled show longer change lead time
+    than features crossing none.
+  - F-3: after the model is extended, implementers infer about as much, or specifications fail to
+    land as often.
+  - F-7: specifications vetted on carried-forward ground fail to land more often than freshly
+    vetted ones.
+  - F-9 and F-10: elements that passed the admission check fail to land because of their ground.
+  - F-12: runtime permission refusals (403s from the integration) on fields the check marked
+    permitted.
+
+  Not applied here. what.md, the sdlc: ontology and shapes, how.md and product-definition.md are
+  unchanged by this session; the application is in successor-items.md.
