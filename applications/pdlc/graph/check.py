@@ -67,6 +67,10 @@ PLANTS = [
     ("toggle turned on by the What owner", "example",
      "ex:on5 a lc:ToggleOn ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:reorder ; lc:readsVerdict ex:ready101 .",
      "is the When owner's act"),
+    ("an own-ground item in the option pool", "example",
+     "ex:opt9 a lc:Option ; lc:contributor lc:HowOwner ; lc:need \"The How owner cannot deploy without a manual cache purge.\" ; "
+     "lc:mattersBy \"2027-06-30\"^^xsd:date ; lc:proposedAt \"2026-10-01\"^^xsd:date ; lc:demandKind lc:OwnGroundDemand .",
+     "Only new demand enters the option pool"),
     ("a defect classified by the How owner", "example",
      "ex:c2 a lc:Classification ; lc:decidedBy lc:HowOwner ; lc:report \"x\" ; lc:classifiedAs lc:OwedDemand ; lc:decidedAt \"2026-11-06\"^^xsd:date .",
      "Only the What owner classifies"),

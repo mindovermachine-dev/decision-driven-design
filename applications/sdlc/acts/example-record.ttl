@@ -5,7 +5,8 @@
 
 #################################################################
 #  An illustrative occurrence record: one How-locus new-demand issue (#101), AI-occupied, through
-#  production; and one owed issue (#103) that restores #101's deployment (Round 22). [PROPOSED].
+#  production; one owed issue (#103) that restores #101's deployment (Round 22); and one own-ground
+#  issue (#104), moved here from the option pool by Round 26. [PROPOSED].
 #  Invented to exercise the shape. It records nothing that happened, and its numbers are not
 #  measurements. sdlc.md §13 reads hotspots off it as a worked example of the computation.
 #################################################################
@@ -118,3 +119,15 @@ r:o13-103 a lc:Occurrence ; lc:atAct m:o13 ; lc:issue 103 ; lc:after r:o4-103 ;
   lc:demandKind lc:OwedDemand ;
   lc:restores r:o13-1 ; lc:failureObservedAt "2026-11-06T09:00:00Z"^^xsd:dateTime ;
   lc:verdict lc:Passed .
+
+# Issue #104, own-ground (Round 22; moved here from the option pool by Round 26): "the How owner
+# cannot deploy a change without a manual cache purge". Framed by the How owner at oG from its own
+# record, it enters at o1b without o2a. Only its charter is recorded: it has not reached o13, so no
+# DORA query reads it.
+r:o4-104 a lc:Occurrence ; lc:atAct m:o4 ; lc:issue 104 ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:SessionBranch ; lc:changeLocus lc:How ; lc:authorityRead lc:NoAuthority ] ;
+  lc:readsIssuePosition 0 ; lc:readsHead "0000000000000000000000000000000000000005" ;
+  lc:occupant "claude-code" ; lc:occupantKind "model" ;
+  lc:wallSeconds 70 ; lc:humanWaitSeconds 600 ; lc:startedAt "2026-11-07T09:00:00Z"^^xsd:dateTime ;
+  lc:demandKind lc:OwnGroundDemand ;
+  lc:verdict lc:Done .

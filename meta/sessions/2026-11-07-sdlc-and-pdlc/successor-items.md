@@ -46,3 +46,11 @@ decision.
 | W-5 | **The authority profile's record kinds** for the classification verdict (oC) and the When owner's acts (o2a, o16, an option's exit). This widens S-4 above | `applications/sdlc/authority.md`, `authority-vocabulary.md` | A successor session |
 | W-6 | **The dispatcher's two new refusals**: an issue with no `kind:` label, and an owed or own-ground issue that carries a release for work. This widens N-1 above. The record writer (N-7) writes `lc:demandKind`, `lc:restores` and `lc:failureObservedAt` | N-1's and N-7's files | The next gate |
 | W-7 | **Wire the `lc:` checkers into `scripts/ci.py`** (S-3 above, unchanged). The SDLC checker now also computes the four DORA keys over its example | `scripts/ci.py`, `scripts/fixtures/` | A successor session |
+
+## After Round 26 (2026-11-08)
+
+Add-only. The tables above stand as written.
+
+| # | Item | Files it would change | Closes it |
+|---|---|---|---|
+| W-8 | **Editorial: `what.md` §5.1's "the product owner's What scope".** Round 12 rules that priority is a When decision, never the What owner's, and that a classic product owner fuses a What decision with a When decision. `what.md` §5.1 ends: "The product owner's What scope and the architect's How scope are two grants over two sets of kinds of one product." It uses "product owner" for the holder of the What scope. That does not contradict the PDLC, since §5.1 speaks of the What scope alone. But it carries the role name the PDLC takes apart (findings C-6). Proposed wording: "The What owner's scope and the How owner's scope …", citing `DDD-dec-114`. **Not edited in this session** (Round 26, item 3). It goes with W-1 to W-7, since those edit `what.md` §3 under their own decisions | `applications/sdlc/what.md` §5.1 (one sentence) | With W-1 to W-7, under the decision that edits `what.md` |

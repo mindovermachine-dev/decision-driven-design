@@ -32,3 +32,14 @@ Add-only. The table above stands as written.
 | C-5 | **Two intervals, one name.** The first session used "lead time, o2b to o13" for the forecast. DORA's change lead time starts at the first commit. The forecast's interval is now called flow time (o2b to o13), and DORA's lead time is o4 to o13 | `pdlc.md` §1; `sdlc.md` §13, §18 |
 | C-6 | **`what.md` §5.1 says "the product owner's What scope".** Under Round 12 the classic product owner's priority is a When decision. `what.md` uses the phrase only for the holder of the What scope, so it does not contradict the PDLC. It is flagged for a later editorial pass, not edited here (`what.md` is outside this session's scope) | This finding |
 | C-7 | **A prediction miss.** After adding oC and oG, the PDLC checker was run before a prediction was written for that change | `predictions.md`, P-7 |
+
+## After Round 26 (2026-11-08)
+
+Add-only. The tables above stand as written.
+
+| # | Finding | Where it went |
+|---|---|---|
+| C-2 (closed) | **The How-owner option is out of the pool.** It was the option C-2 left in the illustrative pool. It is now issue #104 at the own-ground entry, in the SDLC's example record, and a new plant refuses an own-ground item in the pool (Round 26, item 1) | `example-pool.ttl`; `example-record.ttl`; `pdlc.md` §10 |
+| C-5 (marked) | **"Flow time" is Claude's term.** It is marked `[PROPOSED]`, `UNVERIFIED — Emil review` at each place it appears, and the name is open item O-9 (Round 26, item 2) | `pdlc.md` §1, §15; `sdlc.md` §13, §18; `dora/lead-time.rq` |
+| C-6 (placed) | **The `what.md` §5.1 sentence** is successor item W-8, editorial, with the What schema work (Round 26, item 3) | `successor-items.md` |
+| C-8 | **Rounds 23 to 25 are not in this record.** Emil's message is numbered Round 26. No message numbered 23, 24 or 25 reached either session. It is recorded as given, with the gap noted | `rulings.md`, Round 26 |

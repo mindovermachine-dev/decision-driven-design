@@ -168,3 +168,58 @@ Prediction: `pipeline (devcontainer)` succeeds on `eb8102c`, as `scripts/ci.py` 
 
 **Outcome.** Run 42411491433: completed, success. The commit after it changes only
 `landing.md` and this file, which no gate reads. CI is predicted green on it too.
+
+## Round 26 (2026-11-08)
+
+Not predicted: the arrival reads (the branch at `0dfe59a`, unmoved; `main` at `1ab1de0`; a grep for
+"flow time" and for the How-owner option). They changed nothing. The rulings commit touches only
+`meta/sessions/`.
+
+## P-10 — the pool example fixed, the own-ground plant added, "flow time" marked
+
+Planned edits:
+- remove `ex:opt4` (the How owner's "manual cache purge" option) from `example-pool.ttl`;
+- move it to the own-ground entry as issue #104 in `applications/sdlc/acts/example-record.ttl`:
+  one o4 occurrence, `lc:demandKind lc:OwnGroundDemand`, with no o13, so no DORA query sees it;
+- give `lc:OptionShape` a constraint that an option's `lc:demandKind`, if stated, is
+  `lc:NewDemand`;
+- add the plant "an own-ground item in the option pool";
+- mark "flow time" `[PROPOSED]`, `UNVERIFIED — Emil review` at each of its 4 places in the specs
+  and graph data (`pdlc.md` §1, `sdlc.md` §13 and §18, `dora/lead-time.rq`), and add it to
+  `pdlc.md` §15.
+
+Prediction, PDLC checker (`applications/pdlc/graph/check.py`):
+- closure ok;
+- map and example conform, the example with 4 options;
+- **18 of 18** plants caught (17 + 1). No existing plant uses `ex:opt4`: the decline plants attach
+  new exits to `ex:opt5`.
+
+Prediction, SDLC checker (`applications/sdlc/acts/check.py`):
+- the record conforms with 14 occurrences;
+- **10 of 10** record plants, plus the DORA unit plant (11 "plant caught" lines, unchanged);
+- the four DORA values unchanged: 17520 s, 2 per week, 0.5, 21600 s. #104 has no o13, so it
+  enters no query.
+
+The pool's worked metrics become:
+- proposed: When 3 of 4, What 1 of 4, How 0;
+- pulled: 2, When's share 1/2;
+- closed: 3 (2 pulled, 1 expired), so the decline rate is 0/3 and the expiry rate 1/3.
+
+The example then has no declined option. That shape is still exercised by the two decline plants.
+
+Falsifier: any FAIL line, a plant count other than 18 and 11, or a DORA value that moves.
+
+**Outcome.** As predicted.
+- PDLC: closure ok, map and example conform, **18 of 18** plants caught. The new plant is caught
+  by its own message, "Only new demand enters the option pool", which nothing else carries.
+- SDLC: the record conforms with **14** occurrences. **11** "plant caught" lines (10 record plants
+  and the DORA unit plant). DORA unchanged: 17520 s over 2, 2 per week over 2, 0.5 over 2, 21600 s
+  over 1.
+- Both exit 0.
+
+## P-11 — every gate, after Round 26 (`python3 scripts/ci.py`)
+
+Prediction: "all gates passed". 93 decisions (none touched). Pins 81, 0 basis-loss, 0
+content-drift, 1 shadowed. No gate reads the files changed. Falsifier: any gate red.
+
+**Outcome.** As predicted: "all gates passed", exit 0. 93 decisions. Pins 81, 0, 0, 1 shadowed.

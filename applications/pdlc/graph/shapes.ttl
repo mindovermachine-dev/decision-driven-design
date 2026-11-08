@@ -121,6 +121,8 @@ lc:OptionShape a sh:NodeShape ;
                 sh:message "An option states its market window: by when it matters." ] ;
   sh:property [ sh:path lc:proposedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
                 sh:message "An option records when it entered the pool, for option age." ] ;
+  sh:property [ sh:path lc:demandKind ; sh:in ( lc:NewDemand ) ;
+                sh:message "Only new demand enters the option pool: owed and own-ground work enter the SDLC directly and never the pool (Round 22; Round 26)." ] ;
   sh:property [ sh:path lc:changesWhatElement ; sh:maxCount 0 ;
                 sh:message "An option is never a What change: it enters as an outcome or need, and the What owner makes What decisions at o1 (DDD-dec-114 P-5)." ] ;
   sh:property [ sh:path lc:exit ; sh:maxCount 1 ; sh:class lc:Exit ;

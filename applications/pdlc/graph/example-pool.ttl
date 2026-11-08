@@ -29,13 +29,9 @@ ex:opt3 a lc:Option ;
   lc:proposedAt "2026-09-01"^^xsd:date ;
   lc:exit [ a lc:Expired ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-10-16"^^xsd:date ] .
 
-ex:opt4 a lc:Option ;
-  lc:contributor lc:HowOwner ;
-  lc:need "The How owner cannot deploy a change without a manual cache purge (technical debt)." ;
-  lc:mattersBy "2027-06-30"^^xsd:date ;
-  lc:proposedAt "2026-10-01"^^xsd:date ;
-  lc:exit [ a lc:Declined ; lc:decidedBy lc:WhenOwner ; lc:decidedAt "2026-11-05"^^xsd:date ;
-            lc:reason "Superseded by the hosting move the When owner has already ordered." ] .
+# The How owner's "manual cache purge" was an option here until Round 26: under Round 22 it is
+# own-ground work and never enters the pool. It is now issue #104 at the own-ground entry (oG), in
+# applications/sdlc/acts/example-record.ttl.
 
 ex:opt5 a lc:Option ;
   lc:contributor lc:WhenOwner ;

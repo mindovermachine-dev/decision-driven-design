@@ -68,7 +68,8 @@ constraints allow. The cadence that results is the forecast everyone else plans 
 
 **The computation, `[PROPOSED]`.**
 - **Inputs.** Throughput λ is new-demand changes reaching o13 per week, over the last N weeks.
-  Flow time F runs from o2b to o13 for new demand, from the record. F is not DORA's lead time,
+  **Flow time** F (a proposed term, `[PROPOSED]`, `UNVERIFIED — Emil review`: Claude's name,
+  not Emil's; open item O-9) runs from o2b to o13 for new demand, from the record. F is not DORA's lead time,
   which starts at the first commit.
 - **The estimate.** An issue at rank k, not yet allocated, has an expected landing date of about
   now + k/λ + median(F). A forecast is a distribution: resample λ and F from the record.
@@ -515,11 +516,17 @@ An option naming a What element it changes is refused. Run
 | Expiry rate | Expired / closed |
 
 **Worked over the illustrative pool** ([`graph/example-pool.ttl`](graph/example-pool.ttl), which is
-invented): five options; the When owner proposed three, the What owner one and the How owner one.
-Two were pulled, one declined, one expired, one is open. The When owner's share is 3/5 of proposed
-and 1/2 of pulled. The decline rate is 1/4 and the expiry rate 1/4. Under Round 22, the How
-owner's option (a manual cache purge on every deploy) would no longer be an option: it is
-own-ground work. The example keeps it as it stood, and records this here.
+invented):
+- four options: the When owner proposed three, the What owner one;
+- two were pulled, one expired, and one is open;
+- the When owner's share is 3/4 of proposed and 1/2 of pulled;
+- the decline rate is 0/3 and the expiry rate 1/3.
+
+The pool once held a How-owner option, "a manual cache purge on every deploy". Round 26 removed
+it, because under Round 22 technical debt is own-ground work and never enters the pool. It is
+now issue #104 at the own-ground entry (oG), in [`../sdlc/acts/example-record.ttl`](../sdlc/acts/example-record.ttl).
+An option stating `lc:demandKind` other than new is refused (`lc:OptionShape`). The example has no
+declined option now, and the two decline plants still exercise that shape.
 
 **Falsifiers.**
 - An option reaches o1 already phrased as a What change the What owner did not make.
@@ -627,3 +634,4 @@ leaving with no record) are part of this list.
 | O-6 | Record kinds for the When owner's acts (o2a, o16, an option's exit) and for the classification (oC) in the authority profile | A successor session |
 | O-7 | The product-assurance levels (§4): two are proposed | Emil |
 | O-8 | The observation need and the product-assurance declaration as What elements: the What schema, by their own decisions (successor items) | Emil, then a successor session |
+| O-9 | **The name "flow time"** (Round 26). Claude's term for the forecast's interval, o2b to o13 (§1), kept apart from DORA's change lead time, o4 to o13 ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18). The split stands. The name is `[PROPOSED]`, `UNVERIFIED — Emil review`, until Emil rules it | **Emil**, when he reviews the specs |

@@ -570,7 +570,7 @@ DORA reading.
   `lc:failureObservedAt`.
 
 **It is the SDLC's output across the seam.** The PDLC computes the forecast from it: throughput
-from new-demand o13 occurrences, flow time from o2b to o13 (`../pdlc/pdlc.md` §1). The DORA keys
+from new-demand o13 occurrences, and flow time (a proposed term, `[PROPOSED]`, `UNVERIFIED — Emil review`; `../pdlc/pdlc.md` §15, O-9) from o2b to o13 (`../pdlc/pdlc.md` §1). The DORA keys
 come from it too (§18). The kind lets the PDLC read the How owner's split of capacity across new,
 owed and own-ground work.
 
@@ -722,7 +722,7 @@ failure rate 0.5, time to restore 21600 s. Every reading conforms. The numbers a
 show the computation only.
 
 **Which occurrences feed each key:** o4 and o13 (lead time); o13 (frequency); o13 with
-`lc:restores` (failure rate, time to restore). The flow time the PDLC's forecast uses, o2b to o13,
+`lc:restores` (failure rate, time to restore). The flow time (a proposed term, `[PROPOSED]`, `UNVERIFIED — Emil review`; `../pdlc/pdlc.md` §15, O-9) the PDLC's forecast uses, o2b to o13,
 is a different interval (`../pdlc/pdlc.md` §1).
 
 ## 19. Open items

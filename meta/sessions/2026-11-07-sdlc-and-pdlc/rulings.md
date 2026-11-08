@@ -496,6 +496,39 @@ byte, apart from the quote markers. It follows Round 15 in order.
 
   Each stays `[PROPOSED]` in the specs until Emil rules on it.
 
+## Round 26, verbatim (2026-11-08)
+
+Emil's message in this session, after the continuation stopped at `0dfe59a`. It is recorded as
+Round 26, as the message says. **Rounds 23 to 25 are not in this record.** No message numbered
+23, 24 or 25 reached either session, so the gap is Emil's numbering, kept as given. If those
+rounds exist elsewhere, they are not recorded here.
+
+> Thanks. Three things before you stop again, all on claude/sdlc-pdlc-applications-0u6318.
+> Record this message verbatim in rulings.md as Round 26, and predict before each operation.
+>
+> 1. Fix the pool example. Round 22 governs over Round 11: technical debt and arrangement changes
+>    are own-ground work and never enter the option pool. Remove the How-owner option from the
+>    example pool in applications/pdlc/ (prose and graph data). If it is useful as an example,
+>    move it to the own-ground entry (oG) instead. Re-run the PDLC and SDLC checks, and keep the
+>    planted-defect counts honest: add a planted defect for "an own-ground item in the option
+>    pool" if none exists, and report the new counts.
+>
+> 2. "Flow time" is your term, not mine. Keep the split you made (the forecast's o2b-to-o13
+>    interval versus DORA's lead time from o4 to o13), but mark "flow time" as a proposed term,
+>    UNVERIFIED — Emil review, wherever it appears in pdlc.md, sdlc.md and the graph data. Add it
+>    to the open items in pdlc.md §15 so I can rule the name when I review the specs.
+>
+> 3. what.md §5.1's "the product owner's What scope": do not edit what.md. Add it to
+>    successor-items.md as an editorial item, citing Round 12, to go with the W-1 to W-7 What
+>    schema work.
+>
+> Then run the validators, push, wait for green CI, update landing.md with the new head, report
+> the head, and stop. Do not land. Do not open a pull request.
+
+- **Item 1** applies Round 22 over Round 11 (findings C-2) to the example.
+- **Item 2** marks Claude's term "flow time" as proposed (findings C-5).
+- **Item 3** places findings C-6 as a successor item.
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this
