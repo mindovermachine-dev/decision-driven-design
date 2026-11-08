@@ -51,3 +51,12 @@ Add-only. The steps above are unchanged. Only the head moved.
   report to Emil, and CI runs on it as on every push.
 - **Still no pull request.** One is opened first, and its number is `<pr>` in the commands above.
   `main` is still at `1ab1de0`, so the branch fast-forwards it.
+
+## After Round 26, 2026-11-08
+
+Add-only. The steps above are unchanged.
+
+- **Round 26's content** is at `b79e3346529e94907f2a8c6ac8bd3e87c331bea5`, green on CI.
+- **The head to approve and land** is this file's commit, the branch's last. It changes only
+  `landing.md` and `predictions.md`. Its full SHA is in the closing report to Emil.
+- **Still no pull request.** `main` is still at `1ab1de0`.

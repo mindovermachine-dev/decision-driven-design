@@ -223,3 +223,9 @@ Prediction: "all gates passed". 93 decisions (none touched). Pins 81, 0 basis-lo
 content-drift, 1 shadowed. No gate reads the files changed. Falsifier: any gate red.
 
 **Outcome.** As predicted: "all gates passed", exit 0. 93 decisions. Pins 81, 0, 0, 1 shadowed.
+
+## P-12 — CI on Round 26's head
+
+Prediction: green on `b79e334`, as P-11 was locally. **Outcome.** Run completed, success. The
+commit after it changes only `landing.md` and this file, which no gate reads. CI is predicted green
+on it too.
