@@ -666,6 +666,36 @@ toggle service (`sdlc.md` §7), and the forecast's numbers (`pdlc.md` O-4). Emil
 - **No open items remain** in `pdlc.md` §15 or `sdlc.md` §19 for Emil, except the successor work.
 - **Entry.** Round 30 enters by amendment before landing (Round 21's rule).
 
+## Round 31, verbatim (2026-11-09)
+
+Given to a different session, the product-cli step-1 session (mindovermachine-dev/product-cli#169),
+after `DDD-dec-114` and `-115` landed at `a53d02d`. The message asks for it to be recorded here,
+because §19 belongs to this record. Item 1 concerns #65 and is recorded with it for completeness;
+only item 2 changes this session's specs.
+
+> Two things. Record this message verbatim in your rulings record as your next round.
+>
+> 1. #64 has landed: decision-driven-design main is now a53d02d. #65 is still based on 1ab1de0, so canon cannot fast-forward it. Rebase claude/sdlc-edition-1-adr-lift-wfgx7s onto main. #64 does not touch applications/sdlc/product-cli/product-definition.md, so expect no conflict; if there is one, stop and tell me. Push, wait for green CI, and report the new head. I will approve that head on #65. Record the rebase as ADR-0007 D5 asks.
+> 2. A separate, small pull request in decision-driven-design, from a fresh branch off main. Keep it out of #65. It adds two open items to applications/sdlc/sdlc.md §19, as open items only. Neither rules on its substance. You have already read product-cli#171 (ADR-0014), so you are the right session for it.
+> O-8. An act that accepts the realisation plan. o1b plans the realisation on the issue, but no act accepts the plan before work starts; o10 accepts only the candidate, after the work. product-cli's issue sessions have one (ADR-0014 D5): a run posts a plan and stops, and works only after the principal approves that plan comment on the issue. It is cheap judgment placed before the expensive acts. Proposed: a plan-acceptance act between o1b and o4, by the How owner or a holder of its grant, whose verdict is in o4's ground reading. Say where it would sit in the record and in the meters. Closes it: Emil.
+> O-9. Reconciling product-cli's issue sessions with the SDLC. product-cli specifies issue sessions on its own (ADR-0014, #171): a `claude` label by one hard-coded maintainer, plan approval, landing by a maintainer fast-forward under its ADR-0007, and a traceability record per session. The SDLC uses an allocation label checked against the identity map, `approve <head sha>` on the candidate, the gates App's fast-forward, and a record per act occurrence. product-cli is the natural first adopter. product-cli either adopts the SDLC (ADR-0014 superseded or mapped onto it) or records its departures. Closes it: Emil, then product-cli.
+> First read §19 and Rounds 27 to 30 in meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md (now on main). If either item is already covered, say so and add only what is left. Record this message in that session's rulings.md as its Round 31, since §19 belongs to that record. Basis: DDD-dec-115. Push, wait for green CI, open the pull request, report its number and head, and stop. Do not land.
+>
+> In the product-cli plan, a separate thing, note that the SDLC is now on main (DDD-dec-115, applications/sdlc/sdlc.md). #171's issue sessions and the SDLC differ (O-9). Do not reconcile them in your PR; just name it as an open item.
+
+**How it governs.**
+- **Two open items, not rulings.** `sdlc.md` §19 gains O-8 (an act that accepts the realisation
+  plan) and O-9 (reconciling product-cli's issue sessions with the SDLC). Neither rules on its
+  substance. The proposal in O-8 stays a proposal until Emil closes it.
+- **Neither was covered.** §19 held O-1 to O-7, and Rounds 27 to 30 close O-4 to O-7 and the
+  `pdlc.md` items. No act accepts o1b's plan: o2b reads it, and o10 accepts only the candidate.
+  `sdlc.md` does not mention product-cli's issue sessions.
+- **The numbers are §19's.** O-8 and O-9 are the next free numbers in `sdlc.md` §19. `pdlc.md`
+  §15 has its own O-8 and O-9 (the What elements, and "flow time", Round 27). The two lists are
+  separate, and each item is cited with its document.
+- **Entry.** The items enter as open items in `sdlc.md` §19. `DDD-dec-115` is not amended, since
+  nothing is ruled.
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this
