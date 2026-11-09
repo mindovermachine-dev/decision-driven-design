@@ -271,3 +271,8 @@ The first pass left the O-9 row's old text in place, so the row read as ruled an
 once. It was rewritten as closed before this run. The Kanban Guide read is v2025.5 (May 2025):
 cycle time is "The elapsed time between when a work item started and when a work item finished",
 and the guide names "Cycle Time could be Flow Time" itself.
+
+## P-14 — CI on Round 27's head
+
+Prediction: green on `9b24f26`. **Outcome.** Run 42588904271: completed, success. The next commit
+changes only `landing.md` and this file. CI is predicted green on it too.

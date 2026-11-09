@@ -60,3 +60,14 @@ Add-only. The steps above are unchanged.
 - **The head to approve and land** is this file's commit, the branch's last. It changes only
   `landing.md` and `predictions.md`. Its full SHA is in the closing report to Emil.
 - **Still no pull request.** `main` is still at `1ab1de0`.
+
+## After Round 27, 2026-11-09
+
+Add-only. The steps above are unchanged.
+
+- **Round 27's content** (flow time ruled, `DDD-dec-114` P-14) is at
+  `9b24f26d72a10bb0cb2f6eaea867cf28d100fc59`, green on CI (run 42588904271).
+- **The head to approve and land** is this file's commit, the branch's last. It changes only this
+  file and `predictions.md`. Its full SHA is in the closing report to Emil.
+- **Landing ratifies `DDD-dec-114` and `-115`** as amended through Round 27. The specs stay
+  `[PROPOSED]`, with their remaining open items unruled.
