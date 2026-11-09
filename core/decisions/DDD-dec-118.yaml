@@ -1,0 +1,88 @@
+format: 1
+id: DDD-dec-118
+kind: decision
+statement: |
+  Mapping the flow of demand through a process is a step of the method, placed after step 1 and filed as method/01b-map-the-flow-of-demand.md until the numbering is ruled. The step is general: each process declares its own kinds of demand, and the step classifies each source of pull into them. New, owed and own-ground are the PDLC's declared set, its worked example and a practitioner's starting point, not the method's fixed set. The four claims the step rests on (DDD-flow-01 to -04) are filed in this repository, projected and scoped to the PDLC, and nothing is proposed upstream until a second process mapped with the step gives evidence. This adds to DDD-dec-114 and supersedes nothing.
+principal: Emil
+made: |
+  2026-11-07/08, in the claude.ai project conversation (Rounds 23, 24 and 25, verbatim in meta/sessions/2026-11-08-demand-flow/prompt.md and rulings.md), filed by the demand-flow session on 2026-11-09; Emil's landing of the branch is the ratification act
+resolution: |
+  ## Round 23 (claude.ai conversation, 2026-11-07/08)
+
+  - **Ruled: the step's place.** "New step after step 1 (Recommended)" (option text: "Acts first,
+    then how demand arrives and flows across them and their owners; later steps read its owners
+    and kinds").
+  - **Ruled: the worked example.** "The PDLC we just built (Recommended)" (option text: "The
+    feature, the bug and the debt flows through When, What and How, as mapped tonight").
+  - **Superseded within the conversation, by Round 24:** "Upstream, as projected
+    (Recommended)". Nothing is proposed upstream.
+
+  ## Round 24 (2026-11-08)
+
+  - **Ruled: step general, kinds PDLC.** "The method step stays after step 1: 'classify each
+    source of pull into the kinds of demand the process declares'; new/owed/own-ground is the
+    PDLC's declared set, its worked example. All four claims filed downstream, PDLC-scoped and
+    projected; nothing upstream until a second process gives evidence".
+  - Emil's ground: "I don't think we have enough evidence to say if the three kinds of demand
+    entities are general enough for all processes".
+
+  ## Round 25 (2026-11-08)
+
+  - **Ruled: the starting point.** The method step references the PDLC's kinds of demand (new,
+    owed, own-ground) as the starting point for a practitioner declaring their own process's
+    kinds. They remain the PDLC's set, not the method's. Generality is still not claimed.
+
+  ## What is filed
+
+  - **The claims.** `DDD-flow-01` (the PDLC's kinds of demand, relative to the decisions in
+    force), `DDD-flow-02` (ordering a queue needs the ground of every kind in it), `DDD-flow-03`
+    (demand enters where its ground detects it and crosses only seams), `DDD-flow-04`
+    (responsibility placed per decision). All projected, region the PDLC only, in a new area,
+    `flow`.
+  - **The step card.** `method/01b-map-the-flow-of-demand.md`, `[PROPOSED]`, with the seven-part
+    procedure, part (6) stated generally, and the PDLC's three kinds as the starting point.
+  - **The worked example.** The PDLC's new (feature), owed (bug) and own-ground (debt) flows
+    through When, What and How, as streams of state changes in causal order with addresses, and
+    graph data beside the prose (`applications/pdlc/graph/demand-flow.ttl`).
+
+  ## Relation to earlier decisions
+
+  - **Adds to `DDD-dec-114`.** The PDLC's three kinds of demand (its Round 22) are the worked
+    example's declared set and the content of `DDD-flow-01`. Nothing in `DDD-dec-114` changes.
+  - **Supersedes nothing.**
+  - **Release.** A card added is a MINOR release (`DDD-dec-82`). The release is not cut by this
+    decision or this session. The step is added at `[PROPOSED]`, so `DDD-dec-74`'s front door
+    offers it as no more than that.
+basedOn:
+  - DDD-dec-114
+  - DDD-dec-117
+  - DDD-dec-82
+  - DDD-dec-74
+  - DDD-flow-01
+  - DDD-flow-02
+  - DDD-flow-03
+  - DDD-flow-04
+  - DDD-frame-01
+  - DDD-delivery-02
+  - DDD-ground-06
+notes: |
+  Id. DDD-dec-117 is the highest decision on any branch of either repository at arrival
+  (2026-11-09); upstream's highest is DDD-dec-39. DDD-dec-118 to -120 appear only as range
+  mentions (bootstrap.md).
+
+  Not ruled, open for Emil (meta/sessions/2026-11-08-demand-flow/successor-items.md):
+  - N-1, the numbering: renumber steps 2-10 to 3-11, or keep a stable number such as 1b. Either
+    way the rule "the version stays below 1.0 until all ten steps are ruled" (method/README.md,
+    DDD-dec-82's statement) now counts eleven steps, and needs a ruling to say so.
+  - P-1, promotion: the evidence needed to propose any DDD-flow claim upstream is a second
+    process mapped with the step, whose declared kinds match the PDLC's or do not.
+  - E-1, the two examples: the method's sustained example is Varve's HTTP slice (ruled
+    2026-11-02); this step's is the PDLC (Round 23). How they relate is open.
+  - The area name `flow` is proposed in bootstrap.md, not ruled.
+
+  Readings — Claude, UNVERIFIED — Emil review: R-a and R-b in rulings.md; the oC tension in
+  DDD-flow-03's notes (whether "detects" means first sighting or classification).
+
+  Review trigger. A second process mapped with the step declares kinds that differ from the
+  PDLC's: the starting point is then one process's set among several, and the card's framing of
+  it is reviewed with the promotion item.
