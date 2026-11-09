@@ -28,7 +28,7 @@ at `4ce90e9`.
 SDLC specification with demand kinds and entry points to `applications/sdlc/`. It holds
 `DDD-dec-114` and `DDD-dec-115`. This session edits no file that branch edits, except
 `meta/sessions/README.md` (one row each). Applying DDD-dec-116 to the What should be sequenced
-after that branch lands, or reconciled with it.
+after that branch lands, or reconciled with it. *It has since landed (F-g).*
 
 ## F-e. Id correction
 
@@ -40,3 +40,23 @@ The session took 116 and 117 (`bootstrap.md`).
 
 `scripts/ci.py` needs `ssh-keygen` and the release tags. This cloud workspace had neither at first.
 See predictions.md P-2.
+
+## F-g. Rebased onto main at 80e9088 (2026-11-09)
+
+`2026-11-07-sdlc-and-pdlc` landed, with 23 commits after it, ending at `80e9088`. The branch was
+rebased onto it. The only conflict was `meta/sessions/README.md`, resolved by keeping both rows.
+No new decision id was filed on any branch, so `DDD-dec-116` and `DDD-dec-117` stand. On the new
+`main`, `[D1.11]` still stands in `product-definition.md` at §1, W10 and §8, so DDD-dec-117's
+supersession is unchanged.
+
+## F-h. DDD-dec-114's owners meet DDD-dec-116 and DDD-dec-117 — UNVERIFIED — Emil review
+
+DDD-dec-114, now landed, makes the What, When and How owners scopes under the genesis grant, each
+held by a grant. Two readings follow, neither ruled:
+
+- DDD-dec-117's role ("a named, reusable scope") fits these owner scopes. The three owners may be
+  the first roles, not a separate mechanism.
+- DDD-dec-116 F-2 says the How decides feasibility. The natural holder of the vetting grant is then
+  the How owner, or a holder of a grant under the How scope.
+
+Both go to S-5 and S-3 as input. The decisions themselves are not changed.

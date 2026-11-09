@@ -23,3 +23,10 @@ any gate read this session's files:
   `git fetch --force --tags origin`, as the guard's message says.
 
 The third run passed every gate (exit 0). Neither failure concerned a file this session changed.
+
+## P-3 — the full gate after the rebase onto 80e9088
+
+`python3 scripts/ci.py` passes. `main` gained `DDD-dec-114`, `DDD-dec-115` and the `lc:` lifecycle
+graph; this session's two decisions cite neither, and no id collides.
+
+**Result:** held. Every gate passed (exit 0).

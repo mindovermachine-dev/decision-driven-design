@@ -12,4 +12,5 @@ proposal until Emil rules on it.
 | S-5 | The authority profile: scopes over decision kinds; roles as named, evaluated scopes; amend Appendix B's roles row with a pointer to DDD-dec-117 | DDD-dec-117 | `authority.md` §3.1, Appendix B; `authority-vocabulary.md`; `What` §5.1 |
 | S-6 | Answer O-1: whose What holds a ground-sourced context when the source belongs to no product (DDD-dec-113 Q-C2) | rulings.md O-1 | a ruling |
 | S-7 | Answer O-2: whether owners and roles come from the Decision-Driven Organisations grant map | rulings.md O-2 | a ruling; `applications/organizations/` |
-| S-8 | Sequence S-1 with the unlanded `2026-11-07-sdlc-and-pdlc` branch | findings.md F-d | — |
+| S-8 | Reconcile S-1 with `2026-11-07-sdlc-and-pdlc`, now landed (the lifecycle graph, demand kinds, `sdlc.md`) | findings.md F-d, F-g | — |
+| S-9 | Read DDD-dec-114's What, When and How owner scopes as DDD-dec-117's roles, and the How owner as the vetting grant's holder (DDD-dec-116 F-4) | findings.md F-h | S-3, S-5 |

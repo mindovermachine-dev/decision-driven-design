@@ -10,10 +10,10 @@ Filled in at arrival and committed with `prompt.md` as the session's first commi
 | Upstream repo | github.com/mindovermachine-dev/actor-indexed-determination (read only in this session) |
 | Upstream pin | `v5.15.2` (`graph/upstream.yaml`), unchanged by this session |
 | Downstream repo | github.com/mindovermachine-dev/decision-driven-design |
-| Downstream base | `1ab1de0` — head of `main` at arrival |
+| Downstream base | `1ab1de0` — head of `main` at arrival. Rebased onto `80e9088` on 2026-11-09, after `2026-11-07-sdlc-and-pdlc` landed (findings.md F-g) |
 | Downstream branch | `claude/specification-feasibility-2026-11-08` |
 | Read only | `mindovermachine-dev/product-cli` at `4ce90e9` (main) and at the tag `rust-final`; `Hafeok/product-framework` |
-| Parallel work | `claude/sdlc-pdlc-applications-0u6318` (session `2026-11-07-sdlc-and-pdlc`, unlanded), which holds `DDD-dec-114` and `DDD-dec-115` and touches `applications/sdlc/` |
+| Parallel work | `claude/sdlc-pdlc-applications-0u6318` (session `2026-11-07-sdlc-and-pdlc`), which holds `DDD-dec-114` and `DDD-dec-115` and touches `applications/sdlc/`. Unlanded at arrival; landed on `main` by 2026-11-09 |
 | Model | Claude Opus 5.5 |
 
 ## Gates
