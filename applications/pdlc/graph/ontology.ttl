@@ -283,3 +283,41 @@ lc:spread a owl:DatatypeProperty ;
 lc:trials a owl:DatatypeProperty ; rdfs:comment "The number of Monte Carlo trials." ; dct:source "Round 29" .
 lc:sampleDays a owl:DatatypeProperty ; rdfs:comment "How many recorded days of throughput the simulation sampled from." ; dct:source "Round 29" .
 lc:seed a owl:DatatypeProperty ; rdfs:comment "The simulation's random seed, so a forecast can be recomputed exactly from the record." ; dct:source "Round 29; DDD-dec-52" .
+
+#########################  THE FLOW OF DEMAND  [PROPOSED]  #########################
+#  Method step 1b, map the flow of demand (DDD-dec-118), with the PDLC as its worked example.
+#  Not ruled: these terms carry the step card's [PROPOSED] register, not Round 28's. The kinds of
+#  demand are the PDLC's declared set (Round 24, demand-flow rulings.md), declared as data in
+#  demand-flow.ttl, not fixed by the vocabulary.
+
+lc:SourceOfPull a owl:Class ;
+  rdfs:comment "A source of pull: something that makes demand arrive, classified into one of the kinds the process declares, with where it enters, who orders it and where it is discharged (method step 1b, part 6)." ;
+  dct:source "DDD-dec-118; pdlc.md §9" .
+lc:detectedOn a owl:ObjectProperty ;
+  rdfs:comment "An owner whose ground detects demand from this source (pdlc.md §9, 'Detected by'). A user or a gate detects on the ground of the owner whose record it is." ;
+  dct:source "DDD-dec-118; DDD-flow-03" .
+lc:entersAt a owl:ObjectProperty ;
+  rdfs:comment "The act at which demand of this kind, or from this source, enters the process." ;
+  dct:source "DDD-dec-118; DDD-flow-03; pdlc.md §9" .
+lc:orderedBy a owl:ObjectProperty ;
+  rdfs:comment "The owner who orders demand of this kind, or from this source, in its queue." ;
+  dct:source "DDD-dec-118; DDD-flow-02; pdlc.md §9" .
+lc:judgedOn a owl:ObjectProperty ;
+  rdfs:comment "The owner whose ground a kind of demand is judged on when it is ordered: market ground for new, the record of time to restore for owed, the DORA keys for own-ground (pdlc.md §9)." ;
+  dct:source "DDD-dec-118; DDD-flow-02" .
+lc:dischargedAt a owl:ObjectProperty ;
+  rdfs:comment "The act at which demand of this kind is discharged: the act after which no owner owes anything for the item. Claude's reading per kind, UNVERIFIED — Emil review." ;
+  dct:source "DDD-dec-118" .
+lc:throughPool a owl:DatatypeProperty ;
+  rdfs:comment "Whether demand from this source goes through the option pool (o0, o2a)." ;
+  dct:source "DDD-dec-118; pdlc.md §9, §10" .
+lc:kindTest a owl:DatatypeProperty ;
+  rdfs:comment "A kind's one-line test, relative to the decisions in force: the starting point a practitioner tests their own sources of pull against (Round 25)." ;
+  dct:source "DDD-dec-118; DDD-flow-01" .
+lc:Trace a owl:Class ;
+  rdfs:comment "One demand item traced end to end, as a stream of acts in causal order (method step 1b, part 5)." ;
+  dct:source "DDD-dec-118" .
+lc:step a owl:ObjectProperty ; rdfs:comment "A step of a trace." ; dct:source "DDD-dec-118" .
+lc:TraceStep a owl:Class ;
+  rdfs:comment "A step of a trace: an act of the map, after the step whose state change is in its ground reading (lc:after; DDD-address-01)." ;
+  dct:source "DDD-dec-118; DDD-address-01" .

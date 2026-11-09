@@ -29,6 +29,7 @@ What step 1 gives you today, worked through on a real system, is in the
 | # | Step | Register |
 |---|---|---|
 | 1 | [Map and index acts](method/01-map-and-index-acts.md) | **Ruled for test.** Claims projected; waits on T2b, the first independent application case |
+| 1b | [Map the flow of demand](method/01b-map-the-flow-of-demand.md) | `[PROPOSED]`. Its place after step 1 is ruled (`DDD-dec-118`); claims projected, PDLC only |
 | 2 | [Anchor authority](method/02-anchor-authority.md) | `[PROPOSED]` |
 | 3 | [Surface decisions](method/03-surface-decisions.md) | `[PROPOSED]` |
 | 4 | [Declare ground](method/04-declare-ground.md) | `[PROPOSED]` |

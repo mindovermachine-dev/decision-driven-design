@@ -16,6 +16,10 @@ What it checks:
   3. example   the illustrative pool and delivery (example-pool.ttl) conform;
   4. plants    each planted defect is caught by the shape that names its rule, and the unplanted
                data has no such result;
+  6. flow      [PROPOSED] the flow of demand (demand-flow.ttl, method step 1b, DDD-dec-118): the
+               PDLC's declared kinds, its sources of pull and three traced items conform with the
+               map; plants for a mixed queue, a pool breach and a trace off the map are caught;
+               each orderer's queue and each entry outside the detecting owners are printed;
   5. forecast  a probabilistic forecast (Round 29) for rank 2, from the daily new-demand throughput
                in the SDLC's example record, lands within 2 days of the exact negative-binomial
                percentiles and conforms to lc:ForecastShape; two forecast plants are caught.
@@ -36,10 +40,12 @@ ONTOLOGY = os.path.join(HERE, "ontology.ttl")
 SHAPES = os.path.join(HERE, "shapes.ttl")
 MAP = [os.path.join(HERE, "acts.ttl"), os.path.join(ROOT, "applications", "sdlc", "acts", "acts.ttl")]
 EXAMPLE = os.path.join(HERE, "example-pool.ttl")
+FLOW = os.path.join(HERE, "demand-flow.ttl")
 
 PREFIX = """@prefix lc: <https://decision-driven-design.dk/ns/lifecycle#> .
 @prefix m: <https://decision-driven-design.dk/ns/lifecycle/map#> .
 @prefix ex: <https://example.org/acme-shop/pdlc#> .
+@prefix f: <https://decision-driven-design.dk/ns/lifecycle/flow#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 """
 
@@ -112,6 +118,27 @@ PLANTS = [
     ("a cycle within one issue", "map",
      "m:o1 lc:dependency [ a lc:Dependency ; lc:on m:o13 ; lc:because \"x\" ] .",
      "does not depend on itself"),
+    # The flow of demand, method step 1b [PROPOSED] (DDD-dec-118).
+    ("a bug ordered by the When owner", "flow",
+     "f:bug-on-market a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwedDemand ; lc:detectedOn lc:HowOwner ; "
+     "lc:entersAt m:oC ; lc:orderedBy lc:WhenOwner ; lc:throughPool false .",
+     "ordered by its kind's declared orderer"),
+    ("a kind ordered by an owner who lacks its ground", "flow",
+     "lc:OwnGroundDemand lc:judgedOn lc:WhenOwner .",
+     "holds the ground the kind is judged on"),
+    ("own-ground demand through the pool", "flow",
+     "f:debt-as-option a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwnGroundDemand ; lc:detectedOn lc:HowOwner ; "
+     "lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:throughPool true .",
+     "Only new demand goes through the option pool"),
+    ("a trace step off the map", "flow",
+     "ex:tx a lc:Trace ; lc:demandKind lc:OwnGroundDemand ; lc:step ex:tx-1 , ex:tx-2 , ex:tx-3 . "
+     "ex:tx-1 a lc:TraceStep ; lc:atAct m:oG . ex:tx-2 a lc:TraceStep ; lc:atAct m:o2a ; lc:after ex:tx-1 . "
+     "ex:tx-3 a lc:TraceStep ; lc:atAct m:o13 ; lc:after ex:tx-2 .",
+     "follows an edge of the act map"),
+    ("a source classified into an undeclared kind", "flow",
+     "f:nowhere a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:What ; lc:detectedOn lc:HowOwner ; "
+     "lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:throughPool false .",
+     "a kind the process declares"),
 ]
 
 
@@ -136,7 +163,7 @@ def closure():
     onto = load([ONTOLOGY])
     defined = {s for s in onto.subjects() if str(s).startswith(str(LC))}
     used = set()
-    for p in [SHAPES, EXAMPLE] + MAP:
+    for p in [SHAPES, EXAMPLE, FLOW] + MAP:
         for t in load([p]):
             for n in t:
                 if isinstance(n, URIRef) and str(n).startswith(str(LC)):
@@ -212,6 +239,25 @@ def check_forecast():
     return fails
 
 
+def flow_readings(g):
+    """What the flow map makes visible (method step 1b): who may order what, and where demand
+    enters at an owner whose ground did not detect it. Printed, never a failure: the second is
+    DDD-flow-03's open reading (detection or classification), for Emil."""
+    short = lambda n: str(n).split("#")[-1]
+    q = """PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
+      SELECT ?o (GROUP_CONCAT(DISTINCT STR(?k); separator=" ") AS ?ks) WHERE {
+        ?s a lc:SourceOfPull ; lc:orderedBy ?o ; lc:demandKind ?k } GROUP BY ?o ORDER BY ?o"""
+    for o, ks in g.query(q):
+        kinds = ", ".join(sorted(short(k) for k in str(ks).split()))
+        print(f"note  queue: {short(o)} orders {kinds}")
+    q = """PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
+      SELECT ?s ?a ?h WHERE { ?s a lc:SourceOfPull ; lc:entersAt ?a . ?a lc:heldBy ?h .
+        FILTER ( ?h != lc:AnyOwner ) FILTER NOT EXISTS { ?s lc:detectedOn ?h } } ORDER BY ?s"""
+    for src, a, h in g.query(q):
+        print(f"note  entry outside detection: {short(src)} enters at {short(a)}, held by {short(h)}, "
+              "which did not detect it (DDD-flow-03, open reading)")
+
+
 def main():
     fails = 0
     missing, unsourced = closure()
@@ -221,7 +267,7 @@ def main():
     else:
         print("ok    closure: every lc: term used is defined and sourced")
 
-    bases = {"map": load(MAP), "example": load([EXAMPLE])}
+    bases = {"map": load(MAP), "example": load([EXAMPLE]), "flow": load(MAP + [FLOW])}
     clean = {}
     for name, g in bases.items():
         conforms, text = run(g)
@@ -233,7 +279,7 @@ def main():
             print(f"FAIL  {name}: does not conform\n{text}")
 
     for name, base, extra, fragment in PLANTS:
-        g = load(MAP if base == "map" else [EXAMPLE], extra)
+        g = load({"map": MAP, "example": [EXAMPLE], "flow": MAP + [FLOW]}[base], extra)
         conforms, text = run(g)
         caught = (not conforms) and fragment in text and fragment not in clean[base]
         if caught:
@@ -242,6 +288,7 @@ def main():
             fails += 1
             print(f"FAIL  plant not caught: {name} (expected a result naming {fragment!r})")
 
+    flow_readings(bases["flow"])
     fails += check_forecast()
     print("\nall checks passed" if not fails else f"\n{fails} check(s) failed")
     sys.exit(1 if fails else 0)

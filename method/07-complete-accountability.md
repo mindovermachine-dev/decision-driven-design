@@ -30,4 +30,6 @@ as a method step yet.
 The default falsifier for any method step, also from the draft and also `[PROPOSED]`:
 "practitioners perform the step and cannot name the value it gave them."
 
+**Step 1b places each boundary decision with one owner** (`DDD-flow-04`, PDLC only), and in the PDLC this step's line is applied to those placements (pdlc.md §6, Round 28, R28) ([01b — Map the flow of demand](01b-map-the-flow-of-demand.md), `[PROPOSED]`).
+
 Previous: [06 — Allocate](06-allocate.md) · Next: [08 — Derive forward](08-derive-forward.md) · [All steps](README.md)

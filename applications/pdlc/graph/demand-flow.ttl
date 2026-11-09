@@ -1,0 +1,129 @@
+@prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
+@prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
+@prefix f:   <https://decision-driven-design.dk/ns/lifecycle/flow#> .
+@prefix ex:  <https://example.org/acme-shop/pdlc#> .
+
+#################################################################
+#  The flow of demand through the PDLC: the worked example of method step 1b, map the flow of
+#  demand (method/01b-map-the-flow-of-demand.md). [PROPOSED]: the step card is not ruled
+#  (DDD-dec-118 files its place and scope, not its content).
+#
+#  Three parts, each read against the act map (acts.ttl with applications/sdlc/acts/acts.ttl):
+#    1. the PDLC's declared kinds of demand: new, owed, own-ground (pdlc.md §9; Round 22 of the
+#       2026-11-07 session; DDD-flow-01). The PDLC's set, not the method's (Round 24);
+#    2. its sources of pull, each classified, with where it enters, who orders it and whether it
+#       goes through the option pool (pdlc.md §9's "Sources, by kind");
+#    3. three demand items of the acme shop traced end to end, one per kind. The issues are those
+#       of applications/sdlc/acts/example-record.ttl and example-pool.ttl: invented data.
+#
+#  Claude's readings, UNVERIFIED — Emil review: where each kind is discharged (lc:dischargedAt),
+#  and that owed demand is ordered on the How owner's record (lc:judgedOn), the What in force
+#  having already been read at oC, the What owner's classification, and crossing as its verdict.
+#
+#  Run:  python3 applications/pdlc/graph/check.py
+#################################################################
+
+#########################  1. THE PDLC'S DECLARED KINDS  #########################
+
+lc:NewDemand
+  lc:kindTest "No governing decision in force covers it: the What must change before it can be met." ;
+  lc:entersAt m:o0 ; lc:orderedBy lc:WhenOwner ; lc:judgedOn lc:WhenOwner ; lc:dischargedAt m:o16 .
+
+lc:OwedDemand
+  lc:kindTest "A governing decision in force covers it, and an act does not meet that decision: an escape." ;
+  lc:entersAt m:oC ; lc:orderedBy lc:HowOwner ; lc:judgedOn lc:HowOwner ; lc:dischargedAt m:o13 .
+
+lc:OwnGroundDemand
+  lc:kindTest "It concerns no decision about what the product must do, but the ground of the arrangement that realises the decisions: the How owner's own ground." ;
+  lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:judgedOn lc:HowOwner ; lc:dischargedAt m:o13 .
+
+#########################  2. SOURCES OF PULL  #########################
+#  pdlc.md §9's table, row by row. lc:detectedOn names the owner whose ground or record shows the
+#  demand first; a user or a gate detects on the ground of the owner whose record it is.
+
+f:market a lc:SourceOfPull ;
+  lc:label "A market need: a customer segment cannot do something it will pay for" ;
+  lc:demandKind lc:NewDemand ; lc:detectedOn lc:WhenOwner ;
+  lc:entersAt m:o0 ; lc:orderedBy lc:WhenOwner ; lc:throughPool true .
+
+f:designed-act-not-done a lc:SourceOfPull ;
+  lc:label "Users can't do the designed act: evidence in use shows it is not performed (product assurance not met)" ;
+  lc:demandKind lc:NewDemand ; lc:detectedOn lc:WhatOwner ;
+  lc:entersAt m:o0 ; lc:orderedBy lc:WhenOwner ; lc:throughPool true .
+
+f:software-deviates a lc:SourceOfPull ;
+  lc:label "The software deviates from the What: a defect against a Decider, a bound or an invariant in force" ;
+  lc:demandKind lc:OwedDemand ; lc:detectedOn lc:HowOwner ;
+  lc:entersAt m:oC ; lc:orderedBy lc:HowOwner ; lc:throughPool false .
+
+f:what-is-wrong a lc:SourceOfPull ;
+  lc:label "A reported defect the What owner finds is the What being wrong, not the software (classified new at oC)" ;
+  lc:demandKind lc:NewDemand ; lc:detectedOn lc:HowOwner , lc:WhatOwner ;
+  lc:entersAt m:o0 ; lc:orderedBy lc:WhenOwner ; lc:throughPool true .
+
+f:own-ground a lc:SourceOfPull ;
+  lc:label "Technical debt, the arrangement, the How owner's ground: a dependency's CVE, a platform end of life, a slow pipeline" ;
+  lc:demandKind lc:OwnGroundDemand ; lc:detectedOn lc:HowOwner ;
+  lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:throughPool false .
+
+f:what-ground-changes a lc:SourceOfPull ;
+  lc:label "Regulation, or another change in the What owner's ground" ;
+  lc:demandKind lc:NewDemand ; lc:detectedOn lc:WhatOwner ;
+  lc:entersAt m:o0 ; lc:orderedBy lc:WhenOwner ; lc:throughPool true .
+
+#########################  3. THREE ITEMS, TRACED  #########################
+#  One trace per kind, at act grain: one step per act, in causal order. Rework loops at one
+#  site (o6 then o5 again, for #101) are told apart in the occurrence record, not here.
+
+# #101, new: the acme shop's reorder feature (ex:opt1, pulled at rank 1).
+ex:t101 a lc:Trace ; lc:issue 101 ; lc:demandKind lc:NewDemand ;
+  lc:step ex:t101-1 , ex:t101-2 , ex:t101-3 , ex:t101-4 , ex:t101-5 , ex:t101-6 , ex:t101-7 , ex:t101-8 , ex:t101-9 , ex:t101-10 , ex:t101-11 , ex:t101-12 , ex:t101-13 , ex:t101-14 , ex:t101-15 , ex:t101-16 .
+ex:t101-1 a lc:TraceStep ; lc:atAct m:o0 .
+ex:t101-2 a lc:TraceStep ; lc:atAct m:o2a ; lc:after ex:t101-1 .
+ex:t101-3 a lc:TraceStep ; lc:atAct m:o1 ; lc:after ex:t101-2 .
+ex:t101-4 a lc:TraceStep ; lc:atAct m:o1b ; lc:after ex:t101-3 .
+ex:t101-5 a lc:TraceStep ; lc:atAct m:o2b ; lc:after ex:t101-4 .
+ex:t101-6 a lc:TraceStep ; lc:atAct m:o3 ; lc:after ex:t101-5 .
+ex:t101-7 a lc:TraceStep ; lc:atAct m:o4 ; lc:after ex:t101-6 .
+ex:t101-8 a lc:TraceStep ; lc:atAct m:o5 ; lc:after ex:t101-7 .
+ex:t101-9 a lc:TraceStep ; lc:atAct m:o9 ; lc:after ex:t101-8 .
+ex:t101-10 a lc:TraceStep ; lc:atAct m:o10 ; lc:after ex:t101-9 .
+ex:t101-11 a lc:TraceStep ; lc:atAct m:o11 ; lc:after ex:t101-10 .
+ex:t101-12 a lc:TraceStep ; lc:atAct m:o12 ; lc:after ex:t101-11 .
+ex:t101-13 a lc:TraceStep ; lc:atAct m:o13 ; lc:after ex:t101-12 .
+ex:t101-14 a lc:TraceStep ; lc:atAct m:oR ; lc:after ex:t101-13 .
+ex:t101-15 a lc:TraceStep ; lc:atAct m:o16 ; lc:after ex:t101-14 .
+ex:t101-16 a lc:TraceStep ; lc:atAct m:oU ; lc:after ex:t101-15 .
+
+# #103, owed: reorder adds the out-of-stock line to the basket (ex:class103), restoring #101's deployment.
+ex:t103 a lc:Trace ; lc:issue 103 ; lc:demandKind lc:OwedDemand ;
+  lc:step ex:t103-1 , ex:t103-2 , ex:t103-3 , ex:t103-4 , ex:t103-5 , ex:t103-6 , ex:t103-7 , ex:t103-8 , ex:t103-9 , ex:t103-10 , ex:t103-11 , ex:t103-12 .
+ex:t103-1 a lc:TraceStep ; lc:atAct m:oU .
+ex:t103-2 a lc:TraceStep ; lc:atAct m:oC ; lc:after ex:t103-1 .
+ex:t103-3 a lc:TraceStep ; lc:atAct m:o1b ; lc:after ex:t103-2 .
+ex:t103-4 a lc:TraceStep ; lc:atAct m:o2b ; lc:after ex:t103-3 .
+ex:t103-5 a lc:TraceStep ; lc:atAct m:o3 ; lc:after ex:t103-4 .
+ex:t103-6 a lc:TraceStep ; lc:atAct m:o4 ; lc:after ex:t103-5 .
+ex:t103-7 a lc:TraceStep ; lc:atAct m:o5 ; lc:after ex:t103-6 .
+ex:t103-8 a lc:TraceStep ; lc:atAct m:o9 ; lc:after ex:t103-7 .
+ex:t103-9 a lc:TraceStep ; lc:atAct m:o10 ; lc:after ex:t103-8 .
+ex:t103-10 a lc:TraceStep ; lc:atAct m:o11 ; lc:after ex:t103-9 .
+ex:t103-11 a lc:TraceStep ; lc:atAct m:o12 ; lc:after ex:t103-10 .
+ex:t103-12 a lc:TraceStep ; lc:atAct m:o13 ; lc:after ex:t103-11 .
+
+# #104, own-ground: no deploy without a manual cache purge (moved out of the pool by Round 26).
+# The record has it at o4 (r:o4-104): the trace is its path through the map, and the steps after
+# o4 are owed by the How owner, not yet taken.
+ex:t104 a lc:Trace ; lc:issue 104 ; lc:demandKind lc:OwnGroundDemand ;
+  lc:step ex:t104-1 , ex:t104-2 , ex:t104-3 , ex:t104-4 , ex:t104-5 , ex:t104-6 , ex:t104-7 , ex:t104-8 , ex:t104-9 , ex:t104-10 , ex:t104-11 .
+ex:t104-1 a lc:TraceStep ; lc:atAct m:oG .
+ex:t104-2 a lc:TraceStep ; lc:atAct m:o1b ; lc:after ex:t104-1 .
+ex:t104-3 a lc:TraceStep ; lc:atAct m:o2b ; lc:after ex:t104-2 .
+ex:t104-4 a lc:TraceStep ; lc:atAct m:o3 ; lc:after ex:t104-3 .
+ex:t104-5 a lc:TraceStep ; lc:atAct m:o4 ; lc:after ex:t104-4 .
+ex:t104-6 a lc:TraceStep ; lc:atAct m:o5 ; lc:after ex:t104-5 .
+ex:t104-7 a lc:TraceStep ; lc:atAct m:o9 ; lc:after ex:t104-6 .
+ex:t104-8 a lc:TraceStep ; lc:atAct m:o10 ; lc:after ex:t104-7 .
+ex:t104-9 a lc:TraceStep ; lc:atAct m:o11 ; lc:after ex:t104-8 .
+ex:t104-10 a lc:TraceStep ; lc:atAct m:o12 ; lc:after ex:t104-9 .
+ex:t104-11 a lc:TraceStep ; lc:atAct m:o13 ; lc:after ex:t104-10 .

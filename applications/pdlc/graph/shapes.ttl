@@ -246,3 +246,118 @@ lc:ForecastShape a sh:NodeShape ;
         FILTER ( ?b > ?m || ?m > ?w || ?s != ?w - ?b )
       }""" ] .
 
+
+#########################  THE FLOW OF DEMAND  [PROPOSED]  #########################
+#  Method step 1b (DDD-dec-118). Not ruled: the step card is [PROPOSED]. The shapes check the
+#  PDLC's worked example in demand-flow.ttl against the act map.
+
+lc:DemandKindDeclarationShape a sh:NodeShape ;
+  sh:targetSubjectsOf lc:kindTest ;
+  sh:property [ sh:path lc:kindTest ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
+                sh:message "A declared kind of demand carries one one-line test, relative to the decisions in force (Round 25)." ] ;
+  sh:property [ sh:path lc:entersAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A declared kind of demand enters at exactly one act of the map." ] ;
+  sh:property [ sh:path lc:orderedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A declared kind of demand has exactly one orderer." ] ;
+  sh:property [ sh:path lc:judgedOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A declared kind of demand is judged on exactly one owner's ground." ] ;
+  sh:property [ sh:path lc:dischargedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A declared kind of demand is discharged at exactly one act of the map." ] ;
+  sh:sparql [
+    sh:message "A kind's orderer holds the ground the kind is judged on: an orderer without it orders by judgment from ground not held (DDD-flow-02)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:orderedBy ?o ; lc:judgedOn ?g . FILTER ( ?o != ?g )
+      }""" ] .
+
+lc:SourceOfPullShape a sh:NodeShape ;
+  sh:targetClass lc:SourceOfPull ;
+  sh:property [ sh:path lc:label ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A source of pull says what pulls (lc:label)." ] ;
+  sh:property [ sh:path lc:demandKind ; sh:minCount 1 ; sh:maxCount 1 ;
+                sh:message "A source of pull is classified into exactly one declared kind of demand (DDD-flow-01)." ] ;
+  sh:property [ sh:path lc:detectedOn ; sh:minCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A source of pull names the owner ground it is detected on." ] ;
+  sh:property [ sh:path lc:entersAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A source of pull enters at exactly one act of the map." ] ;
+  sh:property [ sh:path lc:orderedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A source of pull has exactly one orderer." ] ;
+  sh:property [ sh:path lc:throughPool ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
+                sh:message "A source of pull says whether it goes through the option pool." ] ;
+  sh:sparql [
+    sh:message "A source of pull is classified into a kind the process declares (one carrying lc:kindTest)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE { $this lc:demandKind ?k . FILTER NOT EXISTS { ?k lc:kindTest ?t } }""" ] ;
+  sh:sparql [
+    sh:message "A source of pull is ordered by its kind's declared orderer, who holds the ground the kind is judged on (DDD-flow-02)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:demandKind ?k ; lc:orderedBy ?o . ?k lc:orderedBy ?ko . FILTER ( ?o != ?ko )
+      }""" ] ;
+  sh:sparql [
+    sh:message "A source of pull enters at its kind's declared entry act (DDD-flow-03)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:demandKind ?k ; lc:entersAt ?e . ?k lc:entersAt ?ke . FILTER ( ?e != ?ke )
+      }""" ] ;
+  sh:sparql [
+    sh:message "Only new demand goes through the option pool; owed and own-ground demand do not (pdlc.md §9, Round 22)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:demandKind ?k ; lc:throughPool ?p .
+        FILTER ( ( ?k = lc:NewDemand && ?p = false ) || ( ?k != lc:NewDemand && ?p = true ) )
+      }""" ] .
+
+lc:TraceShape a sh:NodeShape ;
+  sh:targetClass lc:Trace ;
+  sh:property [ sh:path lc:demandKind ; sh:minCount 1 ; sh:maxCount 1 ;
+                sh:message "A trace follows one demand item of exactly one declared kind." ] ;
+  sh:property [ sh:path lc:step ; sh:minCount 2 ; sh:class lc:TraceStep ;
+                sh:message "A trace has at least two steps." ] ;
+  sh:sparql [
+    sh:message "A trace passes its kind's entry act and its discharge act (method step 1b, part 5)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:demandKind ?k . ?k lc:entersAt ?e ; lc:dischargedAt ?d .
+        FILTER ( NOT EXISTS { $this lc:step ?s1 . ?s1 lc:atAct ?e }
+              || NOT EXISTS { $this lc:step ?s2 . ?s2 lc:atAct ?d } )
+      }""" ] ;
+  sh:sparql [
+    sh:message "A trace has exactly one first step, the one with no lc:after." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        { SELECT $this (COUNT(?s) AS ?n) WHERE { $this lc:step ?s . FILTER NOT EXISTS { ?s lc:after ?x } } GROUP BY $this }
+        FILTER ( ?n != 1 )
+      }""" ] ;
+  sh:sparql [
+    sh:message "Every lc:after in a trace names a step of the same trace." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE { $this lc:step ?s . ?s lc:after ?p . FILTER NOT EXISTS { $this lc:step ?p } }""" ] .
+
+lc:TraceStepShape a sh:NodeShape ;
+  sh:targetClass lc:TraceStep ;
+  sh:property [ sh:path lc:atAct ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A trace step is at exactly one act of the map." ] ;
+  sh:property [ sh:path lc:after ; sh:maxCount 1 ; sh:class lc:TraceStep ;
+                sh:message "A trace step follows at most one earlier step." ] ;
+  sh:sparql [
+    sh:message "Each step of a trace follows an edge of the act map: its act depends on the previous step's act (for the trace's kind, where the dependency is kind-scoped) or reads it as earlier ground (DDD-address-01)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:atAct ?a ; lc:after ?p . ?p lc:atAct ?pa .
+        ?t lc:step $this ; lc:demandKind ?k .
+        FILTER NOT EXISTS { ?a lc:readsEarlier ?pa }
+        FILTER NOT EXISTS {
+          ?a lc:dependency ?d . ?d lc:on ?pa .
+          FILTER NOT EXISTS { ?d lc:forKind ?fk . FILTER ( ?fk != ?k ) }
+        }
+      }""" ] .

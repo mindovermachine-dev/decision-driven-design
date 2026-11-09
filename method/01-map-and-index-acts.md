@@ -79,4 +79,6 @@ not, the field says so. Claude's assembly of the fields from their sources is
 
 [`quick-start.md`](quick-start.md) runs this step on the HTTP slice of Varve's own quick start.
 
+**Step 1b reads this step's act map as its ground** and traces demand across it: where each item enters, who orders it, and where it is discharged ([01b — Map the flow of demand](01b-map-the-flow-of-demand.md), `[PROPOSED]`).
+
 Next: [02 — Anchor authority](02-anchor-authority.md) `[PROPOSED]` · [All steps](README.md)

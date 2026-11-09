@@ -10,6 +10,7 @@ card's fields come from one session draft, not from a ruling. Only step 1's form
 | # | Step | Register | Card |
 |---|---|---|---|
 | 1 | Map and index acts | **Ruled for test**; claims projected; waits on T2b | [01](01-map-and-index-acts.md) |
+| 1b | Map the flow of demand | `[PROPOSED]`; its place after step 1 and its scope ruled (`DDD-dec-118`); claims projected, PDLC only; numbering open | [01b](01b-map-the-flow-of-demand.md) |
 | 2 | Anchor authority | `[PROPOSED]` | [02](02-anchor-authority.md) |
 | 3 | Surface decisions | `[PROPOSED]` | [03](03-surface-decisions.md) |
 | 4 | Declare ground | `[PROPOSED]` | [04](04-declare-ground.md) |
