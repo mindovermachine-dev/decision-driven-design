@@ -229,3 +229,45 @@ content-drift, 1 shadowed. No gate reads the files changed. Falsifier: any gate 
 Prediction: green on `b79e334`, as P-11 was locally. **Outcome.** Run completed, success. The
 commit after it changes only `landing.md` and this file, which no gate reads. CI is predicted green
 on it too.
+
+## Round 27 (2026-11-09)
+
+Not predicted: the arrival read (the branch at `f3b5eba`, unmoved; `main` at `1ab1de0`) and the
+fetch of the Kanban Guide. Neither changed anything.
+
+## P-13 — "flow time" ruled (Round 27)
+
+Planned edits:
+- `DDD-dec-114`, amended in place (Round 21): the statement gains one sentence defining flow time
+  as the forecast's interval, o2b to o13, for new demand, landed dark. A new resolution section
+  P-14 says it is based on the Kanban cycle time, with the Kanban Guide's wording quoted, and
+  states the two differences. The notes record the amendment. The basis is unchanged: the Kanban
+  Guide is an external source, not a graph node, so it goes in the resolution as a citation. A
+  basedOn entry for it would not resolve (`DDD-dec-111`).
+- `pdlc.md` §1: the proposed-term marks come off and the Kanban lineage goes in. §15: O-9 is
+  ruled.
+- `sdlc.md` §13 and §18, and `dora/lead-time.rq`: the marks come off.
+
+Prediction:
+- `validate-claims.py --decisions`: valid at 93, with no basis flag.
+- Pins unchanged: 81, 0, 0, 1 shadowed.
+- `scripts/ci.py`: "all gates passed".
+- Both `lc:` checkers unchanged: PDLC 18 of 18, SDLC 11, the DORA values the same. No graph data
+  changes except a comment in `lead-time.rq`.
+- After the edit, `grep "flow time"` finds no `UNVERIFIED` or `[PROPOSED]` next to the term in
+  the specs or the query.
+
+Falsifier: any of these fails, or a mark remains.
+
+**Outcome.** As predicted.
+- 93 decisions valid, with no basis flag.
+- Pins 81, 0, 0, 1 shadowed.
+- "all gates passed", exit 0.
+- PDLC 18 plants caught. SDLC 11, with the DORA values unchanged.
+- No proposed-term mark remains on "flow time". The one grep hit left is `dora/lead-time.rq`'s own
+  `[PROPOSED]`, which is the query's register, not the term's.
+
+The first pass left the O-9 row's old text in place, so the row read as ruled and unruled at
+once. It was rewritten as closed before this run. The Kanban Guide read is v2025.5 (May 2025):
+cycle time is "The elapsed time between when a work item started and when a work item finished",
+and the guide names "Cycle Time could be Flow Time" itself.

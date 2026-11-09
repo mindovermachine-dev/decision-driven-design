@@ -68,8 +68,16 @@ constraints allow. The cadence that results is the forecast everyone else plans 
 
 **The computation, `[PROPOSED]`.**
 - **Inputs.** Throughput λ is new-demand changes reaching o13 per week, over the last N weeks.
-  **Flow time** F (a proposed term, `[PROPOSED]`, `UNVERIFIED — Emil review`: Claude's name,
-  not Emil's; open item O-9) runs from o2b to o13 for new demand, from the record. F is not DORA's lead time,
+  **Flow time** F runs from o2b to o13 for new demand, from the record (ruled, Round 27). It is
+  based on the Kanban cycle time. The Kanban Guide (v2025.5) defines cycle time as "The elapsed
+  time between when a work item started and when a work item finished", and lets a team call it
+  flow time ("Cycle Time could be Flow Time"). Its started and finished points are o2b and o13,
+  as the guide leaves them to each system's Definition of Workflow. It differs from a board that
+  ends at delivery and counts every item in two ways:
+  - finished is landed dark, not delivered (o16 is the When owner's);
+  - only new demand is counted.
+
+  F is not DORA's lead time,
   which starts at the first commit.
 - **The estimate.** An issue at rank k, not yet allocated, has an expected landing date of about
   now + k/λ + median(F). A forecast is a distribution: resample λ and F from the record.
@@ -634,4 +642,4 @@ leaving with no record) are part of this list.
 | O-6 | Record kinds for the When owner's acts (o2a, o16, an option's exit) and for the classification (oC) in the authority profile | A successor session |
 | O-7 | The product-assurance levels (§4): two are proposed | Emil |
 | O-8 | The observation need and the product-assurance declaration as What elements: the What schema, by their own decisions (successor items) | Emil, then a successor session |
-| O-9 | **The name "flow time"** (Round 26). Claude's term for the forecast's interval, o2b to o13 (§1), kept apart from DORA's change lead time, o4 to o13 ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18). The split stands. The name is `[PROPOSED]`, `UNVERIFIED — Emil review`, until Emil rules it | **Emil**, when he reviews the specs |
+| O-9 | **The name "flow time" — ruled (Round 27).** Approved as described: the forecast's interval, o2b to o13, for new demand, kept apart from DORA's change lead time, o4 to o13 ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18). It is based on the Kanban cycle time (`DDD-dec-114` P-14). Raised by Round 26 | **Closed** (Round 27) |

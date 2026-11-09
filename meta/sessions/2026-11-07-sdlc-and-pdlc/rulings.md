@@ -529,6 +529,30 @@ rounds exist elsewhere, they are not recorded here.
 - **Item 2** marks Claude's term "flow time" as proposed (findings C-5).
 - **Item 3** places findings C-6 as a successor item.
 
+## Round 27, verbatim (2026-11-09)
+
+Given in this session after Claude explained "flow time" (open item O-9) and named its lineage.
+Two messages from Emil, in order:
+
+> And flow-time is the kanban time
+
+> great - "flow-time" is approved and we use is as described and we write in the decision that it
+> is based on the kanban cycle time
+
+**How it governs.**
+- **O-9 closes.** The name "flow time" is ruled, and it is no longer `[PROPOSED]` or
+  `UNVERIFIED`.
+- **"As described".** The forecast's interval runs from o2b (allocate the occupant) to o13
+  (deploy, dark), for new demand only. It stays separate from DORA's change lead time, which runs
+  from o4 to o13. This is the meaning in Claude's explanation, `pdlc.md` §1 and `sdlc.md` §18.
+- **"Based on the kanban cycle time".** It goes into `DDD-dec-114`, amended in place before
+  landing as Round 21 rules, with the Kanban Guide's own wording, fetched and quoted.
+- **The two differences from Kanban's usual board.** Claude named them before the ruling:
+  - the interval ends at landing, dark (o13), not at delivery (o16);
+  - it counts new demand only.
+
+  They are stated beside the definition. Claude reads "as described" as including them.
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this
