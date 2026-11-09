@@ -86,10 +86,10 @@ your process's kinds:
 and for each, name the source of pull that made you keep, add or drop it.
 
 **Record the declaration.** Write it down beside your act map, in the form of the table below, and
-send it to this repository as an issue citing `DDD-dec-118`. Each declaration is evidence for the
-open item that decides whether the kinds are general: a second process whose declared kinds match
-the PDLC's, or do not (promotion item P-1). A declaration that matches is as useful as one that
-does not.
+send it to this repository as a field report (the issue template), citing `DDD-dec-118`. Each
+declaration is evidence for the open item that decides whether the kinds are general: a second
+process whose declared kinds match the PDLC's, or do not (promotion item P-1). A declaration that
+matches is as useful as one that does not.
 
 | Kind | Kept, added or dropped | Its one-line test | The source of pull that made you do it |
 |---|---|---|---|
