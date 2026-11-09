@@ -171,11 +171,13 @@ They are the author's feedback in this tool and, at the same edition, Writ's enu
 
 The one hash law (D1.3) governs What graph content. The edition itself is pinned as files.
 
-`[D1.19]` (2026-11-03) **The validation regime and the severities** are the edition's (decision-driven-design #49, to be ruled there):
+`[D1.19]` (2026-11-03) **The validation regime and the severities** are the edition's (ruled in `DDD-dec-113`, E-1 and E-2; `what.md` §7.2):
 - **The data graph** is the What graph merged with the edition's `ontology.ttl`. Validation uses SHACL Core class semantics (`rdf:type/rdfs:subClassOf*` over that merged graph) with SHACL-SPARQL, and no RDFS or OWL entailment.
 - **The ontology** is never part of a What graph's hash or of an export.
 - **`sh:Violation`** refuses at write (W1, W5).
 - **`sh:Warning`** is a finding (W3, W4). It is reported, never refused.
+
+A requirement added to an edition after an example is pinned enters as `sh:Warning`, and may become a violation only in a later edition (`DDD-dec-113`, E-2).
 
 If the edition keeps pattern conformance (`what.md` §3.2.0, every command traces to a trigger) a violation, then `domain new command` takes its trigger in the same change set, and an agent proposes them together.
 
@@ -191,7 +193,7 @@ The canonical export is the graph document plus the artefacts its digests name. 
 
 `[D1.5]` (2026-10-30) **Determinism.** Two exports of the same draft position are byte-identical, graph and artefacts alike. Element IRIs are minted when a node is first written, so two authors who independently author the same What hold different IRIs and export different bytes. Identity comes from the draft log, not from content.
 
-**Element hashes.** Each element's hash is taken over its description, canonicalised on its own (`DDD-dec-63` §4, `what.md` §2.3). The description rule is `sdlc:`-specific, so it is implemented here over Varve's canonicaliser and never put into Varve. Its vectors over decision-driven-design's examples are offered there as the second implementation (M-12).
+**Element hashes.** Each element's hash is taken over its description, canonicalised on its own (`DDD-dec-63` §4, `what.md` §2.3). The description rule is `sdlc:`-specific, so it is implemented here over Varve's canonicaliser and never put into Varve. Its vectors over decision-driven-design's examples are offered there as a further cross-check. M-12's second implementation stays Varve's published vectors (`DDD-dec-73`).
 
 ### The What-version record
 
@@ -279,7 +281,7 @@ decision-driven-design's example logic (`what/examples/logic/*.yaml`, `applicati
 
 Each is a property test over generated What graphs and scenarios, and the suite is public. Every test observes bytes, in the draft log or in an export, never the return value of the verb that produced them.
 
-`[D1.19]` (2026-11-03) W1 and W5 are the edition's violations. W3 and W4 are its warnings (decision-driven-design #49 and #50). The checks themselves are the edition's shapes, not code in this tool.
+`[D1.19]` (2026-11-03) W1 and W5 are the edition's violations. W3 and W4 are its warnings (`DDD-dec-113`). The checks themselves are the edition's shapes, not code in this tool.
 
 - **W1. Shape before storage.** No change set enters the draft log if it carries a violation. A failed write leaves the log unchanged.
 - **W2. Derived, not declared.** A Decider's signature (the commands it handles, the events it may emit, the state it evolves) and a Projector's (the events it folds, the fields it may produce) are computed from the graph. An authored signature, or logic, that disagrees is refused.
@@ -377,7 +379,7 @@ This chapter may change without chapters 1 to 6 changing.
    - **Wire names are authored, not carried.** The input has none. The lift ADR states the rule that proposes one for every kind that requires one (`what.md` §6, R-1, R-2), and review adopts each.
 3. **Two fixtures.**
    - **The golden fixture.** The lift produces the new tool's canonical export of the self-hosted What. It imports through W1 and carries no violation under its edition. It is reviewed and committed. Lifting again with the same map is checked to reproduce the golden bytes, once, and the result is recorded. The self-hosted What holds no Decider, Projector, scenario, subject kind or scope rule, so this fixture fixes structure and surface only.
-   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-5.ttl` and its logic artefacts, at the edition tag, imported through W1. It carries no findings under the edition. Its published element and graph hashes (`vectors-5.json`) are part of the test. *Amended 2026-11-06 (decision-driven-design `DDD-dec-113`, E-5):* it was `acme-shop-4.ttl` and `vectors-4.json`. That graph is pinned by `CUR@1` and `what@4`, and lacks the (Place order, Customer) scenario and the E-7 descriptions; `acme-shop-5.ttl` is it plus both.
+   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-5.ttl` and its logic artefacts, at `v0.6.0`, imported through W1. It carries no findings under the edition. Its published element and graph hashes (`vectors-5.json`) are part of the test. *Amended 2026-11-06 (decision-driven-design `DDD-dec-113`, E-5):* it was `acme-shop-4.ttl` and `vectors-4.json`. That graph is pinned by `CUR@1` and `what@4`, and lacks the (Place order, Customer) scenario and the E-7 descriptions; `acme-shop-5.ttl` is it plus both.
 4. **Acceptance.**
    - Both fixtures round-trip byte-identically (W7, W8).
    - The conformance suite passes: the framework CLI scenarios, and the seed round-trip property.
@@ -391,7 +393,7 @@ This chapter may change without chapters 1 to 6 changing.
    - the package register: Varve, the analyzers, and the test-only packages.
 
    It needs no `sdlc:` edition, so it does not wait for step 1's upstream.
-1. Pin the `sdlc:` edition and its shapes; the lift ADR and the lift map. This needs decision-driven-design #49, #50 and the edition-1 tag.
+1. Pin the `sdlc:` edition and its shapes; the lift ADR and the lift map. Edition 1 shipped in decision-driven-design `v0.6.0` (`DDD-dec-113`).
 2. The canonical graph, element hashes and the exporters (canonical N-Quads with artefacts, sorted Turtle), with their conformance suites; the What-version record; the logic media type's specification page and suite.
 3. The lift and both fixtures.
 4. Nodes and `validate`, each write a `dpp/1` record (W11).
@@ -440,21 +442,21 @@ This chapter may change without chapters 1 to 6 changing.
   - `sdlc:keyedBy` on the Projector makes scoping a keyed fold at the seam, not a filter over a shared one.
   - Authentication, and with it provider coverage, belongs to the How.
   - Authority within the product stays separate from authority over the specification, which is why Writ's grants are not `sdlc:`.
-  - The checks this tool needs that `what.md` §3.7 still marks `[OPEN]` are the subject half of W3 and claim justification. They are proposed as shapes in decision-driven-design #50, and are built here only by importing that edition.
+  - The checks this tool needs that `what.md` §3.7 still marks `[OPEN]` are the subject half of W3 and claim justification. They are in edition 1 as warning shapes (`DDD-dec-113`, E-4), and are built here only by importing that edition.
 - **Not in scope.** Code generation of any kind, including verification shells; delivery practice; any model inside a check. The proposer that turns an interview into nodes is an agent driving the verbs, outside the tool, and its output is judged by the same shapes as a human's.
 
 ## Cross-repository dependencies
 
-As of 2026-11-03.
+As of 2026-11-06.
 
 | Ruling | Needs | Where | State |
 |---|---|---|---|
-| D1.19 | the validation regime, and violations separated from warnings | decision-driven-design #49 | open |
-| D1.19, W3, W4 | the five §3.4 and §3.7 shapes not yet in `shapes.ttl` | decision-driven-design #50 | open |
-| D1.1, D1.20 | `sdlc:` edition 1 tagged; until then its file hash moves | decision-driven-design | open |
+| D1.19 | the validation regime, and violations separated from warnings | decision-driven-design #49 | **met**: ruled in `DDD-dec-113` (E-1, E-2), landed by mindovermachine-dev/decision-driven-design#59 |
+| D1.19, W3, W4 | the five §3.4 and §3.7 shapes not yet in `shapes.ttl` | decision-driven-design #50 | **met**: `DDD-dec-113` (E-4) |
+| D1.1, D1.20 | `sdlc:` edition 1 tagged; until then its file hash moves | decision-driven-design | **met**: `v0.6.0`, tag object `bb47a720832c77f6a53c82b90388cd4a2c5c23bf` on `1ab1de005eb60ce2ea019e9942cd52b790aab0e7`, edition hash `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29` |
 | D1.3, D1.17 | Writ lands canonical N-Quads as the What document, and holds the guest graph under `sdlc:` instead of `pf:` | Writ #22 | open |
 | D1.22 | the embedded log (#7) and `land` (#8) | Writ | open |
-| element hashes | product-cli's element-hash vectors offered as M-12's second implementation | decision-driven-design (M-12) | to deliver at step 2 |
+| element hashes | product-cli's element-hash vectors, offered as a cross-check beside Varve's (`DDD-dec-73`, `DDD-dec-113` E-3) | decision-driven-design (M-12) | to deliver at step 2 |
 | D1.3 | RDFC-1.0 in Varve | Varve | **met**: `RdfCanonicaliser` reproduces decision-driven-design's graph hashes |
 | D1.19 | SHACL Core with SHACL-SPARQL, AOT-compatible | Varve | **met**: `Varve.Shacl` and `Varve.Shacl.Sparql` agree with pyshacl on both examples |
 | D1.1 | `DDD-dec-63` on `main`, and the What half of `sdlc:` published | decision-driven-design | **met** |
@@ -462,4 +464,5 @@ As of 2026-11-03.
 | D1.7 | an RDF form of the logic | decision-driven-design | **withdrawn** with D1.7 (D1.16) |
 | D1.24 | the tag `rust-final` at `70395df` | product-cli | **met**: tag object `d0cf1f1ec40eb55c271b8d4dadfefcd260c03312` |
 | D1.24 | the Rust tree removed from `main` | product-cli | **met**: mindovermachine-dev/product-cli#166, merged at `53bd54758ba71f7a810f91ddf3a6c83d5e653145` |
+| D1.25 | slice 0, the repository skeleton | product-cli | **met**: `4ce90e9` |
 | — | `applications/sdlc/README.md` points to the Rust product-cli as the reference implementation | decision-driven-design | amended with this definition's arrival; the Rust tool is the reference until retirement |
