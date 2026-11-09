@@ -375,3 +375,48 @@ gate is red.
 
 Prediction: green on `6b4e5e2`. **Outcome.** Completed, success. The next commit changes only
 `landing.md` and this file. CI is predicted green on it too.
+
+## Round 30 (2026-11-09)
+
+Not predicted: the arrival read (the branch at `c6230e6`, unmoved, clean). It changed nothing.
+
+## P-18 — "PROV" as traceability; O-4 ruled (Round 30)
+
+Planned edits:
+- **Graph data.** No `prov:` term anywhere in `applications/pdlc/graph/` or
+  `applications/sdlc/acts/`:
+  - `lc:ToggleOn` loses `rdfs:subClassOf prov:Activity`, and `lc:readsVerdict` loses
+    `rdfs:subPropertyOf prov:used`;
+  - a new `lc:releasedAt` replaces `prov:startedAtTime`, in the ontology, the shape, the example
+    and the plants;
+  - the shape requires the four traceability facts (who, what, when, on what verdict);
+  - the forecast percentiles' comments and `forecast.py` say "ruled" instead of "proposed".
+- **`DDD-dec-115`:** the statement and S-11's R5 now say traceability, and drop the PROV-O
+  reading.
+- **`DDD-dec-114`:** P-16 gets O-4's ruled numbers.
+- **Specs:** `pdlc.md` §1, falsifier 3, O-4 and the register; `sdlc.md` §7 and the register; the
+  READMEs.
+
+Prediction:
+- PDLC: closure ok (`lc:releasedAt` defined and sourced), map and example conform, **21 of 21**
+  plants. The release plant is renamed and now caught by the traceability message. The forecast
+  is unchanged (5, 12, 23).
+- SDLC: 11.
+- 93 decisions; pins 81, 0, 0, 1 shadowed; "all gates passed".
+- `grep -rn "prov:"` over the two graph directories finds nothing.
+- `UNVERIFIED` appears nowhere in `pdlc.md` or `sdlc.md`.
+
+Falsifier: any of these fails.
+
+**Outcome.** As predicted.
+- PDLC: closure ok, map and example conform, **21 of 21** plants. The forecast is unchanged (5, 12,
+  23).
+- SDLC: 11.
+- 93 decisions; pins 81, 0, 0, 1 shadowed; "all gates passed", exit 0.
+- No `prov:` term in either graph directory, and no `UNVERIFIED` in `pdlc.md` or `sdlc.md`.
+
+**One slip, caught before commit.** The first rewrite of `lc:ToggleOn` cut four following
+definitions. The checker's closure step failed, naming them (`lc:toggle`, `lc:ready`,
+`lc:readsVerdict`, `lc:userSideShare`). They were restored from `HEAD`, and the diff against
+`HEAD` shows only the intended changes. The new release-without-verdict requirement is covered by
+the existing "toggle turned on without a verdict" plant, so the plant count did not move.

@@ -5,7 +5,7 @@ recorded daily throughput of new demand. Each trial draws a day's throughput at 
 sample, again and again, until k items have landed. The number of days drawn is that trial's
 result. Best, median and worst are percentiles of the results.
 
-The best and worst percentiles are open (pdlc.md §15, O-4). 15 and 85 are Claude's proposal.
+The best and worst percentiles are the 15th and 85th, with the median the 50th (ruled, Round 30).
 
 Throughput comes from the SDLC's occurrence record: successful o13 occurrences whose
 lc:demandKind is new. Owed and own-ground work share the How owner's capacity and so lower

@@ -43,3 +43,10 @@ Add-only. The tables above stand as written.
 | C-5 (marked) | **"Flow time" is Claude's term.** It is marked `[PROPOSED]`, `UNVERIFIED — Emil review` at each place it appears, and the name is open item O-9 (Round 26, item 2) | `pdlc.md` §1, §15; `sdlc.md` §13, §18; `dora/lead-time.rq` |
 | C-6 (placed) | **The `what.md` §5.1 sentence** is successor item W-8, editorial, with the What schema work (Round 26, item 3) | `successor-items.md` |
 | C-8 | **Rounds 23 to 25 are not in this record.** Emil's message is numbered Round 26. No message numbered 23, 24 or 25 reached either session. It is recorded as given, with the gap noted | `rulings.md`, Round 26 |
+
+## After Round 30 (2026-11-09)
+
+| # | Finding | Where it went |
+|---|---|---|
+| C-9 | **Claude over-read "PROV".** Round 28's "with PROV" was read as the W3C PROV-O model and wired into the graph data (`prov:Activity`, `prov:used`, `prov:startedAtTime`). Emil meant traceability for the act (Round 30). The PROV-O terms are removed, and the four traceability facts are kept in `lc:` terms | `sdlc.md` §7; `DDD-dec-115` S-11; the graph data |
+| C-10 | **A slicing slip, caught by closure.** Rewriting `lc:ToggleOn` cut through four following definitions. The checker's closure step named them as undefined, and they were restored before any commit | `predictions.md`, P-18 |

@@ -1,13 +1,13 @@
 # The PDLC — the product lifecycle
 
-**Register: ruled by Round 28, except the forecast error band (§15, O-4).** This specification
+**Register: ruled (Rounds 28 to 30).** This specification
 is the exposition of `DDD-dec-114`. It has two layers:
 - **What the decision files.** The decision files Emil's rulings of 2026-11-06 to 2026-11-09:
   Rounds 3 to 22, 27 and 28 (verbatim in
   [`meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md`](../../meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md)).
   Rounds 16 to 28 entered by amendment before landing (Round 21).
 - **What Round 28 ruled.** Round 28 ruled Claude's construction, item by item, as listed there
-  (R1 to R30, R4 excepted): the tables, the shapes, the metrics, the checks, the forms of the two
+  (R1 to R30), with R4's numbers ruled by Round 30: the tables, the shapes, the metrics, the checks, the forms of the two
   proposed What elements and the falsifiers. Where a sentence states a ruling, the round is
   named. Prose that no listed item covers is exposition, and the decision governs it.
 
@@ -89,8 +89,8 @@ probalistic forecastin for this".
   - Each of many trials (at least 1000) draws a day's throughput at random from the recorded
     days, again and again, until k items have landed.
   - The days drawn are that trial's result.
-  - **Best, median and worst** are percentiles of the results: the 15th, 50th and 85th are
-    proposed (O-4).
+  - **Best, median and worst** are percentiles of the results: the 15th, 50th and 85th (ruled,
+    Round 30).
 
   The When owner plans with all three. The method is the same every time, over the same record
   and seed, so the certainty is in the method. The dates stay estimates.
@@ -633,7 +633,8 @@ manufactures seam demand S. Paying it down is one-time specification work:
    - or the How owner's DORA keys improve and the spread does not narrow, so the forecast does not
      reflect the How's performance.
 
-   The threshold and sample are open (O-4).
+   **Ruled (Round 30):** the forecast fails calibration if fewer than 60% of landings fall inside
+   the 15th–85th range, judged over the last 20 new-demand issues.
 4. **Blind outcome measures.** An escape reaches users that neither change failure rate nor the
    ready-for-users verdicts record. Then the outcome measures are blind, and the guard on
    implementation assurance fails. Claude's (Round 20), ruled by Round 28 (R20). It replaces "the How owner
@@ -667,7 +668,7 @@ leaving with no record) are part of this list.
 | O-1 | **Ruled (Round 28, R9):** `applications/sdlc/` is not nested under `applications/pdlc/`, and `DDD-dec-42`'s placement stands | Closed |
 | O-2 | **Ruled (Round 28, R10):** `DDD-org-03`'s governed priority is When decisions over new demand only | Closed |
 | O-3 | **Ruled (Round 28, R7):** the scope-cut proposal is act oS, held by the When owner and read at o1 (§2.1) | Closed |
-| O-4 | **The forecast's numbers** (Round 29 rules the method: probabilistic forecasting). Open: which percentiles are best and worst (15th and 85th proposed); the calibration threshold (for example, a failure if fewer than 60% of landings fall inside a 15–85 range); and the sample (for example, the last 20 new-demand issues) (§1, §14 falsifier 3) | **Emil** |
+| O-4 | **Ruled (Round 30, "O-4 agreed as ruled").** Probabilistic forecasting (Round 29), with best and worst at the 15th and 85th percentiles and the median at the 50th. The forecast fails calibration if fewer than 60% of landings fall inside the 15th–85th range, over the last 20 new-demand issues (§1, §14 falsifier 3) | Closed |
 | O-5 | **Ruled (Round 28, R8):** o2a comes before o1, F-2 as drawn | Closed |
 | O-6 | Record kinds for the When owner's acts (o2a, o16, an option's exit) and for the classification (oC) in the authority profile | A successor session |
 | O-7 | **Ruled (Round 28, R2):** the product-assurance levels are *observed* and *evidenced* (§4) | Closed |

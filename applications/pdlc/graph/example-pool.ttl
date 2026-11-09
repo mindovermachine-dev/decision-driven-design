@@ -1,7 +1,6 @@
 @prefix lc:  <https://decision-driven-design.dk/ns/lifecycle#> .
 @prefix ex:  <https://example.org/acme-shop/pdlc#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 
 #################################################################
 #  An illustrative option pool and one delivery, for the acme shop: invented data, not a ruling
@@ -55,7 +54,7 @@ ex:on101 a lc:ToggleOn ;
   lc:decidedBy lc:WhenOwner ;
   lc:toggle ex:reorder ;
   lc:readsVerdict ex:ready101 ;
-  prov:startedAtTime "2026-11-08T08:00:00Z"^^xsd:dateTime .
+  lc:releasedAt "2026-11-08T08:00:00Z"^^xsd:dateTime .
 
 
 # A reported defect, classified by the What owner as owed: it entered the SDLC as issue #103 without

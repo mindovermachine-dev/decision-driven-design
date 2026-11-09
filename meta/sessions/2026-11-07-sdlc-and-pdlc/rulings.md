@@ -643,6 +643,29 @@ threshold. Emil:
   percentiles as best, median and worst, `UNVERIFIED — Emil review`.
 - **Entry.** Round 29 enters by amendment before landing (Round 21's rule).
 
+## Round 30, verbatim (2026-11-09)
+
+Claude listed two items still open after Round 29: the reading of "PROV" as W3C PROV-O for the
+toggle service (`sdlc.md` §7), and the forecast's numbers (`pdlc.md` O-4). Emil:
+
+> "PROV" read as W3C PROV-O for the toggle service (sdlc.md §7). - it doesnt mean the whole PROV-O
+> it just means that we need the traceability for the act and O-4 agreed as ruled
+
+**How it governs.**
+- **Claude's PROV-O reading is withdrawn.** "PROV" in Round 28's R5 means traceability for the act,
+  not the PROV-O model.
+  - **What each release records:** who released it (the When owner), what (the toggle), when (the
+    release time), and on what ground (the ready-for-users verdict it read).
+  - **No PROV-O dependency.** The PROV-O classes and properties Claude aligned to are removed from
+    the graph data. The record keeps the four facts in `lc:` terms.
+- **O-4 is ruled, as Claude listed it in Round 29:**
+  - best and worst are the **15th** and **85th** percentiles, with the median as the 50th;
+  - the forecast **fails calibration if fewer than 60%** of landings fall inside the 15th–85th
+    range;
+  - judged over the **last 20 new-demand issues**.
+- **No open items remain** in `pdlc.md` §15 or `sdlc.md` §19 for Emil, except the successor work.
+- **Entry.** Round 30 enters by amendment before landing (Round 21's rule).
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this

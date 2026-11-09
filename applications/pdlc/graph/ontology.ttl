@@ -4,7 +4,6 @@
 @prefix owl:  <http://www.w3.org/2002/07/owl#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix dct:  <http://purl.org/dc/terms/> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
 
 #################################################################
 #  lc: — the lifecycle vocabulary of the PDLC and the SDLC. ruled by Round 28 (R30).
@@ -170,13 +169,15 @@ lc:ReadyForUsers a owl:Class ;
   rdfs:comment "The What owner's verdict that product acceptance is met, by the software's share and the user-side share, for a toggle's change. The record holds the declaration and ground reading; the verdict is computed (DDD-dec-52)." ;
   dct:source "DDD-dec-114 P-4" .
 lc:ToggleOn a owl:Class ;
-  rdfs:subClassOf prov:Activity ;
-  rdfs:comment "o16: the When owner's act of turning a toggle on, recorded by the When owner's toggle service with PROV: associated with the When owner (its lc:decidedBy, read as prov:wasAssociatedWith on a release only; lc:decidedBy is not a sub-property, since exits and classifications are not releases), using the ready-for-users verdict (lc:readsVerdict, a sub-property of prov:used), with prov:startedAtTime as the release time (Round 28, R5; PROV read as W3C PROV-O, UNVERIFIED — Emil review)." ;
+  rdfs:comment "o16: the When owner's act of turning a toggle on, made through the When owner's toggle service, which records its traceability: who released it (lc:decidedBy), what (lc:toggle), when (lc:releasedAt), and on what ground (lc:readsVerdict). Round 28, R5; Round 30: PROV means traceability for the act, not the PROV-O model." ;
   dct:source "DDD-dec-114 P-4; DDD-dec-115 S-11" .
+lc:releasedAt a owl:DatatypeProperty ;
+  rdfs:comment "On an o16: when the feature was released, recorded by the toggle service." ;
+  dct:source "DDD-dec-115 S-11 (Round 28, R5; Round 30)" .
 lc:toggle a owl:ObjectProperty ; rdfs:comment "The toggle a verdict or act concerns." ; dct:source "DDD-dec-114 P-4" .
 lc:ready a owl:DatatypeProperty ; rdfs:comment "Whether the ready-for-users verdict found the change ready." ; dct:source "DDD-dec-114 P-4" .
 lc:readsVerdict a owl:ObjectProperty ;
-  rdfs:subPropertyOf prov:used ; rdfs:comment "The ready-for-users verdict o16 read." ; dct:source "DDD-dec-114 P-4" .
+  rdfs:comment "The ready-for-users verdict o16 read." ; dct:source "DDD-dec-114 P-4" .
 lc:userSideShare a owl:DatatypeProperty ; rdfs:comment "The user-side share the verdict covers: training, guidance, procedure, or none needed." ; dct:source "DDD-dec-114 P-1; Round 7" .
 
 #########################  THE OCCURRENCE RECORD (SDLC)  #########################
@@ -274,8 +275,8 @@ lc:Forecast a owl:Class ;
 lc:best a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the best percentile." ; dct:source "Round 29" .
 lc:median a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the 50th percentile." ; dct:source "Round 29" .
 lc:worst a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the worst percentile." ; dct:source "Round 29" .
-lc:bestPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as best (15 proposed; open, O-4)." ; dct:source "Round 29; pdlc.md §15 O-4" .
-lc:worstPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as worst (85 proposed; open, O-4)." ; dct:source "Round 29; pdlc.md §15 O-4" .
+lc:bestPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as best: the 15th (ruled, Round 30)." ; dct:source "Round 29; Round 30" .
+lc:worstPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as worst: the 85th (ruled, Round 30)." ; dct:source "Round 29; Round 30" .
 lc:spread a owl:DatatypeProperty ;
   rdfs:comment "Worst minus best, in days. The How owner's measure: the better the How performs, the smaller it is (Round 29)." ;
   dct:source "Round 29; DDD-dec-115 S-10" .

@@ -1,6 +1,6 @@
 # The SDLC — from a released issue to production, dark
 
-**Register: ruled by Round 28, with R5 ruled as Emil stated it.** This specification is the
+**Register: ruled (Rounds 28 and 30).** This specification is the
 exposition of `DDD-dec-115`. It has two layers:
 - **What the decision files.** The decision files Emil's rulings: the request (2026-11-06),
   Rounds 1 and 2, Round 13 as ruled by Round 14, and Rounds 19, 20, 22 and 28, which entered by
@@ -10,8 +10,7 @@ exposition of `DDD-dec-115`. It has two layers:
   `rulings.md` (R1 to R30): the step cards' readings, the landing's mechanics, the identity port
   and its departures, the record's place, the DORA computations and the falsifiers. Where a
   sentence states a ruling, the round is named. Prose that no listed item covers is exposition,
-  and the decision governs it. One reading is new and still Claude's: "PROV" read as W3C PROV-O
-  (§7), `UNVERIFIED — Emil review`.
+  and the decision governs it.
 
 Where this text and `DDD-dec-115` disagree, the decision governs.
 
@@ -345,23 +344,22 @@ acceptance. *Ruled (Round 5):* a change lands dark behind a toggle.
   - **Its state lives outside the trunk.** If it were a commit to main, every turning-on would
     pass through o9 to o12, the How owner's arrangement. The When owner's delivery decision would
     then wait on the SDLC's cadence, and that would cross the seam the wrong way.
-  - **The store: a service the When owner uses, recording releases with PROV** (ruled, Round 28,
-    R5: "must be a service that the when owners uses with PROV for when a feature is released").
-    The branch-file alternative is rejected.
+  - **The store: a service the When owner uses, recording the traceability of each release**
+    (ruled, Round 28, R5: "must be a service that the when owners uses with PROV for when a
+    feature is released"; Round 30: "it doesnt mean the whole PROV-O it just means that we need
+    the traceability for the act"). The branch-file alternative is rejected.
     - **What the service does.** It holds each toggle's on state outside the trunk. The When owner
       turns a toggle on through it (o16). It refuses an o16 that reads no ready-for-users verdict
       that found the change ready (`DDD-dec-114` P-4).
-    - **What it records**, with PROV, as Claude reads it (W3C PROV-O, `UNVERIFIED — Emil review`):
-      - the o16 is a `prov:Activity` (`lc:ToggleOn rdfs:subClassOf prov:Activity`);
-      - it is associated with the When owner (`lc:decidedBy`, read as `prov:wasAssociatedWith` on
-        a release);
-      - it used the ready-for-users verdict (`lc:readsVerdict`, a sub-property of `prov:used`);
-      - it generated the toggle's on state;
-      - its `prov:startedAtTime` is **when the feature was released**.
-    - **Enforced in the shapes.** `lc:ToggleOnShape` requires `prov:startedAtTime`, and a plant
-      covers a release with none.
+    - **What it records for each release:**
+      - who released it: the When owner (`lc:decidedBy`);
+      - what was released: the toggle (`lc:toggle`);
+      - when it was released (`lc:releasedAt`);
+      - on what ground: the ready-for-users verdict it read (`lc:readsVerdict`).
+    - **Enforced in the shapes.** `lc:ToggleOnShape` requires all four. Plants cover a release with
+      no time and a release with no verdict.
     - **Who reads the record.** The PDLC: the When owner's delivery history, and the
-      ready-for-users verdict it rests on.
+      ready-for-users verdict each release rests on.
     - **The SDLC's part.** The SDLC creates and retires toggles. It never writes their on state.
 
 ## 8. The issue as the only channel
@@ -756,7 +754,7 @@ is a different interval (`../pdlc/pdlc.md` §1).
 | O-1 | How a second ecosystem is added: the dispatcher's interface to an ecosystem, and what the record needs from each | A successor session, after edition 1 runs |
 | O-2 | **The Copilot relay problem.** takt's Copilot path relies on pull requests ("GitHubs Agentic mode for Copilot relies on PRs both in spec-driven mode and Copilot reviews", takt `pr-to-ready.yml`), and on squashing them into `ready/`. The SDLC has neither, so a Copilot ecosystem would need its pull-request conversation relayed to the issue, or the issue relayed to it | A successor session |
 | O-3 | When the axes are revisited: after the first recorded issues (Round 2) | Emil, on the record |
-| O-4 | **Ruled (Round 28, R5):** the toggle state store is a service the When owner uses, recording releases with PROV (§7) | Closed |
+| O-4 | **Ruled (Round 28, R5; Round 30):** the toggle state store is a service the When owner uses, recording the traceability of each release (§7) | Closed |
 | O-5 | **Ruled (Round 28, R1):** ADR 0239's `Delegated-by` trailer is ported for commits; a delegate's approval is never an o10 (D-9) | Closed |
 | O-6 | **Ruled (Round 28, R3):** the implementation-assurance independence levels are *self* and *independent* (§5) | Closed |
 | O-7 | **Ruled (Round 28, R6):** the issue closes at o13, with delivery recorded against the toggle | Closed |

@@ -69,3 +69,11 @@ Add-only. The tables above stand as written.
   by its own decision. O-7 no longer blocks W-2.
 - **Still open for Emil:** the forecast error band (`pdlc.md` O-4), and the reading of "PROV" as
   W3C PROV-O (`sdlc.md` §7).
+
+## After Round 30 (2026-11-09)
+
+Add-only. One correction to the note above. **N-9's toggle service records traceability, not
+PROV-O** (Round 30). For each release it writes who (the When owner), what (the toggle), when
+(`lc:releasedAt`) and on what ground (the ready-for-users verdict). It writes no `prov:` activity.
+The forecast's numbers are ruled (O-4), so nothing in either spec waits on Emil now. Only the
+successor work remains: N-1 to N-9 and W-1 to W-8.
