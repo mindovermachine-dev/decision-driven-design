@@ -1,0 +1,66 @@
+format: 1
+id: DDD-flow-03
+kind: conceptual
+statement: |
+  In the PDLC, a demand item enters at the act of the owner whose ground detects it, and reaches other owners only along declared seams, as ground read-only for the receiver, not along the reporting lines between the people who hold the owners' scopes.
+status: projected
+region: |
+  The PDLC only (applications/pdlc/, DDD-dec-114), as DDD-org-01 scopes itself through its
+  region. Generality is not claimed (DDD-dec-118, Round 24 in the demand-flow session's
+  rulings.md). Owners are scopes under the product's genesis grant (pdlc.md §2), and a scope
+  ranges over decision kinds as well as What element kinds (DDD-dec-117). The seams are pdlc.md
+  §2.1's and §13's, checked against the act map (applications/pdlc/graph/acts.ttl with
+  applications/sdlc/acts/acts.ttl).
+evidence:
+  - kind: derivation
+    ref: actor-indexed-determination@v5.15.2 core/06 (term:seam, term:seam-occupancy); core/14 §5 (DDD-ground-06, term:act-address); pdlc.md §2 (Round 14 of the 2026-11-07 session)
+    note: argument from pinned canon and the PDLC's ruled ground rule; steps in notes
+falsifier: |
+  A demand item in the PDLC that must enter at an owner who cannot read its ground, or that can only reach the owner who discharges it by a route that is no declared seam.
+test: |
+  Counterexamples: trace every source of pull in pdlc.md §9 from where it is detected to where it is discharged on the act map, and check that each entry act's owner holds the ground the item is detected on, and that each crossing is a row of the seam table.
+breaks: |
+  The PDLC's entry points as drawn (o0, oC, oG) and the seam table (pdlc.md §2.1) as the complete list of crossings. pdlc.md §14's falsifier 9 ("evidence by no route") is a case of this claim.
+owner: none
+changed: 2026-11-09, demand-flow session (DDD-dec-118)
+notes: |
+  Session-authored. UNVERIFIED — Emil review. Proposed by Claude in Round 23, filed downstream
+  and scoped to the PDLC by Round 24 (meta/sessions/2026-11-08-demand-flow/rulings.md).
+
+  Derivation (Claude's, from v5.15.2 as read on 2026-11-09).
+  1. Splitting the lifecycle into owners manufactures seam demand: "splitting a task or an actor
+     manufactures new governing decisions, the ones about how the parts coordinate"
+     (term:seam, core/06). Who or what sits at each seam is seam occupancy.
+  2. Ground is each owner's own to control, and ground crossing a seam "is supplied by its
+     producer and is read-only for the receiver" (Round 14 of the 2026-11-07 session, ruled;
+     pdlc.md §2).
+  3. An item of demand is detected by reading ground. The act that detects it reads that ground,
+     so the act's owner holds it. Any other owner gets the item only as ground supplied across a
+     seam (step 2).
+  4. The act address leaves the occupant out (DDD-ground-06): where an act sits does not depend on
+     who occupies it. So the route of an item is fixed by acts and seams, not by who reports to
+     whom among the people occupying them.
+  Round 23 said "not along the org chart". The statement says "not along the reporting lines
+  between the people who hold the owners' scopes", because an owner here is a scope
+  (DDD-dec-117's vocabulary), not a person or a department.
+
+  A tension, flagged (UNVERIFIED — Emil review). Owed demand in the PDLC is detected on more than
+  one owner's ground: the record, the gates, users, telemetry (pdlc.md §9), and telemetry is the
+  How owner's. It enters at oC, the What owner's classification, because only the What in force
+  can tell owed from new. Read literally, "the owner whose ground detects it" is the How owner,
+  and the entry is the What owner's. Claude's reading: an item is detected as demand of a kind
+  where it is classified, and the telemetry that first shows the symptom crosses How → What as a
+  seam row (pdlc.md §2.1, the telemetry row) before it is demand at all. If Emil reads
+  "detects" as the first sighting, the oC case is a counterexample and the statement needs
+  "classifies" in place of "detects".
+
+  Limiting cases.
+  - One owner. A single holder of all three scopes has no seams between owners, every item
+    enters at that holder, and the claim is empty. Fixed parameter: the number of owners, one.
+  - Reporting lines that match the scopes (each department holds exactly one owner's scope).
+    "Along seams" and "along the org chart" then name the same routes, and the claim reduces to
+    the organisational view. Fixed parameter: the mapping from people to scopes, one to one.
+
+  Open item, promotion (successor-items.md P-1). Evidence needed to propose this claim upstream:
+  a second process mapped with the method step, whose declared kinds match the PDLC's or do not,
+  with its entry points and seams traced as this session traced the PDLC's.

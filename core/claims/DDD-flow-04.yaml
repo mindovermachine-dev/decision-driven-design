@@ -1,0 +1,57 @@
+format: 1
+id: DDD-flow-04
+kind: normative
+statement: |
+  In the PDLC, responsibility is placed per decision: for each boundary decision exactly one owner holds the act, with its control and liability, and every other owner reads that act's verdict only as read-only ground.
+status: projected
+region: |
+  The PDLC only (applications/pdlc/, DDD-dec-114), as DDD-org-01 scopes itself through its
+  region. Generality is not claimed (DDD-dec-118, Round 24 in the demand-flow session's
+  rulings.md). Boundary decisions are those of pdlc.md §6's table. An owner is a scope under the
+  genesis grant, and a scope ranges over decision kinds (DDD-dec-117), so placing a decision is
+  naming the scope whose decision kinds include it.
+evidence:
+  - kind: derivation
+    ref: actor-indexed-determination@v5.15.2 core/05 §5 (term:answerability, term:liability); pdlc.md §6 (Round 10 of the 2026-11-07 session)
+    note: the placement rule's argument as pdlc.md §6 gives it, restated against pinned canon; steps in notes
+falsifier: |
+  A boundary decision in the PDLC that needs two owners' control, so that it cannot be split into one owner's act and another owner's ground.
+test: |
+  Counterexamples: for each row of pdlc.md §6's table and each decision kind a new scope adds, try to split the decision into one owner's act and the others' read-only ground; record any that will not split.
+breaks: |
+  The PDLC's placement rule (pdlc.md §6, ruled, Round 10) and the mapping of step 7's line ("Attribution, principal, authority, stake, remediation per allocation") onto its rows (Round 28, R28). A decision that will not split belongs to the genesis grant holder, and the rule has failed for it (pdlc.md §6's falsifier).
+owner: none
+changed: 2026-11-09, demand-flow session (DDD-dec-118)
+notes: |
+  Session-authored. UNVERIFIED — Emil review. Proposed by Claude in Round 23, filed downstream
+  and scoped to the PDLC by Round 24 (meta/sessions/2026-11-08-demand-flow/rulings.md). The
+  rule itself was ruled for the PDLC in Round 10 of the 2026-11-07 session ("Adopt it
+  (Recommended)", pdlc.md §6). This claim files that ruled rule as a claim, so that it carries a
+  falsifier and a promotion path; it adds no content to the rule.
+
+  Derivation (as pdlc.md §6 gives it, against v5.15.2).
+  1. Accountability decomposes into answerability, liability and control, which "come apart in
+     practice and must not be fused" (core/05 §5).
+  2. "A party can be answerable and liable with no control — unfair, and ineffective; a party
+     with control can shed liability through organisational design" (core/05 §5).
+  3. Placing each boundary decision with one owner gives control and liability to the same
+     party, decision by decision. Other owners' verdicts enter only as read-only ground, so no
+     second party holds control over the act.
+
+  Vocabulary (DDD-dec-117). A role is a named, reusable scope. Placing per role is placing per
+  decision where the scope is named once and reused: the two coincide when a role's scope is
+  exactly the set of decision kinds placed with it.
+
+  Limiting cases.
+  - One owner. Every decision is placed with the one holder of all scopes, nothing is read as
+    another's ground, and the claim reduces to core/05 §5 with nothing to separate. Fixed
+    parameter: the number of owners, one.
+  - Per-role placement (a RACI chart's "accountable" column). It reduces to this claim when each
+    role's scope is exactly the decision kinds placed with it (DDD-dec-117), and differs where a
+    role is placed over a decision whose ground it does not hold. Fixed parameter: the grain of
+    placement, the role's scope taken as the decision.
+
+  Open item, promotion (successor-items.md P-1). Evidence needed to propose this claim upstream:
+  a second process mapped with the method step, whose declared kinds match the PDLC's or do not.
+  Of the four, this claim depends least on the PDLC's kinds; whether it can be promoted without
+  them is for Emil.

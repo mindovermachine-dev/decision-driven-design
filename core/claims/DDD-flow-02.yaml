@@ -1,0 +1,67 @@
+format: 1
+id: DDD-flow-02
+kind: empirical
+statement: |
+  In the PDLC, ordering a queue of demand items is a decision whose ground includes the ground of every kind of demand in the queue, so a queue that mixes kinds under one orderer who does not hold each kind's ground is ordered, for the kinds whose ground is missing, by judgment from ground not held.
+status: projected
+region: |
+  The PDLC only (applications/pdlc/, DDD-dec-114), as DDD-org-01 scopes itself through its
+  region. Generality is not claimed (DDD-dec-118, Round 24 in the demand-flow session's
+  rulings.md). The kinds are the PDLC's (DDD-flow-01). The claim is about who may order a queue,
+  not about how well any orderer orders: an orderer who holds the ground of every kind in its
+  queue (for instance one holder of all three scopes, pdlc.md §2) meets it.
+evidence:
+  - kind: derivation
+    ref: actor-indexed-determination@v5.15.2 core/05 §5 (term:answerability, term:liability); core/01 (term:judgment, term:ground)
+    note: argument from pinned canon to the PDLC's separate orderers; steps in notes
+falsifier: |
+  A PDLC queue mixing kinds under one orderer who lacks a kind's ground, whose order for items of that kind matches the order that kind's own owner would give, judged on that owner's ground (for owed items time to restore, for own-ground items the DORA keys).
+test: |
+  Order one period's owed and own-ground items twice: once by the When owner on market ground, once by the How owner on the What in force and its own record. Compare each order's effect on time to restore and on the DORA keys over the following period.
+breaks: |
+  The PDLC's separate orderers (pdlc.md §2 and §9: the When owner orders new demand at o2a, the How owner orders owed and own-ground demand at o2b), and the PDLC's account of why the classic backlog struggles (pdlc.md §9). pdlc.md §9's falsifier "an implementation bug that needs the When owner's ordering to get fixed" is a case of this claim.
+owner: none
+changed: 2026-11-09, demand-flow session (DDD-dec-118)
+notes: |
+  Session-authored. UNVERIFIED — Emil review. Proposed by Claude in Round 23, filed downstream
+  and scoped to the PDLC by Round 24 (meta/sessions/2026-11-08-demand-flow/rulings.md). The
+  separate orderers were ruled in Round 22 of the 2026-11-07 session.
+
+  Derivation (Claude's, from v5.15.2 as read on 2026-11-09).
+  1. Ordering is a decision: it selects which item an act takes next, and the selection is
+     determined by someone or escapes (term:exhaustiveness). Ordering by an actor at the act is
+     judgment, "determined during the act, by an actor reading ground" (term:judgment).
+  2. Each kind is judged on different ground (pdlc.md §9): new on market ground (the When
+     owner's), owed on the What in force (the What owner's, read by the How owner), own-ground on
+     the How owner's record.
+  3. An orderer reading ground it does not hold judges those items from ground not held. The
+     order is still determined (it is judgment, not escape), but against the wrong ground.
+  4. core/05 §5: answerability, liability and control "come apart in practice and must not be
+     fused"; "a party can be answerable and liable with no control — unfair, and ineffective". In
+     the PDLC the How owner answers for the DORA keys (Round 20 of the 2026-11-07 session). If the
+     When owner orders own-ground and owed items, the How owner is answerable and liable for
+     outcomes whose order it does not control. That is the core/05 §5 failure, located.
+  Round 23 called step 4 "liability without control". core/05 §5's own words are "answerable and
+  liable with no control"; the notes use those.
+
+  Kind. Filed empirical, not normative: the claim's content is a prediction (an orderer lacking a
+  kind's ground orders it worse, on that kind's own measures), and the falsifier is observational.
+  Claude's choice, UNVERIFIED — Emil review.
+
+  Limiting cases.
+  - A queue of one kind. The orderer needs one kind's ground, and the claim reduces to the
+    ordinary rule that whoever prioritises a list must hold the ground its items are judged on.
+    Fixed parameter: the number of kinds in the queue, one. This is the case the PDLC builds:
+    each of its queues holds one orderer's kinds.
+  - One orderer holding every kind's ground. A single holder of all three scopes (the genesis
+    holder, pdlc.md §2) may order a mixed queue, and the claim reduces to core/05 §5's
+    non-fusion with nothing to separate. Fixed parameter: the number of owners, one.
+  - The classic product backlog. One orderer (the Product Owner) orders all kinds, holding the
+    market ground. The claim predicts that owed and own-ground items win or lose by accident
+    (pdlc.md §9's reading); the backlog view is the case the claim calls a violation, not one it
+    reduces to.
+
+  Open item, promotion (successor-items.md P-1). Evidence needed to propose this claim upstream:
+  a second process mapped with the method step, whose declared kinds match the PDLC's or do not.
+  This claim depends on the kinds; it can only be promoted with or after DDD-flow-01 or a
+  replacement for it.

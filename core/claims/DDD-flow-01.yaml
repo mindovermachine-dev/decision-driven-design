@@ -1,0 +1,75 @@
+format: 1
+id: DDD-flow-01
+kind: conceptual
+statement: |
+  In the PDLC, relative to the decisions in force, an arriving demand item is of exactly one of three kinds: new (no governing decision for it is in force yet), owed (a governing decision is in force but an act does not meet it, which is an escape, including the undelivered case of core/13) or own-ground (it concerns the ground of the arrangement that realises the decisions, which in the PDLC is the How owner's own ground).
+status: projected
+region: |
+  The PDLC only (applications/pdlc/, DDD-dec-114), as DDD-org-01 scopes itself through its
+  region. Generality is not claimed: whether any other process's demand partitions into these
+  three kinds is open (DDD-dec-118, Round 24 in the demand-flow session's rulings.md). "Decisions in
+  force" means the What in force together with the How decisions in force, read at the moment the
+  item is classified. A change in the What owner's ground (a regulation, a market change) is new,
+  not own-ground: in the PDLC "own-ground" names the How owner's ground only (pdlc.md §9).
+evidence:
+  - kind: derivation
+    ref: actor-indexed-determination@v5.15.2 core/02 (term:exhaustiveness), core/13 §2 (term:undelivered, DDD-delivery-02), core/14 §1 (DDD-frame-01)
+    note: argument from pinned canon to the PDLC's three kinds; steps in notes. Not evidence that the kinds hold beyond the PDLC
+falsifier: |
+  A demand item arriving in the PDLC that the What owner's classification (oC) and the How owner's framing (oG) cannot place as new, owed or own-ground.
+test: |
+  Counterexamples: classify every demand item that enters the PDLC's record (the option pool, oC verdicts, oG framings) over a period, and count those that fit none of the three kinds, and those that fit two.
+breaks: |
+  The PDLC's three entry points (o0 for new, oC then o1b for owed, oG for own-ground) and the separate orderers of DDD-flow-02, which rest on the partition. pdlc.md §9's falsifier "an item that cannot be classified as new, owed or own-ground" (ruled, Round 28 R19, in the 2026-11-07 session's rulings.md) fires with it. Nothing upstream breaks: the claim is not filed there.
+owner: none
+changed: 2026-11-09, demand-flow session (DDD-dec-118)
+notes: |
+  Session-authored. UNVERIFIED — Emil review. Proposed by Claude in Round 23 (claude.ai
+  conversation, 2026-11-07/08), filed downstream and scoped to the PDLC by Round 24 (both in
+  meta/sessions/2026-11-08-demand-flow/rulings.md). The PDLC's kinds themselves were ruled in
+  Round 22 of the 2026-11-07 session ("Adopt (Recommended)"); this claim states them relative to
+  the decisions in force.
+
+  Derivation (Claude's, from v5.15.2 as read on 2026-11-09).
+  1. Every governing decision is determined by a rule, a check, an actor or nothing
+     (term:exhaustiveness, core/02). An item of demand either has a governing decision in force
+     for it or does not. If not, the item is new: the decision has yet to be made.
+  2. If one is in force and an act does not meet it, the act was determined by nobody for that
+     decision: escape (term:escape). core/13 §2 adds one route to it, undelivered, "filed,
+     adequate, and never reached the act"; DDD-delivery-02 holds that this widens nothing. So
+     owed = escape, of any generator, against a decision in force.
+  3. DDD-frame-01 indexes unresolved determination by ⟨task, ground, acceptance relation,
+     tolerance, arrangement, assurance⟩. Demand on the arrangement coordinate's own ground (its
+     dependencies, platform, debt) concerns no decision about the task's acceptance and is not an
+     escape of one. In the PDLC that coordinate is the SDLC, the How owner's (pdlc.md §2, §7).
+  Steps 1 and 2 are a dichotomy (in force or not; met or not). Step 3 is not: own-ground is
+  carved out by coordinate, so the partition's exhaustiveness is argued, not proved, and the
+  falsifier and test point at it.
+
+  Adjusted from Round 23's wording (rulings.md R-b). Round 23 said "an escape, or a
+  judgment-mediated delivery that did not arrive". Under DDD-delivery-02 an undelivered decision
+  is an escape, so "or" would list a case of escape as a second case. The statement says
+  "including". The words "delivery" and "undelivered" appear only as core/13's terms, citing it;
+  nothing here is named delivery.
+
+  Exclusivity, flagged. Round 23's falsifier names only "an item that is none of the three".
+  The statement says "exactly one", and the test counts items fitting two. pdlc.md §9 records one
+  route between kinds: technical debt left unordered "arrives as owed demand" when it shows as an
+  incident. That is two items (the debt, then the escape it caused), not one item of two kinds.
+  Reading Claude's, UNVERIFIED — Emil review.
+
+  Limiting cases.
+  - Nothing in force (an empty What, a product before its first decision). Every item is new, and
+    the claim reduces to the single list of requirements a classic backlog holds. Fixed
+    parameter: the decisions in force, empty.
+  - The arrangement held fixed. core/14 §1: "a parameter that never varies is indistinguishable
+    from a constant." With the arrangement fixed, own-ground demand cannot arise, and the kinds
+    reduce to new and owed: the requirements-and-defects split. Fixed parameter: the arrangement.
+  - No new decisions admitted (a product in maintenance). Only owed and own-ground arrive, and
+    the claim reduces to the escape account of core/02 and core/13 plus the How owner's own
+    work.
+
+  Open item, promotion (successor-items.md P-1). Evidence needed to propose this claim upstream:
+  a second process mapped with the method step (method/01b-map-the-flow-of-demand.md), whose
+  declared kinds of demand either match the PDLC's or do not, recorded with the sources of pull
+  that made its practitioner keep, add or drop a kind.
