@@ -6,7 +6,7 @@
 #################################################################
 #  An illustrative occurrence record: one How-locus new-demand issue (#101), AI-occupied, through
 #  production; one owed issue (#103) that restores #101's deployment (Round 22); and one own-ground
-#  issue (#104), moved here from the option pool by Round 26. [PROPOSED].
+#  issue (#104), moved here from the option pool by Round 26. Invented data, not a ruling.
 #  Invented to exercise the shape. It records nothing that happened, and its numbers are not
 #  measurements. sdlc.md §13 reads hotspots off it as a worked example of the computation.
 #################################################################

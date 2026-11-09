@@ -54,3 +54,18 @@ Add-only. The tables above stand as written.
 | # | Item | Files it would change | Closes it |
 |---|---|---|---|
 | W-8 | **Editorial: `what.md` §5.1's "the product owner's What scope".** Round 12 rules that priority is a When decision, never the What owner's, and that a classic product owner fuses a What decision with a When decision. `what.md` §5.1 ends: "The product owner's What scope and the architect's How scope are two grants over two sets of kinds of one product." It uses "product owner" for the holder of the What scope. That does not contradict the PDLC, since §5.1 speaks of the What scope alone. But it carries the role name the PDLC takes apart (findings C-6). Proposed wording: "The What owner's scope and the How owner's scope …", citing `DDD-dec-114`. **Not edited in this session** (Round 26, item 3). It goes with W-1 to W-7, since those edit `what.md` §3 under their own decisions | `applications/sdlc/what.md` §5.1 (one sentence) | With W-1 to W-7, under the decision that edits `what.md` |
+
+## After Round 28 (2026-11-09)
+
+Add-only. The tables above stand as written.
+
+- **N-9 (the toggle-on act) is unblocked.** Round 28 (R5) rules the store: a service the When
+  owner uses, recording each release with PROV. The reference implementation adds a toggle
+  service, outside `applications/sdlc/`'s trunk-bound workflows, under `applications/pdlc/`. It
+  holds on states, refuses an o16 without a ready verdict, and writes each o16 as a PROV
+  activity with `prov:startedAtTime`.
+- **W-1 and W-2.** Round 28 rules the form of the observation need and of the product-assurance
+  declaration (R24, R25), and the product-assurance levels (R2). The What schema change still goes
+  by its own decision. O-7 no longer blocks W-2.
+- **Still open for Emil:** the forecast error band (`pdlc.md` O-4), and the reading of "PROV" as
+  W3C PROV-O (`sdlc.md` §7).

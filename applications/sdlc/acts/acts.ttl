@@ -2,7 +2,7 @@
 @prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
 
 #################################################################
-#  The SDLC's act map, o1b to o13. [PROPOSED], unruled (applications/sdlc/sdlc.md §4).
+#  The SDLC's act map, o1b to o13. ruled by Round 28 (R30) (applications/sdlc/sdlc.md §3).
 #
 #  A stream of state changes in causal order (DDD-address-01), with no spatial embedding of the
 #  categorical axes. Every act's layer path begins PDLC ▸ SDLC (DDD-dec-114 P-1). The PDLC's acts

@@ -2,7 +2,7 @@
 @prefix m:   <https://decision-driven-design.dk/ns/lifecycle/map#> .
 
 #################################################################
-#  The PDLC's acts on the act map. [PROPOSED], unruled (applications/pdlc/pdlc.md §9).
+#  The PDLC's acts on the act map. ruled by Round 28 (R30) (applications/pdlc/pdlc.md §11).
 #
 #  Written as a stream of state changes in causal order: each act after the acts whose state
 #  changes are in its ground reading (DDD-address-01). No spatial embedding of the categorical
@@ -45,7 +45,19 @@ m:o1 a lc:Act ;
   lc:occupantLens "human: the locus's owner; a session may draft, the owner accepts" ;
   lc:recurs "per issue" ;
   lc:dependency [ a lc:Dependency ; lc:on m:o2a ; lc:because "the pulled option (a need) and its rank" ] ;
-  lc:readsEarlier m:oU .
+  lc:readsEarlier m:oU , m:oS .
+
+# oS — propose a scope or assurance cut: the When owner's proposal to hold a date, read by the What
+# owner at o1. Never an option (an option is never a What change) and never a What decision (the
+# When owner proposes, the What owner decides). Round 28, R7.
+m:oS a lc:Act ;
+  lc:label "propose a scope or product-assurance cut to hold a date" ;
+  lc:within m:PDLC ; lc:layerPath "PDLC" ;
+  lc:address [ a lc:Address ; lc:surfaceRead lc:IssueThread ; lc:changeLocus lc:NoLocus ; lc:authorityRead lc:OwnerScope ] ;
+  lc:heldBy lc:WhenOwner ;
+  lc:occupantLens "human: the When owner" ;
+  lc:recurs "per proposal" ;
+  lc:readsEarlier m:o13 .
 
 # oC — classify a reported defect: owed (the software breaks the What in force) or new (the What
 # must change). The What owner's verdict, read by How and When (Round 22). An owed verdict enters the

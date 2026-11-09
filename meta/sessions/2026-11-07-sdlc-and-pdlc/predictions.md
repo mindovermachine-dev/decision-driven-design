@@ -276,3 +276,55 @@ and the guide names "Cycle Time could be Flow Time" itself.
 
 Prediction: green on `9b24f26`. **Outcome.** Run 42588904271: completed, success. The next commit
 changes only `landing.md` and this file. CI is predicted green on it too.
+
+## Round 28 (2026-11-09)
+
+Not predicted: the arrival read (the branch at `7c36e8d`, `main` at `1ab1de0`). It changed nothing.
+
+## P-15 — Round 28 applied
+
+Planned edits:
+- `DDD-dec-114` gains P-15 (the PDLC proposals ruled), and `DDD-dec-115` gains S-11 (the SDLC
+  proposals ruled, R5's toggle service with PROV, R6, R1). Both statements gain one sentence.
+  Their notes mark R11 and R13 to R15 as ruled. No basedOn change, since PROV is an external
+  standard and is cited, not listed.
+- The specs' registers change from "unruled" to "ruled by Round 28, except R4".
+- The ruled items' marks come off. The open-item tables are updated.
+- `sdlc.md` §7 gets the toggle service with PROV.
+- Graph data:
+  - a new act **oS** "propose a scope or assurance cut" (When owner), with o1 reading it
+    (`lc:readsEarlier`);
+  - `lc:ToggleOn` aligned to PROV in the ontology (`rdfs:subClassOf prov:Activity`; `lc:decidedBy`
+    and `lc:readsVerdict` as sub-properties of `prov:wasAssociatedWith` and `prov:used`);
+  - `lc:ToggleOnShape` requires `prov:startedAtTime` (when the feature was released);
+  - the example's `ex:on101` gets one;
+  - one new plant, "a release with no PROV time".
+- The R16 to R18 marks come off the ontology.
+
+Prediction:
+- PDLC checker: closure ok (oS's terms are existing `lc:` terms; `prov:` terms are outside
+  `lc:`, so closure does not judge them). The map conforms with oS. **19 of 19** plants caught.
+- SDLC checker unchanged: 11, with the same DORA values.
+- 93 decisions valid; pins 81, 0, 0, 1 shadowed; `scripts/ci.py` "all gates passed".
+- After the edit, the only `UNVERIFIED` left in the two specs are R4's, the register lines'
+  definition of what stays Claude's exposition, and the new PROV reading.
+
+Falsifier: any FAIL, a count other than 19 and 11, or a gate red.
+
+**Outcome.** As predicted in every count.
+- PDLC: closure ok, map conforms with oS, **19 of 19** plants caught.
+- SDLC: **11**, with the DORA values unchanged.
+- 93 decisions valid; pins 81, 0, 0, 1 shadowed; "all gates passed", exit 0.
+- The only `UNVERIFIED` left in the two specs is the new PROV reading (`sdlc.md` §7, and the
+  register line that names it). The `[PROPOSED]` marks left in `pdlc.md` refer to method steps 7
+  and 10 in `method/`, which are not this session's.
+
+**One deviation from the plan.** `lc:decidedBy` was not made a sub-property of
+`prov:wasAssociatedWith`, because exits and classifications also use it and are not releases. The
+mapping is stated for releases in `lc:ToggleOn`'s comment instead.
+
+**Two follow-ups after the first pass.**
+- A blanket replacement marked the two invented example files "ruled". They now say "invented
+  data, not a ruling".
+- Three stale section references in graph headers were corrected (`pdlc.md` §9 to §11, §8 to §10;
+  `sdlc.md` §4 to §3).

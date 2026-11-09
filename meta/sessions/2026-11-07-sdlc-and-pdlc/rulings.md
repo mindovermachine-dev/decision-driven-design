@@ -553,6 +553,66 @@ Two messages from Emil, in order:
 
   They are stated beside the definition. Claude reads "as described" as including them.
 
+## Round 28, verbatim (2026-11-09)
+
+Emil asked: "show me all proposed that i need to rule on". Claude listed every item still marked
+`[PROPOSED]` or `UNVERIFIED — Emil review` on the branch at `7c36e8d`, numbered R1 to R30. The
+list is recorded here, in brief, because the ruling refers to it by number. Groups D (successor
+work) and E (the Rounds 23 to 25 gap) were not numbered.
+
+| # | Item (Claude's proposal, as listed) |
+|---|---|
+| R1 | D-9: port ADR 0239's `Delegated-by` commit trailer, but a delegate's approval is not an o10 |
+| R2 | Product-assurance levels: *observed*, and *evidenced* (observed, plus an outcome measure) |
+| R3 | Implementation-assurance independence levels: *self* and *independent* |
+| R4 | The forecast error band (no proposal; a number from Emil) |
+| R5 | The toggle state store: a toggle service, or a state file on a branch nothing deploys from, written only by the o16 record |
+| R6 | The issue closes at o13, with delivery recorded against the toggle |
+| R7 | A new act, "propose a scope or assurance cut", held by the When owner and read by the What owner's o1 |
+| R8 | o2a before o1 (F-2): o0 → o2a → o1 → o1b → o2b |
+| R9 | `applications/sdlc/` not nested under `applications/pdlc/` now |
+| R10 | `DDD-org-03` read as When decisions over new demand only |
+| R11 | Round 14 covers Round 6's stance wording |
+| R12 | The act map's three causal-index readings (o7 feedback and o9 evidence; o5 one address, many occurrences; o11 reads the base map) |
+| R13 | "Task" is not a locus value: a new task is a new option |
+| R14 | Ready-for-users is a What-locus act that writes no What element, computed, not stored |
+| R15 | The When owner's acts are signed records under the When scope; record kinds are a successor item |
+| R16 | o1 and o10 are held by the owner of the declared locus |
+| R17 | The PDLC's extra axis positions: option pool, the product in use, an owner's scope grant |
+| R18 | Kind-scoped dependencies (o1b on o1, oC or oG; o2b on o2a for new demand only) |
+| R19 | Round 22's falsifiers (an unclassifiable item; a bug that needs the When owner's ordering) |
+| R20 | The replacement falsifier: an escape reaches users that neither change failure rate nor the ready-for-users verdicts record |
+| R21 | The identity and authorisation port, `sdlc.md` §9, with departures D-1 to D-8 |
+| R22 | The landing mechanics (`ready/<N>` forward-only; o11 on `issue_comment` and `workflow_run`; App fast-forward, then delete) |
+| R23 | The occurrence record on an append-only orphan branch `sdlc/record`, written only by the gates App |
+| R24 | The observation need's form |
+| R25 | The product-assurance declaration's form |
+| R26 | The capability-pin reading |
+| R27 | The forecast computation |
+| R28 | The mapping to method step 7 |
+| R29 | The DORA computations |
+| R30 | The `lc:` vocabulary |
+
+Emil, verbatim:
+
+> R5 - must be a service that the when owners uses with PROV for when a feature is released. R4 -
+> Explain it to me. R1-3, R6-10, R10-20, R21-30 - all approved
+
+**How it governs.**
+- **Approved, as listed.** R1 to R3, R6 to R30. R10 is named twice ("R6-10, R10-20"), which
+  makes no difference. Each item is ruled as Claude listed it, and its `[PROPOSED]` or
+  `UNVERIFIED` mark comes off.
+- **R5, ruled differently from the proposal.** The toggle state store is a service that the When
+  owner uses. It records, with PROV, when a feature is released. PROV is read as W3C PROV-O, the
+  provenance ontology. An o16 is a `prov:Activity`, associated with the When owner, using the
+  ready-for-users verdict, generating the toggle's on state, with its time. The branch-file
+  alternative is rejected. Claude's reading of "PROV", `UNVERIFIED — Emil review`.
+- **R4 stays open.** Emil asked for an explanation, which was given in the session. The forecast
+  error band is not ruled.
+- **Rounds 23 to 25** are still not in the record.
+- **Entry.** The rulings enter as Round 21 rules: `DDD-dec-114` and `-115` are amended in place
+  before landing.
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this

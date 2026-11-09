@@ -2,10 +2,10 @@ format: 1
 id: DDD-dec-115
 kind: decision
 statement: |
-  The SDLC is the How owner's arrangement inside the PDLC (DDD-dec-114), from an issue (released by the When owner for new demand, or entering directly for owed and own-ground demand) to production, dark behind a toggle, specified in applications/sdlc/sdlc.md for a product repository that adopts it. It is a new arrangement, not the Product Framework's Delivery: it carries no releases or timeline. Issues are the basis of every session that implements code. A label applied to an issue starts a session in the relevant ecosystem, the issue is the only channel, and its comments steer the session behind it. The landing takes takt's branch shape with Varve's force: ready/<N> replaces land/ and is a ref on the session's own head, with no squash; per-commit trailers stay; the gate (o9) runs once on that SHA; the approval is a holder's "approve <sha>" on the issue; the gates App fast-forwards main; there is no READY_PUSHER PAT. Main deploys to production, dark behind a toggle, and the approval (o10) carries production acceptance. Claude Code Action is the first ecosystem. Varve's identity map (ADR 0087 with its amendments) is ported whole as the product repository's .github/identities.json, with its three gates: DCO, acceptance authority and agent review. Every occurrence is recorded from edition 1 as graph data (address, time index, occupant, cost, verdict), so that the optimisation overview is computed, not argued. Owed demand (the software does not meet the What in force, as classified by the What owner) and own-ground demand (technical debt, the arrangement, the How owner's own ground) enter the SDLC directly, without o2a, ordered by the How owner; the issue declares its kind, and the occurrence record carries it (Round 22). Implementation assurance, how sure we are that the feature is implemented correctly (the mechanical checks at o9, o10's depth, the independence of acceptance), is the How owner's, tuned down until the outcomes move (Rounds 19, 20). The DORA keys (lead time, deploy frequency, change failure rate, time to restore), computed from the occurrence record and production, are the How owner's proof that it is doing its job, its answerability in the sense of upstream core/05 §5 (Round 20). The act map's three axes (surface read, change locus, authority read) are used for now and revisited after the first recorded issues. The spec and the reference workflows live under applications/sdlc/. DDD-dec-108 to DDD-dec-110 govern this repository's own trunk and are not changed by this decision.
+  The SDLC is the How owner's arrangement inside the PDLC (DDD-dec-114), from an issue (released by the When owner for new demand, or entering directly for owed and own-ground demand) to production, dark behind a toggle, specified in applications/sdlc/sdlc.md for a product repository that adopts it. It is a new arrangement, not the Product Framework's Delivery: it carries no releases or timeline. Issues are the basis of every session that implements code. A label applied to an issue starts a session in the relevant ecosystem, the issue is the only channel, and its comments steer the session behind it. The landing takes takt's branch shape with Varve's force: ready/<N> replaces land/ and is a ref on the session's own head, with no squash; per-commit trailers stay; the gate (o9) runs once on that SHA; the approval is a holder's "approve <sha>" on the issue; the gates App fast-forwards main; there is no READY_PUSHER PAT. Main deploys to production, dark behind a toggle, and the approval (o10) carries production acceptance. Claude Code Action is the first ecosystem. Varve's identity map (ADR 0087 with its amendments) is ported whole as the product repository's .github/identities.json, with its three gates: DCO, acceptance authority and agent review. Every occurrence is recorded from edition 1 as graph data (address, time index, occupant, cost, verdict), so that the optimisation overview is computed, not argued. Owed demand (the software does not meet the What in force, as classified by the What owner) and own-ground demand (technical debt, the arrangement, the How owner's own ground) enter the SDLC directly, without o2a, ordered by the How owner; the issue declares its kind, and the occurrence record carries it (Round 22). Implementation assurance, how sure we are that the feature is implemented correctly (the mechanical checks at o9, o10's depth, the independence of acceptance), is the How owner's, tuned down until the outcomes move (Rounds 19, 20). The DORA keys (lead time, deploy frequency, change failure rate, time to restore), computed from the occurrence record and production, are the How owner's proof that it is doing its job, its answerability in the sense of upstream core/05 §5 (Round 20). The act map's three axes (surface read, change locus, authority read) are used for now and revisited after the first recorded issues. The spec and the reference workflows live under applications/sdlc/. DDD-dec-108 to DDD-dec-110 govern this repository's own trunk and are not changed by this decision. Round 28 rules the SDLC specification's proposals as drafted, with one change: the toggle state store is a service the When owner uses, recording with PROV when a feature is released. The issue closes at o13. A delegate session's approval is never an o10.
 principal: Emil
 made: |
-  2026-11-06 and 2026-11-07, Rounds 1, 2, 13, 19, 20 and 22 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation and question dialog and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md, with the request (2026-11-06); Round 14 approved Claude's reading of Round 13; Rounds 19, 20 and 22 were given after the first session's charter was cut and entered by amendment in place before landing (Round 21); Emil's landing of the branch is the ratification act
+  2026-11-06 to 2026-11-09, Rounds 1, 2, 13, 19, 20, 22 and 28 of the conversation that chartered the SDLC and PDLC session, given by Emil in the claude.ai conversation and question dialog and recorded verbatim at meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md, with the request (2026-11-06); Round 14 approved Claude's reading of Round 13; Rounds 19, 20 and 22 were given after the first session's charter was cut and entered by amendment in place before landing (Round 21); Emil's landing of the branch is the ratification act
 resolution: |
   ## The request
 
@@ -159,6 +159,35 @@ resolution: |
   - **Where they come from.** They are computed from the occurrence record and production
     (applications/sdlc/sdlc.md), and cross the How → What and How → When seams.
 
+  ## S-11. The SDLC specification's proposals, ruled (Round 28)
+
+  - **The ruling.** "R5 - must be a service that the when owners uses with PROV for when a
+    feature is released. R4 - Explain it to me. R1-3, R6-10, R10-20, R21-30 - all approved". It
+    answers Claude's list R1 to R30, recorded in rulings.md, Round 28.
+  - **R5, the toggle state store (ruled, not as proposed).**
+    - **A service.** The store is a service the When owner uses to turn toggles on (o16). It is not
+      a file in any branch, so a release never passes through o9 to o12.
+    - **Recorded with PROV.** It records each release with PROV: when a feature was released, by
+      whom, and on what verdict. Claude reads "PROV" as W3C PROV-O (UNVERIFIED — Emil review):
+      - an o16 is a prov:Activity;
+      - it prov:wasAssociatedWith the When owner;
+      - it prov:used the ready-for-users verdict;
+      - it prov:generated the toggle's on state;
+      - its prov:startedAtTime is when the feature was released.
+    - **Refused without a verdict.** The service refuses an o16 that reads no ready verdict
+      (DDD-dec-114 P-4).
+  - **The SDLC's items, each ruled as listed** (applications/sdlc/sdlc.md):
+    - R1: ADR 0239's Delegated-by trailer is ported for commits; a delegate session's approval is
+      never an o10.
+    - R3: the implementation-assurance independence levels, *self* and *independent*.
+    - R6: the issue closes at o13, with delivery recorded against the toggle.
+    - R12: the act map's three causal-index readings.
+    - R21: the identity and authorisation port, §9, with departures D-1 to D-8.
+    - R22: the landing mechanics.
+    - R23: the occurrence record on an append-only orphan branch, sdlc/record, written only by the
+      gates App.
+    - R29: the DORA computations.
+
 basedOn:
   - DDD-dec-114
   - DDD-dec-42
@@ -219,3 +248,12 @@ notes: |
   - S-1's inputs amended.
   - S-8 to S-10 added.
   - No basedOn change: every new basis is DDD-dec-114, already listed.
+
+  Amended in place again on 2026-11-09, before landing (Round 21's rule), by Round 28:
+  - the statement gains a sentence;
+  - S-11 is added;
+  - the made line names Round 28;
+  - the Varve findings above, first flagged UNVERIFIED, are ruled with R21.
+
+  PROV is an external standard, cited in S-11, not listed in basedOn, since it is not a graph
+  node (DDD-dec-111).

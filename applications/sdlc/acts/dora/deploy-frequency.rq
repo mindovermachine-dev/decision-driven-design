@@ -1,5 +1,5 @@
 # Deployment frequency (DORA): successful o13 occurrences in the window, per week. One row per
-# deployment; the reading is count / (window length in weeks). [PROPOSED] (sdlc.md §18).
+# deployment; the reading is count / (window length in weeks). ruled, Round 28, R29 (sdlc.md §18).
 PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
 PREFIX m:  <https://decision-driven-design.dk/ns/lifecycle/map#>
 SELECT ?d ?at WHERE {

@@ -2,7 +2,7 @@
 
     python3 applications/sdlc/acts/check.py
 
-[PROPOSED], unruled (DDD-dec-115 S-6). Needs rdflib and pyshacl. Exit status is non-zero on any
+ruled by Round 28 (R30) (DDD-dec-115 S-6). Needs rdflib and pyshacl. Exit status is non-zero on any
 failure, and a missing tool fails rather than skips. The act map itself, with the option pool and
 the toggles, is checked by applications/pdlc/graph/check.py, which this script reuses.
 

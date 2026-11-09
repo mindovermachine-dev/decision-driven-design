@@ -3,7 +3,7 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 
 #################################################################
-#  The occurrence record's shape. [PROPOSED], unruled (applications/sdlc/sdlc.md §13;
+#  The occurrence record's shape. ruled by Round 28 (R30) (applications/sdlc/sdlc.md §13;
 #  DDD-dec-115 S-6).
 #
 #  One record per occurrence, written by the dispatcher from edition 1. The record carries the

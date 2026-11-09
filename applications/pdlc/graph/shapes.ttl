@@ -3,9 +3,10 @@
 @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 
 #################################################################
-#  lc: shapes — the act map, the option pool, ready for users and toggles. [PROPOSED], unruled.
+#  lc: shapes — the act map, the option pool, ready for users and toggles. ruled by Round 28 (R30).
 #
 #  The validation regime is sdlc edition 1's (DDD-dec-113, E-1), applied to lc:. The data graph
 #  is the graph merged with ontology.ttl, validated with SHACL Core class semantics and
@@ -177,6 +178,8 @@ lc:ToggleOnShape a sh:NodeShape ;
                 sh:message "Turning a toggle on (o16) is the When owner's act (DDD-dec-114 P-4)." ] ;
   sh:property [ sh:path lc:toggle ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Toggle ;
                 sh:message "o16 names the toggle it turns on." ] ;
+  sh:property [ sh:path prov:startedAtTime ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:dateTime ;
+                sh:message "The toggle service records with PROV when a feature is released: an o16 carries prov:startedAtTime (Round 28, R5)." ] ;
   sh:sparql [
     sh:message "Turning on an unready toggle is refused: o16 reads a ready-for-users verdict for the same toggle that found it ready (DDD-dec-114 P-4)." ;
     sh:prefixes lc:shapesPrefixes ;

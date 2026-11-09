@@ -1,15 +1,17 @@
 # The SDLC — from a released issue to production, dark
 
-**Register: `[PROPOSED]`, unruled.** This specification is the exposition of `DDD-dec-115`. It
-has two layers:
+**Register: ruled by Round 28, with R5 ruled as Emil stated it.** This specification is the
+exposition of `DDD-dec-115`. It has two layers:
 - **What the decision files.** The decision files Emil's rulings: the request (2026-11-06),
-  Rounds 1 and 2, Round 13 as ruled by Round 14, and Rounds 19, 20 and 22, which entered by
+  Rounds 1 and 2, Round 13 as ruled by Round 14, and Rounds 19, 20, 22 and 28, which entered by
   amendment before landing (Round 21) (verbatim in
   [`meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md`](../../meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md)).
-- **What this text adds.** The text adds Claude's construction: the step cards, the landing's
-  mechanics, the channel rules, the departures from Varve, the record's shape, the hotspots and
-  the falsifiers. None of it is ruled. Where a sentence states a ruling, the round is named.
-  Everything else is Claude's, `UNVERIFIED — Emil review`.
+- **What Round 28 ruled.** Round 28 ruled Claude's construction, item by item, as listed in
+  `rulings.md` (R1 to R30): the step cards' readings, the landing's mechanics, the identity port
+  and its departures, the record's place, the DORA computations and the falsifiers. Where a
+  sentence states a ruling, the round is named. Prose that no listed item covers is exposition,
+  and the decision governs it. One reading is new and still Claude's: "PROV" read as W3C PROV-O
+  (§7), `UNVERIFIED — Emil review`.
 
 Where this text and `DDD-dec-115` disagree, the decision governs.
 
@@ -114,8 +116,7 @@ o13  deploy, dark              PDLC▸SDLC▸land and run  production · declare
 
 o8 (the squash) and o14 (the release tag) were retired in Round 2, and their ids are not reused.
 
-**Readings from the causal index** (the act map's, not listed in Round 14's approval;
-`UNVERIFIED — Emil review`):
+**Readings from the causal index** (the act map's; ruled, Round 28, R12):
 - **o7 versus o9.** o7 checks a branch head, and o10 approves a different SHA: the candidate's.
   So o7 is the session's feedback and o9 is acceptance evidence. Only o9 is in o10's ground.
 - **o5 has many occurrences.** o5 is one address with many occurrences, told apart by the time
@@ -241,7 +242,7 @@ It is three things, declared per What element or per act as a How decision:
 |---|---|---|
 | **Mechanical checks** | Which checks must hold on the candidate: conformance cases from the Deciders, bound wiring, accessibility, toggle defaults | o9 |
 | **o10's depth** | What the approver must judge beyond o9: the residual decisions the diff touches that nothing verified (§14) | o10 |
-| **Independence** | Whether acceptance must come from someone other than the occupant. Two levels are proposed (`UNVERIFIED — Emil review`): **self**, where a holder of Approve for the locus may accept their own work; **independent**, where the approver is a holder of Approve who is neither the occupant nor a delegate the occupant holds, and o11 refuses otherwise | o10, judged at o11 |
+| **Independence** | Whether acceptance must come from someone other than the occupant. Two levels, ruled (Round 28, R3): **self**, where a holder of Approve for the locus may accept their own work; **independent**, where the approver is a holder of Approve who is neither the occupant nor a delegate the occupant holds, and o11 refuses otherwise | o10, judged at o11 |
 
 It is a How decision, anchored to the What element it governs (how.md: a constraint, anchored),
 or declared on the issue under the How scope. o9 and o11 read it as ground.
@@ -282,7 +283,7 @@ independent acceptance, and the gate did not refuse it.
 - **Precedence.** Round 1's words "squash before approval with trailers kept" are replaced by
   Round 2's "Drop it". Both are recorded, and the later governs (`DDD-dec-115`).
 
-**The mechanics, `[PROPOSED]`:**
+**The mechanics** (ruled, Round 28, R22):
 1. **The session branch** carries the issue number. That is takt's shape: its development
    branches are issue-number branches, named `"[0-9]*"` in takt's `on_dev.yml`. Pushes to it run
    o7.
@@ -344,8 +345,24 @@ acceptance. *Ruled (Round 5):* a change lands dark behind a toggle.
   - **Its state lives outside the trunk.** If it were a commit to main, every turning-on would
     pass through o9 to o12, the How owner's arrangement. The When owner's delivery decision would
     then wait on the SDLC's cadence, and that would cross the seam the wrong way.
-  - **The store.** The proposed store is a toggle state service, or a state file on a branch the
-    trunk does not deploy from, written only by the o16 record. Which of the two is open (O-4).
+  - **The store: a service the When owner uses, recording releases with PROV** (ruled, Round 28,
+    R5: "must be a service that the when owners uses with PROV for when a feature is released").
+    The branch-file alternative is rejected.
+    - **What the service does.** It holds each toggle's on state outside the trunk. The When owner
+      turns a toggle on through it (o16). It refuses an o16 that reads no ready-for-users verdict
+      that found the change ready (`DDD-dec-114` P-4).
+    - **What it records**, with PROV, as Claude reads it (W3C PROV-O, `UNVERIFIED — Emil review`):
+      - the o16 is a `prov:Activity` (`lc:ToggleOn rdfs:subClassOf prov:Activity`);
+      - it is associated with the When owner (`lc:decidedBy`, read as `prov:wasAssociatedWith` on
+        a release);
+      - it used the ready-for-users verdict (`lc:readsVerdict`, a sub-property of `prov:used`);
+      - it generated the toggle's on state;
+      - its `prov:startedAtTime` is **when the feature was released**.
+    - **Enforced in the shapes.** `lc:ToggleOnShape` requires `prov:startedAtTime`, and a plant
+      covers a release with none.
+    - **Who reads the record.** The PDLC: the When owner's delivery history, and the
+      ready-for-users verdict it rests on.
+    - **The SDLC's part.** The SDLC creates and retires toggles. It never writes their on state.
 
 ## 8. The issue as the only channel
 
@@ -389,7 +406,7 @@ authority, agent review), plus the ledger exit").
 
 Varve's identity map (ADR 0087, with its amendments of 2026-10-06, -07 and -08, and ADR 0239's of
 2026-11-06, read at Varve `81fba3d`) is ported whole as the product repository's
-`.github/identities.json`. The whole section is `UNVERIFIED — Emil review`.
+`.github/identities.json`. The whole section is ruled (Round 28, R21).
 
 **The map.**
 - **Humans.** "an id, the name and the emails they commit and sign off with, their GitHub login,
@@ -451,7 +468,7 @@ o11, and escapes at every pulling occurrence its predicate does not cover.
 
 ## 11. Departures from ADR 0087
 
-Each is flagged as a departure, and each is `UNVERIFIED — Emil review`.
+Each is flagged as a departure from ADR 0087. D-1 to D-8 are ruled (Round 28, R21), and so is D-9 (R1).
 
 | # | Departure | Why |
 |---|---|---|
@@ -463,7 +480,7 @@ Each is flagged as a departure, and each is `UNVERIFIED — Emil review`.
 | D-6 | **Whose issue comments are instructions** (§8). Varve's map says nothing about instructions to a session | The request: the issue "should control the developer session behind it" |
 | D-7 | A human's delegates change only on an issue that human framed, approved by that human's own approve <sha> | There are no pull requests, so Varve's "that human's own pull request" has nowhere to live |
 | D-8 | The gates App fast-forwards main. In Varve it is the maintainer's push (ADR 0088) | Round 1 |
-| D-9 | **ADR 0239's delegate, not ported as an approver.** In Varve the maintainer's on-machine delegate (a Claude Code session with his key) posts `approve <sha> (delegate)` under his login, and "No gate can tell the delegate's act from the maintainer's". Round 13 says an agent never holds Approve. **Tension:** porting 0239 whole would let a session approve under a human's login. Proposed: 0239's `Delegated-by` trailer is ported for commits, but a delegate's approval is not an o10 | Round 1 asks for 0087 "in full", and Round 13 forbids agent approval. **Emil to rule** (open item O-5) |
+| D-9 | **ADR 0239's delegate, not ported as an approver.** In Varve the maintainer's on-machine delegate (a Claude Code session with his key) posts `approve <sha> (delegate)` under his login, and "No gate can tell the delegate's act from the maintainer's". Round 13 says an agent never holds Approve. **Tension:** porting 0239 whole would let a session approve under a human's login. Proposed: 0239's `Delegated-by` trailer is ported for commits, but a delegate's approval is not an o10 | Round 1 asks for 0087 "in full", and Round 13 forbids agent approval. **Ruled (Round 28, R1)**: as proposed |
 
 ## 12. The first ecosystem: Claude Code Action
 
@@ -549,7 +566,7 @@ not argued").
 | Verdict | `lc:verdict` | passed · failed · refused · done |
 | Supplied locus (o6 only) | `lc:suppliedLocus` | What · How · code only (`lc:DirectionLocusShape`) |
 
-**Where it is stored, `[PROPOSED]`.**
+**Where it is stored** (ruled, Round 28, R23).
 - **The branch.** An orphan branch `sdlc/record` in the product repository, one Turtle file per
   occurrence at `record/<N>/<act>-<k>.ttl`. It is written only by the dispatcher, with the gates
   App's token.
@@ -629,7 +646,7 @@ computation.
   (`../pdlc/pdlc.md` §14).
 - **The outcomes see escapes.** Falsified by an escape that reaches users and that neither change
   failure rate nor the ready-for-users verdicts record. Then the outcome measures are blind, and
-  Round 20's guard on implementation assurance fails. `[PROPOSED]`, Claude's (Round 20). It
+  Round 20's guard on implementation assurance fails. Claude's (Round 20), ruled by Round 28 (R20). It
   replaces Claude's Round 19 falsifier "implementation assurance falls, and neither measure
   moves", which Emil withdrew.
 - **Owed work needs no When.** Falsified by an implementation bug that needs the When owner's
@@ -732,7 +749,7 @@ is a different interval (`../pdlc/pdlc.md` §1).
 | O-1 | How a second ecosystem is added: the dispatcher's interface to an ecosystem, and what the record needs from each | A successor session, after edition 1 runs |
 | O-2 | **The Copilot relay problem.** takt's Copilot path relies on pull requests ("GitHubs Agentic mode for Copilot relies on PRs both in spec-driven mode and Copilot reviews", takt `pr-to-ready.yml`), and on squashing them into `ready/`. The SDLC has neither, so a Copilot ecosystem would need its pull-request conversation relayed to the issue, or the issue relayed to it | A successor session |
 | O-3 | When the axes are revisited: after the first recorded issues (Round 2) | Emil, on the record |
-| O-4 | The toggle state store (§7) | Emil |
-| O-5 | D-9: ADR 0239's delegate versus "an agent never holds Approve" | **Emil** |
-| O-6 | The implementation-assurance independence levels (§5): two are proposed | Emil |
-| O-7 | Whether the issue closes at o13 (the SDLC's part done) or at o16 (delivered). Proposed: at o13, with delivery recorded against the toggle | Emil |
+| O-4 | **Ruled (Round 28, R5):** the toggle state store is a service the When owner uses, recording releases with PROV (§7) | Closed |
+| O-5 | **Ruled (Round 28, R1):** ADR 0239's `Delegated-by` trailer is ported for commits; a delegate's approval is never an o10 (D-9) | Closed |
+| O-6 | **Ruled (Round 28, R3):** the implementation-assurance independence levels are *self* and *independent* (§5) | Closed |
+| O-7 | **Ruled (Round 28, R6):** the issue closes at o13, with delivery recorded against the toggle | Closed |

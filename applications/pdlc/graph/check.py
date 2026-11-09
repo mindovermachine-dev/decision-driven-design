@@ -2,7 +2,7 @@
 
     python3 applications/pdlc/graph/check.py
 
-[PROPOSED], unruled (DDD-dec-114, DDD-dec-115). Needs rdflib and pyshacl. Exit status is
+ruled by Round 28 (R30) (DDD-dec-114, DDD-dec-115). Needs rdflib and pyshacl. Exit status is
 non-zero on any failure, and a missing tool fails rather than skips.
 
 The validation regime is sdlc edition 1's (DDD-dec-113, E-1): the data graph is the data merged
@@ -38,6 +38,7 @@ PREFIX = """@prefix lc: <https://decision-driven-design.dk/ns/lifecycle#> .
 @prefix m: <https://decision-driven-design.dk/ns/lifecycle/map#> .
 @prefix ex: <https://example.org/acme-shop/pdlc#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
 """
 
 # (name, base, turtle added to the base, a fragment of the sh:message that must catch it)
@@ -55,11 +56,11 @@ PLANTS = [
      "ex:opt5 lc:changesWhatElement <https://example.org/acme-shop/what/01M610JNAMCQ2R6MG31Q07DWMX> .",
      "never a What change"),
     ("toggle turned on without a verdict", "example",
-     "ex:t2 a lc:Toggle . ex:on2 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t2 .",
+     "ex:t2 a lc:Toggle . ex:on2 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t2 ; prov:startedAtTime \"2026-11-08T08:00:00Z\"^^xsd:dateTime .",
      "Turning on an unready toggle is refused"),
     ("toggle turned on with an unready verdict", "example",
      "ex:t3 a lc:Toggle . ex:v3 a lc:ReadyForUsers ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:t3 ; lc:ready false ; lc:userSideShare \"none\" . "
-     "ex:on3 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t3 ; lc:readsVerdict ex:v3 .",
+     "ex:on3 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t3 ; lc:readsVerdict ex:v3 ; prov:startedAtTime \"2026-11-08T08:00:00Z\"^^xsd:dateTime .",
      "Turning on an unready toggle is refused"),
     ("ready-for-users given by the When owner", "example",
      "ex:t4 a lc:Toggle . ex:v4 a lc:ReadyForUsers ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t4 ; lc:ready true ; lc:userSideShare \"none\" .",
@@ -67,6 +68,10 @@ PLANTS = [
     ("toggle turned on by the What owner", "example",
      "ex:on5 a lc:ToggleOn ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:reorder ; lc:readsVerdict ex:ready101 .",
      "is the When owner's act"),
+    ("a release with no PROV time", "example",
+     "ex:t7 a lc:Toggle . ex:v7 a lc:ReadyForUsers ; lc:decidedBy lc:WhatOwner ; lc:toggle ex:t7 ; lc:ready true ; lc:userSideShare \"none\" . "
+     "ex:on7 a lc:ToggleOn ; lc:decidedBy lc:WhenOwner ; lc:toggle ex:t7 ; lc:readsVerdict ex:v7 .",
+     "records with PROV when a feature is released"),
     ("an own-ground item in the option pool", "example",
      "ex:opt9 a lc:Option ; lc:contributor lc:HowOwner ; lc:need \"The How owner cannot deploy without a manual cache purge.\" ; "
      "lc:mattersBy \"2027-06-30\"^^xsd:date ; lc:proposedAt \"2026-10-01\"^^xsd:date ; lc:demandKind lc:OwnGroundDemand .",

@@ -12,13 +12,13 @@
 
 The SDLC is a composite act within the PDLC (`DDD-dec-114`, Rounds 8 and 9).
 
-**Register: `[PROPOSED]`, unruled.** `DDD-dec-114` files the rulings. Everything else in this
-directory is Claude's construction, awaiting Emil's review.
+**Register: ruled by Round 28, except the forecast error band.** `DDD-dec-114` files the rulings.
+Claude's construction in this directory was ruled item by item in Round 28 (R1 to R30, R4 excepted).
 
 | Document | What it is |
 |---|---|
-| **[pdlc](pdlc.md)** · `[PROPOSED]` | The PDLC: the stance (delivery does not decide when), the three owners, the What owner's output (everything the How needs), the two assurances (product and implementation), evidence in use and observation needs, the placement rule, the four loci, priority as a When decision, the three kinds of demand and their sources of pull, the option pool for new demand, ready for users and toggles, the seam to the SDLC, falsifiers and open items |
-| **[graph/](graph/)** · `[PROPOSED]` | `lc:`, the lifecycle vocabulary (`ontology.ttl`); its shapes (`shapes.ttl`); the PDLC's acts on the act map (`acts.ttl`); an illustrative option pool (`example-pool.ttl`); and `check.py`, which validates the whole act map, PDLC and SDLC, with planted defects |
+| **[pdlc](pdlc.md)** · ruled (Round 28; O-4 open) | The PDLC: the stance (delivery does not decide when), the three owners, the What owner's output (everything the How needs), the two assurances (product and implementation), evidence in use and observation needs, the placement rule, the four loci, priority as a When decision, the three kinds of demand and their sources of pull, the option pool for new demand, ready for users and toggles, the seam to the SDLC, falsifiers and open items |
+| **[graph/](graph/)** · ruled (Round 28, R30) | `lc:`, the lifecycle vocabulary (`ontology.ttl`); its shapes (`shapes.ttl`); the PDLC's acts on the act map (`acts.ttl`); an illustrative option pool (`example-pool.ttl`); and `check.py`, which validates the whole act map, PDLC and SDLC, with planted defects |
 
 ## Where things live
 

@@ -1,15 +1,15 @@
 # The PDLC — the product lifecycle
 
-**Register: `[PROPOSED]`, unruled.** This specification is the exposition of `DDD-dec-114`. It
-has two layers:
-- **What the decision files.** The decision files Emil's rulings of 2026-11-06 and 2026-11-07,
-  Rounds 3 to 22 (verbatim in
+**Register: ruled by Round 28, except the forecast error band (§15, O-4).** This specification
+is the exposition of `DDD-dec-114`. It has two layers:
+- **What the decision files.** The decision files Emil's rulings of 2026-11-06 to 2026-11-09:
+  Rounds 3 to 22, 27 and 28 (verbatim in
   [`meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md`](../../meta/sessions/2026-11-07-sdlc-and-pdlc/rulings.md)).
-  Rounds 16 to 22 entered by amendment before landing (Round 21).
-- **What this text adds.** The text adds Claude's construction: the tables, the shapes, the
-  metrics, the checks, the proposed What elements and the falsifiers. None of it is ruled. Where
-  a sentence states a ruling, the round is named. Everything else is Claude's, `UNVERIFIED — Emil
-  review`.
+  Rounds 16 to 28 entered by amendment before landing (Round 21).
+- **What Round 28 ruled.** Round 28 ruled Claude's construction, item by item, as listed there
+  (R1 to R30, R4 excepted): the tables, the shapes, the metrics, the checks, the forms of the two
+  proposed What elements and the falsifiers. Where a sentence states a ruling, the round is
+  named. Prose that no listed item covers is exposition, and the decision governs it.
 
 Where this text and `DDD-dec-114` disagree, the decision governs, and the text is wrong.
 
@@ -66,7 +66,7 @@ constraints allow. The cadence that results is the forecast everyone else plans 
   [`production-as-ground.md`](../sdlc/production-as-ground.md) §2 reads them. They are the How
   owner's answerability (Round 20; [`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18).
 
-**The computation, `[PROPOSED]`.**
+**The computation** (ruled, Round 28, R27).
 - **Inputs.** Throughput λ is new-demand changes reaching o13 per week, over the last N weeks.
   **Flow time** F runs from o2b to o13 for new demand, from the record (ruled, Round 27). It is
   based on the Kanban cycle time. The Kanban Guide (v2025.5) defines cycle time as "The elapsed
@@ -135,7 +135,7 @@ of another owner's act. Rows 1 to 8 are Round 14's table, not ruled. The telemet
 | From → To | Ground supplied | Produced by | Read by | Check |
 |---|---|---|---|---|
 | When → What | A pulled option (a need) | o2a (When) | o1 (dependency "the pulled option") | **Holds** |
-| When → What | A scope-cut proposal | **No act** | The What owner's What-locus o1 | **Gap.** No act on the map produces it. It cannot be an option, because an option is never a What change (Round 11). Open item O-3 |
+| When → What | A scope-cut proposal | **oS**, propose a scope or assurance cut (When; Round 28, R7) | o1 (`lc:readsEarlier m:oS`) | **Holds, since Round 28.** It was a gap: no act produced it. Not an option, because an option is never a What change, and not a What decision, because the When owner proposes and the What owner decides |
 | What → When | Each element's outcome and acceptance | Earlier o1s (What) | o2a (`lc:readsEarlier m:o1`) | **Holds** (fixed in the first session) |
 | What → When | The ready-for-users verdict | oR (What) | o16 (dependency) | **Holds** |
 | What → How | The What, the product assurance | o1 (What and assurance loci) | o1b (dependency, new demand), and the How owner's implementation-assurance decisions | **Holds** |
@@ -176,8 +176,8 @@ reads each part against `what.md` at `1ab1de0`.
 | §3.7 Subjects and authorization | Subject kinds and their claims: who may act in the product | The authorization to implement, separate from authority over the product |
 | §4.1 Declared targets | Platform contexts, interaction classes, design-system and content-store editions | The targets the How realises against |
 | §4.2 Obligations | Reification exists, reification coverage, content coverage | The pairs that must be covered or declared missing |
-| **Observation need** `[PROPOSED]` (§5) | Where in the product the evidence of use comes from, what data is needed, and which acceptance or outcome it evidences (Round 17) | The telemetry to add, as a declared requirement, with its presence checked before ready-for-users |
-| **Product-assurance declaration** `[PROPOSED]` (§4) | How sure we must be that users perform the designed act, located and inherited downward (Rounds 18, 19) | The level of evidence the observation needs must reach, and the user-side share the What owner adds. Not the How's checks: those are implementation assurance (Round 19) |
+| **Observation need** (form ruled, Round 28; not yet in the What schema) (§5) | Where in the product the evidence of use comes from, what data is needed, and which acceptance or outcome it evidences (Round 17) | The telemetry to add, as a declared requirement, with its presence checked before ready-for-users |
+| **Product-assurance declaration** (form ruled, Round 28; not yet in the What schema) (§4) | How sure we must be that users perform the designed act, located and inherited downward (Rounds 18, 19) | The level of evidence the observation needs must reach, and the user-side share the What owner adds. Not the How's checks: those are implementation assurance (Round 19) |
 
 **The meter.** *Ruled (Round 18):* "Yes (Recommended)". The What-locus share of o6 directions is
 the PDLC's meter of whether the What gave the How everything it needed. Every o6 occurrence
@@ -202,18 +202,17 @@ are two, on two acts.
 | **Met by** | The software, and the user-side share: training, guidance, procedure (Round 7) | Mechanical checks (o9), o10's depth, independence of acceptance (Round 13) |
 | **Evidenced by** | Observation needs and evidence in use (Rounds 16, 17) | The gates' verdicts, then change failure rate and the ready-for-users verdicts |
 | **Judged at** | oR, ready for users | o9 to o11, and afterwards by the outcomes |
-| **Declared in** | The What, as a product-assurance declaration `[PROPOSED]` | A How decision, per What element or per act ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §5) |
+| **Declared in** | The What, as a product-assurance declaration (form ruled, Round 28; not yet in the What schema) | A How decision, per What element or per act ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §5) |
 
 **Product assurance decides two things:** which observation needs the What must carry, and how
 much user-side share is required. A high level needs strong evidence that users perform the act,
 and may need training as well as software. The ready-for-users verdict judges whether both are
 there.
 
-**The product-assurance declaration, `[PROPOSED]`.** A What element, located like a §3.6 demand:
+**The product-assurance declaration** (form ruled, Round 28; not yet in the What schema). A What element, located like a §3.6 demand:
 within the product, a system, a flow, a step, a Decider or a Projector. It is inherited downward,
 so an element without its own declaration takes its nearest ancestor's. It states how sure we must
-be that users perform the designed act. Two levels are proposed as a start, `UNVERIFIED — Emil
-review`:
+be that users perform the designed act. Two levels, ruled (Round 28, R2):
 - **observed**: the act's completion is observed in use;
 - **evidenced**: the act's completion is observed, and the acceptance it serves is evidenced by
   an outcome measure.
@@ -230,7 +229,7 @@ giving any value."
   tuning implementation assurance down until the outcomes move.
 - **A withdrawn falsifier.** In Round 19, Claude proposed the falsifier "implementation assurance
   falls, and neither measure moves". Emil ruled it wrong in Round 20, and it is withdrawn. Its
-  replacement, also Claude's and `[PROPOSED]`, is §14, falsifier 4.
+  replacement, Claude's, ruled by Round 28 (R20), is §14, falsifier 4.
 
 ## 5. Evidence in use and observation needs
 
@@ -247,7 +246,7 @@ step 10, `[PROPOSED]`). Without the Round 16 row, nothing brought the product in
 
 **Observation needs.** *Ruled (Round 17):* "what people needs to add their observability needs to
 the specification so its clear where in the product they get their data and what data they
-need". The form below is Claude's proposal, `[PROPOSED]`:
+need". The form below is Claude's proposal, ruled by Round 28 (R24):
 - **A located What element.** An observation need is located like a §3.6 demand: the product, a
   system, a flow, a step, a Decider or a Projector.
 - **What it declares.** The data needed, and the acceptance or outcome it evidences.
@@ -262,7 +261,7 @@ need". The form below is Claude's proposal, `[PROPOSED]`:
 - **Its own decision.** Adding it changes the What's schema (`ontology.ttl`, `shapes.ttl`), which
   goes by its own decision (successor items).
 
-**The capability pin and the guard** (Round 16, Claude's reading, `[PROPOSED]`).
+**The capability pin and the guard** (Round 16; Claude's reading, ruled by Round 28, R26).
 - **The pin.** "A How owner that understands digital product development" is, in canon terms,
   pinning by classification: an occupant selected for a capability envelope (`core/04`,
   `term:capability`). It is the loosest pin, and the costliest to rely on alone.
@@ -313,7 +312,7 @@ The When owner judges importance by when a feature will have the best market imp
 the What owner, it is the meter (§3) and the ready-for-users verdicts against what users then do
 (§5). For the When owner, it is the option metrics (§10) and the market outcome of its order.
 
-**Mapped to method step 7, `[PROPOSED]`.** Step 7's one filed line reads: "Attribution,
+**Mapped to method step 7** (ruled, Round 28, R28; the step itself is still `[PROPOSED]` in `method/`). Step 7's one filed line reads: "Attribution,
 principal, authority, stake, remediation per allocation." For each row of the table:
 - **Attribution.** The act's record, signed under the owner's scope (authority.md §4.1).
 - **Principal.** The scope's holder.
@@ -352,8 +351,8 @@ causal time index (`DDD-address-01`).
 - **Chosen order** is the When owner's decision for new demand, recorded at o2a as the rank, and
   the How owner's for owed and own-ground demand (Round 22).
 
-The coordinate **task** is not a locus value. Claude reads it, `UNVERIFIED — Emil review`, as
-what the issue itself names.
+The coordinate **task** is not a locus value: it is what the issue itself names, so a new task is
+a new option (ruled, Round 28, R13).
 
 ## 8. Priority is a When decision
 
@@ -472,7 +471,7 @@ An owed fix restores behaviour the What already promised. It is usually not behi
 and needs no o16. Its o13 records which earlier deployment it restores (`lc:restores`), which feeds
 change failure rate and time to restore ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18).
 
-**Falsifiers** (Round 22, proposed with the adopted kinds; `[PROPOSED]`):
+**Falsifiers** (Round 22, proposed with the adopted kinds; ruled, Round 28, R19):
 - an item that cannot be classified as new, owed or own-ground;
 - an implementation bug that needs the When owner's ordering to get fixed.
 
@@ -545,7 +544,8 @@ declined option now, and the two decline plants still exercise that shape.
 The act map is the form of method step 1. It is graph data in [`graph/acts.ttl`](graph/acts.ttl),
 with the SDLC's acts in [`../sdlc/acts/acts.ttl`](../sdlc/acts/acts.ttl): one map, validated
 together.
-- **The PDLC's acts:** o0, o2a, o1, oC, oR, o16, oU.
+- **The PDLC's acts:** o0, o2a, oS (propose a scope or assurance cut, Round 28), o1, oC, oR, o16,
+  oU.
 - **On the SDLC side:** oG, own-ground framing, is the How owner's entry point.
 - **Kind-scoped dependencies.** o1b depends on o1 (new), oC (owed) or oG (own-ground), by
   `lc:forKind`. o2b reads o2a for new demand only.
@@ -606,7 +606,7 @@ manufactures seam demand S. Paying it down is one-time specification work:
 3. **Forecast error out of band.** Forecast error beyond a band Emil sets (O-4).
 4. **Blind outcome measures.** An escape reaches users that neither change failure rate nor the
    ready-for-users verdicts record. Then the outcome measures are blind, and the guard on
-   implementation assurance fails. `[PROPOSED]`, Claude's (Round 20). It replaces "the How owner
+   implementation assurance fails. Claude's (Round 20), ruled by Round 28 (R20). It replaces "the How owner
    can shorten lead time by lowering assurance", which Round 19's split made wrong: the How owner
    may lower implementation assurance, and is guarded by outcomes.
 5. **Users reached before o16.** A landed change reaches users before o16.
@@ -634,12 +634,12 @@ leaving with no record) are part of this list.
 
 | # | Item | Closes it |
 |---|---|---|
-| O-1 | Whether `applications/sdlc/` should one day nest under `applications/pdlc/`. That would be a supersession of `DDD-dec-42`'s placement | Emil |
-| O-2 | How `applications/organizations/` relates. `DDD-org-03` ("priority as a governed decision") orders backlogs by decisions based on statused value-claims. Under §8 and §9 those are When decisions over new demand only | Emil |
-| O-3 | The scope-cut proposal has no act on the map (§2.1) | Emil |
-| O-4 | The forecast error band (§14, falsifier 3) | Emil |
-| O-5 | F-2: o2a before o1 | Emil |
+| O-1 | **Ruled (Round 28, R9):** `applications/sdlc/` is not nested under `applications/pdlc/`, and `DDD-dec-42`'s placement stands | Closed |
+| O-2 | **Ruled (Round 28, R10):** `DDD-org-03`'s governed priority is When decisions over new demand only | Closed |
+| O-3 | **Ruled (Round 28, R7):** the scope-cut proposal is act oS, held by the When owner and read at o1 (§2.1) | Closed |
+| O-4 | **The forecast error band** (§14, falsifier 3). Not ruled: Emil asked for it to be explained (Round 28) | **Emil** |
+| O-5 | **Ruled (Round 28, R8):** o2a comes before o1, F-2 as drawn | Closed |
 | O-6 | Record kinds for the When owner's acts (o2a, o16, an option's exit) and for the classification (oC) in the authority profile | A successor session |
-| O-7 | The product-assurance levels (§4): two are proposed | Emil |
-| O-8 | The observation need and the product-assurance declaration as What elements: the What schema, by their own decisions (successor items) | Emil, then a successor session |
+| O-7 | **Ruled (Round 28, R2):** the product-assurance levels are *observed* and *evidenced* (§4) | Closed |
+| O-8 | The observation need and the product-assurance declaration as What elements. Their **form** is ruled (Round 28, R24, R25). The What schema change goes by its own decisions (successor items W-1 to W-3) | A successor session |
 | O-9 | **The name "flow time" — ruled (Round 27).** Approved as described: the forecast's interval, o2b to o13, for new demand, kept apart from DORA's change lead time, o4 to o13 ([`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18). It is based on the Kanban cycle time (`DDD-dec-114` P-14). Raised by Round 26 | **Closed** (Round 27) |
