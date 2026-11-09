@@ -84,3 +84,15 @@ Add-only. The steps above are unchanged.
 - **Landing ratifies `DDD-dec-114` and `-115` as amended through Round 29.**
 - **What stays open:** the forecast's numbers (`pdlc.md` O-4: the percentiles, the calibration
   threshold, the sample) and the reading of "PROV" as W3C PROV-O (`sdlc.md` §7).
+
+## After Round 30, 2026-11-09
+
+Add-only. The steps above are unchanged.
+
+- **Round 30** (traceability for the release act; O-4's numbers ruled) is at
+  `015a365ac2271d7e3a0e955337d8749258d33a6a`, green on CI.
+- **The head to approve and land** is this file's commit, the branch's last. It changes only this
+  file and `predictions.md`. Its full SHA is in the closing report to Emil.
+- **Landing ratifies `DDD-dec-114` and `-115` as amended through Round 30.** No item in either spec
+  waits on Emil. What remains is successor work: the reference implementation (N-1 to N-9) and the
+  What schema and editorial items (W-1 to W-8).

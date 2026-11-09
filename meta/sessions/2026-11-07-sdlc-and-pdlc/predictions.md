@@ -420,3 +420,8 @@ definitions. The checker's closure step failed, naming them (`lc:toggle`, `lc:re
 `lc:readsVerdict`, `lc:userSideShare`). They were restored from `HEAD`, and the diff against
 `HEAD` shows only the intended changes. The new release-without-verdict requirement is covered by
 the existing "toggle turned on without a verdict" plant, so the plant count did not move.
+
+## P-19 — CI on Round 30's head
+
+Prediction: green on `015a365`. **Outcome.** Completed, success. The next commit changes only
+`landing.md` and this file. CI is predicted green on it too.
