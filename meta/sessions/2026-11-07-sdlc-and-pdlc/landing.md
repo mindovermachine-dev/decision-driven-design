@@ -71,3 +71,16 @@ Add-only. The steps above are unchanged.
   file and `predictions.md`. Its full SHA is in the closing report to Emil.
 - **Landing ratifies `DDD-dec-114` and `-115`** as amended through Round 27. The specs stay
   `[PROPOSED]`, with their remaining open items unruled.
+
+## After Rounds 28 and 29, 2026-11-09
+
+Add-only. The steps above are unchanged.
+
+- **Round 28** (the specs' proposals ruled; R5's toggle service with PROV) is at `f391e06`, green
+  (run 42591798992).
+- **Round 29** (probabilistic forecasting) is at `6b4e5e26815f36b7971cca48bafd894fa040da5a`, green.
+- **The head to approve and land** is this file's commit, the branch's last. It changes only this
+  file and `predictions.md`. Its full SHA is in the closing report to Emil.
+- **Landing ratifies `DDD-dec-114` and `-115` as amended through Round 29.**
+- **What stays open:** the forecast's numbers (`pdlc.md` O-4: the percentiles, the calibration
+  threshold, the sample) and the reading of "PROV" as W3C PROV-O (`sdlc.md` §7).

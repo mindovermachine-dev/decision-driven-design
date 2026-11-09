@@ -370,3 +370,8 @@ gate is red.
   **equal** to the exact percentiles, inside the ±2 band. Spread 18.
 - The forecast conforms. PDLC: closure ok, **21 of 21** plants. SDLC: 11.
 - 93 decisions valid; pins 81, 0, 0, 1 shadowed; "all gates passed", exit 0.
+
+## P-17 — CI on Round 29's head
+
+Prediction: green on `6b4e5e2`. **Outcome.** Completed, success. The next commit changes only
+`landing.md` and this file. CI is predicted green on it too.
