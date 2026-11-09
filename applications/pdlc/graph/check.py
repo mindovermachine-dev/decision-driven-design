@@ -15,7 +15,10 @@ What it checks:
                one map, conform;
   3. example   the illustrative pool and delivery (example-pool.ttl) conform;
   4. plants    each planted defect is caught by the shape that names its rule, and the unplanted
-               data has no such result.
+               data has no such result;
+  5. forecast  a probabilistic forecast (Round 29) for rank 2, from the daily new-demand throughput
+               in the SDLC's example record, lands within 2 days of the exact negative-binomial
+               percentiles and conforms to lc:ForecastShape; two forecast plants are caught.
 """
 import os, sys
 
@@ -145,6 +148,71 @@ def closure():
     return missing, unsourced
 
 
+RECORD = os.path.join(ROOT, "applications", "sdlc", "acts", "example-record.ttl")
+FC_WINDOW = ("2026-11-02", "2026-11-09")
+FC_RANK = 2
+
+
+def exact_percentile(p_day, rank, q):
+    """Smallest n with P(rank successes within n days) >= q, for 0/1 daily throughput."""
+    from math import comb
+    n = rank
+    while True:
+        cdf = 1 - sum(comb(n, j) * p_day ** j * (1 - p_day) ** (n - j) for j in range(rank))
+        if cdf >= q:
+            return n
+        n += 1
+
+
+def forecast_graph(f, extra=""):
+    t = (f"[] a lc:Forecast ; lc:rank {f['rank']} ; lc:best {f['best']} ; lc:median {f['median']} ; "
+         f"lc:worst {f['worst']} ; lc:bestPercentile {f['bestPercentile']} ; "
+         f"lc:worstPercentile {f['worstPercentile']} ; lc:spread {f['spread']} ; lc:trials {f['trials']} ; "
+         f"lc:sampleDays {f['sampleDays']} ; lc:seed {f['seed']} {extra}.")
+    return Graph().parse(data=PREFIX + t, format="turtle")
+
+
+def check_forecast():
+    from datetime import date
+    sys.path.insert(0, HERE)
+    from forecast import daily_throughput, forecast
+    fails = 0
+    record = load(MAP + [RECORD])
+    samples = daily_throughput(record, *(date.fromisoformat(d) for d in FC_WINDOW))
+    f = forecast(samples, FC_RANK)
+    print(f"ok    forecast sample: {samples} (new-demand landings per day)")
+    if set(samples) <= {0, 1}:
+        p_day = sum(samples) / len(samples)
+        exact = [exact_percentile(p_day, FC_RANK, q / 100) for q in (f["bestPercentile"], 50, f["worstPercentile"])]
+        got = [f["best"], f["median"], f["worst"]]
+        if all(abs(g - e) <= 2 for g, e in zip(got, exact)):
+            print(f"ok    forecast rank {FC_RANK}: best {got[0]}, median {got[1]}, worst {got[2]} days "
+                  f"(exact {exact[0]}, {exact[1]}, {exact[2]}); spread {f['spread']}")
+        else:
+            fails += 1
+            print(f"FAIL  forecast {got} not within 2 days of exact {exact}")
+    else:
+        fails += 1
+        print("FAIL  forecast sample is not 0/1; the exact check does not apply")
+    conforms, text = run(forecast_graph(f))
+    if conforms:
+        print("ok    forecast conforms to lc:ForecastShape")
+    else:
+        fails += 1
+        print(f"FAIL  forecast does not conform\n{text}")
+    for name, g, fragment in [
+        ("a forecast whose median is later than its worst", forecast_graph(dict(f, median=f["worst"] + 1)), "no later than its median"),
+        ("a forecast with too few trials", forecast_graph(dict(f, trials=500)), "at least 1000 Monte Carlo trials"),
+    ]:
+        ok, text = run(g)
+        if not ok and fragment in text:
+            print(f"ok    plant caught: {name}")
+        else:
+            fails += 1
+            print(f"FAIL  plant not caught: {name}")
+    return fails
+
+
 def main():
     fails = 0
     missing, unsourced = closure()
@@ -175,6 +243,7 @@ def main():
             fails += 1
             print(f"FAIL  plant not caught: {name} (expected a result naming {fragment!r})")
 
+    fails += check_forecast()
     print("\nall checks passed" if not fails else f"\n{fails} check(s) failed")
     sys.exit(1 if fails else 0)
 

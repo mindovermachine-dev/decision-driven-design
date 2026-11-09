@@ -738,6 +738,13 @@ computes all four over the illustrative record. Each equals the value worked by 
 failure rate 0.5, time to restore 21600 s. Every reading conforms. The numbers are invented, and
 show the computation only.
 
+**Beside the four keys: the forecast's spread** (Round 29). The PDLC forecasts new demand
+probabilistically, by Monte Carlo over the record's daily new-demand throughput (`../pdlc/pdlc.md`
+§1). Its spread, worst minus best for an issue at a given rank, narrows as the How's throughput
+steadies: "the better the how performs the smaller the different between worst and best will be".
+So the spread is part of the How owner's answerability too, read across the How → When seam. It is
+computed by `../pdlc/graph/forecast.py`, never authored.
+
 **Which occurrences feed each key:** o4 and o13 (lead time); o13 (frequency); o13 with
 `lc:restores` (failure rate, time to restore). The flow time (ruled, Round 27: based on the Kanban cycle time; `../pdlc/pdlc.md` §1, `DDD-dec-114` P-14) the PDLC's forecast uses, o2b to o13,
 is a different interval (`../pdlc/pdlc.md` §1).

@@ -265,3 +265,20 @@ lc:windowEnd a owl:DatatypeProperty ; rdfs:comment "End of the reading's window.
 lc:value a owl:DatatypeProperty ; rdfs:comment "The reading's value, in its unit." ; dct:source "DDD-dec-115 S-10" .
 lc:unit a owl:DatatypeProperty ; rdfs:comment "The value's unit: seconds, per week, or ratio." ; dct:source "DDD-dec-115 S-10" .
 lc:fromOccurrences a owl:DatatypeProperty ; rdfs:comment "How many occurrences the reading was computed over." ; dct:source "DDD-dec-115 S-10" .
+
+#########################  THE FORECAST — Round 29  #########################
+
+lc:Forecast a owl:Class ;
+  rdfs:comment "A probabilistic forecast for an issue at a rank in the When owner's order: a best, a median and a worst, from a Monte Carlo simulation over the recorded daily throughput of new demand. Computed, never authored (Round 29)." ;
+  dct:source "DDD-dec-114 P-16; Round 29" .
+lc:best a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the best percentile." ; dct:source "Round 29" .
+lc:median a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the 50th percentile." ; dct:source "Round 29" .
+lc:worst a owl:DatatypeProperty ; rdfs:comment "Days until the issue lands, at the worst percentile." ; dct:source "Round 29" .
+lc:bestPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as best (15 proposed; open, O-4)." ; dct:source "Round 29; pdlc.md §15 O-4" .
+lc:worstPercentile a owl:DatatypeProperty ; rdfs:comment "The percentile read as worst (85 proposed; open, O-4)." ; dct:source "Round 29; pdlc.md §15 O-4" .
+lc:spread a owl:DatatypeProperty ;
+  rdfs:comment "Worst minus best, in days. The How owner's measure: the better the How performs, the smaller it is (Round 29)." ;
+  dct:source "Round 29; DDD-dec-115 S-10" .
+lc:trials a owl:DatatypeProperty ; rdfs:comment "The number of Monte Carlo trials." ; dct:source "Round 29" .
+lc:sampleDays a owl:DatatypeProperty ; rdfs:comment "How many recorded days of throughput the simulation sampled from." ; dct:source "Round 29" .
+lc:seed a owl:DatatypeProperty ; rdfs:comment "The simulation's random seed, so a forecast can be recomputed exactly from the record." ; dct:source "Round 29; DDD-dec-52" .

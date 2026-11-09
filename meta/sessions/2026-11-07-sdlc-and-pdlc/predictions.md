@@ -328,3 +328,45 @@ mapping is stated for releases in `lc:ToggleOn`'s comment instead.
   data, not a ruling".
 - Three stale section references in graph headers were corrected (`pdlc.md` §9 to §11, §8 to §10;
   `sdlc.md` §4 to §3).
+
+## Round 29 (2026-11-09)
+
+Not predicted: the arrival read (the branch at `f391e06`, green, run 42591798992) and an
+analytic computation done to set this prediction. Neither changed anything.
+
+## P-16 — probabilistic forecasting (Round 29)
+
+Planned edits:
+- `DDD-dec-114`: the statement's forecast sentence and P-14's sketch become probabilistic
+  forecasting. P-16 is added. The made line names Round 29.
+- `pdlc.md` §1: the forecast section. §14 falsifier 3 becomes calibration plus the spread. O-4 is
+  reworded: the percentiles, threshold and sample stay open.
+- `sdlc.md` §18: the spread joins the How owner's answerability.
+- Graph data:
+  - `lc:Forecast` and its shape: rank, best, median, worst in days, their percentiles, trials, the
+    sample days, and a spread equal to worst minus best;
+  - `applications/pdlc/graph/forecast.py`: a seeded Monte Carlo over the daily new-demand
+    throughput read from the SDLC's example record;
+  - the PDLC checker computes a forecast for rank 2 and validates it;
+  - two plants (median later than worst; fewer than 1000 trials).
+
+Prediction:
+- **The sample.** The example record's window, 2026-11-02 to 2026-11-09, has 7 days and one
+  new-demand landing (#101's o13 on 2026-11-05). #103 is owed and does not count. So the daily
+  throughput is [0, 0, 0, 1, 0, 0, 0], p = 1/7.
+- **The values.** For rank 2, the days until two landings follow a negative binomial. Its exact
+  15th, 50th and 85th percentiles are **5, 12 and 23 days**, computed before the simulation ran.
+  The Monte Carlo (10,000 trials, seeded) comes out within ±2 days of each. Spread ≈ 18.
+- **The checker** asserts that band against the analytic values.
+- **Counts:** PDLC closure ok, **21 of 21** plants; SDLC unchanged at 11; 93 decisions valid; pins
+  81, 0, 0, 1 shadowed; "all gates passed".
+
+Falsifier: the simulation lands outside ±2 days of the analytic percentiles, a count differs, or a
+gate is red.
+
+**Outcome.** As predicted, and more exactly than predicted.
+- The sample is [0, 0, 0, 1, 0, 0, 0].
+- The Monte Carlo (10,000 trials, seed 2026) gives best 5, median 12 and worst 23 days for rank 2:
+  **equal** to the exact percentiles, inside the ±2 band. Spread 18.
+- The forecast conforms. PDLC: closure ok, **21 of 21** plants. SDLC: 11.
+- 93 decisions valid; pins 81, 0, 0, 1 shadowed; "all gates passed", exit 0.

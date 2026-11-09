@@ -613,6 +613,36 @@ Emil, verbatim:
 - **Entry.** The rulings enter as Round 21 rules: `DDD-dec-114` and `-115` are amended in place
   before landing.
 
+## Round 29, verbatim (2026-11-09)
+
+After Claude explained R4 (the forecast error band), Emil, in two messages:
+
+> "the cadence is the forecast everyone else plans against". - is meant that we produce a
+> certainty and that certiainty will them generate a best worst and median that the when owner
+> can then use for their planning. We can only ever estimate and the better the how performs the
+> smaller the different between worst and best will be
+
+Claude restated it, proposed what it changes, and asked for percentiles and a calibration
+threshold. Emil:
+
+> we should use probalistic forecastin for this
+
+**How it governs.**
+- **The forecast is probabilistic.** It is a distribution with a best, a median and a worst. The
+  When owner plans with all three. "We can only ever estimate."
+- **The method** is probabilistic forecasting: Monte Carlo simulation over the recorded throughput
+  of new demand, the Kanban practice that cycle time (Round 27) belongs to. It replaces R27's
+  sketch, "now + k/λ + median(flow time)", which Round 28 approved. Round 29 is the later round.
+- **The spread is the How owner's.** "The better the how performs the smaller the different
+  between worst and best will be." So the spread (worst minus best) is a measure of the How owner,
+  beside the DORA keys, read across the How → When seam.
+- **R4 becomes a calibration test.** Do landings fall between best and worst about as often as the
+  percentiles say?
+- **Still open in O-4:** which percentiles are best and worst, the calibration threshold, and the
+  sample size. Emil gave the method, not the numbers. Claude proposes the 15th, 50th and 85th
+  percentiles as best, median and worst, `UNVERIFIED — Emil review`.
+- **Entry.** Round 29 enters by amendment before landing (Round 21's rule).
+
 ## Claude's readings, as ruled by Round 14
 
 Round 14 (Emil, 2026-11-07): "All your readings are approved." The prompt records that this

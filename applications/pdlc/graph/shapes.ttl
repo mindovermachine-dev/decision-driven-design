@@ -211,3 +211,37 @@ lc:ClassificationShape a sh:NodeShape ;
                 sh:message "A classification names the report it judges." ] ;
   sh:property [ sh:path lc:decidedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:date ;
                 sh:message "A classification records when it was decided." ] .
+
+#########################  THE FORECAST — Round 29  #########################
+
+lc:ForecastShape a sh:NodeShape ;
+  sh:targetClass lc:Forecast ;
+  sh:property [ sh:path lc:rank ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ;
+                sh:message "A forecast names the rank in the When owner's order it forecasts." ] ;
+  sh:property [ sh:path lc:best ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "A forecast states a best, in days (Round 29)." ] ;
+  sh:property [ sh:path lc:median ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "A forecast states a median, in days (Round 29)." ] ;
+  sh:property [ sh:path lc:worst ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 0 ;
+                sh:message "A forecast states a worst, in days (Round 29)." ] ;
+  sh:property [ sh:path lc:bestPercentile ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A forecast states which percentile is its best." ] ;
+  sh:property [ sh:path lc:worstPercentile ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A forecast states which percentile is its worst." ] ;
+  sh:property [ sh:path lc:spread ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A forecast states its spread, worst minus best: the How owner's measure (Round 29)." ] ;
+  sh:property [ sh:path lc:trials ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1000 ;
+                sh:message "A probabilistic forecast runs at least 1000 Monte Carlo trials." ] ;
+  sh:property [ sh:path lc:sampleDays ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ; sh:minInclusive 1 ;
+                sh:message "A forecast says how many recorded days it sampled, so a forecast over nothing is visible." ] ;
+  sh:property [ sh:path lc:seed ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:integer ;
+                sh:message "A forecast records its seed, so it can be recomputed exactly from the record." ] ;
+  sh:sparql [
+    sh:message "A forecast's best is no later than its median, and its median no later than its worst; its spread is worst minus best (Round 29)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:best ?b ; lc:median ?m ; lc:worst ?w ; lc:spread ?s .
+        FILTER ( ?b > ?m || ?m > ?w || ?s != ?w - ?b )
+      }""" ] .
+

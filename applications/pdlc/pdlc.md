@@ -66,8 +66,14 @@ constraints allow. The cadence that results is the forecast everyone else plans 
   [`production-as-ground.md`](../sdlc/production-as-ground.md) §2 reads them. They are the How
   owner's answerability (Round 20; [`../sdlc/sdlc.md`](../sdlc/sdlc.md) §18).
 
-**The computation** (ruled, Round 28, R27).
-- **Inputs.** Throughput λ is new-demand changes reaching o13 per week, over the last N weeks.
+**The computation: probabilistic forecasting** (ruled, Round 29; it replaces R27's sketch).
+
+*Ruled (Round 29):* "we produce a certainty and that certiainty will them generate a best worst
+and median that the when owner can then use for their planning. We can only ever estimate and the
+better the how performs the smaller the different between worst and best will be" … "we should use
+probalistic forecastin for this".
+- **Inputs.** The daily throughput of new demand: o13 occurrences with `lc:demandKind lc:NewDemand`,
+  counted per day, over a recorded window. Flow time is also read from the record.
   **Flow time** F runs from o2b to o13 for new demand, from the record (ruled, Round 27). It is
   based on the Kanban cycle time. The Kanban Guide (v2025.5) defines cycle time as "The elapsed
   time between when a work item started and when a work item finished", and lets a team call it
@@ -79,13 +85,31 @@ constraints allow. The cadence that results is the forecast everyone else plans 
 
   F is not DORA's lead time,
   which starts at the first commit.
-- **The estimate.** An issue at rank k, not yet allocated, has an expected landing date of about
-  now + k/λ + median(F). A forecast is a distribution: resample λ and F from the record.
+- **The forecast.** An issue at rank k, not yet started, is forecast by Monte Carlo simulation.
+  - Each of many trials (at least 1000) draws a day's throughput at random from the recorded
+    days, again and again, until k items have landed.
+  - The days drawn are that trial's result.
+  - **Best, median and worst** are percentiles of the results: the 15th, 50th and 85th are
+    proposed (O-4).
+
+  The When owner plans with all three. The method is the same every time, over the same record
+  and seed, so the certainty is in the method. The dates stay estimates.
+- **An issue already started** is forecast from flow time instead: the percentiles of recorded
+  flow times longer than its current age (Kanban's work item age).
+- **The spread.** Worst minus best is the How owner's measure. The steadier the How's throughput
+  and flow time, the narrower the spread for the same rank (Round 29). It sits beside the DORA
+  keys as the How owner's answerability, read across the How → When seam.
+- **Encoded.** In [`graph/forecast.py`](graph/forecast.py), with the shape `lc:ForecastShape`.
+  `graph/check.py` forecasts rank 2 over the SDLC's example record. That record has one
+  new-demand landing in 7 days. It checks the result against the exact negative-binomial
+  percentiles: best 5, median 12 and worst 23 days, spread 18. The numbers are invented and show
+  the computation only.
 - **Capacity is shared.** Owed and own-ground work (§9) share the How owner's capacity. They
   show in the forecast only as a lower λ for new demand, which is the only form in which the
   When owner sees them (Round 22).
-- **When it changes.** The forecast changes when the order changes (a When decision), when λ or F
-  change (the How owner's performance), or when product assurance changes (a What decision).
+- **When it changes.** The forecast changes when the order changes (a When decision), when
+  throughput or flow time change (the How owner's performance), or when product assurance
+  changes (a What decision).
 - **Delivery and landing.** Delivery is o16, the When owner's own act. The forecast is for
   landing, dark.
 
@@ -603,7 +627,13 @@ manufactures seam demand S. Paying it down is one-time specification work:
 1. **A behaviour change that moves no coordinate.** An issue's change alters behaviour but moves
    no coordinate.
 2. **A change that needs a "when".** A change that can only be stated with a "when" in it.
-3. **Forecast error out of band.** Forecast error beyond a band Emil sets (O-4).
+3. **A miscalibrated forecast** (Round 29). Either:
+   - landings fall between best and worst much less often than the percentiles say (about 70% of
+     the time for 15th–85th), or the misses fall mostly on one side;
+   - or the How owner's DORA keys improve and the spread does not narrow, so the forecast does not
+     reflect the How's performance.
+
+   The threshold and sample are open (O-4).
 4. **Blind outcome measures.** An escape reaches users that neither change failure rate nor the
    ready-for-users verdicts record. Then the outcome measures are blind, and the guard on
    implementation assurance fails. Claude's (Round 20), ruled by Round 28 (R20). It replaces "the How owner
@@ -637,7 +667,7 @@ leaving with no record) are part of this list.
 | O-1 | **Ruled (Round 28, R9):** `applications/sdlc/` is not nested under `applications/pdlc/`, and `DDD-dec-42`'s placement stands | Closed |
 | O-2 | **Ruled (Round 28, R10):** `DDD-org-03`'s governed priority is When decisions over new demand only | Closed |
 | O-3 | **Ruled (Round 28, R7):** the scope-cut proposal is act oS, held by the When owner and read at o1 (§2.1) | Closed |
-| O-4 | **The forecast error band** (§14, falsifier 3). Not ruled: Emil asked for it to be explained (Round 28) | **Emil** |
+| O-4 | **The forecast's numbers** (Round 29 rules the method: probabilistic forecasting). Open: which percentiles are best and worst (15th and 85th proposed); the calibration threshold (for example, a failure if fewer than 60% of landings fall inside a 15–85 range); and the sample (for example, the last 20 new-demand issues) (§1, §14 falsifier 3) | **Emil** |
 | O-5 | **Ruled (Round 28, R8):** o2a comes before o1, F-2 as drawn | Closed |
 | O-6 | Record kinds for the When owner's acts (o2a, o16, an option's exit) and for the classification (oC) in the authority profile | A successor session |
 | O-7 | **Ruled (Round 28, R2):** the product-assurance levels are *observed* and *evidenced* (§4) | Closed |
