@@ -93,6 +93,14 @@ Writ on enforcing it.
 
 ---
 
+## Not settled yet
+
+- **The namespace IRI** *(Claude's reading, not yet confirmed by Emil)*. No IRI under
+  `/ns/sdlc` is served yet. Deciding it would say where the terms resolve.
+- **Scopes over decision kinds, and roles.** A later decision extends a scope to decision kinds
+  and adds roles (see `authority.md`, "Not settled yet"). `sdlc:Scope` below still reads "a set
+  of ontology classes", and has not been reworked to it.
+
 ## Where this comes from
 
 Written on 2026-11-02 with the profile, by the authority-profile session

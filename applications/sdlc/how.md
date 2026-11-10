@@ -308,7 +308,8 @@ advice on which standards to name.
 
 ### 5.2 Specified once, realised per target
 
-A decision's statement and violation description use only:
+A decision's statement and violation description use only the terms below. That this list is
+ruled rests on reading the merge as ratifying everything the document left proposed *(Claude's reading, not yet confirmed by Emil)*:
 
 - How vocabulary terms;
 - What vocabulary terms;
@@ -377,7 +378,8 @@ So a package's What is empty. Its decisions anchor to the package product: the d
 and here the right one.
 
 An earlier decision said a package is a product "whose What is its decisions". That clause is
-superseded, and the rule that a decision anchors to the What stands. The kinds a package binds
+superseded, and the earlier decision behind it stands: every decision anchors to a What element,
+and every change of the What is made by a decision. The kinds a package binds
 to are references in its decisions' anchors, not What elements of the package. A package is a
 product with an empty What, a genesis, and a decision log. The decision log includes its
 vocabulary editions.
@@ -552,7 +554,7 @@ Disagreement between `deployment-declared` and `deployment-observed` facts for t
 reported as **drift**. It is not a third verdict. Each provenance has its own verdict, which is
 why the split is a provenance value: it shows in the verdict.
 
-### 9.4 Demands this document makes on others
+### 9.4 Demands this document makes on others — not resolved here
 
 | # | On | Demand |
 |---|---|---|
@@ -584,7 +586,8 @@ code changes go through `land`. It does not change the How: tools never change i
 
 ## 11. Conformance — what a product claims when it says its How is specified
 
-One level, matching the What's single level: **specified and in force.** A product's How
+One level, matching the What's single level: **specified and in force.** That this section is
+ruled rests on reading the merge as ratifying everything the document left proposed *(Claude's reading, not yet confirmed by Emil)*. A product's How
 conforms when all of these hold at a stated position:
 
 1. Every How decision is a `dpp/1` record with a kind, an anchor under §3, and a violation
@@ -707,6 +710,11 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 
 ## Not settled yet
 
+- **Whether the merge ratified the §5.2 term list and §11's conformance level** *(Claude's
+  reading, not yet confirmed by Emil)*. No decision lists either among the parts left proposed.
+  They were ruled with the rest only if the document's own banner ("what was not ruled separately
+  stays proposed until the merge") reached them. Confirming it changes nothing in the text;
+  rejecting it returns both to proposed.
 - **Whether adopters may register What kinds** (§6, §13) *(open)*. The Product Framework let an
   adopter register AIOs. Deciding it would say whether a product may extend the framework's kinds
   locally, or only through a change to the framework.
@@ -716,8 +724,9 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
   it). Whether that confirms this reading has not been ruled.
 - **An earlier decision's consequence for declared gaps** (§8.2) *(Claude's reading, not yet
   confirmed by Emil)*: that a declared-unreifiable pair and a declared-missing key are decisions
-  with a principal. Confirming it would fix that a debt entry is a member of a baseline, not a
-  decision of its own.
+  with a principal. The How keeps that for an exclusion, and refines it for debt: a debt entry is
+  added by a decision but is a member of the baseline, not a decision of its own. Confirming the
+  reading as stated would sit in tension with that refinement for debt.
 
 ## Where this comes from
 
@@ -725,14 +734,14 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 |---|---|
 | Opening, register | `DDD-dec-55` to `DDD-dec-61` (Emil, 2026-10-28, Rounds 1 to 3 of `meta/sessions/2026-10-27-product-framework-how/rulings.md`); `DDD-dec-54` (the charter's rulings, not reopened); ratified when PR #41 merged (`1d0f40c`); `DDD-dec-119` (2026-11-10: the merge ratified every part "not ruled separately") |
 | §1.1 | authority profile: `DDD-dec-47`, `DDD-dec-54` ruling 4; Writ: `DDD-dec-54` ruling 5; token: `DDD-dec-62`, superseding `DDD-dec-53`; the What: `DDD-dec-41`, `DDD-dec-42`, `DDD-dec-51`; execution and delivery retired: `DDD-dec-42` (old §5, §5.1, §5.3, §7); generation: `DDD-dec-61` (old §4.2, §5.2); data conformance: `DDD-dec-44` (old §13) |
-| §1.2 | the charter's `bootstrap.md`, arrival findings 1–3; precondition 1: `DDD-dec-41`; precondition 2: `DDD-dec-51`, the move charter's risk 3, ruling 4 of 2026-10-28 (recorded on each of `DDD-dec-55` to `-61`), discharged by `DDD-dec-63` and `DDD-dec-65` to `DDD-dec-71`; precondition 3: discharged by `authority.md` (2026-11-02), formerly held open by the move session's Round 1, Q-4; precondition 4: Emil's statement of Writ Draft 2, Round 1; the token: `DDD-dec-62` (Round 3), PR #40 and PR #39 |
+| §1.2 | the charter, `meta/sessions/2026-10-27-product-framework-how/prompt.md`, to which this document was Claude's answer; its `bootstrap.md`, arrival findings 1–3; precondition 1: `DDD-dec-41`, the What then read from Product Framework v1.10.0 §3; precondition 2: `DDD-dec-51`, the move charter's risk 3 (identity fixed "before any decision is written against them"), ruling 4 of 2026-10-28 (recorded on each of `DDD-dec-55` to `-61`), discharged by `DDD-dec-63` and `DDD-dec-65` to `DDD-dec-71`; precondition 3: discharged by `authority.md` (2026-11-02), formerly held open by the move session's Round 1, Q-4; precondition 4: Emil's statement of Writ Draft 2, Round 1; the token: `DDD-dec-62` (Round 3), PR #40 and PR #39 |
 | §2 | the four repairs: Rounds 1 and 2; the anchor reading: `DDD-dec-55`; the loophole: `DDD-dec-54` ruling 1; reporters and provenance: `DDD-dec-60`; package's What: `DDD-dec-56`, superseding `DDD-dec-46`'s consequence clause; binding: `DDD-dec-55` (repair 2); "Writ narrows": Round 2; realisation scope: `DDD-dec-46`. Earlier "UNVERIFIED — Emil review" on the anchor reading in the table is removed: `DDD-dec-55` rules it |
 | §3 | `DDD-dec-54` ruling 1; the reading: `DDD-dec-55` (ruling 1, as proposed); product as root: old Product Framework §3.0; decision space: `DDD-dec-46`; creating decision: `DDD-dec-42` |
 | §4.1 | violation description: `DDD-dec-52`; verdicts never stored: `DDD-dec-49`; provenance: `DDD-dec-60` |
 | §4.2 | `DDD-dec-55`; Kind-1 wiring (H-9): `DDD-dec-60`, ratified by `DDD-dec-119`; old §4.2–§4.6, §5.2, PF §3.2.5, PF §3.6 |
 | §4.3, §4.4 | `DDD-dec-55`, ratified by `DDD-dec-119` (formerly `[PROPOSED]`); contract provenance: `DDD-dec-60`; old §4.1 |
 | §5.1 | targets, not catalogues: `DDD-dec-57` (ruling 3); `DDD-dec-44` ("§11 and §12 are What"); the rest of §5.1: `DDD-dec-57`, ratified by `DDD-dec-119` (formerly `[PROPOSED]`); old §4.4 |
-| §5.2 | `DDD-dec-57`, ratified by `DDD-dec-119` (formerly `[PROPOSED]`); runner: `DDD-dec-60` (H-14) |
+| §5.2 | stated once, no language or platform term: `DDD-dec-57`, ratified by `DDD-dec-119`; the closed list of terms a decision uses (formerly `[PROPOSED]`): `DDD-dec-119` through how.md's banner only, Claude's reading (`DDD-dec-119` notes); runner: `DDD-dec-60` (H-14) |
 | §6 | `DDD-dec-46`; `DDD-dec-54` rulings 2 and 3; contents (repair 3): `DDD-dec-56`; no What: `DDD-dec-56` (ruling 2), superseding `DDD-dec-46`'s consequence, `DDD-dec-42` stands; the open point: old PF §3.2.2 |
 | §7.1 | `DDD-dec-59` (its statement rules the three parts of an import); narrow-never-alter: `DDD-dec-59`'s list, ratified by `DDD-dec-119` (formerly `[PROPOSED]`) |
 | §7.2 | `DDD-dec-59`'s list (the recorded-reading condition), ratified by `DDD-dec-119` (formerly `[PROPOSED]`) |

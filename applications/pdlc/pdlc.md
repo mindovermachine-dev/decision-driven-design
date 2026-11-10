@@ -251,15 +251,15 @@ ancestor's. It states how sure we must be that users perform the designed act. I
   an outcome measure.
 
 The declaration is not an o9 check list, an o10 depth or an independence rule. Those belong to
-implementation assurance. An earlier reading put them here, and it was corrected on exactly this
-point.
+implementation assurance. An earlier ruling put them here, and a later one corrected it on exactly
+this point.
 
 **The guard on implementation assurance** is outcomes, read across seams.
 - **Lowered verification shows** as change failure rate and failed ready-for-users verdicts. Both
   are in the record the What and When owners read, and the How owner answers for them.
 - **If lowering moves neither,** the verification removed gave no value. The How owner may keep
   tuning implementation assurance down until the outcomes move.
-- **A withdrawn falsifier.** An earlier falsifier, "implementation assurance falls, and neither
+- **A withdrawn falsifier.** An earlier falsifier, Claude's, "implementation assurance falls, and neither
   measure moves", was ruled wrong and is withdrawn. Its replacement is §14, falsifier 4.
 
 ## 5. Evidence in use and observation needs

@@ -109,7 +109,7 @@ The framework says the same thing without needing to observe it:
 > **So AI increases unverified demand in flight.** Generation capacity grew; verification capacity did
 > not. The gap widens, and the framework's escape term grows with it.
 
-This is the framework's cost structure at the organisational scale: **production capacity outran verification
+This is the framework's structure at the organisational scale: **production capacity outran verification
 capacity, and the surplus went into the escaped store.** Not a defect in the model's output — a
 mis-allocation, exactly the sort the conservation principle predicts when one store's throughput
 increases and the others do not.

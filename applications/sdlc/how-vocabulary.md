@@ -106,8 +106,8 @@ reading it. `check.py` holds the same list.
 
 `sdlc:Product`, `sdlc:Domain`, `sdlc:System`, `sdlc:Decider`, `sdlc:Command`,
 `sdlc:QualityDemand`. Then `sdlc:within`, the ownership edge, used transitively as
-`sdlc:within*`; and `sdlc:referencesDomain`. The AIO, context-of-use, content-key and locale
-kinds that bindings into design-system and content-store targets range over are likewise the
+`sdlc:within*`; and `sdlc:referencesDomain`. The AIO, context-of-use and content-key kinds,
+and the locale (a property of the What, `sdlc:locale`, not a kind), that bindings into design-system and content-store targets range over are likewise the
 What's. **None of these is defined here.** The How reads them. The What has moved, and they are
 defined in its ontology ([`what/ontology.ttl`](what/ontology.ttl)); the worked example pins them
 through a What-version. One provisional term is not carried by the What: `sdlc:localId`, which
