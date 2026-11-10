@@ -18,3 +18,4 @@ Each prediction was stated before its operation ran, then checked. Recorded in o
 | 12 | `check.py` after sighting and entry in the graph data | `flow` conforms; five old flow plants and two new ones caught; the old note replaced by one reading, `software-deviates` along the telemetry seam | As predicted | Yes |
 | 13 | A plant for `lc:SeamShape` (a seam produced at an act the supplier does not hold) | Caught | Caught | Yes |
 | 14 | `validate-claims.py core/decisions/ --decisions` after `DDD-dec-118`'s Round 26 lines | Valid, 96 | Valid, 96 | Yes |
+| 15 | Final gates before push (Round 26): `scripts/ci.py`, `check.py`, canon as CI runs it | All pass; `issue-refs` on 10 commits | All passed: 66 canon tests, changelog, `issue-refs` ok on 10 commits (Basis on 3), `check --compare` agrees. CI on the pushed head is reported in the session, not recorded here, so the approved head is the one CI ran | Yes |
