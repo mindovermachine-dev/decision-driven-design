@@ -4,6 +4,40 @@
      Edit the release descriptors, not this file. The headings from "## 4.7 — The volume layer (boundary charter)" on are a
      frozen tail, kept byte for byte (canon.yaml, changelog.tail-sha256). -->
 
+## v0.7.0 — Step 1b, map the flow of demand; the PDLC and the SDLC
+
+2026-11-10 · pre-release · descriptor [`releases/v0.7.0.yaml`](releases/v0.7.0.yaml)
+
+**Step 1b, map the flow of demand, is a new step card** (`DDD-dec-118`). Adding a card is a
+MINOR release (`DDD-dec-82`). **The step is `[PROPOSED]`.** Its place after step 1 and its scope
+are ruled. Its procedure, its fields and its worked example are not ruled.
+
+- **Step 1b** (#68) traces demand across step 1's act map. It records where an item is
+  sighted, where it enters, who orders it and where it is discharged. Each process declares its
+  own kinds of demand. The PDLC's kinds are new, owed and own-ground. They are the worked example
+  and the starting point, and the step does not claim they apply to every process. The step
+  rests on four claims, `DDD-flow-01` to `-04`. They are projected and scoped to the PDLC. How
+  the steps are numbered is still open.
+- **The PDLC and the SDLC** are new applications (#64; `DDD-dec-114`, `DDD-dec-115`). The PDLC
+  is the product lifecycle. It has three owners: What, When and How. The SDLC is the How
+  owner's arrangement within it. It runs from an issue to production, dark behind a toggle. Both
+  specifications are ruled, by Round 28, and Rounds 29 and 30 settled the forecast. Each
+  specification carries its act map as graph data, with SHACL shapes and a checker. The
+  reference workflows are not written.
+- **Two open items join `sdlc.md` §19** (#66). They are not rulings. O-8 proposes an act that
+  accepts the realisation plan before work starts. O-9 asks product-cli either to adopt the SDLC
+  for its issue sessions or to record where it departs from it.
+- **Specification feasibility is ruled** (#63; `DDD-dec-116`). The How decides whether a
+  dependency on outside ground can be realised loosely coupled, using three conditions that can
+  be checked. What may be used from the source is the data owner's decision.
+- **Grants and roles are ruled** (#63; `DDD-dec-117`). product-cli carries the same grants and
+  roles as the other systems, which supersedes its `[D1.11]`. `DDD-dec-116` and `DDD-dec-117`
+  are not yet applied to `what.md`, `how.md`, `authority.md` or product-cli's definition.
+- **product-cli's definition** is brought up to sdlc edition 1 (#65). It cites the ruled
+  validation regime (`DDD-dec-113`). It records edition 1 as shipped in v0.6.0.
+
+No other step's register moves. The method stays "ready to try (preview)" (`DDD-dec-74`).
+
 ## v0.6.0 — sdlc edition 1: the What's vocabulary and shapes, tagged for product-cli
 
 2026-11-06 · pre-release · descriptor [`releases/v0.6.0.yaml`](releases/v0.6.0.yaml)
