@@ -70,8 +70,10 @@ use, so the pin check warns when the claim moves. Decisions get no marker.
 ## Folder formats
 
 A folder may set a narrower format in its `README.md`. The one set so far is `applications/`
-(`DDD-dec-95`): every document closes with "Where this comes from", reference material goes to its
-own document, and deliberation stays in the session record.
+(`DDD-dec-95`): every document closes with "Where this comes from"; every numbered section keeps
+its number, order and file, because other files cite sections by number, so reference material
+stays in its numbered section; unsettled points use one phrase per register; and deliberation
+stays in the session record.
 
 ## The check — not yet ported
 

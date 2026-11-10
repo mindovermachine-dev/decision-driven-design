@@ -1,0 +1,68 @@
+format: 1
+id: DDD-dec-95
+kind: decision
+statement: |
+  Documents under applications/ are written for the people who use them: an opening that names the reader, what they can do and how settled the document is, in words; a ddd:doc block; no decision, claim, round or session ids in running text, except where the id is the subject; register in words, with decided unmarked, "(proposed, not yet ruled)" for [PROPOSED], "(open)" for [OPEN] and "(Claude's reading, not yet confirmed by Emil)" for an unconfirmed reading, each also listed under "Not settled yet"; deliberation in the session record; a closing "Where this comes from" table; and no change of content. Every numbered section keeps its number, order and file, because other files cite sections by number, so no document is split, merged or renamed, and reference material stays in its numbered section. Existing ddd:ref and ddd:embed markers stay. Acme Shop stays the example for the What and the How, beside Varve for the method. The scope is every document under applications/, including pdlc/, sdlc/sdlc.md, sdlc/authority.md and sdlc/product-cli/, with apparatus/ next. Whether the format helps is decided by a human first-contact test (successor item A-4), not by model readers.
+principal: Emil
+made: |
+  The format was ruled on 2026-11-02 in Round 1 of the applications-for-readers session ("agreed go with your recommendations", recommendations 1, 3, 4 and 5), recorded verbatim at meta/sessions/2026-11-02-applications-for-readers/rulings.md on branch claude/applications-for-readers-2026-11-02 (068cb23), the record of PR #48, which was closed without merging. Emil ruled on 2026-11-09 that a successor redo the rewrite on current applications/, and that the format stays, with a human first-contact test deciding later; and on 2026-11-10 that unsettled points use two phrases. Both are recorded verbatim in meta/sessions/2026-11-09-applications-for-readers-redo/rulings.md, Rounds 1 and 2 (issue #71). Emil's landing of that session's branch is the ratification act
+resolution: |
+  ## The format, as applied
+
+  #48's F1 to F8 (gate1-proposal.md at 068cb23, "The proposed format"), applied as follows.
+
+  - **F1, the opening.** Kept. Who the document is for, what they can do after reading it, and how
+    settled it is, in words, before the content.
+  - **F2, a ddd:doc block** under the title (DDD-dec-94, spec/doc-format.md). supersedes names
+    84aa466:<path>.
+  - **F3, ids out of running text.** Kept, with an exception where the id is the subject: a table
+    mapping departures to decisions, a record name such as GEN@3, a vocabulary term. Register in
+    words: four registers, each with its own phrase (Round 2), and a "Not settled yet" section.
+  - **F4, order by the reader's task.** Adapted. Numbered sections keep their order. The opening
+    says which sections serve which task, and which a practitioner can skip.
+  - **F5, reference material in its own document.** Not applied. Reference material stays in its
+    numbered section (below).
+  - **F6, deliberation in the session record.** Kept. Quoted rulings become plain rules at the same
+    strength, and the quotes move to "Where this comes from".
+  - **F7, "Where this comes from".** Kept, keyed by section.
+  - **F8, no change of content.** Kept. The only register changes are the ones decisions give:
+    DDD-dec-119 for the How, and stale "not yet ratified" lines corrected where the pull request
+    their decisions name as the ratification act has merged. Facts found wrong are corrected and
+    listed (the session's findings.md, F-9, F-13, F-14).
+
+  ## Point-of-use markers
+
+  #48 added a rule that an invisible ddd:ref marker sits at the point of use where a rule rests on
+  a projected claim. It is not applied in this rewrite. Existing markers stay exactly where they
+  are. spec/doc-format.md keeps the permission ("may sit"). The validator checks a ddd:ref against
+  upstream pins only and skips local ids (Gate A finding F-4), so a marker on a local projected
+  claim warns about nothing.
+
+  ## What differs from #48's version, and why
+
+  | #48's DDD-dec-95 | This version | Why |
+  |---|---|---|
+  | what.md and how.md split into practitioner and reference documents; how-vocabulary.md merged into how-reference.md | No split, merge or rename | 157 citations by section number outside the session records, including in what/shapes.ttl and what/ontology.ttl (hashed into a vocabulary edition) and in signed dpp/1 records. A split moves cited sections out of the file they are cited in (findings F-6, F-8) |
+  | F4 and F5 as written | F4 adapted, F5 not applied | The same anchor constraint |
+  | Unsettled points as "not settled yet" | Four registers in words | Emil, Round 2: two phrases for [PROPOSED] and [OPEN]. Unconfirmed readings are kept as a third unsettled register, so that no distinction is lost |
+  | Point-of-use ddd:ref markers for projected claims | Not applied; existing markers kept | Above |
+  | Scope: what.md, how.md, how-vocabulary.md, how-examples, production-as-ground.md and three READMEs | Every document under applications/ (15), including pdlc/, sdlc.md, authority.md and its vocabulary, product-cli/product-definition.md and test-keys/README.md | Those landed after #48, or (authority.md) waited for #45, which has merged |
+  | If Gate 3's model-reader test fires against F3, the markers go with it | A human first-contact test decides (A-4), pre-registered before the rewrite was committed | Emil, Round 1: "Keep it, human test decides". #48's model readers hit a ceiling |
+  | Sequence through Gate 3 | Gate B, then the independent equivalence check, then Emil's review. A-4 is scheduled by Emil | Emil, Round 1 |
+
+  ## The examples
+
+  Acme Shop remains the worked example of the What and the How; Varve the method's (DDD-dec-77).
+  Writing Varve's What is successor item A-5. The six content gaps #48's readers found are
+  successor items A-8 to A-12 and A-16, not fixed or marked in the rewrite (Round 2), with A-8
+  first.
+basedOn:
+  - DDD-dec-94
+  - DDD-dec-119
+  - DDD-dec-74
+  - DDD-dec-77
+notes: |
+  Re-filed from claude/applications-for-readers-2026-11-02 at 068cb23 and adapted, on Emil's
+  ruling that a successor redo the rewrite. The table above lists every difference from #48's file.
+  The weakest point, which #48 also named: whether the format helps people is not yet shown. A-4 is
+  the test that decides it.
