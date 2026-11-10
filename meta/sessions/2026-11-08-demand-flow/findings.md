@@ -20,7 +20,7 @@ order the work that moves them.
 
 **F-d. Owed demand enters away from where it is detected (`DDD-flow-03`).** Detected on the How
 owner's telemetry and users' reports, entered at the What owner's oC. Flagged in the claim, printed
-by `check.py`, open as R-1.
+by `check.py`, open as R-1. **Closed by Round 26** (see F-k).
 
 **F-e. pdlc.md §9 says owed demand "is judged on the What in force"; the How owner orders it.** Read
 as two decisions placed with two owners (`DDD-flow-04`): the classification at oC is judged on the
@@ -48,3 +48,18 @@ removed from `bootstrap.md` before the first commit.
 ruling.** Round 23's second answer ("Upstream, as projected") was superseded inside the
 conversation and was never a filed decision, so there is nothing to name in a `supersedes` field.
 rulings.md's table records it.
+
+**F-k. Round 26 closes R-1, and moves one entry (2026-11-10).** With entry defined as the act that
+assigns the kind, "a reported defect that is the What being wrong" enters at oC, not o0: its kind,
+new, is assigned by the What owner's classification, and it becomes an option at o0 afterwards. New
+demand therefore has two entry acts, o0 and oC. The graph data says so (`lc:NewDemand lc:entersAt
+m:o0 , m:oC`), the card's kinds and sources tables say so, and `DDD-flow-01`'s `breaks` was brought
+into line (a phrase, beyond the round's letter; flagged here). The check.py note that flagged
+"entry outside detection" flagged exactly the oC case; under the ruled wording that entry is correct
+by construction, because the defect reaches oC along the How → What telemetry seam. The note is now
+a reading that names the seam, and the failure it guarded is a SHACL refusal with planted defects
+(no seam; a seam not read at the entry act; a seam whose producing act the supplier does not hold).
+
+**F-l. pdlc.md keeps "detects".** Its two uses (§9's "Detected by" column, §10's "the new demand it
+detects") mean first sighting, not entry, so Round 26's instruction to change entry-sense uses does
+not reach them. Unchanged.

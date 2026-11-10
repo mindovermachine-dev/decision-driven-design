@@ -293,12 +293,23 @@ lc:seed a owl:DatatypeProperty ; rdfs:comment "The simulation's random seed, so 
 lc:SourceOfPull a owl:Class ;
   rdfs:comment "A source of pull: something that makes demand arrive, classified into one of the kinds the process declares, with where it enters, who orders it and where it is discharged (method step 1b, part 6)." ;
   dct:source "DDD-dec-118; pdlc.md §9" .
-lc:detectedOn a owl:ObjectProperty ;
-  rdfs:comment "An owner whose ground detects demand from this source (pdlc.md §9, 'Detected by'). A user or a gate detects on the ground of the owner whose record it is." ;
-  dct:source "DDD-dec-118; DDD-flow-03" .
+lc:sightedOn a owl:ObjectProperty ;
+  rdfs:comment "An owner in whose ground demand from this source is first sighted: where it first appears as a fact (pdlc.md §9, 'Detected by'). Sighting assigns no kind. A user or a gate sights on the ground of the owner whose record it is." ;
+  dct:source "DDD-dec-118; DDD-flow-03; Round 26, demand-flow rulings.md" .
 lc:entersAt a owl:ObjectProperty ;
-  rdfs:comment "The act at which demand of this kind, or from this source, enters the process." ;
-  dct:source "DDD-dec-118; DDD-flow-03; pdlc.md §9" .
+  rdfs:comment "The entry act: the act that assigns demand of this kind, or from this source, its kind (Round 26, demand-flow rulings.md). A kind may have more than one entry act." ;
+  dct:source "DDD-dec-118; DDD-flow-03; Round 26, demand-flow rulings.md; pdlc.md §9" .
+lc:viaSeam a owl:ObjectProperty ;
+  rdfs:comment "The declared seam along which demand sighted in another owner's ground reaches its entry act (DDD-flow-03)." ;
+  dct:source "DDD-flow-03; Round 26, demand-flow rulings.md" .
+lc:Seam a owl:Class ;
+  rdfs:comment "A declared seam between two owners: what crosses it, the act that produces it and the act that reads it (pdlc.md §2.1). Ground crossing it is read-only for the receiver (Round 14 of the 2026-11-07 record)." ;
+  dct:source "pdlc.md §2.1, §13; DDD-flow-03" .
+lc:fromOwner a owl:ObjectProperty ; rdfs:comment "The owner who supplies what crosses the seam." ; dct:source "pdlc.md §2.1" .
+lc:toOwner a owl:ObjectProperty ; rdfs:comment "The owner who reads what crosses the seam, read-only." ; dct:source "pdlc.md §2.1" .
+lc:producedAt a owl:ObjectProperty ; rdfs:comment "The act whose output crosses the seam." ; dct:source "pdlc.md §2.1" .
+lc:readAt a owl:ObjectProperty ; rdfs:comment "The act that reads what crosses the seam as ground." ; dct:source "pdlc.md §2.1" .
+lc:crosses a owl:DatatypeProperty ; rdfs:comment "What crosses the seam, in words (pdlc.md §2.1's 'Ground supplied')." ; dct:source "pdlc.md §2.1" .
 lc:orderedBy a owl:ObjectProperty ;
   rdfs:comment "The owner who orders demand of this kind, or from this source, in its queue." ;
   dct:source "DDD-dec-118; DDD-flow-02; pdlc.md §9" .

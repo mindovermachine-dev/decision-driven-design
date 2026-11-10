@@ -19,7 +19,8 @@ What it checks:
   6. flow      [PROPOSED] the flow of demand (demand-flow.ttl, method step 1b, DDD-dec-118): the
                PDLC's declared kinds, its sources of pull and three traced items conform with the
                map; plants for a mixed queue, a pool breach and a trace off the map are caught;
-               each orderer's queue and each entry outside the detecting owners are printed;
+               each orderer's queue, and each item sighted outside its entry act's owner with the
+               seam it crosses, are printed;
   5. forecast  a probabilistic forecast (Round 29) for rank 2, from the daily new-demand throughput
                in the SDLC's example record, lands within 2 days of the exact negative-binomial
                percentiles and conforms to lc:ForecastShape; two forecast plants are caught.
@@ -120,14 +121,14 @@ PLANTS = [
      "does not depend on itself"),
     # The flow of demand, method step 1b [PROPOSED] (DDD-dec-118).
     ("a bug ordered by the When owner", "flow",
-     "f:bug-on-market a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwedDemand ; lc:detectedOn lc:HowOwner ; "
+     "f:bug-on-market a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwedDemand ; lc:sightedOn lc:HowOwner ; "
      "lc:entersAt m:oC ; lc:orderedBy lc:WhenOwner ; lc:throughPool false .",
      "ordered by its kind's declared orderer"),
     ("a kind ordered by an owner who lacks its ground", "flow",
      "lc:OwnGroundDemand lc:judgedOn lc:WhenOwner .",
      "holds the ground the kind is judged on"),
     ("own-ground demand through the pool", "flow",
-     "f:debt-as-option a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwnGroundDemand ; lc:detectedOn lc:HowOwner ; "
+     "f:debt-as-option a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwnGroundDemand ; lc:sightedOn lc:HowOwner ; "
      "lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:throughPool true .",
      "Only new demand goes through the option pool"),
     ("a trace step off the map", "flow",
@@ -136,9 +137,22 @@ PLANTS = [
      "ex:tx-3 a lc:TraceStep ; lc:atAct m:o13 ; lc:after ex:tx-2 .",
      "follows an edge of the act map"),
     ("a source classified into an undeclared kind", "flow",
-     "f:nowhere a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:What ; lc:detectedOn lc:HowOwner ; "
+     "f:nowhere a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:What ; lc:sightedOn lc:HowOwner ; "
      "lc:entersAt m:oG ; lc:orderedBy lc:HowOwner ; lc:throughPool false .",
      "a kind the process declares"),
+    ("a defect sighted by the How owner that reaches oC by no seam", "flow",
+     "f:no-seam a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwedDemand ; lc:sightedOn lc:HowOwner ; "
+     "lc:entersAt m:oC ; lc:orderedBy lc:HowOwner ; lc:throughPool false .",
+     "along a declared seam"),
+    ("a seam not read at the entry act", "flow",
+     "f:wrong-seam a lc:Seam ; lc:crosses \"x\" ; lc:fromOwner lc:HowOwner ; lc:toOwner lc:WhatOwner ; "
+     "lc:producedAt m:o13 ; lc:readAt m:oR . "
+     "f:via-wrong-seam a lc:SourceOfPull ; lc:label \"x\" ; lc:demandKind lc:OwedDemand ; lc:sightedOn lc:HowOwner ; "
+     "lc:entersAt m:oC ; lc:viaSeam f:wrong-seam ; lc:orderedBy lc:HowOwner ; lc:throughPool false .",
+     "along a declared seam"),
+    ("a seam produced at an act the supplying owner does not hold", "flow",
+     "f:telemetry lc:producedAt m:oU .",
+     "A seam is a row of the act map"),
 ]
 
 
@@ -240,9 +254,10 @@ def check_forecast():
 
 
 def flow_readings(g):
-    """What the flow map makes visible (method step 1b): who may order what, and where demand
-    enters at an owner whose ground did not detect it. Printed, never a failure: the second is
-    DDD-flow-03's open reading (detection or classification), for Emil."""
+    """What the flow map makes visible (method step 1b): who may order what, and which items are
+    sighted in one owner's ground and enter at another's act, with the seam they cross. Printed,
+    never a failure. An item sighted outside its entry act's owner that crosses no declared seam is
+    refused by lc:SourceOfPullShape (DDD-flow-03, Round 26 of the demand-flow rulings.md)."""
     short = lambda n: str(n).split("#")[-1]
     q = """PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
       SELECT ?o (GROUP_CONCAT(DISTINCT STR(?k); separator=" ") AS ?ks) WHERE {
@@ -251,11 +266,12 @@ def flow_readings(g):
         kinds = ", ".join(sorted(short(k) for k in str(ks).split()))
         print(f"note  queue: {short(o)} orders {kinds}")
     q = """PREFIX lc: <https://decision-driven-design.dk/ns/lifecycle#>
-      SELECT ?s ?a ?h WHERE { ?s a lc:SourceOfPull ; lc:entersAt ?a . ?a lc:heldBy ?h .
-        FILTER ( ?h != lc:AnyOwner ) FILTER NOT EXISTS { ?s lc:detectedOn ?h } } ORDER BY ?s"""
-    for src, a, h in g.query(q):
-        print(f"note  entry outside detection: {short(src)} enters at {short(a)}, held by {short(h)}, "
-              "which did not detect it (DDD-flow-03, open reading)")
+      SELECT ?s ?a ?h ?sm ?c WHERE { ?s a lc:SourceOfPull ; lc:entersAt ?a . ?a lc:heldBy ?h .
+        FILTER ( ?h != lc:AnyOwner ) FILTER NOT EXISTS { ?s lc:sightedOn ?h }
+        ?s lc:viaSeam ?sm . ?sm lc:toOwner ?h ; lc:readAt ?a ; lc:crosses ?c } ORDER BY ?s"""
+    for src, a, h, sm, c in g.query(q):
+        print(f"note  sighted elsewhere: {short(src)} enters at {short(a)} ({short(h)}, which assigns its kind), "
+              f"along the seam {short(sm)}: {c}")
 
 
 def main():

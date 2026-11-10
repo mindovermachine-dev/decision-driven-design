@@ -22,7 +22,8 @@ processes"). Every use of this step on a second process is a test of them.
 
 Step 1 maps acts, one occurrence at a time. It does not say how demand arrives in a running
 process, from where, or who may order it. This step does. It takes the act map and traces demand
-across it: where each item enters, which owner orders it, which seams it crosses, and where it is
+across it: where each item is first sighted, where it enters (the act that assigns its kind),
+which owner orders it, which seams it crosses, and where it is
 discharged. Then it asks what else pulls, and classifies every source of pull into the kinds of
 demand the process declares.
 
@@ -56,8 +57,10 @@ in (Rounds 1–22 of the 2026-11-07 session's
    it enters to where it is discharged, act by act, along edges of the act map. Then ask what else
    makes demand arrive, and list each source of pull.
 6. **Classify each source of pull into the kinds of demand the process declares** (Round 24). For
-   each source, say where it enters (an act of the map), who orders it, and where it is
-   discharged. The kinds are declared per process, not fixed by the method. Start from the PDLC's
+   each source, say in whose ground it is first sighted, where it enters (the act of the map that
+   assigns its kind), who orders it, and where it is discharged. Where sighting and entry belong to
+   different owners, name the seam the item crosses between them (`DDD-flow-03`; Round 26 of the
+   demand-flow `rulings.md`). The kinds are declared per process, not fixed by the method. Start from the PDLC's
    three (below), and declare what you keep, add or drop.
 7. **Put a meter on each owner and each seam.** For each owner, the measure it answers for. For
    each seam, the measure that shows its price. (PDLC: the DORA keys for the How owner, the option
@@ -71,11 +74,17 @@ in (Rounds 1–22 of the 2026-11-07 session's
 nothing claims they hold for any other process (Round 24). Each is tested relative to the
 decisions in force:
 
-| Kind | One-line test | In the PDLC: enters at, ordered by |
+| Kind | One-line test | In the PDLC: enters at (the act that assigns the kind), ordered by |
 |---|---|---|
-| **New** | No governing decision in force covers it: the decisions must change before it can be met | o0, the option pool; the When owner, at o2a |
+| **New** | No governing decision in force covers it: the decisions must change before it can be met | o0, the option pool; or oC, when the What owner classifies a reported defect as new. The When owner, at o2a |
 | **Owed** | A governing decision in force covers it, and an act does not meet that decision: an escape | oC, the What owner's classification; the How owner, in the SDLC |
 | **Own-ground** | It concerns no decision about what the process must produce, but the ground of the arrangement that realises the decisions | oG; the How owner, in the SDLC |
+
+**Sighting is not entry** (Round 26, demand-flow `rulings.md`). An item is *sighted* where it first
+appears as a fact in some owner's ground, and it *enters* at the act that assigns its kind. In the
+PDLC the How owner may sight a defect, but only the What owner says whether it is a bug (owed) or
+not (new). When you declare your own kinds, name for each the act that assigns it, and the owner
+who holds that act.
 
 **How to use them.** Test each source of pull in your own process against the three. Then declare
 your process's kinds:
@@ -105,7 +114,7 @@ Statements are quoted from the claim files, whitespace-normalised. The claim fil
 |---|---|---|---|
 | [`DDD-flow-01`](../core/claims/DDD-flow-01.yaml) | conceptual | **projected**, PDLC only | In the PDLC, relative to the decisions in force, an arriving demand item is of exactly one of three kinds: new (no governing decision for it is in force yet), owed (a governing decision is in force but an act does not meet it, which is an escape, including the undelivered case of core/13) or own-ground (it concerns the ground of the arrangement that realises the decisions, which in the PDLC is the How owner's own ground). |
 | [`DDD-flow-02`](../core/claims/DDD-flow-02.yaml) | empirical | **projected**, PDLC only | In the PDLC, ordering a queue of demand items is a decision whose ground includes the ground of every kind of demand in the queue, so a queue that mixes kinds under one orderer who does not hold each kind's ground is ordered, for the kinds whose ground is missing, by judgment from ground not held. |
-| [`DDD-flow-03`](../core/claims/DDD-flow-03.yaml) | conceptual | **projected**, PDLC only | In the PDLC, a demand item enters at the act of the owner whose ground detects it, and reaches other owners only along declared seams, as ground read-only for the receiver, not along the reporting lines between the people who hold the owners' scopes. |
+| [`DDD-flow-03`](../core/claims/DDD-flow-03.yaml) | conceptual | **projected**, PDLC only | In the PDLC, a demand item enters at the act that assigns it its kind, and when it is first sighted in another owner's ground it reaches that act only along a declared seam, as ground read-only for the receiver, never along the reporting lines between the people who hold the owners' scopes. So the How owner may sight a defect, but only the What owner, at oC, says whether it is a bug (owed demand) or not (new demand). |
 | [`DDD-flow-04`](../core/claims/DDD-flow-04.yaml) | normative | **projected**, PDLC only | In the PDLC, responsibility is placed per decision: for each boundary decision exactly one owner holds the act, with its control and liability, and every other owner reads that act's verdict only as read-only ground. |
 
 Upstream canon they derive from, read at the pinned `v5.15.2`: `core/05` §5 (answerability,
@@ -119,13 +128,13 @@ Fields are the method's ([`README.md`](README.md)). Claude's assembly, `UNVERIFI
 | Field | Content | Source |
 |---|---|---|
 | Step | 1b — Map the flow of demand. After step 1; numbering open (N-1) | Round 23; `DDD-dec-118` |
-| Decision discharged | Which kinds of demand the process has, where each enters, who may order it and where it is discharged; and which owner holds each boundary decision. The commitment level is not filed | Rounds 23, 24; `DDD-flow-01`, `-04` |
+| Decision discharged | Which kinds of demand the process has, which act assigns each (its entry), who may order it and where it is discharged; and which owner holds each boundary decision. The commitment level is not filed | Rounds 23, 24; `DDD-flow-01`, `-04` |
 | Ground in | The act map from step 1, with addresses and the time index. The request and the process's owners, each a scope under a grant. The decisions in force, against which every kind is tested | Step 1; `DDD-dec-117`; `DDD-flow-01` |
 | Act | The seven parts above. Done by whoever maps the process, with each owner confirming the decisions placed with it | Procedure as done for the PDLC (Round 23) |
-| Artefact out | Graph data beside the act map: the declared kinds with their tests, entry acts, orderers and discharge acts; the sources of pull, each classified; one traced item per kind; the seam table; a meter per owner and seam. PDLC: [`demand-flow.ttl`](../applications/pdlc/graph/demand-flow.ttl), checked by `check.py` | Round 23; pdlc.md §2.1 |
-| Value made visible | **Who may order what**, and where an orderer lacks the ground for a kind in its queue. **Where demand enters and which seams it crosses.** **Owed demand that sits unpaid**: an escape against a decision in force, waiting in a queue nobody orders on its own ground | The prompt's minimum (item 5); `DDD-flow-02`, `-03` |
+| Artefact out | Graph data beside the act map: the declared kinds with their tests, entry acts, orderers and discharge acts; the sources of pull, each classified, with where it is sighted and the seam it crosses to its entry act; one traced item per kind; the seam table; a meter per owner and seam. PDLC: [`demand-flow.ttl`](../applications/pdlc/graph/demand-flow.ttl), checked by `check.py` | Round 23; pdlc.md §2.1 |
+| Value made visible | **Who may order what**, and where an orderer lacks the ground for a kind in its queue. **Where demand is sighted, where it enters, and which seams it crosses.** **Owed demand that sits unpaid**: an escape against a decision in force, waiting in a queue nobody orders on its own ground | The prompt's minimum (item 5); `DDD-flow-02`, `-03` |
 | Cost and relocation | One mapping per process, paid in the mapper's and the owners' judgment, and redone when an owner or a seam changes. Splitting a process into owners manufactures seam demand; the step prices it and does not remove it. Skip the step and the ordering decision still gets made: by one orderer over a mixed queue, from ground it does not hold | Upstream `term:seam`, `term:conservation`; `DDD-flow-02` |
-| Exit check | Every source of pull is in exactly one declared kind. Every kind has one orderer, who holds the ground the kind is judged on. Every entry and discharge is an act of the map. At least one item per kind is traced along edges of the map, through its kind's entry and discharge acts. Every crossing is a row of the seam table. Every owner and seam has a meter. For the PDLC, `python3 applications/pdlc/graph/check.py` checks all but the last two | Claude's reading, `UNVERIFIED — Emil review` |
+| Exit check | Every source of pull is in exactly one declared kind. Every kind has one orderer, who holds the ground the kind is judged on. Every entry and discharge is an act of the map. An item sighted outside its entry act's owner reaches that act along a declared seam. At least one item per kind is traced along edges of the map, through one of its kind's entry acts and its discharge act. Every crossing in a trace is a row of the seam table. Every owner and seam has a meter. For the PDLC, `python3 applications/pdlc/graph/check.py` checks all but the last two | Claude's reading, `UNVERIFIED — Emil review` |
 | Principal | The holder of the grant every owner's scope delegates from (in the PDLC, the product's genesis grant). A dispute about placement escalates there | pdlc.md §2, §6 (rule 3). The role is not filed for the method |
 
 ## Worked example: the PDLC
@@ -188,10 +197,13 @@ o13  deploy, dark          PDLC▸SDLC▸land and run  production · How · none
 ```
 
 Ordered by the How owner, measured as time to restore. No oR and no o16: the fix restores
-behaviour the What already promised (pdlc.md §9). The When owner sees it only as cadence. Detected
-on the How owner's telemetry and a user's report, it enters at the What owner's oC, because only
-the What in force can tell owed from new. That is the tension `DDD-flow-03` flags: whether
-"detects" means first sighting or classification. `check.py` prints it as a note.
+behaviour the What already promised (pdlc.md §9). The When owner sees it only as cadence.
+**Sighted by the How, entered by the What** (Round 26, demand-flow `rulings.md`): the defect is
+first sighted on the How owner's telemetry and in a user's report. It enters at the What owner's
+oC, because only the What in force can tell a bug (owed) from the What being wrong (new). It
+reaches oC along the How → What telemetry seam (Round 16 of the 2026-11-07 record).
+`check.py` prints the crossing, and refuses an item sighted in one owner's ground that reaches
+another owner's entry act by no declared seam.
 
 **Own-ground: the debt (#104).** The kind's test: no decision about what the shop must do is at
 stake; the How owner cannot deploy without a manual cache purge.
@@ -212,20 +224,22 @@ on market ground. Round 26 moved it here.
 
 **What else pulls.** pdlc.md §9 lists six sources of pull. Classified, as the step's part (6):
 
-| Source of pull | Kind | Detected on | Enters at | Ordered by | Pool |
+| Source of pull | Kind | Sighted in | Enters at (assigns the kind) | Ordered by | Pool |
 |---|---|---|---|---|---|
 | A market need | New | When owner | o0 | When owner | Yes |
 | Users can't do the designed act (product assurance not met) | New | What owner (evidence in use) | o0 | When owner | Yes |
-| The software deviates from the What in force | Owed | How owner (record, gates, telemetry); users | oC | How owner | No |
-| A reported defect that is the What being wrong | New | How owner, What owner | o0, after oC | When owner | Yes |
+| The software deviates from the What in force | Owed | How owner (record, gates, telemetry); users | oC, along the How → What telemetry seam | How owner | No |
+| A reported defect that is the What being wrong | New | How owner, What owner | oC (then an option at o0) | When owner | Yes |
 | Technical debt, the arrangement, the How owner's ground | Own-ground | How owner | oG | How owner | No |
 | Regulation, or another change in the What owner's ground | New | What owner | o0 | When owner | Yes |
 
 **What the map makes visible here.** From `check.py`'s flow readings:
 - **Who may order what.** The When owner orders new demand. The How owner orders owed and
   own-ground demand. No queue mixes kinds under an orderer who lacks a kind's ground.
-- **Where demand enters and which seams it crosses.** New demand crosses When → How and What → How
-  on the way in, owed demand What → How (after How → What telemetry), own-ground none.
+- **Where demand is sighted, where it enters, and which seams it crosses.** New demand crosses
+  When → How and What → How on the way in. Owed demand is sighted on the How owner's ground,
+  crosses How → What (telemetry) to enter at oC, and crosses back What → How as the verdict.
+  Own-ground demand is sighted and entered by the How owner and crosses none.
 - **Owed demand that sits unpaid.** #103 was restored the day it was classified. #104 is
   own-ground, not owed, and sits at o4: the map shows the How owner owes the rest of its path. In
   a classic backlog both would sit in the When owner's order (`DDD-flow-02`'s violation case).

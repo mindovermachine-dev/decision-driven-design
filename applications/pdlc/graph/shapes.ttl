@@ -255,8 +255,8 @@ lc:DemandKindDeclarationShape a sh:NodeShape ;
   sh:targetSubjectsOf lc:kindTest ;
   sh:property [ sh:path lc:kindTest ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ;
                 sh:message "A declared kind of demand carries one one-line test, relative to the decisions in force (Round 25)." ] ;
-  sh:property [ sh:path lc:entersAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
-                sh:message "A declared kind of demand enters at exactly one act of the map." ] ;
+  sh:property [ sh:path lc:entersAt ; sh:minCount 1 ; sh:class lc:Act ;
+                sh:message "A declared kind of demand has at least one entry act on the map: an act that assigns the kind (Round 26, demand-flow rulings.md)." ] ;
   sh:property [ sh:path lc:orderedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
                 sh:message "A declared kind of demand has exactly one orderer." ] ;
   sh:property [ sh:path lc:judgedOn ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
@@ -277,10 +277,12 @@ lc:SourceOfPullShape a sh:NodeShape ;
                 sh:message "A source of pull says what pulls (lc:label)." ] ;
   sh:property [ sh:path lc:demandKind ; sh:minCount 1 ; sh:maxCount 1 ;
                 sh:message "A source of pull is classified into exactly one declared kind of demand (DDD-flow-01)." ] ;
-  sh:property [ sh:path lc:detectedOn ; sh:minCount 1 ; sh:class lc:OwnerRole ;
-                sh:message "A source of pull names the owner ground it is detected on." ] ;
+  sh:property [ sh:path lc:sightedOn ; sh:minCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A source of pull names the owner ground it is first sighted in." ] ;
+  sh:property [ sh:path lc:viaSeam ; sh:class lc:Seam ;
+                sh:message "A source of pull reaches its entry act along a declared seam (lc:Seam)." ] ;
   sh:property [ sh:path lc:entersAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
-                sh:message "A source of pull enters at exactly one act of the map." ] ;
+                sh:message "A source of pull enters at exactly one act of the map: the act that assigns its kind." ] ;
   sh:property [ sh:path lc:orderedBy ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
                 sh:message "A source of pull has exactly one orderer." ] ;
   sh:property [ sh:path lc:throughPool ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:boolean ;
@@ -298,11 +300,24 @@ lc:SourceOfPullShape a sh:NodeShape ;
         $this lc:demandKind ?k ; lc:orderedBy ?o . ?k lc:orderedBy ?ko . FILTER ( ?o != ?ko )
       }""" ] ;
   sh:sparql [
-    sh:message "A source of pull enters at its kind's declared entry act (DDD-flow-03)." ;
+    sh:message "A source of pull enters at one of its kind's declared entry acts (DDD-flow-03)." ;
     sh:prefixes lc:shapesPrefixes ;
     sh:select """
       SELECT $this WHERE {
-        $this lc:demandKind ?k ; lc:entersAt ?e . ?k lc:entersAt ?ke . FILTER ( ?e != ?ke )
+        $this lc:demandKind ?k ; lc:entersAt ?e . FILTER NOT EXISTS { ?k lc:entersAt ?e }
+      }""" ] ;
+  sh:sparql [
+    sh:message "Demand sighted in another owner's ground reaches the act that assigns its kind along a declared seam: from an owner who sighted it, to the entry act's owner, read at the entry act (DDD-flow-03; Round 26, demand-flow rulings.md)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:entersAt ?e . ?e lc:heldBy ?h .
+        FILTER ( ?h != lc:AnyOwner )
+        FILTER NOT EXISTS { $this lc:sightedOn ?h }
+        FILTER NOT EXISTS {
+          $this lc:viaSeam ?sm . ?sm lc:toOwner ?h ; lc:readAt ?e ; lc:fromOwner ?f .
+          $this lc:sightedOn ?f
+        }
       }""" ] ;
   sh:sparql [
     sh:message "Only new demand goes through the option pool; owed and own-ground demand do not (pdlc.md §9, Round 22)." ;
@@ -320,12 +335,12 @@ lc:TraceShape a sh:NodeShape ;
   sh:property [ sh:path lc:step ; sh:minCount 2 ; sh:class lc:TraceStep ;
                 sh:message "A trace has at least two steps." ] ;
   sh:sparql [
-    sh:message "A trace passes its kind's entry act and its discharge act (method step 1b, part 5)." ;
+    sh:message "A trace passes one of its kind's entry acts and its discharge act (method step 1b, part 5)." ;
     sh:prefixes lc:shapesPrefixes ;
     sh:select """
       SELECT $this WHERE {
-        $this lc:demandKind ?k . ?k lc:entersAt ?e ; lc:dischargedAt ?d .
-        FILTER ( NOT EXISTS { $this lc:step ?s1 . ?s1 lc:atAct ?e }
+        $this lc:demandKind ?k . ?k lc:dischargedAt ?d .
+        FILTER ( NOT EXISTS { $this lc:step ?s1 . ?s1 lc:atAct ?e . ?k lc:entersAt ?e }
               || NOT EXISTS { $this lc:step ?s2 . ?s2 lc:atAct ?d } )
       }""" ] ;
   sh:sparql [
@@ -360,4 +375,26 @@ lc:TraceStepShape a sh:NodeShape ;
           ?a lc:dependency ?d . ?d lc:on ?pa .
           FILTER NOT EXISTS { ?d lc:forKind ?fk . FILTER ( ?fk != ?k ) }
         }
+      }""" ] .
+
+lc:SeamShape a sh:NodeShape ;
+  sh:targetClass lc:Seam ;
+  sh:property [ sh:path lc:crosses ; sh:minCount 1 ; sh:datatype xsd:string ;
+                sh:message "A seam says what crosses it (lc:crosses)." ] ;
+  sh:property [ sh:path lc:fromOwner ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A seam runs from exactly one owner." ] ;
+  sh:property [ sh:path lc:toOwner ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:OwnerRole ;
+                sh:message "A seam runs to exactly one owner." ] ;
+  sh:property [ sh:path lc:producedAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A seam names the act whose output crosses it." ] ;
+  sh:property [ sh:path lc:readAt ; sh:minCount 1 ; sh:maxCount 1 ; sh:class lc:Act ;
+                sh:message "A seam names the act that reads what crosses it." ] ;
+  sh:sparql [
+    sh:message "A seam is a row of the act map: its producing act is held by the supplying owner, its reading act by the receiving owner, and the reading act depends on the producing act or reads it as earlier ground (pdlc.md §2.1)." ;
+    sh:prefixes lc:shapesPrefixes ;
+    sh:select """
+      SELECT $this WHERE {
+        $this lc:fromOwner ?f ; lc:toOwner ?t ; lc:producedAt ?p ; lc:readAt ?r .
+        FILTER ( NOT EXISTS { ?p lc:heldBy ?f } || NOT EXISTS { ?r lc:heldBy ?t }
+              || ( NOT EXISTS { ?r lc:readsEarlier ?p } && NOT EXISTS { ?r lc:dependency ?d . ?d lc:on ?p } ) )
       }""" ] .
