@@ -55,6 +55,24 @@ Varve is the **subject** of the design, not a dependency. The example is **expos
 evidence**. It is falsified by the junior-engineer test: someone at first contact performs the step
 and cannot name the value it gave them. Running that test is Emil's act, and it has not been run.
 
+## Run it in Claude Code
+
+The method is also a Claude Code plugin, [`plugins/ddd-method/`](plugins/ddd-method/). Its design
+is `[PROPOSED]`.
+
+```bash
+claude plugin marketplace add mindovermachine-dev/decision-driven-design
+```
+
+```bash
+claude plugin install ddd-method@decision-driven-design
+```
+
+Then run `/ddd-method:run`. The plugin holds no method content. It reads the step cards and the
+claims they cite from this repository at its pin, **`v0.7.0`**, and stops if it cannot. Its version
+tracks the pin (`0.7.0`). A release that adds a card or moves a step's register advances both
+([plugin README](plugins/ddd-method/README.md)).
+
 ## Where it is the wrong tool
 
 - **You can only read the work back from existing code.** Step 1 maps forward from the domain and

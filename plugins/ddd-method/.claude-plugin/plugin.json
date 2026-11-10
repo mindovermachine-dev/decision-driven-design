@@ -1,0 +1,13 @@
+{
+  "name": "ddd-method",
+  "version": "0.7.0",
+  "description": "Run the Decision-Driven Design method step by step, reading each step card and the canon it cites from the decision-driven-design repository at the plugin's pinned release.",
+  "author": {
+    "name": "Mind Over Machine",
+    "url": "https://github.com/mindovermachine-dev"
+  },
+  "homepage": "https://github.com/mindovermachine-dev/decision-driven-design/tree/main/plugins/ddd-method",
+  "repository": "https://github.com/mindovermachine-dev/decision-driven-design",
+  "license": "MPL-2.0",
+  "keywords": ["decision-driven-design", "method", "act-map", "demand-flow"]
+}
