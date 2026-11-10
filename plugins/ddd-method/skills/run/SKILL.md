@@ -76,7 +76,10 @@ says at the pin and cite the source it names.
   Where the card asks you to declare something before reading positions on it, declare it first
   and say that the choice is a guess to argue with.
 - **Act.** Do what the card says, on the user's material, step by step.
-- **Artefact out.** Produce the artefact the card names, in the form it prefers (see §6).
+- **Artefact out.** Produce the artefact the card names, in the form it prefers (see §6). Where the
+  card says what each element is made of, give every part for every element, in the artefact
+  itself and not only in prose around it. If a part cannot be given, mark it missing for that
+  element.
 - **Exit check.** Apply the card's check to the artefact and say whether it closes. If it does not,
   say what is missing.
 - **Value made visible.** Read the card's definition of the field in the method README. At the
