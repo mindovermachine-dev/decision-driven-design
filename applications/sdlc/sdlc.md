@@ -261,7 +261,7 @@ What owner's assurance. They were moved to the How.
 
 **The How owner tunes it down until the outcomes move.** Lowering any part shows, if it
 mattered, as change failure rate or failed ready-for-users verdicts (§18). If neither moves, that
-is fine: the verification removed was probably not giving any value. So the How owner may keep
+is fine: the verification removed was not giving any value. So the How owner may keep
 removing verification while both outcomes hold still, and restores it when either moves.
 
 **Relation to Varve's ADR 0088.**

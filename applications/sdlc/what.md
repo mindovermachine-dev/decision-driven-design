@@ -62,7 +62,7 @@ addresses off the What instead of inventing them.
 | Work units, seams, verification as a process | retired. The gate is Writ |
 | Two Pillars conformance | dropped. This repository consumes canon by pin |
 | Data conformance | an add-on that reads the What, outside the framework |
-| Force: the genesis grant, grants, acceptance, baselines, waivers | the authority profile, [`authority.md`](authority.md) |
+| Force: the genesis grant, grants, acceptance, baselines, waivers | the genesis grant and the authority profile, [`authority.md`](authority.md) |
 | Catalogues: components, tokens, strings | packages with their own genesis |
 | The §4–§7 classes of the old `pf:` ontology | not carried in any namespace. The `pf:` namespace ends with this move |
 
@@ -258,7 +258,7 @@ pattern kinds (Customer–Supplier, Conformist, Anticorruption Layer and the res
 they describe teams or realisation, not meaning, and belong in the How.
 
 An entity's attributes are `sdlc:Field` elements within it. Their types come from the single
-datatype vocabulary: string, integer, number (`xsd:decimal`), boolean and date (§3.2.0).
+datatype vocabulary: string, integer, number (`xsd:decimal`), boolean and date (the source's datatype list).
 
 *In Acme Shop:* the entity `Order`, in the Ordering bounded context, has the fields
 `customer_id`, `paid_total` and `refunded_total`, and the invariants "order has lines", "refund by
@@ -989,7 +989,7 @@ merged.
 | §6 | The charter; move Round 1, Q-1 (PF §6.3.1 at v1.11.0). `actor` → `subject`: Q-5. Wire names: move Round 2, `DDD-dec-64` P-1; uniqueness: R-1; kinds: R-2. Keys: `DDD-dec-63`. Ground readings: `DDD-dec-52` |
 | §7.1 | `DDD-dec-51`; PF §9; identity `DDD-dec-63` |
 | §7.2 | `DDD-dec-51`; PF §10; identity `DDD-dec-63`; in force `DDD-dec-47`, set aside until the profile existed (Q-4) and recorded on 2026-11-02 as existing (`authority.md` §4.7). Validation regime: `DDD-dec-113` E-1; violations and warnings: E-2 |
-| §8 | `DDD-dec-64`: P-1 ruled in move Round 2; P-2 to P-7, R-1 and R-2 ruled in Round 5, all as proposed; P-7's multi-scope rule and R-2's amendment to P-1's list added with the ruling |
+| §8 | `DDD-dec-64`, its table rows in order P-1 to P-7 (P-6: the What-side kinds the move adds); Q-2 (product-cli's `schema/` §3 as the subset); `examples/checkout` not carried: `DDD-dec-45`. P-1 ruled in move Round 2; P-2 to P-7, R-1 and R-2 ruled in Round 5, all as proposed; P-7's multi-scope rule and R-2's amendment to P-1's list added with the ruling |
 
 Ids in this document are in this table and the `ddd:doc` block, not in its running text. The text
 it replaces is `84aa466:applications/sdlc/what.md`.

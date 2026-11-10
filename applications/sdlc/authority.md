@@ -17,7 +17,9 @@ decision at any position of a positioned log, and say which acceptances, grants 
 in force or keep it out.
 
 **How settled this is.** Everything here is decided. The profile was ratified when its pull request
-merged on 2026-11-02, and no point in it is open or waiting for a ruling. It has been executed over
+merged on 2026-11-02, and no point in it is open or waiting for a ruling. One later decision
+(2026-11-08) amends it: the product framework carries roles, and a scope also ranges over decision
+kinds. §3.1, §3.2 and Appendix B's roles row have not yet been reworked to it ("Not settled yet"). It has been executed over
 one hand-built worked example (§9) and over generated histories (§8.3). Neither shows that any
 other implementation or any real log holds it.
 
@@ -169,7 +171,7 @@ records that authority was re-founded.
 **Key loss is not holder loss.** A genesis holder who loses a key still holds the genesis. What is
 needed is a new key binding, and the one party the holder pre-authorised is the fallback. For the
 genesis, a holder with no live key gets one "by a new key binding vouched by a fallback; absent any
-fallback, by the new-product path". The earlier reading, that such a holder gets a key by
+fallback, by the new-product path". The earlier ruling, that such a holder gets a key by
 transfer, is withdrawn.
 
 - **The vouch.** The holder of a live fallback of the genesis signs a `key-binding` with
@@ -551,7 +553,7 @@ evaluation of that history.
 | A8 | Every valid act is signed by a key bound to its signer, and no key signs after its close | keys (§5.3) |
 | A9 | A baseline is carried only by a valid acceptance, on a decision it accepts. That landings only shrink it is Writ's G11 over code, and is not checked here | the baseline rule |
 | A10 | Waivers change nothing in force, and a waiver is live only before its expiry by header clock | the waiver rule; header clocks (§6.2) |
-| A11 | A fallback acts only while its primary is filed unavailable at the act, and never transfers | the genesis grant's fallback rule (§2.4) |
+| A11 | A fallback acts only while its primary is filed unavailable at the act, and never transfers | the fallback rule (§2.4) |
 | A12 | Evaluating the same log again, or a prefix of it as-of, gives the same judgements and the same state at every position | G1, G6 |
 | A13 | An acceptance of a record in another system is never valid | force is local |
 
@@ -681,6 +683,15 @@ ledger" is not a reason for anything here. Each row says why it was kept, change
 | Decision classes and their floors (§6.4) | dropped. What a decision touches decides who may accept it (§4.2) | the class requirement table was never implemented, and scopes over classes do its work |
 | `allowed_signers` derived from bindings (§4.9) | not carried. The reference evaluator derives key windows from the log | a derived file is an implementation's |
 | Writer-behavioural refusals (LP-6.14: non-interactive, agent identity, software key) | the machine rule (§5.1) is structural; hardware keys are not required | "no configuration makes it possible" is a property of records, checkable from the log |
+
+## Not settled yet
+
+- **Roles and scopes over decision kinds, decided later and not yet worked in** (§3.1, §3.2,
+  Appendix B). A later decision says the product framework carries roles (a role is a named,
+  reusable scope a grant may cite, evaluated wherever the grant is) and that a scope ranges over
+  decision kinds as well as What element kinds. §3.1 and §3.2 still define a scope as a set of
+  ontology classes. Reworking them is the specification-feasibility work's. Which of its items the
+  roles row belongs to is that decision's own reading, not yet confirmed by Emil.
 
 ---
 

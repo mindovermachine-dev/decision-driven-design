@@ -16,7 +16,7 @@ hash law of `spec/decision-provenance/`. It was built by [`build.py`](build.py) 
 [`check.py`](check.py).
 
 **How settled this is.** It is a test product, and nothing here is acceptable into a real product.
-The rules it exercises are the ruled What, How and authority profile. The fact files are
+The rules it exercises are the decided parts of the What, the How and the authority profile. The fact files are
 hand-written, so the run shows that the rules execute as written; it shows nothing about whether
 the How is right.
 
@@ -66,7 +66,7 @@ effect list, region list or native file kind.
 A fourth, `REST@2` (a binding: every Command at `POST /commands/{wire name}`, what.md §6), is the
 charter's third "specified once" check. It supersedes `REST@1`, which read the provisional local
 id, and is anchored at the Ordering bounded context. It reads the wire name, as ruled ("REST@2
-stands"). So Acme Shop imports four How decisions: `IMP-layer`, `IMP-pure`, `IMP-resid` and
+stands"). Acme Shop imports four How decisions: `IMP-layer`, `IMP-pure`, `IMP-resid` and
 `IMP-rest`.
 
 The package's version 2 (`REL@2`) supersedes the layer rule with `LAYER@2`, which adds a `test`

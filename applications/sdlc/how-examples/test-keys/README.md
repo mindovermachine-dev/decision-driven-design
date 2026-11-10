@@ -9,6 +9,10 @@ status: current
 supersedes: 84aa466:applications/sdlc/how-examples/test-keys/README.md
 -->
 
+For anyone rebuilding or extending the acme shop fixture: which key belongs to which test holder,
+where it is bound in the log, and the rules for using it. **How settled this is:** decided; the
+rules below were ruled with the authority profile.
+
 **These are test keys.** Each belongs to a declared test holder of a test product's genesis:
 `GEN@3` of `https://acme.example/products/shop` or `GEN@2` of the vendor package (authority.md §9). None is used
 outside this fixture, and none belongs to a person.

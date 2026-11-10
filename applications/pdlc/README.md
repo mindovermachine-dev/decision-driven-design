@@ -35,13 +35,13 @@ the forecast was settled afterwards. Nothing here has run on a real product yet.
   **owned here**, by the What owner, and read by the SDLC as ground.
 - **The SDLC** is in [`../sdlc/sdlc.md`](../sdlc/sdlc.md). It sits beside this directory, not
   inside it. The nesting is a relation in the act map (every SDLC act's layer path begins
-  PDLC ▸ SDLC), not a directory layout. Whether the directory should one day nest has been
-  decided: it does not (`pdlc.md` §15, O-1).
+  PDLC ▸ SDLC), not a directory layout. Whether the directory should nest has been decided
+  for now: it does not (`pdlc.md` §15, O-1).
 - **The authority** over a product, the genesis grant and the scopes the three owners hold, is
   the authority profile, [`../sdlc/authority.md`](../sdlc/authority.md) §2–3.
 
 **Not Delivery.** The PDLC is not the Product Framework's Delivery revived; that was retired
-when the What moved here. It carries no releases, versions or timeline as artefacts. Ordering and
+when the What moved into `applications/sdlc/`. It carries no releases, versions or timeline as artefacts. Ordering and
 delivery are recorded decisions, and forecasts are computed from the SDLC's record.
 
 Run: `python3 applications/pdlc/graph/check.py` and `python3 applications/sdlc/acts/check.py`.

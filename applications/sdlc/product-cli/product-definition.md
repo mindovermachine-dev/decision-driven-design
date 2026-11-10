@@ -4,7 +4,7 @@
 reader: whoever builds, reviews or changes the rewritten product-cli, the tool that authors a product's What, and the people who will author with it
 act: know what the tool promises, to whom, through which surface and formats, under which guarantees, and how it is built and accepted; and change it outside-in
 pin: v5.15.2
-basis: [DDD-dec-113, DDD-dec-72, DDD-dec-73, DDD-dec-63, DDD-dec-64, DDD-dec-57]
+basis: [DDD-dec-113, DDD-dec-117, DDD-dec-72, DDD-dec-73, DDD-dec-63, DDD-dec-64, DDD-dec-57]
 status: current
 supersedes: 84aa466:applications/sdlc/product-cli/product-definition.md
 -->
@@ -13,7 +13,7 @@ This is the definition of the rewritten product-cli. It replaces the Rust worksp
 
 Read it if you build or review the tool, or will author a What with it. It is written outside-in: the promise first, the implementation last. Chapters 1 to 6 are the product; chapter 7 is how it happens to be built and may change without the product changing.
 
-**How settled this is.** Draft 4, of 2026-11-03. Everything here is decided, except the points marked *(open)* and listed in "Not settled yet". Where a decision replaced an earlier one, the text states the decision in force; the replaced ones are listed in "Where this comes from". The `sdlc:` edition it implements is edition 1, shipped in decision-driven-design `v0.6.0`. The tool is not yet built: chapter 7's order of work says how far it has got.
+**How settled this is.** Draft 4, of 2026-11-03. Everything here is decided, except the points marked *(open)* and listed in "Not settled yet". Where a decision replaced an earlier one, the text states the decision in force and lists the replaced ones in "Where this comes from", with one exception: the rule that the tool holds no authority was superseded by a later decision on 2026-11-08, and the text has not yet been reworked to it. Each place it appears says so. The `sdlc:` edition it implements is edition 1, shipped in decision-driven-design `v0.6.0`. The tool is not yet built: chapter 7's order of work says how far it has got.
 
 ## 1. The promise
 
@@ -24,7 +24,7 @@ Four consequences follow and are the whole product:
 - **The What is authored in conversation, and every step of it is a decision.** An agent proposes; the author watches the graph, its findings and its open questions change live, and adopts or rejects each proposal. Each adoption is a `dpp/1` decision record with its reason, so specification moves at the speed of the conversation and every element of the What traces to the person who adopted it.
 - **The What is a graph with shapes, never prose with diagrams.** Anything that cannot be stated as a node, an edge or a shape is not yet specified, and the tool says so rather than accepting it.
 - **Behaviour is executable before any code exists.** A Decider and a Projector are simulated sound and complete against scenarios drawn from the flows. The same scenarios later judge realised code through a wire protocol the tool implements.
-- **The tool puts nothing in force and decides nothing about realisation.** It records the author's decisions over the What as `dpp/1` records, which by its profile carry no force. It produces a canonical document. What that document is held against, who accepts it under which grant, and from which position it is in force, belong to Writ.
+- **The tool puts nothing in force and decides nothing about realisation.** *(A later decision supersedes this: product-cli carries the same grants and roles as the other systems. This text has not yet been reworked to it; see "Not settled yet".)* It records the author's decisions over the What as `dpp/1` records, which by its profile carry no force. It produces a canonical document. What that document is held against, who accepts it under which grant, and from which position it is in force, belong to Writ.
 
 Everything below is how.
 
@@ -306,7 +306,7 @@ W1 and W5 are the edition's violations. W3 and W4 are its warnings. The checks t
 - **W7. Canonical export.** Two exports of the same draft position are byte-identical, on every platform, graph and logic artefacts alike. Canonicalisation happens once, before any exporter runs. Every derived export is a deterministic function of the canonical graph and artefacts, and its record names that graph's canonical hash.
 - **W8. Round-trip.** Importing a canonical export yields a draft whose export is byte-identical to the input, graph and artefacts.
 - **W9. Phase order.** An agent session cannot author a node before the nodes it derives from exist. The gate is the session transport, not advice in a prompt.
-- **W10. Nothing in force, nothing landed.** The tool holds no key and no grant, puts nothing in force, knows no Writ position, and writes to no log but its own draft log. Its decision records carry no force by its profile. Exporters produce documents only.
+- **W10. Nothing in force, nothing landed.** *(A later decision supersedes this: product-cli carries the same grants and roles as the other systems. This text has not yet been reworked to it; see "Not settled yet".)* The tool holds no key and no grant, puts nothing in force, knows no Writ position, and writes to no log but its own draft log. Its decision records carry no force by its profile. Exporters produce documents only.
 - **W11. Decision-provenance conformant.** The draft log is a conformant system under `dpp/1` §8, at specification 1.0, checked by the `dpp/1` conformance suite (Appendix C):
   - every record it exposes is conformant (§3.6), has a non-empty `why`, and has `system` equal to the draft log's identifier;
   - no hashed content changes under a published triple, and no version is reused (§3.8);
@@ -424,7 +424,7 @@ This chapter may change without chapters 1 to 6 changing.
     - the framework CLI scenarios and the seed round-trip property, as the conformance suite.
   - `schema/ontology/product-framework.ttl` and `schema/shapes/` are input to `sdlc:` in decision-driven-design and are not carried into this repository.
   - **Not carried:** `ddd`, `spec`, `eval`, `ledger`, codegen, the build seam, `how`, `feature`, `build`, `seam`, `preview`, `target`, `deployable-unit`, `design-system`, `scope`, and the React explorer.
-- **No authority, ever.** The tool records decisions; it never puts one in force. It holds no key and no grant, offers no acceptance under a grant, and knows no Writ position. `dpp/1` leaves authority to profiles (§1.3, §9.4), and this tool's profile claims none. The ledger that lived in the Rust repository is Writ's authority graph now; `writ import` reads the old `.decisions/` once.
+- **No authority, ever.** *(A later decision supersedes this: product-cli carries the same grants and roles as the other systems. This text has not yet been reworked to it; see "Not settled yet".)* The tool records decisions; it never puts one in force. It holds no key and no grant, offers no acceptance under a grant, and knows no Writ position. `dpp/1` leaves authority to profiles (§1.3, §9.4), and this tool's profile claims none. The ledger that lived in the Rust repository is Writ's authority graph now; `writ import` reads the old `.decisions/` once.
 - **Two systems, one protocol.** The draft log and Writ's log are two `dpp/1` systems. The draft log holds the author's decisions over the What; Writ's log holds what is in force. They share no position, grant or key; they are joined only by `basedOn` references with pins, which carry provenance and never force. The tool never learns about Writ positions or grants; the moment it does, the boundary has leaked.
 - **Decision-driven, like Writ.** The tool holds no key, but the project does.
   - Writ has no implementation yet: its embedded log arrives with Writ #7, and `land` with #8.
@@ -456,7 +456,7 @@ As of 2026-11-06.
 | The vocabulary; how the edition is carried | `sdlc:` edition 1 tagged; until then its file hash moves | decision-driven-design | **met**: `v0.6.0`, tag object `bb47a720832c77f6a53c82b90388cd4a2c5c23bf` on `1ab1de005eb60ce2ea019e9942cd52b790aab0e7`, edition hash `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29` |
 | The canonical export; the What-version record | Writ lands canonical N-Quads as the What document, and holds the guest graph under `sdlc:` instead of `pf:` | Writ #22 | open |
 | Decision-driven, like Writ (ch. 8) | the embedded log (#7) and `land` (#8) | Writ | open |
-| Element hashes | product-cli's element-hash vectors, offered as a cross-check beside Varve's | decision-driven-design (its second implementation of the canonical form) | to deliver at step 2 |
+| Element hashes | product-cli's element-hash vectors, offered as a cross-check beside Varve's | decision-driven-design (a further cross-check beside the canonical form's second implementation, not a substitute for it) | to deliver at step 2 |
 | The canonical export | RDFC-1.0 in Varve | Varve | **met**: `RdfCanonicaliser` reproduces decision-driven-design's graph hashes |
 | The validation regime | SHACL Core with SHACL-SPARQL, AOT-compatible | Varve | **met**: `Varve.Shacl` and `Varve.Shacl.Sparql` agree with pyshacl on both examples |
 | The vocabulary | the What's identity form on `main`, and the What half of `sdlc:` published | decision-driven-design | **met** |
@@ -469,6 +469,11 @@ As of 2026-11-06.
 
 ## Not settled yet
 
+- **The tool's authority, superseded and not yet reworked** (chapter 1, W10, chapter 8). A later
+  decision supersedes "no authority, ever": product-cli carries the same grants and roles as the
+  other systems, and a scope ranges over decision kinds as well as What element kinds. The
+  passages that say the tool holds no key and no grant state the superseded rule, and are marked
+  where they appear. Reworking them is the specification-feasibility work's, not this rewrite's.
 - **Node kinds with no `domain new` kind** (chapter 3, "Commands"). AIO, context of use, page
   graph and application root; WCAG criterion and attestation; `sdlc:DeclaredTarget`;
   `sdlc:Interaction`, `sdlc:Field`, `sdlc:StateAnnotation` and `sdlc:ContentKey` are in the
@@ -493,7 +498,7 @@ number, and the text states the ruling in force.
 |---|---|
 | Opening, where the definition lives | D1.24 (2026-11-03) |
 | 1. The promise: authored in conversation | D1.10 (2026-10-30) |
-| 1. The promise: nothing in force | D1.11 (2026-10-30) |
+| 1. The promise: nothing in force | D1.11 (2026-10-30), superseded by `DDD-dec-117` (2026-11-08) |
 | 3. Commands: `domain validate` | D1.19 (2026-11-03) |
 | 3. Commands: `proposal` | D1.12 (2026-10-30); `adopt` by number or `--all`, and `review`, D1.15 (2026-10-30) |
 | 3. Commands: `view` | D1.13 (2026-10-30) |
@@ -519,7 +524,7 @@ number, and the text states the ruling in force.
 | 5. Severities of the guarantees | D1.19 (2026-11-03); `DDD-dec-113` |
 | 5. W3, automated and external triggers act as a subject kind | D1.4 (2026-10-30), amended by D1.18 (2026-11-03) |
 | 5. W5, a trigger's subject matches its source | D1.4 (2026-10-30), amended by D1.18 |
-| 5. W10 | D1.11 (2026-10-30) |
+| 5. W10 | D1.11 (2026-10-30), superseded by `DDD-dec-117` (2026-11-08) |
 | 5. W11, W12 | D1.12 (2026-10-30); W11's What-version clause, D1.17 |
 | 6. Shape engine | D1.19 |
 | 7. Shapes and rules, embedded and hash-checked | D1.20 |
@@ -533,7 +538,7 @@ number, and the text states the ruling in force.
 | 7. Order of work, step 5 | D1.13 (2026-10-30) |
 | 8. Declared targets | `DDD-dec-57` |
 | 8. `schema/` not carried | D1.9 (2026-10-30) |
-| 8. No authority, ever | D1.11 (2026-10-30) |
+| 8. No authority, ever | D1.11 (2026-10-30), superseded by `DDD-dec-117` (2026-11-08) |
 | 8. Decision-driven, like Writ | D1.22 (2026-11-03), amending Draft 3's clause "governed by an embedded `writ` from its first commit"; the interim rule is Writ ADR 0008 |
 | 8. Subjects are What | adopted from the Product Framework's v1.11.0 by ruling, 2026-10-28 |
 | 8. The subject checks, in edition 1 | `DDD-dec-113`, E-4 |
