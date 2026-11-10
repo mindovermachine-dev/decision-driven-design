@@ -10,7 +10,7 @@ of the human first-contact test (prompt step 8).
 | A-1 | Port the `ddd:doc` check (W8 to W15) from `claude/doc-format` (`df9d05b`) to `scripts/`, as a warning-level gate in `ci.py` | `[OPEN]` (`DDD-dec-94`, "Not re-filed"). Not ported on `main` |
 | A-2 | Reformat `apparatus/` to the format, with the independent check run before any reader test | `[OPEN]` (`DDD-dec-95`, next) |
 | A-3 | Reformat `applications/sdlc/authority.md` | #45 has merged, and `authority.md` is on `main`. It is in Gate B's scope |
-| A-4 | The human first-contact test: the deciding test for the format (Emil, 2026-11-09: "Keep it, human test decides") | `[OPEN]`; pre-registration written at Gate B |
+| A-4 | The human first-contact test: the deciding test for the format (Emil, 2026-11-09: "Keep it, human test decides") | `[OPEN]`, **for Emil to schedule**. Pre-registered in `prereg-a4-human-first-contact.md`, committed before any rewrite: six to eight people new to the method, old text (`84aa466`) against new (the landed head), three timed tasks, blind scoring, and the rules for helps, fails and inconclusive, with what follows from each. Not run with model readers |
 | A-5 | Write Varve's What, so one example carries the whole method | `[OPEN]` |
 | A-6 | Re-point `what/ontology.ttl` (l. 15, 293) and `what/shapes.ttl` (l. 487–500) at the next vocabulary edition: they cite `what.md §6` and `how-vocabulary.md`, and they are hashed into the edition | `[OPEN]`. Still true on `main` |
 | A-7 | Re-point the comments in `how-examples/build.py` (`what.md` §2, §3.6, §5, §6) if any section moves | `[OPEN]`. Moot if Gate B keeps `what.md`'s numbering |
@@ -21,4 +21,5 @@ of the human first-contact test (prompt step 8).
 | A-12 | How a command addresses its aggregate (no command carries an order identifier) | `[OPEN]`; Round 2 |
 | A-13 | Re-propose the 2026-10-26 Gate 2 rulings 3 and 4 (`way-of-working.md` §5; the agents file, now `AGENTS.md`) against the current tree | `[OPEN]` (`DDD-dec-94`, "Not re-filed") |
 | A-14 | Folder charters (`ddd:charter`), re-proposed folder by folder as each is reformatted | `[OPEN]` (`DDD-dec-94`) |
+| A-16 | The What has no unpaid order: `Order` is "a placed, paid order" and `Order placed` carries `paid_total`. A change about unpaid orders needs a product decision on payment first | `[OPEN]`; found by all four of #48's readers; Round 2 |
 | A-15 | Update the project instructions: the protocol token is dpp/1 | Emil's act; outside the repository |
