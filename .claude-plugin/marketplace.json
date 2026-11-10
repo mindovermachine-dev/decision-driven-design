@@ -1,0 +1,15 @@
+{
+  "name": "decision-driven-design",
+  "owner": {
+    "name": "Mind Over Machine",
+    "url": "https://github.com/mindovermachine-dev"
+  },
+  "description": "The Decision-Driven Design method as a Claude Code plugin, versioned with the method.",
+  "plugins": [
+    {
+      "name": "ddd-method",
+      "source": "./plugins/ddd-method",
+      "description": "Run the method step by step from its step cards, read at the plugin's pinned release."
+    }
+  ]
+}

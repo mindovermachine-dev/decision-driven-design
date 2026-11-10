@@ -147,6 +147,12 @@ def gate_how():
     return run(["applications/sdlc/how-examples/check.py"])
 
 
+def gate_plugin():
+    # The method plugin: names, the pin, thinness (meta/sessions/2026-11-08-method-plugin/
+    # design.md §6, [PROPOSED]).
+    return run(["plugins/ddd-method/check.py"])
+
+
 def expect_of(path: Path) -> str:
     """The expected error text: an `# expect:` first line, or an `expect` file beside a tree."""
     if path.is_dir():
@@ -408,6 +414,7 @@ GATES = [
     ("core-order", "core order, embeds, and upstream pins at the pinned ref", gate_core_order),
     ("what", "the What: shapes, identity form, hash vectors", gate_what),
     ("how", "the How examples: records, anchors, verdicts", gate_how),
+    ("plugin", "the method plugin: names, the pin, no method text in the skill", gate_plugin),
     ("releases", "release descriptors valid; the release-head guard for each not yet cut",
      gate_releases),
     ("fixtures", "each checker accepts its accept tree and refuses its refuse cases", gate_fixtures),
