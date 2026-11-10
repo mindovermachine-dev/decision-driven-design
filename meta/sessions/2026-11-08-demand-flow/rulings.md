@@ -1,17 +1,18 @@
 # Rulings — map the flow of demand, 2026-11-08
 
-Emil's rulings, verbatim: Rounds 23, 24 and 25 of the claude.ai conversation of 2026-11-07/08.
-The round numbers are that conversation's own. The 2026-11-07 session's `rulings.md` has its own
+Emil's rulings, verbatim: Rounds 23, 24 and 25 of the claude.ai conversation of 2026-11-07/08,
+and Round 26, given in this session on PR #68 (2026-11-10). The round numbers continue that
+conversation's own. The 2026-11-07 session's `rulings.md` has its own
 Rounds 26 to 31, with different content, so a round is cited here together with this record
 ("Round 24, demand-flow `rulings.md`").
 
-The blockquote is copied from `prompt.md` byte for byte, apart from the quote markers. It includes
+The first blockquote is copied from `prompt.md` byte for byte, apart from the quote markers. It includes
 the prompt's own framing sentences between the rounds (what "what we just did" refers to, what
 Claude checked and proposed), because the rulings answer them. The four claims in Round 23's table
 were Claude's proposals, `[PROPOSED]` and not ruled; Round 24 rules where they are filed and at
 what scope, not their content.
 
-## The rounds, verbatim
+## Rounds 23 to 25, verbatim
 
 > These round numbers follow the claude.ai conversation's own sequence. The 2026-11-07 session's
 > rulings.md has its own Rounds 26 to 31, with different content. Cite a round together with the
@@ -80,6 +81,33 @@ what scope, not their content.
 > own-ground) as the starting point for a practitioner declaring their own process's kinds. They
 > remain the PDLC's set, not the method's; generality is still not claimed (Round 24).
 
+## Round 26, verbatim (2026-11-10, this record)
+
+Emil's message in this session, on PR #68, after the branch stopped at `8186d0b`. It is the next
+round of this record, so Round 26. **The 2026-11-07 session's `rulings.md` has its own Round 26,
+with different content**; cite this one as "Round 26, demand-flow `rulings.md`". The message
+quotes Claude's proposal for R-1 and Emil's ruling on it, and gives the instructions that apply
+it. It is copied byte for byte, apart from the quote markers.
+
+> PR #68 is open on your branch. One ruling, on R-1. Record this message verbatim in rulings.md as the next round, and predict before each operation.
+> Claude proposed, for R-1: separate sighting from entry. Sighting is when the item first appears as a fact in some owner's ground. Entry is the act that assigns the item its kind. So DDD-flow-03 would read: a demand item enters at the act that assigns its kind; it may first appear in another owner's ground, and it reaches that act along a declared seam. o0 (the When owner proposes a need, as new), oC (the What owner classifies a reported defect) and oG (the How owner sights and classifies its own-ground work) all fit. A bug's route from telemetry to oC is the How → What telemetry seam (Round 16 of the 2026-11-07 record).
+> Emil: "agreed on your ruling - and the important note is that the how might sight it but it is the what that says wether it is a bug or not"
+> Amend in place, before landing. The claim is filed but not landed, as Round 21 of the 2026-11-07 record ruled for DDD-dec-114.
+>
+> 1. DDD-flow-03: reword the statement to sighting and entry as above. Make Emil's note explicit: the How owner may sight a defect, but only the What owner says whether it is a bug (owed demand) or not (new demand). Bring the falsifier, test, breaks and notes into line. The falsifier becomes a demand item whose kind is assigned at an act whose owner cannot read the item's ground, or which reaches that act by no declared seam. Record in notes that R-1 was closed by this round.
+> 2. Wherever the step card (method/01b-map-the-flow-of-demand.md), pdlc.md or the graph data says "detects" in the sense of entry, change it to sighting and entry. That includes check.py's report line about demand that "enters at an owner whose ground didn't detect it". Re-read what that line flags under the new wording. If it was the oC case, it is now correct by construction: say so, and keep a planted defect that still fails.
+> 3. DDD-dec-118: add a line recording that this round closed R-1. Mark R-1 closed in successor-items.md, citing this round.
+> 4. Do not touch A-1 (the area name) or N-1 (numbering); they are not ruled yet.
+>
+> Then run scripts/ci.py, check.py and canon's checks as CI runs them. Push, wait for green CI, and report the new head, which I will approve on #68. Stop. Do not land.
+
+- **R-1 is closed.** Sighting and entry are separated: sighting is when an item first appears as a
+  fact in some owner's ground; entry is the act that assigns its kind. `DDD-flow-03` is reworded in
+  place, before landing, as Round 21 of the 2026-11-07 record allowed for `DDD-dec-114`.
+- **Emil's note is a ruling, not a gloss:** the How owner may sight a defect, but only the What
+  owner says whether it is a bug (owed demand) or not (new demand). It is explicit in
+  `DDD-flow-03`'s statement.
+
 ## How the rounds govern one another
 
 | Round | Answer | Standing |
@@ -89,8 +117,9 @@ what scope, not their content.
 | 23, third | "The PDLC we just built (Recommended)" | **Stands.** The worked example is the PDLC's three flows |
 | 24 | "Step general, kinds PDLC (Recommended)" | **Stands.** Part (6) of the procedure is general; new, owed and own-ground are the PDLC's declared set; the four claims filed downstream (`DDD-flow-01` to `04`), PDLC-scoped, projected |
 | 25 | The method references the PDLC's kinds as a starting point | **Stands.** The card gives the three kinds with their tests as where a practitioner starts; they stay the PDLC's set |
+| 26 (this record) | "agreed on your ruling": sighting separated from entry; the What owner alone says whether a defect is a bug | **Stands.** Closes R-1. `DDD-flow-03` amended in place before landing; `DDD-dec-118` records the closure |
 
-All three rounds are filed as `DDD-dec-118`, which adds to `DDD-dec-114` and supersedes nothing.
+Rounds 23 to 25 are filed as `DDD-dec-118`, and Round 26 is recorded in it as closing R-1, which adds to `DDD-dec-114` and supersedes nothing.
 A ruling superseded inside one conversation (Round 23's second answer) is not a filed decision, so
 `DDD-dec-118` has nothing to name in a `supersedes` field.
 
