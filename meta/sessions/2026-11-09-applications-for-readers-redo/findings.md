@@ -92,3 +92,19 @@ this session's scope.
 **F-12. `DDD-dec-117` names `authority.md`'s Appendix B roles row as amended.** The rewrite adds a
 note to that row saying so, and that the profile's text has not been reworked to it. Reworking §3.1
 for roles is the specification-feasibility session's successor work, not this session's.
+
+**F-13. One register moved outside `DDD-dec-119`, for Emil to check.** `how.md` §2's table row
+"each anchored to a What element or to the product" said "only with a reading (ruled, §3)" and
+ended with `UNVERIFIED — Emil review`. §3 says the reading was ruled as proposed, and
+`DDD-dec-55`'s statement contains it ("It is the loophole only when a narrower element exists and
+was not used"). The rewrite drops the stale mark on that basis. If the mark was meant for the
+row's other sentence, which reads `DDD-dec-54` ruling 1 as forbidding the loophole, it should come
+back as Claude's reading.
+
+**F-14. `how.md`'s other corrections** (from its equivalence table): §12's anchors are the
+`IMP-*@2` ones in force (the product node, the Ordering bounded context, the residency quality
+demand); `REST@2`, not the superseded `REST@1`, is the one evaluated; §4.1's pointer is to
+`how-vocabulary.md` §1; "as the authority profile will define it" became "defines it"; D-8 is
+marked answered, as §1.2 says. `how-vocabulary.md` §3: the What terms are in `what/ontology.ttl`,
+not provisional, and `REST@2` replaced `sdlc:localId` with `sdlc:wireName`. Its "`check.py` holds
+the same list" is loose (`check.py` derives the terms), and is left as written.
