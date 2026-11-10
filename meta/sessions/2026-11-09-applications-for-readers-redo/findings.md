@@ -43,3 +43,52 @@ Gate B keeps `what.md`'s section numbers for this reason.
 **F-7. Stale headroom note, not changed.** `meta/sessions/2026-11-02-canon-cli/successor-items.md`
 S-6 leaves `DDD-dec-94` to `-99` to the authority-profile session, and that session used none of
 them (`bootstrap.md`, "Decision ids at arrival").
+
+## Gate B — the rewrite
+
+**F-8. No file is split, and this differs from #48 on purpose.** #48 split `what.md` and
+`how.md` into practitioner and reference documents, and merged `how-vocabulary.md` into
+`how-reference.md`. Sections of these documents are cited by number 157 times outside the session
+records, including in `what/shapes.ttl` and `what/ontology.ttl`, which are hashed into a
+vocabulary edition, and in signed `dpp/1` records. A split moves sections out of the file they
+are cited in. So every numbered section stays where it is, and each opening says which sections a
+practitioner can skip (`gate-b-conventions.md` §1). This is why `DDD-dec-95` drops #48's split,
+and adapts F4 (order by task) and F5 (reference material in its own document).
+
+**F-9. Facts in the old text that were wrong, corrected in the rewrite.** Each is recorded in its
+equivalence table.
+
+- *Not yet ratified*: `what.md` (#42), `how.md` and `how-vocabulary.md` (#41), `authority.md` and
+  `authority-vocabulary.md` (#45). Each decision names the pull request's acceptance as the
+  ratification act, and each pull request merged.
+- `applications/README.md` called `sdlc.md` `[PROPOSED]` (the release session's F-2), and
+  `sdlc/README.md` called `how.md` "`[PROPOSED]`, unruled".
+- `organizations/README.md` said the claim files flag the claims `UNVERIFIED`. None does, and
+  `DDD-dec-40` ratified all four as projected.
+- `product-definition.md` ch. 8 said `what.md` §3.7 "still marks `[OPEN]`" two checks. Edition 1
+  (`8a5b4e9`) removed that mark.
+- `sdlc.md` §13 said its illustrative record has two issues. It has three (#101, #103, #104).
+- `what.md` cross-references: §2.1 pointed to §8, and the rule is in §5. §5.1 pointed to a §9 that
+  `what.md` does not have, which is `authority.md` §9.
+- `pdlc/README.md` pointed to "§13, O-1, open". O-1 is in §15 and is closed.
+- `production-as-ground.md`: "Location: proposed" (it is at that location), and three
+  cross-references in §8 (#48's finding, verified).
+- `authority.md` §9: "every key is a throwaway test key", against the ruling that the test keys
+  are kept for the fixture's life.
+- `how-examples/README.md` counts, from a fresh `check.py` run: 238 ok lines, 67 records, 27
+  records dated 2026-11-02, the log's p16; four imports, named.
+
+**F-10. `pdlc.md` §2.1: kept as not ruled; Emil may want to settle it.** The document's register
+line says Round 28 ruled its tables. §2.1 says seam-table rows 1 to 8 are "not ruled", and
+`DDD-dec-114` agrees ("It is not ruled here"). The rewrite follows the decision and lists the rows
+under "Not settled yet". The table's last two rows are "Claude's additions", and the old text never
+says whether they were ruled. The rewrite asserts neither.
+
+**F-11. Outside scope: a citation in `applications/pdlc/graph/ontology.ttl`, line 160.**
+`lc:decidedAt` cites "pdlc.md §8" (priority is a When decision). The property is used by §10's
+option-age metric. The citation may be meant as §10. It is not changed: a graph file is outside
+this session's scope.
+
+**F-12. `DDD-dec-117` names `authority.md`'s Appendix B roles row as amended.** The rewrite adds a
+note to that row saying so, and that the profile's text has not been reworked to it. Reworking §3.1
+for roles is the specification-feasibility session's successor work, not this session's.
