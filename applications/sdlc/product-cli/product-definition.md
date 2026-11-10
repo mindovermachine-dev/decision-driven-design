@@ -1,13 +1,19 @@
 # Product: product definition
 
-Draft 4, 2026-11-03 (Draft 3, 2026-10-30; Draft 2, 2026-10-30; Draft 1, 2026-10-21). Written outside-in: the promise first, the implementation last. Chapters 1 to 6 are the product; chapter 7 is how it happens to be built and may change without the product changing.
+<!-- ddd:doc
+reader: whoever builds, reviews or changes the rewritten product-cli, the tool that authors a product's What, and the people who will author with it
+act: know what the tool promises, to whom, through which surface and formats, under which guarantees, and how it is built and accepted; and change it outside-in
+pin: v5.15.2
+basis: [DDD-dec-113, DDD-dec-72, DDD-dec-73, DDD-dec-63, DDD-dec-64, DDD-dec-57]
+status: current
+supersedes: 84aa466:applications/sdlc/product-cli/product-definition.md
+-->
 
-This is the definition of the rewritten product-cli. It replaces the Rust workspace of the same name. `[D1.24]` (2026-11-03) It lives here, in decision-driven-design beside the What it implements; the tool, its ADRs and its tests live in `mindovermachine-dev/product-cli` (chapter 7). What carries over is listed in chapter 8; everything else is new, and "it was like that before" is not a reason for anything in this document.
+This is the definition of the rewritten product-cli. It replaces the Rust workspace of the same name. It lives here, in decision-driven-design beside the What it implements; the tool, its ADRs and its tests live in `mindovermachine-dev/product-cli` (chapter 7). What carries over is listed in chapter 8; everything else is new, and "it was like that before" is not a reason for anything in this document.
 
-Rulings are marked `[D1.n]` with their date where they land.
-- **Drafts 2 and 3.** Draft 2 adds D1.2 to D1.9. Draft 3 adds D1.10 to D1.15, ruled with ADR-0010, ADR-0011 and ADR-0012; they rest on `dpp/1` (specification 1.0, draft of 2026-10-27, decision-driven-design `spec/decision-provenance/dpp-1.md`).
-- **Draft 4** adds D1.16 to D1.25, ruled on 2026-11-03. D1.16 to D1.23 come from the gate checks of 2026-11-02 (A1 to A8); D1.24 supersedes D1.23, and D1.25 adds step 0 to the order of work. The checks were run against decision-driven-design `c7424ad`, Varve `c0a776b`, Writ `6737ac9` and the Rust tool `70395df`.
-- **Superseded rulings** keep their number, with the ruling that replaces them named in place. The text below states the ruling in force.
+Read it if you build or review the tool, or will author a What with it. It is written outside-in: the promise first, the implementation last. Chapters 1 to 6 are the product; chapter 7 is how it happens to be built and may change without the product changing.
+
+**How settled this is.** Draft 4, of 2026-11-03. Everything here is decided, except the points marked *(open)* and listed in "Not settled yet". Where a decision replaced an earlier one, the text states the decision in force; the replaced ones are listed in "Where this comes from". The `sdlc:` edition it implements is edition 1, shipped in decision-driven-design `v0.6.0`. The tool is not yet built: chapter 7's order of work says how far it has got.
 
 ## 1. The promise
 
@@ -15,10 +21,10 @@ A machine-checkable statement of what a product does, with an executable oracle 
 
 Four consequences follow and are the whole product:
 
-- `[D1.10]` (2026-10-30) **The What is authored in conversation, and every step of it is a decision.** An agent proposes; the author watches the graph, its findings and its open questions change live, and adopts or rejects each proposal. Each adoption is a `dpp/1` decision record with its reason, so specification moves at the speed of the conversation and every element of the What traces to the person who adopted it.
+- **The What is authored in conversation, and every step of it is a decision.** An agent proposes; the author watches the graph, its findings and its open questions change live, and adopts or rejects each proposal. Each adoption is a `dpp/1` decision record with its reason, so specification moves at the speed of the conversation and every element of the What traces to the person who adopted it.
 - **The What is a graph with shapes, never prose with diagrams.** Anything that cannot be stated as a node, an edge or a shape is not yet specified, and the tool says so rather than accepting it.
 - **Behaviour is executable before any code exists.** A Decider and a Projector are simulated sound and complete against scenarios drawn from the flows. The same scenarios later judge realised code through a wire protocol the tool implements.
-- **The tool puts nothing in force and decides nothing about realisation.** `[D1.11]` (2026-10-30) It records the author's decisions over the What as `dpp/1` records, which by its profile carry no force. It produces a canonical document. What that document is held against, who accepts it under which grant, and from which position it is in force, belong to Writ.
+- **The tool puts nothing in force and decides nothing about realisation.** It records the author's decisions over the What as `dpp/1` records, which by its profile carry no force. It produces a canonical document. What that document is held against, who accepts it under which grant, and from which position it is in force, belong to Writ.
 
 Everything below is how.
 
@@ -50,7 +56,7 @@ Every verb takes `--product <name>`; a repository holds one or more products und
 | `product product new\|list\|show` | the product root (§3.0): name, purpose, owned domains and systems |
 | `product domain new <kind> <id> …` | captures a What node of one of the kinds listed below; refuses a change set with a violation (W1) |
 | `product domain show\|list\|rm` | inspects or removes nodes and their links |
-| `product domain validate [--strict]` | `[D1.19]` (2026-11-03) violations; with `--strict`, also the warning findings of chapter 5 (W3, W4) |
+| `product domain validate [--strict]` | violations; with `--strict`, also the warning findings of chapter 5 (W3, W4) |
 | `product domain export [--canonical] [--format <name\|IRI>]` | the What, written by an exporter over the canonical graph. The default and `--canonical` give the canonical document, which is what Writ lands. `--format` selects another registered exporter. An unknown format, or an edition the exporter does not support, is refused with a diagnostic and no output. `--list-formats` prints each registered format: name, IRI, media type, supported editions, stability |
 | `product decider derive\|validate\|simulate <aggregate>` | derives a Decider's signature from the event model, checks the authored logic against it, runs its scenarios |
 | `product projector derive\|validate\|simulate <view>` | the read-model peer |
@@ -59,21 +65,21 @@ Every verb takes `--product <name>`; a repository holds one or more products und
 | `product conformance run <runner>` | drives a realised implementation through the wire protocol (§6) with the product's scenarios and reports outcomes |
 | `product question new\|list\|answer` | open questions as authored nodes: what the graph cannot yet decide, which nodes they concern, what they block |
 | `product diff [<p> <q>] [--export <file>]` | what changed between two draft positions, or between the draft and a given export |
-| `product proposal list\|show\|adopt\|reject\|review` | `[D1.12]` (2026-10-30) the agent's pending proposals; `adopt` and `reject` write the author's decision record, with its reason (below). `[D1.15]` (2026-10-30) `adopt` takes one or more numbers or ids, or `--all`; `review` steps through pending proposals one at a time (below) |
-| `product view [--port <n>]` | `[D1.13]` (2026-10-30) the workbench: a live view of the draft log on localhost (below) |
+| `product proposal list\|show\|adopt\|reject\|review` | the agent's pending proposals; `adopt` and `reject` write the author's decision record, with its reason (below). `adopt` takes one or more numbers or ids, or `--all`; `review` steps through pending proposals one at a time (below) |
+| `product view [--port <n>]` | the workbench: a live view of the draft log on localhost (below) |
 | `product mcp [--http]` | the agent surface, same verbs, phase-gated (below); with `--http`, also starts the workbench |
 
-**Node kinds for `domain new`:** `entity`, `value-object`, `relation`, `invariant`, `context`, `mapping`, `reference-data`, `event`, `command`, `view`, `trigger`, `ui-step`, `flow`, `system`, `journey`, `subject-kind`, `quality-demand`. `[D1.8]` (2026-10-30) `subject-kind` replaces `actor-kind`, following chapter 8's term.
+**Node kinds for `domain new`:** `entity`, `value-object`, `relation`, `invariant`, `context`, `mapping`, `reference-data`, `event`, `command`, `view`, `trigger`, `ui-step`, `flow`, `system`, `journey`, `subject-kind`, `quality-demand`. `subject-kind` replaces `actor-kind`, following chapter 8's term.
 
-> **Open.** Some kinds are in the vocabulary but have no `domain new` kind:
+> *(open)* Some kinds are in the vocabulary but have no `domain new` kind:
 > - AIO, context of use, page graph and application root;
 > - WCAG criterion and attestation;
 > - `sdlc:DeclaredTarget` (`what.md` §4.1);
-> - `sdlc:Interaction`, `sdlc:Field`, `sdlc:StateAnnotation` and `sdlc:ContentKey`, which are elements by `DDD-dec-64` P-3.
+> - `sdlc:Interaction`, `sdlc:Field`, `sdlc:StateAnnotation` and `sdlc:ContentKey`, which are elements by the rule "anything a binding, a baseline, reads, a scope key or a wire request names is an element".
 >
 > Either they gain kinds, or the definition names the verb through which they are authored.
 
-`[D1.2]` (2026-10-27) Exporting goes through one seam: every export, the canonical one included, is written by an exporter over the canonical graph (§4, "Exports").
+Exporting goes through one seam: every export, the canonical one included, is written by an exporter over the canonical graph (§4, "Exports").
 
 ### The draft log
 
@@ -81,7 +87,7 @@ The working copy is a positioned log of its own (Varve, embedded, kept in Git). 
 
 ### Proposals and decisions
 
-`[D1.12]` (2026-10-30) The draft log is a `dpp/1` conformant system (`dpp/1` §8). Every change that reaches its head is a decision record (`dpp/1` §3) with a non-empty `why`.
+The draft log is a `dpp/1` conformant system (`dpp/1` §8). Every change that reaches its head is a decision record (`dpp/1` §3) with a non-empty `why`.
 
 - **The agent proposes.** An agent's write is a proposal: a change set, shape-checked (W1) and phase-gated (W9) when submitted, held beside the head and not in it.
   - Its record has `status: proposed`, `by` the agent's identity (`dpp/1` §3.4: software is `by`, never a person), `attributedTo` the author, and the agent's reason in `why`.
@@ -95,7 +101,7 @@ The working copy is a positioned log of its own (Varve, embedded, kept in Git). 
 
 ### The workbench
 
-`[D1.13]` (2026-10-30) `product view` serves a live, local view of the draft log in a browser. It follows the draft log rather than any one writer, so it updates on every new position whoever wrote it: the CLI, an agent over stdio MCP, or an agent over HTTP MCP. It shows:
+`product view` serves a live, local view of the draft log in a browser. It follows the draft log rather than any one writer, so it updates on every new position whoever wrote it: the CLI, an agent over stdio MCP, or an agent over HTTP MCP. It shows:
 
 - the structure, behaviour and surface of the What at the head;
 - the session: the current phase, what the last decision changed, and who decided it (agent proposal or author);
@@ -106,7 +112,7 @@ Its only writes are adopt and reject, and they go through the same verbs as the 
 
 ### Adopting on the fly
 
-`[D1.15]` (2026-10-30) Adoption is the author's most frequent act, so it costs one action wherever the author is.
+Adoption is the author's most frequent act, so it costs one action wherever the author is.
 
 - **Adoption needs no typing.** By default an adoption's `why` is a `ref` to the proposal, pinned in `basedOn` (`dpp/1` §3.4): "adopted for the reason the proposal gives". The author types a reason only to add one.
 - **Rejection needs one line, and the agent reads it.** `dpp/1` requires a non-empty `why`, so rejection asks for a short reason, with a few one-press reasons offered (out of scope, wrong, duplicate, not yet). The reason is returned to the agent as the outcome of its proposal, so a rejection is also the instruction for the next proposal.
@@ -128,7 +134,7 @@ The same verbs, over stdio or HTTP, in a phase-gated session: structure (§3.0, 
 - Read verbs from an earlier phase stay callable; writes lock to their phase.
 - Every write verb of an agent session creates a proposal, and requires a reason.
 - Open questions are phase-free and gate advancing.
-- There is no adopt, no reject, no land, no grant and no signing on the agent surface: adoption is the author's, in the workbench, at the CLI, or by elicitation answered by the author (D1.15). An agent session ends with an export, which is handed to Writ by whoever holds a grant there.
+- There is no adopt, no reject, no land, no grant and no signing on the agent surface: adoption is the author's, in the workbench, at the CLI, or by elicitation answered by the author ("Adopting on the fly"). An agent session ends with an export, which is handed to Writ by whoever holds a grant there.
 
 ## 4. The formats
 
@@ -138,7 +144,7 @@ Section numbers in this chapter and the next are `applications/sdlc/what.md`'s. 
 
 ### The vocabulary (`sdlc:`)
 
-`[D1.1]` (2026-10-28) The vocabulary is `sdlc:`, owned by decision-driven-design (`applications/sdlc/`), where the What now lives; this tool implements it and owns nothing of it. `pf:` is retired. Element identity is the ruled form of `DDD-dec-63`: a stable product IRI P, flat element IRIs `P/what/<ULID>` with names as labels, RDFC-1.0 as the canonical form, a What-version as a `dpp/1` record. The §4 to §7 classes are not carried.
+The vocabulary is `sdlc:`, owned by decision-driven-design (`applications/sdlc/`), where the What now lives; this tool implements it and owns nothing of it. `pf:` is retired. Element identity is the What's ruled identity form (`what.md` §2.2 and §2.3): a stable product IRI P, flat element IRIs `P/what/<ULID>` with names as labels, RDFC-1.0 as the canonical form, a What-version as a `dpp/1` record. The §4 to §7 classes are not carried.
 
 The content is the What subset of the Product Framework:
 - product, domain, system, bounded context;
@@ -151,57 +157,55 @@ The content is the What subset of the Product Framework:
 - quality demand, subject kind and claim, scope rule, declared target;
 - open question.
 
-`[D1.18]` (2026-11-03) **Terms.** This definition and every specification page cite the vocabulary's own terms: `sdlc:subject` on a trigger, `sdlc:keyedBy` on a Projector, `sdlc:wireName` and `sdlc:within`. CLI flags may use other names. Earlier drafts' `acts_as` and `keyed_by` read as these terms.
+**Terms.** This definition and every specification page cite the vocabulary's own terms: `sdlc:subject` on a trigger, `sdlc:keyedBy` on a Projector, `sdlc:wireName` and `sdlc:within`. CLI flags may use other names. Earlier drafts' `acts_as` and `keyed_by` read as these terms.
 
 The vocabulary is versioned by edition. An export states its edition. A later edition never changes the meaning of an earlier one; migration is a new export.
 
 ### Shapes
 
-`[D1.9]` (2026-10-30, amended by D1.20) The shapes and rules live with the vocabulary, in decision-driven-design (`applications/sdlc/`), versioned by the same edition. The content:
+The shapes and rules live with the vocabulary, in decision-driven-design (`applications/sdlc/`), versioned by the same edition. The content:
 
 - SHACL shapes for every node kind (the per-node checks);
 - SPARQL rules for the graph-level checks (chapter 5).
 
 They are the author's feedback in this tool and, at the same edition, Writ's enumerated decisions over the same graph. One artefact, two roles; never two copies.
 
-`[D1.20]` (2026-11-03) **How the edition is carried.** The edition is pinned by `(versionIRI, hash)`, as `DDD-dec-72` rules: `owl:versionIRI` and the sha256 over `ontology.ttl` then `shapes.ttl`, the bytes as tagged.
+**How the edition is carried.** The edition is pinned by `(versionIRI, hash)`, as decision-driven-design rules for its editions: `owl:versionIRI` and the sha256 over `ontology.ttl` then `shapes.ttl`, the bytes as tagged.
 - The binary embeds both files byte for byte, because the version IRI does not dereference to them and the binary runs offline.
 - The build fails if the embedded bytes do not hash to the pin.
 - There is no edited copy, no second source and no runtime fetch.
 
-The one hash law (D1.3) governs What graph content. The edition itself is pinned as files.
+The one hash law ("The canonical export", below) governs What graph content. The edition itself is pinned as files.
 
-`[D1.19]` (2026-11-03) **The validation regime and the severities** are the edition's (ruled in `DDD-dec-113`, E-1 and E-2; `what.md` §7.2):
+**The validation regime and the severities** are the edition's (`what.md` §7.2):
 - **The data graph** is the What graph merged with the edition's `ontology.ttl`. Validation uses SHACL Core class semantics (`rdf:type/rdfs:subClassOf*` over that merged graph) with SHACL-SPARQL, and no RDFS or OWL entailment.
 - **The ontology** is never part of a What graph's hash or of an export.
 - **`sh:Violation`** refuses at write (W1, W5).
 - **`sh:Warning`** is a finding (W3, W4). It is reported, never refused.
 
-A requirement added to an edition after an example is pinned enters as `sh:Warning`, and may become a violation only in a later edition (`DDD-dec-113`, E-2).
+A requirement added to an edition after an example is pinned enters as `sh:Warning`, and may become a violation only in a later edition.
 
 If the edition keeps pattern conformance (`what.md` §3.2.0, every command traces to a trigger) a violation, then `domain new command` takes its trigger in the same change set, and an agent proposes them together.
 
 ### The canonical export
 
-`[D1.3]` (2026-10-30, amended by D1.16) **The canonical document.** The landable graph document is the RDFC-1.0 canonical N-Quads serialisation of the What graph at one draft position, in the default graph, under the hash law of `DDD-dec-73`. It is the only graph document Writ lands. Writ must accept it as such; that is a change requested in Writ (Writ #22), not made here.
+**The canonical document.** The landable graph document is the RDFC-1.0 canonical N-Quads serialisation of the What graph at one draft position, in the default graph, under decision-driven-design's hash law for the What (`what.md` §2.3). It is the only graph document Writ lands. Writ must accept it as such; that is a change requested in Writ (Writ #22), not made here.
 
-`[D1.16]` (2026-11-03, superseding the logic clause of D1.3 and the whole of D1.7) **What the export contains.**
-- **The graph.** One graph: the What nodes, with every Decider and Projector carrying `sdlc:logic` (a `sha256:` digest) and `sdlc:logicMediaType`, as `DDD-dec-63` §6 rules.
+**What the export contains.**
+- **The graph.** One graph: the What nodes, with every Decider and Projector carrying `sdlc:logic` (a `sha256:` digest) and `sdlc:logicMediaType`, as the What's identity form rules (`what.md` §2.3).
 - **The logic artefacts.** The authored logic itself, one file per digest, in the logic media type (below).
 
 The canonical export is the graph document plus the artefacts its digests name. A digest in the graph with no artefact beside it is a malformed export. The graph hash and the element hashes cover the logic through the digests.
 
-`[D1.5]` (2026-10-30) **Determinism.** Two exports of the same draft position are byte-identical, graph and artefacts alike. Element IRIs are minted when a node is first written, so two authors who independently author the same What hold different IRIs and export different bytes. Identity comes from the draft log, not from content.
+**Determinism.** Two exports of the same draft position are byte-identical, graph and artefacts alike. Element IRIs are minted when a node is first written, so two authors who independently author the same What hold different IRIs and export different bytes. Identity comes from the draft log, not from content.
 
-**Element hashes.** Each element's hash is taken over its description, canonicalised on its own (`DDD-dec-63` §4, `what.md` §2.3). The description rule is `sdlc:`-specific, so it is implemented here over Varve's canonicaliser and never put into Varve. Its vectors over decision-driven-design's examples are offered there as a further cross-check. M-12's second implementation stays Varve's published vectors (`DDD-dec-73`).
+**Element hashes.** Each element's hash is taken over its description, canonicalised on its own (`what.md` §2.3). The description rule is `sdlc:`-specific, so it is implemented here over Varve's canonicaliser and never put into Varve. Its vectors over decision-driven-design's examples are offered there as a further cross-check. The conforming second implementation of the canonical form that decision-driven-design is waiting for stays Varve's published vectors.
 
 ### The What-version record
 
-`[D1.14]` (2026-10-30) is superseded by D1.17.
+Every export carries its manifest as a What-version `dpp/1` record. It is JSON, per `dpp/1` §3, not RDF; the PROV-O rendering of `dpp/1` §10 is non-normative and lossy. It has four parts.
 
-`[D1.17]` (2026-11-03) Every export carries its manifest as a What-version `dpp/1` record. It is JSON, per `dpp/1` §3, not RDF; the PROV-O rendering of `dpp/1` §10 is non-normative and lossy. It has four parts.
-
-- **The ruled shape.** It is `DDD-dec-63` §6's record, written unchanged:
+- **The ruled shape.** It is the What-version record of `what.md` §2.3, written unchanged:
   - `id` is `what`; `version` is a sequence this system chooses, never the graph hash;
   - `supersedes` is the previous What-version;
   - the dotted member `dk.decision-driven-design.sdlc` holds `record: "what-version"`, `product` (P), `edition {versionIRI, hash}`, `canon: "rdfc-1.0"`, `graphHash`, and `elements`, an array of `{iri, hash}` sorted by IRI.
@@ -218,7 +222,7 @@ The canonical export is the graph document plus the artefacts its digests name. 
 
 ### Decision records and the profile
 
-`[D1.12]` (2026-10-30) The draft log exposes its decision records through the `dpp/1` file binding (§6.6), at `.product/products/<name>/decisions/`, so a reader with the repository can walk them without the tool. The record shapes are `dpp/1`'s.
+The draft log exposes its decision records through the `dpp/1` file binding (§6.6), at `.product/products/<name>/decisions/`, so a reader with the repository can walk them without the tool. The record shapes are `dpp/1`'s.
 
 This tool publishes a profile (`dpp/1` §9.4), and names it in its descriptor. It states:
 
@@ -231,7 +235,7 @@ The profile is a format under read-forever like the others. It requires no signa
 
 ### Exports
 
-`[D1.2]` (2026-10-27, amended by D1.16) Every export is a deterministic function of the canonical graph and its logic artefacts. The canonical graph is the pinned edition plus the RDFC-labelled, sorted triple set. Exporters receive only these. They read neither the draft log nor node-record internals.
+Every export is a deterministic function of the canonical graph and its logic artefacts. The canonical graph is the pinned edition plus the RDFC-labelled, sorted triple set. Exporters receive only these. They read neither the draft log nor node-record internals.
 
 **Canonical and derived.** The canonical writer is the first exporter; its format IRI is the one Writ lands. Every other export is derived:
 
@@ -257,9 +261,7 @@ The scenario format this tool owns is the authoring and reporting form of those 
 
 ### Decider and Projector logic
 
-`[D1.7]` (2026-10-30) is superseded by D1.16.
-
-`[D1.16]` (2026-11-03) **The logic is an authored artefact held by digest** (`DDD-dec-63` §6). It is not RDF and not part of the graph's triples; the graph carries its digest and media type.
+**The logic is an authored artefact held by digest** (`what.md` §2.3). It is not RDF and not part of the graph's triples; the graph carries its digest and media type.
 
 The signature is in the graph and is derived:
 - `sdlc:decidesFor`, `sdlc:handles`, `sdlc:reads` and `sdlc:rejects` for a Decider;
@@ -281,7 +283,7 @@ decision-driven-design's example logic (`what/examples/logic/*.yaml`, `applicati
 
 Each is a property test over generated What graphs and scenarios, and the suite is public. Every test observes bytes, in the draft log or in an export, never the return value of the verb that produced them.
 
-`[D1.19]` (2026-11-03) W1 and W5 are the edition's violations. W3 and W4 are its warnings (`DDD-dec-113`). The checks themselves are the edition's shapes, not code in this tool.
+W1 and W5 are the edition's violations. W3 and W4 are its warnings. The checks themselves are the edition's shapes, not code in this tool.
 
 - **W1. Shape before storage.** No change set enters the draft log if it carries a violation. A failed write leaves the log unchanged.
 - **W2. Derived, not declared.** A Decider's signature (the commands it handles, the events it may emit, the state it evolves) and a Projector's (the events it folds, the fields it may produce) are computed from the graph. An authored signature, or logic, that disagrees is refused.
@@ -290,7 +292,7 @@ Each is a property test over generated What graphs and scenarios, and the suite 
   - every event a Projector's View projects is folded by it;
   - every (command, subject kind) pair, from a step's `sdlc:offeredTo` or a trigger's `sdlc:subject`, has a scenario showing acceptance or a reachable rejection;
   - every View a step surfaces has a scope rule for every subject kind the step is offered to, or is public;
-  - `[D1.4]` (2026-10-30, amended by D1.18) `[D1.18]` (2026-11-03) every automated or external trigger acts as a subject kind (`sdlc:subject`). A user trigger's subject comes from the step's `sdlc:offeredTo` (`what.md` §3.7).
+  - every automated or external trigger acts as a subject kind (`sdlc:subject`). A user trigger's subject comes from the step's `sdlc:offeredTo` (`what.md` §3.7).
 - **W4. Justification.** Orphans are findings:
   - every aggregate field is read by some Decider;
   - every projected field is consumed by some step;
@@ -298,20 +300,20 @@ Each is a property test over generated What graphs and scenarios, and the suite 
   - every Decider has a reachable rejection.
 - **W5. Type boundary.** Each of these is refused at write, not reported later:
   - a UI step references only AIOs, never concrete controls;
-  - `[D1.4]` (2026-10-30, amended by D1.18) a trigger's `sdlc:subject`, when present, names a subject kind whose nature matches the trigger's `source`. An absent subject is accepted, and reported under W3 when the trigger is automated or external. A What without subjects therefore exports byte-identically;
+  - a trigger's `sdlc:subject`, when present, names a subject kind whose nature matches the trigger's `source`. An absent subject is accepted, and reported under W3 when the trigger is automated or external. A What without subjects therefore exports byte-identically;
   - a journey crosses systems only through a Translation.
 - **W6. Simulation before realisation.** Every Decider and Projector with scenarios is simulated sound and complete before an export is marked ready. A What with a failing scenario exports, but says so in its What-version record.
 - **W7. Canonical export.** Two exports of the same draft position are byte-identical, on every platform, graph and logic artefacts alike. Canonicalisation happens once, before any exporter runs. Every derived export is a deterministic function of the canonical graph and artefacts, and its record names that graph's canonical hash.
 - **W8. Round-trip.** Importing a canonical export yields a draft whose export is byte-identical to the input, graph and artefacts.
 - **W9. Phase order.** An agent session cannot author a node before the nodes it derives from exist. The gate is the session transport, not advice in a prompt.
-- **W10. Nothing in force, nothing landed.** `[D1.11]` (2026-10-30) The tool holds no key and no grant, puts nothing in force, knows no Writ position, and writes to no log but its own draft log. Its decision records carry no force by its profile. Exporters produce documents only.
-- **W11. Decision-provenance conformant.** `[D1.12]` (2026-10-30) The draft log is a conformant system under `dpp/1` §8, at specification 1.0, checked by the `dpp/1` conformance suite (Appendix C):
+- **W10. Nothing in force, nothing landed.** The tool holds no key and no grant, puts nothing in force, knows no Writ position, and writes to no log but its own draft log. Its decision records carry no force by its profile. Exporters produce documents only.
+- **W11. Decision-provenance conformant.** The draft log is a conformant system under `dpp/1` §8, at specification 1.0, checked by the `dpp/1` conformance suite (Appendix C):
   - every record it exposes is conformant (§3.6), has a non-empty `why`, and has `system` equal to the draft log's identifier;
   - no hashed content changes under a published triple, and no version is reused (§3.8);
   - records it no longer holds answer "not held" (§6.8).
 
-  The export's What-version record rests on every decision in force (D1.17). A Writ decision that lands the export, by naming it in its `basedOn`, therefore reaches each author decision and each agent proposal by the walk of `dpp/1` §7 alone.
-- **W12. Nothing an agent wrote is in the What unless a person adopted it.** `[D1.12]` (2026-10-30) Every change at the head of the draft log is attached to a decision record whose `by` is the author: either an adoption of a proposal, or the author's own write. A proposal never reaches the head on its own, and the agent surface has no verb that adopts.
+  The export's What-version record rests on every decision in force ("The What-version record"). A Writ decision that lands the export, by naming it in its `basedOn`, therefore reaches each author decision and each agent proposal by the walk of `dpp/1` §7 alone.
+- **W12. Nothing an agent wrote is in the What unless a person adopted it.** Every change at the head of the draft log is attached to a decision record whose `by` is the author: either an adoption of a proposal, or the author's own write. A proposal never reaches the head on its own, and the agent surface has no verb that adopts.
 
 ## 6. The contracts between parts
 
@@ -320,7 +322,7 @@ Five interfaces, each small, each expressed over the vocabulary. Exporting is no
 | Contract | In | Out | First implementation |
 |---|---|---|---|
 | **Draft store** | commits of What nodes and logic artefacts | positions, as-of reads, diffs | Varve, embedded, file backend in Git |
-| **Shape engine** | a graph, and the embedded shapes and ontology of an edition | violations and warnings by node and shape | Varve's `Varve.Shacl` with `Varve.Shacl.Sparql`, under the regime of D1.19 |
+| **Shape engine** | a graph, and the embedded shapes and ontology of an edition | violations and warnings by node and shape | Varve's `Varve.Shacl` with `Varve.Shacl.Sparql`, under the edition's validation regime (chapter 4, "Shapes") |
 | **Simulator** | a Decider or Projector, its logic artefact, scenarios | outcomes per scenario, derived signature, coverage and justification findings | an evaluator for the logic media type over the wire scalar alphabet |
 | **Runner protocol** | scenarios | requests on stdin; outcomes judged by exact ordered-emit and full-state equality from stdout | `what.md` §6's JSON shapes; a C# reference runner |
 | **Authoring session** | a product, a phase, an actor (agent or author) | the verbs permitted in that phase to that actor: proposals for an agent, adoption and direct writes for the author | MCP over stdio and HTTP; the workbench and the CLI for the author |
@@ -336,10 +338,10 @@ This chapter may change without chapters 1 to 6 changing.
 | Part | Built from | Why |
 |---|---|---|
 | Draft store | Varve, embedded | positions and diffs over the draft for free; one RDF stack in the ecosystem |
-| Shapes and rules | the edition's files, embedded and hash-checked at build (D1.20), evaluated by Varve's SHACL and SHACL-SPARQL | the same bytes Writ evaluates, so the author's check and the gate cannot disagree |
+| Shapes and rules | the edition's files, embedded and hash-checked at build (chapter 4, "Shapes"), evaluated by Varve's SHACL and SHACL-SPARQL | the same bytes Writ evaluates, so the author's check and the gate cannot disagree |
 | Canonical form | Varve's `RdfCanonicaliser` (RDFC-1.0) | checked on 2026-11-02 to reproduce decision-driven-design's published graph hashes, and the lift input's hash, byte for byte |
 | Element hashes | this tool, over Varve's canonicaliser | the description rule is `sdlc:`'s, not Varve's |
-| Node kinds | one C# record per kind, with a source generator emitting the RDF writer, the parser, the kind registry and the shape binding (ADR-0005) | the Rust version kept five hand-maintained parallel enumerations and failed silently when one was missed |
+| Node kinds | one C# record per kind, with a source generator emitting the RDF writer, the parser, the kind registry and the shape binding (a product-cli ADR) | the Rust version kept five hand-maintained parallel enumerations and failed silently when one was missed |
 | Exporters | one interface over the canonical graph and artefacts, registered at compile time | Native AOT forbids runtime plugins; canonicalisation in one place |
 | Decision records | `dpp/1` records over the file binding, hashed by the `dpp/1` hash law (§5) | the draft log is walkable by any `dpp/1` reader, with no tool |
 | Workbench | a Blazor WebAssembly client, embedded in the binary and served by it | all C#, no Node; Blazor Server is not Native AOT compatible, static files and minimal APIs are |
@@ -347,9 +349,7 @@ This chapter may change without chapters 1 to 6 changing.
 
 **Constraints.** 100% managed .NET, Native AOT and trimming compatible, Varve's constraints 1 to 5, every third-party package needs an ADR. Fixed layers, dependencies downward, public API baselines, every rule an analyzer that fails the build.
 
-`[D1.23]` (2026-11-03) is superseded by D1.24. It put the rewrite in a new repository.
-
-`[D1.24]` (2026-11-03) **Where it lives.**
+**Where it lives.** An earlier decision put the rewrite in a new repository; this one replaced it.
 - **The definition** lives in decision-driven-design, at `applications/sdlc/product-cli/product-definition.md`. A change to it is a pull request there, ratified by merge. Outside-in therefore crosses two repositories: a definition change merges here before any product-cli change that relies on it, and the product-cli change cites the commit.
 - **The tool**, its ADRs, its tests and its release descriptors live in `mindovermachine-dev/product-cli`, which `Hafeok/product-cli` redirects to. There is no new repository.
 - **The Rust workspace is frozen by tag.** The tag is `rust-final`, at `70395df`.
@@ -359,27 +359,27 @@ This chapter may change without chapters 1 to 6 changing.
 - **The Rust tool's open issues** are closed as not carried, or re-filed against the rewrite, when the Rust tree leaves `main`.
 - **Retirement** means that the acceptance below holds, the lift tool is deleted, and no further Rust release is made. The tag stays.
 
-`[D1.4]` (2026-10-30, amended by D1.21) **Acceptance.** The Rust tool's export of its self-hosted What is in `pf:` and cannot be byte-identical to an `sdlc:` export. Acceptance therefore goes through a one-time lift.
+**Acceptance.** The Rust tool's export of its self-hosted What is in `pf:` and cannot be byte-identical to an `sdlc:` export. Acceptance therefore goes through a one-time lift.
 
-`[D1.21]` (2026-11-03) **The lift.**
+**The lift.**
 1. **The frozen input.** It is pinned by RDFC-1.0 graph hash, not by bytes, because the Rust tool's Turtle is not byte-stable across builds: its re-export at `70395df` differs in bytes from the committed `.product/products/product-cli/product-cli.ttl` and is isomorphic to it.
-   - Repository and commit: `mindovermachine-dev/product-cli` at `70395df`, tagged `rust-final` (D1.24).
+   - Repository and commit: `mindovermachine-dev/product-cli` at `70395df`, tagged `rust-final` ("Where it lives").
    - Command: `product domain export --product product-cli`. The Rust tool has no `--canonical`.
    - Size: 1,412 triples and 289 subjects, of which 32 are blank nodes.
    - Graph hash: `sha256:ad855b900abd76bdc8a26d91ce995e267856dad8c47d15e1ee509f41c5d07e06`. pyoxigraph and Varve agree on it.
 2. **The lift map,** frozen, versioned and committed, never regenerated:
    - **Terms.** Every `pf:` class and predicate in the input is either mapped to an `sdlc:` term or dropped by name with a reason.
      - The How kinds are dropped: `ReificationRule`, `Cio`, design-system style and tokens, `versionedAs` and `targetsPlatform`.
-     - The ownership edges become `sdlc:within` (`DDD-dec-64` P-2): `inContext`, `ownsDomain`, `ownsSystem`, `systemOf`, `journeyOf` and `boundedBy`.
+     - The ownership edges become `sdlc:within`, the What's single containment edge: `inContext`, `ownsDomain`, `ownsSystem`, `systemOf`, `journeyOf` and `boundedBy`.
    - **IRI subjects.** Each gets one minted `P/what/<ULID>`, with the old name as `rdfs:label`. The product IRI P is stated in the lift ADR.
-   - **Blank nodes.** All 32 become elements (P-3), each keyed by (owning subject IRI, predicate, its own description, sorted). The key is unique over the frozen input.
+   - **Blank nodes.** All 32 become elements, by the same rule that makes interactions and fields elements (chapter 3), each keyed by (owning subject IRI, predicate, its own description, sorted). The key is unique over the frozen input.
      - The 15 `pf:hasAttribute` nodes become `sdlc:Field` elements: `attrName` becomes `rdfs:label`, and `attrType` becomes `sdlc:fieldType`.
      - The 7 `pf:offers` and 10 `pf:surfaces` nodes become `sdlc:Interaction` elements within their UI step.
    - **Stored, not minted.** The ULIDs and the adopted wire names are stored in the map, each wire name with the reference to the review that adopted it. Lifting again therefore reproduces the golden bytes.
-   - **Wire names are authored, not carried.** The input has none. The lift ADR states the rule that proposes one for every kind that requires one (`what.md` §6, R-1, R-2), and review adopts each.
+   - **Wire names are authored, not carried.** The input has none. The lift ADR states the rule that proposes one for every kind that requires one (`what.md` §6), and review adopts each.
 3. **Two fixtures.**
    - **The golden fixture.** The lift produces the new tool's canonical export of the self-hosted What. It imports through W1 and carries no violation under its edition. It is reviewed and committed. Lifting again with the same map is checked to reproduce the golden bytes, once, and the result is recorded. The self-hosted What holds no Decider, Projector, scenario, subject kind or scope rule, so this fixture fixes structure and surface only.
-   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-5.ttl` and its logic artefacts, at `v0.6.0`, imported through W1. It carries no findings under the edition. Its published element and graph hashes (`vectors-5.json`) are part of the test. *Amended 2026-11-06 (decision-driven-design `DDD-dec-113`, E-5):* it was `acme-shop-4.ttl` and `vectors-4.json`. That graph is pinned by `CUR@1` and `what@4`, and lacks the (Place order, Customer) scenario and the E-7 descriptions; `acme-shop-5.ttl` is it plus both.
+   - **The behaviour fixture.** decision-driven-design's `what/examples/acme-shop-5.ttl` and its logic artefacts, at `v0.6.0`, imported through W1. It carries no findings under the edition. Its published element and graph hashes (`vectors-5.json`) are part of the test. It was `acme-shop-4.ttl` and `vectors-4.json` until 2026-11-06. That graph is pinned by `CUR@1` and `what@4`, and lacks the (Place order, Customer) scenario and the descriptions edition 1 asks of every domain, bounded context and subject kind; `acme-shop-5.ttl` is it plus both.
 4. **Acceptance.**
    - Both fixtures round-trip byte-identically (W7, W8).
    - The conformance suite passes: the framework CLI scenarios, and the seed round-trip property.
@@ -387,17 +387,17 @@ This chapter may change without chapters 1 to 6 changing.
 
 **Order of work:**
 
-0. `[D1.25]` (2026-11-03) Slice 0, the repository skeleton (ADR-0002, ADR-0003, ADR-0004):
+0. Slice 0, the repository skeleton:
    - the eight layer projects, each with its public API baseline and a test that the layering analyzer refuses an upward reference;
    - the Native AOT publish of the host on every supported runtime in CI, with a smoke test of the published binary;
    - the package register: Varve, the analyzers, and the test-only packages.
 
    It needs no `sdlc:` edition, so it does not wait for step 1's upstream.
-1. Pin the `sdlc:` edition and its shapes; the lift ADR and the lift map. Edition 1 shipped in decision-driven-design `v0.6.0` (`DDD-dec-113`).
+1. Pin the `sdlc:` edition and its shapes; the lift ADR and the lift map. Edition 1 shipped in decision-driven-design `v0.6.0`.
 2. The canonical graph, element hashes and the exporters (canonical N-Quads with artefacts, sorted Turtle), with their conformance suites; the What-version record; the logic media type's specification page and suite.
 3. The lift and both fixtures.
 4. Nodes and `validate`, each write a `dpp/1` record (W11).
-5. `[D1.13]` (2026-10-30) The authoring loop: proposals and adoption, MCP with the structure phase, and the workbench. From here the main use is dogfooded.
+5. The authoring loop: proposals and adoption, MCP with the structure phase, and the workbench. From here the main use is dogfooded.
 6. Deciders, Projectors and the simulator, with the behaviour phase.
 7. Scenarios and the runner protocol.
 8. Open questions, and the surface phase.
@@ -412,7 +412,7 @@ This chapter may change without chapters 1 to 6 changing.
     - features, releases, delivery targets or `done`.
 
     Those are decisions and valuations held in Writ over this tool's export.
-  - **Declared targets are in it.** A system's design system and content store, declared as `sdlc:DeclaredTarget` at an edition (`what.md` §4.1, `DDD-dec-57`), are What. Their catalogues are packages; the bindings are Writ's.
+  - **Declared targets are in it.** A system's design system and content store, declared as `sdlc:DeclaredTarget` at an edition (`what.md` §4.1), are What. Their catalogues are packages; the bindings are Writ's.
   - The framework document stays whole as an open standard; this tool implements one part of it and says which.
 - **Licence.** Apache-2.0, from the commit after `rust-final` that replaced the licence (`59553ee`, merged at `53bd547`). MIT governs everything at `rust-final` and before it, and the Rust tool's releases.
 - **What carries over from the Rust workspace.**
@@ -420,20 +420,20 @@ This chapter may change without chapters 1 to 6 changing.
     - the name and the verb names;
     - `what.md` and its §6;
     - the wire-protocol JSON schemas, as moved into decision-driven-design;
-    - the self-hosted What, through the D1.21 lift, as the first fixture;
+    - the self-hosted What, through the lift (chapter 7), as the first fixture;
     - the framework CLI scenarios and the seed round-trip property, as the conformance suite.
-  - `[D1.9]` (2026-10-30) `schema/ontology/product-framework.ttl` and `schema/shapes/` are input to `sdlc:` in decision-driven-design and are not carried into this repository.
+  - `schema/ontology/product-framework.ttl` and `schema/shapes/` are input to `sdlc:` in decision-driven-design and are not carried into this repository.
   - **Not carried:** `ddd`, `spec`, `eval`, `ledger`, codegen, the build seam, `how`, `feature`, `build`, `seam`, `preview`, `target`, `deployable-unit`, `design-system`, `scope`, and the React explorer.
-- **No authority, ever.** `[D1.11]` (2026-10-30) The tool records decisions; it never puts one in force. It holds no key and no grant, offers no acceptance under a grant, and knows no Writ position. `dpp/1` leaves authority to profiles (§1.3, §9.4), and this tool's profile claims none. The ledger that lived in the Rust repository is Writ's authority graph now; `writ import` reads the old `.decisions/` once.
+- **No authority, ever.** The tool records decisions; it never puts one in force. It holds no key and no grant, offers no acceptance under a grant, and knows no Writ position. `dpp/1` leaves authority to profiles (§1.3, §9.4), and this tool's profile claims none. The ledger that lived in the Rust repository is Writ's authority graph now; `writ import` reads the old `.decisions/` once.
 - **Two systems, one protocol.** The draft log and Writ's log are two `dpp/1` systems. The draft log holds the author's decisions over the What; Writ's log holds what is in force. They share no position, grant or key; they are joined only by `basedOn` references with pins, which carry provenance and never force. The tool never learns about Writ positions or grants; the moment it does, the boundary has leaked.
 - **Decision-driven, like Writ.** The tool holds no key, but the project does.
-  - `[D1.22]` (2026-11-03, amending the Draft 3 clause "governed by an embedded `writ` from its first commit") Writ has no implementation yet: its embedded log arrives with Writ #7, and `land` with #8.
-  - **Until #7,** this repository's ADRs are files under `docs/decisions/`, under the interim rule of Writ ADR 0008: ADR-level discipline is kept by review, and `main` is fast-forwarded only at an approved, checked head.
+  - Writ has no implementation yet: its embedded log arrives with Writ #7, and `land` with #8.
+  - **Until #7,** this repository's ADRs are files under `docs/decisions/`, under Writ's interim rule for ADRs: ADR-level discipline is kept by review, and `main` is fast-forwarded only at an approved, checked head.
   - **From #7,** `writ import` reads them once, with a baseline, and the repository is governed by its embedded `writ`.
   - **From #8,** code lands through `writ land`.
 
   This is the path Writ takes for its own ADRs.
-- **Subjects are What (`what.md` §3.7, adopted from the unmerged v1.11.0 by ruling, 2026-10-28; the term is `SubjectKind`, since "actor" is canon's and "principal" is authority's).**
+- **Subjects are What (`what.md` §3.7, adopted from the Product Framework's unmerged v1.11.0; the term is `SubjectKind`, since "actor" is canon's and "principal" is authority's).**
   - Subject kinds have a nature (human, process, external) and claims.
   - A trigger's `sdlc:subject` sits beside its unchanged `source`, nature matching source, so a What without subjects exports byte-identically.
   - The subject is a fourth argument of `decide`, beside `when` on the wire, never a payload field.
@@ -442,27 +442,104 @@ This chapter may change without chapters 1 to 6 changing.
   - `sdlc:keyedBy` on the Projector makes scoping a keyed fold at the seam, not a filter over a shared one.
   - Authentication, and with it provider coverage, belongs to the How.
   - Authority within the product stays separate from authority over the specification, which is why Writ's grants are not `sdlc:`.
-  - The checks this tool needs that `what.md` §3.7 still marks `[OPEN]` are the subject half of W3 and claim justification. They are in edition 1 as warning shapes (`DDD-dec-113`, E-4), and are built here only by importing that edition.
+  - The checks this tool needs for subjects, the subject half of W3 and claim justification, are in edition 1 as warning shapes (`what.md` §3.7), and are built here only by importing that edition.
 - **Not in scope.** Code generation of any kind, including verification shells; delivery practice; any model inside a check. The proposer that turns an interview into nodes is an agent driving the verbs, outside the tool, and its output is judged by the same shapes as a human's.
 
 ## Cross-repository dependencies
 
 As of 2026-11-06.
 
-| Ruling | Needs | Where | State |
+| Needed for | Needs | Where | State |
 |---|---|---|---|
-| D1.19 | the validation regime, and violations separated from warnings | decision-driven-design #49 | **met**: ruled in `DDD-dec-113` (E-1, E-2), landed by mindovermachine-dev/decision-driven-design#59 |
-| D1.19, W3, W4 | the five §3.4 and §3.7 shapes not yet in `shapes.ttl` | decision-driven-design #50 | **met**: `DDD-dec-113` (E-4) |
-| D1.1, D1.20 | `sdlc:` edition 1 tagged; until then its file hash moves | decision-driven-design | **met**: `v0.6.0`, tag object `bb47a720832c77f6a53c82b90388cd4a2c5c23bf` on `1ab1de005eb60ce2ea019e9942cd52b790aab0e7`, edition hash `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29` |
-| D1.3, D1.17 | Writ lands canonical N-Quads as the What document, and holds the guest graph under `sdlc:` instead of `pf:` | Writ #22 | open |
-| D1.22 | the embedded log (#7) and `land` (#8) | Writ | open |
-| element hashes | product-cli's element-hash vectors, offered as a cross-check beside Varve's (`DDD-dec-73`, `DDD-dec-113` E-3) | decision-driven-design (M-12) | to deliver at step 2 |
-| D1.3 | RDFC-1.0 in Varve | Varve | **met**: `RdfCanonicaliser` reproduces decision-driven-design's graph hashes |
-| D1.19 | SHACL Core with SHACL-SPARQL, AOT-compatible | Varve | **met**: `Varve.Shacl` and `Varve.Shacl.Sparql` agree with pyshacl on both examples |
-| D1.1 | `DDD-dec-63` on `main`, and the What half of `sdlc:` published | decision-driven-design | **met** |
-| D1.17 | the What-version record's dotted member | decision-driven-design | **met**: fixed by `DDD-dec-63` §6 |
-| D1.7 | an RDF form of the logic | decision-driven-design | **withdrawn** with D1.7 (D1.16) |
-| D1.24 | the tag `rust-final` at `70395df` | product-cli | **met**: tag object `d0cf1f1ec40eb55c271b8d4dadfefcd260c03312` |
-| D1.24 | the Rust tree removed from `main` | product-cli | **met**: mindovermachine-dev/product-cli#166, merged at `53bd54758ba71f7a810f91ddf3a6c83d5e653145` |
-| D1.25 | slice 0, the repository skeleton | product-cli | **met**: `4ce90e9` |
+| The validation regime (ch. 4, "Shapes") | the validation regime, and violations separated from warnings | decision-driven-design #49 | **met**: ruled for edition 1, landed by mindovermachine-dev/decision-driven-design#59 |
+| The validation regime; W3, W4 | the five §3.4 and §3.7 shapes not yet in `shapes.ttl` | decision-driven-design #50 | **met**: in edition 1 |
+| The vocabulary; how the edition is carried | `sdlc:` edition 1 tagged; until then its file hash moves | decision-driven-design | **met**: `v0.6.0`, tag object `bb47a720832c77f6a53c82b90388cd4a2c5c23bf` on `1ab1de005eb60ce2ea019e9942cd52b790aab0e7`, edition hash `sha256:a2006d9da588586bbf7ac19b3eec4861ff5a1aec0006a61784e9e0d842672f29` |
+| The canonical export; the What-version record | Writ lands canonical N-Quads as the What document, and holds the guest graph under `sdlc:` instead of `pf:` | Writ #22 | open |
+| Decision-driven, like Writ (ch. 8) | the embedded log (#7) and `land` (#8) | Writ | open |
+| Element hashes | product-cli's element-hash vectors, offered as a cross-check beside Varve's | decision-driven-design (its second implementation of the canonical form) | to deliver at step 2 |
+| The canonical export | RDFC-1.0 in Varve | Varve | **met**: `RdfCanonicaliser` reproduces decision-driven-design's graph hashes |
+| The validation regime | SHACL Core with SHACL-SPARQL, AOT-compatible | Varve | **met**: `Varve.Shacl` and `Varve.Shacl.Sparql` agree with pyshacl on both examples |
+| The vocabulary | the What's identity form on `main`, and the What half of `sdlc:` published | decision-driven-design | **met** |
+| The What-version record | the What-version record's dotted member | decision-driven-design | **met**: fixed by the identity form (`what.md` §2.3) |
+| Decider and Projector logic | an RDF form of the logic | decision-driven-design | **withdrawn**: the logic is held by digest, not as RDF |
+| Where it lives (ch. 7) | the tag `rust-final` at `70395df` | product-cli | **met**: tag object `d0cf1f1ec40eb55c271b8d4dadfefcd260c03312` |
+| Where it lives (ch. 7) | the Rust tree removed from `main` | product-cli | **met**: mindovermachine-dev/product-cli#166, merged at `53bd54758ba71f7a810f91ddf3a6c83d5e653145` |
+| Order of work, step 0 | slice 0, the repository skeleton | product-cli | **met**: `4ce90e9` |
 | — | `applications/sdlc/README.md` points to the Rust product-cli as the reference implementation | decision-driven-design | amended with this definition's arrival; the Rust tool is the reference until retirement |
+
+## Not settled yet
+
+- **Node kinds with no `domain new` kind** (chapter 3, "Commands"). AIO, context of use, page
+  graph and application root; WCAG criterion and attestation; `sdlc:DeclaredTarget`;
+  `sdlc:Interaction`, `sdlc:Field`, `sdlc:StateAnnotation` and `sdlc:ContentKey` are in the
+  vocabulary with no `domain new` kind. Either they gain kinds, or the definition names the verb
+  through which they are authored. Deciding it changes the surface of chapter 3.
+
+The cross-repository dependencies still open (Writ #22, Writ #7 and #8, and the element-hash
+vectors due at step 2) are listed with their state in the table above.
+
+## Where this comes from
+
+**Drafts.** Draft 1, 2026-10-21; Draft 2, 2026-10-30; Draft 3, 2026-10-30; Draft 4, 2026-11-03.
+Draft 2 added the rulings D1.2 to D1.9. Draft 3 added D1.10 to D1.15, ruled with product-cli's
+ADR-0010, ADR-0011 and ADR-0012; they rest on `dpp/1` (specification 1.0, draft of 2026-10-27,
+decision-driven-design `spec/decision-provenance/dpp-1.md`). Draft 4 added D1.16 to D1.25, ruled
+on 2026-11-03. D1.16 to D1.23 come from the gate checks of 2026-11-02 (A1 to A8), run against
+decision-driven-design `c7424ad`, Varve `c0a776b`, Writ `6737ac9` and the Rust tool `70395df`.
+D1.24 supersedes D1.23, and D1.25 adds step 0 to the order of work. A superseded ruling keeps its
+number, and the text states the ruling in force.
+
+| Chapter, section | Rests on |
+|---|---|
+| Opening, where the definition lives | D1.24 (2026-11-03) |
+| 1. The promise: authored in conversation | D1.10 (2026-10-30) |
+| 1. The promise: nothing in force | D1.11 (2026-10-30) |
+| 3. Commands: `domain validate` | D1.19 (2026-11-03) |
+| 3. Commands: `proposal` | D1.12 (2026-10-30); `adopt` by number or `--all`, and `review`, D1.15 (2026-10-30) |
+| 3. Commands: `view` | D1.13 (2026-10-30) |
+| 3. Node kinds: `subject-kind` replaces `actor-kind` | D1.8 (2026-10-30) |
+| 3. Node kinds: elements | `DDD-dec-64` P-3 |
+| 3. Exporting through one seam | D1.2 (2026-10-27) |
+| 3. Proposals and decisions | D1.12 (2026-10-30) |
+| 3. The workbench | D1.13 (2026-10-30) |
+| 3. Adopting on the fly; MCP's "by elicitation" | D1.15 (2026-10-30) |
+| 4. The vocabulary | D1.1 (2026-10-28); the identity form, `DDD-dec-63` |
+| 4. Terms | D1.18 (2026-11-03) |
+| 4. Shapes | D1.9 (2026-10-30), amended by D1.20 |
+| 4. How the edition is carried | D1.20 (2026-11-03); the edition pin, `DDD-dec-72` |
+| 4. The validation regime and the severities; the warning clause for later requirements | D1.19 (2026-11-03); `DDD-dec-113`, E-1 and E-2 |
+| 4. The canonical document | D1.3 (2026-10-30), amended by D1.16; the hash law, `DDD-dec-73` |
+| 4. What the export contains | D1.16 (2026-11-03), superseding the logic clause of D1.3 and the whole of D1.7; `DDD-dec-63` §6 |
+| 4. Determinism | D1.5 (2026-10-30) |
+| 4. Element hashes | `DDD-dec-63` §4; the second implementation, successor item M-12 of `DDD-dec-73`, kept by `DDD-dec-113` E-3 |
+| 4. The What-version record | D1.17 (2026-11-03), superseding D1.14 (2026-10-30); `DDD-dec-63` §6 |
+| 4. Decision records and the profile | D1.12 (2026-10-30) |
+| 4. Exports | D1.2 (2026-10-27), amended by D1.16 |
+| 4. Decider and Projector logic | D1.16 (2026-11-03), superseding D1.7 (2026-10-30); `DDD-dec-63` §6 |
+| 5. Severities of the guarantees | D1.19 (2026-11-03); `DDD-dec-113` |
+| 5. W3, automated and external triggers act as a subject kind | D1.4 (2026-10-30), amended by D1.18 (2026-11-03) |
+| 5. W5, a trigger's subject matches its source | D1.4 (2026-10-30), amended by D1.18 |
+| 5. W10 | D1.11 (2026-10-30) |
+| 5. W11, W12 | D1.12 (2026-10-30); W11's What-version clause, D1.17 |
+| 6. Shape engine | D1.19 |
+| 7. Shapes and rules, embedded and hash-checked | D1.20 |
+| 7. Node kinds, by source generator | product-cli ADR-0005 |
+| 7. Where it lives | D1.24 (2026-11-03), superseding D1.23 (2026-11-03), which put the rewrite in a new repository |
+| 7. Acceptance | D1.4 (2026-10-30), amended by D1.21 |
+| 7. The lift | D1.21 (2026-11-03); `sdlc:within` as the single containment edge, `DDD-dec-64` P-2; blank nodes as elements, P-3; wire names, `what.md` §6 with `DDD-dec-64` R-1 and R-2 |
+| 7. The behaviour fixture, moved to `acme-shop-5.ttl` | Amended 2026-11-06 by decision-driven-design `DDD-dec-113`, E-5 (the new graph) and E-7 (the descriptions) |
+| 7. Order of work, step 0 | D1.25 (2026-11-03); product-cli ADR-0002, ADR-0003, ADR-0004 |
+| 7. Order of work, step 1 | Edition 1, `DDD-dec-113` |
+| 7. Order of work, step 5 | D1.13 (2026-10-30) |
+| 8. Declared targets | `DDD-dec-57` |
+| 8. `schema/` not carried | D1.9 (2026-10-30) |
+| 8. No authority, ever | D1.11 (2026-10-30) |
+| 8. Decision-driven, like Writ | D1.22 (2026-11-03), amending Draft 3's clause "governed by an embedded `writ` from its first commit"; the interim rule is Writ ADR 0008 |
+| 8. Subjects are What | adopted from the Product Framework's v1.11.0 by ruling, 2026-10-28 |
+| 8. The subject checks, in edition 1 | `DDD-dec-113`, E-4 |
+| Cross-repository dependencies | as of 2026-11-06; the validation regime, `DDD-dec-113` E-1 and E-2; the five shapes, E-4; element hashes, `DDD-dec-73` and `DDD-dec-113` E-3; the What-version record's member, `DDD-dec-63` §6; the logic's RDF form withdrawn with D1.7 (D1.16) |
+
+The text this replaces is `84aa466:applications/sdlc/product-cli/product-definition.md`. One
+statement there was stale and is corrected: chapter 8 said `what.md` §3.7 "still marks `[OPEN]`"
+the subject half of W3 and claim justification. Edition 1 put those checks in `shapes.ttl`, and
+`what.md` §3.7 has carried no open mark since.
