@@ -32,11 +32,19 @@ resolution: |
     owed, own-ground) as the starting point for a practitioner declaring their own process's
     kinds. They remain the PDLC's set, not the method's. Generality is still not claimed.
 
+  ## Round 26 (2026-11-10, demand-flow rulings.md)
+
+  - **R-1 closed.** Sighting and entry are separate: an item is sighted where it first appears as
+    a fact in some owner's ground, and enters at the act that assigns its kind. Emil: "agreed on
+    your ruling - and the important note is that the how might sight it but it is the what that
+    says wether it is a bug or not". `DDD-flow-03` is amended in place before landing to say so.
+
   ## What is filed
 
   - **The claims.** `DDD-flow-01` (the PDLC's kinds of demand, relative to the decisions in
     force), `DDD-flow-02` (ordering a queue needs the ground of every kind in it), `DDD-flow-03`
-    (demand enters where its ground detects it and crosses only seams), `DDD-flow-04`
+    (demand enters at the act that assigns its kind, and reaches it along a declared seam when
+    sighted in another owner's ground; worded by Round 26), `DDD-flow-04`
     (responsibility placed per decision). All projected, region the PDLC only, in a new area,
     `flow`.
   - **The step card.** `method/01b-map-the-flow-of-demand.md`, `[PROPOSED]`, with the seven-part
@@ -80,8 +88,9 @@ notes: |
     2026-11-02); this step's is the PDLC (Round 23). How they relate is open.
   - The area name `flow` is proposed in bootstrap.md, not ruled.
 
-  Readings — Claude, UNVERIFIED — Emil review: R-a and R-b in rulings.md; the oC tension in
-  DDD-flow-03's notes (whether "detects" means first sighting or classification).
+  Readings — Claude, UNVERIFIED — Emil review: R-a and R-b in rulings.md. R-1, the oC tension in
+  DDD-flow-03 (whether "detects" meant first sighting or classification), was closed by Round 26
+  of the demand-flow rulings.md.
 
   Review trigger. A second process mapped with the step declares kinds that differ from the
   PDLC's: the starting point is then one process's set among several, and the card's framing of

@@ -20,7 +20,7 @@ falsifier: |
 test: |
   Counterexamples: classify every demand item that enters the PDLC's record (the option pool, oC verdicts, oG framings) over a period, and count those that fit none of the three kinds, and those that fit two.
 breaks: |
-  The PDLC's three entry points (o0 for new, oC then o1b for owed, oG for own-ground) and the separate orderers of DDD-flow-02, which rest on the partition. pdlc.md §9's falsifier "an item that cannot be classified as new, owed or own-ground" (ruled, Round 28 R19, in the 2026-11-07 session's rulings.md) fires with it. Nothing upstream breaks: the claim is not filed there.
+  The PDLC's entry points, each the act that assigns a kind (o0 or oC for new, oC then o1b for owed, oG for own-ground; Round 26, demand-flow rulings.md) and the separate orderers of DDD-flow-02, which rest on the partition. pdlc.md §9's falsifier "an item that cannot be classified as new, owed or own-ground" (ruled, Round 28 R19, in the 2026-11-07 session's rulings.md) fires with it. Nothing upstream breaks: the claim is not filed there.
 owner: none
 changed: 2026-11-09, demand-flow session (DDD-dec-118)
 notes: |
