@@ -78,7 +78,7 @@ equivalence table.
 - `how-examples/README.md` counts, from a fresh `check.py` run: 238 ok lines, 67 records, 27
   records dated 2026-11-02, the log's p16; four imports, named.
 
-**F-10. `pdlc.md` §2.1: kept as not ruled; Emil may want to settle it.** The document's register
+**F-10. `pdlc.md` §2.1: kept as not ruled; Emil may want to settle it.** *Settled in Round 3: rows 1 to 8 ruled as listed, by a new decision (F-15).* The document's register
 line says Round 28 ruled its tables. §2.1 says seam-table rows 1 to 8 are "not ruled", and
 `DDD-dec-114` agrees ("It is not ruled here"). The rewrite follows the decision and lists the rows
 under "Not settled yet". The table's last two rows are "Claude's additions", and the old text never
@@ -100,6 +100,8 @@ ended with `UNVERIFIED — Emil review`. §3 says the reading was ruled as propo
 was not used"). The rewrite drops the stale mark on that basis. If the mark was meant for the
 row's other sentence, which reads `DDD-dec-54` ruling 1 as forbidding the loophole, it should come
 back as Claude's reading.
+**Closed in Round 3 (2026-11-11):** Emil accepted the drop ("Accept"; option text: "DDD-dec-55
+states the narrowest-element anchoring and the product-node reading").
 
 **F-14. `how.md`'s other corrections** (from its equivalence table): §12's anchors are the
 `IMP-*@2` ones in force (the product node, the Ordering bounded context, the residency quality

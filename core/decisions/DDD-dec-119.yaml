@@ -5,7 +5,7 @@ statement: |
   The merge of PR #41 ratified every part of the How that was "not ruled separately" and stood as proposed until the merge. They are ruled as proposed: the parts listed under "Not ruled separately; stands as proposed until the merge" in DDD-dec-55, -57, -59 and -60, the condition on editions in DDD-dec-61, and every point applications/sdlc/how.md marked [PROPOSED] under its banner "what was not ruled separately stays [PROPOSED] until the merge", including Appendix A's H-3, H-8, H-9, H-11, H-12, H-13 and H-17 and the proposals it kept unlisted. It reaches applications/sdlc/how-vocabulary.md, the How's vocabulary under the same decisions, whose banner says "the rest stands as proposed until the merge". The ruling changes their register only, and no statement. It does not reach the [OPEN] point (whether adopters may register What kinds), any UNVERIFIED reading, or any document outside the How (how.md and how-vocabulary.md).
 principal: Emil
 made: |
-  2026-11-10, in Claude's question dialog of the session meta/sessions/2026-11-09-applications-for-readers-redo/ (issue #71), answering PR #48's ruling request 2; recorded verbatim in that session's rulings.md, Round 2: "The merge ratified them all" (option text: "Every 'not ruled separately' item became ruled when #41 merged; the rewrite drops their [PROPOSED] marks"). Emil's landing of that session's branch is the ratification act
+  2026-11-10, in Claude's question dialog of the session meta/sessions/2026-11-09-applications-for-readers-redo/ (issue #71), answering PR #48's ruling request 2; recorded verbatim in that session's rulings.md, Round 2 (its reach over how.md §5.2's term list and §11 ruled in Round 3, 2026-11-11): "The merge ratified them all" (option text: "Every 'not ruled separately' item became ruled when #41 merged; the rewrite drops their [PROPOSED] marks"). Emil's landing of that session's branch is the ratification act
 resolution: |
   ## The question
 
@@ -28,11 +28,11 @@ resolution: |
   | §4.3 | A principle is not a kind | DDD-dec-55 |
   | §4.2, §9 | Kind-1 measurement wiring held as a contract; deployment-declared facts may gate land and deployment-observed facts do not; a freshness bound per contract | DDD-dec-60 |
   | §5, §5.2 | Every How decision stated once, with no language or platform term; shapes derived from a target's edition, never authored, and expressible iff the edition maps every fact term read; interface standards are not targets; platform targets beside languages; which targets the What declares and which How target declarations declare | DDD-dec-57 |
-  | §5 | The form of a decision's statement and violation description | how.md's banner only |
+  | §5 | The form of a decision's statement and violation description | how.md's banner; reach ruled in Round 3 |
   | §7 | The recorded-reading condition on "rests on superseded version"; narrow, never alter | DDD-dec-59 (its statement already ruled the three parts of an import and withdrawal) |
   | §8 | Coverage over every binding, as proposed | already ruled by DDD-dec-58's statement; how.md still marked it [PROPOSED] |
   | §10 | Generation out of scope, on condition that no edition may be check-only (H-15) | DDD-dec-61 |
-  | §11 | Conformance: one level, specified and in force | how.md's banner only |
+  | §11 | Conformance: one level, specified and in force | how.md's banner; reach ruled in Round 3 |
   | Appendix A | H-3, H-8, H-9, H-11, H-12, H-13, H-17; and "kept as proposed and not listed" | DDD-dec-55, -57, -59, -60 |
 
   ## Not reached
@@ -56,5 +56,7 @@ notes: |
   The decisions it ratifies parts of are not edited. Each of them still says "stands as proposed
   until the merge", which this decision answers. The table above is Claude's inventory of the
   parts, checked against how.md at 84aa466. The §5 form and the §11 conformance level are in no
-  decision's list and are reached only by how.md's banner. That reading is Claude's
-  (UNVERIFIED — Emil review), and the rewrite of how.md marks them ruled on it.
+  decision's list and are reached only by how.md's banner. Claude read the ruling as reaching
+  them, and Emil ruled that reading on 2026-11-11: "Yes, it covers them" (option text: "The banner
+  made them 'not ruled separately' items, which the ruling names; §10 item 2 stays [OPEN]"),
+  recorded verbatim in meta/sessions/2026-11-09-applications-for-readers-redo/rulings.md, Round 3 (2026-11-11).

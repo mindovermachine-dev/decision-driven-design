@@ -308,8 +308,7 @@ advice on which standards to name.
 
 ### 5.2 Specified once, realised per target
 
-A decision's statement and violation description use only the terms below. That this list is
-ruled rests on reading the merge as ratifying everything the document left proposed *(Claude's reading, not yet confirmed by Emil)*:
+A decision's statement and violation description use only:
 
 - How vocabulary terms;
 - What vocabulary terms;
@@ -586,8 +585,7 @@ code changes go through `land`. It does not change the How: tools never change i
 
 ## 11. Conformance — what a product claims when it says its How is specified
 
-One level, matching the What's single level: **specified and in force.** That this section is
-ruled rests on reading the merge as ratifying everything the document left proposed *(Claude's reading, not yet confirmed by Emil)*. A product's How
+One level, matching the What's single level: **specified and in force.** A product's How
 conforms when all of these hold at a stated position:
 
 1. Every How decision is a `dpp/1` record with a kind, an anchor under §3, and a violation
@@ -710,11 +708,6 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 
 ## Not settled yet
 
-- **Whether the merge ratified the §5.2 term list and §11's conformance level** *(Claude's
-  reading, not yet confirmed by Emil)*. No decision lists either among the parts left proposed.
-  They were ruled with the rest only if the document's own banner ("what was not ruled separately
-  stays proposed until the merge") reached them. Confirming it changes nothing in the text;
-  rejecting it returns both to proposed.
 - **Whether adopters may register What kinds** (§6, §13) *(open)*. The Product Framework let an
   adopter register AIOs. Deciding it would say whether a product may extend the framework's kinds
   locally, or only through a change to the framework.
@@ -735,13 +728,13 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | Opening, register | `DDD-dec-55` to `DDD-dec-61` (Emil, 2026-10-28, Rounds 1 to 3 of `meta/sessions/2026-10-27-product-framework-how/rulings.md`); `DDD-dec-54` (the charter's rulings, not reopened); ratified when PR #41 merged (`1d0f40c`); `DDD-dec-119` (2026-11-10: the merge ratified every part "not ruled separately") |
 | §1.1 | authority profile: `DDD-dec-47`, `DDD-dec-54` ruling 4; Writ: `DDD-dec-54` ruling 5; token: `DDD-dec-62`, superseding `DDD-dec-53`; the What: `DDD-dec-41`, `DDD-dec-42`, `DDD-dec-51`; execution and delivery retired: `DDD-dec-42` (old §5, §5.1, §5.3, §7); generation: `DDD-dec-61` (old §4.2, §5.2); data conformance: `DDD-dec-44` (old §13) |
 | §1.2 | the charter, `meta/sessions/2026-10-27-product-framework-how/prompt.md`, to which this document was Claude's answer; its `bootstrap.md`, arrival findings 1–3; precondition 1: `DDD-dec-41`, the What then read from Product Framework v1.10.0 §3; precondition 2: `DDD-dec-51`, the move charter's risk 3 (identity fixed "before any decision is written against them"), ruling 4 of 2026-10-28 (recorded on each of `DDD-dec-55` to `-61`), discharged by `DDD-dec-63` and `DDD-dec-65` to `DDD-dec-71`; precondition 3: discharged by `authority.md` (2026-11-02), formerly held open by the move session's Round 1, Q-4; precondition 4: Emil's statement of Writ Draft 2, Round 1; the token: `DDD-dec-62` (Round 3), PR #40 and PR #39 |
-| §2 | the four repairs: Rounds 1 and 2; the anchor reading: `DDD-dec-55`; the loophole: `DDD-dec-54` ruling 1; reporters and provenance: `DDD-dec-60`; package's What: `DDD-dec-56`, superseding `DDD-dec-46`'s consequence clause; binding: `DDD-dec-55` (repair 2); "Writ narrows": Round 2; realisation scope: `DDD-dec-46`. Earlier "UNVERIFIED — Emil review" on the anchor reading in the table is removed: `DDD-dec-55` rules it |
+| §2 | the four repairs: Rounds 1 and 2; the anchor reading: `DDD-dec-55` (its former `UNVERIFIED` mark dropped as stale, accepted in Round 3 of the redo session, 2026-11-11, findings F-13); the loophole: `DDD-dec-54` ruling 1; reporters and provenance: `DDD-dec-60`; package's What: `DDD-dec-56`, superseding `DDD-dec-46`'s consequence clause; binding: `DDD-dec-55` (repair 2); "Writ narrows": Round 2; realisation scope: `DDD-dec-46`. Earlier "UNVERIFIED — Emil review" on the anchor reading in the table is removed: `DDD-dec-55` rules it |
 | §3 | `DDD-dec-54` ruling 1; the reading: `DDD-dec-55` (ruling 1, as proposed); product as root: old Product Framework §3.0; decision space: `DDD-dec-46`; creating decision: `DDD-dec-42` |
 | §4.1 | violation description: `DDD-dec-52`; verdicts never stored: `DDD-dec-49`; provenance: `DDD-dec-60` |
 | §4.2 | `DDD-dec-55`; Kind-1 wiring (H-9): `DDD-dec-60`, ratified by `DDD-dec-119`; old §4.2–§4.6, §5.2, PF §3.2.5, PF §3.6 |
 | §4.3, §4.4 | `DDD-dec-55`, ratified by `DDD-dec-119` (formerly `[PROPOSED]`); contract provenance: `DDD-dec-60`; old §4.1 |
 | §5.1 | targets, not catalogues: `DDD-dec-57` (ruling 3); `DDD-dec-44` ("§11 and §12 are What"); the rest of §5.1: `DDD-dec-57`, ratified by `DDD-dec-119` (formerly `[PROPOSED]`); old §4.4 |
-| §5.2 | stated once, no language or platform term: `DDD-dec-57`, ratified by `DDD-dec-119`; the closed list of terms a decision uses (formerly `[PROPOSED]`): `DDD-dec-119` through how.md's banner only, Claude's reading (`DDD-dec-119` notes); runner: `DDD-dec-60` (H-14) |
+| §5.2 | stated once, no language or platform term: `DDD-dec-57`, ratified by `DDD-dec-119`; the closed list of terms a decision uses (formerly `[PROPOSED]`): `DDD-dec-119` through how.md's banner, its reach ruled in Round 3 of the redo session (2026-11-11); runner: `DDD-dec-60` (H-14) |
 | §6 | `DDD-dec-46`; `DDD-dec-54` rulings 2 and 3; contents (repair 3): `DDD-dec-56`; no What: `DDD-dec-56` (ruling 2), superseding `DDD-dec-46`'s consequence, `DDD-dec-42` stands; the open point: old PF §3.2.2 |
 | §7.1 | `DDD-dec-59` (its statement rules the three parts of an import); narrow-never-alter: `DDD-dec-59`'s list, ratified by `DDD-dec-119` (formerly `[PROPOSED]`) |
 | §7.2 | `DDD-dec-59`'s list (the recorded-reading condition), ratified by `DDD-dec-119` (formerly `[PROPOSED]`) |
@@ -753,7 +746,7 @@ as a kind with reporter facts; principle is not a kind; coverage generalised acr
 | §9.2, §9.3 | `DDD-dec-60`; Round 2, ruling 3; freshness bound and gating: `DDD-dec-60`'s list, ratified by `DDD-dec-119` |
 | §9.4 | D-2: Round 1; D-6: answered by authority.md (Round 1, F-1, ruled as read); D-7: `DDD-dec-62` (Round 3); D-8: answered by `DDD-dec-63` |
 | §10 | `DDD-dec-61` (2026-10-28); the condition: `DDD-dec-61`, ratified by `DDD-dec-119`; tools never change the How: `DDD-dec-54` ruling 2; old §4.2, §4.3, §5.2 |
-| §11 | `DDD-dec-51` (the What's single level); formerly `[PROPOSED]`, ratified by `DDD-dec-119` through how.md's banner (`DDD-dec-119` notes this as Claude's reading of the ruling) |
+| §11 | `DDD-dec-51` (the What's single level); formerly `[PROPOSED]`, ratified by `DDD-dec-119` through how.md's banner, its reach ruled in Round 3 of the redo session (2026-11-11) |
 | §12 | `how-examples/`; anchors and `REST@2` as in the current records (`IMP-layer@2`, `IMP-pure@2`, `IMP-rest@2`, `IMP-resid@2`; `REST@2` supersedes `REST@1`, `DDD-dec-64` P-1) |
 | §13 | `DDD-dec-119` |
 | Appendix A | the decisions named per row; settlement: Round 1 of 2026-10-28, and `DDD-dec-119` |
