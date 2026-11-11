@@ -53,3 +53,22 @@ Emil's message, verbatim:
 > 2. F-13: closed as you did it. Cite this round.
 > 3. F-10: pdlc.md §2.1's seam rows 1 to 8 are ruled as listed. Row 9, telemetry, was already ruled in Round 16 of the 2026-11-07 record. DDD-dec-114 is landed, so do not edit it. File a new decision that supersedes only P-3's sentence "It is not ruled here", and records rows 1 to 8 as ruled, row by row, as they stand in pdlc.md §2.1 at your head. Then make pdlc.md's register line and the rows' markers match. Ids: the plugin session (prompt-4) runs in parallel and may file a decision too. Re-check every branch for ids just before you commit and again just before you push. Take the next free id, and report it.
 > 4. Run scripts/ci.py, applications/pdlc/check.py and canon's checks as CI runs them. Push, wait for green CI, and report the new head for my approval on #73. Stop. Do not land.
+
+## Round 4 — on PR #73 (2026-11-11)
+
+Emil's message, verbatim:
+
+> Record this message verbatim in rulings.md as Round 4, and predict before each operation. This is my answer in Claude's question dialog on claude.ai:
+> Q: "pdlc.md §2.1 rows 10 and 11 (the classification verdicts) are the redo session's additions. Round 28 ruled R1–R30, and neither those nor DDD-dec-120 reach these rows. Rule them?" A: "Rule them now" (option text: "The redo session adds them to DDD-dec-120 (still unlanded) and #73 gets a new head")
+>
+> 1. Amend DDD-dec-120 in place, since it has not landed: record rows 10 and 11 as ruled, row by row, as they stand in pdlc.md §2.1 at your head, citing this round. It still supersedes only P-3's sentence "It is not ruled here".
+> 2. Remove the rows' "my additions" markers in pdlc.md, and update its "Not settled yet" list and basis table to match.
+> 3. Run scripts/ci.py, applications/pdlc/graph/check.py and canon's checks as CI runs them. Push, wait for green validate, and report the new head. Stop. Do not land.
+>
+> On Agent review: it fails because the runner's .NET SDK moved (NU1004, ILLink 10.0.15 against a lock of 10.0.14), not because of this branch. A separate session pins the SDK. Leave it alone here. I will land #73 with `canon land --commit`.
+
+### Claude's note on the question's wording
+
+The question called rows 10 and 11 "the redo session's additions". `pdlc.md` at `84aa466` already
+said "The last two rows are Claude's additions, made when the three kinds of demand were adopted",
+so they came from the 2026-11-07 session (Round 22), not from this one. The ruling is unaffected.
