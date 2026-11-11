@@ -39,3 +39,17 @@ answers as given, with the chosen option's text.
   of register, so it is filed as a decision of its own (`DDD-dec-119`) rather than carried only
   inside the format decision.
 - **Request 4, item (1)** (no unpaid order) has no #48 number, and is added as A-16.
+
+## Round 3 — after the stop, on PR #73 (2026-11-11)
+
+Emil's message, verbatim:
+
+> PR #73 is open on your branch at 86d9042. Record this message verbatim in rulings.md as Round 3, and predict before each operation. These are my answers in Claude's question dialog on claude.ai:
+> Q: "DDD-dec-119's reach: does "the merge ratified them all" also cover how.md §5.2's term list and §11's conformance level (covered only by the document's banner)?" A: "Yes, it covers them (Recommended)" (option text: "The banner made them 'not ruled separately' items, which the ruling names; §10 item 2 stays [OPEN]")
+> Q: "F-13: accept dropping the UNVERIFIED mark on how.md §2's anchor row, since DDD-dec-55's statement contains that reading?" A: "Accept (Recommended)" (option text: "DDD-dec-55 states the narrowest-element anchoring and the product-node reading")
+> Q: "F-10: pdlc.md §2.1's seam rows 1–8 are not ruled (DDD-dec-114 P-3). What now?" A: "Rule rows 1–8 now" (option text: "They are checked against the act map by check.py; rule them as listed, and the register line becomes true")
+>
+> 1. DDD-dec-119: its reading of the reach is now ruled. Remove its UNVERIFIED mark, and cite this round.
+> 2. F-13: closed as you did it. Cite this round.
+> 3. F-10: pdlc.md §2.1's seam rows 1 to 8 are ruled as listed. Row 9, telemetry, was already ruled in Round 16 of the 2026-11-07 record. DDD-dec-114 is landed, so do not edit it. File a new decision that supersedes only P-3's sentence "It is not ruled here", and records rows 1 to 8 as ruled, row by row, as they stand in pdlc.md §2.1 at your head. Then make pdlc.md's register line and the rows' markers match. Ids: the plugin session (prompt-4) runs in parallel and may file a decision too. Re-check every branch for ids just before you commit and again just before you push. Take the next free id, and report it.
+> 4. Run scripts/ci.py, applications/pdlc/check.py and canon's checks as CI runs them. Push, wait for green CI, and report the new head for my approval on #73. Stop. Do not land.
