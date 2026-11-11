@@ -118,8 +118,10 @@ answer to F-10. It supersedes only `DDD-dec-114` P-3's "It is not ruled here", i
 It does not use the `supersedes:` field, which marks a whole decision superseded. The rows are
 copied byte for byte from `pdlc.md` at `b27407a`. `pdlc.md`'s §2.1 sentence, its "Not settled yet"
 and its basis table now say the rows are ruled. The register line was already right.
-- **Not reached:** rows 10 and 11, the classification verdicts, which are Claude's additions.
-  Whether Round 28's ruling of "the tables" covered them is left for Emil.
+- **Rows 10 and 11** (the classification verdicts, Claude's additions from Round 22 of the
+  2026-11-07 record) were first left unreached. Round 4 ruled them, and `DDD-dec-120` was amended
+  in place before landing to record them row by row. `pdlc.md`'s marker and basis row match.
+  "Not settled yet" had no entry for them to remove.
 - **The id:** the next free above `DDD-dec-119`. No branch holds a decision file above 119.
   Mentions of 120 elsewhere are range mentions, already ruled not to be use.
 - **The checker path:** Round 3 names `applications/pdlc/check.py`. The checker is
