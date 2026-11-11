@@ -14,3 +14,15 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 8 | Smoke eval `proposed-as-ruled`, 1 run, `--allow-tools "Bash(git *)"` | 3 of 3 graders pass | **Missed, informatively.** 0.75. The model's only Bash call began with `cd` and was denied. It then stopped, refused to treat the step as ruled, and declined to name the register without reading it, which is what the skill says to do. The grant was too narrow, not the skill |
 | 9 | Same, with `--allow-tools Bash Write` (Bash still inside the eval's OS sandbox, with no network) | 3 of 3 | **Held.** 1.00 |
 | 10 | The full suite, 4 cases × 3 runs × 2 arms | Every case passes with the plugin. Without it, `unreachable` and `proposed-as-ruled` score lowest | **Missed in part.** `proposed-as-ruled` and `demand-flow-start` passed at 1.00. `step-1-small` (0.50) and `unreachable` (0.56) failed. `unreachable` failed on a rubric that counted generic field names as card content; corrected, it scored 1.00 with the plugin and 0.33 without. `step-1-small` stays below 1.0 (`findings.md` §Evals) |
+
+## Round 28 (2026-11-11)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 11 | Re-read the branch, origin and `main` | The branch is at `7700558` locally and on origin, and `main` has not moved | **Held.** `main` = `84aa466`. 60 origin branches (59 at arrival) |
+| 12 | Highest decision id on every origin branch | `DDD-dec-120`, on `claude/zealous-ptolemy-3txf8k` | **Held.** `-119` and `-120` exist only there, and no branch mentions a higher id. This round takes `DDD-dec-121` |
+| 13 | Round 28 copied into `rulings.md` | Byte-exact apart from the quote markers | **Held.** Verified by stripping the markers and comparing |
+| 14 | `validate-claims.py core/decisions/ --decisions` with `DDD-dec-121` | Accepts it first time | **Held.** 97 decisions, all valid |
+| 15 | The F-9 edit to `README.md` | The diff touches one line | **Held.** Only line 8 changed |
+| 16 | `scripts/ci.py`; canon's `dotnet test`, `changelog --check` and `check --compare`, as CI runs them | All pass | **Held.** All gates pass. Canon: 66 tests, the changelog is the projection, every compare case agrees |
+| 17 | `claude plugin validate --strict` on the plugin and the marketplace; `canon issue-refs --basis` after the commit | All pass | **Held.** Both `--strict` validations pass. `issue-refs --basis` first failed because the local clone was shallow and lacked its configured starting commits. After unshallowing, as CI checks out with full history: "ok. 5 commits in 84aa4665b4b0..6f75bba833db; Refs checked on 5, Basis on 1" |
