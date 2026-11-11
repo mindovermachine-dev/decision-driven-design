@@ -1,9 +1,12 @@
 # Design — the method plugin `[PROPOSED]`
 
-**Register: `[PROPOSED]`.** Every choice below is Claude's proposal on Round 27 (method-plugin
-`rulings.md`), `UNVERIFIED — Emil review`. Round 27 rules the form (a plugin in this repository,
-a skill plus a marketplace entry), the scope (the whole method) and the holding (thin, reading the
-repository at a pin). It does not rule anything below.
+**Register: accepted, Round 28 (method-plugin `rulings.md`), filed as `DDD-dec-121`.** Round 27
+rules the form (a plugin in this repository, a skill plus a marketplace entry), the scope (the
+whole method) and the holding (thin, reading the repository at a pin). Round 28 accepts this design
+together with the build, and rules the version scheme (§4). `DDD-dec-121` files the thin skill at a
+pin, the one entry skill, the version scheme and what the plugin claims. Choices it does not name,
+such as the names, the place, the CI check and the evals, stand as accepted with the design, not
+separately ruled.
 
 **Weakest point.** The plugin is thin only to the extent that the model follows the instruction
 to read instead of recall. The skill tells Claude to stop when the repository is unreachable, and
@@ -102,10 +105,11 @@ repository, and the paths it reads. It reads **only at the pin**, in this order:
 
 - **The pin is the method release whose cards the skill reads:** `v0.7.0`. It is written once, in
   `SKILL.md`, and `plugin.json`'s `version` restates it.
-- **`version` = the pin without its `v`: `0.7.0`.** A plugin-only change at the same pin, such as
-  better wording, appends a build suffix, `0.7.0+p.1`. Claude Code compares versions only for
-  change, so any new string reaches users. `version` is set in `plugin.json` only, never also in
-  the marketplace entry (`plugins/host-marketplace.md`).
+- **Ruled (Round 28; `DDD-dec-121`): `version` = the pin without its `v`.** It is `0.7.0` now. A
+  plugin-only change at the same pin takes `+p.N`, starting at `0.7.0+p.1`. A re-pin takes the new
+  pin's version, `0.8.0` for `v0.8.0`. Claude Code compares versions only for change, so any new
+  string reaches users. `version` is set in `plugin.json` only, never also in the marketplace entry
+  (`plugins/host-marketplace.md`).
 - **A method release is a plugin release when it moves what the skill reads.** At a MINOR release
   (a card added, or a register moved, `DDD-dec-82`), the pin advances in the same change, or
   practitioners keep running the old registers. At a PATCH release, the pin advances when the
