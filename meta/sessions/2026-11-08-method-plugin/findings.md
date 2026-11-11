@@ -104,15 +104,22 @@ contribution is largest where Round 27 put it, in not filling the method from me
   session recorded predictions at each gate and stopped only at the end (bootstrap). The design
   (`32e67c4`) and the build (`b3beec2` and later) are separate commits, so the build can be dropped
   if the design was meant to be reviewed first.
+  **Round 28: design and build accepted together.** The finding stands: the session built past its
+  design gate without stopping for review. The prompt said "Stop at every gate", and the session
+  read it as recording each gate rather than waiting at it. A later session reads "stop" as waiting
+  for Emil.
 - **F-2 — The plugin is not in `v0.7.0`.** Its files land after the tag it pins. Under
   `DDD-dec-82`'s mapping, "tooling" is PATCH, so the first release that carries the plugin is a
   PATCH (`v0.7.1` if nothing else lands first), and it still pins `v0.7.0`. Until it is cut,
   `marketplace add` without `#<tag>` reads `main`. **Not cut, per the prompt.**
 - **F-3 — The version scheme is Claude's.** `version` is the pin without its `v`, and a plugin-only
-  change adds `+p.N`. Claude Code compares versions only for change. `UNVERIFIED — Emil review`.
+  change adds `+p.N`. Claude Code compares versions only for change. **Ruled by Round 28**
+  (`DDD-dec-121`): `0.7.0` now, `0.7.0+p.1` for a plugin fix, `0.8.0` when it re-pins to `v0.8.0`.
 - **F-4 — Round 27 is not filed as a decision.** The prompt asked for it to be recorded. Filing it
   (the next id was `DDD-dec-119` at arrival) is Emil's call. "Round 27" also names a different
-  round in the 2026-11-07 record, so cite it with its record.
+  round in the 2026-11-07 record, so cite it with its record. **Round 28: filed as `DDD-dec-121`**,
+  covering Rounds 27 and 28. `DDD-dec-119` and `-120` are held on `claude/zealous-ptolemy-3txf8k`.
+  The highest id on every origin branch was re-checked before the commit and before the push.
 - **F-5 — `claude plugin validate` is not in CI.** It would need the `claude` CLI in the
   devcontainer. `check.py` covers names, the pin and thinness without it.
 - **F-6 — Where a practitioner's artefacts go.** The skill writes them into the practitioner's own
@@ -125,8 +132,8 @@ contribution is largest where Round 27 put it, in not filling the method from me
 - **F-8 — The unexplained run.** One `step-1-small` run with the plugin reported reading at the pin
   with no Bash call recorded. It was not reproduced in three kept-trace runs. If it recurs, it is a
   misreport of provenance, which the skill forbids.
-- **F-9 — Stale README line, out of scope.** `README.md` still opens "**v0.5.0 is a preview**". The
-  current release is `v0.7.0`. Not changed here.
+- **F-9 — Stale README line.** `README.md` opened "**v0.5.0 is a preview**". **Round 28: corrected**
+  to name `v0.7.0`, a pre-release. Nothing else in the paragraph changed.
 - **F-10 — Small choices for Emil.** `author` and `owner` are "Mind Over Machine"
   (`github.com/mindovermachine-dev`). There is no icon (needed only for directory submission).
   Eval costs: $3.61 for the full suite, plus about $4.4 of re-runs.

@@ -5,7 +5,7 @@ each decision where it is resolved, and say which actor, whether person, program
 each one and who answers for it. This repository is the method's software projection: the step
 cards, the claims they rest on, and the decisions that rule them.
 
-**v0.5.0 is a preview: ready to try, not ready to use (`DDD-dec-74`).** The register of each
+**v0.7.0, a pre-release, is a preview: ready to try, not ready to use (`DDD-dec-74`).** The register of each
 reason below is stated beside it, and the [status table](#status-step-by-step) gives each step's.
 
 ## Why use it
@@ -57,8 +57,8 @@ and cannot name the value it gave them. Running that test is Emil's act, and it 
 
 ## Run it in Claude Code
 
-The method is also a Claude Code plugin, [`plugins/ddd-method/`](plugins/ddd-method/). Its design
-is `[PROPOSED]`.
+The method is also a Claude Code plugin, [`plugins/ddd-method/`](plugins/ddd-method/)
+(`DDD-dec-121`). It claims discipline, not better step execution.
 
 ```bash
 claude plugin marketplace add mindovermachine-dev/decision-driven-design
