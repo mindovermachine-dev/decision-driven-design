@@ -110,3 +110,17 @@ demand); `REST@2`, not the superseded `REST@1`, is the one evaluated; §4.1's po
 marked answered, as §1.2 says. `how-vocabulary.md` §3: the What terms are in `what/ontology.ttl`,
 not provisional, and `REST@2` replaced `sdlc:localId` with `sdlc:wireName`. Its "`check.py` holds
 the same list" is loose (`check.py` derives the terms), and is left as written.
+
+## Round 3
+
+**F-15. `DDD-dec-120`: `pdlc.md` §2.1's seam rows 1 to 8, ruled.** Filed on Emil's Round 3
+answer to F-10. It supersedes only `DDD-dec-114` P-3's "It is not ruled here", in its statement.
+It does not use the `supersedes:` field, which marks a whole decision superseded. The rows are
+copied byte for byte from `pdlc.md` at `b27407a`. `pdlc.md`'s §2.1 sentence, its "Not settled yet"
+and its basis table now say the rows are ruled. The register line was already right.
+- **Not reached:** rows 10 and 11, the classification verdicts, which are Claude's additions.
+  Whether Round 28's ruling of "the tables" covered them is left for Emil.
+- **The id:** the next free above `DDD-dec-119`. No branch holds a decision file above 119.
+  Mentions of 120 elsewhere are range mentions, already ruled not to be use.
+- **The checker path:** Round 3 names `applications/pdlc/check.py`. The checker is
+  `applications/pdlc/graph/check.py`, and that is the one run.
