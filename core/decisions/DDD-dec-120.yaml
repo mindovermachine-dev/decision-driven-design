@@ -1,0 +1,48 @@
+format: 1
+id: DDD-dec-120
+kind: decision
+statement: |
+  The seam table's rows 1 to 8, 10 and 11 in applications/pdlc/pdlc.md §2.1 are ruled as listed: for each, its ground, the act that produces it, the act that reads it, and the check against the act map. This supersedes only the sentence "It is not ruled here" of DDD-dec-114 P-3, and nothing else in DDD-dec-114. Row 9, telemetry of the product in use, was already ruled (Round 16 of the 2026-11-07 record) and is not re-ruled here. Rows 10 and 11, the classification verdicts, were added to this decision in place before it landed (Round 4).
+principal: Emil
+made: |
+  2026-11-11, in Claude's question dialog on claude.ai, answering the redo session's finding F-10: "Rule rows 1–8 now" (option text: "They are checked against the act map by check.py; rule them as listed, and the register line becomes true"), recorded verbatim in meta/sessions/2026-11-09-applications-for-readers-redo/rulings.md, Round 3 (issue #71, PR #73). Rows 10 and 11 added in place before landing, on Emil's answer of 2026-11-11: "Rule them now" (option text: "The redo session adds them to DDD-dec-120 (still unlanded) and #73 gets a new head"), recorded verbatim in the same rulings.md, Round 4. Emil's landing of that branch is the ratification act
+resolution: |
+  ## What is ruled
+
+  The rows as they stand in applications/pdlc/pdlc.md §2.1 at the redo session's head before
+  this decision (b27407a), and rows 10 and 11 as they stand at 01c6840. Each is checked by applications/pdlc/graph/check.py against the act map
+  (applications/pdlc/graph/acts.ttl with applications/sdlc/acts/acts.ttl).
+
+  | # | From → To | Ground supplied | Produced by | Read by | Check |
+  |---|---|---|---|---|---|
+  | 1 | When → What | A pulled option (a need) | o2a (When) | o1 (dependency "the pulled option") | **Holds** |
+  | 2 | When → What | A scope-cut proposal | **oS**, propose a scope or assurance cut (When) | o1 (`lc:readsEarlier m:oS`) | **Holds**, now that oS exists. It was a gap: no act produced it. Not an option, because an option is never a What change, and not a What decision, because the When owner proposes and the What owner decides |
+  | 3 | What → When | Each element's outcome and acceptance | Earlier o1s (What) | o2a (`lc:readsEarlier m:o1`) | **Holds** (fixed when the map was first drawn) |
+  | 4 | What → When | The ready-for-users verdict | oR (What) | o16 (dependency) | **Holds** |
+  | 5 | What → How | The What, the product assurance | o1 (What and assurance loci) | o1b (dependency, new demand), and the How owner's implementation-assurance decisions | **Holds** |
+  | 6 | When → How | A released issue, in order | o2a (the pull and its rank) | o2b (dependency, `lc:forKind lc:NewDemand`) | **Holds, for new demand only.** Owed and own-ground issues cross no When → How seam |
+  | 7 | How → When | The record: cadence, lead time, change failure rate | The dispatcher's occurrence records, o3 to o13 | o2a (`lc:readsEarlier m:o13`); the forecast | **Holds** |
+  | 8 | How → What | The change in production, dark, with its verdicts | o13, with o9 and o10's verdicts | oR (dependency) | **Holds** |
+  | 10 | What → How | A classification verdict: owed | oC (What) | o1b (dependency, `lc:forKind lc:OwedDemand`) | **Holds** |
+  | 11 | What → When | A classification verdict: new | oC (What) | o2a, through the option the What owner proposes at o0 | **Holds, indirectly.** A defect classified new becomes an option. The When owner reads it as an option, never as a defect |
+
+  ## What is not changed
+
+  - DDD-dec-114 is landed and not edited. P-3's other sentences stand: each owner controls its
+    own ground; ground crossing a seam is supplied by its producer and read, read-only, by its
+    receiver; a ground-locus issue declares whose ground it changes, and that owner accepts it.
+  - Row 2's scope-cut act (oS) and row 9 (telemetry) were ruled before this decision.
+  - Rows 10 and 11, the classification verdicts owed and new, were Claude's additions in the
+    2026-11-07 record (Round 22), made when the three kinds of demand were adopted. They are ruled
+    here by Round 4 of the redo session, which amended this decision in place before it landed.
+basedOn:
+  - DDD-dec-114
+notes: |
+  Id: the next free above DDD-dec-119, checked on every remote branch (60) on 2026-11-11 just
+  before the commit and again just before the push. No branch holds a decision file above 119.
+  DDD-dec-120 appears on several branches only as a range mention in two 2026-11-08 session
+  records, which the specification-feasibility bootstrap ruled is not use. The parallel
+  method-plugin session (claude/confident-goldberg-c0y0ia) holds no decision file above 118.
+
+  Not filed as supersedes: DDD-dec-114. That field marks a whole decision superseded
+  (validate-core-order.py), and only one sentence of P-3 is. The pattern is DDD-dec-117's.
