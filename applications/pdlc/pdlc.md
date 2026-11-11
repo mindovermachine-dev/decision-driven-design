@@ -4,7 +4,7 @@
 reader: product, business and engineering leads deciding who decides what over a product's life
 act: place each lifecycle decision with one owner, run new demand through an option pool, route owed and own-ground work, and plan against a computed forecast
 pin: v5.15.2
-basis: [DDD-dec-114, DDD-dec-115, DDD-dec-118, DDD-dec-42, DDD-dec-60, DDD-dec-70, DDD-dec-85, DDD-dec-87, DDD-frame-01, DDD-frame-02, DDD-ground-06, term:answerability, term:liability, term:seam-identity, term:capability, DDD-address-01@projected, DDD-org-03@projected]
+basis: [DDD-dec-114, DDD-dec-120, DDD-dec-115, DDD-dec-118, DDD-dec-42, DDD-dec-60, DDD-dec-70, DDD-dec-85, DDD-dec-87, DDD-frame-01, DDD-frame-02, DDD-ground-06, term:answerability, term:liability, term:seam-identity, term:capability, DDD-address-01@projected, DDD-org-03@projected]
 status: current
 supersedes: 84aa466:applications/pdlc/pdlc.md
 -->
@@ -162,8 +162,7 @@ each. Ground that crosses a seam is supplied by its producer and is read-only fo
 
 Each row is checked to be an output of one owner's act that appears in the ground reading of
 another owner's act. Rows 1 to 8 come from the original listing of the ground the seams supply,
-which is not itself ruled *(see "Not settled yet")*. The scope-cut act in row 2 and the telemetry
-row are ruled. The last two rows are Claude's additions, made when the three kinds of demand were
+and are ruled as listed. The scope-cut act in row 2 and the telemetry row were ruled before them. The last two rows are Claude's additions, made when the three kinds of demand were
 adopted. The act map is [`graph/acts.ttl`](graph/acts.ttl) with
 [`../sdlc/acts/acts.ttl`](../sdlc/acts/acts.ttl).
 
@@ -682,9 +681,6 @@ leaving with no record) are part of this list.
 
 - **Method step 7** (§0, §6) and **method step 10** (§5) are *(proposed, not yet ruled)* in
   `method/`. The mapping onto step 7 is decided. If step 7 changes, the mapping must be read again.
-- **The seam table's rows 1 to 8** (§2.1) come from a listing of seam-supplied ground that the
-  decision checks against the act map and does not itself rule. Ruling them would make the table
-  a rule rather than a checked reading.
 - **O-6** *(open)*: record kinds for the When owner's acts and for the classification, in the
   authority profile. Until then those acts have no record kind of their own.
 - **O-8** *(open)*: the observation need and the product-assurance declaration in the What's
@@ -706,7 +702,7 @@ and `DDD-dec-114` disagree, the decision governs.
 | §1 The stance | Round 6, wording approved by Round 14, refined by Round 19 (the two assurances); Round 20 (DORA keys as answerability); Round 22 (capacity shared); `DDD-dec-115` S-6 (the occurrence record), S-10 (the DORA keys) |
 | §1 The forecast | Round 29 (probabilistic forecasting, replacing R27's sketch; quoted: "we produce a certainty…", "we should use probalistic forecastin for this"); Round 27 (flow time; `DDD-dec-114` P-14); Round 30 (the 15th, 50th and 85th percentiles); Round 6 (the departure; quoted in the record) |
 | §2 | Rounds 5, 6, 7, 8, 10, 11, 16–20, 22; authority.md §2–3 (`DDD-dec-87`, `DDD-dec-85`); Round 10 (the When owner as go-to-market owner); Round 11 (biggest contributor); Round 16 (the How owner's capability); Round 14 (ground: "Their ground is their own to control, but the seams between them supplies some to each") |
-| §2.1 | Round 14's listing, "not itself ruled" (`DDD-dec-114` resolution); Round 28, R7 (oS); Round 16 (the telemetry row, ruled); Round 22 (the last two rows, Claude's additions); F-2 of the first session and Round 28, R8 (o2a before o1) |
+| §2.1 | Round 14's listing; rows 1 to 8 ruled as listed by `DDD-dec-120` (2026-11-11, Round 3 of the redo session), superseding only `DDD-dec-114` P-3's "It is not ruled here"; Round 28, R7 (oS); Round 16 (the telemetry row, ruled); Round 22 (the last two rows, Claude's additions); F-2 of the first session and Round 28, R8 (o2a before o1) |
 | §3 | Round 18 ("its more than the needs it's everything the how needs in order to implement including the assurance"; the meter, "Yes (Recommended)"); Round 17; Rounds 18, 19; Round 28, R24 and R25 (the forms) |
 | §4 | Round 19 (the two assurances, quoted in the record); Round 7 (the user-side share); Round 13 (independence of acceptance); Rounds 16, 17; Round 28, R2 (the two levels), R25; Round 19 correcting Round 18; Round 19, "Outcomes, read across seams (Recommended)"; Round 20 ("And if they don't thats fine - then it was properly not giving any value"; the falsifier withdrawn); Round 28, R20 |
 | §5 | Round 16 ("I agree the telemetry is the hows to add and the rest is the what to gather…"); method step 10 `[PROPOSED]`; Round 17 ("what people needs to add their observability needs to the specification…"); Round 28, R24; how.md H-9 (`DDD-dec-60`, superseded by `DDD-dec-70` with the telemetry facts unchanged); Round 28, R26 (the capability pin, Claude's reading, ruled); `core/04`, `term:capability` |
