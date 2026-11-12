@@ -21,7 +21,8 @@
 #     is to be projected;
 #   - the `source` slot is retired. No separate <name>.source.md is authored;
 #   - the canon will mostly be read and projected by models, and is labelled as such. The label
-#     is the `reader` field on the canon member below. The canon file itself was not changed.
+#     is the `reader` field on the canon member below. Emil ruled that the label in the index
+#     is enough: the canon file itself carries none.
 #
 # The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
 # sentence, the choice of terms, and every home. A home names the section whose heading is given.

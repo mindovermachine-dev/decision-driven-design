@@ -35,7 +35,7 @@ A status the reader must know to read the file rightly, such as "nothing here is
 
 ## For every projection
 
-Accepted by Emil on 2026-11-12.
+Accepted by Emil on 2026-11-12. Rules 5 to 7 were proposed by Claude and accepted the same day.
 
 ### 3. Canon is the centre
 
@@ -46,8 +46,6 @@ The canon will mostly be read and projected by models, and it is labelled as suc
 ### 4. Terms are served to the reader
 
 A term is available where the reader meets it, or in a separate list where they look it up. A word is a term when a statement depends on its precise meaning here, and a newcomer's ordinary reading would get it wrong.
-
-## Proposed, not ruled
 
 ### 5. Nothing is added
 
@@ -73,4 +71,4 @@ How deep the projection goes into the canon, which paths through it the projecti
 
 ---
 
-*Trial, tracked in mindovermachine-dev/decision-driven-design#75. Rules 1 to 4 are ruled or accepted. Rules 5 to 7 are proposed by Claude.*
+*Tracked in mindovermachine-dev/decision-driven-design#75. All seven rules are ruled or accepted by Emil (2026-11-12). They have been exercised on one canon and one format, on a trial branch.*
