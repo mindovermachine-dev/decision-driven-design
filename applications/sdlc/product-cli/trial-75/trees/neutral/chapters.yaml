@@ -1,0 +1,6 @@
+CH1:
+  summary: "The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. The What is authored in conversation as a graph with shapes, and its behaviour is executable before code exists. The tool records the author's decisions as `dpp/1` records carrying no force, while acceptance and position in force belong to Writ."
+  cites: [P0.1, P1, P2, P3, P4]
+CH5:
+  summary: "Each guarantee is a public property test over generated What graphs and scenarios, and every test observes bytes in the draft log or in an export. A change set carrying a violation, a disagreeing signature and a type-boundary breach are kept out or refused, coverage gaps and orphans are findings, and exports are simulated before being marked ready and are byte-identical across platforms and through import. The tool holds no key and puts nothing in force, and every change at the head of the draft log is attached to a decision record whose `by` is the author."
+  cites: [W0.1, W0.2, W0.3, W1, W2, W3, W4, W5, W6, W7, W8, W10, W12]

@@ -1,0 +1,48 @@
+P1:
+  summary: "The What is authored in conversation: an agent proposes, the author adopts or rejects, and each adoption is a `dpp/1` decision record tracing every element to its adopter."
+  cites: [P1.1, P1.3, P1.4, P1.6]
+P2:
+  summary: "The What is a graph with shapes, and the tool says that anything that cannot be stated as a node, an edge or a shape is not yet specified."
+  cites: [P2.1, P2.2]
+P3:
+  summary: "Behaviour is executable before code exists: a Decider and a Projector are simulated sound and complete against scenarios drawn from the flows, and the same scenarios later judge realised code."
+  cites: [P3.1, P3.2]
+P4:
+  summary: "The tool records the author's decisions as `dpp/1` records carrying no force and produces a canonical document, while its acceptance and position in force belong to Writ."
+  cites: [P4.1, P4.2, P4.3, P4.4]
+W1:
+  summary: "No change set carrying a violation enters the draft log, and a failed write leaves the log unchanged."
+  cites: [W1.1, W1.2]
+W2:
+  summary: "A Decider's and a Projector's signatures are computed from the graph, and an authored signature or logic that disagrees with the computed signature is refused."
+  cites: [W2.1, W2.2, W2.3]
+W3:
+  summary: "Each coverage gap is a finding, never a silent pass: commands are handled, events folded, command and subject kind pairs shown by scenarios, surfaced Views scoped, and triggers given subjects."
+  cites: [W3.0, W3.1, W3.2, W3.3, W3.4, W3.5, W3.6]
+W4:
+  summary: "Orphans are findings: every aggregate field, projected field and claim is read, consumed or compared, and every Decider has a reachable rejection."
+  cites: [W4.0, W4.1, W4.2, W4.3, W4.4]
+W5:
+  summary: "Each type-boundary breach is refused at write: UI steps reference only AIOs, a trigger's present subject matches its `source`, and a journey crosses systems only through a Translation."
+  cites: [W5.0, W5.1, W5.2, W5.6]
+W6:
+  summary: "Every Decider and Projector with scenarios is simulated sound and complete before an export is marked ready, and a What with a failing scenario exports but says so."
+  cites: [W6.1, W6.2]
+W7:
+  summary: "Two exports of the same draft position are byte-identical on every platform, and every derived export is a deterministic function of the canonical graph and artefacts."
+  cites: [W7.1, W7.3]
+W8:
+  summary: "Importing a canonical export yields a draft whose export is byte-identical to the input, graph and artefacts."
+  cites: [W8.1]
+W9:
+  summary: "An agent session cannot author a node before the nodes it derives from exist, and the gate is the session transport, not advice in a prompt."
+  cites: [W9.1, W9.2]
+W10:
+  summary: "The tool holds no key and no grant, puts nothing in force, knows no Writ position, writes only to its own draft log, and exporters produce documents only."
+  cites: [W10.1, W10.2, W10.3, W10.4, W10.6]
+W11:
+  summary: "The draft log is a conformant system under `dpp/1`, every record it exposes is conformant, and a Writ decision landing the export reaches each author decision and agent proposal."
+  cites: [W11.1, W11.3, W11.10]
+W12:
+  summary: "Every change at the head of the draft log is attached to a decision record whose `by` is the author, and a proposal never reaches the head on its own."
+  cites: [W12.1, W12.3]

@@ -1,0 +1,6 @@
+CH1:
+  summary: "The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. Four consequences follow from the promise and are the whole product. Every element of the What traces to the person who adopted it, anything not stated as a node, an edge or a shape is not yet specified, and the same scenarios judge simulation and realised code."
+  cites: [P0.1, P0.2, P1, P2, P3]
+CH5:
+  summary: "Each guarantee is a property test, in a public suite, that observes bytes in the draft log or in an export. A change set carrying a violation never enters the draft log, coverage gaps and orphans are findings, and two exports of the same draft position are byte-identical. The tool holds no key and no grant and puts nothing in force, and a proposal never reaches the head of the draft log on its own."
+  cites: [W0.1, W0.2, W0.3, W1, W3, W4, W7, W10, W12]

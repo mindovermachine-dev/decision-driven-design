@@ -1,0 +1,3 @@
+DOC:
+  summary: "Violations, and authored signatures that disagree with the computed ones, are refused at write and leave the draft log unchanged, while coverage gaps and orphans are findings. Exports of one draft position are byte-identical on every platform, and re-export after import is byte-identical to the input; simulation precedes an export being marked ready, and the session transport gates an agent session's authoring order. Every exposed record has a non-empty `why`."
+  cites: [CH5]

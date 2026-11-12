@@ -1,0 +1,3 @@
+DOC:
+  summary: "This is the definition of the rewritten product-cli, written outside-in: the promise first, the implementation last. The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. The tool records the author's decisions as `dpp/1` records carrying no force, holds no key and puts nothing in force, and each guarantee is a public property test over generated What graphs and scenarios."
+  cites: [I0.1, I0.3, CH1, CH5]

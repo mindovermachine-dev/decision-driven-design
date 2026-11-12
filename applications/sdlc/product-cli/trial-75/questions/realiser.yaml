@@ -1,0 +1,40 @@
+- id: Q1
+  question: "What happens to the draft log when a write contains a violation?"
+  answer: "The change set is kept out of the draft log, and the log is left exactly as it was."
+  statements: [W1.1, W1.2]
+- id: Q2
+  question: "Which guarantees block a write, and which only produce a warning?"
+  answer: "W1 and W5 are violations that block a write, while W3 and W4 are warnings reported as findings."
+  statements: [W0.4, W0.5]
+- id: Q3
+  question: "Where does a Decider's or Projector's signature come from, and what if an authored one differs?"
+  answer: "The signature is computed from the graph, and an authored signature or logic that disagrees with it is refused."
+  statements: [W2.1, W2.2, W2.3]
+- id: Q4
+  question: "How is a trigger with no subject handled?"
+  answer: "The write is accepted, but for an automated or external trigger the missing subject is reported as a coverage finding."
+  statements: [W5.3, W5.4]
+- id: Q5
+  question: "Which outputs must match byte for byte?"
+  answer: "Two exports of the same draft position must be byte-identical on every platform, for graph and logic artefacts alike, and re-exporting an imported canonical export must reproduce the input bytes."
+  statements: [W7.1, W8.1]
+- id: Q6
+  question: "What stops an agent session from authoring a node too early?"
+  answer: "The session transport itself blocks authoring a node before the nodes it derives from exist, rather than a prompt advising against it."
+  statements: [W9.1, W9.2]
+- id: Q7
+  question: "Can a What with a failing scenario still be exported?"
+  answer: "Yes, it exports, but its What-version record states the failure and the export is not marked ready."
+  statements: [W6.1, W6.2]
+- id: Q8
+  question: "What must every record exposed by the draft log contain?"
+  answer: "Each record must be dpp/1 conformant, carry a non-empty why, and have system set to the draft log's identifier."
+  statements: [W11.3, W11.4, W11.5]
+- id: Q9
+  question: "How does a change proposed by an agent get to the head of the draft log?"
+  answer: "Only through a decision record made by the author that adopts it, since a proposal never reaches the head on its own and the agent surface has no adopting verb."
+  statements: [W12.1, W12.2, W12.3, W12.4]
+- id: Q10
+  question: "What should a test of a guarantee observe?"
+  answer: "It should observe bytes in the draft log or in an export, never the return value of the verb that produced them."
+  statements: [W0.3]

@@ -1,0 +1,40 @@
+- id: Q1
+  question: "What is the product, in one sentence?"
+  answer: "It is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign."
+  statements: [P0.1]
+- id: Q2
+  question: "Which part of the definition can change without the product I am authorising changing?"
+  answer: "Chapter 7, how the product happens to be built, may change without the product changing; chapters 1 to 6 are the product."
+  statements: [I0.4, I0.5]
+- id: Q3
+  question: "Who decides whether something an agent suggests becomes part of the specification?"
+  answer: "The author adopts or rejects each proposal; a proposal never gets in on its own and the agent has no means of adopting."
+  statements: [P1.1, P1.3, W12, W12.3, W12.4]
+- id: Q4
+  question: "Can each part of the specification be traced back to a named person?"
+  answer: "Yes, every element traces to the person who adopted it, because each adoption is recorded as a decision with its reason."
+  statements: [P1.4, P1.6, W12.1]
+- id: Q5
+  question: "What does the tool do with a requirement that cannot be stated precisely?"
+  answer: "It says the thing is not yet specified rather than accepting it."
+  statements: [P2.1, P2.2]
+- id: Q6
+  question: "Can the specified behaviour be tried out before any code is written?"
+  answer: "Yes, behaviour is executable before any code exists, and the same scenarios later judge the code that is built."
+  statements: [P3, P3.1, P3.2]
+- id: Q7
+  question: "Does anything the tool records or produces become binding?"
+  answer: "No, the tool puts nothing in force; its decision records carry no force and its exporters produce documents only."
+  statements: [P4, P4.2, W10.2, W10.5, W10.6]
+- id: Q8
+  question: "Who holds the authority to accept the tool's output and put it in force?"
+  answer: "Writ: what the document is held against, who accepts it under which grant, and from where it is in force all belong to Writ."
+  statements: [P4.4]
+- id: Q9
+  question: "How could someone hold the product to its guarantees?"
+  answer: "Each guarantee is a property test, and the suite of those tests is public."
+  statements: [W0.1, W0.2]
+- id: Q10
+  question: "What happens when a specification with a failing scenario is exported?"
+  answer: "It still exports, but its version record says that a scenario fails."
+  statements: [W6.2]

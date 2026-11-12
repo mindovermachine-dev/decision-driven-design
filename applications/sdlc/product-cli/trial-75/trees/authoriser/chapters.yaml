@@ -1,0 +1,6 @@
+CH1:
+  summary: "The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. An agent proposes, the author adopts or rejects each proposal, and every element of the What traces to the person who adopted it. The author's decisions carry no force; who accepts the canonical document and from which position it is in force belong to Writ."
+  cites: [P0.1, P1, P4]
+CH5:
+  summary: "Each guarantee is a property test, and the suite is public. No change set carrying a violation enters the draft log, and each coverage gap is a finding, never a silent pass. The tool holds no key and no grant and puts nothing in force, and a proposal never reaches the head of the draft log on its own: every change there is attached to a decision record whose `by` is the author."
+  cites: [W0.1, W0.2, W1, W3, W10, W12]
