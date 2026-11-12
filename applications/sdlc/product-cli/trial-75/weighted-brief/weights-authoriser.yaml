@@ -1,0 +1,10 @@
+weights:
+  C1: {words: 75, why: "Holds what the product is for, what it promises, and that acceptance and force belong to Writ, not the tool."}
+  C2: {words: 25, why: "Says who the product is for and that the author, a person, adopts or rejects what the agent proposes."}
+  C3: {words: 40, why: "Shows where a person stays in control: agent writes are only proposals and adoption is the author's alone."}
+  C4: {words: 0, why: "Formats and field-level rules, which this reader does not need."}
+  C5: {words: 60, why: "States the commitments in a form the product can be held to, and that nothing an agent wrote is in without a person adopting it."}
+  C6: {words: 0, why: "Internal interfaces between parts, a mechanism this reader does not need."}
+  C7: {words: 0, why: "How the tool is built, which may change without the product changing."}
+  C8: {words: 40, why: "Sets out what the product refuses to cover and that it never puts a decision in force."}
+  CX: {words: 0, why: "The state of cross-repository dependencies is not among this reader's needs."}

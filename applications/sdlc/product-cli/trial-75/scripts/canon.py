@@ -174,6 +174,40 @@ elif cmd == "topin":
         else:
             p(f"- {c['key']}: {sums[c['key']]['summary']}\n")
 
+elif cmd == "topin2":
+    sums = yaml.safe_load(open(sys.argv[4], encoding="utf-8"))["leaves"]
+    aud = re.sub(r"\A---\n.*?\n---\n", "", open(sys.argv[5], encoding="utf-8").read(), flags=re.S).strip()
+    w = yaml.safe_load(open(sys.argv[6], encoding="utf-8"))["weights"]
+    p = print
+    p("# Top input\n")
+    p("## Relevance (a reader)\n")
+    p(aud + "\n")
+    p("## The document's introduction (C0)\n")
+    p(doc["intro"] + "\n")
+    p("## Chapters\n")
+    for c in doc["chapters"]:
+        n = int(w[c["key"]]["words"])
+        if n == 0:
+            continue
+        p(f"### {c['key']} — {c['heading']}\n")
+        p(f"**Budget: {n} words.**\n")
+        if n >= 50:
+            p("The canon's own text of this chapter:\n")
+            if c["intro"]:
+                p(c["intro"] + "\n")
+            for s in c["subs"]:
+                p(f"#### {s['key']} — {s['heading']}\n")
+                p(s["text"] + "\n")
+        elif c["subs"]:
+            if c["intro"]:
+                p(f"Chapter introduction ({c['key']}): {c['intro']}\n")
+            p("Shared summaries of its sections:\n")
+            for s in c["subs"]:
+                p(f"- {s['key']} ({s['heading']}): {sums[s['key']]['summary']}")
+            p("")
+        else:
+            p(f"Shared summary: {sums[c['key']]['summary']}\n")
+
 elif cmd == "check":
     sums = yaml.safe_load(open(sys.argv[4], encoding="utf-8"))["leaves"]
     problems = []
@@ -262,6 +296,9 @@ elif cmd == "brief":
         "sentences": sentences,
         "terms": sources,
     }
+    if len(sys.argv) > 9:
+        entry["format-version"] = 6
+        entry["chapter-weights"] = {k: v["words"] for k, v in yaml.safe_load(open(sys.argv[9], encoding="utf-8"))["weights"].items()}
     reg = ("# Everything about the files derived from this set's canon that their readers do not need: where each\n"
            "# came from, what each sentence rests on, where each gloss was taken from, what was left out.\n"
            "# Written by the script that assembles the files. A file for a human carries none of this (Emil, 2026-11-12).\n"

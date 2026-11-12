@@ -1,0 +1,22 @@
+headline: "What the rewritten product-cli promises and refuses"
+document:
+  summary: "The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. [C0, C1] An agent proposes, and the author adopts or rejects each proposal. [C1] The tool puts nothing in force; what the canonical document is held against, who accepts it and from which position it is in force belong to Writ. [C1]"
+chapters:
+  C1:
+    summary: "The What is authored in conversation, and every step of it is a decision. [C1] Each adoption is a decision record with its reason, so every element of the What traces to the person who adopted it. [C1] The What is a graph with shapes, and the tool says so when something is not yet specified. [C1] Behaviour is executable before any code exists, and the same scenarios later judge realised code. [C1] The tool decides nothing about realisation. [C1]"
+  C2:
+    summary: "Three roles share one surface: an author who adopts or rejects proposals, an agent that writes only proposals, and a realiser who needs an oracle. [C2]"
+  C3:
+    summary: "An agent's write is a proposal, which the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant; the agent surface has no adopt, reject, land, grant or signing. [C3.3, C3.6]"
+  C4:
+    summary: null
+  C5:
+    summary: "Each guarantee is a property test, and the suite is public. [C5] No change set enters the draft log if it carries a violation. [C5] Each coverage gap is a finding, never a silent pass. [C5] The tool holds no key and no grant, and puts nothing in force. [C5] Nothing an agent wrote is in the What unless a person adopted it. [C5]"
+  C6:
+    summary: null
+  C7:
+    summary: null
+  C8:
+    summary: "The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force. [C8]"
+  CX:
+    summary: null

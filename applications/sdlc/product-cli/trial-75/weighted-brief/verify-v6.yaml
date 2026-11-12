@@ -1,0 +1,94 @@
+sentences:
+  - text: "The rewritten product-cli promises a machine-checkable statement of…"
+    cites: [C0, C1]
+    verdict: supported
+    note: null
+  - text: "An agent proposes, and the author adopts or…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The tool puts nothing in force; what the…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The What is authored in conversation, and every…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Each adoption is a decision record with its…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The What is a graph with shapes, and…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Behaviour is executable before any code exists, and…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The tool decides nothing about realisation…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Three roles share one surface: an author who…"
+    cites: [C2]
+    verdict: supported
+    note: null
+  - text: "An agent's write is a proposal, which the…"
+    cites: [C3.3, C3.6]
+    verdict: supported
+    note: null
+  - text: "Each guarantee is a property test, and the…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "No change set enters the draft log if…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "Each coverage gap is a finding, never a…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "The tool holds no key and no grant,…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "Nothing an agent wrote is in the What…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "The scope is the What alone, without the…"
+    cites: [C8]
+    verdict: supported
+    note: null
+glosses:
+  - term: adoption
+    verdict: supported
+    note: null
+  - term: proposal
+    verdict: supported
+    note: null
+  - term: canonical document
+    verdict: supported
+    note: null
+  - term: the What
+    verdict: supported
+    note: null
+  - term: shape
+    verdict: supported
+    note: null
+  - term: scenario
+    verdict: supported
+    note: null
+  - term: realiser
+    verdict: supported
+    note: null
+  - term: draft log
+    verdict: supported
+    note: null
+  - term: violation
+    verdict: supported
+    note: null
+summary: {supported: 25, partly: 0, unsupported: 0, miscited: 0}

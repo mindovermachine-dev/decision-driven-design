@@ -5,7 +5,7 @@ set: product-definition
 projections:
 - file: product-definition.en.brief.md
   format: brief
-  format-version: 4
+  format-version: 6
   culture: en
   reader: human
   audience: authoriser
@@ -19,84 +19,131 @@ projections:
   - C2
   - C3.3
   - C3.6
-  - C4
-  - C4.5
   - C5
-  - C7
   - C8
-  - CX
   unknown-citations: []
   chapters-left-out:
+  - C4
   - C6
+  - C7
+  - CX
   sentences:
   - in: summary
-    sentence: The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign
+    sentence: The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign.
     cites:
     - C0
     - C1
   - in: summary
-    sentence: The tool puts nothing in force and decides nothing about realisation; acceptance and force belong to Writ
+    sentence: An agent proposes, and the author adopts or rejects each proposal.
     cites:
     - C1
   - in: summary
-    sentence: An agent writes only proposals, and nothing an agent wrote is in the What unless a person adopted it
+    sentence: The tool puts nothing in force; what the canonical document is held against, who accepts it and from which position it is in force belong to Writ.
     cites:
-    - C2
-    - C5
+    - C1
   - in: C1
-    sentence: The What is authored in conversation, where an agent proposes and the author adopts or rejects, and its behaviour is executable before code exists
+    sentence: The What is authored in conversation, and every step of it is a decision.
+    cites:
+    - C1
+  - in: C1
+    sentence: Each adoption is a decision record with its reason, so every element of the What traces to the person who adopted it.
+    cites:
+    - C1
+  - in: C1
+    sentence: The What is a graph with shapes, and the tool says so when something is not yet specified.
+    cites:
+    - C1
+  - in: C1
+    sentence: Behaviour is executable before any code exists, and the same scenarios later judge realised code.
+    cites:
+    - C1
+  - in: C1
+    sentence: The tool decides nothing about realisation.
     cites:
     - C1
   - in: C2
-    sentence: The tool serves an author who adopts or rejects the agent's proposals, an agent who writes only proposals, and a realiser who needs an oracle to realise against
+    sentence: 'Three roles share one surface: an author who adopts or rejects proposals, an agent that writes only proposals, and a realiser who needs an oracle.'
     cites:
     - C2
   - in: C3
-    sentence: Every agent write is a proposal that the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant
+    sentence: An agent's write is a proposal, which the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant; the agent surface has no adopt, reject, land, grant or signing.
     cites:
     - C3.3
     - C3.6
-  - in: C4
-    sentence: Every format is under a read-forever rule from the first release, and the tool's published profile states that no record of this system binds anyone
-    cites:
-    - C4
-    - C4.5
   - in: C5
-    sentence: Each guarantee is a property test in a public suite, and the tool holds no key and puts nothing in force
+    sentence: Each guarantee is a property test, and the suite is public.
     cites:
     - C5
-  - in: C7
-    sentence: The implementation may change without the product changing, and the order of work ends by retiring the Rust binary
+  - in: C5
+    sentence: No change set enters the draft log if it carries a violation.
     cites:
-    - C0
-    - C7
+    - C5
+  - in: C5
+    sentence: Each coverage gap is a finding, never a silent pass.
+    cites:
+    - C5
+  - in: C5
+    sentence: The tool holds no key and no grant, and puts nothing in force.
+    cites:
+    - C5
+  - in: C5
+    sentence: Nothing an agent wrote is in the What unless a person adopted it.
+    cites:
+    - C5
   - in: C8
-    sentence: The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force
+    sentence: The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force.
     cites:
     - C8
-  - in: CX
-    sentence: Most cross-repository dependencies are met; still open are Writ landing canonical N-Quads as the What document and Writ's embedded log and `land`
-    cites:
-    - CX
   terms:
-  - term: Writ
-    from: null
-    why: its home is Writ, outside this repository
-  - term: proposal
-    from: product-definition.md
-    section: Proposals and decisions
-  - term: the What
-    from: what.md
-    section: 1.1 What the What is
   - term: adoption
     from: product-definition.md
     section: Proposals and decisions
+  - term: proposal
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: canonical document
+    from: product-definition.md
+    section: The canonical export
+  - term: Writ
+    from: null
+    why: its home is Writ, outside this repository
+  - term: the What
+    from: what.md
+    section: 1.1 What the What is
+  - term: decision record
+    from: null
+    why: no explanation was found
+  - term: shape
+    from: product-definition.md
+    section: Shapes
+  - term: scenario
+    from: product-definition.md
+    section: Scenarios and the wire protocol
   - term: realiser
     from: product-definition.md
     section: 2. Who it is for
   - term: grant
     from: null
     why: its home is Writ, outside this repository
-  - term: profile
+  - term: change set
+    from: null
+    why: no explanation was found
+  - term: draft log
     from: product-definition.md
-    section: Decision records and the profile
+    section: The draft log
+  - term: violation
+    from: product-definition.md
+    section: Shapes
+  - term: finding
+    from: null
+    why: no explanation was found
+  chapter-weights:
+    C1: 75
+    C2: 25
+    C3: 40
+    C4: 0
+    C5: 60
+    C6: 0
+    C7: 0
+    C8: 40
+    CX: 0
