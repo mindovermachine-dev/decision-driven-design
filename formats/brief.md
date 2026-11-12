@@ -1,13 +1,13 @@
 ---
 format: brief
-version: 3
+version: 4
 status: trial
 tracking: mindovermachine-dev/decision-driven-design#75
 ---
 
 # Format: brief
 
-**Trial, `[PROPOSED]`.** A brief is the outermost projection of a canon: what a reader meets first. Version 3 is built from the canon's shared summaries, a top written for one reader, and the glossary. Versions 0 and 1 read a separate source file, which is retired. Version 3 adds the rule for a human reader.
+**Trial, `[PROPOSED]`.** A brief is the outermost projection of a canon: what a reader meets first. Version 3 is built from the canon's shared summaries, a top written for one reader, and the glossary. Versions 0 and 1 read a separate source file, which is retired. Versions 3 and 4 add the rules for a human reader.
 
 ## How a brief is made
 
@@ -24,9 +24,14 @@ Only the top is written per reader. This file instructs the model that writes it
 
 Emil's rule (2026-11-12): **anything a human will read must never start with information about the content.** A human expects a quick and easy start to the information itself, and otherwise stops reading. A model does not. This holds for every Markdown file meant for a human reader.
 
+Emil's second rule (2026-11-12): **anything that is not important for the human reader is hidden or removed.**
+
 So a brief:
 
-- has no frontmatter. Its provenance is recorded beside it, in the set's projections file, and named in one line at the very end;
+- has no frontmatter and no provenance line. Its provenance is recorded beside it, in the set's projections file;
+- shows no citation keys. You still write them, as below. The script takes them out of the text and records, beside the file, which sentence rests on which keys. The check reads them there;
+- gives each term its explanation and nothing else: not where the explanation was taken from;
+- does not say what was left out for this reader;
 - opens with a headline that names the subject, not the document;
 - starts its first sentence with the subject itself: what the thing is or does. Never with what the document is, its status, its history, who wrote it, or how to read it.
 

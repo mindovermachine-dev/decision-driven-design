@@ -1,11 +1,13 @@
-# Provenance of every file derived from the canon of this set. Written by the script that assembles
-# them. A file for a human reader carries no frontmatter (Emil, 2026-11-12), so its provenance is here.
+# Everything about the files derived from this set's canon that their readers do not need: where each
+# came from, what each sentence rests on, where each gloss was taken from, what was left out.
+# Written by the script that assembles the files. A file for a human carries none of this (Emil, 2026-11-12).
 set: product-definition
 projections:
 - file: product-definition.en.brief.md
   format: brief
-  format-version: 3
+  format-version: 4
   culture: en
+  reader: human
   audience: authoriser
   derived-from: product-definition.md
   canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
@@ -23,6 +25,78 @@ projections:
   - C7
   - C8
   - CX
-  terms-without-explanation:
-  - Writ
-  - grant
+  unknown-citations: []
+  chapters-left-out:
+  - C6
+  sentences:
+  - in: summary
+    sentence: The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign
+    cites:
+    - C0
+    - C1
+  - in: summary
+    sentence: The tool puts nothing in force and decides nothing about realisation; acceptance and force belong to Writ
+    cites:
+    - C1
+  - in: summary
+    sentence: An agent writes only proposals, and nothing an agent wrote is in the What unless a person adopted it
+    cites:
+    - C2
+    - C5
+  - in: C1
+    sentence: The What is authored in conversation, where an agent proposes and the author adopts or rejects, and its behaviour is executable before code exists
+    cites:
+    - C1
+  - in: C2
+    sentence: The tool serves an author who adopts or rejects the agent's proposals, an agent who writes only proposals, and a realiser who needs an oracle to realise against
+    cites:
+    - C2
+  - in: C3
+    sentence: Every agent write is a proposal that the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant
+    cites:
+    - C3.3
+    - C3.6
+  - in: C4
+    sentence: Every format is under a read-forever rule from the first release, and the tool's published profile states that no record of this system binds anyone
+    cites:
+    - C4
+    - C4.5
+  - in: C5
+    sentence: Each guarantee is a property test in a public suite, and the tool holds no key and puts nothing in force
+    cites:
+    - C5
+  - in: C7
+    sentence: The implementation may change without the product changing, and the order of work ends by retiring the Rust binary
+    cites:
+    - C0
+    - C7
+  - in: C8
+    sentence: The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force
+    cites:
+    - C8
+  - in: CX
+    sentence: Most cross-repository dependencies are met; still open are Writ landing canonical N-Quads as the What document and Writ's embedded log and `land`
+    cites:
+    - CX
+  terms:
+  - term: Writ
+    from: null
+    why: its home is Writ, outside this repository
+  - term: proposal
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: the What
+    from: what.md
+    section: 1.1 What the What is
+  - term: adoption
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: realiser
+    from: product-definition.md
+    section: 2. Who it is for
+  - term: grant
+    from: null
+    why: its home is Writ, outside this repository
+  - term: profile
+    from: product-definition.md
+    section: Decision records and the profile

@@ -198,25 +198,37 @@ elif cmd == "brief":
     top = yaml.safe_load(open(sys.argv[6], encoding="utf-8"))
     audience = sys.argv[7]
     known = {c["key"] for c in doc["chapters"]} | {s["key"] for c in doc["chapters"] for s in c["subs"]} | {"C0"}
-    lines = [f"# {top.get('headline') or doc['headline']}", "", top["document"]["summary"], ""]
+    KEYS = r"\[((?:C[\dX]+(?:\.\d+)?)(?:,\s*C[\dX]+(?:\.\d+)?)*)\]"
+    sentences = []  # what the checker needs, kept beside the file and out of it
+
+    def strip_keys(text, where):
+        """Remove the citation keys from the text; record each sentence with the keys it rests on."""
+        pos = 0
+        for m in re.finditer(r"\s*" + KEYS, text):
+            sent = text[pos:m.start()].strip().lstrip(".;, ").strip()
+            sentences.append({"in": where, "sentence": sent, "cites": [k.strip() for k in m.group(1).split(",")]})
+            pos = m.end()
+        return re.sub(r"\s*" + KEYS, "", text).strip()
+
+    lines = [f"# {top.get('headline') or doc['headline']}", "", strip_keys(top["document"]["summary"], "summary"), ""]
     lines += ["## Chapter by chapter", ""]
+    left = []
     for c in doc["chapters"]:
         e = top["chapters"].get(c["key"])
         if e and e.get("summary"):
-            lines.append(f"- **{c['title']}.** {e['summary']}")
-    left = [c["title"] for c in doc["chapters"] if not (top["chapters"].get(c["key"]) or {}).get("summary")]
-    if left:
-        lines += ["", "Left out for this reader: " + "; ".join(left) + "."]
+            lines.append(f"- **{c['title']}.** {strip_keys(e['summary'], c['key'])}")
+        else:
+            left.append(c["key"])
     body = "\n".join(lines)
 
-    # terms: link the first use, then list what is used
-    used, entries = [], []
+    # terms: link the first use, then list what is used, each with its gloss and nothing else
+    used = []
     for t in idx["terms"]:
         m = re.search(t["pattern"], body)
         if m:
             used.append((m.start(), t))
     used.sort(key=lambda x: x[0])
-    offset = 0
+    offset, entries, sources = 0, [], []
     for start, t in used:
         m = re.compile(t["pattern"]).search(body, start + offset)
         anchor = "term-" + re.sub(r"[^a-z0-9]+", "-", t["term"].lower()).strip("-")
@@ -226,39 +238,40 @@ elif cmd == "brief":
             offset += len(rep) - len(m.group(0))
         h = t.get("home")
         g = gloss.get(t["term"])
-        if g:
+        if g and g.get("gloss"):
             path = files.get(h["in"]) or imports[h["in"]]
-            entries.append(f"- <a id=\"{anchor}\"></a>**{t['term']}**: {g['gloss']} *(`{path.split('/')[-1]}`, \"{h['heading']}\")*")
-        elif h and h["in"] == "writ":
-            why = "Writ is a system outside this repository." if t["term"] == "Writ" else "It is Writ's term, and Writ is outside this repository."
-            entries.append(f"- <a id=\"{anchor}\"></a>**{t['term']}**: not explained in the canon. {why}")
+            entries.append(f"- <a id=\"{anchor}\"></a>**{t['term']}**: {g['gloss']}")
+            sources.append({"term": t["term"], "from": path.split("/")[-1], "section": h["heading"]})
         else:
-            entries.append(f"- <a id=\"{anchor}\"></a>**{t['term']}**: not explained in the canon. No explanation was found.")
+            entries.append(f"- <a id=\"{anchor}\"></a>**{t['term']}**: not explained in this definition.")
+            why = "its home is Writ, outside this repository" if h and h["in"] == "writ" else "no explanation was found"
+            sources.append({"term": t["term"], "from": None, "why": why})
     body += "\n\n## Terms used here\n\n" + "\n".join(entries) + "\n"
 
-    cited = sorted({x.strip() for grp in re.findall(r"\[((?:C[\dX]+(?:\.\d+)?)(?:,\s*C[\dX]+(?:\.\d+)?)*)\]", body) for x in grp.split(",")},
+    cited = sorted({k for s in sentences for k in s["cites"]},
                    key=lambda k: [int(p) if p.isdigit() else 99 for p in re.split(r"\.", k[1:])])
-    bad = [c for c in cited if c not in known]
     entry = {
-        "file": f"{idx['set']}.en.brief.md", "format": "brief", "format-version": 3, "culture": "en",
-        "audience": audience, "derived-from": canon_path.split("/")[-1], "canon-blob": blob(canon_path),
+        "file": f"{idx['set']}.en.brief.md", "format": "brief", "format-version": 4, "culture": "en",
+        "reader": "human", "audience": audience,
+        "derived-from": canon_path.split("/")[-1], "canon-blob": blob(canon_path),
         "summaries-of-canon-blob": sums["canon-blob"],
         "assembled-by": "script, from stored summaries, an audience top and the glossary",
         "cites": cited,
-        "terms-without-explanation": [t["term"] for _, t in used if not gloss.get(t["term"])],
+        "unknown-citations": [c for c in cited if c not in known],
+        "chapters-left-out": left,
+        "sentences": sentences,
+        "terms": sources,
     }
-    if bad:
-        entry["unknown-citations"] = bad
-    reg = (f"# Provenance of every file derived from the canon of this set. Written by the script that assembles\n"
-           f"# them. A file for a human reader carries no frontmatter (Emil, 2026-11-12), so its provenance is here.\n"
+    reg = ("# Everything about the files derived from this set's canon that their readers do not need: where each\n"
+           "# came from, what each sentence rests on, where each gloss was taken from, what was left out.\n"
+           "# Written by the script that assembles the files. A file for a human carries none of this (Emil, 2026-11-12).\n"
            + yaml.safe_dump({"set": idx["set"], "projections": [entry]}, sort_keys=False, allow_unicode=True, width=1000))
     open(sys.argv[8], "w", encoding="utf-8").write(reg)
-    foot = f"\n---\n\n*Derived from `{canon_path.split('/')[-1]}`. Its provenance is in `{sys.argv[8].split('/')[-1]}`.*\n"
-    sys.stdout.write(body + foot)
+    sys.stdout.write(body)
 
 elif cmd == "opening":
     bad_start = re.compile(r"^(this (document|file|page|brief|report|description|is|was)|status\b|draft\b|trial\b|note\b|version\b|generated\b|derived\b|computed\b|last updated\b|current state\b|retired\b)", re.I)
-    for path in sys.argv[4:]:
+    for path in [a for a in sys.argv[4:] if a != "--strict"]:
         lines = open(path, encoding="utf-8").read().splitlines()
         problems = []
         if lines and lines[0].strip() == "---":
@@ -272,4 +285,9 @@ elif cmd == "opening":
             problems.append("opens with a note or a table, not with a sentence about the subject")
         elif bad_start.match(plain):
             problems.append(f"opens with information about the content: \"{plain[:60]}\"")
+        text = "\n".join(lines)
+        if re.search(r"\[C[\dX]+(\.\d+)?(,\s*C[\dX]+(\.\d+)?)*\]", text):
+            problems.append("carries citation keys")
+        if "--strict" in sys.argv and re.search(r"(?im)^\*?(derived from|provenance|computed from|generated by)", text):
+            problems.append("carries provenance")
         print(("ok   " if not problems else "FAIL ") + path.split("/product-cli/")[-1] + ("" if not problems else "  — " + "; ".join(problems)))
