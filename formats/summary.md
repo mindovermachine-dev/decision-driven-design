@@ -1,6 +1,7 @@
 ---
 step: summary
 version: 2
+reader: model
 status: trial
 tracking: mindovermachine-dev/decision-driven-design#75
 ---
@@ -10,6 +11,8 @@ tracking: mindovermachine-dev/decision-driven-design#75
 **Trial, `[PROPOSED]`.** This step gives every leaf of a canon a summary. A leaf is a section of the canon that has no sections of its own. The summaries are shared: every reader's projection is built over the same ones.
 
 Version 2 reads the canon directly (Emil, 2026-11-12: `product-definition.md` is the canon; the `source` slot is retired). Versions 0 and 1 read a separate source file of identified statements.
+
+The summaries are stored for other steps to read, not for a human. Of `formats/foundations.md`, rules 3 and 5 apply.
 
 ## Input
 

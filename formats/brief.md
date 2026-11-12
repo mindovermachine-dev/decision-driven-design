@@ -1,13 +1,15 @@
 ---
 format: brief
-version: 4
+version: 5
+reader: model
+projects-for: human
 status: trial
 tracking: mindovermachine-dev/decision-driven-design#75
 ---
 
 # Format: brief
 
-**Trial, `[PROPOSED]`.** A brief is the outermost projection of a canon: what a reader meets first. Version 3 is built from the canon's shared summaries, a top written for one reader, and the glossary. Versions 0 and 1 read a separate source file, which is retired. Versions 3 and 4 add the rules for a human reader.
+**Trial, `[PROPOSED]`.** A brief is the outermost projection of a canon: what a reader meets first. It is built from the canon's shared summaries, a top written for one reader, and the glossary. This file is read by the model that writes the top. The brief it leads to is read by a human.
 
 ## How a brief is made
 
@@ -22,28 +24,17 @@ Only the top is written per reader. This file instructs the model that writes it
 
 ## A brief is for a human
 
-Emil's rule (2026-11-12): **anything a human will read must never start with information about the content.** A human expects a quick and easy start to the information itself, and otherwise stops reading. A model does not. This holds for every Markdown file meant for a human reader.
+`formats/foundations.md` holds the rules for every format. Read it first. Its rules 1 and 2 bind a brief. What they mean here:
 
-Emil's second rule (2026-11-12): **anything that is not important for the human reader is hidden or removed.**
-
-So a brief:
-
-- has no frontmatter and no provenance line. Its provenance is recorded beside it, in the set's projections file;
-- shows no citation keys. You still write them, as below. The script takes them out of the text and records, beside the file, which sentence rests on which keys. The check reads them there;
-- gives each term its explanation and nothing else: not where the explanation was taken from;
-- does not say what was left out for this reader;
-- opens with a headline that names the subject, not the document;
-- starts its first sentence with the subject itself: what the thing is or does. Never with what the document is, its status, its history, who wrote it, or how to read it.
-
-| Do not open with | Open with |
-|---|---|
-| "This is the definition of the rewritten tool." | "The tool turns … into …" |
-| "This document describes …" | The thing described, doing what it does. |
-| "Draft 4, superseding draft 3." | Nothing of the kind. Leave it out. |
+- The headline names the subject, in words this reader would use. The first sentence of the summary starts with the subject.
+- You still end every sentence with the keys it rests on, as below. What you write is read by a script, not by a human. The script takes the keys out of the text and records them beside the brief. The reader never sees them.
+- Keys do not count towards a word limit. The headline takes no keys.
+- A term gets its explanation and nothing else. You do not write the explanations; the glossary is attached after you.
+- Do not say what you left out.
 
 ## Input
 
-One file. It holds:
+Beside this file and `formats/foundations.md`, one file. It holds:
 
 - a relevance: a description of the reader;
 - the document's introduction, key `C0`;
@@ -58,6 +49,8 @@ You have not been given the canon itself, and that is deliberate.
 2. **One line per chapter.** At most 1 sentence and 30 words each. What the chapter holds for this reader. If a chapter holds nothing this reader needs, give it no line: write `summary: null`.
 
 ## The rule
+
+This is rule 5 of the foundations, as it applies here.
 
 **Every sentence states only what the keyed material it cites states.**
 

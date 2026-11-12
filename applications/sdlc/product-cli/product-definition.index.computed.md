@@ -11,7 +11,7 @@ Of the 44 terms this set uses in a special sense, 5 have no explanation that was
 | import | `spec/decision-provenance/dpp-1.md` | `14d3f879641e6afa993016f2cbaac502a46c02bc` |
 | import | writ (outside this repository) | n/a |
 
-Index content hash (sha256, first 16): `372477e4cedac240`
+Index content hash (sha256, first 16): `a69c84bcf829ed3f`
 
 ## Glossary coverage
 

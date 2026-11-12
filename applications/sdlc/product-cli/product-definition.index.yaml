@@ -19,7 +19,9 @@
 #   - the index is the boundary plus the glossary;
 #   - product-definition.md is the canon right now. It is self-contained as the core of what
 #     is to be projected;
-#   - the `source` slot is retired. No separate <name>.source.md is authored.
+#   - the `source` slot is retired. No separate <name>.source.md is authored;
+#   - the canon will mostly be read and projected by models, and is labelled as such. The label
+#     is the `reader` field on the canon member below. The canon file itself was not changed.
 #
 # The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
 # sentence, the choice of terms, and every home. A home names the section whose heading is given.
@@ -41,6 +43,7 @@ canon: definition
 members:
   - id: definition
     path: applications/sdlc/product-cli/product-definition.md
+    reader: model   # the canon is mostly read and projected by models (Emil, 2026-11-12)
 
 imports:
   - id: what

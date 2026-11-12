@@ -1,6 +1,7 @@
 ---
 step: glossary
 version: 0
+reader: model
 status: trial
 tracking: mindovermachine-dev/decision-driven-design#75
 ---
@@ -8,6 +9,8 @@ tracking: mindovermachine-dev/decision-driven-design#75
 # Projection step: glossary
 
 **Trial, `[PROPOSED]`.** This step writes one short explanation, a gloss, for each term of an information set. A projection then serves the gloss to its reader: where the term is met, or in a list to look up (Emil, 2026-11-12).
+
+The glosses are stored for other steps to read. A projection then shows them to a human, so each gloss must read well on its own. Of `formats/foundations.md`, rules 3, 4 and 5 apply.
 
 ## Input
 
