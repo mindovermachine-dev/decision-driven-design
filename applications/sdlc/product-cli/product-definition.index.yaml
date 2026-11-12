@@ -1,0 +1,109 @@
+# Index of the information set "product-definition".
+#
+# The index model is ACCEPTED (Emil, 2026-11-12, issue #75):
+#   - the index is the boundary: a file belongs to the set because it is listed here;
+#   - the boundary and the term homes are authored; uses, layers, paths and hashes are computed;
+#   - Git is the log; a content hash per file detects a stale index;
+#   - a word is a term when a statement depends on its precise meaning here, and a newcomer's
+#     ordinary reading would get it wrong;
+#   - a layer is inner by dependency: what is explained in one place and used in the next
+#     must be read in that order.
+#
+# The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
+# sentence, the choice of terms, and every home. A home names the section whose heading is given.
+# Nothing in the member or imported files was changed to make this index.
+
+set: product-definition
+model: accepted
+content: proposed
+tracking: mindovermachine-dev/decision-driven-design#75
+
+boundary: >-
+  The definition of the rewritten product-cli: what it promises, who it is for, its surface,
+  its formats, its guarantees, the contracts between its parts, and how it is built.
+
+entry: applications/sdlc/product-cli/product-definition.md
+
+members:
+  - id: definition
+    path: applications/sdlc/product-cli/product-definition.md
+
+imports:
+  - id: what
+    path: applications/sdlc/what.md
+    note: The What. A set of its own; this set reads it and never restates it.
+  - id: dpp
+    path: spec/decision-provenance/dpp-1.md
+    note: The Decision Provenance Protocol, dpp/1.
+  - id: writ
+    path: null
+    note: Writ is outside this repository. Its terms cannot be resolved from here.
+
+terms:
+  # --- explained in the What -------------------------------------------------------------
+  - {term: the What, pattern: '\b[Tt]he What\b|\bA What\b|\bWhat graphs?\b|\bWhat nodes?\b', home: {in: what, heading: "1.1 What the What is"}}
+  - {term: Decider, pattern: '\bDeciders?\b', home: {in: what, heading: "3.3 The Decider — the executable form of behaviour"}}
+  - {term: Projector, pattern: '\bProjectors?\b', home: {in: what, heading: "3.4 The Projector — the executable form of a read model"}}
+  - {term: View, pattern: '\bViews?\b', home: {in: what, heading: "3.2.0 Building blocks and patterns"}}
+  - {term: trigger, pattern: '\btriggers?\b', home: {in: what, heading: "3.2.0 Building blocks and patterns"}}
+  - {term: flow, pattern: '\bflows?\b', home: {in: what, heading: "3.2.0 Building blocks and patterns"}}
+  - {term: UI step, pattern: '\bUI steps?\b', home: {in: what, heading: "3.2.1 The UI step — the What of a screen"}}
+  - {term: AIO, pattern: '\bAIOs?\b', home: {in: what, heading: "3.2.2 Abstract Interaction Objects and the context of use"}}
+  - {term: journey, pattern: '\bjourneys?\b', home: {in: what, heading: "3.0.1 Journeys — flows that span systems"}}
+  - {term: Translation, pattern: '\bTranslations?\b', home: {in: what, heading: "3.0.1 Journeys — flows that span systems"}}
+  - {term: subject kind, pattern: '\bsubject kinds?\b|subject-kind', home: {in: what, heading: "3.7 Subjects and authorization — who may act"}}
+  - term: claim
+    pattern: '\bclaims?\b'
+    home: {in: what, heading: "3.7 Subjects and authorization — who may act"}
+    note: Homonym. Not a claim of this repository's claim graph.
+
+  # --- explained in dpp/1 ----------------------------------------------------------------
+  - {term: dpp/1, pattern: 'dpp/1', home: {in: dpp, heading: "1.1 Purpose"}}
+  - {term: decision record, pattern: '\bdecision records?\b', home: {in: dpp, heading: "3. The record"}}
+  - {term: published triple, pattern: '\bpublished triple\b', home: {in: dpp, heading: "3.8 Immutability"}}
+
+  # --- Writ's; not resolvable from this repository -------------------------------------
+  - {term: Writ, pattern: '\bWrit\b', home: {in: writ}}
+  - {term: Writ position, pattern: '\bWrit positions?\b', home: {in: writ}}
+  - term: grant
+    pattern: '\bgrants?\b'
+    home: {in: writ}
+    note: what.md §5.1 uses "grant" for an authoring scope. The definition's sense is Writ's.
+
+  # --- explained in the definition -------------------------------------------------------
+  - {term: realiser, pattern: '\b[Rr]ealisers?\b', home: {in: definition, heading: "2. Who it is for"}}
+  - {term: workbench, pattern: '\bworkbench\b', home: {in: definition, heading: "The workbench"}}
+  - {term: draft log, pattern: '\bdraft log\b', home: {in: definition, heading: "The draft log"}}
+  - {term: draft position, pattern: '\b[Dd]raft positions?\b', home: {in: definition, heading: "The draft log"}}
+  - {term: proposal, pattern: '\bproposals?\b', home: {in: definition, heading: "Proposals and decisions"}}
+  - {term: adoption, pattern: '\badopt(s|ed|ing|ion|ions)?\b', home: {in: definition, heading: "Proposals and decisions"}}
+  - {term: phase, pattern: '\bphases?\b|phase-gated|phase-free', home: {in: definition, heading: "MCP"}}
+  - {term: edition, pattern: '\beditions?\b', home: {in: definition, heading: "The vocabulary (`sdlc:`)"}}
+  - term: shape
+    pattern: '\bshapes?\b|shape-checked'
+    home: {in: definition, heading: "Shapes"}
+    other-sense-in: ["The What-version record", "Decision records and the profile", "Scenarios and the wire protocol"]
+    note: In those sections "shape" means the form of a record or a message, not a SHACL shape.
+  - {term: violation, pattern: '\bviolations?\b', home: {in: definition, heading: "Shapes"}}
+  - {term: warning, pattern: '\bwarnings?\b', home: {in: definition, heading: "Shapes"}}
+  - {term: finding, pattern: '\bfindings?\b', home: {in: definition, heading: "Shapes"}}
+  - {term: canonical document, pattern: '\bcanonical (document|export)\b', home: {in: definition, heading: "The canonical export"}}
+  - {term: canonical graph, pattern: '\bcanonical graph\b', home: {in: definition, heading: "Exports"}}
+  - {term: exporter, pattern: '\bexporters?\b', home: {in: definition, heading: "Exports"}}
+  - {term: What-version record, pattern: 'What-version', home: {in: definition, heading: "The What-version record"}}
+  - {term: profile, pattern: '\bprofile\b', home: {in: definition, heading: "Decision records and the profile"}}
+  - {term: scenario, pattern: '\bscenarios?\b', home: {in: definition, heading: "Scenarios and the wire protocol"}}
+  - {term: wire protocol, pattern: '\bwire protocol\b', home: {in: definition, heading: "Scenarios and the wire protocol"}}
+  - term: signature
+    pattern: '\bsignatures?\b'
+    home: {in: definition, heading: "Decider and Projector logic"}
+    other-sense-in: ["Decision records and the profile"]
+    note: In that section "signature" is a cryptographic signature.
+  - {term: orphan, pattern: '\b[Oo]rphans?\b', home: {in: definition, heading: "5. The guarantees"}}
+
+  # --- used, and no explanation found by this pass ---------------------------------------
+  - {term: head, pattern: '\bthe head\b|\bits head\b', home: null}
+  - {term: change set, pattern: '\bchange sets?\b', home: null}
+  - {term: session transport, pattern: '\bsession transport\b', home: null}
+  - {term: scope rule, pattern: '\bscope rules?\b', home: null}
+  - {term: aggregate, pattern: '\baggregates?\b', home: null}
