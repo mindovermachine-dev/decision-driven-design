@@ -13,7 +13,7 @@ Terms do not order the layers (Emil, 2026-11-12). This report is glossary covera
 | import | `spec/decision-provenance/dpp-1.md` | `14d3f879641e6afa993016f2cbaac502a46c02bc` |
 | import | writ (outside this repository) | n/a |
 
-Index content hash (sha256, first 16): `1ae03c2eafb14c19`
+Index content hash (sha256, first 16): `64642e383bc59a86`
 
 ## Glossary coverage
 

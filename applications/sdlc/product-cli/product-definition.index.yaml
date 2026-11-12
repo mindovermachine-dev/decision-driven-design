@@ -12,6 +12,14 @@
 # to the reader where they meet it, or in a separate list where they look it up.
 # So the homes below are glossary sources. They are not a dependency graph.
 #
+# ACCEPTED (Emil, 2026-11-12):
+#   - canon is the centre; projections (summaries, briefs, specs) are the layers around it,
+#     each derived from canon and never the reverse;
+#   - terms are not a layer; they are served to the reader, explained where met or looked up;
+#   - the index is the boundary plus the glossary;
+#   - product-definition.md is the canon right now. It is self-contained as the core of what
+#     is to be projected.
+#
 # The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
 # sentence, the choice of terms, and every home. A home names the section whose heading is given.
 # Nothing in the member or imported files was changed to make this index.
@@ -26,6 +34,8 @@ boundary: >-
   its formats, its guarantees, the contracts between its parts, and how it is built.
 
 entry: applications/sdlc/product-cli/product-definition.md
+
+canon: definition
 
 members:
   - id: definition
