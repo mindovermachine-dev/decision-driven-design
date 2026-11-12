@@ -1,0 +1,106 @@
+# Glosses of the set's terms. Built by formats/glossary.md (version 0), each from the section the index names
+# as the term's home, by a model. Not reviewed. A null gloss means the home does not say what the term is.
+index: product-definition.index.yaml
+glossary-step-version: 0
+glosses:
+  the What:
+    gloss: 'The opinionated specification of what a software application is and does: its declared ground, and the
+      tolerance each act must meet.'
+  Decider:
+    gloss: 'The place where the business rules for one aggregate live: it accepts or rejects each command, and says
+      which events result when it accepts.'
+  Projector:
+    gloss: 'The executable form of a read model: a fold that takes the current state and an event and gives the
+      new state.'
+  View:
+    gloss: null
+    problem: The section names View as one of four building blocks and as a pattern shape, and does not say what
+      a View is.
+  trigger:
+    gloss: null
+    problem: The section names Trigger as one of four building blocks and gives rules for its source and subject,
+      and does not say what a trigger is.
+  flow:
+    gloss: A chain of slices, where a slice is a single instance of a pattern on the graph.
+  UI step:
+    gloss: The point in a flow where a person sees something and acts; it says what a screen is for and means, never
+      how it looks.
+  AIO:
+    gloss: 'An Abstract Interaction Object: the meaning of an interaction, not a widget or any concrete form it
+      can take.'
+  journey:
+    gloss: A declared path through the flows of single systems, linked at the points where it crosses from one system
+      to another; it owns nothing.
+  Translation:
+    gloss: null
+    problem: The section says every crossing in a journey is a Translation and mentions Translation patterns, and
+      does not say what a Translation is.
+  subject kind:
+    gloss: A kind of authenticated identity that may act in the product, with exactly one nature (human, process
+      or external) and typed claims.
+  claim:
+    gloss: A typed field carried by a subject kind, which rules read to decide what that kind of subject may change
+      or see.
+  dpp/1:
+    gloss: A specification of how a system exposes the decisions it holds, so that decisions in other systems can
+      reference them by pinned version.
+  decision record:
+    gloss: null
+    problem: The section speaks of decisions, records and an architecture decision record, and does not say what
+      a decision record is.
+  published triple:
+    gloss: The combination of system, id and version under which a system has exposed a record.
+  realiser:
+    gloss: An engineer, or a build agent under Writ, who builds the code and runs the behavioural-conformance runner
+      against it.
+  workbench:
+    gloss: A live, local view of the draft log in a browser, where pending proposals can be adopted or rejected.
+  draft log:
+    gloss: The working copy, kept as a positioned log of its own in Git, in which every verb is a commit.
+  draft position:
+    gloss: null
+    problem: The section says draft positions are local to the author and are not Writ positions, and does not say
+      what a draft position is.
+  proposal:
+    gloss: 'An agent''s write: a set of changes held beside the head of the draft log, not in it, until the author
+      adopts or rejects it.'
+  adoption:
+    gloss: The author's acceptance of a proposal, recorded as a new version of its decision with status accepted
+      and the change set pinned.
+  phase:
+    gloss: One of the ordered parts of a session (structure, then behaviour, then surface) to which writes are locked.
+  edition:
+    gloss: A version of the vocabulary; a later one never changes the meaning of an earlier one.
+  shape:
+    gloss: A check, written in SHACL, that is applied to each node of a given kind in the graph.
+  violation:
+    gloss: 'A severity for a failed check: the write is refused.'
+  warning:
+    gloss: 'A severity for a failed check: it is reported, and the write is never refused.'
+  finding:
+    gloss: null
+    problem: The section says a warning is a finding and is reported, never refused, and does not say what a finding
+      is.
+  canonical document:
+    gloss: The What graph at one draft position, written out in one fixed canonical form; the only graph document
+      Writ lands.
+  canonical graph:
+    gloss: The pinned edition plus the RDFC-labelled, sorted set of triples.
+  exporter:
+    gloss: Something that produces a description of the What, receiving only the canonical graph and its logic artefacts.
+  What-version record:
+    gloss: The manifest that every export carries, written as a JSON dpp/1 record.
+  profile:
+    gloss: A published statement of what this tool's record statuses mean, that its records bind no one, and which
+      members and identity schemes it uses.
+  scenario:
+    gloss: 'An element within a Decider or Projector with three parts: prior events given, a command or event applied,
+      and the result expected.'
+  wire protocol:
+    gloss: The JSON request and response forms a runner reads on stdin and answers on stdout, using only booleans,
+      64-bit integers and strings.
+  signature:
+    gloss: The derived edges held in the graph for a Decider or a Projector, which its logic file must agree with.
+  orphan:
+    gloss: null
+    problem: The section says orphans are findings and lists what must hold, and does not say what an orphan is.

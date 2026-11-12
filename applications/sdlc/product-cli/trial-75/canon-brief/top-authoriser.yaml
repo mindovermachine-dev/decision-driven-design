@@ -1,0 +1,21 @@
+document:
+  summary: "This is the definition of the rewritten product-cli, which replaces the Rust workspace of the same name. [C0] The promise is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. [C1] The tool puts nothing in force; acceptance and force belong to Writ, and nothing an agent wrote is in the What unless a person adopted it. [C1, C5]"
+chapters:
+  C1:
+    summary: "The What is authored in conversation, where an agent proposes and the author adopts or rejects; the tool decides nothing about realisation, and acceptance and force belong to Writ. [C1]"
+  C2:
+    summary: "It is for an author, an agent that writes only proposals, and a realiser who needs an oracle to realise against; neither author nor realiser edits the other's artefact. [C2]"
+  C3:
+    summary: "An agent's write is a proposal beside the head, which the author adopts or rejects; the agent surface has no adopt, reject, land, grant or signing. [C3.3, C3.6]"
+  C4:
+    summary: "Every format is under a read-forever rule from the first release, and the tool's published profile states that no record of this system binds anyone. [C4, C4.5]"
+  C5:
+    summary: "Each guarantee is a property test in a public suite; the tool holds no key, and nothing an agent wrote is in the What unless a person adopted it. [C5]"
+  C6:
+    summary: null
+  C7:
+    summary: "This chapter may change without chapters 1 to 6 changing, and the order of work ends by retiring the Rust binary. [C7]"
+  C8:
+    summary: "The scope is the What alone: the How, work units, features, releases and code generation are not in it, and the tool records decisions and never puts one in force. [C8]"
+  CX:
+    summary: "Most cross-repository dependencies are met; still open are Writ landing canonical N-Quads as the What document and Writ's embedded log and `land`. [CX]"

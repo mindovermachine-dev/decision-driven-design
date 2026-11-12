@@ -1,0 +1,67 @@
+sentences:
+  - text: "This is the definition of the rewritten product-cli, which replaces…"
+    cites: [C0]
+    verdict: supported
+    note: null
+  - text: "The promise is a machine-checkable statement of what a product does…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The tool puts nothing in force; acceptance and force belong to Writ…"
+    cites: [C1, C5]
+    verdict: supported
+    note: null
+  - text: "The promise. The What is authored in conversation, where an agent proposes…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Who it is for. It is for an author, an agent that writes only proposals…"
+    cites: [C2]
+    verdict: supported
+    note: null
+  - text: "The surface. An agent's write is a proposal beside the head…"
+    cites: [C3.3, C3.6]
+    verdict: supported
+    note: null
+  - text: "The formats. Every format is under a read-forever rule from the first release…"
+    cites: [C4, C4.5]
+    verdict: supported
+    note: null
+  - text: "The guarantees. Each guarantee is a property test in a public suite…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "Implementation. This chapter may change without chapters 1 to 6 changing…"
+    cites: [C7]
+    verdict: supported
+    note: null
+  - text: "Boundaries and decisions taken. The scope is the What alone…"
+    cites: [C8]
+    verdict: supported
+    note: null
+  - text: "Cross-repository dependencies. Most cross-repository dependencies are met…"
+    cites: [CX]
+    verdict: partly
+    note: >-
+      "Most … are met" holds (10 of 15 rows are "**met**") and the two rows whose State is "open" are
+      the two named. But "still open are" reads as the full list of what is outstanding, and the
+      table has a third unmet row: element hashes, "product-cli's element-hash vectors, offered as a
+      cross-check beside Varve's", State "to deliver at step 2". The Writ #22 row also needs more
+      than the sentence gives: "and holds the guest graph under `sdlc:` instead of `pf:`".
+glosses:
+  - term: the What
+    verdict: supported
+    note: null
+  - term: adoption
+    verdict: supported
+    note: null
+  - term: proposal
+    verdict: supported
+    note: null
+  - term: realiser
+    verdict: supported
+    note: null
+  - term: profile
+    verdict: supported
+    note: null
+summary: {supported: 15, partly: 1, unsupported: 0, miscited: 0}

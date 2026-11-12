@@ -2,66 +2,54 @@
 name: product-definition
 culture: en
 format: brief
-derived-from: product-definition.source.md
-source-blob: 15145480aba5398566027a22ccd2983f7689ca6b
+audience: authoriser
+derived-from: product-definition.md
+canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
+summaries-of-canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
 format-version: 2
-culture-version: 0
-assembled-by: script, from stored summaries
-rendered:
-- DOC
-- CH1
-- P1
-- P2
-- P3
-- P4
-- CH5
-- W1
-- W2
-- W3
-- W4
-- W5
-- W6
-- W7
-- W8
-- W9
-- W10
-- W11
-- W12
-- P4.3
-- P4.4
+assembled-by: script, from stored summaries, an audience top and the glossary
+cites:
+- C0
+- C1
+- C2
+- C3.3
+- C3.6
+- C4
+- C4.5
+- C5
+- C7
+- C8
+- CX
+terms-without-explanation:
+- Writ
+- head
+- grant
 ---
 
 # Product: product definition
 
-This is the definition of the rewritten product-cli, written outside-in: the promise first, the implementation last. The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. The tool records the author's decisions as `dpp/1` records carrying no force, holds no key and puts nothing in force, and each guarantee is a public property test over generated What graphs and scenarios. [DOC]
+This is the definition of the rewritten product-cli, which replaces the Rust workspace of the same name. [C0] The promise is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. [C1] The tool puts nothing in force; acceptance and force belong to [Writ](#term-writ), and nothing an agent wrote is in [the What](#term-the-what) unless a person [adopted](#term-adoption) it. [C1, C5]
 
-## The promise
+## Chapter by chapter
 
-The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. The What is authored in conversation as a graph with shapes, and its behaviour is executable before code exists. The tool records the author's decisions as `dpp/1` records carrying no force, while acceptance and position in force belong to Writ. [CH1]
+- **The promise.** The What is authored in conversation, where an agent proposes and the author adopts or rejects; the tool decides nothing about realisation, and acceptance and force belong to Writ. [C1]
+- **Who it is for.** It is for an author, an agent that writes only [proposals](#term-proposal), and a [realiser](#term-realiser) who needs an oracle to realise against; neither author nor realiser edits the other's artefact. [C2]
+- **The surface.** An agent's write is a proposal beside [the head](#term-head), which the author adopts or rejects; the agent surface has no adopt, reject, land, [grant](#term-grant) or signing. [C3.3, C3.6]
+- **The formats.** Every format is under a read-forever rule from the first release, and the tool's published [profile](#term-profile) states that no record of this system binds anyone. [C4, C4.5]
+- **The guarantees.** Each guarantee is a property test in a public suite; the tool holds no key, and nothing an agent wrote is in the What unless a person adopted it. [C5]
+- **Implementation.** This chapter may change without chapters 1 to 6 changing, and the order of work ends by retiring the Rust binary. [C7]
+- **Boundaries and decisions taken.** The scope is the What alone: the How, work units, features, releases and code generation are not in it, and the tool records decisions and never puts one in force. [C8]
+- **Cross-repository dependencies.** Most cross-repository dependencies are met; still open are Writ landing canonical N-Quads as the What document and Writ's embedded log and `land`. [CX]
 
-- The What is authored in conversation: an agent proposes, the author adopts or rejects, and each adoption is a `dpp/1` decision record tracing every element to its adopter. [P1]
-- The What is a graph with shapes, and the tool says that anything that cannot be stated as a node, an edge or a shape is not yet specified. [P2]
-- Behaviour is executable before code exists: a Decider and a Projector are simulated sound and complete against scenarios drawn from the flows, and the same scenarios later judge realised code. [P3]
-- The tool records the author's decisions as `dpp/1` records carrying no force and produces a canonical document, while its acceptance and position in force belong to Writ. [P4]
+Left out for this reader: The contracts between parts.
 
-## The guarantees
+## Terms used here
 
-Each guarantee is a public property test over generated What graphs and scenarios, and every test observes bytes in the draft log or in an export. A change set carrying a violation, a disagreeing signature and a type-boundary breach are kept out or refused, coverage gaps and orphans are findings, and exports are simulated before being marked ready and are byte-identical across platforms and through import. The tool holds no key and puts nothing in force, and every change at the head of the draft log is attached to a decision record whose `by` is the author. [CH5]
-
-- No change set carrying a violation enters the draft log, and a failed write leaves the log unchanged. [W1]
-- A Decider's and a Projector's signatures are computed from the graph, and an authored signature or logic that disagrees with the computed signature is refused. [W2]
-- Each coverage gap is a finding, never a silent pass: commands are handled, events folded, command and subject kind pairs shown by scenarios, surfaced Views scoped, and triggers given subjects. [W3]
-- Orphans are findings: every aggregate field, projected field and claim is read, consumed or compared, and every Decider has a reachable rejection. [W4]
-- Each type-boundary breach is refused at write: UI steps reference only AIOs, a trigger's present subject matches its `source`, and a journey crosses systems only through a Translation. [W5]
-- Every Decider and Projector with scenarios is simulated sound and complete before an export is marked ready, and a What with a failing scenario exports but says so. [W6]
-- Two exports of the same draft position are byte-identical on every platform, and every derived export is a deterministic function of the canonical graph and artefacts. [W7]
-- Importing a canonical export yields a draft whose export is byte-identical to the input, graph and artefacts. [W8]
-- An agent session cannot author a node before the nodes it derives from exist, and the gate is the session transport, not advice in a prompt. [W9]
-- The tool holds no key and no grant, puts nothing in force, knows no Writ position, writes only to its own draft log, and exporters produce documents only. [W10]
-- The draft log is a conformant system under `dpp/1`, every record it exposes is conformant, and a Writ decision landing the export reaches each author decision and agent proposal. [W11]
-- Every change at the head of the draft log is attached to a decision record whose `by` is the author, and a proposal never reaches the head on its own. [W12]
-
-## Open for review
-
-- The tool produces a canonical document. [P4.3] UNVERIFIED — Emil review. The definition places the D1.11 marker before P4.1. Whether the ruling extends to P4.3 and P4.4 is read from position, not stated.
-- What the canonical document is held against, who accepts it under which grant, and from which position it is in force, belong to Writ. [P4.4] UNVERIFIED — Emil review. Same question of extent as P4.3.
+- <a id="term-writ"></a>**Writ**: not explained in the canon. Writ is a system outside this repository.
+- <a id="term-the-what"></a>**the What**: The opinionated specification of what a software application is and does: its declared ground, and the tolerance each act must meet. *(`what.md`, "1.1 What the What is")*
+- <a id="term-adoption"></a>**adoption**: The author's acceptance of a proposal, recorded as a new version of its decision with status accepted and the change set pinned. *(`product-definition.md`, "Proposals and decisions")*
+- <a id="term-proposal"></a>**proposal**: An agent's write: a set of changes held beside the head of the draft log, not in it, until the author adopts or rejects it. *(`product-definition.md`, "Proposals and decisions")*
+- <a id="term-realiser"></a>**realiser**: An engineer, or a build agent under Writ, who builds the code and runs the behavioural-conformance runner against it. *(`product-definition.md`, "2. Who it is for")*
+- <a id="term-head"></a>**head**: not explained in the canon. No explanation was found.
+- <a id="term-grant"></a>**grant**: not explained in the canon. It is Writ's term, and Writ is outside this repository.
+- <a id="term-profile"></a>**profile**: A published statement of what this tool's record statuses mean, that its records bind no one, and which members and identity schemes it uses. *(`product-definition.md`, "Decision records and the profile")*

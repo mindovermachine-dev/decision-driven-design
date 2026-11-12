@@ -1,88 +1,64 @@
 ---
 format: brief
-version: 1
+version: 2
 status: trial
 tracking: mindovermachine-dev/decision-driven-design#75
 ---
 
 # Format: brief
 
-**Trial, `[PROPOSED]`.** Instructions for a model that derives a brief from a `<name>.source.md` file.
+**Trial, `[PROPOSED]`.** A brief is the outermost projection of a canon: what a reader meets first. Version 2 is built from the canon's shared summaries, a top written for one reader, and the glossary. Versions 0 and 1 read a separate source file, which is retired.
 
-## What a brief is
+## How a brief is made
 
-A brief is the source read from the top, stopped early. It gives the document's introduction, then each chapter's introduction, then the headlines beneath. It goes no deeper.
+| Step | Made by | From |
+|---|---|---|
+| Shared summaries of the canon's leaves | a model, once (`formats/summary.md`) | the canon |
+| Glosses of the terms | a model, once (`formats/glossary.md`) | each term's home section |
+| The top for one reader | a model (this file) | the document's introduction and the shared summaries |
+| The brief | a script | the top, with each term linked at first use and listed with its gloss |
 
-| | |
-|---|---|
-| Reader | The person who authorises the work. They have not read the source. |
-| Reader's task | Decide whether to authorise, continue or stop. |
-| Reading time | Two minutes. |
+Only the top is written per reader. This file instructs the model that writes it.
 
-## Inputs
+## Input
 
-You are given exactly two inputs beside this file:
+One file. It holds:
 
-1. One source file, `<name>.source.md`.
-2. One culture file, `cultures/<culture>.md`.
+- a relevance: a description of the reader;
+- the document's introduction, key `C0`;
+- every chapter, with the shared summaries of its leaves, each under its key.
 
-Read nothing else. Do not use what you know about the subject from any other place.
+You have not been given the canon itself, and that is deliberate.
 
-## How a source is built
+## What to write
 
-A source has the shape of any written document.
+1. **The document summary.** At most 3 sentences and 75 words. What this is, and what in it bears most on this reader.
+2. **One line per chapter.** At most 1 sentence and 30 words each. What the chapter holds for this reader. If a chapter holds nothing this reader needs, give it no line: write `summary: null`.
 
-| Mark | Meaning |
-|---|---|
-| `#` | The document's headline. |
-| `##` | A chapter's headline. Chapters are in reading order. |
-| `###` | A section's headline, led by its identifier (`### W1 Shape before storage.`). A section headline is a statement and may be cited by its identifier. |
-| `**Introduction.**` | The statements that follow introduce the document, or the chapter, they stand in. |
-| `- **ID** text {…}` | One statement. The braces hold fields that are not content. |
+## The rule
 
-Order and position carry meaning. What stands higher and earlier is what the document is for. What stands lower and later is how. An `## Appendix` is not content.
+**Every sentence states only what the keyed material it cites states.**
 
-## The one rule
-
-**Every sentence of the body states only what cited source statements state.**
-
-- End every sentence and every bullet with the identifiers it rests on, in square brackets: `[W1.1]` or `[P1.3, P1.4]`.
-- You may compress several statements into one sentence. Cite all of them. This takes precedence over the culture file's rule of one idea per sentence.
-- You may not add a reason, an example, a number, a comparison, a judgement or a definition that no cited statement contains.
-- You may not explain a term the source does not explain. Use the source's term as it stands.
-- A statement with `depends-on` is a consequence of the statement it names. Present it as one, or leave it out.
-
-If the reader's task needs something the source does not hold, do not write it. Record it under `gaps` in the frontmatter, one line each. A gap is a finding about the source, not a failure of yours.
-
-## What to render
-
-Follow the source's own order. Do not regroup it.
-
-1. **The document's introduction.** Render it as a short paragraph under the document's headline.
-2. **Each chapter, in order.** Use the chapter's headline as a `##` heading, without its number.
-   - Render the chapter's introduction as a short paragraph.
-   - Then list the chapter's section headlines, one bullet each, in order, each cited by its section identifier.
-   - Do not render the statements inside a section. The one exception: where a section headline is a bare label that asserts nothing (for example "Coverage."), add the section's first statement to its bullet, so the bullet says something.
-3. **Open for review.** A last `##` section. List every statement whose `note` contains `UNVERIFIED`, and say what is unverified in the note's own terms. You may name a ruling here. Write "Nothing." if there are none.
-
-There is no word limit. The depth rule sets the length.
+- End every sentence with the keys it rests on, in square brackets: `[C1]` or `[C3.2, C3.3]`. Cite the document's introduction as `[C0]`.
+- You may compress several summaries into one sentence. Cite all of them.
+- You may not add a reason, an example, a number, a comparison, a judgement or a definition.
+- Use the canon's terms exactly as written, and do not explain them. The glossary is attached to the brief after you.
+- Use what the reader already knows. Do not spend words on it.
+- Do not address the reader, and do not mention the relevance.
+- British spelling. One idea per sentence, except where you compress.
 
 ## Output
 
-Write one file, `<name>.<culture>.brief.md`, beside the source. It begins with this frontmatter:
+One YAML file:
 
 ```yaml
----
-name: <name>
-culture: <culture>
-format: brief
-derived-from: <source file name, without path>
-source-blob: <the hash you were given>
-format-version: 1
-culture-version: <version in the culture file>
-rendered: [<every identifier cited in the body, in source order>]
-gaps: [<one quoted line per gap; [] if none>]
----
+document:
+  summary: "… [C0, C1]"
+chapters:
+  C1:
+    summary: "… [C1]"
+  C7:
+    summary: null
 ```
 
-Then the document's headline as the single `#` heading, then the body as described. Nothing else.
+Give every chapter key an entry. Write nothing else to the file.

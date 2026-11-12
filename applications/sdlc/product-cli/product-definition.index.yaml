@@ -18,7 +18,8 @@
 #   - terms are not a layer; they are served to the reader, explained where met or looked up;
 #   - the index is the boundary plus the glossary;
 #   - product-definition.md is the canon right now. It is self-contained as the core of what
-#     is to be projected.
+#     is to be projected;
+#   - the `source` slot is retired. No separate <name>.source.md is authored.
 #
 # The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
 # sentence, the choice of terms, and every home. A home names the section whose heading is given.
@@ -72,7 +73,7 @@ terms:
 
   # --- explained in dpp/1 ----------------------------------------------------------------
   - {term: dpp/1, pattern: 'dpp/1', home: {in: dpp, heading: "1.1 Purpose"}}
-  - {term: decision record, pattern: '\bdecision records?\b', home: {in: dpp, heading: "3. The record"}}
+  - {term: decision record, pattern: '\bdecision records?\b', home: {in: dpp, heading: "1.1 Purpose"}}
   - {term: published triple, pattern: '\bpublished triple\b', home: {in: dpp, heading: "3.8 Immutability"}}
 
   # --- Writ's; not resolvable from this repository -------------------------------------
@@ -96,7 +97,7 @@ terms:
     pattern: '\bshapes?\b|shape-checked'
     home: {in: definition, heading: "Shapes"}
     other-sense-in: ["The What-version record", "Decision records and the profile", "Scenarios and the wire protocol"]
-    note: In those sections "shape" means the form of a record or a message, not a SHACL shape.
+    note: The sense glossed is the home section's. In the three sections listed, the same word has another sense, the form of a record or a message.
   - {term: violation, pattern: '\bviolations?\b', home: {in: definition, heading: "Shapes"}}
   - {term: warning, pattern: '\bwarnings?\b', home: {in: definition, heading: "Shapes"}}
   - {term: finding, pattern: '\bfindings?\b', home: {in: definition, heading: "Shapes"}}
@@ -111,7 +112,7 @@ terms:
     pattern: '\bsignatures?\b'
     home: {in: definition, heading: "Decider and Projector logic"}
     other-sense-in: ["Decision records and the profile"]
-    note: In that section "signature" is a cryptographic signature.
+    note: The sense glossed is the home section's. In the section listed, the same word means a cryptographic signature.
   - {term: orphan, pattern: '\b[Oo]rphans?\b', home: {in: definition, heading: "5. The guarantees"}}
 
   # --- used, and no explanation found by this pass ---------------------------------------
