@@ -5,9 +5,12 @@
 #   - the boundary and the term homes are authored; uses, layers, paths and hashes are computed;
 #   - Git is the log; a content hash per file detects a stale index;
 #   - a word is a term when a statement depends on its precise meaning here, and a newcomer's
-#     ordinary reading would get it wrong;
-#   - a layer is inner by dependency: what is explained in one place and used in the next
-#     must be read in that order.
+#     ordinary reading would get it wrong.
+#
+# SUPERSEDED (Emil, 2026-11-12, later the same day): terms are not the centre and do not order
+# the layers. Canon is the centre of the information being projected. A term must be available
+# to the reader where they meet it, or in a separate list where they look it up.
+# So the homes below are glossary sources. They are not a dependency graph.
 #
 # The CONTENT below is PROPOSED (Claude, 2026-11-12) and awaits Emil's review: the boundary
 # sentence, the choice of terms, and every home. A home names the section whose heading is given.

@@ -82,58 +82,13 @@ for term, ks in uses.items():
             if pos[h[1]] > pos[k]:
                 forward.append((term, k[1], h[1][1]))
 
-# cycles: strongly connected components (Tarjan)
-index, low, on, stack, sccs, counter = {}, {}, set(), [], [], [0]
-
-
-def strong(v):
-    index[v] = low[v] = counter[0]
-    counter[0] += 1
-    stack.append(v)
-    on.add(v)
-    for w in edges[v]:
-        if w not in index:
-            strong(w)
-            low[v] = min(low[v], low[w])
-        elif w in on:
-            low[v] = min(low[v], index[w])
-    if low[v] == index[v]:
-        comp = []
-        while True:
-            w = stack.pop()
-            on.discard(w)
-            comp.append(w)
-            if w == v:
-                break
-        sccs.append(comp)
-
-
-for v in order:
-    if v not in index:
-        strong(v)
-cycles = [sorted(c, key=pos.get) for c in sccs if len(c) > 1]
-comp_of = {v: i for i, c in enumerate(sccs) for v in c}
-
-# depth over the condensed graph
-depth_c = {}
-
-
-def depth(ci):
-    if ci in depth_c:
-        return depth_c[ci]
-    depth_c[ci] = 0
-    outs = {comp_of[w] for v in sccs[ci] for w in edges[v]} - {ci}
-    depth_c[ci] = 1 + max((depth(o) for o in outs), default=-1)
-    return depth_c[ci]
-
-
-d = {v: depth(comp_of[v]) for v in order}
-fan_in = {v: sum(1 for k in order if v in edges[k]) for v in order}
 
 p = print
 p(f"# Computed from `{idx_path.split('/')[-1]}`\n")
 p("**Computed, never edited by hand.** Regenerate it when the index or a listed file changes. "
   "The index model is accepted; the index content is proposed, so these results are provisional.\n")
+p("Terms do not order the layers (Emil, 2026-11-12). This report is glossary coverage: which terms a "
+  "reader meets in each section, and where each can be looked up.\n")
 p("## Files and hashes\n")
 p("| Role | File | Git blob |\n|---|---|---|")
 for fid, path in files.items():
@@ -143,45 +98,33 @@ for iid, path in imports.items():
 ih = hashlib.sha256(open(idx_path, 'rb').read()).hexdigest()[:16]
 p(f"\nIndex content hash (sha256, first 16): `{ih}`\n")
 
-p("## Checks\n")
+p("## Glossary coverage\n")
 p("| Check | Result |\n|---|---|")
 p(f"| Every home resolves to a heading | {'yes' if not problems else '; '.join(problems)} |")
 nohome = sorted(t for t, h in home.items() if h is None and uses[t])
 p(f"| Terms used with no explanation found | {len(nohome)}: {', '.join(nohome) or 'none'} |")
 writ = sorted(t for t, h in home.items() if h and h[0] == 'import' and h[1] == 'writ')
-p(f"| Terms whose home is outside this repository | {len(writ)}: {', '.join(writ)} |")
-p(f"| Cycles between sections | {len(cycles)} |")
-p(f"| Forward references (used before the home, in reading order) | {len(forward)} |")
+p(f"| Terms explained outside this repository | {len(writ)}: {', '.join(writ)} |")
 unused = sorted(t for t in uses if not uses[t])
 p(f"| Indexed terms never used in the member files | {', '.join(unused) or 'none'} |\n")
 
-if cycles:
-    p("## Cycles\n")
-    p("Each group of sections below needs every other section in the group to be read first.\n")
-    for c in cycles:
-        p("- " + " ⇄ ".join(k[1] for k in c))
-        for a in c:
-            for b in c:
-                if b in edges[a]:
-                    ts = sorted(t for t, ks in uses.items() if a in ks and home[t] and home[t][0] == 'member' and home[t][1] == b)
-                    p(f"  - \"{a[1]}\" needs \"{b[1]}\" for: {', '.join(ts)}")
-    p("")
+p("## Glossary\n")
+p("| Term | Look it up in | Section | Sections that use it |\n|---|---|---|---|")
+for t in idx["terms"]:
+    h = home[t["term"]]
+    if h is None:
+        where, sec = "**no explanation found**", "–"
+    elif h[0] == "member":
+        where, sec = f"`{files[h[1][0]].split('/')[-1]}`", h[1][1]
+    else:
+        path = imports[h[1]]
+        where, sec = (f"`{path.split('/')[-1]}`" if path else f"{h[1]} (outside this repository)"), h[2] or "–"
+    p(f"| {t['term']} | {where} | {sec} | {len(uses[t['term']])} |")
 
-p("## Sections in reading order\n")
-p("Depth 0 needs no other section of the set. A higher depth needs more read first. "
-  "Fan-in is how many sections need this one.\n")
-p("| # | Section | Depth | Fan-in | Needs (in the set) | Imports | No explanation found |\n|---|---|---|---|---|---|---|")
+p("\n## What a reader meets, section by section\n")
+p("For each section in reading order: the terms it uses and does not itself explain. "
+  "A projection of the section must explain these where they appear, or point to the glossary.\n")
+p("| # | Section | Terms met here and explained elsewhere | No explanation found |\n|---|---|---|---|")
 for i, k in enumerate(order):
-    needs = ", ".join(x[1] for x in sorted(edges[k], key=pos.get)) or "–"
-    p(f"| {i+1} | {k[1]} | {d[k]} | {fan_in[k]} | {needs} | {', '.join(sorted(ext[k])) or '–'} | {', '.join(sorted(unexplained[k])) or '–'} |")
-
-p("\n## Forward references\n")
-p("| Term | Used in | Explained later in |\n|---|---|---|")
-for term, a, b in sorted(forward, key=lambda x: (pos[('definition', x[1])], x[0])):
-    p(f"| {term} | {a} | {b} |")
-
-p("\n## Paths\n")
-p("A path is a term's home, then every section that uses the term, in reading order.\n")
-for term in ("draft log", "proposal", "What-version record", "canonical document", "scenario"):
-    h = home[term]
-    p(f"- **{term}**: home \"{h[1][1]}\" → " + " → ".join(k[1] for k in uses[term] if k != h[1]))
+    met = sorted(t for t, ks in uses.items() if k in ks and home[t] is not None and not (home[t][0] == "member" and home[t][1] == k))
+    p(f"| {i+1} | {k[1]} | {', '.join(met) or '–'} | {', '.join(sorted(unexplained[k])) or '–'} |")
