@@ -8,7 +8,7 @@ projections:
   format-version: 6
   culture: en
   reader: human
-  audience: authoriser
+  audience: newcomer
   derived-from: product-definition.md
   canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
   summaries-of-canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
@@ -17,133 +17,137 @@ projections:
   - C0
   - C1
   - C2
+  - C3.1
+  - C3.2
   - C3.3
+  - C3.4
   - C3.6
+  - C4
+  - C4.3
   - C5
   - C8
   unknown-citations: []
   chapters-left-out:
-  - C4
   - C6
   - C7
   - CX
   sentences:
   - in: summary
-    sentence: The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign.
+    sentence: product-cli yields a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign
     cites:
     - C0
     - C1
   - in: summary
-    sentence: An agent proposes, and the author adopts or rejects each proposal.
+    sentence: An agent proposes each step in conversation and the author adopts or rejects it, a Decider and a Projector are simulated against scenarios drawn from the flows, and the same scenarios later judge realised code
     cites:
     - C1
   - in: summary
-    sentence: The tool puts nothing in force; what the canonical document is held against, who accepts it and from which position it is in force belong to Writ.
+    sentence: It puts nothing in force; Writ lands the canonical document it produces
+    cites:
+    - C1
+    - C3.1
+  - in: C1
+    sentence: 'The What is authored in conversation, and every step of it is a decision: an agent proposes, and the author adopts or rejects each proposal'
     cites:
     - C1
   - in: C1
-    sentence: The What is authored in conversation, and every step of it is a decision.
+    sentence: The What is a graph with shapes, never prose with diagrams
     cites:
     - C1
   - in: C1
-    sentence: Each adoption is a decision record with its reason, so every element of the What traces to the person who adopted it.
+    sentence: 'Behaviour is executable before any code exists: a Decider and a Projector are simulated against scenarios that later judge realised code'
     cites:
     - C1
   - in: C1
-    sentence: The What is a graph with shapes, and the tool says so when something is not yet specified.
-    cites:
-    - C1
-  - in: C1
-    sentence: Behaviour is executable before any code exists, and the same scenarios later judge realised code.
-    cites:
-    - C1
-  - in: C1
-    sentence: The tool decides nothing about realisation.
+    sentence: The tool puts nothing in force and decides nothing about realisation
     cites:
     - C1
   - in: C2
-    sentence: 'Three roles share one surface: an author who adopts or rejects proposals, an agent that writes only proposals, and a realiser who needs an oracle.'
+    sentence: 'Three roles share one surface: an author who models the product and adopts or rejects proposals, an agent that writes only proposals, and a realiser who runs the behavioural-conformance runner against realised code'
     cites:
     - C2
   - in: C3
-    sentence: An agent's write is a proposal, which the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant; the agent surface has no adopt, reject, land, grant or signing.
+    sentence: Every verb is a commit to the draft log, kept in Git
+    cites:
+    - C3.2
+  - in: C3
+    sentence: An agent's write is a proposal held beside the head, and the author adopts or rejects it
     cites:
     - C3.3
+  - in: C3
+    sentence: The workbench serves a live view of the draft log in a browser
+    cites:
+    - C3.4
+  - in: C3
+    sentence: An agent session uses the same verbs over MCP and ends with an export
+    cites:
     - C3.6
-  - in: C5
-    sentence: Each guarantee is a property test, and the suite is public.
+  - in: C4
+    sentence: Every format has a specification page and a conformance suite before any implementation, and the canonical export is the graph document plus the logic artefacts its digests name, byte-identical for the same draft position
     cites:
-    - C5
+    - C4
+    - C4.3
   - in: C5
-    sentence: No change set enters the draft log if it carries a violation.
-    cites:
-    - C5
-  - in: C5
-    sentence: Each coverage gap is a finding, never a silent pass.
-    cites:
-    - C5
-  - in: C5
-    sentence: The tool holds no key and no grant, and puts nothing in force.
-    cites:
-    - C5
-  - in: C5
-    sentence: Nothing an agent wrote is in the What unless a person adopted it.
+    sentence: Guarantees are tested in a public suite; nothing an agent wrote is in the What unless a person adopted it
     cites:
     - C5
   - in: C8
-    sentence: The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force.
+    sentence: The scope is the What alone; the How and code generation are not in it
     cites:
     - C8
   terms:
   - term: adoption
     from: product-definition.md
     section: Proposals and decisions
-  - term: proposal
-    from: product-definition.md
-    section: Proposals and decisions
-  - term: canonical document
-    from: product-definition.md
-    section: The canonical export
-  - term: Writ
-    from: null
-    why: its home is Writ, outside this repository
-  - term: the What
+  - term: Decider
     from: what.md
-    section: 1.1 What the What is
-  - term: decision record
-    from: null
-    why: no explanation was found
-  - term: shape
-    from: product-definition.md
-    section: Shapes
+    section: 3.3 The Decider — the executable form of behaviour
+  - term: Projector
+    from: what.md
+    section: 3.4 The Projector — the executable form of a read model
   - term: scenario
     from: product-definition.md
     section: Scenarios and the wire protocol
+  - term: flow
+    from: what.md
+    section: 3.2.0 Building blocks and patterns
+  - term: Writ
+    from: null
+    why: its home is Writ, outside this repository
+  - term: canonical document
+    from: product-definition.md
+    section: The canonical export
+  - term: the What
+    from: what.md
+    section: 1.1 What the What is
+  - term: proposal
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: shape
+    from: product-definition.md
+    section: Shapes
   - term: realiser
     from: product-definition.md
     section: 2. Who it is for
-  - term: grant
-    from: null
-    why: its home is Writ, outside this repository
-  - term: change set
-    from: null
-    why: no explanation was found
   - term: draft log
     from: product-definition.md
     section: The draft log
-  - term: violation
+  - term: head
+    from: null
+    why: no explanation was found
+  - term: workbench
     from: product-definition.md
-    section: Shapes
-  - term: finding
+    section: The workbench
+  - term: draft position
     from: null
     why: no explanation was found
   chapter-weights:
-    C1: 75
-    C2: 25
-    C3: 40
-    C4: 0
-    C5: 60
+    C1: 70
+    C2: 35
+    C3: 60
+    C4: 40
+    C5: 20
     C6: 0
     C7: 0
-    C8: 40
+    C8: 15
     CX: 0

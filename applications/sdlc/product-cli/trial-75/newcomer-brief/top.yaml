@@ -1,0 +1,22 @@
+headline: "product-cli: machine-checkable statements of what a product does"
+document:
+  summary: "product-cli yields a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign [C0, C1]. An agent proposes each step in conversation and the author adopts or rejects it, a Decider and a Projector are simulated against scenarios drawn from the flows, and the same scenarios later judge realised code [C1]. It puts nothing in force; Writ lands the canonical document it produces [C1, C3.1]."
+chapters:
+  C1:
+    summary: "The What is authored in conversation, and every step of it is a decision: an agent proposes, and the author adopts or rejects each proposal [C1]. The What is a graph with shapes, never prose with diagrams [C1]. Behaviour is executable before any code exists: a Decider and a Projector are simulated against scenarios that later judge realised code [C1]. The tool puts nothing in force and decides nothing about realisation [C1]."
+  C2:
+    summary: "Three roles share one surface: an author who models the product and adopts or rejects proposals, an agent that writes only proposals, and a realiser who runs the behavioural-conformance runner against realised code [C2]."
+  C3:
+    summary: "Every verb is a commit to the draft log, kept in Git [C3.2]. An agent's write is a proposal held beside the head, and the author adopts or rejects it [C3.3]. The workbench serves a live view of the draft log in a browser [C3.4]. An agent session uses the same verbs over MCP and ends with an export [C3.6]."
+  C4:
+    summary: "Every format has a specification page and a conformance suite before any implementation, and the canonical export is the graph document plus the logic artefacts its digests name, byte-identical for the same draft position [C4, C4.3]."
+  C5:
+    summary: "Guarantees are tested in a public suite; nothing an agent wrote is in the What unless a person adopted it [C5]."
+  C6:
+    summary: null
+  C7:
+    summary: null
+  C8:
+    summary: "The scope is the What alone; the How and code generation are not in it [C8]."
+  CX:
+    summary: null

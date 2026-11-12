@@ -1,0 +1,99 @@
+sentences:
+  - text: "product-cli yields a machine-checkable statement of what a product does…"
+    cites: [C0, C1]
+    verdict: supported
+    note: null
+  - text: "An agent proposes each step in conversation and the author adopts or rejects it…"
+    cites: [C1]
+    verdict: partly
+    note: "Element: 'An agent proposes each step'. C1 says \"every step of it is a decision. An agent proposes; the author … adopts or rejects each proposal\" — every step is a decision, not every step an agent proposal. The rest is stated: \"A Decider and a Projector are simulated sound and complete against scenarios drawn from the flows. The same scenarios later judge realised code\". (Outside the cited part, C3.3 has \"The author writes directly … with no proposal step.\")"
+  - text: "It puts nothing in force; Writ lands the canonical document it produces."
+    cites: [C1, C3.1]
+    verdict: supported
+    note: null
+  - text: "The What is authored in conversation, and every step of it is a decision…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The What is a graph with shapes, never prose with diagrams."
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Behaviour is executable before any code exists…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "The tool puts nothing in force and decides nothing about realisation."
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Three roles share one surface…"
+    cites: [C2]
+    verdict: supported
+    note: null
+  - text: "Every verb is a commit to the draft log, kept in Git."
+    cites: [C3.2]
+    verdict: supported
+    note: null
+  - text: "An agent's write is a proposal held beside the head…"
+    cites: [C3.3]
+    verdict: supported
+    note: null
+  - text: "The workbench serves a live view of the draft log in a browser."
+    cites: [C3.4]
+    verdict: supported
+    note: null
+  - text: "An agent session uses the same verbs over MCP and ends with an export."
+    cites: [C3.6]
+    verdict: supported
+    note: null
+  - text: "Every format has a specification page and a conformance suite before any implementation…"
+    cites: [C4, C4.3]
+    verdict: supported
+    note: null
+  - text: "Guarantees are tested in a public suite; nothing an agent wrote is in the What…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "The scope is the What alone; the How and code generation are not in it."
+    cites: [C8]
+    verdict: supported
+    note: null
+glosses:
+  - term: adoption
+    verdict: supported
+    note: null
+  - term: Decider
+    verdict: supported
+    note: null
+  - term: Projector
+    verdict: supported
+    note: null
+  - term: scenario
+    verdict: supported
+    note: null
+  - term: flow
+    verdict: supported
+    note: null
+  - term: canonical document
+    verdict: supported
+    note: null
+  - term: the What
+    verdict: supported
+    note: null
+  - term: proposal
+    verdict: supported
+    note: null
+  - term: shape
+    verdict: supported
+    note: null
+  - term: realiser
+    verdict: supported
+    note: null
+  - term: draft log
+    verdict: supported
+    note: null
+  - term: workbench
+    verdict: supported
+    note: null
+summary: {supported: 26, partly: 1, unsupported: 0, miscited: 0}

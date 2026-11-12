@@ -1,0 +1,149 @@
+# Everything about the files derived from this set's canon that their readers do not need: where each
+# came from, what each sentence rests on, where each gloss was taken from, what was left out.
+# Written by the script that assembles the files. A file for a human carries none of this (Emil, 2026-11-12).
+set: product-definition
+projections:
+- file: product-definition.en.brief.md
+  format: brief
+  format-version: 6
+  culture: en
+  reader: human
+  audience: authoriser
+  derived-from: product-definition.md
+  canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
+  summaries-of-canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
+  assembled-by: script, from stored summaries, an audience top and the glossary
+  cites:
+  - C0
+  - C1
+  - C2
+  - C3.3
+  - C3.6
+  - C5
+  - C8
+  unknown-citations: []
+  chapters-left-out:
+  - C4
+  - C6
+  - C7
+  - CX
+  sentences:
+  - in: summary
+    sentence: The rewritten product-cli promises a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign.
+    cites:
+    - C0
+    - C1
+  - in: summary
+    sentence: An agent proposes, and the author adopts or rejects each proposal.
+    cites:
+    - C1
+  - in: summary
+    sentence: The tool puts nothing in force; what the canonical document is held against, who accepts it and from which position it is in force belong to Writ.
+    cites:
+    - C1
+  - in: C1
+    sentence: The What is authored in conversation, and every step of it is a decision.
+    cites:
+    - C1
+  - in: C1
+    sentence: Each adoption is a decision record with its reason, so every element of the What traces to the person who adopted it.
+    cites:
+    - C1
+  - in: C1
+    sentence: The What is a graph with shapes, and the tool says so when something is not yet specified.
+    cites:
+    - C1
+  - in: C1
+    sentence: Behaviour is executable before any code exists, and the same scenarios later judge realised code.
+    cites:
+    - C1
+  - in: C1
+    sentence: The tool decides nothing about realisation.
+    cites:
+    - C1
+  - in: C2
+    sentence: 'Three roles share one surface: an author who adopts or rejects proposals, an agent that writes only proposals, and a realiser who needs an oracle.'
+    cites:
+    - C2
+  - in: C3
+    sentence: An agent's write is a proposal, which the author adopts or rejects, and `accepted` means adopted into the author's draft, carrying no force, permission or grant; the agent surface has no adopt, reject, land, grant or signing.
+    cites:
+    - C3.3
+    - C3.6
+  - in: C5
+    sentence: Each guarantee is a property test, and the suite is public.
+    cites:
+    - C5
+  - in: C5
+    sentence: No change set enters the draft log if it carries a violation.
+    cites:
+    - C5
+  - in: C5
+    sentence: Each coverage gap is a finding, never a silent pass.
+    cites:
+    - C5
+  - in: C5
+    sentence: The tool holds no key and no grant, and puts nothing in force.
+    cites:
+    - C5
+  - in: C5
+    sentence: Nothing an agent wrote is in the What unless a person adopted it.
+    cites:
+    - C5
+  - in: C8
+    sentence: The scope is the What alone, without the How, work units, features, releases or code generation, and the tool records decisions and never puts one in force.
+    cites:
+    - C8
+  terms:
+  - term: adoption
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: proposal
+    from: product-definition.md
+    section: Proposals and decisions
+  - term: canonical document
+    from: product-definition.md
+    section: The canonical export
+  - term: Writ
+    from: null
+    why: its home is Writ, outside this repository
+  - term: the What
+    from: what.md
+    section: 1.1 What the What is
+  - term: decision record
+    from: null
+    why: no explanation was found
+  - term: shape
+    from: product-definition.md
+    section: Shapes
+  - term: scenario
+    from: product-definition.md
+    section: Scenarios and the wire protocol
+  - term: realiser
+    from: product-definition.md
+    section: 2. Who it is for
+  - term: grant
+    from: null
+    why: its home is Writ, outside this repository
+  - term: change set
+    from: null
+    why: no explanation was found
+  - term: draft log
+    from: product-definition.md
+    section: The draft log
+  - term: violation
+    from: product-definition.md
+    section: Shapes
+  - term: finding
+    from: null
+    why: no explanation was found
+  chapter-weights:
+    C1: 75
+    C2: 25
+    C3: 40
+    C4: 0
+    C5: 60
+    C6: 0
+    C7: 0
+    C8: 40
+    CX: 0

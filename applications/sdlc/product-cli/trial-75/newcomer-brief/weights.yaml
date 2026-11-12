@@ -1,0 +1,10 @@
+weights:
+  C1: {words: 70, why: "Says what the product is: what goes in, what comes out, and what it leaves to others."}
+  C2: {words: 35, why: "Names who uses it and who uses the result."}
+  C3: {words: 60, why: "Shows how it works: the verbs, the draft log, and proposals adopted or rejected."}
+  C4: {words: 40, why: "Describes what comes out: the canonical export and the formats around it."}
+  C5: {words: 20, why: "States what the product guarantees about what it does and puts out."}
+  C6: {words: 0, why: "Internal interfaces between parts are how it is built."}
+  C7: {words: 0, why: "Implementation and the retired predecessor are how it is built and its history."}
+  C8: {words: 15, why: "The scope line says what it is; the carry-over list is history."}
+  CX: {words: 0, why: "Dependency states across repositories are status, not what it is or how it works."}

@@ -245,7 +245,7 @@ elif cmd == "brief":
         return re.sub(r"\s*" + KEYS, "", text).strip()
 
     lines = [f"# {top.get('headline') or doc['headline']}", "", strip_keys(top["document"]["summary"], "summary"), ""]
-    lines += ["## Chapter by chapter", ""]
+    lines += ["## In more detail", ""]
     left = []
     for c in doc["chapters"]:
         e = top["chapters"].get(c["key"])

@@ -1,6 +1,6 @@
 ---
 format: brief
-version: 6
+version: 7
 reader: model
 projects-for: human
 status: trial
@@ -34,6 +34,7 @@ The weights and the top are written per reader. Everything else is shared.
 - Keys do not count towards a word limit. The headline takes no keys.
 - A term gets its explanation and nothing else. You do not write the explanations; the glossary is attached after you.
 - Do not say what you left out.
+- Do not tell the subject's history: what it replaces, that it was rewritten, or which draft this is. Say what it is.
 
 ## Weighting
 
@@ -69,7 +70,7 @@ Give every chapter key an entry. Keep each `why` to one short sentence. Write no
 **What to write.**
 
 0. **The headline.** At most 8 words. It names the subject, in words this reader would use. It is not the canon's title if that title names the document.
-1. **The document summary.** At most 3 sentences and 75 words. What the subject is or does, and what in it bears most on this reader. The first sentence starts with the subject.
+1. **The document summary.** At most 3 sentences and 75 words. First what the subject is, then how it works, in the terms of what this reader needs. The first sentence starts with the subject.
 2. **Each chapter that has a budget.** Within its budget. What the chapter holds for this reader. One sentence where the budget is under 50; several where it is more.
 
 **The rule.** This is rule 5 of the foundations, as it applies here.
