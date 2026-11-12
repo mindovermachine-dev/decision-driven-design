@@ -1,6 +1,6 @@
 # Third run: a brief derived from the canon
 
-**Trial material. Nothing here is ruled.** Run on 2026-11-12, after Emil ruled that `product-definition.md` is the canon and retired the `source` slot. Predictions were recorded on issue #75 before the runs.
+A brief derived straight from the canon contained nothing invented, and answered about half of its reader's questions. Fidelity held; usefulness did not.
 
 ## What was run
 
@@ -36,3 +36,7 @@ The falsifier did not fire: citation by section kept invention out of this brief
 ## Limits
 
 One canon, one reader, one run of each step, one judge. The questions were written for chapters 1 and 5 only. The summaries and glosses are model output and were checked only where the brief uses them.
+
+---
+
+*Trial material; nothing here is ruled. Run on 2026-11-12, after Emil ruled that `product-definition.md` is the canon and retired the `source` slot. The predictions were recorded on issue #75 before the runs. The brief has since been reassembled under the rule for a human reader: no frontmatter, and an opening that starts with the subject.*

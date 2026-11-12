@@ -1,6 +1,6 @@
 # Trial for issue #75: one summary tree or two?
 
-**Trial material. Nothing here is ruled.** Run on 2026-11-12 over `../product-definition.source.md` (chapters 1 and 5).
+One shared summary tree at the bottom, with a top written for each reader, serves a reader about as well as a whole tree of their own. A tree written for one reader costs the other about 2.5 questions in 10.
 
 ## What was run
 
@@ -88,3 +88,7 @@ The falsifier did not fire.
 ## Limits
 
 As for the first run. In addition, each hybrid was built once, so the half-question differences between a hybrid and an audience's own tree say nothing about which is better.
+
+---
+
+*Trial material; nothing here is ruled. Both runs were made on 2026-11-12 over the source file of chapters 1 and 5, which is now retired (`retired/`).*

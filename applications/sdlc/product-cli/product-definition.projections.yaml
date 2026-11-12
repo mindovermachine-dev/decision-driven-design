@@ -1,0 +1,28 @@
+# Provenance of every file derived from the canon of this set. Written by the script that assembles
+# them. A file for a human reader carries no frontmatter (Emil, 2026-11-12), so its provenance is here.
+set: product-definition
+projections:
+- file: product-definition.en.brief.md
+  format: brief
+  format-version: 3
+  culture: en
+  audience: authoriser
+  derived-from: product-definition.md
+  canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
+  summaries-of-canon-blob: 8019dc03ce2e4083bcfafbe8b6625f7fae901b24
+  assembled-by: script, from stored summaries, an audience top and the glossary
+  cites:
+  - C0
+  - C1
+  - C2
+  - C3.3
+  - C3.6
+  - C4
+  - C4.5
+  - C5
+  - C7
+  - C8
+  - CX
+  terms-without-explanation:
+  - Writ
+  - grant

@@ -6,7 +6,8 @@ usage:
   canon.py glossin  <index.yaml> <root>                                  -> glossary input (stdout)
   canon.py topin    <index.yaml> <root> <summaries.yaml> <audience.md>   -> audience-top input
   canon.py check    <index.yaml> <root> <summaries.yaml>
-  canon.py brief    <index.yaml> <root> <summaries.yaml> <glossary.yaml> <top.yaml> <audience-id>
+  canon.py brief    <index.yaml> <root> <summaries.yaml> <glossary.yaml> <top.yaml> <audience-id> <projections.yaml>
+  canon.py opening  <index.yaml> <root> <file.md> ...
 """
 import re
 import subprocess
@@ -197,7 +198,7 @@ elif cmd == "brief":
     top = yaml.safe_load(open(sys.argv[6], encoding="utf-8"))
     audience = sys.argv[7]
     known = {c["key"] for c in doc["chapters"]} | {s["key"] for c in doc["chapters"] for s in c["subs"]} | {"C0"}
-    lines = [f"# {doc['headline']}", "", top["document"]["summary"], ""]
+    lines = [f"# {top.get('headline') or doc['headline']}", "", top["document"]["summary"], ""]
     lines += ["## Chapter by chapter", ""]
     for c in doc["chapters"]:
         e = top["chapters"].get(c["key"])
@@ -238,14 +239,37 @@ elif cmd == "brief":
     cited = sorted({x.strip() for grp in re.findall(r"\[((?:C[\dX]+(?:\.\d+)?)(?:,\s*C[\dX]+(?:\.\d+)?)*)\]", body) for x in grp.split(",")},
                    key=lambda k: [int(p) if p.isdigit() else 99 for p in re.split(r"\.", k[1:])])
     bad = [c for c in cited if c not in known]
-    front = {
-        "name": idx["set"], "culture": "en", "format": "brief", "audience": audience,
-        "derived-from": canon_path.split("/")[-1], "canon-blob": blob(canon_path),
-        "summaries-of-canon-blob": sums["canon-blob"], "format-version": 2,
+    entry = {
+        "file": f"{idx['set']}.en.brief.md", "format": "brief", "format-version": 3, "culture": "en",
+        "audience": audience, "derived-from": canon_path.split("/")[-1], "canon-blob": blob(canon_path),
+        "summaries-of-canon-blob": sums["canon-blob"],
         "assembled-by": "script, from stored summaries, an audience top and the glossary",
         "cites": cited,
         "terms-without-explanation": [t["term"] for _, t in used if not gloss.get(t["term"])],
     }
     if bad:
-        front["unknown-citations"] = bad
-    sys.stdout.write("---\n" + yaml.safe_dump(front, sort_keys=False, allow_unicode=True, width=1000) + "---\n\n" + body)
+        entry["unknown-citations"] = bad
+    reg = (f"# Provenance of every file derived from the canon of this set. Written by the script that assembles\n"
+           f"# them. A file for a human reader carries no frontmatter (Emil, 2026-11-12), so its provenance is here.\n"
+           + yaml.safe_dump({"set": idx["set"], "projections": [entry]}, sort_keys=False, allow_unicode=True, width=1000))
+    open(sys.argv[8], "w", encoding="utf-8").write(reg)
+    foot = f"\n---\n\n*Derived from `{canon_path.split('/')[-1]}`. Its provenance is in `{sys.argv[8].split('/')[-1]}`.*\n"
+    sys.stdout.write(body + foot)
+
+elif cmd == "opening":
+    bad_start = re.compile(r"^(this (document|file|page|brief|report|description|is|was)|status\b|draft\b|trial\b|note\b|version\b|generated\b|derived\b|computed\b|last updated\b|current state\b|retired\b)", re.I)
+    for path in sys.argv[4:]:
+        lines = open(path, encoding="utf-8").read().splitlines()
+        problems = []
+        if lines and lines[0].strip() == "---":
+            problems.append("starts with frontmatter")
+        content = [l for l in lines if l.strip()]
+        if not problems and (not content or not content[0].startswith("# ")):
+            problems.append("first line is not a headline")
+        first = next((l for l in content[1:] if not l.startswith("#")), "") if not problems else ""
+        plain = re.sub(r"^[>*_\s\-|]+", "", first)
+        if first.startswith(">") or first.startswith("|"):
+            problems.append("opens with a note or a table, not with a sentence about the subject")
+        elif bad_start.match(plain):
+            problems.append(f"opens with information about the content: \"{plain[:60]}\"")
+        print(("ok   " if not problems else "FAIL ") + path.split("/product-cli/")[-1] + ("" if not problems else "  — " + "; ".join(problems)))

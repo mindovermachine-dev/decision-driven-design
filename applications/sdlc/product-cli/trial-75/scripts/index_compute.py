@@ -84,11 +84,11 @@ for term, ks in uses.items():
 
 
 p = print
-p(f"# Computed from `{idx_path.split('/')[-1]}`\n")
-p("**Computed, never edited by hand.** Regenerate it when the index or a listed file changes. "
-  "The index model is accepted; the index content is proposed, so these results are provisional.\n")
-p("Terms do not order the layers (Emil, 2026-11-12). This report is glossary coverage: which terms a "
-  "reader meets in each section, and where each can be looked up.\n")
+nohome0 = sorted(t for t, h in home.items() if h is None and uses[t])
+writ0 = sorted(t for t, h in home.items() if h and h[0] == 'import' and h[1] == 'writ')
+p(f"# Where the terms of {idx['set']} are explained\n")
+p(f"Of the {len(idx['terms'])} terms this set uses in a special sense, {len(nohome0)} have no explanation that was found, "
+  f"and {len(writ0)} are explained only outside this repository. The rest each have a section named as the place to look them up.\n")
 p("## Files and hashes\n")
 p("| Role | File | Git blob |\n|---|---|---|")
 for fid, path in files.items():
@@ -128,3 +128,8 @@ p("| # | Section | Terms met here and explained elsewhere | No explanation found
 for i, k in enumerate(order):
     met = sorted(t for t, ks in uses.items() if k in ks and home[t] is not None and not (home[t][0] == "member" and home[t][1] == k))
     p(f"| {i+1} | {k[1]} | {', '.join(met) or '–'} | {', '.join(sorted(unexplained[k])) or '–'} |")
+
+p("\n---\n")
+p(f"*Computed from `{idx_path.split('/')[-1]}`, never edited by hand. Regenerate it when the index or a listed file changes. "
+  "The index model is accepted; the index content is proposed, so these results are provisional. "
+  "Terms do not order the layers (Emil, 2026-11-12): this is glossary coverage.*")

@@ -1,8 +1,6 @@
-# Computed from `product-definition.index.yaml`
+# Where the terms of product-definition are explained
 
-**Computed, never edited by hand.** Regenerate it when the index or a listed file changes. The index model is accepted; the index content is proposed, so these results are provisional.
-
-Terms do not order the layers (Emil, 2026-11-12). This report is glossary coverage: which terms a reader meets in each section, and where each can be looked up.
+Of the 44 terms this set uses in a special sense, 5 have no explanation that was found, and 3 are explained only outside this repository. The rest each have a section named as the place to look them up.
 
 ## Files and hashes
 
@@ -103,3 +101,7 @@ For each section in reading order: the terms it uses and does not itself explain
 | 22 | 7. Implementation | Decider, Projector, UI step, What-version record, Writ, adoption, canonical document, canonical graph, dpp/1, draft log, edition, exporter, finding, phase, proposal, scenario, shape, subject kind, the What, violation, workbench | scope rule |
 | 23 | 8. Boundaries and decisions taken | Projector, View, Writ, Writ position, adoption, claim, dpp/1, draft log, edition, grant, profile, scenario, shape, subject kind, the What, trigger, warning, wire protocol | – |
 | 24 | Cross-repository dependencies | What-version record, Writ, edition, shape, the What, violation, warning | – |
+
+---
+
+*Computed from `product-definition.index.yaml`, never edited by hand. Regenerate it when the index or a listed file changes. The index model is accepted; the index content is proposed, so these results are provisional. Terms do not order the layers (Emil, 2026-11-12): this is glossary coverage.*

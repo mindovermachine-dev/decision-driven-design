@@ -1,0 +1,65 @@
+sentences:
+  - text: "The rewritten product-cli promises a machine-checkable statement…"
+    cites: [C0, C1]
+    verdict: supported
+    note: null
+  - text: "The tool puts nothing in force and decides nothing about realisation; acceptance and force belong to Writ…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "An agent writes only proposals, and nothing an agent wrote is in the What unless a person adopted it…"
+    cites: [C2, C5]
+    verdict: supported
+    note: null
+  - text: "The promise. The What is authored in conversation…"
+    cites: [C1]
+    verdict: supported
+    note: null
+  - text: "Who it is for. The tool serves an author who adopts or rejects…"
+    cites: [C2]
+    verdict: supported
+    note: null
+  - text: "The surface. Every agent write is a proposal…"
+    cites: [C3.3, C3.6]
+    verdict: supported
+    note: null
+  - text: "The formats. Every format is under a read-forever rule…"
+    cites: [C4, C4.5]
+    verdict: supported
+    note: null
+  - text: "The guarantees. Each guarantee is a property test in a public suite…"
+    cites: [C5]
+    verdict: supported
+    note: null
+  - text: "Implementation. The implementation may change without the product changing…"
+    cites: [C0, C7]
+    verdict: supported
+    note: null
+  - text: "Boundaries and decisions taken. The scope is the What alone…"
+    cites: [C8]
+    verdict: supported
+    note: null
+  - text: "Cross-repository dependencies. Most cross-repository dependencies are met…"
+    cites: [CX]
+    verdict: supported
+    note: "Supported as worded: 10 of 15 rows are 'met' and exactly two carry the state 'open'. Not a defect, but the sentence can be read as exhaustive; the canon has one further row not met, the element-hash vectors, with state 'to deliver at step 2'."
+glosses:
+  - term: proposal
+    verdict: supported
+    note: null
+  - term: the What
+    verdict: supported
+    note: null
+  - term: adoption
+    verdict: supported
+    note: null
+  - term: realiser
+    verdict: supported
+    note: null
+  - term: profile
+    verdict: supported
+    note: null
+opening:
+  verdict: pass
+  note: "The headline names the subject ('product-cli: what a product does, made checkable'), not the document. The first sentence starts with the subject and what it promises ('The rewritten product-cli promises…'), with nothing about the document's status, history or reading order."
+summary: {supported: 16, partly: 0, unsupported: 0, miscited: 0}

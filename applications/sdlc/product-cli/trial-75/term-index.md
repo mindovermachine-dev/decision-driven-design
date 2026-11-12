@@ -1,6 +1,6 @@
 # First-pass term index of the trial source
 
-**Trial material. Nothing here is ruled.** Made on 2026-11-12 for issue #75, after Emil's ruling that a layer is inner by dependency: a concept explained in one place and used in the next must be read in that order.
+Chapter 1 of the product definition uses "the What", `dpp/1`, Decider, Projector and Writ, and explains none of them. Some are explained in `what.md`, and some nowhere that this pass found.
 
 ## What this is
 
@@ -73,3 +73,7 @@ terms: 40 | used in trial source: 39
 
 - The term list is hand-picked. Several entries are ordinary words used in a special sense (author, agent, step, flow), and whether those belong in an index is not settled.
 - Matching is by pattern. It misses inflections it was not given and cannot tell senses apart.
+
+---
+
+*Trial material; nothing here is ruled. Made on 2026-11-12 for issue #75, over the source file that is now retired. It was made under a ruling that layers are ordered by where terms are explained and used. Emil superseded that ruling the same day: terms are a glossary, not a layer. The findings about unexplained terms stand; `../product-definition.index.yaml` and its glossary replace this pass.*
