@@ -47,3 +47,44 @@ The predictions were recorded on the issue before the runs.
 - Version 1 also added a rule to keep the subject of every claim. So version 0 against version 1 is not a clean comparison.
 - The 57 new summaries were not checked statement by statement for fidelity.
 - Every role was played by the same model family. The models were not fully isolated from this project's instructions.
+
+---
+
+# Second run: the hybrid design
+
+Run on 2026-11-12, after the first. Predictions were recorded on the issue before the runs.
+
+## What was run
+
+Two hybrid trees. Each keeps the section summaries of the `intro` tree unchanged. Its chapter and document summaries are built over them with an audience as the relevance (`trees/hybrid-authoriser`, `trees/hybrid-realiser`).
+
+A second judge scored five trees, blind (`judge2/`): K1 intro, K2 hybrid-realiser, K3 authoriser, K4 hybrid-authoriser, K5 realiser. Three of them were also in the first run, which measures how far the judging moves between runs.
+
+## Scores (out of 10)
+
+| Tree | Authoriser questions, top | full | Realiser questions, top | full |
+|---|---|---|---|---|
+| hybrid-authoriser | 7.0 | 9.0 | 2.0 | 7.5 |
+| authoriser | 6.5 | 8.5 | 2.0 | 6.0 |
+| hybrid-realiser | 3.5 | 7.0 | 4.0 | 7.5 |
+| realiser | 3.0 | 5.5 | 4.5 | 8.0 |
+| intro | 4.5 | 9.0 | 3.0 | 8.5 |
+
+## Predictions against results
+
+| Prediction | Result |
+|---|---|
+| 1. Each hybrid top is within one question of the audience's own tree, and above the `intro` top. | **Held.** Authoriser 7.0 against 6.5 and 4.5. Realiser 4.0 against 4.5 and 3.0. |
+| 2. Each hybrid at full depth is within one question of the audience's own tree. | **Held.** 9.0 against 8.5, and 7.5 against 8.0. |
+| 3. The three re-judged trees land within one question of their first scores. | **Held.** Every score moved by half a question or less. |
+
+The falsifier did not fire.
+
+## What else the table shows
+
+- A hybrid costs the other reader less than an audience tree does. At full depth, the authoriser hybrid scores 7.5 on the realiser's questions, where the authoriser tree scores 6.0.
+- The realiser's top stays thin in every tree: 4.5 at best.
+
+## Limits
+
+As for the first run. In addition, each hybrid was built once, so the half-question differences between a hybrid and an audience's own tree say nothing about which is better.

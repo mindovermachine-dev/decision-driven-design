@@ -1,0 +1,10 @@
+Q1: {K1_top: 0.5, K1_full: 1, K2_top: 0.5, K2_full: 1, K3_top: 0.5, K3_full: 1, K4_top: 0.5, K4_full: 1, K5_top: 1, K5_full: 1}
+Q2: {K1_top: 0.5, K1_full: 0.5, K2_top: 0.5, K2_full: 0.5, K3_top: 0.5, K3_full: 0.5, K4_top: 0.5, K4_full: 0.5, K5_top: 0.5, K5_full: 0.5}
+Q3: {K1_top: 0, K1_full: 1, K2_top: 0.5, K2_full: 1, K3_top: 0, K3_full: 1, K4_top: 0, K4_full: 1, K5_top: 0.5, K5_full: 1}
+Q4: {K1_top: 0, K1_full: 0.5, K2_top: 0, K2_full: 0.5, K3_top: 0, K3_full: 0, K4_top: 0, K4_full: 0.5, K5_top: 0, K5_full: 0.5}
+Q5: {K1_top: 0.5, K1_full: 1, K2_top: 1, K2_full: 1, K3_top: 0, K3_full: 1, K4_top: 0, K4_full: 1, K5_top: 1, K5_full: 1}
+Q6: {K1_top: 0, K1_full: 1, K2_top: 1, K2_full: 1, K3_top: 0, K3_full: 1, K4_top: 0, K4_full: 1, K5_top: 0.5, K5_full: 1}
+Q7: {K1_top: 0, K1_full: 1, K2_top: 0, K2_full: 1, K3_top: 0, K3_full: 0.5, K4_top: 0.5, K4_full: 1, K5_top: 0, K5_full: 1}
+Q8: {K1_top: 0, K1_full: 0.5, K2_top: 0, K2_full: 0.5, K3_top: 0, K3_full: 0, K4_top: 0, K4_full: 0.5, K5_top: 0.5, K5_full: 1}
+Q9: {K1_top: 0.5, K1_full: 1, K2_top: 0.5, K2_full: 1, K3_top: 1, K3_full: 1, K4_top: 0.5, K4_full: 1, K5_top: 0.5, K5_full: 1}
+Q10: {K1_top: 1, K1_full: 1, K2_top: 0, K2_full: 0, K3_top: 0, K3_full: 0, K4_top: 0, K4_full: 0, K5_top: 0, K5_full: 0}

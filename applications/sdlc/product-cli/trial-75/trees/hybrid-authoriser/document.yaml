@@ -1,0 +1,3 @@
+DOC:
+  summary: "The product is a machine-checkable statement of what a product does, with an executable oracle for its behaviour, exported as one graph that someone else can sign. An agent proposes and the author adopts or rejects each proposal, and every element of the What traces to the person who adopted it. The tool puts nothing in force: acceptance of its canonical document and its being in force belong to Writ."
+  cites: [CH1, CH5]

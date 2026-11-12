@@ -1,0 +1,3 @@
+DOC:
+  summary: "No change set carrying a violation enters the draft log, type-boundary breaches and authored signatures disagreeing with the computed signature are refused, and coverage gaps and orphans are findings. Exports of the same draft position are byte-identical, and re-exporting an imported canonical export is byte-identical to the input. Each adoption of an agent's proposal is a `dpp/1` decision record carrying no force, and simulation precedes marking an export ready."
+  cites: [CH1, CH5]

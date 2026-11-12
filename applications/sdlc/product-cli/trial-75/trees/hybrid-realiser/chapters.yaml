@@ -1,0 +1,6 @@
+CH1:
+  summary: "Each adoption of an agent's proposal is a `dpp/1` decision record carrying no force, and every element of the What traces to the person who adopted it. The tool does not accept anything that cannot be stated as a node, an edge or a shape. A Decider and a Projector are simulated sound and complete against scenarios drawn from the flows, and the same scenarios later judge realised code through a wire protocol."
+  cites: [P1, P2, P3, P4]
+CH5:
+  summary: "No change set carrying a violation enters the draft log, type-boundary breaches and authored signatures disagreeing with the computed signature are refused, and coverage gaps and orphans are findings. Exports of the same draft position are byte-identical, and re-exporting an imported canonical export is byte-identical to the input. The session transport stops an agent session authoring a node before the nodes it derives from exist, and simulation precedes marking an export ready."
+  cites: [W1, W2, W3, W4, W5, W6, W7, W8, W9]
