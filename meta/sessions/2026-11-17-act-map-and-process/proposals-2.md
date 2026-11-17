@@ -117,3 +117,33 @@ Not proposed: the term registry, the `lc:` vocabulary, upstream, and any change 
 5. Filing: one decision and three claims in the address area?
 6. Scope: definitions only in this session, with O-6 and O-7 as new issues?
 7. Is there a GitHub issue number for the commits?
+
+## Amendments
+
+Added after the file was first committed. The sections above are left as written.
+
+### A-1 — D-3 after R-5 and E-5
+
+**Definition, as amended.** A process is a human understanding of work being done, scoped and settled within an area of expertise. It is not an object of the model. Its translation into the model is a **named view** of an act map, fixed by:
+
+| Part | What it is | How many |
+|---|---|---|
+| Norths | Unresolved determinables: the causes the work answers | One or more |
+| Bound | Composite acts the view is limited to | None, one or more |
+
+The view shows the act sites on a dependency path from each north's entry act to the act where its determinate lands, inside the bound where one is given.
+
+**Why two parts.** People name a process by where the work happens and who holds it, and by why it happens. The model keeps those apart: the first is composite acts, the second is norths. The SDLC is a bound with the norths that end at its discharge act. The PDLC is one bound with six norths.
+
+**In tooling.** A process is a saved view with a name. It is never a node, so no decision can be anchored to it.
+
+**Falsifier, as amended.** Limb 1 of D-3 ("a process with no north", with calendar-started work as the candidate) is withdrawn on E-5: time makes a determinable unresolved again, so calendar-started work has a north. What remains:
+
+1. A view that the holders of the process do not recognise as their process, in a second mapped case.
+2. A process whose holders cannot name any determinable it answers, after the calendar is set aside.
+
+**Weakest point, added.** If time is the cause of every determination, then "time" cannot tell one north from another. What tells them apart is which determinable time moves, and how fast. So north stays the determinable, and a north's rate of change is a property the index may need. Nothing filed says so.
+
+**Rests on.** R-2, R-4, R-5 and E-5 of this session; `DDD-frame-13`; `core/00` §4a; `DDD-address-01`; `DDD-ground-06` for the bound.
+
+**Effect on Mantle.** "A composite act that holds acts directly" is a view with a bound and no north. It is a case of this definition, not a rival to it. Whether Mantle keeps it is ruled there (O-9).
