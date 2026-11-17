@@ -8,6 +8,7 @@ Emil's rulings and statements, in the order given, in his words. Recorded when g
 | E-2 | 19:31 | Statement of canon | "We have the layering its the acts at ground axes and then we have composite acts below and above that - it can never be anything else. We have ruled this in the actor indexed determation theory repo" | Checked at `v5.15.2`: `DDD-ground-06` (the layer path is "the chain of composite acts it sits within"); `core/14` §5 and `core/09` §1 ("acts nest as actors nest"). A layer is a composite act and nothing else |
 | R-1 | 19:34 | **Ruled** | "yes to the first" | North is the discharge act of a declared demand kind |
 | — | 19:34 | Open, asked by Emil | "but for the other end im not sure, could there be multiple ends ?" | Not ruled. See below |
+| E-3 | 20:27 | Direction given. Whether it is a ruling is asked | "we follow the determination pull, which means that the decisions that must be made, this also means that we must index the decisions not just the acts. without that index how can we see the pull" | The pull is determination demand: the governing decisions that must be made. Checked at `v5.15.2`: `term:act` ("an act is decisions resolved against ground"; "the unit demand is counted in"), `term:conservation` ("Every governing decision gets made"), `term:last-decision`. The lifecycle map carries no decision on any act: an act has a label, an address, a holder and dependencies. So R-1's north, the discharge act of a demand kind, is a stand-in for a decision. Claude's reading, `UNVERIFIED — Emil review` |
 
 ## Corrections
 
