@@ -16,4 +16,13 @@ Not a prediction. The search for "act map" ran before the charter was committed 
 
 ## P-3 — the full gate at G2
 
-Written after G1, before the filings, when the rulings say what is filed.
+Written at 21:27 (Europe/Berlin), after R-7 and before any filing.
+
+Filed: `core/claims/DDD-address-06.yaml`, `-07`, `-08`; `core/decisions/DDD-dec-122.yaml`; one sentence in `method/01-map-and-index-acts.md` and one in `method/01b-map-the-flow-of-demand.md`.
+
+1. `python3 scripts/validate-claims.py core/claims/` passes. It may warn on rule 1 for `DDD-address-06` and `-08`, whose statements list parts. A warning is not an error (`spec/claim-format.md` §4).
+2. `python3 scripts/validate-claims.py core/decisions/ --decisions` passes. Every id in `DDD-dec-122`'s `basedOn` exists here or is pinned in `graph/upstream.yaml` (`DDD-ground-06` and `DDD-frame-13` are).
+3. `python3 scripts/ci.py` passes. No pin moves, no release descriptor is added, and no What, How or lifecycle file is touched.
+4. The ids are free. Re-checked at 21:26 on every branch of both repositories: `DDD-dec-122` and `DDD-address-06` to `-08` appear only in this session's own records.
+
+**Result:** held, with one miss on the cautious side. (1) Passed, and no rule 1 warning fired on the three new claims: the six warnings are on claims this session did not touch. (2) Passed: 97 decisions. (3) Passed: every gate, exit 0, after the session index row was added. (4) Held.

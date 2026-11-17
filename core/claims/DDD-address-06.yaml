@@ -1,0 +1,68 @@
+format: 1
+id: DDD-address-06
+kind: conceptual
+statement: |
+  The act map is the record of one ruled decomposition of work into acts under one declaration of ground axes, holding the act sites at their addresses, the composite acts that layer them, the causal dependencies between them and the index of the determinables that make demand arrive.
+status: projected
+region: |
+  Diachronic — it relates acts across occurrences, so it files here and not upstream
+  (DDD-dec-09's charter). One map per declaration of ground axes (DDD-address-07). Its four parts:
+
+  - Act sites. One site per address (DDD-ground-06): a ground position on the declared axes and
+    a layer path, with the occupant left out. Occurrences are not in the map. Each occurrence is
+    recorded against exactly one site, with its time index, in a record beside the map.
+  - Layers. Composite acts above an act and below it, and no other kind of layer (DDD-ground-06;
+    upstream core/09 §1, "acts nest as actors nest"). Containment is a tree under each top act,
+    and a top act is a composite act with none above it. A map may hold several top acts.
+  - Dependencies. Site B depends on site A when a state change an occurrence at A produced is
+    in the ground reading of an occurrence at B (DDD-address-01). A directed graph, not a tree.
+    It is acyclic over occurrences. Over sites it may loop.
+  - The index of determinables. Every determinable that makes demand arrive (DDD-frame-13), with
+    the act where it enters, the act where its determinate lands, whether governance has taken
+    it up — which makes it a decision anchored to acts (DDD-ground-01) — and its rate of change.
+
+  The map has no direction of its own beyond causal order. A view gives it one by naming a north,
+  a determinable from the index (DDD-address-08).
+evidence: []
+falsifier: |
+  An act site that must sit within two composite acts for its governing set to be stated, a dependency that can be stated between two occurrences and between no two sites, or a determinable that makes demand arrive and can be given no entry act on the map.
+test: |
+  T2b, the first independent application case: its act map is built in the four parts, and each falsifier limb is searched for. The third limb also yields a finding when it fires — work the decomposition does not cover.
+breaks: |
+  First limb: the layer path, and DDD-ground-06's exactly-one-address reading. Second limb: the split between the map and the occurrence record, and with it the lifecycle graph data (applications/pdlc/graph/, applications/sdlc/acts/). Third limb: that the map shows where demand comes from at all, and DDD-address-08 with it.
+owner: none
+changed: 2026-11-17, act map and process session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  Ruled by Emil, 2026-11-17 (DDD-dec-122; meta/sessions/2026-11-17-act-map-and-process/
+  rulings.md, E-2, R-3, R-6 and R-7 points 1 and 2).
+
+  Emil on the layers (E-2): "We have the layering its the acts at ground axes and then we have
+  composite acts below and above that - it can never be anything else." On the index (E-3): "we
+  must index the decisions not just the acts. without that index how can we see the pull". On
+  the rate (R-6): "time is the one that sets the change rate of a determinable which is what
+  creates the demand".
+
+  Prose that contradicts this claim, flagged and not harmonised:
+  - DDD-address-02's region calls the act map "a tree of occurrences", and
+    method/01-map-and-index-acts.md repeats it. This claim's nodes are act sites, and the tree is
+    containment. DDD-address-02's statement is untouched: every occurrence is still its own act.
+    The region is left as filed; whether it is superseded is open (successor item O-1).
+  - applications/sdlc/sdlc.md §10 says a second top act's acts "sit at the same addresses with a
+    different layer path". The layer path is part of the address (DDD-ground-06), so they can
+    share a ground position (DDD-address-04) and not an address (O-2).
+  - Four places name the SDLC's part of the lifecycle map "the act map" (O-3).
+
+  UNVERIFIED — Emil review:
+  - "Top act" is used in applications/sdlc/sdlc.md §3 and §10 and was not filed before this
+    claim. It is defined here as a position in the layering, not as a new kind.
+  - That occurrences sit outside the map rests on the lc: vocabulary (lc:Act, "an act site of
+    the map: one address, possibly many occurrences"; ruled by Round 28, R30) and on no claim.
+  - The index has not been built once. The lifecycle's six sources of pull
+    (applications/pdlc/graph/demand-flow.ttl) are the nearest thing: each names an entry act
+    and a discharge act, and none is marked taken up or not, or carries a rate.
+  - The rate of change has no unit and no measure. Owed demand recurs because an act upstream
+    failed, not because the world moved, and may need a rate of its own.
+  - Which method step builds the index is open (O-7).
+
+  Survey: meta/sessions/2026-11-17-act-map-and-process/survey.md lists every use of "act map" at
+  84aa466 (109 lines in 38 files) with what each implies.

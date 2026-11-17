@@ -1,0 +1,52 @@
+format: 1
+id: DDD-address-07
+kind: normative
+statement: |
+  A second act map exists when, and only when, a second declaration of ground axes exists.
+status: projected
+region: |
+  Diachronic — a relation between records of acts (downstream per DDD-dec-09's charter). Two act
+  sites belong to one map exactly when their ground positions are read on the same declared
+  axes, under the same ruled decomposition (DDD-ground-06's region). It follows that:
+
+  - a further top act under the same declaration is a further tree in the same map;
+  - a part of a map, such as the acts within one composite act, is not a map;
+  - a view of a map (DDD-address-08) is not a map;
+  - the same work decomposed a second way gives one map at a time, because re-decomposition
+    supersedes (DDD-ground-06's region).
+
+  Between two maps one relation remains: an act in one reads state that an act in the other
+  produced. Coincidence (DDD-address-04) and applicability predicates (DDD-ground-01) range over
+  positions, and are not defined between two declarations.
+evidence:
+  - kind: observation
+    ref: "meta/sessions/2026-11-17-act-map-and-process/survey.md, findings S-6 and S-7"
+    note: |
+      Three mapped cases in the repository, each with its own declaration: the dry run's T2a
+      (four axes), the quick start's Varve slice (three) and the product lifecycle (three,
+      DDD-dec-115). No map uses two declarations and no declaration serves two maps. The accepted
+      T2a map (DDD-dec-38) has three top acts under one declaration. An observation of how the
+      word has been used, written inside the framework: it does not test the rule.
+falsifier: |
+  A governing decision whose applicability predicate must cover occurrences in two maps, or two occurrences in two maps whose behaviour must be compared to answer a question the work poses.
+test: |
+  Utility, on the second application case: an organisation mapped beside the PDLC either shares the PDLC's declared axes or does not, and the rule holds if no governing decision and no behaviour comparison has to cross the boundary it draws.
+breaks: |
+  Checking a map on its own (applications/pdlc/graph/check.py), the two grains of DDD-address-05, which assume one address space, and any tool that points from one map at acts in another.
+owner: none
+changed: 2026-11-17, act map and process session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  Ruled by Emil, 2026-11-17 (DDD-dec-122; rulings.md R-7, point 3). Filed as a normative claim,
+  as DDD-address-02 is: a governing choice about representation, tested by utility.
+
+  The alternative considered and not ruled: one map per top act. It matches "the SDLC's act
+  map" in four places, and fails on the accepted T2a map.
+
+  UNVERIFIED — Emil review:
+  - That the axis declaration is the boundary rested on no filed claim or ruling before this
+    one. It is this session's reading of survey finding S-6.
+  - Whether two pieces of work share a declaration is decided by whoever rules the
+    decomposition. Any two maps can be made one by declaring the union of their axes, and then
+    some acts never read some axes — the held T2b test item F-1 (act address landing, GATE 1
+    ruling 7). The rule says what a second map is and what it costs. It does not say when to
+    make one.

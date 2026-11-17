@@ -1,0 +1,97 @@
+format: 1
+id: DDD-dec-122
+kind: decision
+statement: |
+  The repository defines the act map, the rule for a second act map, and a process. The act map is the record of one ruled decomposition under one declaration of ground axes, holding act sites, the composite acts that layer them, their dependencies and the index of determinables (DDD-address-06). A second act map exists only with a second declaration of ground axes (DDD-address-07). A process is a human understanding of work and not an object of the model; its translation is a named view of an act map, fixed by one or more norths and optionally bounded by composite acts, where a north is an unresolved determinable (DDD-address-08). This adds to DDD-dec-114 and DDD-dec-118 and supersedes nothing.
+principal: Emil
+made: |
+  2026-11-17, in the claude.ai project conversation (verbatim in meta/sessions/2026-11-17-act-map-and-process/rulings.md), filed by the act map and process session the same day; Emil's landing of the branch is the ratification act
+resolution: |
+  ## The rulings (rulings.md, times Europe/Berlin)
+
+  - **E-2, 19:31. The layering is canon.** "We have the layering its the acts at ground axes and
+    then we have composite acts below and above that - it can never be anything else." Checked
+    against `DDD-ground-06` at `v5.15.2`.
+  - **R-1, 19:34. Superseded by R-2.** North is the discharge act of a declared demand kind.
+  - **R-2, 21:12. North.** North is the unresolved determinable, the source of pull. The
+    discharge act is the other end. Emil at 20:43: "North cant be a decision it must be where
+    the demand for decisions originate, so it is a cause."
+  - **R-3, 21:12. The index.** The index is an index of determinables, with decisions as the
+    ones governance took up. "Yes - that would build the index we need."
+  - **R-4, 21:12. A process.** "A process is a simple human understanding og work being done
+    […] What we have is a much more complex model of the world and mapping a process into our
+    model is going to be hard. But I still think its the best translation of the concept we
+    have".
+  - **R-5, 21:19. The view.** A process translates to a named view with one or more norths,
+    optionally bounded by composite acts. In tooling it is a saved view, never a node. "agreed
+    on all".
+  - **R-6, 21:22. Time.** "time is the one that sets the change rate of a determinable which is
+    what creates the demand".
+  - **R-7, 21:25. G1 closed.** "i agree and accept on all seven points": (1) the map's nodes are
+    act sites, with occurrences recorded beside it; (2) the index of determinables is a part of
+    the act map, and each determinable carries its rate of change; (3) the rule for a second
+    map as written; (4) the process definition as amended, and a view leaves out earlier
+    readings; (5) one decision and three claims in the address area, with one cited sentence
+    each in `method/01` and `method/01b`; (6) definitions only in this session; (7) no issue
+    number on the commits.
+
+  ## What is filed
+
+  - **`DDD-address-06`**, conceptual, projected: the act map.
+  - **`DDD-address-07`**, normative, projected: when a second act map exists.
+  - **`DDD-address-08`**, normative, projected: a process, and north.
+  - **Two pointers**: one sentence in `method/01-map-and-index-acts.md`, under the step card,
+    and one in `method/01b-map-the-flow-of-demand.md`, under "What the step does".
+
+  ## What is not changed
+
+  - No act, no source of pull and no other lifecycle data (`applications/`). Out of scope by
+    the issue.
+  - No term in `core/graph/`, nothing in the `lc:` vocabulary, nothing upstream.
+  - `DDD-address-02`. Its region still says "a tree of occurrences". `DDD-address-06` flags the
+    difference in its notes and does not harmonise it.
+  - The step cards' registers. Step 1 stays ruled for test, step 1b stays `[PROPOSED]`.
+
+  ## Relation to earlier decisions
+
+  - **Adds to `DDD-dec-114`.** Round 9's "the SDLC is a subprocess under the PDLC" keeps its
+    ruled reading, a composite act within the PDLC. In `DDD-address-08`'s terms the SDLC is a
+    bound.
+  - **Adds to `DDD-dec-118`.** Step 1b's unit, "a process", now has a filed definition. Its
+    sources of pull are norths. Its content stays `[PROPOSED]`.
+  - **Supersedes nothing.**
+  - **Release.** Not cut by this decision or this session.
+basedOn:
+  - DDD-address-06
+  - DDD-address-07
+  - DDD-address-08
+  - DDD-address-01
+  - DDD-address-02
+  - DDD-address-04
+  - DDD-ground-06
+  - DDD-ground-01
+  - DDD-frame-13
+  - DDD-dec-114
+  - DDD-dec-118
+  - DDD-dec-38
+notes: |
+  Id. Checked on every branch of both repositories at 15:40 UTC and again at 20:26 UTC,
+  2026-11-17. The highest decision file on main is DDD-dec-118; DDD-dec-119 is on PR #73's
+  branch, and DDD-dec-120 and -121 on PR #74's. Upstream's highest is DDD-dec-39. DDD-dec-122 and
+  DDD-address-06 to -08 appear only in this session's records.
+
+  No GitHub issue carries this work (R-7, point 7). The issue text is the session's prompt.md.
+
+  The ruling made in Mantle's planning project on 2026-11-17, "a process is a composite act that
+  holds acts directly", is not adopted as this repository's definition. DDD-address-08 reads it
+  as a view with a bound and no north. Whether Mantle keeps it is ruled there.
+
+  Not ruled, open for Emil (meta/sessions/2026-11-17-act-map-and-process/successor-items.md):
+  O-1 to O-9, among them building the lifecycle's index of determinables (O-6) and which method
+  step builds it (O-7).
+
+  Readings — Claude, UNVERIFIED — Emil review: marked in each claim's notes and in rulings.md.
+
+  Review trigger. A second mapped case, outside software: its act map either fits the four
+  parts of DDD-address-06 and the view of DDD-address-08 or does not, and the three claims are
+  reviewed with it.

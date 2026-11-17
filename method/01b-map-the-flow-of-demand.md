@@ -27,6 +27,8 @@ which owner orders it, which seams it crosses, and where it is
 discharged. Then it asks what else pulls, and classifies every source of pull into the kinds of
 demand the process declares.
 
+**"A process" is defined in `DDD-address-08`** (`DDD-dec-122`): a human understanding of work, whose translation into the model is a named view of the act map, fixed by one or more norths (a source of pull is a north) and optionally bounded by composite acts.
+
 The step is not about delivery. "Delivery" is reserved by upstream `core/13` for whether an
 authored decision reaches the act it governs. This step is about how demand arrives and is
 ordered, which neither delivery nor supply (who resolves a governing decision, and when) says.

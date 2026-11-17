@@ -65,6 +65,8 @@ not, the field says so. Claude's assembly of the fields from their sources is
 | Exit check | Within the ruled decomposition, every occurrence has exactly one address, and its governing set can be computed from that address, its ground readings and the decisions' applicability predicates, without the verdict itself | `DDD-ground-06` falsifier and test, read as a check. Reading `UNVERIFIED — Emil review` |
 | Principal | Whoever rules the decomposition. The method names no role for it | `DDD-ground-06` region ("a ruled decomposition"); the role is not filed |
 
+**The act map is defined in `DDD-address-06`** (`DDD-dec-122`): act sites at their addresses, the composite acts that layer them, the dependencies between them and the index of determinables, with occurrences recorded beside it; the card's "a tree of occurrences" is `DDD-address-02`'s region, and the two are not yet reconciled.
+
 ## What would break it
 
 - **The claims.** Each claim above carries its own falsifier in its file. `DDD-ground-06` fails if
