@@ -147,3 +147,15 @@ The view shows the act sites on a dependency path from each north's entry act to
 **Rests on.** R-2, R-4, R-5 and E-5 of this session; `DDD-frame-13`; `core/00` §4a; `DDD-address-01`; `DDD-ground-06` for the bound.
 
 **Effect on Mantle.** "A composite act that holds acts directly" is a view with a bound and no north. It is a case of this definition, not a rival to it. Whether Mantle keeps it is ruled there (O-9).
+
+### A-2 — D-1 after R-6
+
+**The index of determinables, as amended.** Each determinable in the index carries a fourth property beside its entry act, its discharge act and whether it is taken up: its **rate of change**, the rate at which time makes it unresolved again. That rate is what creates demand (R-6).
+
+**What it gives.** A north's rate of change says how often the work recurs. The lifecycle writes this on acts, as free text (`lc:recurs "per issue"`, `"per event"`). On R-6 it is a property of the cause first, and the acts inherit it.
+
+**Weakest point.** No filed claim carries a rate of change for a determinable. The method's step 4, which is `[PROPOSED]` and not filed, speaks of declaring ground with its tick rate. So this property is defined here before it has a unit or a way to measure it.
+
+**Falsifier.** A determinable whose demand recurs at a rate that its own rate of change does not explain, for example work that recurs because an act upstream failed and not because the world moved. That is owed demand in the lifecycle, and it may need a rate of its own.
+
+**Rests on.** R-6 and E-5 of this session; `DDD-frame-13`. On no filed claim for the rate itself.
