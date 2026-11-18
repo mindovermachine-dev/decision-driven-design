@@ -41,3 +41,9 @@ Each row replaces "Not filed beyond the quoted line" on the card, by a supersedi
 | [10](../../../method/10-observe-and-supersede.md) | "escape is detected as it happens, and change is governed rather than absorbed." On the map: behaviour changing at a fixed address, and the pulls a supersession opens |
 
 All nine rows can be filled. None has to say it cannot be.
+
+## Amendment after G1
+
+Appended on G1-Q9 (`rulings.md`). The rows above are left as written, and where they differ, this section governs.
+
+**Row 5 attaches closure to the act sites, not to the index's observed state.** The rows are `[PROPOSED]`. The reason Emil gave, "Closure is a property of an act's tolerance", is held at K-2: upstream `term:closure` defines a predicate as "closed for an arrangement". The card's row is written once K-2 is answered.

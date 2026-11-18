@@ -27,3 +27,15 @@ Written before any of the four drafts. Nothing under `core/`, `method/` or `appl
 | P-2.7 | Six claims are proposed: `DDD-address-06` to `-08` amended and `-09` to `-11` new. `DDD-dec-122` is amended and no new decision id is needed || Held |
 | P-2.8 | The proposals surface at least one conflict between a ruling of 2026-11-17 and one of 2026-11-18 that only Emil can settle || Held. 11-17 R-7 point 3 against 11-18 R-2 and R-3, on what individuates a map (`proposals.md`, P-2) |
 | P-2.9 | `python3 scripts/ci.py` passes after the drafts are committed || Held |
+
+## Operation 3 — record the G1 rulings and amend the session's proposals
+
+`rulings.md` was written before this section, on receipt of Emil's message, as he asked. The predictions below cover the amendments that follow it. Nothing under `core/` or `method/` changes in this operation, because three conflicts are held for Emil (`rulings.md`, K-1 to K-3).
+
+| # | Prediction | Result |
+|---|---|---|
+| P-3.1 | Every amendment is appended as a superseding section. No line written at G1 is reworded || Held. Each amendment is an appended section; `git diff` shows additions only in the three files |
+| P-3.2 | Part 1 can be stated in plain words with no owner name, and the worked example still passes checks F-1 and F-2 || Held (`pull-procedure.md`, G1-A2) |
+| P-3.3 | With "built or not built" as the method's offered axis, #101 and #103 are told apart, and #104 is not, without "whose determinable" || Held (G1-A3): #104 sits with #103 on "built" |
+| P-3.4 | Adding "expected against observed" gives #104 a second reading, beside "expected, with nothing specified" || Held (G1-A4). #103 also gains it, from the customer's side, which the prediction did not foresee |
+| P-3.5 | `python3 scripts/ci.py` passes || Held |

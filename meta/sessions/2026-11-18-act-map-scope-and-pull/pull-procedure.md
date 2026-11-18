@@ -146,3 +146,45 @@ Claude's desk check, `UNVERIFIED — Emil review`. It is a reading of this page,
 | W-3 | Own-ground demand finds a place among the gaps once the determinable is the arrangement's, not the product's. #104 is "expected, with nothing specified" on the arrangement. A dependency's CVE would be "specified against actual" on the arrangement. So own-ground differs from new and owed by whose determinable it is, not by its gap. This answers an open point of #80 with a proposal, not a ruling. #104 also shows a combination the PDLC's kinds do not name: built, with nothing specified. The arrangement behaves a way nobody decided | `[PROPOSED]`, `UNVERIFIED — Emil review` |
 | W-4 | The kind needs a declared axis before part 4, and the procedure runs before step 1 declares axes. So the procedure declares at least the axis kinds are read on | `[OPEN]`, Q-4 |
 | W-5 | The rate of change has a unit for two items and none for the market need | Carried from `successor-items.md` O-7 of 2026-11-17: no unit and no measure |
+
+## Amendments after G1
+
+Appended on Emil's G1 rulings of 10:30 (`rulings.md`). The sections above are left as written, and where they differ, this section governs.
+
+### G1-A1 — the desk check was a reading, not a run
+
+The desk check above is Claude's reading of this page. No junior engineer has run the procedure. Running the junior-engineer test is Emil's act, and it has not been done (G1-D).
+
+### G1-A2 — part 1 in plain words
+
+Part 1's question, as it goes on the card, names no owner (G1-D):
+
+> **Which decisions can the people doing this work make without asking anyone else?** List them. That list is the scope. Every other decision, and everything nobody decides, is the world. The world still reaches you: through what comes in across the edge.
+
+Worked example, re-run with that question. The team that builds and runs the shop's software can decide, without asking anyone, how a change is planned, built, checked, landed and deployed. It cannot decide what the shop must do, which work comes first, or when a feature is switched on for customers. So F-1 is: inside, planning, building, checking, landing and deploying changes; outside, what the shop must do, the order of work, switching features on, and customers' choices. The edge crossings of F-2 are unchanged and still have one side inside each. Checks F-1 and F-2 pass.
+
+### G1-A3 — part 4's axis
+
+Each map declares the axis its kinds are read on (G1-Q4). The method offers **built or not built** as the starting point, as it offers the PDLC's kinds. "Whose determinable" stays `[PROPOSED]`, with own-ground demand as its only evidence.
+
+| Item | Position on built or not built | Kind told apart? |
+|---|---|---|
+| #101 | not built | Yes, from #103 |
+| #103 | built | Yes, from #101 |
+| #104 | built | **No.** On this axis alone it sits with #103. It is told apart only by the `[PROPOSED]` axis "whose determinable", or by a map that declares its own |
+
+### G1-A4 — the gap table, as ruled
+
+The definition is ruled: a pull is a gap between two of the four states (G1-Q6). The table is examples, not an exhaustive list. One row is added:
+
+| Gap | What it is | Readable? |
+|---|---|---|
+| Expected against observed | The software matches its specification, and the holder still cannot do the thing | Yes |
+
+"Specified against observed" is the readable stand-in for "specified against actual". The claim calls it a stand-in.
+
+**"Found", as ruled (G1-W).** Any holder observing an outcome outside their tolerance has found it, whether or not they trace it to the software. That is "expected against observed", and the procedure finds it from the expected side. In the worked example, #103 is also found this way: a customer sees the out-of-stock line in the basket. #104 is too: the people who deploy observe a manual purge they do not expect.
+
+### G1-A5 — the credit
+
+Emil has told pjarnhus, and he agreed to the four states appearing here under his credit (G1-Q7). The open point of #80 that his agreement was not recorded is closed.

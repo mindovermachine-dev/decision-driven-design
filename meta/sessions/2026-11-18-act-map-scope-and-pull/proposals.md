@@ -171,3 +171,31 @@ Its notes say it was first drafted on 2026-11-17 on a branch that did not land a
 | Q-9 | `steps-and-the-map.md`: are the nine "Value made visible" rows ruled as proposed? |
 | Q-10 | `effects.md`: is the effect on T2b, on step 1b's kinds and on `DDD-address-02`'s region ruled as stated, and which of the three options for `DDD-address-02`? |
 | Q-11 | Filing: the six claims under `core/claims/`, `DDD-dec-122` under `core/decisions/`, the card changes in `method/`, and this session's row in `meta/sessions/README.md`. Anything else, or anything not? |
+
+## Amendments after G1
+
+Appended on Emil's G1 rulings of 10:30 (`rulings.md`). The sections above are left as written, and where they differ, this section governs. These are the texts that will be filed once the held conflicts K-1 to K-3 are answered.
+
+### G1-A1 — P-2, `DDD-address-07`, on C-1 and G1-Q2
+
+**Statement, ruled (option A).** A second act map exists when, and only when, a second declaration exists: a second scope, or a second declaration of ground axes. Scope says what is world. Axes say what is comparable.
+
+**Falsifier, corrected by C-1.** Two limbs, one per kind of boundary.
+- Between maps with different declarations of ground axes: a governing decision whose applicability predicate must cover occurrences in both, or two occurrences in the two maps whose behaviour must be compared to answer a question the work poses.
+- Between maps of nested scopes on the same axes: shared acts that carry different addresses in the two maps.
+
+The first limb no longer fires on a PDLC decision covering an SDLC act, which is the case C-1 names.
+
+### G1-A2 — P-3, `DDD-address-08`, on C-2. **Held: K-1**
+
+The text C-2 asks for, to be filed once K-1 is answered: "… fixed by one or more norths and optionally bounded by composite acts inside the map's scope, where a north is the determinable of a pull, whether or not a gap is open on it now." A process keeps its north between occurrences: the determinable is to the gap as the act site is to the occurrence. The falsifier's third limb, "a process its holders recognise whose work answers no gap between any two states", reads "no gap at any time", not "no gap now".
+
+### G1-A3 — P-4 and P-6, on G1-Q6 and G1-W
+
+`DDD-address-09`'s region says: a pull is a gap between two of the four states; the gap table is examples; "specified against observed" is the readable stand-in for "specified against actual"; "found" means any holder observing an outcome outside their tolerance, which is "expected against observed", found from the expected side. Its weakest point keeps the unreadable gap between actual and observed. Whether it adds "a bug never found has no impact" is held at K-3.
+
+`DDD-address-11`'s credits name pjarnhus, without an @, and its notes record that Emil told him and he agreed (G1-Q7).
+
+### G1-A4 — P-5, on G1-Q4
+
+`DDD-address-10`'s region says: each map declares the axis its kinds are read on, and the method offers "built or not built" as the starting point. "Whose determinable" is named in its notes as `[PROPOSED]`, with own-ground demand as its only evidence.
