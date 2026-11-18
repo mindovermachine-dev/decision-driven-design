@@ -6,8 +6,24 @@ Each prediction is written and committed before its operation runs. The result i
 
 | # | Prediction | Result |
 |---|---|---|
-| P-1.1 | Eleven files are added: eight under `2026-11-17-act-map-and-process/` and three under `2026-11-18-pull-and-scope/`. No other path changes | |
-| P-1.2 | Every copied file is byte-identical to its blob at `47cf4cc` (`git diff 47cf4cc HEAD --` over the two directories is empty) | |
-| P-1.3 | `survey.md` is among them and says it covers 109 lines in 38 files read at `84aa466` | |
-| P-1.4 | No file under `core/`, `method/` or `meta/sessions/README.md` changes | |
-| P-1.5 | `python3 scripts/ci.py` passes after the copy, as it does on `main` | |
+| P-1.1 | Eleven files are added: eight under `2026-11-17-act-map-and-process/` and three under `2026-11-18-pull-and-scope/`. No other path changes | Held. Eleven files added, eight and three, in commit `e1e2491`; no other path |
+| P-1.2 | Every copied file is byte-identical to its blob at `47cf4cc` (`git diff 47cf4cc HEAD --` over the two directories is empty) | Held. `git diff --cached 47cf4cc` over the two directories was empty before the commit |
+| P-1.3 | `survey.md` is among them and says it covers 109 lines in 38 files read at `84aa466` | Held. Its line 11 reads "Read at `84aa466` (`main`)"; its opening says 109 lines in 38 files |
+| P-1.4 | No file under `core/`, `method/` or `meta/sessions/README.md` changes | Held |
+| P-1.5 | `python3 scripts/ci.py` passes after the copy, as it does on `main` | Held, after a local setup step. The first run failed the `what` and `how` gates because `rdflib`, `pyoxigraph` and `pyld` were not installed in the container. Installed from `scripts/requirements.txt`; the second run passed every gate. Not a branch fault |
+
+## Operation 2 — draft deliverables 2 to 5 for G1
+
+Written before any of the four drafts. Nothing under `core/`, `method/` or `applications/` changes in this operation.
+
+| # | Prediction | Result |
+|---|---|---|
+| P-2.1 | Every field of the pull statement gets a check that passes or fails on the worked example. At least one check is a judgement, not mechanical | |
+| P-2.2 | With the How as the scope, the owed item's trace stops at the edge: the classification is outside the scope, so the entry act inside the scope is not the entry act `DDD-flow-03` names for the PDLC | |
+| P-2.3 | "Actual" cannot be filled for any determinable in the worked example | |
+| P-2.4 | The own-ground item fits no gap on the product's determinables. It fits only once a determinable of the arrangement itself is named | |
+| P-2.5 | At least one desk check against a junior engineer's first contact fails on vocabulary: a word the procedure uses without defining it | |
+| P-2.6 | All nine "Value made visible" rows of steps 2 to 10 can be filled from the draft line each card already quotes. None has to say it cannot be. At least two steps attach beside the map, not in it | |
+| P-2.7 | Six claims are proposed: `DDD-address-06` to `-08` amended and `-09` to `-11` new. `DDD-dec-122` is amended and no new decision id is needed | |
+| P-2.8 | The proposals surface at least one conflict between a ruling of 2026-11-17 and one of 2026-11-18 that only Emil can settle | |
+| P-2.9 | `python3 scripts/ci.py` passes after the drafts are committed | |
