@@ -39,3 +39,17 @@ Written before any of the four drafts. Nothing under `core/`, `method/` or `appl
 | P-3.3 | With "built or not built" as the method's offered axis, #101 and #103 are told apart, and #104 is not, without "whose determinable" || Held (G1-A3): #104 sits with #103 on "built" |
 | P-3.4 | Adding "expected against observed" gives #104 a second reading, beside "expected, with nothing specified" || Held (G1-A4). #103 also gains it, from the customer's side, which the prediction did not foresee |
 | P-3.5 | `python3 scripts/ci.py` passes || Held |
+
+## Operation 4 — file as ruled (deliverable 6)
+
+Written after Emil's answers to K-1 to K-3 (13:26) and before any file under `core/` or `method/` is written. The id check was run again at 12:26 UTC: 65 branches downstream, nothing at `DDD-address-09` or above, `DDD-dec-122` only on the archive and the old branch, and upstream's highest decision `DDD-dec-39`.
+
+| # | Prediction | Result |
+|---|---|---|
+| P-4.1 | Seven new files under `core/`: `DDD-address-06` to `-11` and `DDD-dec-122`. One filed file changes, `DDD-address-02`, by an appended `notes` entry only. No other line under `core/` changes | |
+| P-4.2 | `validate-claims.py` passes both trees with no new error. The single-limb warning fires on none of the six new statements | |
+| P-4.3 | `DDD-dec-122`'s `basedOn` resolves in full: every entry is a file here or a pin in `graph/upstream.yaml`. `DDD-ground-05`, `-06`, `-01` and `DDD-frame-13` are already pinned at `v5.15.2`, so no pin is added and `graph/upstream.yaml` is unchanged | |
+| P-4.4 | Eleven cards change, each by an appended superseding section: steps 1, 1b and 2 to 10. No existing line of any card is reworded | |
+| P-4.5 | Every commit carries `Refs #80`. Every commit that touches `core/` carries `Basis:`, and `canon issue-refs --basis` checks them and passes | |
+| P-4.6 | The whole `validate` workflow passes locally, and the workflow run on the pushed head succeeds | |
+| P-4.7 | No file under `applications/`, `tools/canon/` or the archive branch changes | |

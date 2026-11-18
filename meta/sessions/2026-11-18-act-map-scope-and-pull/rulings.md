@@ -118,3 +118,52 @@ Emil's instruction: "If anything here conflicts with a filed claim or an earlier
 - **Emil, on P-3 (C-2).** Claude made "unresolved" a condition of north. Emil drops it. Held at K-1.
 - **Emil, on the desk check.** Claude's `pull-procedure.md` recorded the desk check as a reading. Emil's ruling makes the record say so plainly: the junior-engineer desk check was a reading of the page by Claude, not a run with a junior engineer. Nobody has run the test.
 - **Emil, on Q-9 row 5.** Claude attached closure to the index's observed state. Emil moves it to the act sites.
+
+## Emil's answers to K-1 to K-3, verbatim
+
+Received at 13:26 Europe/Berlin (12:26 UTC) on 2026-11-18.
+
+> My answers to K-1, K-2 and K-3. Record this message in rulings.md, in my words, with the time
+> you receive it. Then file.
+>
+> K-1. Yes. C-2 supersedes the wording of 2026-11-17 R-2, not its meaning. A north is a cause and
+> a determinable, as R-2 ruled. "Unresolved" is dropped as a condition: a north is the
+> determinable of a pull whether or not a gap is open right now. Record it as a supersession of
+> R-2's wording, and of the matching line in #80's "ruled before" list. It rests on 2026-11-17
+> R-6.
+>
+> K-2. Take your option. Row 5 attaches closure to the act site's acceptance predicate, closed
+> for the arrangement allocated there (term:closure). I withdraw the reason I gave under Q-9,
+> "closure is a property of an act's tolerance": it left the arrangement out. This is not a canon
+> question. Note as an open point, without resolving it here, that step 5 classifies closure
+> before step 6 allocates the arrangement.
+>
+> K-3. Step 1's card does not say that an unfound deviation has no impact. It says three things:
+> - the pull procedure finds a deviation once a holder observes an outcome outside their
+>   tolerance, from the expected side;
+> - exposure that nobody has observed is latent, which canon calls escaped (term:escape), and
+>   this procedure does not find it;
+> - finding it before it lands is the work of assurance, in step 5, not of finding pulls.
+> My sentence "a bug nobody has found will never be found. and a bug that is never found has no
+> impact" stays in the record as I said it. It holds of a deviation that is never found by
+> anyone. Nobody can know "never" in advance, so it is not a rule for the card. My ruled reading
+> of "found" stands. The weakest point of DDD-address-09 stays as you wrote it.
+>
+> With these three answered, file as ruled at G1: the six claims, DDD-dec-122, the card changes
+> and the README row. Record each of these as a correction with its attribution: K-2's reason
+> and K-3's sentence are mine, and you caught both.
+>
+> Stop at G2. Open the pull request against main and name the head to ratify.
+
+| # | Time | Status | Reading |
+|---|---|---|---|
+| K-1 | 13:26 | **Ruled.** Supersedes the wording of 11-17 R-2 and the matching line of #80's "Ruled before this issue was opened" list ("North is an unresolved determinable, where demand originates"), not their meaning | A north is a cause and a determinable. It is the determinable of a pull whether or not a gap is open now. Rests on 11-17 R-6. C-2 and G1-Q3 are released from hold |
+| K-2 | 13:26 | **Ruled.** Emil's Q-9 reason withdrawn | Row 5 attaches closure to the act site's acceptance predicate, closed for the arrangement allocated there (`term:closure`). Open point, not resolved here: step 5 classifies closure before step 6 allocates the arrangement |
+| K-3 | 13:26 | **Ruled** | Step 1's card says three things: the procedure finds a deviation once a holder observes an outcome outside their tolerance, from the expected side; unobserved exposure is latent, which canon calls escaped (`term:escape`), and the procedure does not find it; finding it before it lands is assurance's work, in step 5. The card does not say an unfound deviation has no impact. `DDD-address-09`'s weakest point stands as written |
+| F | 13:26 | **Ruled** | File as ruled at G1: the six claims, `DDD-dec-122`, the card changes, the README row |
+
+## Corrections, after K-1 to K-3
+
+- **Claude, on Emil's Q-9 reason (K-2).** Emil gave "closure is a property of an act's tolerance". Claude caught that upstream `term:closure` makes a predicate "closed for an arrangement". Emil withdrew the reason: "it left the arrangement out".
+- **Claude, on Emil's sentence for step 1's card (K-3).** Emil asked the card to say "a bug that is never found has no impact". Claude caught that upstream `term:escape` calls latent defect exposure "the only forbidden state". Emil ruled that the sentence stays in the record as he said it, holds only of a deviation never found by anyone, and is not a rule for the card, because "nobody can know 'never' in advance".
+- **Claude, on C-2 (K-1).** Not an error in either party's reasoning. C-2 changed ruled wording without naming the supersession, and Claude asked. Emil ruled it a supersession of wording.
