@@ -46,10 +46,10 @@ Written after Emil's answers to K-1 to K-3 (13:26) and before any file under `co
 
 | # | Prediction | Result |
 |---|---|---|
-| P-4.1 | Seven new files under `core/`: `DDD-address-06` to `-11` and `DDD-dec-122`. One filed file changes, `DDD-address-02`, by an appended `notes` entry only. No other line under `core/` changes | |
-| P-4.2 | `validate-claims.py` passes both trees with no new error. The single-limb warning fires on none of the six new statements | |
-| P-4.3 | `DDD-dec-122`'s `basedOn` resolves in full: every entry is a file here or a pin in `graph/upstream.yaml`. `DDD-ground-05`, `-06`, `-01` and `DDD-frame-13` are already pinned at `v5.15.2`, so no pin is added and `graph/upstream.yaml` is unchanged | |
-| P-4.4 | Eleven cards change, each by an appended superseding section: steps 1, 1b and 2 to 10. No existing line of any card is reworded | |
-| P-4.5 | Every commit carries `Refs #80`. Every commit that touches `core/` carries `Basis:`, and `canon issue-refs --basis` checks them and passes | |
+| P-4.1 | Seven new files under `core/`: `DDD-address-06` to `-11` and `DDD-dec-122`. One filed file changes, `DDD-address-02`, by an appended `notes` entry only. No other line under `core/` changes || Held. `fe9d72f`: seven files added, `DDD-address-02` gains six `notes` lines and loses none |
+| P-4.2 | `validate-claims.py` passes both trees with no new error. The single-limb warning fires on none of the six new statements || **Missed, in part.** No error. The single-limb warning fires on `DDD-address-11`, whose statement, ruled as written (G1-Q5), joins its four states with semicolons. Left as ruled |
+| P-4.3 | `DDD-dec-122`'s `basedOn` resolves in full: every entry is a file here or a pin in `graph/upstream.yaml`. `DDD-ground-05`, `-06`, `-01` and `DDD-frame-13` are already pinned at `v5.15.2`, so no pin is added and `graph/upstream.yaml` is unchanged || Held. `validate-claims.py --decisions` passes, and `graph/upstream.yaml` is unchanged |
+| P-4.4 | Eleven cards change, each by an appended superseding section: steps 1, 1b and 2 to 10. No existing line of any card is reworded || Held in substance. Eleven cards gain one section each, 0 lines removed. The sections are inserted before an existing heading, not appended at the end, so a reader meets them first |
+| P-4.5 | Every commit carries `Refs #80`. Every commit that touches `core/` carries `Basis:`, and `canon issue-refs --basis` checks them and passes || Held, after a correction. The first local run reported "Refs checked on 0, Basis on 0": the container's clone was shallow, so the rule's start commits were not ancestors and nothing was covered. After `git fetch --unshallow`: "Refs checked on 10, Basis on 1", passing. CI fetches full history |
 | P-4.6 | The whole `validate` workflow passes locally, and the workflow run on the pushed head succeeds | |
-| P-4.7 | No file under `applications/`, `tools/canon/` or the archive branch changes | |
+| P-4.7 | No file under `applications/`, `tools/canon/` or the archive branch changes || Held. No path under `applications/`, `tools/` or `graph/` differs from `main`, and the archive branch was not pushed to |
