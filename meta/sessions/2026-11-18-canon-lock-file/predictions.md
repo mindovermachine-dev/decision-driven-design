@@ -44,7 +44,7 @@ the container gets SDK 10.0.404, `CI` is unset inside it, the onCreate `dotnet b
 `src/Canon/packages.lock.json` to 10.0.15 in the bind-mounted checkout (the working tree shows it
 modified afterwards), and every step is green. The rewrite is discarded after the run.
 
-Result: (scored below)
+Result: scored in "P-3, scored" below.
 
 ## P-3, scored (written after the G1 push, before G2's operations)
 
@@ -63,7 +63,11 @@ Prediction: with `global.json` at `"version": "10.0.403", "rollForward": "disabl
 exits non-zero with "A compatible .NET SDK was not found" naming 10.0.403. So a drift between
 `global.json` and `devcontainer.json` fails validate at its first `dotnet` call, in onCreate.
 
-Result: (scored below)
+Result: **held, with one correction.** Exit 155, "A compatible .NET SDK was not found",
+"Requested SDK version: 10.0.403", for `--version`, `restore` and `build`; the same with the pin
+at 10.0.405 (newer than installed). Wrong: "in onCreate". onCreate runs `dotnet build
+tools/canon/canon.slnx` from the repository root, where no `global.json` is, so the first
+refusal is the runCmd's `dotnet test` in `tools/canon/`.
 
 ## P-5. The fix (B, 10.0.404) and the CI pass-through
 
@@ -74,7 +78,11 @@ from the new `devcontainer.json` with `CI=true` passed to both up and exec (as `
 v0.3 does with an `env:` name, read in its dist/index.js), the working tree is clean after
 onCreate and after the runCmd, and the runCmd exits 0.
 
-Result: (scored below)
+Result: **held.** Lock diff three lines; tests' lock unchanged; locked restore and Release build,
+0 warnings. Devcontainer on `3d0ac65`, `CI=true` to up and exec: feature ran `dotnet-install.sh
+--version 10.0.404`; tree clean after onCreate and after the runCmd; exit 0. Two failed attempts
+first, both this sandbox's: the Docker daemon had stopped, then the proxy port had changed under
+the scratch Dockerfile.
 
 ## P-6. Proof 1: the agent review job's build on a clean install
 
@@ -82,7 +90,7 @@ Prediction: with an empty `DOTNET_ROOT` and NuGet cache, `install-dotnet.sh --ve
 (what setup-dotnet derives from the fixed `global.json`), then `CI=true dotnet run --project
 src/Canon -c Release -- --help` from `tools/canon/` exits 0 with canon's usage text.
 
-Result: (scored below)
+Result: **held.** `--list-sdks` showed only the scratch 10.0.404; exit 0; usage printed.
 
 ## P-7. Proof 3: the throwaway workflow on a GitHub runner
 
@@ -91,4 +99,5 @@ Prediction: on push, the throwaway workflow's setup-dotnet step logs an install 
 `ubuntu-latest`. Validate on the same head is green, including canon's
 `RepositoryDeclarationTests` (they look at `agent-review.yml` by path only).
 
-Result: (scored below)
+Result: **held** for the throwaway run (44313244012: `--version 10.0.404`, `CI=true`, build
+succeeded, 0 warnings). Validate on `3d0ac65`: run 389, success, with `CI=true` passed in (findings.md, G2).

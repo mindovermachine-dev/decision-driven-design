@@ -221,3 +221,94 @@ Agent review on this pull request cannot show it (D-4). What can:
    before the head to ratify.
 4. **After landing**, the first pull_request_target run of agent review (e.g. a `synchronize` on
    #78 or #80's pull request) is the real proof. I will name it when it runs.
+
+---
+
+# G2 — deliverable 3, after Emil's G1 rulings (rulings.md, 13:17 UTC)
+
+Appended; nothing above is reworded.
+
+## Corrections, with attribution
+
+- **#83's statement that `validate` passes because the devcontainer holds an older SDK was
+  wrong. It was Claude's, in the planning conversation that wrote the issue** (Emil's attribution
+  at G1). The real cause is D-3: `CI` never reached the container, so its restore was never
+  locked. The deadlock (D-4) was not in the issue. Both were found in this session.
+- **My weakest point for B was overstated** (P-4, run here). With `rollForward: "disable"`,
+  `dotnet` refuses to run in a directory under that `global.json` when the installed SDK is any
+  other version, older or newer: exit 155, "A compatible .NET SDK was not found … Requested SDK
+  version: 10.0.403". So a drift between `global.json` and `devcontainer.json` does not pass
+  silently: `validate` fails at its first `dotnet` call in `tools/canon/` (the runCmd's `dotnet
+  test`). It does not fail in onCreate: that build runs from the repository root, where there is
+  no `global.json`, and (now that `CI` is passed) would fail there only by NU1004. Agent review
+  fails the same way, since setup-dotnet installs the pinned version and the host refuses any
+  other. The two places still have to be bumped together, but a miss is loud, not silent.
+- **D-3's "validate will keep passing at the next patch under every option"** is no longer true
+  after Q-2: with `CI` passed in, `validate` restores locked and fails on drift as agent review does.
+
+## What changed (commit d2d7a1a)
+
+| File | Change |
+|---|---|
+| `tools/canon/global.json` | `10.0.404`, `rollForward: "disable"` |
+| `.devcontainer/devcontainer.json` | dotnet feature `10.0.404` (it installs with `dotnet-install.sh --version 10.0.404`, seen in the build log) |
+| `tools/canon/src/Canon/packages.lock.json` | regenerated on 10.0.404: three lines, ILLink 10.0.14 → 10.0.15. `tests/Canon.Tests`' lock file unchanged |
+| `.github/workflows/validate.yml` | `CI` added to `devcontainers/ci`'s `env:` |
+| `tools/canon/DESIGN.md` | the layout line and a "Built" row for the pin |
+
+`agent-review.yml` does not change. Nothing changes what canon checks.
+
+**Q-2, as Emil ruled it:** passing `CI` into the devcontainer closes a gap in an existing rule.
+`Directory.Build.props` already rules that a CI restore is locked (`RestoreLockedMode` when `CI`
+is set, `DESIGN.md` §1); the container did not see `CI`, so the rule was not applied there. It is
+not a new check. `devcontainers/ci` v0.3 passes an `env:` name to both `devcontainer up` (so the
+onCreate build too) and the runCmd's exec, and omits it when unset (its `dist/index.js`,
+`populateDefaults`); on a GitHub runner `CI=true`.
+
+## Deliverable 3's exit, as restated by Emil
+
+| Exit | Result |
+|---|---|
+| `validate` passes on the head with locked restore | Locally, devcontainer with `CI=true` to up and exec, on `3d0ac65`: `CI=[true] sdk=10.0.404`, every gate ok, 66 tests passed, changelog, issue-refs (6 commits, Refs on 6) and `check --compare` ok, working tree clean after onCreate and after the runCmd. On GitHub, [validate run 389](https://github.com/mindovermachine-dev/decision-driven-design/actions/runs/44313244378) on `3d0ac65`: success; its log shows `--remote-env CI=true` on both `devcontainer up` and the exec, the feature running `dotnet-install.sh --version 10.0.404`, `Restored …/src/Canon/Canon.csproj` (locked), tests passed, `canon check: all gates passed`. Later heads: in the pull request |
+| Proof 1: the agent review job's build on a clean install | `install-dotnet.sh --version 10.0.404` (setup-dotnet's own script at `a98b568`, the arguments it derives from the new `global.json`) into an empty `DOTNET_ROOT`, empty `NUGET_PACKAGES`, `PATH` without the system SDK, fresh clone of `3d0ac65`: `dotnet --list-sdks` shows only 10.0.404; `CI=true dotnet run --project src/Canon -c Release -- --help` exit 0, canon's usage printed; tree clean |
+| Proof 2: the devcontainer, built here, validate's runCmd in it, with `CI=true` | The first row |
+| Proof 3: the throwaway workflow on a GitHub runner | [Run 44313244012](https://github.com/mindovermachine-dev/decision-driven-design/actions/runs/44313244012), on `3d0ac65`: success. setup-dotnet ran `install-dotnet.sh --skip-non-versioned-files --version 10.0.404` ("already installed", the image's); `CI=true`; `dotnet --version` 10.0.404; `Restored …/src/Canon/Canon.csproj`; `Build succeeded. 0 Warning(s) 0 Error(s)`. Removed in its own commit |
+| Every commit carries `Refs #83` | `canon issue-refs` over `84aa466..` on each pushed head |
+| Final proof | The first agent review run after landing; #84 re-runs it (Emil) |
+
+Not shown, because it cannot be yet: the next patch itself. No SDK newer than 10.0.404 exists
+to install beside it. P-4 shows what the host does when the installed SDK is not the pinned one.
+
+The local devcontainer runs differ from CI's in one scratch base layer only (this sandbox's proxy
+CA and proxy variables, `NO_PROXY` for the tests' 127.0.0.1 server, host networking). The base
+image, features, onCreate and runCmd are the clone's own.
+
+## The waiver decision (Q-1): drafted, not filed
+
+`decision-draft.yaml`, for Emil's ruling on its text. It validates against the decision format
+(`validate-claims.py --decisions` over a copy of `core/decisions/` with the draft added: 97
+decisions, ids unique). Fields Emil gives are left as `<…>`: the head that landed, the times lifted
+and restored, and the first agent review run after landing.
+
+**The id. Every branch checked.** This repository: 66 remote branches, decision files up to
+`DDD-dec-122` (on `claude/act-map-and-process-2026-11-17`, `claude/pull-and-scope-2026-11-18`,
+`claude/act-map-scope-and-pull-2026-11-18`). The principle repository
+(`actor-indexed-determination`): 27 branches, decision files up to `DDD-dec-39`, and no text
+naming any `DDD-dec-12x`. No branch of either holds a `DDD-dec-123` file. **But** #80's session
+bootstrap (`meta/sessions/2026-11-18-act-map-scope-and-pull/bootstrap.md`, line 43, on its
+branch) says "A new decision, if one is ruled, would take `DDD-dec-123`". The draft carries
+`DDD-dec-123`, the next free id by files; whether #80's conditional mention reserves it is Emil's
+to say (question W-1).
+
+## Successor items, recorded and not acted on (Emil, G1)
+
+- **S-1. A scheduled check that says when a newer .NET patch exists.** B makes security patches
+  wait for a manual bump of `global.json`, `devcontainer.json` and the lock file.
+- **S-2. The deadlock.** A required check that builds main's canon, with no bypass, means a broken
+  main can only be repaired by suspending the rule (D-4; the draft decision is the first time).
+
+## Questions at G2
+
+- **W-1.** The waiver's id: `DDD-dec-123` (next free by files on every branch of both
+  repositories), or `DDD-dec-124`, leaving 123 to #80's session as its bootstrap says?
+- **W-2.** The draft's text, for your ruling, with the head, the two times and the run to fill.
