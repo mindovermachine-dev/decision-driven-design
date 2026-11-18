@@ -15,3 +15,9 @@ No issue is open for this work. Emil's statements below, verbatim, from the clau
 > **09:08.** 1. yes - it must be else it cant be pull if we cant determine (a small decision driven design joke for you there) the ground it pulls from 2. the states are all that i have, but i completely agree with your mapping to the canon, this is exactly what we need in order create a process for our practicationers. This is kind a like looking at thermal dynamic laws, they also inspect a system and look at the input and output 3. scope must be the first else we cant place the pull, or we would end up far far from our area of influence
 
 > **09:18.** his github handle is pjarnhus lets start with that
+
+> **09:37.** you create the issues and i will run a session in claude code that actual changes the repo
+
+> **09:40.** lets just delete the branch for the old #79 work and then lets add all the new work into issue #80 -
+
+> **09:46.** agreed on your recommendation and accepted. Do it
