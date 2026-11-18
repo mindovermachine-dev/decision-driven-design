@@ -45,3 +45,50 @@ the container gets SDK 10.0.404, `CI` is unset inside it, the onCreate `dotnet b
 modified afterwards), and every step is green. The rewrite is discarded after the run.
 
 Result: (scored below)
+
+## P-3, scored (written after the G1 push, before G2's operations)
+
+Result: **held.** Fresh clone of `4a091c3`, devcontainer built from its own `devcontainer.json`
+(plus a scratch base layer with this sandbox's proxy CA and host networking, which CI does not
+need): SDK 10.0.404 installed, `CI=[]` inside, `src/Canon/packages.lock.json` modified after
+onCreate, runCmd exit 0. Three runs before that failed for causes in this sandbox, not the repo:
+no tags and a shallow history locally (the release guard and `issue-refs` need both, as CI's
+`fetch-depth: 0` gives), and the proxy variables routing the tests' 127.0.0.1 server (fixed with
+`NO_PROXY`). Validate run 388 on `4a091c3`: success.
+
+## P-4. rollForward "disable" with a different installed SDK (Emil's check, G1)
+
+Prediction: with `global.json` at `"version": "10.0.403", "rollForward": "disable"` and only SDK
+10.0.404 installed, every `dotnet` command under that directory (`--version`, `restore`, `build`)
+exits non-zero with "A compatible .NET SDK was not found" naming 10.0.403. So a drift between
+`global.json` and `devcontainer.json` fails validate at its first `dotnet` call, in onCreate.
+
+Result: (scored below)
+
+## P-5. The fix (B, 10.0.404) and the CI pass-through
+
+Prediction: with `global.json` at 10.0.404/`disable` and the lock file regenerated (three lines,
+ILLink 10.0.14 → 10.0.15, nothing else), `CI=true dotnet restore` and `CI=true dotnet build -c
+Release` pass on SDK 10.0.404; the tests' lock file does not change. In the devcontainer built
+from the new `devcontainer.json` with `CI=true` passed to both up and exec (as `devcontainers/ci`
+v0.3 does with an `env:` name, read in its dist/index.js), the working tree is clean after
+onCreate and after the runCmd, and the runCmd exits 0.
+
+Result: (scored below)
+
+## P-6. Proof 1: the agent review job's build on a clean install
+
+Prediction: with an empty `DOTNET_ROOT` and NuGet cache, `install-dotnet.sh --version 10.0.404`
+(what setup-dotnet derives from the fixed `global.json`), then `CI=true dotnet run --project
+src/Canon -c Release -- --help` from `tools/canon/` exits 0 with canon's usage text.
+
+Result: (scored below)
+
+## P-7. Proof 3: the throwaway workflow on a GitHub runner
+
+Prediction: on push, the throwaway workflow's setup-dotnet step logs an install of exactly
+10.0.404 (not `--channel 10.0`), and `CI=true dotnet build src/Canon -c Release` succeeds on
+`ubuntu-latest`. Validate on the same head is green, including canon's
+`RepositoryDeclarationTests` (they look at `agent-review.yml` by path only).
+
+Result: (scored below)
