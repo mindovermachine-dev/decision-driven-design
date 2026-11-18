@@ -49,7 +49,9 @@ resolution: |
   Validate on the head, with locked restore (CI passed into the devcontainer); the agent review
   job's build on a clean install of SDK 10.0.404 with CI set; the same on a GitHub runner by a
   throwaway workflow, removed before the head (findings.md, deliverable 3). The first agent review
-  run after the landing is the final proof: <run, filled after the landing>.
+  run after the landing is the final proof: Agent review run 89 (44325821613), on #86 at e28fc52,
+  14:34 to 14:35 UTC. It built main's canon at 1bf7e56 on SDK 10.0.404 without NU1004, judged the
+  pull request and posted its verdict.
 basedOn:
   - DDD-dec-108
   - DDD-dec-109

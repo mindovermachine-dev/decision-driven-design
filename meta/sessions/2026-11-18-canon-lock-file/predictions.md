@@ -112,4 +112,8 @@ at `1bf7e56`, the pinned SDK) builds canon without NU1004 and posts its verdict.
 `approve <sha>` the verdict is not green: the job runs, and fails or stays pending for the
 approval, not for the build.
 
-Result: (scored below)
+Result: **held.** `validate-claims.py --decisions`: 97 decisions valid. Local validate on
+`e28fc52` (`CI=true`): every gate ok. Agent review run 89 (44325821613) on #86: job success;
+canon built from `main` at `1bf7e56` with no NU1004; "not approved: #86 needs a comment 'approve
+e28fc52…'"; "posted 'agent review' = failure". The verdict waits for Emil's approval, not for the
+build. It was the first agent review run after the landing; #84 had not re-run.
