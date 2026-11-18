@@ -101,3 +101,15 @@ Prediction: on push, the throwaway workflow's setup-dotnet step logs an install 
 
 Result: **held** for the throwaway run (44313244012: `--version 10.0.404`, `CI=true`, build
 succeeded, 0 warnings). Validate on `3d0ac65`: run 389, success, with `CI=true` passed in (findings.md, G2).
+
+## P-8. Filing DDD-dec-123 (before the filing commit)
+
+Prediction: `core/decisions/DDD-dec-123.yaml`, from the accepted draft with Emil's two W-2
+additions and the head and times filled, passes `validate-claims.py core/decisions/ --decisions`
+and the whole validate pipeline (devcontainer, `CI=true`), with no other file under `core/`
+changed. On the pull request, `pipeline (devcontainer)` passes, and `agent review` (from `main`
+at `1bf7e56`, the pinned SDK) builds canon without NU1004 and posts its verdict. Without Emil's
+`approve <sha>` the verdict is not green: the job runs, and fails or stays pending for the
+approval, not for the build.
+
+Result: (scored below)
