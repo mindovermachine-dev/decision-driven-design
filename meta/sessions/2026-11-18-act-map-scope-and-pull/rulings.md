@@ -168,3 +168,60 @@ Received at 13:26 Europe/Berlin (12:26 UTC) on 2026-11-18.
 - **Claude, on Emil's sentence for step 1's card (K-3).** Emil asked the card to say "a bug that is never found has no impact". Claude caught that upstream `term:escape` calls latent defect exposure "the only forbidden state". Emil ruled that the sentence stays in the record as he said it, holds only of a deviation never found by anyone, and is not a rule for the card, because "nobody can know 'never' in advance".
 - **Claude, on C-2 (K-1).** Not an error in either party's reasoning. C-2 changed ruled wording without naming the supersession, and Claude asked. Emil ruled it a supersession of wording.
 - **Claude, on its own gate reports at G1 (2026-11-18).** Claude reported `canon issue-refs --basis` as passing locally before the pushes of `49f19ed` and `7c1214e`. The container's clone was shallow, so the check covered no commit ("Refs checked on 0"). The workflow runs on GitHub, which fetch full history, did check them and passed (runs 384 and 385). Found at the filing, and fixed by unshallowing the local clone.
+
+## Emil at G2, verbatim
+
+Received at 13:41 Europe/Berlin (12:41 UTC) on 2026-11-18.
+
+> Hold at G2. I am not merging yet: "agent review" is a required check, and it fails on NU1004
+> until #83 lands.
+>
+> When I tell you #83 has merged:
+> 1. Write P-4.6's result into predictions.md.
+> 2. Push it. That re-runs the agent review workflow against the fixed main.
+> 3. Name the new head to ratify, and report both required checks on it:
+>    "pipeline (devcontainer)" and "agent review".
+> If the agent review then raises findings about this branch, report them and change nothing
+> until I rule.
+>
+> Record two observations as successor items for #82, without changing the card:
+> - the pull statement's "Observed" field passes only when the observer is inside the scope,
+>   while the worked example has a customer finding the fault;
+> - the gap "specified, with nothing actual" names a state the card says is never read.
+>
+> Leave the DDD-address-11 warning as it is.
+
+| # | Time | Status | Reading |
+|---|---|---|---|
+| G2-1 | 13:41 | **Ruled** | Held at G2 until #83 lands. Then P-4.6's result is written, pushed, and the new head named with both required checks reported. Agent review findings are reported, not acted on |
+| G2-2 | 13:41 | **Ruled** | Two observations recorded as successor items for #82 (`successor-items.md`, X-1 and X-2). The card is not changed |
+| G2-3 | 13:41 | **Ruled** | `DDD-address-11`'s single-limb warning stays |
+
+## Emil on #82, verbatim
+
+Received at 13:46 Europe/Berlin (12:46 UTC) on 2026-11-18.
+
+> Thank you for catching the line in #82. It is corrected.
+>
+> #82 now lists what I ruled under #80: "actual" is never read directly; a deviation is found
+> once a holder observes an outcome outside their tolerance; exposure nobody has observed is
+> latent, which canon calls escaped, and finding it early is the work of assurance. The sentence
+> "a bug that is never found has no impact" is removed from its "already ruled" list, with a
+> correction note saying it was listed in error, that you caught it, and what I ruled at 13:26.
+> X-1 and X-2 are added to #82 as successor items to take up there.
+>
+> Record this message in rulings.md with the time you receive it, and record the correction to
+> #82 with its attribution: the error was Claude's in the planning conversation, and you caught
+> it. Add it to the local commit. Do not push.
+>
+> Nothing else changes. Keep holding at G2 on 3d76c88. When I tell you #83 has merged, do as
+> agreed: write P-4.6's result, push, name the new head, and report both required checks on it.
+
+| # | Time | Status | Reading |
+|---|---|---|---|
+| G2-4 | 13:46 | **Recorded**, done by Emil in #82 | #82's "already ruled under #80" list now reads: "actual" is never read directly; a deviation is found once a holder observes an outcome outside their tolerance; exposure nobody has observed is latent, which canon calls escaped, and finding it early is the work of assurance. "A bug that is never found has no impact" is removed from that list, with a correction note. X-1 and X-2 are added to #82 as successor items |
+| G2-5 | 13:46 | **Ruled** | Still held at G2 on `3d76c88`. Nothing pushed until #83 has merged |
+
+## Correction, to #82
+
+- **Claude in the planning conversation, caught by this session's Claude.** #82, written in the claude.ai planning conversation, listed "a bug that is never found has no impact" as already ruled under #80. That was an error: at 13:26 (K-3) Emil ruled that the sentence stays in the record as he said it and is not a rule for the card. This session caught it at 13:41 against `DDD-dec-122` and K-3. Emil corrected #82 at 13:46, with a correction note in the issue.
