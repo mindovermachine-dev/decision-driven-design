@@ -47,3 +47,5 @@ All nine rows can be filled. None has to say it cannot be.
 Appended on G1-Q9 (`rulings.md`). The rows above are left as written, and where they differ, this section governs.
 
 **Row 5 attaches closure to the act sites, not to the index's observed state.** The rows are `[PROPOSED]`. The reason Emil gave, "Closure is a property of an act's tolerance", is held at K-2: upstream `term:closure` defines a predicate as "closed for an arrangement". The card's row is written once K-2 is answered.
+
+**K-2, ruled 13:26.** Row 5 attaches closure to the act site's acceptance predicate, closed for the arrangement allocated there (`term:closure`). Emil withdrew the reason "closure is a property of an act's tolerance". Open, not resolved here: step 5 classifies closure before step 6 allocates the arrangement. The card's row is filed in that form.
