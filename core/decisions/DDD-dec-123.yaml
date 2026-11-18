@@ -1,0 +1,59 @@
+format: 1
+id: DDD-dec-123
+kind: decision
+statement: |
+  For one landing only, the trunk ruleset's required `agent review` check is lifted, so that #83's fix can reach main; it is restored straight after. Nothing else in trunk or in any other ruleset changes, and nothing in DDD-dec-108 or DDD-dec-109 is superseded. The waiver is not a precedent: a later broken main is a new decision.
+principal: Emil
+made: |
+  2026-11-18, G1 of the canon-lock-file session (issue #83), given by Emil in the session and recorded verbatim at meta/sessions/2026-11-18-canon-lock-file/rulings.md (received 13:17 UTC). The requirement was lifted at 14:20 UTC and restored at 14:29 UTC, both by Emil as repository admin. Emil's ruling on this record's text (G2, received 13:37 UTC, in the same file) is the filing act
+resolution: |
+  ## The ruling
+
+  > Q-1. I will lift the "agent review" requirement on the trunk ruleset for this one landing and
+  > restore it straight after. You do not touch the ruleset.
+
+  ## What was waived
+
+  The `required_status_checks` entry `agent review` (integration 5594102, the gates App) in the
+  live trunk ruleset, for the landing of head 1bf7e56 (1bf7e56af31cd19e004def678c163ccf224c134f)
+  to main and for nothing else. The trunk ruleset's other rules held throughout: `pipeline
+  (devcontainer)` required, deletion and non-fast-forward refused. Signed Commits was not
+  touched.
+
+  .github/repo-standard.yaml was not changed and required `agent review` throughout. Only the
+  live trunk rule departed from it, between 14:20 and 14:29 UTC; the restore brought the live
+  rule back to the file, with its binding to the gates App.
+
+  ## Why no other path existed
+
+  - The `agent review` verdict is a check run posted by the gates App ("mom-gates", integration
+    5594102), and the ruleset requires that name from that App (DDD-dec-109). No job a pull
+    request can change may post it, by design.
+  - The agent review job checks out main by name and builds main's canon before it judges
+    (.github/workflows/agent-review.yml, "Checkout main"). Main's canon did not build on the
+    runner's SDK: NU1004, the lock file at Microsoft.NET.ILLink.Tasks 10.0.14, the runner's SDK
+    10.0.404 adding 10.0.15 (meta/sessions/2026-11-18-canon-lock-file/findings.md, D-1 to D-4).
+  - So agent review failed on every pull request whatever it held, the fix's own included, and
+    trunk has no bypass actor, the admin role included (DDD-dec-108). The fix could reach main
+    only if the requirement was suspended.
+
+  ## When this record was filed
+
+  After the waiver was used, because it needs the landed head and the two times. Emil's ruling
+  to waive was recorded first, in this session's rulings.md, which landed with #85 (at
+  1bf7e56). His ruling on this record's text is recorded in the same file on this record's
+  branch.
+
+  ## What showed the fix before it landed
+
+  Validate on the head, with locked restore (CI passed into the devcontainer); the agent review
+  job's build on a clean install of SDK 10.0.404 with CI set; the same on a GitHub runner by a
+  throwaway workflow, removed before the head (findings.md, deliverable 3). The first agent review
+  run after the landing is the final proof: <run, filled after the landing>.
+basedOn:
+  - DDD-dec-108
+  - DDD-dec-109
+notes: |
+  Successor, recorded by Emil's ruling and not acted on: a required check that builds main's
+  canon, with no bypass, means a broken main can only be repaired by suspending the rule. This
+  record is the first time that happened.
