@@ -76,7 +76,7 @@ tools/canon/
   DESIGN.md                       this file
   README.md                       install, commands, exit codes (G2)
   canon.slnx
-  global.json                     SDK 10.0.x, rollForward latestFeature (as Varve)
+  global.json                     SDK 10.0.404 exactly, rollForward disable (#83)
   Directory.Build.props           net10.0, LangVersion latest, Nullable, warnings as errors,
                                   ImplicitUsings off, Deterministic (as Varve)
   Directory.Packages.props        central package management, transitive pinning on
@@ -673,6 +673,7 @@ records every operation, predicted before it ran.
 | §2, §3.1: `System.CommandLine` | Hand-parsed arguments (`Cli.cs` and one file per command) | As Varve's `eng/` scripts are. Five commands with a few flags each do not need a parser library, and plain parsing is easier to audit. It is one package fewer, and it stays AOT-clean |
 | §3.1: Varve packages pinned | Not referenced yet | Gate 2 is git, GitHub and YAML. The `Varve.*` pins arrive with the shapes at Gate 3, in `Graph/` only (§1) |
 | §9.1: `global.json` SDK `10.0.401`, as Varve | `10.0.100`, `rollForward: latestFeature` | The devcontainer feature installs the newest 10.0 SDK, whatever its band. Any 10.0 SDK from 10.0.100 up builds canon. Locally it was 10.0.403 |
+| (the row above, amended by #83) | `10.0.404`, `rollForward: disable`; the devcontainer feature at `10.0.404` | `IsAotCompatible` makes the SDK reference `Microsoft.NET.ILLink.Tasks` at the runtime it bundles, so the lock file moves with the SDK's patch. A floating SDK broke the locked restore at 10.0.404 (NU1004). setup-dotnet installs the exact version from this file; the feature repeats it. A bump is one commit: `global.json`, `devcontainer.json`, the lock file. Ruled by Emil, 2026-11-18 (`meta/sessions/2026-11-18-canon-lock-file/rulings.md`) |
 | §3.4: a recorded-response replay server for GitHub | A real HTTP/1.1 server on `127.0.0.1`, port 0, holding state (`GitHubServer.cs`) | No response was ever recorded, so a replay would have replayed invented data. The server answers the two REST shapes from what the test put there. `HttpListener` was tried first. Under parallel tests it raced for ports and crashed the test host once (exit 134), so it was replaced |
 | §4.3 step 8: Release name `title` | Name `<version> — <title>`, the tag message | One string for one release, rule 2's composition |
 | §4.3: changelog check last (step 9) | The changelog check is step 6, before the tag. `--plan` stops before step 7 (the tag) | So that nothing irreversible happens before every check has passed |

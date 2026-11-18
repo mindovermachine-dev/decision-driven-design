@@ -33,9 +33,13 @@ jobs:
           # Gate 2 it adds three checks no Python gate makes: its own tests, CHANGELOG.md as the
           # projection of releases/ (DDD-dec-104), and Refs #N with Basis: on canon commits over
           # the range under test (DDD-dec-105). GITHUB_BASE_REF is passed in so a pull request's
-          # range is base..head.
+          # range is base..head. CI is passed in so canon's restores are locked here as on any CI
+          # runner (tools/canon/Directory.Build.props): a lock file that does not match the pinned
+          # SDK fails this job, as it fails agent review (#83). The rule is not new; the container
+          # did not see CI, so it was not applied here.
           env: |
             GITHUB_BASE_REF
+            CI
           runCmd: |
             set -e
             python3 scripts/ci.py
