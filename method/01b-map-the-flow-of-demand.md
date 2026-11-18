@@ -18,6 +18,23 @@ process has the same three. One process is the whole of the evidence (Round 24: 
 have enough evidence to say if the three kinds of demand entities are general enough for all
 processes"). Every use of this step on a second process is a test of them.
 
+## Kinds as ground positions, and a process `[PROPOSED]`
+
+**This section supersedes, where they differ, the lines below it** (`DDD-dec-122`, ruled 2026-11-18, which amends `DDD-dec-118`). Those lines stay as written.
+
+| Card text below | Read as | Basis |
+|---|---|---|
+| "each process declares its own kinds of demand" | Each map declares its kinds, as positions on a declared ground axis. The method offers **built or not built** as the starting axis, as it offers the PDLC's kinds as the starting set | `DDD-address-10`; `DDD-address-08`: a process is not an object of the model, so it does not declare |
+| Part 1, "Map acts forward from the request" | Map acts forward from the entry acts named by step 1's first part, the pull procedure | `DDD-dec-122` |
+| Part 6, "Classify each source of pull into the kinds of demand the process declares" | Read each pull's kind from its position on the map's declared axis. The source is kept as where the item was sighted, and decides nothing about its kind | `DDD-address-10` |
+| "a process" | A human understanding of work. Its translation into the model is a named view of one act map, fixed by one or more norths, each the determinable of a pull, and optionally bounded by composite acts | `DDD-address-08` |
+
+**What stands.** The PDLC's three kinds, new, owed and own-ground, and their one-line tests. `DDD-flow-01` to `-04`, projected and scoped to the PDLC: `DDD-flow-01` already tests each kind relative to the decisions in force, which is a reading of ground. The step's place after step 1. "Sighting is not entry".
+
+**Own-ground demand on "built or not built".** On that axis alone, the acme shop's #104 (own-ground) sits with #103 (owed). A second axis, "whose determinable" (the product's or the arrangement's), would tell them apart. It is `[PROPOSED]`, with own-ground demand as its only evidence.
+
+**The field report** gains two columns, beside the table under "Record the declaration": the axis your kinds are read on, and each kind's position on it. The promotion item (P-1) then asks whether a second map's axis and positions match the PDLC's.
+
 ## What the step does
 
 Step 1 maps acts, one occurrence at a time. It does not say how demand arrives in a running

@@ -27,6 +27,17 @@ as a method step yet.
 | Exit check | Not filed |
 | Principal | Not filed |
 
+## What this step adds to the act map `[PROPOSED]`
+
+**This section supersedes, where they differ, the step card above** (`DDD-dec-122`, ruled 2026-11-18). The card stays as written. Its "Value made visible" row, "Not filed beyond the quoted line", now reads:
+
+| Field | Content |
+|---|---|
+| Value made visible | "the practitioner knows where automation is safe and where judgment is load-bearing." On the act map: at each act site, whether its acceptance predicate is closed for the arrangement allocated there, so where a verdict can be a mechanical check and where it needs a person |
+| Attaches to | The act site's acceptance predicate, closed for the arrangement allocated there (upstream `term:closure`). In the map, on the act sites. **Open, not resolved here:** this step classifies closure before step 6 allocates the arrangement it is closed for |
+
+The act map is defined in `DDD-address-06`. The value clause is the draft's, verbatim. The rest of the row is `[PROPOSED]`.
+
 The default falsifier for any method step, also from the draft and also `[PROPOSED]`:
 "practitioners perform the step and cannot name the value it gave them."
 

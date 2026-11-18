@@ -27,6 +27,17 @@ as a method step yet.
 | Exit check | Not filed |
 | Principal | Not filed |
 
+## What this step adds to the act map `[PROPOSED]`
+
+**This section supersedes, where they differ, the step card above** (`DDD-dec-122`, ruled 2026-11-18). The card stays as written. Its "Value made visible" row, "Not filed beyond the quoted line", now reads:
+
+| Field | Content |
+|---|---|
+| Value made visible | "evidence, not assertion." On the act map: each act site's occurrences in causal order, and the observed state of each determinable, read from them |
+| Attaches to | The occurrence record, each entry against exactly one act site with its time index (`DDD-address-01`). It fills the index's observed state. Beside the map |
+
+The act map is defined in `DDD-address-06`. The value clause is the draft's, verbatim. The rest of the row is `[PROPOSED]`.
+
 The default falsifier for any method step, also from the draft and also `[PROPOSED]`:
 "practitioners perform the step and cannot name the value it gave them."
 
