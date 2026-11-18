@@ -13,6 +13,7 @@ Emil's rulings and statements, in the order given. His words are in `prompt.md`,
 | R-4 | 08:57, 09:08 | **Ruled** | "a bug and a feature cant share ground because ground for a feature is by necessity that it hasnt been implemented and a bug must have been implemented"; "yes - it must be else it cant be pull if we cant determine […] the ground it pulls from" | A kind of demand is a position on a declared ground axis. Kinds differ by ground, not by where the demand came from. Consistent with `DDD-flow-01`, which defines the PDLC's kinds relative to the decisions in force |
 | R-5 | 09:08 | **Ruled**, on four names only | "the states are all that i have, but i completely agree with your mapping to the canon, this is exactly what we need in order create a process for our practicationers" | The four states map to canon as in the table below, and a pull is a gap between two of them. The concept is a friend of Emil's. Only its four names are known. See "The four states" |
 | E-4 | 09:08 | Statement | "This is kind a like looking at thermal dynamic laws, they also inspect a system and look at the input and output" | The pulls of a scope can be found by inspecting its edge, before any act inside it is mapped. Claude's reading, `UNVERIFIED — Emil review` |
+| R-6 | 09:18 | **Ruled** | "his github handle is pjarnhus lets start with that" | Asked: "May the four states appear in the public repository, and how should your friend be credited?" The four states are credited to GitHub user `pjarnhus`. Claude reads "lets start with that" as leave to record the concept here under that credit, and as a first form of credit that may change. `UNVERIFIED — Emil review` |
 
 ## Corrections
 
@@ -22,7 +23,7 @@ Emil's rulings and statements, in the order given. His words are in `prompt.md`,
 
 ## The four states
 
-The concept is not Claude's and not canon's. It is a friend of Emil's, who is working on the difference between four states of an implementation. Emil has the four names and no more. The mapping is Claude's, made from the names, and Emil agreed with it (R-5).
+The concept is not Claude's and not canon's. **Credit: GitHub user `pjarnhus`** (R-6), a friend of Emil's, who is working on the difference between four states of an implementation. The work is not published, and nothing here is his wording beyond the four names. Emil has the four names and no more. The mapping is Claude's, made from the names, and Emil agreed with it (R-5).
 
 | State | Nearest thing in canon at `v5.15.2` |
 |---|---|
@@ -46,4 +47,4 @@ The concept is not Claude's and not canon's. It is a friend of Emil's, who is wo
 - "Observed" depends on scope: it is what someone inside the scope has seen.
 - "Actual" is never read directly. The world renders outcomes and not verdicts, so a practitioner can fill "observed" and can only declare "actual" unknown. The fourth gap cannot be inspected, only suspected.
 - Own-ground demand, such as a CVE, is about the arrangement and not about the product's implementation. Where it sits among the gaps is not worked out.
-- Whether the concept may appear in this repository, and how it is credited, is Emil's to decide. This record is not pushed until he does.
+- The credit is a handle and no more (R-6). Whether `pjarnhus` has agreed to the concept appearing here, and how he wants it cited once it is published, is not recorded.
