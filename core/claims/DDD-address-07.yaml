@@ -1,0 +1,64 @@
+format: 1
+id: DDD-address-07
+kind: normative
+statement: |
+  A second act map exists when, and only when, a second declaration exists: a second scope, or a second declaration of ground axes.
+status: projected
+region: |
+  Diachronic — a relation between records of acts (downstream per DDD-dec-09's charter). Scope
+  says what is world. Axes say what is comparable (G1-Q2). Two act sites belong to one map
+  exactly when they are inside one declared scope and their positions are read on the same
+  declared axes, under one ruled decomposition (DDD-ground-06's region). It follows that:
+
+  - a further top act under the same scope and axes is a further tree in the same map;
+  - a part of a map, such as the acts within one composite act, is not a map;
+  - a view of a map (DDD-address-08) is not a map;
+  - the same work decomposed a second way gives one map at a time, because re-decomposition
+    supersedes (DDD-ground-06's region);
+  - a wider map may declare a narrower scope within it. A pull of the narrower scope then shows
+    in the wider map as a seam at that scope's edge. Where the wider map does not declare the
+    narrower scope, the pull shows there as a dependency only (2026-11-18 R-3).
+
+  The lifecycle (applications/pdlc/pdlc.md §11) is one map, with the PDLC as its scope and the
+  How declared within it. A map with the How alone as its scope would be a second map on the
+  same axes.
+
+  Between maps with different declarations of ground axes, coincidence (DDD-address-04) and
+  applicability predicates (DDD-ground-01) are not defined. One relation remains: an act in one
+  reads state that an act in the other produced.
+evidence:
+  - kind: observation
+    ref: "meta/sessions/2026-11-17-act-map-and-process/survey.md, findings S-6 and S-7"
+    note: |
+      Three mapped cases in the repository, each with its own declaration of axes: the dry run's
+      T2a (four axes), the quick start's Varve slice (three) and the product lifecycle (three,
+      DDD-dec-115). No map uses two declarations and no declaration serves two maps. The accepted
+      T2a map (DDD-dec-38) has three top acts under one declaration. An observation of how the
+      word has been used, written inside the framework: it does not test the rule.
+falsifier: |
+  Between maps with different declarations of ground axes, a governing decision whose applicability predicate must cover occurrences in both, or two occurrences in the two maps whose behaviour must be compared to answer a question the work poses; between maps of nested scopes on the same axes, shared acts that carry different addresses in the two maps.
+test: |
+  Utility, on the second application case: an organisation mapped beside the PDLC either shares the PDLC's scope and axes or does not, and the rule holds if no governing decision, no behaviour comparison and no shared act has to cross the boundary it draws in the way the falsifier names.
+breaks: |
+  Checking a map on its own (applications/pdlc/graph/check.py), the two grains of DDD-address-05, which assume one address space, and any reading of one map that is then given two scopes.
+owner: none
+changed: 2026-11-18, act map, scope and pull session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  History. First drafted on 2026-11-17 on a branch that did not land
+  (claude/act-map-and-process-2026-11-17; kept on claude/pull-and-scope-2026-11-18 at 47cf4cc),
+  and amended on the rulings of 2026-11-18 (meta/sessions/2026-11-18-pull-and-scope/rulings.md,
+  R-8). The 2026-11-17 statement read "A second act map exists when, and only when, a second
+  declaration of ground axes exists" (2026-11-17 R-7 point 3). G1-Q2 supersedes that wording,
+  adding the scope (meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md).
+
+  Correction by Emil (C-1): the falsifier first proposed kept the 2026-11-17 limb for every pair
+  of maps. "As written, any PDLC decision covering an SDLC act fires it on day one." The limb now
+  holds only between different declarations of axes, and nested scopes have their own.
+
+  Filed as a normative claim, as DDD-address-02 is: a governing choice about representation,
+  tested by utility.
+
+  UNVERIFIED — Emil review: whether two pieces of work share a scope or a declaration is decided
+  by whoever rules the decomposition. Any two maps on the same axes can be made one by declaring
+  the union of their scopes. The rule says what a second map is and what it costs. It does not
+  say when to make one.

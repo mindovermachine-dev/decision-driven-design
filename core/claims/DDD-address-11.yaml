@@ -1,0 +1,44 @@
+format: 1
+id: DDD-address-11
+kind: conceptual
+statement: |
+  A determinable is read in four states inside a scope — specified, the governing decisions in force over it; actual, the outcome, the determinate as it lands in the world; observed, the verdict, the same determinate as assessed by a declared predicate; and expected, the tolerance held by each holder who bears the outcome — and actual is never read directly.
+status: projected
+region: |
+  Wherever a map's scope is declared (DDD-address-06). Specified, observed and expected are
+  readable. Observed is what someone inside the scope has seen. A sighting made outside reaches
+  the map across its edge as ground. Expected is not one state: each holder who bears the
+  outcome has one, and holders who disagree are all kept. Actual is never read, because the
+  world renders outcomes and not verdicts (upstream term:outcome), so a pull statement records
+  it as "not read". The gaps between the states are the pulls (DDD-address-09).
+evidence: []
+falsifier: |
+  A demand item whose gap cannot be stated without a fifth state, or a determinable outside software for which one of the four cannot be given any meaning.
+test: |
+  Counterexample hunt over the pull statements of each mapped case, starting with T2b (registered again as T-5): actual is never filled, and any item that needs a fifth state is recorded as a finding.
+breaks: |
+  DDD-address-09, which defines a pull over these states, the examples of gaps it gives, and the state columns of DDD-address-06's index.
+credits: |
+  The four state names, specified, actual, observed and expected, are GitHub user pjarnhus's, from his unpublished work on four states of an implementation (2026-11-18 R-6). He agreed to their appearing here under this credit (G1-Q7). The mapping of each state to canon is ours, made from the names.
+owner: none
+changed: 2026-11-18, act map, scope and pull session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  New on 2026-11-18. Ruled by Emil: 2026-11-18 R-5 and R-6 (meta/sessions/2026-11-18-pull-and-
+  scope/rulings.md) and G1-Q5 and G1-Q7 (meta/sessions/2026-11-18-act-map-scope-and-pull/
+  rulings.md).
+
+  Emil (2026-11-18 R-5): "the states are all that i have, but i completely agree with your
+  mapping to the canon, this is exactly what we need in order create a process for our
+  practicationers".
+
+  G1-Q7: Emil told pjarnhus, and he agreed. This closes the open point of issue #80 that said
+  his agreement was not recorded.
+
+  Upstream terms the mapping uses, settled at v5.15.2: term:governing-decision, term:outcome
+  ("the determinate as it lands in the world"), term:verdict ("the same determinate as assessed
+  by a declared predicate", in term:outcome) and term:tolerance.
+
+  UNVERIFIED — Emil review, and open:
+  - The mapping is built from four words. pjarnhus's own definitions may differ.
+  - "Implementation" is a software word. The four states have not been tested as states of a
+    determinable outside software.

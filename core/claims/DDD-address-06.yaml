@@ -1,0 +1,78 @@
+format: 1
+id: DDD-address-06
+kind: conceptual
+statement: |
+  The act map is the record of one ruled decomposition of the work inside one declared scope into acts, read under one declaration of ground axes, and it holds the act sites at their addresses, the composite acts that layer them, the causal dependencies between them and the index of the determinables that make demand arrive in its scope.
+status: projected
+region: |
+  Diachronic — it relates acts across occurrences, so it files here and not upstream
+  (DDD-dec-09's charter). One map per scope and per declaration of ground axes (DDD-address-07).
+  Its parts:
+
+  - Scope. The map's first declaration: the decisions its holders take. Everything outside it
+    is world to the map, including other people's decisions. A decision outside reaches the map
+    only as ground crossing its edge (2026-11-18 R-2).
+  - Act sites. One site per address (DDD-ground-06): a ground position on the declared axes and
+    a layer path, with the occupant left out. Occurrences are not in the map. Each occurrence is
+    recorded against exactly one site, with its time index (DDD-address-01), in a record beside
+    the map.
+  - Layers. Composite acts above an act and below it, and no other kind of layer
+    (DDD-ground-06; upstream core/09 §1). Containment is a tree under each top act, and a top
+    act is a composite act with none above it. A map may hold several top acts.
+  - Dependencies. Site B depends on site A when a state change an occurrence at A produced is
+    in the ground reading of an occurrence at B (DDD-address-01). A directed graph, not a tree.
+    It is acyclic over occurrences. Over sites it may loop.
+  - The index of determinables. One row per determinable at or inside the edge: its outcomes,
+    its entry act, the act where its determinate lands, its specified, observed and expected
+    states (DDD-address-11; actual is never read), its kind as a position on the map's declared
+    kind axis (DDD-address-10) and its rate of change. The observed state is a pointer to the
+    latest observation in the occurrence record, not a copy, so the map stays structure and the
+    record holds what changes. A row whose specified state cites a decision in force has been
+    taken up by governance inside the scope, which makes it a decision anchored to acts
+    (DDD-ground-01).
+
+  The map has no direction of its own beyond causal order. A view gives it one by naming a
+  north (DDD-address-08). It is central as an index every later artefact attaches to, not as a
+  container that holds them: each of method steps 2 to 10 attaches to a part of it or to a
+  record beside it (DDD-dec-122, S-1).
+evidence: []
+falsifier: |
+  An act site that must sit within two composite acts for its governing set to be stated, a dependency that can be stated between two occurrences and between no two sites, a determinable that makes demand arrive in the scope and can be given no entry act on the map, or a composite act that cannot be placed wholly inside or wholly outside the declared scope.
+test: |
+  T2b, the first independent application case: its act map is built in the five parts, and each falsifier limb is searched for (registered again as T-1 in meta/sessions/2026-11-18-act-map-scope-and-pull/effects.md). The third limb also yields a finding when it fires — work the decomposition does not cover.
+breaks: |
+  First limb: the layer path, and DDD-ground-06's exactly-one-address reading. Second limb: the split between the map and the occurrence record, and with it the lifecycle graph data (applications/pdlc/graph/, applications/sdlc/acts/). Third limb: that the map shows where demand comes from at all, and DDD-address-08 and -09 with it. Fourth limb: scope as a declaration made before any act is mapped, and the first part of step 1.
+owner: none
+changed: 2026-11-18, act map, scope and pull session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  History. First drafted on 2026-11-17 on a branch that did not land
+  (claude/act-map-and-process-2026-11-17; its commits are kept on claude/pull-and-scope-2026-11-18
+  at 47cf4cc), and amended on the rulings of 2026-11-18 (meta/sessions/2026-11-18-pull-and-scope/
+  rulings.md, R-8). The amendment adds the scope, the readable states and kind in the index, the
+  observed pointer and the fourth falsifier limb.
+
+  Ruled by Emil: 2026-11-17 E-2, R-3, R-6 and R-7 points 1 and 2
+  (meta/sessions/2026-11-17-act-map-and-process/rulings.md); 2026-11-18 R-1, R-2, R-4 and R-5;
+  G1-Q1 and G1-Q8 of meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md.
+
+  Emil on the layers (2026-11-17 E-2): "We have the layering its the acts at ground axes and then
+  we have composite acts below and above that - it can never be anything else." On scope
+  (2026-11-18 R-2): "scope must be the first else we cant place the pull, or we would end up far
+  far from our area of influence".
+
+  Prose that contradicts this claim, flagged and not harmonised:
+  - DDD-address-02's region calls the act map "a tree of occurrences". By G1-Q10, option 1, a
+    note appended to DDD-address-02 records that the phrase is superseded by this claim. The
+    region is not reworded.
+  - applications/sdlc/sdlc.md §10 says a second top act's acts "sit at the same addresses with a
+    different layer path". The layer path is part of the address (DDD-ground-06), so they can
+    share a ground position (DDD-address-04) and not an address. Open, successor item O-2 of
+    2026-11-17.
+  - Four places name the SDLC's part of the lifecycle map "the act map" (O-3 of 2026-11-17).
+
+  UNVERIFIED — Emil review:
+  - "Top act" is defined here as a position in the layering, not as a new kind.
+  - That occurrences sit outside the map rests on the lc: vocabulary (lc:Act, "an act site of
+    the map: one address, possibly many occurrences"; Round 28, R30) and on no other claim.
+  - The index has not been built once. Building the lifecycle's index is out of #80's scope.
+  - The rate of change has no unit and no measure (O-7 of 2026-11-17).

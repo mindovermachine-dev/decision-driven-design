@@ -1,0 +1,37 @@
+format: 1
+id: DDD-address-10
+kind: conceptual
+statement: |
+  A kind of demand is a position on a declared ground axis, so kinds differ by the ground a demand pulls from and not by where it came from, and two demand items at one position are of one kind whatever their source.
+status: projected
+region: |
+  Every map (DDD-address-06). Each map declares the axis its kinds are read on (G1-Q4). The
+  method offers "built or not built" as the starting point, as it offers the PDLC's kinds: a
+  feature's ground is that it has not been built, and a bug's is that it has (2026-11-18 R-4).
+  A demand item's source is kept as where it was sighted, and decides nothing about its kind.
+  Consistent with DDD-flow-01, whose three PDLC kinds are each tested relative to the decisions
+  in force, which is a reading of ground.
+evidence: []
+falsifier: |
+  Two demand items at one ground position that must be ordered by different owners to be ordered on the ground they need, or one item whose kind changes with who reported it while its ground position is unchanged.
+test: |
+  Counterexample hunt over the demand items of each mapped case, starting with T2b (registered again as T-4): each item's kind is read from its position on the map's declared axis, and the falsifier's two limbs are searched for.
+breaks: |
+  Step 1b's classification of each source of pull into kinds, and the tables that classify by source in method/01b-map-the-flow-of-demand.md and applications/pdlc/pdlc.md §9, read as classification by source. Not DDD-flow-01.
+owner: none
+changed: 2026-11-18, act map, scope and pull session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  New on 2026-11-18. Ruled by Emil: 2026-11-18 R-4 (meta/sessions/2026-11-18-pull-and-scope/
+  rulings.md) and G1-Q4 and G1-Q5 (meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md).
+
+  Emil (2026-11-18 R-4): "a bug and a feature cant share ground because ground for a feature is
+  by necessity that it hasnt been implemented and a bug must have been implemented"; "yes - it
+  must be else it cant be pull if we cant determine […] the ground it pulls from".
+
+  [PROPOSED], not ruled (G1-Q4): a second axis, "whose determinable" (the product's or the
+  arrangement's), which places own-ground demand. Own-ground demand is its only evidence. On
+  "built or not built" alone, the acme shop's #104 (own-ground) sits with #103 (owed)
+  (meta/sessions/2026-11-18-act-map-scope-and-pull/pull-procedure.md, G1-A3).
+
+  Claude's withdrawn proposal of 2026-11-18, an origin field on the pull statement, is recorded
+  in that day's rulings.md (corrections, on R-4).
