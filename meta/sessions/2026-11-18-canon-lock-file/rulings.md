@@ -94,3 +94,39 @@ Landed head: `1bf7e56` (`1bf7e56af31cd19e004def678c163ccf224c134f`). Claude conf
 that commit, signed (`G`), at 14:27 UTC by its own clock. Before the landing, Emil reported one
 push refused with GH013, "Required status check "agent review" is expected"; Claude does not know
 whether that was before or after 14:20, so the decision does not place it.
+
+## The landing and the three times — received 2026-11-19 07:51 UTC (08:51 Europe/Berlin)
+
+> #85 is landed. The head on main is 1bf7e56, merged at 15:25 Europe/Berlin.
+>
+> Three times for DDD-dec-123, all Europe/Berlin:
+> - lifted: <your time>
+> - restored at 15:28, but with the wrong check name: "agent review (judge)", bound to the gates
+>   app. That is the workflow job's name, which the gates app never posts, so the rule could not
+>   have been satisfied by any pull request.
+> - corrected at 15:39 to "agent review" from the gates app (integration 5594102), which matches
+>   .github/repo-standard.yaml.
+>
+> Record all three. The live rule departed from the written standard from the first time to the
+> third, not to the second. Say in the decision that nothing landed between 15:25 and 15:39
+> other than 1bf7e56, and check that against main's history before you write it.
+>
+> Go ahead with DDD-dec-123 as ruled.
+
+Claude's notes.
+
+- **The lift time.** "<your time>" is read as the time Emil gave earlier: "lifted 14:20 … UTC"
+  (Landing facts, above), which is 15:20 Europe/Berlin. UNVERIFIED — Emil review, if he meant
+  another time.
+- **The restore time.** Emil's earlier message said "restored 14:29 UTC" (15:29 Europe/Berlin).
+  This message says 15:28 and corrects what was restored. The decision follows this message.
+- **The check against main's history,** made before writing it into the decision:
+  - `main` moved once since `84aa466`: a fast-forward to `1bf7e56`, and it is still there at
+    2026-11-19 07:51 UTC.
+  - The only push-triggered run on `main` since 2026-11-10 is validate run 392 (44324064146) on
+    `1bf7e56`, created 14:25:20 UTC (15:25 Europe/Berlin), which matches the merge time.
+  - So nothing but `1bf7e56` landed between 15:25 and 15:39, nor since.
+- **Agent review runs 89 (14:34–14:35 UTC) and 90 (14:38 UTC)** ran while the live rule required
+  "agent review (judge)". The rule's name does not change what the workflow runs: both built
+  main's canon and posted an `agent review` check from the gates App. Neither verdict could have
+  satisfied that rule; both were `failure`, for want of approval.

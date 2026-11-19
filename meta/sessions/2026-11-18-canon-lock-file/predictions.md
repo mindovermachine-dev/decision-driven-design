@@ -117,3 +117,13 @@ Result: **held.** `validate-claims.py --decisions`: 97 decisions valid. Local va
 canon built from `main` at `1bf7e56` with no NU1004; "not approved: #86 needs a comment 'approve
 e28fc52…'"; "posted 'agent review' = failure". The verdict waits for Emil's approval, not for the
 build. It was the first agent review run after the landing; #84 had not re-run.
+
+## P-9. DDD-dec-123 amended for the three times (before the amending commit)
+
+Prediction: the decision with the three Europe/Berlin times (15:20, 15:28 with the wrong name,
+15:39 corrected), the departure window 15:20 to 15:39, and "nothing landed between 15:25 and
+15:39 other than 1bf7e56" passes `validate-claims.py --decisions` and the whole validate
+pipeline. On #86's new head, agent review builds main's canon at `1bf7e56` and posts `failure`
+for want of approval; validate passes.
+
+Result: (scored below)

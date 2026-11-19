@@ -5,7 +5,7 @@ statement: |
   For one landing only, the trunk ruleset's required `agent review` check is lifted, so that #83's fix can reach main; it is restored straight after. Nothing else in trunk or in any other ruleset changes, and nothing in DDD-dec-108 or DDD-dec-109 is superseded. The waiver is not a precedent: a later broken main is a new decision.
 principal: Emil
 made: |
-  2026-11-18, G1 of the canon-lock-file session (issue #83), given by Emil in the session and recorded verbatim at meta/sessions/2026-11-18-canon-lock-file/rulings.md (received 13:17 UTC). The requirement was lifted at 14:20 UTC and restored at 14:29 UTC, both by Emil as repository admin. Emil's ruling on this record's text (G2, received 13:37 UTC, in the same file) is the filing act
+  2026-11-18, G1 of the canon-lock-file session (issue #83), given by Emil in the session and recorded verbatim at meta/sessions/2026-11-18-canon-lock-file/rulings.md (received 13:17 UTC). Times Europe/Berlin, all Emil's acts as repository admin: the requirement was lifted at 15:20; restored at 15:28 under the wrong check name; corrected at 15:39 (rulings.md, 2026-11-19). Emil's ruling on this record's text (G2, received 13:37 UTC, in the same file) is the filing act
 resolution: |
   ## The ruling
 
@@ -21,8 +21,20 @@ resolution: |
   touched.
 
   .github/repo-standard.yaml was not changed and required `agent review` throughout. Only the
-  live trunk rule departed from it, between 14:20 and 14:29 UTC; the restore brought the live
-  rule back to the file, with its binding to the gates App.
+  live trunk rule departed from it, from 15:20 to 15:39 Europe/Berlin:
+
+  - 15:20: `agent review` lifted.
+  - 15:25: 1bf7e56 landed on main.
+  - 15:28: restored as "agent review (judge)", bound to the gates App. That is the workflow
+    job's name, which the gates App never posts, so no pull request could have satisfied the
+    rule.
+  - 15:39: corrected to `agent review` from the gates App (integration 5594102), which matches
+    .github/repo-standard.yaml.
+
+  Nothing landed on main between 15:25 and 15:39 other than 1bf7e56. This was checked against
+  main's history before it was written here. main moved once since 84aa466, a fast-forward to
+  1bf7e56, and was still there on 2026-11-19. The only push-triggered run on main in that time
+  is validate run 392, on 1bf7e56, at 15:25.
 
   ## Why no other path existed
 
@@ -50,7 +62,7 @@ resolution: |
   job's build on a clean install of SDK 10.0.404 with CI set; the same on a GitHub runner by a
   throwaway workflow, removed before the head (findings.md, deliverable 3). The first agent review
   run after the landing is the final proof: Agent review run 89 (44325821613), on #86 at e28fc52,
-  14:34 to 14:35 UTC. It built main's canon at 1bf7e56 on SDK 10.0.404 without NU1004, judged the
+  15:34 to 15:35 Europe/Berlin. It built main's canon at 1bf7e56 on SDK 10.0.404 without NU1004, judged the
   pull request and posted its verdict.
 basedOn:
   - DDD-dec-108
@@ -59,3 +71,9 @@ notes: |
   Successor, recorded by Emil's ruling and not acted on: a required check that builds main's
   canon, with no bypass, means a broken main can only be repaired by suspending the rule. This
   record is the first time that happened.
+
+  Agent review runs 89 and 90 (#86, 15:34 and 15:38 Europe/Berlin) ran while the live rule
+  required "agent review (judge)". The rule's name does not change what the workflow runs. Both
+  built main's canon at 1bf7e56 and posted an `agent review` check from the gates App. Neither
+  could have satisfied the rule then in force, and both verdicts were `failure` for want of
+  approval.
