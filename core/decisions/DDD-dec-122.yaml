@@ -1,0 +1,139 @@
+format: 1
+id: DDD-dec-122
+kind: decision
+statement: |
+  The repository defines the act map, its scope and its index (DDD-address-06), when a second act map exists (DDD-address-07), a process and north (DDD-address-08), the pull (DDD-address-09), kinds of demand as ground positions (DDD-address-10) and the four states (DDD-address-11), and method step 1 starts from scope and pull: the five-part pull procedure becomes the first part of step 1's card, [PROPOSED] inside a card ruled for test. Steps 2 to 10 each record what they add to the act map, [PROPOSED]. This adds to DDD-dec-114, amends DDD-dec-118 and supersedes the wording of two rulings of 2026-11-17, R-2 and R-7 point 3.
+principal: Emil
+made: |
+  2026-11-17 and 2026-11-18, in the claude.ai project conversation (verbatim in meta/sessions/2026-11-17-act-map-and-process/rulings.md and meta/sessions/2026-11-18-pull-and-scope/prompt.md and rulings.md), and at G1 of issue #80 on 2026-11-18 at 10:30 and 13:26 Europe/Berlin (verbatim in meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md); filed by the act map, scope and pull session the same day; Emil's landing of the branch is the ratification act
+resolution: |
+  ## Ruled on 2026-11-17 (2026-11-17 rulings.md)
+
+  - **E-2. The layering is canon.** Acts at ground axes, with composite acts above and below,
+    and nothing else.
+  - **R-2. North.** North is a determinable, the cause, where demand originates. The discharge
+    act is the other end. Its wording, "the unresolved determinable", is superseded by K-1 below.
+  - **R-3. The index** is of determinables, with decisions as the ones governance took up.
+  - **R-4, R-5. A process** is a human understanding of work, not an object of the model. Its
+    translation is a named view, fixed by one or more norths and optionally bounded by composite
+    acts. In tooling a saved view, never a node.
+  - **R-6. Time** sets a determinable's rate of change, which is what creates demand.
+  - **R-7.** The map's nodes are act sites, with occurrences beside it. The index carries a rate
+    of change. A view leaves out earlier readings. Point 3's wording is superseded by G1-Q2.
+    Point 7, "no issue number on the commits", is superseded by issue #80 (2026-11-18 rulings.md,
+    first correction).
+
+  ## Ruled on 2026-11-18, before the issue (2026-11-18 rulings.md)
+
+  - **R-1.** A determinable has two or more outcomes that cannot all hold together.
+  - **R-2.** Scope is the first declaration of a map. Everything outside it is world, including
+    other people's decisions. The trace back from a request stops where the answer lies outside
+    the scope.
+  - **R-3.** A pull of a narrow scope appears in a wider map as a dependency, and as a seam only
+    where the wider map declares that scope.
+  - **R-4.** A kind of demand is a position on a declared ground axis.
+  - **R-5, R-6.** A pull is a gap between two of four states: specified, actual, observed,
+    expected. Credited to GitHub user pjarnhus. The mapping to canon is ours.
+  - **R-8.** The ids: DDD-address-06 to -08 and this decision keep their ids and are amended
+    before landing. New claims take DDD-address-09 onwards.
+
+  ## Ruled at G1, 2026-11-18 (this session's rulings.md)
+
+  - **C-1.** DDD-address-07's falsifier limb on applicability predicates holds only between
+    different declarations of axes. Nested scopes have their own limb.
+  - **C-2 and K-1.** A north is the determinable of a pull whether or not a gap is open now. This
+    supersedes the wording of 2026-11-17 R-2 and of the matching line in #80's "ruled before"
+    list, not their meaning. It rests on 2026-11-17 R-6.
+  - **Q-1.** DDD-address-06 as amended. **Q-2.** A second act map exists when a second scope or a
+    second declaration of ground axes exists. "Scope says what is world. Axes say what is
+    comparable." **Q-3.** North is the determinable of a pull.
+  - **Q-4.** Each map declares the axis its kinds are read on. The method offers "built or not
+    built" as the starting point. "Whose determinable" stays [PROPOSED].
+  - **Q-5.** DDD-address-09 to -11 as written, conceptual and projected.
+  - **Q-6.** A pull is a gap between two of the four states. The gap table is examples, with
+    "expected against observed" added. "Specified against observed" is the readable stand-in for
+    "specified against actual".
+  - **Q-7.** DDD-address-11 credits pjarnhus by name. He agreed.
+  - **Q-8.** S-1: the act map is central as an index every later artefact attaches to, not as a
+    container. S-2, option A: the five parts become the first part of step 1's card.
+  - **Q-9 and K-2.** The nine "Value made visible" rows of steps 2 to 10, [PROPOSED]. Row 5
+    attaches closure to the act site's acceptance predicate, closed for the arrangement allocated
+    there (term:closure).
+  - **Q-10.** The effects on T2b and on step 1b's kinds as stated in the session's effects.md.
+    DDD-address-02: a note appended, the region not reworded.
+  - **Q-11.** Filing as listed.
+  - **The reading of "found", and K-3.** A deviation is found once any holder observes an
+    outcome outside their tolerance: "expected against observed", found from the expected side.
+    Exposure nobody has observed is latent, which canon calls escaped (term:escape), and the
+    pull procedure does not find it. Finding it before it lands is assurance's work, in step 5.
+
+  ## What is filed
+
+  - DDD-address-06, -07, -08 (amended) and -09, -10, -11 (new), all projected.
+  - A note appended to DDD-address-02.
+  - Superseding sections, with nothing reworded, on the cards of steps 1, 1b and 2 to 10.
+  - This session's row in meta/sessions/README.md.
+
+  ## What is not changed
+
+  - No act, no source of pull and no other lifecycle data under applications/.
+  - Nothing in core/graph/, graph/upstream.yaml, the lc: vocabulary or the principle repository.
+  - The registers of the step cards: step 1 stays ruled for test, with a [PROPOSED] first part,
+    and steps 1b and 2 to 10 stay [PROPOSED].
+  - T2b's pre-registration of 2026-09-27, which is fixed. Six items are registered again for the
+    T2b pre-registration not yet sealed (the session's effects.md, T-1 to T-6).
+
+  ## Relation to earlier decisions
+
+  - **Adds to DDD-dec-114.** Round 9's "the SDLC is a subprocess under the PDLC" keeps its ruled
+    reading, a composite act within the PDLC. The SDLC is a bound (DDD-address-08), and may be
+    declared a scope (DDD-address-06).
+  - **Amends DDD-dec-118.** Step 1b stays after step 1. Its option text "Acts first" is amended:
+    step 1 now starts from scope and pull. "Each process declares its own kinds" becomes "each map
+    declares its kinds, as positions on a declared ground axis" (DDD-address-08, -10). Its other
+    rulings stand.
+  - **Supersedes** no decision by the supersedes field, because neither earlier decision is
+    wholly replaced. It supersedes the wording of 2026-11-17 R-2 and R-7 point 3.
+  - **Release.** Not cut by this decision or this session.
+basedOn:
+  - DDD-address-06
+  - DDD-address-07
+  - DDD-address-08
+  - DDD-address-09
+  - DDD-address-10
+  - DDD-address-11
+  - DDD-address-01
+  - DDD-address-02
+  - DDD-address-04
+  - DDD-flow-01
+  - DDD-flow-03
+  - DDD-ground-05
+  - DDD-ground-06
+  - DDD-ground-01
+  - DDD-frame-13
+  - DDD-dec-114
+  - DDD-dec-118
+  - DDD-dec-38
+notes: |
+  History. First drafted on 2026-11-17 on a branch that did not land
+  (claude/act-map-and-process-2026-11-17; its commits kept on claude/pull-and-scope-2026-11-18 at
+  47cf4cc), and amended on the rulings of 2026-11-18 (R-8) and of G1. The 2026-11-17 draft filed
+  three claims and two method sentences. Neither sentence is filed here: the card changes replace
+  them.
+
+  Id. Checked on every branch of both repositories at arrival (08:51 UTC) and again before filing
+  (12:26 UTC), 2026-11-18. DDD-dec-122 and DDD-address-06 to -08 appear only on the archive branch
+  and the old branch. Nothing at DDD-address-09 or above exists anywhere. Upstream's highest
+  decision is DDD-dec-39.
+
+  Corrections, with attribution, in the session's rulings.md: Emil's C-1 and C-2 on Claude's
+  proposals; Claude's catch of Emil's Q-9 reason against term:closure (K-2) and of his sentence
+  for step 1's card against term:escape (K-3).
+
+  Open, not ruled here: step 5 classifies closure before step 6 allocates the arrangement it is
+  closed for (K-2). O-2 to O-5 and O-9 of 2026-11-17 stay open. Building the lifecycle's index of
+  determinables, and which step builds it, are out of #80's scope.
+
+  Review trigger. A second mapped case, outside software: its act map either fits DDD-address-06,
+  its pulls the four states and its process the view of DDD-address-08, or not, and the six
+  claims are reviewed with it.

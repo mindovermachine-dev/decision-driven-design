@@ -12,6 +12,86 @@ nothing on this card is reported, and the step should be tried, not relied on (`
 region). A map made with the wrong axes looks complete and is not, and the step itself cannot
 tell you which axes you missed.
 
+## First part: declare the scope, then find the pulls `[PROPOSED]`
+
+**This section supersedes, where they differ, the lines below it** (`DDD-dec-122`, ruled 2026-11-18). Those lines stay as written. Three are superseded:
+- "Map the acts the work consists of, forward from the domain and the request" becomes: forward from the entry acts this first part names.
+- The "Ground in" row gains the scope and the pull statements.
+- The "Artefact out" row's "a tree of occurrences" becomes the act map of `DDD-address-06`: act sites at their addresses, the composite acts that layer them, the dependencies between them and the index of determinables, with occurrences recorded beside it.
+
+**Register.** This first part is `[PROPOSED]` inside a card ruled for test. Its claims, `DDD-address-06`, `-09`, `-10` and `-11`, are projected. The rest of the card keeps its register.
+
+**Why it comes first.** A pull cannot be placed until the map's scope says what is world, and acts cannot be mapped until the pulls say where demand enters. Declaring the determinable space precedes determination over it (`DDD-ground-05`).
+
+A **pull** is a gap between two of four states of something that can turn out more than one way: specified, actual, observed and expected (`DDD-address-09`, `DDD-address-11`). The four state names are GitHub user pjarnhus's. The mapping to canon is ours.
+
+### The five parts
+
+| # | Part | The question | Rests on |
+|---|---|---|---|
+| 1 | Scope | **Which decisions can the people doing this work make without asking anyone else?** List them. That list is the scope. Every other decision, and everything nobody decides, is the world. The world still reaches you, through what comes in across the edge | `DDD-address-06` |
+| 2 | The determinables at the edge | What comes into the work and what goes out of it? For each, name two or more ways it could turn out that cannot all be true together. If you cannot, it is not a determinable | `DDD-address-09` |
+| 3 | The three readable states | What was decided about it (specified)? What has someone inside the scope seen (observed)? What does each person who bears the outcome expect (expected)? Write "not read" under actual: you only ever see what someone observed | `DDD-address-11` |
+| 4 | The gaps | Which two states disagree? Read the kind from the map's declared axis. Start from **built or not built** unless your map declares another | `DDD-address-09`, `DDD-address-10` |
+| 5 | The trace to an entry act | Follow the gap back. Stop where someone outside the scope would have to answer. Which act inside the scope takes it in? | `DDD-address-09` |
+
+### The pull statement
+
+One per pull. Each field has a check that passes or fails.
+
+| Field | Holds | Passes when |
+|---|---|---|
+| Scope | The decisions inside, in plain words | Every decision named is marked inside or outside, once |
+| Edge crossing | What crosses in or out, who produces it, who reads it | Exactly one side is inside |
+| Determinable | What can turn out more than one way | It crosses the edge |
+| Outcomes | Two or more | No two can hold together (a judgement) |
+| Specified | The decision in force, cited, or "none" | A citation that resolves, or "none" |
+| Observed | What was seen, by whom, where, or "not observed" | The observer is inside the scope |
+| Expected | One row per holder who bears the outcome | Each row names its holder |
+| Actual | "not read" | It says "not read" |
+| Gap | The two states that disagree | Both are filled, or the gap allows "none" |
+| Kind | The position on the map's declared kind axis | The axis is named and the position is one of its values. The source decides nothing |
+| Rate of change | How often time makes it turn out again, with a unit, or "no unit known" | It is stated |
+| Trace and stop | The chain followed back, and where it stops | Every link but the last is inside. The last is world, or the chain ends inside at the cause (a judgement) |
+| Entry act | The first act inside the scope that reads the pull | It is inside, and the trace reaches it |
+
+**Gaps, as examples, not a full list.**
+
+| Gap | What it is |
+|---|---|
+| Expected, with nothing specified | A need nobody has taken up |
+| Specified, with nothing actual | An approved change not yet built |
+| Specified against actual | A bug. Readable only through its stand-in, specified against observed |
+| Actual against observed | A deviation nobody has seen. It can be suspected, never inspected |
+| Expected against specified | The specification is wrong |
+| Expected against observed | The software matches its specification, and the holder still cannot do the thing |
+
+### What this part finds, and what it does not
+
+- **It finds a deviation once a holder observes an outcome outside their tolerance**, whether or not they trace it to the software. That is "expected against observed", found from the expected side.
+- **Exposure that nobody has observed is latent**, which canon calls escaped (upstream `term:escape`). This part does not find it.
+- **Finding it before it lands is the work of assurance**, in [step 5](05-classify-closure-and-set-assurance.md), not of finding pulls.
+
+### Worked example, in brief
+
+The acme shop of [`applications/pdlc/`](../applications/pdlc/), invented, with the team that builds and runs its software as the scope. Its people can decide how a change is planned, built, checked, landed and deployed. They cannot decide what the shop must do, which work comes first, or when a feature is switched on. Issue #103: reorder adds an out-of-stock line to the basket.
+
+| Field | #103 |
+|---|---|
+| Determinable and outcomes | Whether reorder respects the stock invariant: never adds an out-of-stock line, or adds one |
+| Specified | The Place order Decider's stock invariant, decided outside the scope |
+| Observed | The out-of-stock line in a basket, on the team's telemetry |
+| Expected | Customers and the people who own what the shop must do: never adds one |
+| Actual | Not read |
+| Gap | Specified against observed, the stand-in for a bug. A customer who sees the line has also found it: expected against observed |
+| Kind | Built |
+| Trace and stop | The request to fix reorder ← whether this is a bug or the specification is wrong. That answer lies outside the scope. Stop |
+| Entry act | Plan the realisation (o1b in the acme map) |
+
+Under a wider scope, the whole product lifecycle, the same item's trace runs past that answer, and it enters at the classification act (oC), as `DDD-flow-03` says. The full example, with #101 and #104, is in the session record [`pull-procedure.md`](../meta/sessions/2026-11-18-act-map-scope-and-pull/pull-procedure.md).
+
+**The junior-engineer desk check was a reading, not a run.** Claude read this part as a junior engineer would meet it, and the session record lists what failed and how it was fixed. Nobody has run the junior-engineer test on this part.
+
 ## What the step does
 
 Map the acts the work consists of, forward from the domain and the request, never backward from

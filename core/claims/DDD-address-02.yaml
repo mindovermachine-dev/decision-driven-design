@@ -21,3 +21,10 @@ notes: |
   Emil's ruling R-6, 2026-09-27, in his words: "our choice to reuse the same act in the code is an
   optimization not the truth." Filed as a normative claim: it is a governing choice about
   representation, and its test is utility.
+
+  Appended 2026-11-18 (DDD-dec-122; G1-Q10, option 1, in
+  meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md). The region's "Governs the act map
+  (a tree of occurrences)" is superseded by DDD-address-06: the act map's nodes are act sites,
+  the tree is containment under each top act, and occurrences are recorded beside the map. The
+  region is not reworded. This claim's statement, falsifier, test and breaks stand: every
+  occurrence is still its own act.

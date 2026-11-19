@@ -27,6 +27,17 @@ as a method step yet.
 | Exit check | Not filed |
 | Principal | Not filed |
 
+## What this step adds to the act map `[PROPOSED]`
+
+**This section supersedes, where they differ, the step card above** (`DDD-dec-122`, ruled 2026-11-18). The card stays as written. Its "Value made visible" row, "Not filed beyond the quoted line", now reads:
+
+| Field | Content |
+|---|---|
+| Value made visible | "every indexed act has an owner, and acts cannot run when their principal leaves." On the act map: an authority at every layer, so an act site whose layer has none shows as unowned |
+| Attaches to | The top acts and the composite acts below them: one authority per layer. In the map, on the layers |
+
+The act map is defined in `DDD-address-06`. The value clause is the draft's, verbatim. The rest of the row is `[PROPOSED]`.
+
 The default falsifier for any method step, also from the draft and also `[PROPOSED]`:
 "practitioners perform the step and cannot name the value it gave them."
 

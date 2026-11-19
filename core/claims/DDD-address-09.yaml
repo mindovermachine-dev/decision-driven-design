@@ -1,0 +1,57 @@
+format: 1
+id: DDD-address-09
+kind: conceptual
+statement: |
+  A pull is a gap between two of the four states of a determinable (DDD-address-11), read inside a map's declared scope, where the determinable has two or more outcomes that cannot all hold together, and a pull is placed by a trace back from the request that stops where the answer lies outside the scope.
+status: projected
+region: |
+  Wherever a map's scope is declared (DDD-address-06). A pull is found at the edge first: what
+  crosses into the scope and out of it. Its entry act is the first act inside the scope that
+  reads it. Under a different scope the same determinable may show a different gap and a
+  different entry act.
+
+  The gaps are examples, not an exhaustive list (G1-Q6): expected with nothing specified (a
+  need nobody has taken up); specified with nothing actual (an approved change not yet built);
+  specified against actual (a deviation, a bug); actual against observed (a deviation nobody has
+  seen, or an alarm with nothing behind it); expected against specified (the specification is
+  wrong); expected against observed (the software matches its specification, and the holder
+  still cannot do the thing).
+
+  Actual is never read directly (DDD-address-11). "Specified against observed" is the readable
+  stand-in for "specified against actual", and only a stand-in. A deviation is found once any
+  holder observes an outcome outside their tolerance, whether or not they trace it to the
+  software: that is "expected against observed", found from the expected side (G1-W). Exposure
+  nobody has observed is latent, which upstream canon calls escaped (term:escape), and a pull
+  procedure does not find it. Finding it before it lands is the work of assurance, in method
+  step 5 (K-3).
+evidence: []
+falsifier: |
+  A request inside a declared scope that its holders recognise as demand and that shows no gap between any two states of any determinable at or inside the edge, or two practitioners who, given the same scope and the same record, independently write statements for one pull that name different entry acts.
+test: |
+  Reproducibility: two practitioners run the five-part procedure of step 1 on one scope without conferring, and their pull statements are compared field by field. The first case is T2b (registered again as T-2 and T-3 in meta/sessions/2026-11-18-act-map-scope-and-pull/effects.md).
+breaks: |
+  Step 1's first part, which starts from scope and pull; DDD-address-08's north as the determinable of a pull; the pull statement and its checks.
+owner: none
+changed: 2026-11-18, act map, scope and pull session (G2, on the G1 rulings; DDD-dec-122)
+notes: |
+  New on 2026-11-18. Ruled by Emil: 2026-11-18 R-1 ("this should be two or more outcomes"), R-2
+  (meta/sessions/2026-11-18-pull-and-scope/rulings.md), and G1-Q5, G1-Q6, G1-W and K-3
+  (meta/sessions/2026-11-18-act-map-scope-and-pull/rulings.md).
+
+  Asked for by Emil at 2026-11-18 E-3: "we need a definition of it so that it can be reproduced
+  by practicitioners". The test is that reproduction.
+
+  Weakest point, as ruled at K-3 to stay: the gap between actual and observed can never be
+  inspected (upstream term:outcome, "the world renders outcomes, never verdicts"). So a
+  deviation nobody has seen is a pull this claim names and its procedure cannot find.
+
+  Emil's sentence, recorded in his words and not a rule (K-3): "a bug nobody has found will
+  never be found. and a bug that is never found has no impact." It holds of a deviation never
+  found by anyone. Nobody can know "never" in advance. Claude caught the conflict with
+  term:escape ("Latent defect exposure. The only forbidden state.") before filing.
+
+  UNVERIFIED — Emil review: that a pull is found at the edge first is Claude's reading of
+  2026-11-18 E-4 ("they also inspect a system and look at the input and output").
+
+  The procedure and its worked example (the acme shop, with the How as the scope):
+  meta/sessions/2026-11-18-act-map-scope-and-pull/pull-procedure.md.

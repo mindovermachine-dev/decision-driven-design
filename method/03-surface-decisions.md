@@ -27,6 +27,17 @@ as a method step yet.
 | Exit check | Not filed |
 | Principal | Not filed |
 
+## What this step adds to the act map `[PROPOSED]`
+
+**This section supersedes, where they differ, the step card above** (`DDD-dec-122`, ruled 2026-11-18). The card stays as written. Its "Value made visible" row, "Not filed beyond the quoted line", now reads:
+
+| Field | Content |
+|---|---|
+| Value made visible | "the backlog becomes visible, and escape becomes countable per act." On the act map: the index's determinables split into decisions, anchored at act sites, and those nobody took up |
+| Attaches to | The index of determinables, where a determinable taken up becomes a decision, and the act site where it is resolved. A decision with no act site is a candidate escape. In the map |
+
+The act map is defined in `DDD-address-06`. The value clause is the draft's, verbatim. The rest of the row is `[PROPOSED]`.
+
 The default falsifier for any method step, also from the draft and also `[PROPOSED]`:
 "practitioners perform the step and cannot name the value it gave them."
 
