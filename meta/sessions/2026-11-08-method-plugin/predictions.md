@@ -48,3 +48,11 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 27 | `check.py` after the `SKILL.md` edits, against `main`'s cards | Thinness still passes | **Held** |
 | 28 | `check.py` with the pin check extended to the evals and both READMEs | Passes | **Missed.** It caught `#v0.7.1` and `0.8.0` left in the plugin README. Fixed. A planted `v0.8.0` in a grader was refused |
 | 29 | The whole validate workflow on the new head | Passes | **Held, after a fix to the environment.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon first could not run: after the rebase `global.json` pins SDK `10.0.404` (#86), and this container had `10.0.403`. With `10.0.404` installed beside it (outside the repository): 66 tests, `changelog --check`, `issue-refs --basis` (8 commits from `54dcb95`, Refs on 8, Basis on 2) and `check --compare` (every case agrees) |
+
+## Round 31 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 30 | The tree before the round | Clean at `6657942`, as on origin | **Held** |
+| 31 | Round 31 copied into `rulings.md` | Byte-exact | **Held** |
+| 32 | The whole validate workflow on the record-only head | Passes, since only records change | **Held.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon, on SDK `10.0.404`: 66 tests, `changelog --check`, `issue-refs --basis` (9 commits from `54dcb95`, Refs on 9) and `check --compare` (every case agrees) |

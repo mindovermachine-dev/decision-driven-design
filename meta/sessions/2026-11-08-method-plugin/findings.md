@@ -364,3 +364,22 @@ Checked against `main`'s cards: no shared 8-word run, and no id. **Not applied.*
    decision.
 6. Item 4, once ruled, if the release session wants it before later releases.
 7. A rebase onto `main` if it has moved again, and the id re-check before commit and before push.
+
+## Round 31 (2026-11-19): recorded only
+
+#74 stays held, and `6657942` is not approved. That is not a finding against the work
+(Round 31, item 1). Nothing in the plugin, its evals, its check or `DDD-dec-121` changes in this
+round. The list "What remains for the re-pin" above is amended by Round 31:
+
+- **Item 4 is accepted, and built at the re-pin, not now.** The trees are not a fixed three
+  directories. They are derived from what the skill reads, or the check fails when the skill reads
+  a file outside the list. The choice is reported when it is built.
+- **Item 6 is not ruled.** The sentence stays as it is. When it comes back, a reason for keeping,
+  adding or dropping a kind is not called a pull, because a pull is a gap between two states of a
+  determinable (`DDD-address-09`). "The kind is read from the item's position alone" stands.
+- **#88 changes the method again.** It makes the method one thing, making an act map, in four
+  moves, starting from an act or a decision. The `step-1-small` rework of Round 30 stays as it is
+  until #88 lands, and is then redone against what #88 files. The same holds for anything else in
+  the re-pin list that reads step 1 or 1b.
+- **`v0.8.0` is cut after #88 lands.** Nothing further happens on this branch until Emil says it
+  is tagged.
