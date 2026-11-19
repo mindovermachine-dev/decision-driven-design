@@ -143,3 +143,31 @@ Given in this session on 2026-11-19, on the Round 29 report. Cite it as "Round 3
 > do not change the version. The pin stays v0.7.0 until I tell you v0.8.0 is tagged. Run the
 > whole validate workflow, push, and report: the new head, both required checks by their check
 > names, your answers to 4 and 6, and what remains for the re-pin. Then stop.
+
+## Round 31, verbatim
+
+Given in this session on 2026-11-19, on the Round 30 report. Cite it as "Round 31, method-plugin
+`rulings.md`". The blockquote is the message byte for byte, apart from the quote markers.
+
+> Rulings on your Round 30 report. Record this message verbatim as Round 31.
+>
+> 1. I am not approving 6657942. #74 stays held. That is not a finding against the work.
+>
+> 2. Item 4: your first proposal is accepted, with one change. The list of trees must not be a
+>    fixed three directories. Derive it from what the skill reads, or make the check fail when
+>    the skill reads a file outside the list. Tell me which you choose when you build it.
+>    Build it at the re-pin, not now.
+>
+> 3. Item 6: not ruled. Leave the sentence as it is. Two notes for when it comes back. A reason
+>    for keeping, adding or dropping a kind is not a pull: a pull is a gap between two states
+>    of a determinable (DDD-address-09), so do not use the word for it. And "the kind is read
+>    from the item's position alone" is right.
+>
+> 4. The method is changing again. Issue #88 makes the method one thing, making an act map, in
+>    four moves, with steps 2 to 10 recorded on the acts and decisions. It starts from an act
+>    or a decision, not from the edge. The step-1-small rework you did on my item 5 will be
+>    redone against what #88 files. Keep it as it is until then. Do not rework it now.
+>
+> 5. v0.8.0 is cut after #88 lands. I will tell you when it is tagged. Until then, do nothing
+>    further on this branch. Record this round, run the whole validate workflow, push, and
+>    stop. If the push moves the head, name the new one, and say that it is not for approval.
