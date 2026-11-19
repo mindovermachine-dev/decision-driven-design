@@ -104,3 +104,42 @@ blockquote is the message byte for byte, apart from the quote markers.
 > 4. Check that DDD-dec-121 is still free on every branch of both repositories.
 > 5. Commit the record with Refs #72, run the whole validate workflow locally, and push. Do
 >    not rebase yet, and do not re-pin. Report and stop.
+
+## Round 30, verbatim
+
+Given in this session on 2026-11-19, on the Round 29 report. Cite it as "Round 30, method-plugin
+`rulings.md`". The blockquote is the message byte for byte, apart from the quote markers.
+
+> Rulings on your Round 29 report. Record this message verbatim as Round 30 before you act.
+>
+> 1. The release that carries #84 is v0.8.0. It falls under the first row of DDD-dec-82's
+>    table: a ruled step superseded incompatibly is MINOR below 1.0. This confirms that row,
+>    which DDD-dec-82 flags as an unconfirmed reading. Do not edit DDD-dec-82. The release is
+>    cut in its own session, after #73 and #87 land. You do not cut it.
+>
+> 2. DDD-dec-121: amendments 1 to 4 are accepted. Amendment 5 is declined: #84 is the occasion,
+>    not the basis. Name DDD-dec-122 in the notes instead. Amend in place, since the decision
+>    is unlanded, and say in its notes that it was amended before landing and in which round.
+>
+> 3. The skill: accepted. A generic rule that a superseding section governs where it differs,
+>    holding no card text. More than one register on a step. The demand-flow wording brought in
+>    line with DDD-address-08 and -10. One source for the pin, read by the graders, the
+>    scaffold, the descriptions and both READMEs.
+>
+> 4. The check that the pin equals the newest version in releases/: accepted in principle.
+>    Before you build it, tell me how the evals run for a re-pin made in the same change as a
+>    release, when the descriptor is on the branch and the tag does not exist yet. Propose;
+>    do not build the check until I answer.
+>
+> 5. Step 1's order: scope first, then the pulls. Ground axes are still declared before any
+>    occurrence gets a position. Rework step-1-small on that reading: the prompt, the register
+>    grader, the address grader, and a grader for the pull statements. Strengthen the
+>    unreachable case for the new first part.
+>
+> 6. The "source of pull" question in SKILL.md: show me the sentence and your proposed
+>    replacement at the gate. Do not change it yet.
+>
+> Do now: items 2, 3 and 5, and the rebase onto main. Do not re-pin, do not run the evals, and
+> do not change the version. The pin stays v0.7.0 until I tell you v0.8.0 is tagged. Run the
+> whole validate workflow, push, and report: the new head, both required checks by their check
+> names, your answers to 4 and 6, and what remains for the re-pin. Then stop.
