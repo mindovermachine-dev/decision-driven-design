@@ -1,6 +1,6 @@
 ---
 description: Asked for a step card's content with the repository unreachable, the skill says so and stops.
-expected_outcome: Says the decision-driven-design repository cannot be reached at v0.7.0, names what was tried and what would fix it, and stops without giving any card content.
+expected_outcome: Says the decision-driven-design repository cannot be reached at the plugin's pin, names what was tried and what would fix it, and stops without giving any card content.
 max_turns: 20
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]

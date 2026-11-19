@@ -37,3 +37,14 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 21 | `git merge-tree origin/main HEAD` | One conflict, `meta/sessions/README.md` | **Held** |
 | 22 | `DDD-dec-121` on every branch of both repositories | Only on this branch; upstream's highest is `DDD-dec-39` | **Held for files, missed for mentions.** Five branches mention it, each as an id record attributing it to #74. The highest downstream is now `DDD-dec-123` |
 | 23 | The whole validate workflow, locally, on this branch's head | Passes, as before the round, since only records change | **Held.** `scripts/ci.py`: all gates. Canon: 66 tests, `changelog --check`, `issue-refs --basis` (6 commits from `dc8b737`, Refs on 6, Basis on 1) and `check --compare` (every case agrees) |
+
+## Round 30 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 24 | Round 30 copied into `rulings.md` | Byte-exact | **Held** |
+| 25 | Rebase onto `main` | Each of the three commits that touch the index row conflicts there, and nothing else conflicts | **Held.** `main` had moved to `54dcb95` (#87). Seven commits replayed and signed |
+| 26 | `DDD-dec-121` amended, then `validate-claims.py --decisions` | Valid | **Held.** 99 decisions |
+| 27 | `check.py` after the `SKILL.md` edits, against `main`'s cards | Thinness still passes | **Held** |
+| 28 | `check.py` with the pin check extended to the evals and both READMEs | Passes | **Missed.** It caught `#v0.7.1` and `0.8.0` left in the plugin README. Fixed. A planted `v0.8.0` in a grader was refused |
+| 29 | The whole validate workflow on the new head | Passes | **Held, after a fix to the environment.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon first could not run: after the rebase `global.json` pins SDK `10.0.404` (#86), and this container had `10.0.403`. With `10.0.404` installed beside it (outside the repository): 66 tests, `changelog --check`, `issue-refs --basis` (8 commits from `54dcb95`, Refs on 8, Basis on 2) and `check --compare` (every case agrees) |

@@ -110,13 +110,15 @@ repository, and the paths it reads. It reads **only at the pin**, in this order:
   pin's version, `0.8.0` for `v0.8.0`. Claude Code compares versions only for change, so any new
   string reaches users. `version` is set in `plugin.json` only, never also in the marketplace entry
   (`plugins/host-marketplace.md`).
-- **A method release is a plugin release when it moves what the skill reads.** At a MINOR release
-  (a card added, or a register moved, `DDD-dec-82`), the pin advances in the same change, or
-  practitioners keep running the old registers. At a PATCH release, the pin advances when the
-  edited cards are ones the skill reads, and otherwise it may stay.
-- **Which release carries the plugin.** The plugin's own files are not in `v0.7.0`: they land
-  after it. Under `DDD-dec-82`'s mapping, "tooling" is **PATCH**, so the first release that
-  carries the plugin is a PATCH (`v0.7.1`, if nothing else lands first), and it pins `v0.7.0`.
+- **A method release is a plugin release when it changes what the skill reads.** Ruled in Round 30
+  (`DDD-dec-121`, amended before landing): any method release that changes a file the skill reads,
+  anything under `method/` or a claim or decision a card cites, re-pins the plugin in the same
+  change, whatever part of the version it moves. *As first proposed, only a MINOR release forced
+  the re-pin. #84 superseded step 1 without adding a card or moving a register, which that wording
+  missed (Round 29 report, R-1).*
+- **Which release carries the plugin.** It pins the newest method release when it lands (Round
+  30). #74 is held until the release that carries #84, `v0.8.0`, is tagged, and then re-pins to
+  it. *As first proposed: a PATCH that still pinned `v0.7.0`. Superseded by Rounds 29 and 30.*
   This session cuts no release.
 - **Stale pins.** If the practitioner says a newer method release exists, the skill says the
   plugin's pin is older, keeps reading the pin, and tells them to update the plugin. It does not

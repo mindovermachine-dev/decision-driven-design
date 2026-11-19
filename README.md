@@ -89,8 +89,8 @@ claude plugin install ddd-method@decision-driven-design
 
 Then run `/ddd-method:run`. The plugin holds no method content. It reads the step cards and the
 claims they cite from this repository at its pin, **`v0.7.0`**, and stops if it cannot. Its version
-tracks the pin (`0.7.0`). A release that adds a card or moves a step's register advances both
-([plugin README](plugins/ddd-method/README.md)).
+tracks the pin (`0.7.0`). Any method release that changes what the skill reads advances both, in
+the same change ([plugin README](plugins/ddd-method/README.md)).
 
 ## Where it is the wrong tool
 

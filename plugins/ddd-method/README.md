@@ -25,8 +25,8 @@ Then, in a session, run `/ddd-method:run` to see the steps and their registers, 
 `/ddd-method:run 1` to run step 1. Claude also picks the skill on its own when you ask to apply
 the method.
 
-The marketplace is read from `main`. To hold it at a release, append the tag, for example
-`mindovermachine-dev/decision-driven-design#v0.7.1`, once a release that carries the plugin is cut.
+The marketplace is read from `main`. To hold it at a release, append the release's tag,
+`mindovermachine-dev/decision-driven-design#<tag>`, once a release that carries the plugin is cut.
 Without a GitHub SSH key, set `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` first.
 
 ## The pin, and how the version tracks the method
@@ -34,8 +34,8 @@ Without a GitHub SSH key, set `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` first.
 | | |
 |---|---|
 | **Pin** | `v0.7.0`: the method release whose cards the skill reads (the `PIN:` line in [`skills/run/SKILL.md`](skills/run/SKILL.md)) |
-| **Plugin version** | Ruled (`DDD-dec-121`): the pin without its `v`. It is `0.7.0` now. A plugin fix at the same pin is `0.7.0+p.1`, and re-pinning to `v0.8.0` makes it `0.8.0`. Claude Code updates you on any change to the version string |
-| **When the plugin must release** | Whenever a method release adds a card or moves a step's register (MINOR, `DDD-dec-82`). The pin advances in the same change, or the plugin keeps showing the old registers |
+| **Plugin version** | Ruled (`DDD-dec-121`): the pin without its `v`. It is `0.7.0` now. A plugin fix at the same pin is `0.7.0+p.1`. A re-pin takes the new pin's version. Claude Code updates you on any change to the version string |
+| **When the plugin must release** | Whenever a method release changes a file the skill reads: anything under `method/`, or a claim or decision a card cites. The pin advances in the same change, whatever part of the version the release moves (`DDD-dec-121`), or the plugin keeps teaching the old cards |
 | **Where it reads** | A clone of this repository, through `git show v0.7.0:<path>`, never the working tree. Otherwise `raw.githubusercontent.com` at the tag. Upstream claims are read at the tag that `graph/upstream.yaml` names at the pin |
 | **Where it writes** | Your project only. It never writes your artefacts, or anything that identifies a customer, into a clone of a canon repository |
 
@@ -51,8 +51,9 @@ or decision id. No run of eight words is shared between the skill and any file u
 - stop when it cannot read it, instead of filling the gap from memory.
 
 It does not claim that a step is performed better with it than without it. The eval table in
-[`findings.md`](../../meta/sessions/2026-11-08-method-plugin/findings.md) (§Evals, 3 runs per arm)
-shows both:
+[`findings.md`](../../meta/sessions/2026-11-08-method-plugin/findings.md) (§Evals, 3 runs per arm),
+**at the pin `v0.7.0`**, shows both. The evals are re-run at each re-pin, and each pin's table is
+kept:
 
 | Case | With the plugin | Without |
 |---|---|---|

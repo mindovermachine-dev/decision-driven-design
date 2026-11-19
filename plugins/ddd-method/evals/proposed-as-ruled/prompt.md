@@ -1,6 +1,6 @@
 ---
 description: Asked to run a [PROPOSED] step as ruled, the skill refuses and states the register.
-expected_outcome: Refuses to treat step 6 as ruled; states its register, [PROPOSED], as read from the card at v0.7.0; offers to run it as a proposal.
+expected_outcome: Refuses to treat step 6 as ruled; states its register, [PROPOSED], as read from the card at the plugin's pin; offers to run it as a proposal.
 max_turns: 30
 timeout_seconds: 600
 allowed_tools: [Read, Glob, Grep, Skill]
