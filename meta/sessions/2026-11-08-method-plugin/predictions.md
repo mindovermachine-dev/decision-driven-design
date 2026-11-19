@@ -26,3 +26,14 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 15 | The F-9 edit to `README.md` | The diff touches one line | **Held.** Only line 8 changed |
 | 16 | `scripts/ci.py`; canon's `dotnet test`, `changelog --check` and `check --compare`, as CI runs them | All pass | **Held.** All gates pass. Canon: 66 tests, the changelog is the projection, every compare case agrees |
 | 17 | `claude plugin validate --strict` on the plugin and the marketplace; `canon issue-refs --basis` after the commit | All pass | **Held.** Both `--strict` validations pass. `issue-refs --basis` first failed because the local clone was shallow and lacked its configured starting commits. After unshallowing, as CI checks out with full history: "ok. 5 commits in 84aa4665b4b0..6f75bba833db; Refs checked on 5, Basis on 1" |
+
+## Round 29 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 18 | Round 29 copied into `rulings.md` | Byte-exact apart from the quote markers | **Held** |
+| 19 | Fetch `main` | `dc8b737`, with `DDD-address-06` to `-11`, `DDD-dec-122`, and `method/01` to `10` changed | **Held**, plus #86 (`DDD-dec-123`, `tools/canon/`). No new release |
+| 20 | `check.py`'s thinness check against `main`'s `method/` | Still no shared 8-word run | **Held** |
+| 21 | `git merge-tree origin/main HEAD` | One conflict, `meta/sessions/README.md` | **Held** |
+| 22 | `DDD-dec-121` on every branch of both repositories | Only on this branch; upstream's highest is `DDD-dec-39` | **Held for files, missed for mentions.** Five branches mention it, each as an id record attributing it to #74. The highest downstream is now `DDD-dec-123` |
+| 23 | The whole validate workflow, locally, on this branch's head | Passes, as before the round, since only records change | **Held.** `scripts/ci.py`: all gates. Canon: 66 tests, `changelog --check`, `issue-refs --basis` (6 commits from `dc8b737`, Refs on 6, Basis on 1) and `check --compare` (every case agrees) |
