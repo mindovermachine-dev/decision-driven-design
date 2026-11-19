@@ -126,4 +126,20 @@ Prediction: the decision with the three Europe/Berlin times (15:20, 15:28 with t
 pipeline. On #86's new head, agent review builds main's canon at `1bf7e56` and posts `failure`
 for want of approval; validate passes.
 
-Result: (scored below)
+Result: **held.** `validate-claims.py --decisions`: 97 decisions valid. Local validate on
+`41c85f5` (`CI=true`): every gate ok. On GitHub, on `41c85f5`: validate runs 398 (push) and 399
+(pull request) passed; agent review run 92 built main's canon at `1bf7e56` and posted "'agent
+review' = failure" with "not approved: #86 needs a comment 'approve 41c85f53719e…'". Emil
+approved and landed it (rulings.md, 2026-11-19).
+
+## P-10. The sessions index row, after the rebase onto `dc8b737`
+
+Written after the rebase, not before it: the rebase was run first, against this session's rule.
+It was clean (the one commit touches only this session's files; #84 added its own row).
+
+Prediction: replacing this session's row in `meta/sessions/README.md` changes that one line and
+nothing else (#84's row above it untouched). The whole validate pipeline passes on the new head
+(devcontainer, `CI=true`). On GitHub, validate passes and agent review builds `main`'s canon at
+`dc8b737` and posts `failure` for want of approval.
+
+Result: (scored after the push, in the session's close)
