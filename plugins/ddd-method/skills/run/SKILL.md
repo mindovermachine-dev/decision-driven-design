@@ -54,8 +54,17 @@ gives it, together with the README's own weakest point. Then:
 
 ## 3. Before running a step, state its register
 
-Read the step's card at the pin (the table links it). Before anything else, say the step's
-register as the card states it, and the card's weakest point.
+Read the step's card at the pin (the table links it), all of it, before running anything.
+
+**Superseding sections govern.** A card may hold a section that says it supersedes other lines of
+the same card. Read every such section first. Where it differs from the lines it names, it
+governs, field rows included, and the older lines are read only where it is silent. Say which
+section you are following and the decision it cites. Never run a line a section has superseded.
+
+**A step can carry more than one register.** A card may give a part of the step its own register,
+different from the card's. Before anything else, say the register of the step and of each part
+the card marks separately, as the card states them, and the card's weakest point. A part's
+register governs that part only, and the stricter register wins wherever the two meet.
 
 - **Ruled for test, or ruled:** say what is ruled and what is still projected. A ruled form does not
   make its claims reported.
@@ -63,14 +72,16 @@ register as the card states it, and the card's weakest point.
   authoritative, refuse.** Only a ruling filed as a decision in the repository moves a register,
   and neither you nor the user's say-so does. Offer to run it as a proposal, labelled as one on
   every output.
-- **A field the card marks as not filed** is reported as not filed. Never fill it, and never invent
-  a procedure the card does not give.
+- **A field the card marks as not filed**, and that no superseding section fills, is reported as
+  not filed. Never fill it, and never invent a procedure the card does not give.
 
 ## 4. Run the step from its card's fields
 
-Work through the card's fields in its order: Step, Decision discharged, Ground in, Act, Artefact
-out, Value made visible, Cost and relocation, Exit check, Principal. For each, use what the card
-says at the pin and cite the source it names.
+If the card puts parts before its fields, run them first, in the card's order, each under its own
+register. Then work through the card's fields in its order: Step, Decision discharged, Ground in,
+Act, Artefact out, Value made visible, Cost and relocation, Exit check, Principal. For each, use
+what the card says at the pin, as it stands after its superseding sections, and cite the source it
+names.
 
 - **Ground in comes first.** Declare what the card requires, with its provenance, before any act.
   Where the card asks you to declare something before reading positions on it, declare it first
@@ -92,8 +103,11 @@ says at the pin and cite the source it names.
 ## 5. The demand-flow step
 
 Run it from its card like any other step, after step 1's act map exists. It is its ground. For the
-kinds of demand, offer the worked example's kinds **as a starting point, not as the method's fixed
-set**, and say so in those words. Each process declares its own kinds. Ask the user which kinds
+kinds of demand, offer the worked example's kinds, and the starting axis the card gives, **as a
+starting point, not as the method's fixed set**, and say so in those words. Kinds are declared by
+the act map, as positions on a ground axis the map declares, and an item's kind is read from its
+position on that axis. A process does not declare kinds: it is a person's understanding of the
+work, which the model translates into a named view of one act map. Ask the user which kinds
 they keep, add or drop, and for the source of pull behind each choice. Record that declaration in
 the form the card gives, beside their act map. Offer to draft the field report the card asks for,
 anonymised.

@@ -10,7 +10,10 @@ What it checks:
                skill prefix agree), and the entry's source is this plugin's directory;
   2. version   version is set in plugin.json and not in the marketplace entry, and its base (before
                any "+" suffix) is the skill's pin without its "v";
-  3. pin       the skill declares exactly one pin, and every tag the skill names is that pin;
+  3. pin       the skill declares exactly one pin, and every tag the skill names is that pin; the
+               PIN line is the pin's one source (DDD-dec-121, Round 30), so every version named in
+               the evals (graders, scaffold, descriptions), in this plugin's README and in the root
+               README's plugin section is that pin (a version may carry a +p.N suffix);
   4. thin      the skill holds no claim or decision id, and no run of RUN words in a row appears in
                both the skill and any file under method/ (Round 27: the skill carries procedure
                and discipline; cards and canon are read from the repository at the pin).
@@ -60,6 +63,26 @@ def main():
     pin = pins[0] if pins else None
     tags = set(re.findall(r"\bv\d+\.\d+\.\d+\b", skill))
     report(tags == {pin}, f"pin: every tag the skill names is the pin {sorted(tags)}")
+
+    def mentions(text):
+        # Versions named in a file, with any regex escaping undone: v0\.7\.0 reads as v0.7.0.
+        return set(re.findall(r"\bv?(\d+\.\d+\.\d+)(?:\+p\.\d+)?\b", text.replace("\\.", ".")))
+    readers = [f for f in sorted((PLUGIN / "evals").rglob("*"))
+               if f.is_file() and "results" not in f.relative_to(PLUGIN).parts
+               and f.suffix in {".md", ".yaml", ".sh"}]
+    readers.append(PLUGIN / "README.md")
+    stray = {}
+    for f in readers:
+        other = mentions(f.read_text()) - ({pin[1:]} if pin else set())
+        if other:
+            stray[str(f.relative_to(ROOT))] = sorted(other)
+    root = (ROOT / "README.md").read_text()
+    section = root.split("## Run it in Claude Code", 1)[1].split("\n## ", 1)[0] if "## Run it in Claude Code" in root else ""
+    report(bool(section), "pin: the root README has its plugin section")
+    other = mentions(section) - ({pin[1:]} if pin else set())
+    if other:
+        stray["README.md (Run it in Claude Code)"] = sorted(other)
+    report(not stray, f"pin: the evals and both READMEs name only the pin {stray}")
 
     version = manifest.get("version")
     report("version" not in entry, "version: not set in the marketplace entry")
