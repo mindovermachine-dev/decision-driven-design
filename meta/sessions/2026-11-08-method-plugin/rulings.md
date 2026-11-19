@@ -65,3 +65,42 @@ also has a Round 28, with different content, so cite this one as "Round 28, meth
   discipline, not better step execution.
 - **F-9.** The root README's opening line names the current release, `v0.7.0`, a pre-release.
   Nothing else in its paragraph changes. Emil opens the pull request.
+
+## Round 29, verbatim
+
+Given in this session on 2026-11-19. "Round 29" is this record's next round. Other records have
+rounds with the same number, so cite this one as "Round 29, method-plugin `rulings.md`". The
+blockquote is the message byte for byte, apart from the quote markers.
+
+> Ruling: #74 is held. It does not land at v0.7.0. Record this message verbatim in the
+> session's rulings.md, as a new round, before you do anything else.
+>
+> The reason. main is now at dc8b737. #84 landed today and changed step 1: it starts from
+> scope and pull (DDD-address-06 to -11, DDD-dec-122), and method/01 to method/10 changed.
+> The plugin reads the step cards at v0.7.0, which is the main from before that. Landing it now
+> would ship a plugin that teaches a step 1 I have superseded.
+>
+> What changes when the hold lifts. I will cut a release that includes #84 and tell you the
+> tag. Then, under DDD-dec-121's own rule that a re-pin is a new plugin version:
+>
+> - re-pin the plugin to that tag;
+> - rework the step-1-small eval. Its axes-first grader passes a reply that declares ground
+>   axes first. Step 1 now starts with scope, then the pulls;
+> - rework the demand-flow-start eval against DDD-address-10, which reads a kind of demand as
+>   a position on a declared ground axis;
+> - re-run every eval and replace the table in the plugin's README and in findings.md. Keep
+>   the old table in the record as the v0.7.0 result. Do not overwrite it;
+> - rebase onto main and resolve the conflict.
+>
+> What to do now, and nothing more:
+>
+> 1. Record the ruling, as above.
+> 2. Fetch main and read what #84 filed. Then give me your own list of what in the plugin, its
+>    evals, its check and DDD-dec-121 is affected. I listed three things. Tell me what I
+>    missed and where I am wrong. Mark anything you cannot confirm as UNVERIFIED.
+> 3. Tell me whether DDD-dec-121 needs amending before it lands, or whether its version scheme
+>    already covers this. It is unlanded, so an amendment in place is open to me. Propose; do
+>    not amend.
+> 4. Check that DDD-dec-121 is still free on every branch of both repositories.
+> 5. Commit the record with Refs #72, run the whole validate workflow locally, and push. Do
+>    not rebase yet, and do not re-pin. Report and stop.

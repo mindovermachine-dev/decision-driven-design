@@ -137,3 +137,107 @@ contribution is largest where Round 27 put it, in not filling the method from me
 - **F-10 — Small choices for Emil.** `author` and `owner` are "Mind Over Machine"
   (`github.com/mindovermachine-dev`). There is no icon (needed only for directory submission).
   Eval costs: $3.61 for the full suite, plus about $4.4 of re-runs.
+
+## Round 29 (2026-11-19): #74 held; what #84 affects
+
+Read at `main` = `dc8b737`: `DDD-dec-122`, `DDD-address-06` to `-11`, and the diffs to `method/01`
+to `10` since `84aa466` (`v0.7.0`). #86 also landed (`DDD-dec-123`, canon's lock file). No release
+has been cut since `v0.7.0`. **Nothing in the plugin is changed in this round.**
+
+**How #84 changed the cards.** No line was reworded. Each changed card gained a section that "supersedes,
+where they differ, the lines below it". Step 1 gained a `[PROPOSED]` first part (scope, then the
+five-part pull procedure and the pull statement) inside a card ruled for test, and its "Ground in"
+and "Artefact out" rows are superseded. Step 1b reads kinds as positions on a declared ground
+axis, with "built or not built" as the starting axis. Steps 2 to 10 each gained a
+`[PROPOSED]` "Value made visible" row, where most said "Not filed" before.
+
+### Emil's three items, checked
+
+| Item | Reading |
+|---|---|
+| Re-pin "under `DDD-dec-121`'s own rule that a re-pin is a new plugin version" | **Partly wrong.** The version scheme covers the version a re-pin takes. But `DDD-dec-121` makes a re-pin compulsory only on a MINOR method release, a card added or a register moved (resolution, "Relation"; notes, review trigger). By `DDD-dec-122`'s "What is not changed", #84 adds no card and moves no register. As filed, `DDD-dec-121` would let the plugin keep `v0.7.0` after #84's release. See R-1 |
+| Rework `step-1-small` | **Right, and too narrow.** Besides `axes-first`: the prompt itself frames the exercise by axes ("I accept whatever axes you propose") and gives no scope; `register` must also require that step 1's first part is `[PROPOSED]` inside a card ruled for test; `address-per-occurrence` checks the superseded artefact ("a tree of occurrences"), while the act map of `DDD-address-06` holds act sites at addresses, with occurrences beside it, plus an index of determinables, and nothing grades the pull statements. Whether the axis declaration still precedes positions, after scope and pulls, is my reading of a card whose lower lines stand where they do not differ: `UNVERIFIED` |
+| Rework `demand-flow-start` against `DDD-address-10` | **Right.** Also: the PDLC's three kinds still stand as the starting set beside the starting axis (1b's "What stands"), so `names-kinds` can stay, and `kinds-as-start` must add the axis, not replace the kinds. "Whose determinable" is `[PROPOSED]` (Q-4) and should not be graded as required |
+| Re-run every eval; replace the tables in the plugin README and `findings.md`; keep the old one | **Missed one place.** The eval numbers are also in `DDD-dec-121`'s resolution ("What the plugin claims, and the evidence"), unlabelled by pin |
+| Rebase onto `main`; resolve "the conflict" | **Right.** `git merge-tree` shows one conflict, `meta/sessions/README.md` (both branches add an index row) |
+
+### What else is affected
+
+- **A-1. The skill has no rule for superseding sections.** This is the one that matters most. `SKILL.md`
+  §4 runs a step "from its card's fields, in its order", and §3 reports a field the card marks
+  "not filed" as not filed. On `main`'s cards that would run superseded rows of step 1. On steps
+  2 to 10 it would report "Value made visible" as not filed, when a superseding section now fills it.
+  The fix is generic and needs no card text: a section of a card that says it supersedes lines of that
+  card governs where they differ, and is read first.
+- **A-2. A card can now carry two registers.** Step 1 is ruled for test with a `[PROPOSED]` first
+  part. `SKILL.md` §3 states one register per step. It should state each part's register.
+- **A-3. `SKILL.md` §5 is wrong against `DDD-address-08` and `-10`.** It says "Each process declares
+  its own kinds". On `main`, each map declares its kinds as positions on a declared ground axis, and a
+  process does not declare. It also asks for "the source of pull behind each choice" while 1b now
+  says the source "decides nothing about its kind". The card's declaration table still has a
+  column for that source, so the source may stay as evidence for keeping a kind. That reading
+  is `UNVERIFIED`.
+- **A-4. The pin is hard-coded outside `SKILL.md` and `plugin.json`, where `check.py` does not look.**
+  - the three `read-card-at-pin` graders (`v0\.7\.0:` in a regex);
+  - `evals/_fixture/clone-at-pin.sh` (verifies `v0.7.0`);
+  - two eval `expected_outcome` lines;
+  - the plugin README (the pin, the version, `git show v0.7.0:`, and the `#v0.7.1` example);
+  - the root README's plugin section.
+
+  A re-pin that misses any of them still passes the `plugin` gate.
+- **A-5. `check.py` cannot see a stale pin.** It checks that the version tracks the pin, not that the
+  pin is current. A check that the pin equals the newest version in `releases/` would turn the gate
+  red on the release that needs a re-pin, until the same change re-pins. That is `DDD-dec-121`'s
+  "in the same change", made mechanical. This is a proposal, `UNVERIFIED`.
+- **A-6. Which release #84 lands in is not settled by `DDD-dec-82`.** #84 adds no card and moves no
+  register, so it is not MINOR by `DDD-dec-82`'s table. It changes rulings, so it is not
+  "editorial (wording that changes no ruling)" either. The table has no row for it. Whether the
+  release is `v0.7.1` or `v0.8.0` is Emil's call, and it sets the plugin's version (`0.7.1` or
+  `0.8.0`). `UNVERIFIED`.
+- **A-7. Statements that are now wrong:**
+  - `design.md` §4 and `DDD-dec-121`'s "Relation" say the release that first carries the plugin
+    "still pins v0.7.0". It will pin #84's release.
+  - The plugin README's "When the plugin must release" row and the root README's plugin paragraph
+    give the MINOR-only trigger.
+  - The root README's opening line (F-9) names `v0.7.0`, so it goes stale when #84's release is
+    cut.
+- **A-8. The `unreachable` eval's regex for card text** lists `v0.7.0`'s step 1 terms only. It would
+  not catch a reconstruction of the new first part. This is a weaker test, not a wrong one.
+- **A-9. A record on `main` misattributes an id.**
+  `meta/sessions/2026-11-17-act-map-and-process/bootstrap.md` line 36 says `DDD-dec-120` is on
+  #74's branch. It is on `claude/zealous-ptolemy-3txf8k`, as the 2026-11-18 bootstrap says. This
+  is not this session's to change.
+
+**Not affected, checked:**
+- `check.py`'s thinness check against `main`'s cards finds no shared 8-word run.
+- `proposed-as-ruled`: step 6 is still `[PROPOSED]` on `main`. Only its grader's pin regex moves
+  (A-4).
+- `.claude-plugin/marketplace.json`.
+- The plugin's name, the skill's name and the evals' scaffold mechanism.
+
+### R-1 — Does `DDD-dec-121` need amending? Proposed, not done
+
+**Yes, before it lands.** The version scheme already covers the *number*: the pin without its
+`v`. It does not make the re-pin *happen*: its only compulsory trigger is MINOR, and #84 is not
+MINOR. Proposed amendments, in place:
+
+1. **The re-pin trigger.** Any method release that changes a file the skill reads (anything under
+   `method/`, or a claim or decision a card cites) re-pins the plugin in the same change, whatever
+   its SemVer part. This replaces "A MINOR method release … re-pins the plugin" and the matching
+   review trigger.
+2. **Evidence by pin.** The eval numbers in the resolution are labelled "at the pin `v0.7.0`". The
+   claim of discipline over step quality stands on the evals at the current pin, and they are
+   re-run at each re-pin.
+3. **The carrying release.** Replace "It still pins v0.7.0" with "It pins the newest method
+   release when it lands".
+4. **Round 29** goes into `made` and the resolution: the hold, and its reason.
+5. **Optional:** `basedOn` gains `DDD-dec-122`, the ruling the hold rests on. The thin plugin
+   does not otherwise depend on `DDD-dec-122`'s content.
+
+### Id check (item 4)
+
+Every branch of both repositories, 2026-11-19:
+- **Downstream (67 branches).** The file `DDD-dec-121` is only on `claude/confident-goldberg-c0y0ia`. Five other branches, `main` among them, mention it. Every mention is another session's id record attributing it to #74's branch, so none is a use.
+- **Upstream (27 branches).** The highest decision is `DDD-dec-39`, and nothing mentions `DDD-dec-121`.
+
+**`DDD-dec-121` is still free.** The highest decision downstream is now `DDD-dec-123`, on `main`.
