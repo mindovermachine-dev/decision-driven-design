@@ -126,4 +126,8 @@ Prediction: the decision with the three Europe/Berlin times (15:20, 15:28 with t
 pipeline. On #86's new head, agent review builds main's canon at `1bf7e56` and posts `failure`
 for want of approval; validate passes.
 
-Result: (scored below)
+Result: **held.** `validate-claims.py --decisions`: 97 decisions valid. Local validate on
+`41c85f5` (`CI=true`): every gate ok. On GitHub, on `41c85f5`: validate runs 398 (push) and 399
+(pull request) passed; agent review run 92 built main's canon at `1bf7e56` and posted "'agent
+review' = failure" with "not approved: #86 needs a comment 'approve 41c85f53719e…'". Emil
+approved and landed it (rulings.md, 2026-11-19).

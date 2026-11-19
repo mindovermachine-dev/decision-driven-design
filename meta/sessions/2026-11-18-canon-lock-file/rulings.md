@@ -116,8 +116,8 @@ whether that was before or after 14:20, so the decision does not place it.
 Claude's notes.
 
 - **The lift time.** "<your time>" is read as the time Emil gave earlier: "lifted 14:20 … UTC"
-  (Landing facts, above), which is 15:20 Europe/Berlin. UNVERIFIED — Emil review, if he meant
-  another time.
+  (Landing facts, above), which is 15:20 Europe/Berlin. Confirmed by Emil, 2026-11-19 10:47 UTC
+  (below): "The lift time is 15:20 Europe/Berlin, as you have it."
 - **The restore time.** Emil's earlier message said "restored 14:29 UTC" (15:29 Europe/Berlin).
   This message says 15:28 and corrects what was restored. The decision follows this message.
 - **The check against main's history,** made before writing it into the decision:
@@ -130,3 +130,22 @@ Claude's notes.
   "agent review (judge)". The rule's name does not change what the workflow runs: both built
   main's canon and posted an `agent review` check from the gates App. Neither verdict could have
   satisfied that rule; both were `failure`, for want of approval.
+
+## The lift and restore times confirmed — received 2026-11-19 10:47 UTC (11:47 Europe/Berlin)
+
+> The lift time is 15:20 Europe/Berlin, as you have it. Clear the UNVERIFIED flag on it in
+> rulings.md with the next change. The restore time is 15:28: GitHub recorded that edit at
+> 15:28:11. My earlier "14:29 UTC" was a minute off and stays in the record as I wrote it.
+>
+> I am approving and landing 41c85f5 as it stands. Do not push before I say it has landed.
+> After that, commit P-9's score and the cleared flag in one small pull request, or tell me if
+> you would rather leave them for the session's close.
+
+## #86 landed — received 2026-11-19 10:50 UTC (11:50 Europe/Berlin)
+
+> its landed you can push and create a new pr
+
+Claude's note: `main` at receipt is `29cead8`, "Merge pull request #86", committed by GitHub at
+11:45:33 Europe/Berlin. Its parents are `1bf7e56` and `41c85f5`, and its tree is identical to
+`41c85f5`'s, so what landed is exactly the approved head's content. It is a merge, not the
+fast-forward `canon land` makes. That is recorded here as an observation, not judged.
