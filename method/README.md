@@ -1,5 +1,33 @@
 # The method
 
+> **The method is making an act map.** Four moves, every one `[PROPOSED]`. The live card is [Make an act map](make-an-act-map.md) (`DDD-dec-124`).
+
+| Move | What you do | Register |
+|---|---|---|
+| 1 | **Scope the act map**: list the decisions that are yours; everything else is world | `[PROPOSED]` |
+| 2 | **Place an act or decision** you can see, and describe it fully enough to find its pull | `[PROPOSED]` |
+| 3 | **Follow the determinable back to the edge and note the pull** | `[PROPOSED]` |
+| 4 | **Do it again**, for every act and decision in the scope and then each further scope, until your pull sources are identified. The stop is the principal's judgement | `[PROPOSED]` |
+
+Every part of the method is `[PROPOSED]`: written down, not ruled as tested. Nothing is "ruled for
+test" any more, step 1 included (`DDD-dec-124`, superseding in part `DDD-dec-122`). The claims the
+moves rest on are projected. What steps 2 to 10 held is now recorded on the acts and decisions of
+the map, as group B of the act description on the live card.
+
+**Weakest point.** Move 3 needs to know where each thing an act reads comes from. Where nobody can
+say, the trace stops at a finding, not at a pull.
+
+**This section supersedes, where they differ, everything below it** (`DDD-dec-124`, ruled
+2026-11-20). What follows is the method as it stood at v0.7.0, as written. Its cards are each
+marked not live. Its version rule, "below 1.0 until all ten steps are ruled" (`DDD-dec-82`), is not
+changed by this section and waits on its own decision.
+
+---
+
+## As it stood at v0.7.0
+
+# The method
+
 Decision-Driven Design as a practical method: ten steps, each presented as a step card. **Only
 step 1 is ruled, and it is ruled for test**: its claims are projected and wait on an independent
 case. Steps 2 to 10 are `[PROPOSED]`, and their cards carry nothing beyond what is filed.

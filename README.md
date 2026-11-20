@@ -24,6 +24,25 @@ reason below is stated beside it, and the [status table](#status-step-by-step) g
 What step 1 gives you today, worked through on a real system, is in the
 [quick start](#quick-start).
 
+## Status: the method is making an act map
+
+**This section supersedes, where they differ, the table below and every line on this page that
+names a step or step 1's register** (`DDD-dec-124`, ruled 2026-11-20). Those lines stay as written.
+
+The method is one thing, making an act map, in four moves, and **every part of it is
+`[PROPOSED]`**, step 1 included. Nothing is "ruled for test" any more. The claims the moves rest on
+are projected. The live card is [Make an act map](method/make-an-act-map.md).
+
+| Move | Register |
+|---|---|
+| 1. Scope the act map | `[PROPOSED]` |
+| 2. Place an act or decision | `[PROPOSED]` |
+| 3. Follow the determinable back to the edge and note the pull | `[PROPOSED]` |
+| 4. Do it again, until your pull sources are identified | `[PROPOSED]` |
+
+What steps 2 to 10 held is recorded on the acts and decisions of the map. The table below is the
+method as it stood at v0.7.0.
+
 ## Status, step by step
 
 | # | Step | Register |
