@@ -64,3 +64,36 @@ Asked through the session's question form, with the options of `proposals.md`. E
 |---|---|---|
 | Q-4 | Both | Move 4 repeats over every act and decision inside the scope, including those no trace reached, then over each further scope the practitioner can map (P-6's three loops) |
 | Q-6 | Fewest first | Move 2 needs group A. Group B is filled when known, and an empty field shows |
+
+## G2, received 2026-11-20 at 11:57 UTC
+
+Emil's message, verbatim:
+
+> G2 rulings for #88. Record this message verbatim before you act.
+>
+> P-10: option A. A ruling that moves a move from [PROPOSED] to ruled cites a field report
+> from a case outside the framework's own data, with the six points as you list them. Do not
+> add it to DDD-dec-124. Record it here, and name it in draft D-3 as part of what that
+> decision files.
+>
+> The two limits on the trace, on the card:
+> - The axis that splits an act into inside and outside is a ground axis, never the occupant.
+>   Confirmed. Clear its UNVERIFIED flag.
+> - Declaring a missing axis creates a second map, and a wider map that shares the act splits
+>   it too. Not confirmed. Leave it flagged.
+>
+> The worked example's two findings stand as findings. Do not change the lifecycle data.
+>
+> Then: record this round, clear the one flag, and bring the pull request's description up to
+> date (22 of 24 predictions, and the head). Change nothing else. Run the whole validate
+> workflow on a full clone, push, and name the new head to ratify with both required checks
+> by their check names. Then stop. I will approve that head and merge.
+
+| # | Ruled | Where it goes |
+|---|---|---|
+| P-10 | Option A: a ruling that moves a move from `[PROPOSED]` to ruled cites a field report from a case outside the framework's own data, with the six points of `proposals-2.md` | Recorded here, not in `DDD-dec-124`. Named in draft D-3 (`breaks.md`) as part of what that decision files |
+| L-1 | The splitting axis is a ground axis, never the occupant: **confirmed** | The card's `UNVERIFIED` flag on that bullet is cleared |
+| L-2 | A missing axis makes a second map, and a wider map sharing the act splits it too: **not confirmed** | Stays flagged on the card |
+| F | The worked example's two findings (o1, oG) stand as findings | The lifecycle data is not changed |
+
+`DDD-dec-124`'s notes still say both limits are `UNVERIFIED — Emil review`. They are not changed, because the message says to change nothing else. This round records that L-1 is confirmed.
