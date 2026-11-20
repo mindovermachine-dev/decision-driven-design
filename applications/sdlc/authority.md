@@ -1,15 +1,37 @@
 # The authority profile — force over a product
 
-**Status: written 2026-11-02 to the plan ruled in Round 1, with Appendix A ruled in Round 2 and
-Q-11 and the fixtures' re-founding ruled in Round 3; not yet ratified (Emil merges #45).** This is the
-profile the Decision Provenance Protocol leaves to its adopters (`dpp-1.md` §9.4). It says what
-makes a decision in force in a product, who may make it so, and how that authority is founded,
-delegated and transferred. The session is `meta/sessions/2026-11-02-authority-profile/`. The
-charter's rulings are `DDD-dec-85`, Round 1's are `DDD-dec-86`, Round 2's are `DDD-dec-92`, and Round 3's are `DDD-dec-93`. Emil ratifies by merging.
+<!-- ddd:doc
+reader: people building or checking a decision log for a product (Writ's implementers, tool builders, and holders who need to know what their signature does)
+act: tell, for any decision at any position of a product's log, whether it is in force, who could have made it so, and why
+pin: v5.15.2
+basis: [DDD-dec-85, DDD-dec-86, DDD-dec-92, DDD-dec-93, DDD-dec-87, DDD-dec-88, DDD-dec-89, DDD-dec-90, DDD-dec-46, DDD-dec-47, DDD-dec-52, DDD-dec-54, DDD-dec-62, DDD-dec-64, DDD-dec-113, DDD-dec-117]
+status: current
+supersedes: 84aa466:applications/sdlc/authority.md
+-->
 
-**Register.** *Ruled* cites a decision. After Round 3 no `UNVERIFIED` mark remains and nothing is open. `UNVERIFIED — Emil review` marked a choice the writing had
-to make that no ruling covers. Each such choice is also listed in Appendix A. Section numbers are
-the ones `DDD-dec-86` cites.
+This is for anyone who builds, checks or relies on a product's decision log. The Decision
+Provenance Protocol (`dpp/1`) defines records and leaves force to its adopters (`dpp-1.md` §9.4).
+This profile supplies it. It says what makes a decision in force in a product, who may make it so,
+and how that authority is founded, delegated and transferred. After reading it you can evaluate any
+decision at any position of a positioned log, and say which acceptances, grants and keys make it
+in force or keep it out.
+
+**How settled this is.** Everything here is decided. The profile was ratified when its pull request
+merged on 2026-11-02, and no point in it is open or waiting for a ruling. One later decision
+(2026-11-08) amends it: the product framework carries roles, and a scope also ranges over decision
+kinds. §3.1, §3.2 and Appendix B's roles row have not yet been reworked to it ("Not settled yet"). It has been executed over
+one hand-built worked example (§9) and over generated histories (§8.3). Neither shows that any
+other implementation or any real log holds it.
+
+**Who it binds.** Writ implements it. product-cli's draft log never claims it. A Context& package
+is a product under it.
+
+**Where to start.**
+- To know when a decision is in force: §4.7, then §4.1 and §4.2.
+- To set up who may decide: §2 (the genesis) and §3 (grants).
+- To sign: §5 (identities and keys) and §6 (positions and clocks).
+- To claim conformance: §8.
+- To see it all happen: §9.
 
 **Companions.**
 - The vocabulary is [`authority-vocabulary.md`](authority-vocabulary.md).
@@ -17,9 +39,6 @@ the ones `DDD-dec-86` cites.
 - The property run is [`authority/properties.py`](authority/properties.py).
 - The worked example is the acme shop product's authority history: [`how-examples/log/acme.json`](how-examples/log/acme.json) and its records, checked by
   [`how-examples/check.py`](how-examples/check.py) (§9).
-
-**Who it binds.** Writ implements it. product-cli's draft log never claims it. A Context& package
-is a product under it.
 
 ---
 
@@ -42,19 +61,18 @@ force for one kind of system: a **product**, the decision space someone brought 
 
 | Not here | Where it is |
 |---|---|
-| The record, the reference, the resolver, the hash law | `dpp/1` (`DDD-dec-62`) |
+| The record, the reference, the resolver, the hash law | `dpp/1` |
 | What a How decision is, its kinds, anchoring, packages, import | [`how.md`](how.md) |
 | What a What element is, its kinds, identity, What-versions | [`what.md`](what.md) |
 | Verdicts, readings, the gate's verbs, positions as Writ writes them | Writ |
 | The ratchet over code landings (a landing that shrinks a baseline) | Writ, G11. The profile states the rule (§4.3) and Writ enforces it |
-| Attestations (`what.md` §3.2.3) | a successor item (Round 1, Q-10) |
+| Attestations (`what.md` §3.2.3) | later work, not this profile |
 
 ### 1.3 Where the profile's fields live
 
-*Ruled (Round 1, F-2):* "Anything a signature must cover (a grant's scope, a baseline, a waiver's
-expiry, a key binding) is a top-level dotted member inside the canonical form, as how-vocabulary.md
-does it. extensions is for what may change without a new version, and nothing authority-bearing
-may."
+The rule: anything a signature must cover (a grant's scope, a baseline, a waiver's expiry, a key
+binding) is a top-level dotted member inside the canonical form, as `how-vocabulary.md` does it.
+`extensions` is for what may change without a new version, and nothing authority-bearing may.
 
 - **One member.** Every field this profile defines is in the hashed dotted member
   `dk.decision-driven-design.authority`. Its `record` names the record kind (vocabulary §1).
@@ -68,14 +86,16 @@ may."
 
 ### 1.4 The rulings this rests on
 
-| Ruling | Decision |
-|---|---|
-| The genesis grant: definition, space, transfer, home | `DDD-dec-46`, restated by `DDD-dec-85` |
-| "Signed": signature, acceptor and time, required for force | `DDD-dec-47`, read by Round 1, F-1 |
-| Force comes from this profile: genesis, grants, scopes, acceptance, baseline, waiver | `DDD-dec-54` ruling 4 |
-| Scopes over ontology classes; the multi-scope rule | `DDD-dec-64` P-7, Round 5 of the move |
-| The charter's eight rulings | `DDD-dec-85` |
-| F-1 to F-3, Q-1 to Q-10 | `DDD-dec-86` |
+What the profile rests on, by subject. The decisions that hold each are in "Where this comes from".
+
+| Subject |
+|---|
+| The genesis grant: its definition, its space, transfer, and where it lives |
+| What "signed" means: a signature, an acceptor and a time, required for force |
+| That force comes from this profile: the genesis, grants, scopes, acceptance, baselines and waivers |
+| Scopes over ontology classes, and the multi-scope rule |
+| The charter's eight rulings |
+| The rulings on the profile's plan, its readings, and its fixtures |
 
 ---
 
@@ -83,7 +103,7 @@ may."
 
 ### 2.1 Definition
 
-*Ruled, verbatim (2026-10-27, `DDD-dec-46`):*
+The definition, as ruled:
 
 > The genesis grant is the root of change authority over one product. It is held by the human
 > principal who brought the product into being. It is unscoped within the product and scoped to
@@ -94,14 +114,14 @@ may."
 
 A product is the decision space. Its What and its realisation are scopes within it, under one
 genesis. A package is a product with an empty What and its own genesis. In another product it is
-provenance, never authority (`DDD-dec-85`).
+provenance, never authority.
 
 ### 2.2 Founding
 
-*Ruled (Round 1, Q-1): the genesis is founded, not accepted.*
+The genesis is founded, not accepted.
 
 - **The founding record** is a `genesis` record. Its `by` and `holder` are the founder, and it
-  names the product IRI P (`DDD-dec-63` §1). Its `basedOn` is empty, so it delegates from nothing.
+  names the product IRI P. Its `basedOn` is empty, so it delegates from nothing.
 - **Self-bound key.** It carries `firstKey`, and it is signed by that key. The founding is
   therefore also the holder's first key binding (§5.3; the ledger's D7, as it fits).
 - **No acceptance.** A separate acceptance would be the same person's signature twice over the
@@ -111,7 +131,7 @@ provenance, never authority (`DDD-dec-85`).
 
 ### 2.3 Transfer
 
-*Ruled (`DDD-dec-46`; Round 1, Q-1, Q-2).* A transfer is a decision, never an edit.
+A transfer is a decision, never an edit.
 
 1. **The holder signs.** The holder signs a new version of the genesis decision. It supersedes the
    version in force and names the successor as `holder`. If the successor has no key in the
@@ -119,21 +139,19 @@ provenance, never authority (`DDD-dec-85`).
 2. **The successor accepts.** The successor signs a grant acceptance of that version (§3.3).
    Until then the transfer is pending, and the prior holder still holds.
 3. **The prior grant closes.** On the successor's acceptance, the prior holder's genesis is closed,
-   not deleted. *Ruled (Q-2): closing is not a revocation.* Every grant delegates from the genesis
-   decision's `id`, not from a holder's version, so nothing delegated from the genesis falls at a
-   transfer.
+   not deleted. Closing is not a revocation. Every grant delegates from the genesis decision's
+   `id`, not from a holder's version, so nothing delegated from the genesis falls at a transfer.
 4. **Only the holder transfers.** A fallback may not transfer (§2.4).
 
 ### 2.4 Unavailability and fallback
 
-*Ruled (`DDD-dec-46`):* "Holder unavailability is filed unavailability with a fallback holder, who
-may act and may not transfer."
+The rule: holder unavailability is filed unavailability with a fallback holder, who may act and may
+not transfer.
 
 - **A fallback is a grant.** It carries `fallbackOf` naming its primary. It is granted by the
   primary's holder and delegates from the primary. Its scope is the primary's at every position,
   so it carries none of its own. Like any grant, it is live only from its holder's acceptance
-  (§3.3). *Ruled (Round 2, A-6):* "any grant may have a fallback, and a fallback delegates from
-  its primary".
+  (§3.3). Any grant may have a fallback, and a fallback delegates from its primary.
 - **Unavailability.** It is a signed record naming the grant, with `from` and an optional `until`,
   both header-clock times (§6.2). The holder files it, or a holder above them in the chain does.
   The holder ends it early with an availability record.
@@ -146,14 +164,15 @@ may act and may not transfer."
 
 ### 2.5 Loss
 
-*Ruled (`DDD-dec-46`):* "Loss of the holder with no fallback cannot be repaired from inside: a new
-genesis founds a new product, and the old product's decisions are imported by basedOn, which keeps
-provenance and records that authority was re-founded."
+The rule: loss of the holder with no fallback cannot be repaired from inside. A new genesis founds a
+new product, and the old product's decisions are imported by `basedOn`, which keeps provenance and
+records that authority was re-founded.
 
-**Key loss is not holder loss.** *Ruled (Round 3, Q-11):* "A genesis holder who loses a key still
-holds the genesis. What is needed is a new key binding, and the one party the holder pre-authorised
-is the fallback." A-9 for the genesis reads: "by a new key binding vouched by a fallback; absent any
-fallback, by the new-product path". Round 2's "by transfer" is withdrawn.
+**Key loss is not holder loss.** A genesis holder who loses a key still holds the genesis. What is
+needed is a new key binding, and the one party the holder pre-authorised is the fallback. For the
+genesis, a holder with no live key gets one "by a new key binding vouched by a fallback; absent any
+fallback, by the new-product path". The earlier ruling, that such a holder gets a key by
+transfer, is withdrawn.
 
 - **The vouch.** The holder of a live fallback of the genesis signs a `key-binding` with
   `act: "vouch"`, naming the genesis holder and the new key, under their fallback grant (`under`).
@@ -165,7 +184,7 @@ fallback, by the new-product path". Round 2's "by transfer" is withdrawn.
   from that position.
 - **No transfer.** The fallback still may not transfer.
 - **No path.** Only when the holder and every fallback have lost their keys is there no path. That
-  is the ruled new-product case above.
+  is the new-product case above.
 
 ### 2.6 Adopting the profile
 
@@ -176,7 +195,7 @@ shop example does this (§9). Its stand-ins were signed by keys that no longer e
 founding names the same holder and P under a new key, superseding the stand-in genesis for
 provenance.
 
-**Test fixtures, re-founded once.** *Ruled (Round 2, A-5; widened in Round 3, P-9):*
+**Test fixtures, re-founded once.**
 - **The once.** Every test product in this repository whose stand-in records were signed by
   discarded keys is re-founded once. The founding is under a key kept with the fixture, with the
   same holder and the same product IRI. Its record states that it is a test-fixture re-founding,
@@ -194,8 +213,8 @@ provenance.
 
 ### 3.1 Scope
 
-*Ruled (`DDD-dec-85`; `DDD-dec-64` P-7).* A **scope** is a set of ontology classes, optionally
-narrowed to one element's `sdlc:within*` subtree.
+A **scope** is a set of ontology classes, optionally narrowed to one element's `sdlc:within*`
+subtree.
 
 - **The record.** `scope` is `{classes, within?, withinPath?}`. `classes` is a non-empty list of
   class names (`sdlc:Field`, `sdlc:Binding`). `within` is an element IRI. `withinPath` is that
@@ -213,7 +232,7 @@ narrowed to one element's `sdlc:within*` subtree.
 
 ### 3.2 Delegation
 
-*Ruled (Round 1, Q-8):* "A grant delegates only if it says so, and only a subset of its own scope."
+A grant delegates only if it says so, and only a subset of its own scope.
 
 - **A grant is a decision of its grantor.** Its `by` acts under the grant named as `parent`, which
   they hold, live and available. The grant pins that parent's version in `basedOn`, and is signed
@@ -231,8 +250,7 @@ narrowed to one element's `sdlc:within*` subtree.
 
 ### 3.3 Grant acceptance
 
-*Ruled (Round 1, Q-1):* a grant is live only from its grantee's signed acceptance. Authority is
-never imposed.
+A grant is live only from its grantee's signed acceptance. Authority is never imposed.
 
 - **The record.** A `grant-acceptance` names and pins the grant version. Its `by` is the grantee.
 - **Its key.** If the grantee has no key in the product, it is signed by the `firstKey` the grant
@@ -249,8 +267,6 @@ never imposed.
   chain from that position, through the intersection rule (§3.2), and revokes nothing.
 
 ### 3.5 Revocation
-
-*Ruled (Round 1, Q-2).*
 
 - **Who.** A grant is revoked by a `revocation` record from its grantor, or from any holder above
   it in the chain, made under that holder's grant (`under`). The genesis is never revoked. It is
@@ -269,8 +285,8 @@ never imposed.
 
 ### 4.1 The acceptance record
 
-*Ruled (`DDD-dec-47`; Round 1, F-1):* "An acceptance is its own signed record whose by and at are
-the acceptor and the time, and which pins the decision's version hash."
+The rule: an acceptance is its own signed record whose `by` and `at` are the acceptor and the time,
+and which pins the decision's version hash.
 
 An `acceptance` record:
 
@@ -289,14 +305,14 @@ An `acceptance` record:
 
 ### 4.2 What a decision touches, and the multi-scope rule
 
-- **Scope at signing.** *Ruled (`DDD-dec-85`):* "Scope is evaluated at signing and the result
-  recorded; a later change to the graph does not re-evaluate it."
+- **Scope at signing.** Scope is evaluated at signing and the result recorded; a later change to
+  the graph does not re-evaluate it.
 - **What an acceptance records.** For each decision it accepts, it records in `touches` the items
   that decision touches. Each item is `{class, element, path}`: the class, the element, and the
   element's `within*` path as the graph had it at signing.
-- **What a decision touches.** *Ruled (Round 2, A-11):* "'touches' means every element the
-  decision creates, changes or retires, per the scope wording" (what.md §5.1). It is ruled as
-  proposed, and is read so that a How decision is the one element it creates:
+- **What a decision touches.** Every element the decision creates, changes or retires, per the
+  scope wording (`what.md` §5.1). This is read so that a How decision is the one element it
+  creates:
   - a What change touches each element it creates, changes or retires, with that element's kind;
   - a How decision touches the class of its kind (`sdlc:Constraint`, `sdlc:Binding`,
     `sdlc:Contract`) at its anchor;
@@ -305,46 +321,42 @@ An `acceptance` record:
 - **Covering.** A grant covers an item if the item's class is in its effective classes, the class
   is not derived, and the grant's subtree, if any, is on the item's path. An acceptance covers the
   items its grant covers, and covers at least one, or it is refused.
-- **The multi-scope rule.** *Ruled (`DDD-dec-64` P-7; `DDD-dec-85`):* "a decision touching kinds in
-  more than one scope needs a valid acceptance under each, from the same or different holders, in
-  force only when all are live." Here: a decision's items must all be covered by live acceptances,
-  together. Acceptances of one decision must record the same items. A later one that records
-  different items is refused.
+- **The multi-scope rule.** As ruled: "a decision touching kinds in more than one scope needs a
+  valid acceptance under each, from the same or different holders, in force only when all are
+  live." Here: a decision's items must all be covered by live acceptances, together. Acceptances of
+  one decision must record the same items. A later one that records different items is refused.
 
 ### 4.3 Baselines
 
-*Ruled (`DDD-dec-85`):* "Baseline on an acceptance; landings only shrink it; only a fresh
-acceptance grows it."
+The rule: a baseline is on an acceptance; landings only shrink it; only a fresh acceptance grows it.
 
 - **The entries.** A `baseline` is a list of entries on an acceptance. Each entry is
   `{decision, subject, target}`: the decision accepted, the element violating it, and the target.
-  This is `how.md` D-6's (decision, element, target).
+  This is `how.md`'s (decision, element, target).
 - **Under the signature.** The baseline is signed with the acceptance.
 - **Only by acceptance.** Only an acceptance carries one. Only a fresh acceptance of the decision
   grows it.
 - **Landings shrink it.** A landing that removes a baselined violation records the smaller baseline
-  at its position, without a signature (Writ `[D2]`; G11).
+  at its position, without a signature (Writ's definition; G11).
 - **What it marks.** A baseline entry marks debt. A boundary is an exclusion decision, never a
   baseline entry (`how.md` §8.2).
 
 ### 4.4 Waivers
 
-*Ruled (`DDD-dec-85`):* "a signed, expiring answer to an open question that changes no decision."
+A waiver is a signed, expiring answer to an open question that changes no decision.
 
 - **The record.** A `waiver` names the question: `{decision, target, provenance}`, an open question
   in Writ's sense (`how.md` §9.3). It carries the grant it is made under, `expires` and `touches`.
 - **Who may waive.** It is signed under a grant that could accept the decision (§4.2), by a human
   (§5.1).
-- **When it expires.** *Ruled (Round 1, Q-6):* "expiry is a header-clock time, and Writ follows."
-  A waiver is live at a position iff that position's header clock is before `expires`. It must
-  expire after the clock of the position it lands at.
+- **When it expires.** Expiry is a header-clock time, and Writ follows. A waiver is live at a
+  position iff that position's header clock is before `expires`. It must expire after the clock of
+  the position it lands at.
 - **What it changes.** No decision, and nothing in force. The gate reports the question as waived
   while the waiver is live, and open after.
 - **What it never covers.** A violation, or a coverage gap (`how.md` §8.2).
 
 ### 4.5 Reviews
-
-*Ruled (Round 1, Q-4).*
 
 - **What it is.** A `review` is a rejection (`"reject"`) or a request for change
   (`"request-change"`) of a landed decision version, which it pins.
@@ -355,7 +367,7 @@ acceptance grows it."
 
 ### 4.6 Revoking an acceptance
 
-*Ruled (Round 1, Q-2):* "an acceptance may be revoked." An `acceptance-revocation`:
+An acceptance may be revoked. An `acceptance-revocation`:
 
 - **Who.** It is signed by the acceptance's own signer, or by a holder of a grant above the grant
   the acceptance was made under (`under`).
@@ -374,7 +386,7 @@ A decision D is **in force at position p** iff:
    re-acceptance by p (§5.1, §5.3);
 3. no decision in force at p supersedes it.
 
-**Force is local.** *Ruled (`DDD-dec-85`):* "Force is local; `basedOn` carries provenance only."
+**Force is local; `basedOn` carries provenance only.**
 - **Other systems.** A record in another system, a package's included, is never in force here.
 - **Imports.** A decision here that rests on one is in force only under acceptances here. An
   import is that (`how.md` §7).
@@ -385,8 +397,6 @@ A decision D is **in force at position p** iff:
 ## 5. Identities and keys
 
 ### 5.1 Human, machine, attribution
-
-*Ruled (`DDD-dec-85`; Round 1, Q-5).*
 
 - **Machine.** A machine identity is one named by a signed `attribution` record: identity M is
   software, and human H is responsible for it.
@@ -409,12 +419,10 @@ A decision D is **in force at position p** iff:
 
 ### 5.2 Teams
 
-*Ruled (Round 1, Q-5).* A team identity (a list, a group mailbox, a role account) is not a holder.
-A holder is one person. A team is expressed as several grants.
+A team identity (a list, a group mailbox, a role account) is not a holder. A holder is one person.
+A team is expressed as several grants.
 
 ### 5.3 Keys
-
-*Ruled (Round 1, Q-3).*
 
 **Bindings.**
 - **Per product.** Keys are bound per product, and nothing in one product's key bindings has effect
@@ -432,15 +440,14 @@ A holder is one person. A team is expressed as several grants.
 
 **The `key-binding` record.** It has three acts, and a fourth for the genesis alone (§2.5):
 - **`add`.** It binds a further key. It is signed by a live key of the holder. If the holder has no
-  live key, a holder above them in the chain binds it, under their grant (ruled, Round 2, A-9;
-  for the genesis, §2.5).
+  live key, a holder above them in the chain binds it, under their grant (for the genesis, §2.5).
 - **`rotate`.** It binds a new key and closes an old one at the same position. It is signed by the
   key it closes.
 - **`close`.** It is signed by the holder, or by a holder above them, under their grant. A closed
   key never signs again in the product, and is never bound again.
 - **`vouch`.** Only for the genesis holder, by the holder of a live fallback of the genesis,
   naming the holder and the new key. It opens nothing. The holder's `add` that pins it, signed by
-  the new key, opens it (§2.5; Round 3, Q-11).
+  the new key, opens it (§2.5).
 
 **Compromise: `since`.** A `close` may carry `since`, a position at or before its own.
 - **What stands.** Acceptances signed by that key from `since` stay valid at their positions, so
@@ -458,7 +465,7 @@ listed before a close in the same position was signed while the key was live.
 
 ### 6.1 The positioned log
 
-*Ruled (Round 1, Q-6).* The profile requires a positioned log. Each header carries:
+The profile requires a positioned log. Each header carries:
 
 - `position`, consecutive from `"1"`;
 - `clock`, the writer's clock, an RFC 3339 UTC time;
@@ -467,22 +474,20 @@ listed before a close in the same position was signed while the key was live.
 - `refused`: each attempt refused here, as `{ref, hash, reason}`;
 - `hash`, the hash law of `dpp-1.md` §5 over the header without `hash`.
 
-The header hash covers the clock, the previous header and every pin. That is the
-provenance-conformant log of Writ `[D2.5]` ("whose header carries the writer's clock and is
-covered by the header hash"), with the profile's records in it.
+The header hash covers the clock, the previous header and every pin. That is Writ's
+provenance-conformant log ("whose header carries the writer's clock and is covered by the header
+hash"), with the profile's records in it.
 
 ### 6.2 Clocks
-
-*Ruled (Round 1, Q-6, F-3).*
 
 - **Header clocks only.** Every time-dependent evaluation reads the header clock of the position
   being evaluated, never a process clock: grant liveness, unavailability windows, key validity,
   waiver expiry, session leases.
 - **A record's own `at`** is its author's claim (`dpp-1.md` §11.4). It is never read for force. An
-  act of authority whose `at` differs from its header's clock is refused (ruled, Round 2, A-8). The
-  comparison is at the precision `at` carries: a date-only `at` must be the clock's date, and an
-  `at` with a time must be the clock.
-- **`[D2.11]`, as Emil states it (Round 1, F-3):**
+  act of authority whose `at` differs from its header's clock is refused. The comparison is at the
+  precision `at` carries: a date-only `at` must be the clock's date, and an `at` with a time must
+  be the clock.
+- **Writ's `[D2.11]`, as Emil states it:**
   - Header clocks are monotone by the writer's clamp: ts = max(clock, head). A backwards
     wall-clock step yields equal timestamps, never a refusal. The evaluator therefore accepts equal
     clocks and refuses only a clock that steps back.
@@ -499,14 +504,13 @@ covered by the header hash"), with the profile's records in it.
 
 A system without a positioned log cannot claim this profile. It can claim `dpp/1` conformance.
 With a positioned log and no authority records, it can also claim Writ's *provenance-conformant*
-class. product-cli's draft log is that, and never more (charter).
+class. product-cli's draft log is that, and never more.
 
 ---
 
 ## 7. The violation-description field
 
-*Ruled (Round 1, Q-10; `DDD-dec-52`).* The profile covers the violation description, the field
-`DDD-dec-52` names on a decision.
+The profile covers the violation description, the field a decision carries to say what violates it.
 
 - **Where it lives.** `dk.decision-driven-design.authority.violation` is
   `{language, binds, text}`.
@@ -516,7 +520,7 @@ class. product-cli's draft log is that, and never more (charter).
 - **It confers no force.** A decision is in force or not by §4.7, whatever its violation
   description finds.
 - **What it is for.** It is the declaration that makes a verdict computable. The verdict is
-  computed, never stored (`DDD-dec-52`).
+  computed, never stored.
 - **No description.** A decision without one is allowed, and is idle where nothing rests on it
   (`how.md` §4.3).
 
@@ -526,8 +530,7 @@ class. product-cli's draft log is that, and never more (charter).
 
 ### 8.1 One class
 
-*Ruled (Round 1, Q-7).*
-- **The class.** One class, **authority-conformant**, the name Writ `[D2.5]` uses.
+- **The class.** One class, **authority-conformant**, the name Writ uses.
 - **Who claims it.** A positioned log (§6) whose records follow §2 to §5, and whose
   implementation satisfies the property list (§8.2) over generated histories.
 - **The claim.** It names this profile and the suite it ran.
@@ -542,15 +545,15 @@ evaluation of that history.
 |---|---|---|
 | A1 | A decision is in force at p only if every item it touches is covered by acceptances valid at their own positions, at or before p, not revoked, not needing re-acceptance, each signed by a human holder under a grant live at its position | G2; the multi-scope rule |
 | A2 | No identity named a machine, and no record carrying `attributedTo`, produces a valid act of authority. Every such attempt is judged, and so recorded | G3 |
-| A3 | Every live grant's chain runs through live grants to the product's one genesis, and every delegated scope is within its grantor's | genesis definition; Q-8 |
-| A4 | No grant other than the genesis is live before a valid acceptance of it by its grantee | Q-1 |
-| A5 | After a grant's revocation at r, neither it nor any grant below it is live at any p ≥ r, and no act under them after r is valid | Q-2 |
-| A6 | A transfer's completion changes no grant's liveness | Q-2 |
+| A3 | Every live grant's chain runs through live grants to the product's one genesis, and every delegated scope is within its grantor's | the genesis definition; the delegation rule (§3.2) |
+| A4 | No grant other than the genesis is live before a valid acceptance of it by its grantee | grant acceptance (§3.3) |
+| A5 | After a grant's revocation at r, neither it nor any grant below it is live at any p ≥ r, and no act under them after r is valid | revocation (§3.5) |
+| A6 | A transfer's completion changes no grant's liveness | transfer is not revocation (§2.3) |
 | A7 | An acceptance's recorded scope result never changes after its position | scope at signing |
-| A8 | Every valid act is signed by a key bound to its signer, and no key signs after its close | Q-3 |
-| A9 | A baseline is carried only by a valid acceptance, on a decision it accepts. That landings only shrink it is Writ's G11 over code, and is not checked here | the baseline ruling |
-| A10 | Waivers change nothing in force, and a waiver is live only before its expiry by header clock | the waiver ruling; Q-6 |
-| A11 | A fallback acts only while its primary is filed unavailable at the act, and never transfers | `DDD-dec-46` |
+| A8 | Every valid act is signed by a key bound to its signer, and no key signs after its close | keys (§5.3) |
+| A9 | A baseline is carried only by a valid acceptance, on a decision it accepts. That landings only shrink it is Writ's G11 over code, and is not checked here | the baseline rule |
+| A10 | Waivers change nothing in force, and a waiver is live only before its expiry by header clock | the waiver rule; header clocks (§6.2) |
+| A11 | A fallback acts only while its primary is filed unavailable at the act, and never transfers | the fallback rule (§2.4) |
 | A12 | Evaluating the same log again, or a prefix of it as-of, gives the same judgements and the same state at every position | G1, G6 |
 | A13 | An acceptance of a record in another system is never valid | force is local |
 
@@ -584,9 +587,9 @@ case.
 
 ## 9. The worked example: acme shop, under the profile
 
-The How examples' test product, extended (Round 1, Q-9). Records are added, never edited. The log
-is [`how-examples/log/acme.json`](how-examples/log/acme.json): 16 positions, hand-built, with no
-writer behind it. Every key is a throwaway test key.
+The How examples' test product, extended. Records are added, never edited. The log is
+[`how-examples/log/acme.json`](how-examples/log/acme.json): 16 positions, hand-built, with no
+writer behind it. Every key is a test key, kept with the fixture (below).
 
 | p | Header clock | Landed | What it shows |
 |---|---|---|---|
@@ -603,7 +606,7 @@ writer behind it. Every key is a throwaway test key.
 | 13 | 2026-11-04 09:00 | `KEY-architect@1` | rotation: `ACC-1@3`, signed at p4 by the closed key, still verifies (§5.3) |
 | 14 | 09:30 | `WAIV-resid@1`, expiring 2026-11-11T00:00Z | a waiver on the open question `RESID`, azure, `deployment-observed`: live here |
 | 15 | 2026-11-12 09:00 | `REV-curfmt@1` | a review with no force (§4.5); the waiver has expired by header clock, and the question is open again |
-| 16 | 2026-11-13 09:00 | `SCN@1`; `ACC-scn-what@1` (owner); `what@5` | added for sdlc edition 1 (`DDD-dec-113`, E-5): a What change touching only What kinds, in force on one acceptance; `what@5` names the new graph and the completed edition |
+| 16 | 2026-11-13 09:00 | `SCN@1`; `ACC-scn-what@1` (owner); `what@5` | added for sdlc edition 1: a What change touching only What kinds, in force on one acceptance; `what@5` names the new graph and the completed edition |
 
 **What `how-examples/check.py` verifies against the What graph** (rdflib):
 
@@ -623,21 +626,22 @@ profile is right, or that any real log implements it.
 - **The verdicts' date.** They are computed as of the readings (2026-10-28). A gate evaluating at
   p15's clock would find every reading older than `RESID`'s P1D, and would report every `RESID`
   verdict as an open question. The checker says so.
-- **The keys.** *Ruled (Round 2, P-6):* "keep the test keys for the fixture's life".
+- **The keys.** They are kept for the fixture's life.
   - They are in [`how-examples/test-keys/`](how-examples/test-keys/), declared there as the test
     holders' test keys, never used outside the fixture.
   - They are rotated only by a new founding that says so in its record.
   - The 25 records of 2026-11-02 were rebuilt once, before ratification, so that their keys are
-    these (session `rulings.md`, Round 2).
-  - The vendor package's re-founding key, `vendor-holder-p`, is kept there too (Round 3, P-9).
+    these.
+  - The vendor package's re-founding key, `vendor-holder-p`, is kept there too.
 
 ---
 
 ## Appendix A — Decisions: every departure from the charter's proposal
 
-The charter's answers, and Round 1's rulings on them, are `DDD-dec-86`. A ruled departure is
-listed with its ruling. Round 2 (`DDD-dec-92`) ruled every reading Round 1 left open, all as
-proposed. Round 3 (`DDD-dec-93`) replaced A-9's genesis clause (Q-11) and widened A-5 (P-9).
+Where the profile departs from the charter's proposal. The charter's answers, and Round 1's rulings
+on them, are one decision. A ruled departure is listed with its ruling. Round 2 ruled every reading
+Round 1 left open, all as proposed. Round 3 replaced A-9's genesis clause (Q-11) and widened A-5
+(P-9). The example's records cite these row labels, so they keep their numbers.
 
 | # | The proposal said | This profile says | Reason | State |
 |---|---|---|---|---|
@@ -653,7 +657,7 @@ proposed. Round 3 (`DDD-dec-93`) replaced A-9's genesis clause (Q-11) and widene
 | A-10 | a machine is any identity with an `attributedTo` | a machine is named by an attribution record; `attributedTo` refuses, it does not classify | `attributedTo` is a record member, not an identity property | ruled, Q-5 |
 | A-11 | (not raised) | what a decision touches (§4.2): a What change, its elements' kinds; a How decision, its kind's class at its anchor; other How records, their record class | the multi-scope rule needs a computable "touches" | ruled, Round 2, with the scope wording (§4.2) |
 | A-12 | (not raised) | in sdlc edition 1 the derived element kind is `sdlc:Journey` | the ontology's own comment ("derived composition"). `sdlc:State` is a projection's state space, not an element kind | ruled, Round 2 |
-| A-13 | thirteen properties | thirteen. The subset rule (Q-8) is part of A3, and A9 checks what the profile holds, leaving the ratchet over landings to G11 | the mutation run found no property checking the subset rule | ruled, Round 2: "as written" |
+| A-13 | thirteen properties | thirteen. The subset rule is part of A3, and A9 checks what the profile holds, leaving the ratchet over landings to G11 | the mutation run found no property checking the subset rule | ruled, Round 2: "as written" |
 | A-14 | a refusal is recorded | in the header of its position, with its reason, not as a record of its own | a refusal is the log's act, not an authority act; the header's hash covers it | ruled, Round 2: it matches Writ's "written to the log with the agent as cause" |
 | A-15 | (not raised) | `status` carries no force | `dpp-1.md` §3.4 leaves its meaning to the profile, and force is computed | ruled, Round 2 |
 
@@ -662,21 +666,76 @@ proposed. Round 3 (`DDD-dec-93`) replaced A-9's genesis clause (Q-11) and widene
 ## Appendix B — the ledger protocol's authority sections, and where each went
 
 Input, read at product-cli `70395df`, `ledger/spec/ledger-protocol.md`. "It was like that in the
-ledger" is not a reason for anything here (charter). Each row says why it was kept, changed or
-dropped.
+ledger" is not a reason for anything here. Each row says why it was kept, changed or dropped.
 
 | Ledger | Here | Why |
 |---|---|---|
-| Roles and the closed claim vocabulary (§5.6, LP-6.1) | dropped. A grant carries a scope of ontology classes, and the act kinds are the record kinds | scopes are ruled as classes (P-7). A role is a name for a scope nobody evaluates |
+| Roles and the closed claim vocabulary (§5.6, LP-6.1) | dropped. A grant carries a scope of ontology classes, and the act kinds are the record kinds. **Amended by a later decision:** the product framework carries roles. A role is a named, reusable scope that a grant may cite, and it is evaluated wherever the grant is; a scope also ranges over decision kinds. This text has not yet been reworked to it | scopes are ruled as classes. A role is a name for a scope nobody evaluates. The amendment meets that ground by making a role evaluated |
 | `grant` with `order: primary \| fallback-N` and `limits` | a fallback is a grant with `fallbackOf` (§2.4); no ranks and no limits | the ruling gives a fallback one limit, no transfer |
-| `gacc`, the grant acceptance (LP-6.3) | kept (§3.3) | ruled, Q-1 |
+| `gacc`, the grant acceptance (LP-6.3) | kept (§3.3) | ruled |
 | `genesis: true` with `external_ref` | the genesis record, founded and self-bound (§2.2) | the product IRI P is in the record. A contract reference is the founder's business |
 | Unavailability and availability (§5.6) | kept (§2.4), with header-clock times | ruled |
-| Revocation of a grant or an acceptance (`rev:`) | kept, as two record kinds (§3.5, §4.6) | ruled, Q-2 |
-| Key bindings: add, rotate, revoke; D7 (§4.10–4.11) | add, rotate, close; first key by the grantor; `since` (§5.3) | ruled, Q-3 |
+| Revocation of a grant or an acceptance (`rev:`) | kept, as two record kinds (§3.5, §4.6) | ruled |
+| Key bindings: add, rotate, revoke; D7 (§4.10–4.11) | add, rotate, close; first key by the grantor; `since` (§5.3) | ruled |
 | A close ends the key across namespaces (LP-4.39); ruling 47, per namespace | per product (§5.3) | force is local |
-| Re-acceptance after a closed key (LP-4.13) | "needs re-acceptance", from `since` (§5.3) | ruled with Q-3 |
+| Re-acceptance after a closed key (LP-4.13) | "needs re-acceptance", from `since` (§5.3) | ruled with the key rules |
 | Namespace policy, `accept_role`, schemes, `require_sk` (§5.6, §6.3) | dropped | "configuration is a decision or does not exist" (Writ); the scope is the policy |
 | Decision classes and their floors (§6.4) | dropped. What a decision touches decides who may accept it (§4.2) | the class requirement table was never implemented, and scopes over classes do its work |
 | `allowed_signers` derived from bindings (§4.9) | not carried. The reference evaluator derives key windows from the log | a derived file is an implementation's |
 | Writer-behavioural refusals (LP-6.14: non-interactive, agent identity, software key) | the machine rule (§5.1) is structural; hardware keys are not required | "no configuration makes it possible" is a property of records, checkable from the log |
+
+## Not settled yet
+
+- **Roles and scopes over decision kinds, decided later and not yet worked in** (§3.1, §3.2,
+  Appendix B). A later decision says the product framework carries roles (a role is a named,
+  reusable scope a grant may cite, evaluated wherever the grant is) and that a scope ranges over
+  decision kinds as well as What element kinds. §3.1 and §3.2 still define a scope as a set of
+  ontology classes. Reworking them is the specification-feasibility work's. Which of its items the
+  roles row belongs to is that decision's own reading, not yet confirmed by Emil.
+
+---
+
+## Where this comes from
+
+The profile was written on 2026-11-02 by the authority-profile session
+(`meta/sessions/2026-11-02-authority-profile/`), to the plan Emil ruled in its Round 1, with
+Appendix A ruled in Round 2, and Q-11 and the fixtures' re-founding ruled in Round 3. It was
+ratified by the merge of PR #45 on 2026-11-02, the act its decisions name. Section numbers are the
+ones `DDD-dec-86` cites.
+
+| Section | Rests on |
+|---|---|
+| Opening | `dpp-1.md` §9.4; the charter `DDD-dec-85`; Round 1 `DDD-dec-86`; Round 2 `DDD-dec-92`; Round 3 `DDD-dec-93` (superseding `-92` with two changes) |
+| §1.2 | `dpp/1`, `DDD-dec-62`. Attestations: a successor item (Round 1, Q-10) |
+| §1.3 | Round 1, F-2 (`DDD-dec-86`), quoted in the old text: "Anything a signature must cover … is a top-level dotted member inside the canonical form, as how-vocabulary.md does it. extensions is for what may change without a new version, and nothing authority-bearing may." |
+| §1.4 | The genesis grant: `DDD-dec-46`, restated by `DDD-dec-85`, superseded by `DDD-dec-87`, which keeps the definition. "Signed": `DDD-dec-47`, read by Round 1, F-1; superseded by `DDD-dec-88`. Force from the profile: `DDD-dec-54` ruling 4, superseded by `DDD-dec-89`. Scopes and the multi-scope rule: `DDD-dec-64` P-7 (Round 5 of the What move), superseded by `DDD-dec-90`. The charter's eight rulings: `DDD-dec-85`. F-1 to F-3, Q-1 to Q-10: `DDD-dec-86` |
+| §2.1 | The definition, verbatim: `DDD-dec-46` (2026-10-27), kept by `DDD-dec-87`. Packages as provenance: `DDD-dec-85` |
+| §2.2 | Round 1, Q-1. The product IRI: `DDD-dec-63` §1. The self-bound key: the ledger's D7, as it fits |
+| §2.3 | `DDD-dec-46`; Round 1, Q-1 and Q-2 ("closing is not a revocation") |
+| §2.4 | `DDD-dec-46` (the rule, quoted in the old text); Round 2, A-6 (`DDD-dec-92`, kept by `-93`) |
+| §2.5 | `DDD-dec-46` (the new-product path, quoted in the old text); Round 3, Q-11 (`DDD-dec-93`): key loss is not holder loss, A-9's genesis clause, Round 2's "by transfer" withdrawn |
+| §2.6 | Round 2, A-5; widened in Round 3, P-9 (`DDD-dec-93`) |
+| §3.1 | `DDD-dec-85`; `DDD-dec-64` P-7, now `DDD-dec-90`. Derived kinds: Round 2, A-12 |
+| §3.2 | Round 1, Q-8 |
+| §3.3 | Round 1, Q-1 |
+| §3.5 | Round 1, Q-2 |
+| §4.1 | `DDD-dec-47`, now `DDD-dec-88`; Round 1, F-1 |
+| §4.2 | Scope at signing and the multi-scope rule: `DDD-dec-85`; `DDD-dec-64` P-7, now `DDD-dec-90`. What a decision touches: Round 2, A-11 ("'touches' means every element the decision creates, changes or retires, per the scope wording"), ruled as proposed |
+| §4.3 | `DDD-dec-85`. The entry shape is `how.md` D-6's. Landings: Writ `[D2]`, G11 |
+| §4.4 | `DDD-dec-85`; Round 1, Q-6 ("expiry is a header-clock time, and Writ follows") |
+| §4.5 | Round 1, Q-4 |
+| §4.6 | Round 1, Q-2 ("an acceptance may be revoked") |
+| §4.7 | `DDD-dec-85` ("Force is local; `basedOn` carries provenance only") |
+| §5.1, §5.2 | `DDD-dec-85`; Round 1, Q-5 |
+| §5.3 | Round 1, Q-3; `add` with no live key: Round 2, A-9; `vouch`: Round 3, Q-11 |
+| §6.1 | Round 1, Q-6. The provenance-conformant log: Writ `[D2.5]` |
+| §6.2 | Round 1, Q-6 and F-3 (`[D2.11]` as Emil states it); A-8 (Round 2) |
+| §6.3 | the charter (`DDD-dec-85`) |
+| §7 | Round 1, Q-10; `DDD-dec-52` names the field and rules the verdict computed, never stored |
+| §8.1 | Round 1, Q-7. The class name: Writ `[D2.5]` |
+| §8.2 | The "Mirrors" column's rulings: `DDD-dec-46` (A3, A11); Round 1, Q-1 (A4), Q-2 (A5, A6), Q-3 (A8), Q-6 (A10), Q-8 (A3); `DDD-dec-85` (A7, A9, A10, A13) |
+| §9 | Round 1, Q-9. p16: sdlc edition 1 (`DDD-dec-113`, E-5). The keys: Round 2, P-6 ("keep the test keys for the fixture's life"); the rebuild of the 25 records: the session's `rulings.md`, Round 2; `vendor-holder-p`: Round 3, P-9 |
+| Appendix A | `DDD-dec-86` (Round 1), `DDD-dec-92` (Round 2), `DDD-dec-93` (Round 3) |
+| Appendix B | Its rows: Q-1 (`gacc`), Q-2 (revocation), Q-3 (key bindings, re-acceptance), `DDD-dec-64` P-7 (scopes as classes). The roles row is amended by `DDD-dec-117` (2026-11-08, F-5): applying the amendment to the profile's text is successor work of the specification-feasibility session |
+
+Supersedes `84aa466:applications/sdlc/authority.md` in place.
