@@ -51,3 +51,16 @@ Emil's message, verbatim:
 | O-2 | Q-6 | The message carries the option list "[the fewest first, the rest when known / every field]" with no choice made. Not read as either |
 
 Both were asked of Emil before the card's move 2 and move 4 were written.
+
+## O-1 and O-2 closed, received 2026-11-20 at 11:24 UTC
+
+Asked through the session's question form, with the options of `proposals.md`. Emil's answers, verbatim as the form returned them:
+
+> Q-4: "Both (Recommended)"
+>
+> Q-6: "Fewest first (Recommended)"
+
+| # | Ruled | Reading |
+|---|---|---|
+| Q-4 | Both | Move 4 repeats over every act and decision inside the scope, including those no trace reached, then over each further scope the practitioner can map (P-6's three loops) |
+| Q-6 | Fewest first | Move 2 needs group A. Group B is filled when known, and an empty field shows |
