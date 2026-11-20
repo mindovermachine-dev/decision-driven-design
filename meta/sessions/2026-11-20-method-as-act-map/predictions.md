@@ -34,6 +34,8 @@ Written before `proposals.md`. Nothing under `core/`, `method/`, `applications/`
 
 Written after the G1 rulings were recorded (`rulings.md`) and before any file under `core/` or `method/` changes. The clone was unshallowed first (see P-3.4).
 
+**Why `issue-refs` reported "Refs checked on 0" at G1.** The session's clone was shallow. `canon issue-refs` checks only commits descending from `refs.from` in `canon.yaml` (`6aad807`). In a shallow clone that commit is not an ancestor of anything, so no commit was covered. CI checks out with `fetch-depth: 0`, so CI was covering them. After `git fetch --unshallow` the same command read "Refs checked on 7" on that head.
+
 | # | Prediction | Result |
 |---|---|---|
 | P-3.1 | `DDD-dec-124` passes `validate-claims.py --decisions` on the first run, with every `basedOn` id resolving || Held. `valid: 103 decisions, ids unique, format rules satisfied` on the first run |
@@ -41,7 +43,7 @@ Written after the G1 rulings were recorded (`rulings.md`) and before any file un
 | P-3.3 | The worked example, run on the lifecycle data in the How owner's scope from "plan the realisation" (o1b): the owed verdict (oC) is the edge, with #103's pull; the own-ground issue (oG) is placed and its trace stops at a finding, because its readings are not described; the framed issue (o1) varies inside and outside on the change-locus axis, which the data declares, so the ruling makes two act sites where the data holds one, and that is a finding for the lifecycle data || Held, in all three limbs (`make-an-act-map.md`, worked example) |
 | P-3.4 | `canon issue-refs --basis` on the unshallowed clone checks Refs on every commit of the branch and Basis on exactly the commits that touch `core/` || Held. `issue-refs: ok. 9 commits in 1ecf91415d82..44be60251c17; Refs checked on 9, Basis on 1`. The one commit touching `core/` is `44be602` |
 | P-3.5 | The canon tests and `check --compare` pass unchanged, and `ci.py` passes || Held. 66 tests succeeded, 0 failed; `compare: every case agrees`; `canon check: all gates passed`; `ci.py`: `all gates passed` |
-| P-3.6 | On the pull request, `agent review` reads "Not approved" and says nothing else; `pipeline (devcontainer)` passes | |
+| P-3.6 | On the pull request, `agent review` reads "Not approved" and says nothing else; `pipeline (devcontainer)` passes || Held, on `337c120`, the head when #89 opened. `agent review`: "Not approved", with the note "#89 needs a comment 'approve 337c120…' … written by hand by Hafeok, not edited", and nothing else. `agent review (judge)`: success. `pipeline (devcontainer)`: success, on the push and on the pull request |
 | P-3.7 | `method/README.md`'s first 20 lines name the four moves and the register of each || Held. Lines 3 to 10 hold the four moves, each with its register |
 
 ## Operation 4 — what this breaks, and P-10 (deliverable 4)
