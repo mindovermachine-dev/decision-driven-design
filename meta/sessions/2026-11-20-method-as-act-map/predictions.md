@@ -43,3 +43,13 @@ Written after the G1 rulings were recorded (`rulings.md`) and before any file un
 | P-3.5 | The canon tests and `check --compare` pass unchanged, and `ci.py` passes || Held. 66 tests succeeded, 0 failed; `compare: every case agrees`; `canon check: all gates passed`; `ci.py`: `all gates passed` |
 | P-3.6 | On the pull request, `agent review` reads "Not approved" and says nothing else; `pipeline (devcontainer)` passes | |
 | P-3.7 | `method/README.md`'s first 20 lines name the four moves and the register of each || Held. Lines 3 to 10 hold the four moves, each with its register |
+
+## Operation 4 — what this breaks, and P-10 (deliverable 4)
+
+Written before `breaks.md` and `proposals-2.md`. Nothing outside the session directory changes in this operation.
+
+| # | Prediction | Result |
+|---|---|---|
+| P-4.1 | The list holds at least the six the issue names (#74's plugin, `quick-start.md`, the version under `DDD-dec-82`, #81, #82, the cards' citations in `applications/`), and the survey adds at least three more | |
+| P-4.2 | No file listed in `breaks.md` is changed by this session: `git diff 1ecf914 HEAD` touches none of `quick-start.md`, `applications/`, `GOVERNANCE.md`, `.github/`, `plugins/` or `releases/` | |
+| P-4.3 | At least one break is in graph data that a checker prints (`shapes.ttl`'s message naming "method step 1b, part 5") | |
