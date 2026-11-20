@@ -50,6 +50,6 @@ Written before `breaks.md` and `proposals-2.md`. Nothing outside the session dir
 
 | # | Prediction | Result |
 |---|---|---|
-| P-4.1 | The list holds at least the six the issue names (#74's plugin, `quick-start.md`, the version under `DDD-dec-82`, #81, #82, the cards' citations in `applications/`), and the survey adds at least three more | |
-| P-4.2 | No file listed in `breaks.md` is changed by this session: `git diff 1ecf914 HEAD` touches none of `quick-start.md`, `applications/`, `GOVERNANCE.md`, `.github/`, `plugins/` or `releases/` | |
-| P-4.3 | At least one break is in graph data that a checker prints (`shapes.ttl`'s message naming "method step 1b, part 5") | |
+| P-4.1 | The list holds at least the six the issue names (#74's plugin, `quick-start.md`, the version under `DDD-dec-82`, #81, #82, the cards' citations in `applications/`), and the survey adds at least three more || Held. Six from the issue (B-1 to B-6) and six from the survey and the worked example (B-7 to B-12) |
+| P-4.2 | No file listed in `breaks.md` is changed by this session: `git diff 1ecf914 HEAD` touches none of `quick-start.md`, `applications/`, `GOVERNANCE.md`, `.github/`, `plugins/` or `releases/` || Held. `git diff --name-only 1ecf914 HEAD` lists none of them |
+| P-4.3 | At least one break is in graph data that a checker prints (`shapes.ttl`'s message naming "method step 1b, part 5") || Held. `shapes.ttl:338`'s `sh:message` names "method step 1b, part 5" (B-6) |
