@@ -22,10 +22,10 @@ Written before `proposals.md`. Nothing under `core/`, `method/`, `applications/`
 
 | # | Prediction | Result |
 |---|---|---|
-| P-2.1 | Each of the nine lines of steps 2 to 10 maps onto at least one field of the issue's second group. None needs a field outside that list | |
-| P-2.2 | At least two of the nine lines hold something that is not a field of one act or one decision: a property of the map as a whole, or of the record beside it | |
-| P-2.3 | A trace back run on the lifecycle data, in the SDLC scope from "plan the realisation" (o1b), reaches the edge on at least two readings, and meets at least one act whose ground readings the data does not declare, so the trace cannot run on from it | |
-| P-2.4 | The first group needs more than the two fields the issue names: at least whether the act is inside the scope, which is the scope's to say and not the act's | |
-| P-2.5 | At least one proposal conflicts with a ruling recorded only in an open issue's text, not filed: #82's six-move core process, accepted 2026-11-18 at 13:22 | |
-| P-2.6 | `DDD-dec-124` is still free by file on every branch of both repositories when the proposals are written | |
-| P-2.7 | `python3 scripts/ci.py` passes after the proposals are committed | |
+| P-2.1 | Each of the nine lines of steps 2 to 10 maps onto at least one field of the issue's second group. None needs a field outside that list || Held. Lines 2 to 10 map one to one onto B-1 to B-9, each a field in the issue's list (`proposals.md`, P-2) |
+| P-2.2 | At least two of the nine lines hold something that is not a field of one act or one decision: a property of the map as a whole, or of the record beside it || Held. Lines 8 and 9 are records beside the map (derivation, occurrences); 6 and 7 are the occupancy record; 10 is partly the record. Put to Emil as Q-3 |
+| P-2.3 | A trace back run on the lifecycle data, in the SDLC scope from "plan the realisation" (o1b), reaches the edge on at least two readings, and meets at least one act whose ground readings the data does not declare, so the trace cannot run on from it || **Half held.** The second limb held: "frame own-ground work" (oG) declares no reading but an earlier deployment, so the trace stops at a finding. The first limb reached the edge cleanly on one reading only (the owed verdict, oC). The second edge, the framed issue (o1), is at the edge only for occurrences whose locus is What, because o1 is held by the locus's owner. The prediction did not foresee an act inside for some occurrences and outside for others. It became P-3's weakest point and step 3 of its procedure |
+| P-2.4 | The first group needs more than the two fields the issue names: at least whether the act is inside the scope, which is the scope's to say and not the act's || Held. A-1, "inside the scope", is added (P-2) |
+| P-2.5 | At least one proposal conflicts with a ruling recorded only in an open issue's text, not filed: #82's six-move core process, accepted 2026-11-18 at 13:22 || Held. K-1: #82's six-move process finds pulls before acts. Put to Emil as Q-5 |
+| P-2.6 | `DDD-dec-124` is still free by file on every branch of both repositories when the proposals are written || Held. Re-checked before writing: no `DDD-dec-124` to `-129` file on any branch of either repository, no mention of `-125` to `-129`, and no `DDD-dec-12x` upstream on any branch or tag |
+| P-2.7 | `python3 scripts/ci.py` passes after the proposals are committed || Held |
