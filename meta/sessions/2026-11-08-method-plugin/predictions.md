@@ -1,0 +1,58 @@
+# Predictions — method plugin, 2026-11-08
+
+Each prediction was made before its operation ran. Outcomes as observed.
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 1 | `git ls-remote --tags origin v0.7.0` | The tag exists (the release session cut it) | **Held.** `72f8f13` (annotated), which peels to `84aa466` = `main` |
+| 2 | Open the issue | It is #71 (#69 was the release issue, so its PR is #70) | **Missed.** #72. #70 and #71 were already taken |
+| 3 | `python3 scripts/ci.py` on `84aa466` | All gates pass | **Missed, then held.** `what` and `how` failed because rdflib, pyoxigraph and pyld were not installed. After `pip install -r scripts/requirements.txt`, all gates passed |
+| 4 | `plugins/ddd-method/check.py`, first run | Passes | **Missed.** One shared 8-word run with `method/README.md`: the skill restated the README's definition of "Value made visible". Reworded, and it passed. The check caught exactly what it exists to catch |
+| 5 | `claude plugin validate` on the plugin and on the marketplace root | Both pass | **Held.** Both exit 0, and the root also passes with `--strict`. One plugin-directory warning (no icon) and one piece of advice (the README has no install line), neither of which changes the verdict |
+| 6 | Install from the local marketplace in a scratch `HOME` | Install id `ddd-method@decision-driven-design`, version `0.7.0`; the skill is listed as `ddd-method:run` | **Held.** `claude plugin details` lists skill `run` (about 144 tokens always on). A headless session's init event lists `ddd-method:run` in both `skills` and `slash_commands` |
+| 7 | `check.py` with planted defects (an id; a sentence from step 1's card; version `0.6.0`) | Each is refused | **Held.** Three FAILs, then 0 failures after the plants were restored |
+| 8 | Smoke eval `proposed-as-ruled`, 1 run, `--allow-tools "Bash(git *)"` | 3 of 3 graders pass | **Missed, informatively.** 0.75. The model's only Bash call began with `cd` and was denied. It then stopped, refused to treat the step as ruled, and declined to name the register without reading it, which is what the skill says to do. The grant was too narrow, not the skill |
+| 9 | Same, with `--allow-tools Bash Write` (Bash still inside the eval's OS sandbox, with no network) | 3 of 3 | **Held.** 1.00 |
+| 10 | The full suite, 4 cases × 3 runs × 2 arms | Every case passes with the plugin. Without it, `unreachable` and `proposed-as-ruled` score lowest | **Missed in part.** `proposed-as-ruled` and `demand-flow-start` passed at 1.00. `step-1-small` (0.50) and `unreachable` (0.56) failed. `unreachable` failed on a rubric that counted generic field names as card content; corrected, it scored 1.00 with the plugin and 0.33 without. `step-1-small` stays below 1.0 (`findings.md` §Evals) |
+
+## Round 28 (2026-11-11)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 11 | Re-read the branch, origin and `main` | The branch is at `7700558` locally and on origin, and `main` has not moved | **Held.** `main` = `84aa466`. 60 origin branches (59 at arrival) |
+| 12 | Highest decision id on every origin branch | `DDD-dec-120`, on `claude/zealous-ptolemy-3txf8k` | **Held.** `-119` and `-120` exist only there, and no branch mentions a higher id. This round takes `DDD-dec-121` |
+| 13 | Round 28 copied into `rulings.md` | Byte-exact apart from the quote markers | **Held.** Verified by stripping the markers and comparing |
+| 14 | `validate-claims.py core/decisions/ --decisions` with `DDD-dec-121` | Accepts it first time | **Held.** 97 decisions, all valid |
+| 15 | The F-9 edit to `README.md` | The diff touches one line | **Held.** Only line 8 changed |
+| 16 | `scripts/ci.py`; canon's `dotnet test`, `changelog --check` and `check --compare`, as CI runs them | All pass | **Held.** All gates pass. Canon: 66 tests, the changelog is the projection, every compare case agrees |
+| 17 | `claude plugin validate --strict` on the plugin and the marketplace; `canon issue-refs --basis` after the commit | All pass | **Held.** Both `--strict` validations pass. `issue-refs --basis` first failed because the local clone was shallow and lacked its configured starting commits. After unshallowing, as CI checks out with full history: "ok. 5 commits in 84aa4665b4b0..6f75bba833db; Refs checked on 5, Basis on 1" |
+
+## Round 29 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 18 | Round 29 copied into `rulings.md` | Byte-exact apart from the quote markers | **Held** |
+| 19 | Fetch `main` | `dc8b737`, with `DDD-address-06` to `-11`, `DDD-dec-122`, and `method/01` to `10` changed | **Held**, plus #86 (`DDD-dec-123`, `tools/canon/`). No new release |
+| 20 | `check.py`'s thinness check against `main`'s `method/` | Still no shared 8-word run | **Held** |
+| 21 | `git merge-tree origin/main HEAD` | One conflict, `meta/sessions/README.md` | **Held** |
+| 22 | `DDD-dec-121` on every branch of both repositories | Only on this branch; upstream's highest is `DDD-dec-39` | **Held for files, missed for mentions.** Five branches mention it, each as an id record attributing it to #74. The highest downstream is now `DDD-dec-123` |
+| 23 | The whole validate workflow, locally, on this branch's head | Passes, as before the round, since only records change | **Held.** `scripts/ci.py`: all gates. Canon: 66 tests, `changelog --check`, `issue-refs --basis` (6 commits from `dc8b737`, Refs on 6, Basis on 1) and `check --compare` (every case agrees) |
+
+## Round 30 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 24 | Round 30 copied into `rulings.md` | Byte-exact | **Held** |
+| 25 | Rebase onto `main` | Each of the three commits that touch the index row conflicts there, and nothing else conflicts | **Held.** `main` had moved to `54dcb95` (#87). Seven commits replayed and signed |
+| 26 | `DDD-dec-121` amended, then `validate-claims.py --decisions` | Valid | **Held.** 99 decisions |
+| 27 | `check.py` after the `SKILL.md` edits, against `main`'s cards | Thinness still passes | **Held** |
+| 28 | `check.py` with the pin check extended to the evals and both READMEs | Passes | **Missed.** It caught `#v0.7.1` and `0.8.0` left in the plugin README. Fixed. A planted `v0.8.0` in a grader was refused |
+| 29 | The whole validate workflow on the new head | Passes | **Held, after a fix to the environment.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon first could not run: after the rebase `global.json` pins SDK `10.0.404` (#86), and this container had `10.0.403`. With `10.0.404` installed beside it (outside the repository): 66 tests, `changelog --check`, `issue-refs --basis` (8 commits from `54dcb95`, Refs on 8, Basis on 2) and `check --compare` (every case agrees) |
+
+## Round 31 (2026-11-19)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 30 | The tree before the round | Clean at `6657942`, as on origin | **Held** |
+| 31 | Round 31 copied into `rulings.md` | Byte-exact | **Held** |
+| 32 | The whole validate workflow on the record-only head | Passes, since only records change | **Held.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon, on SDK `10.0.404`: 66 tests, `changelog --check`, `issue-refs --basis` (9 commits from `54dcb95`, Refs on 9) and `check --compare` (every case agrees) |

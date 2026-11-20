@@ -1,0 +1,103 @@
+format: 1
+id: DDD-dec-121
+kind: decision
+statement: |
+  The method is installable as a Claude Code plugin in this repository, ddd-method in the marketplace decision-driven-design (.claude-plugin/marketplace.json at the root, the plugin in plugins/ddd-method/), for anyone adopting the method. The plugin is thin: its one entry skill, /ddd-method:run, carries procedure and discipline only, and reads the step table, the step cards and the canon they cite from this repository at one pinned method release, from a clone at the tag or otherwise over HTTPS at the tag; when neither is reachable it says so and stops, and never fills from memory. Per-step skills are not added. The plugin's version is the method pin it reads without its v (0.7.0 for v0.7.0); a plugin-only change at the same pin takes a +p.N suffix (0.7.0+p.1), and a re-pin takes the new pin's version (0.8.0 for v0.8.0). Any method release that changes a file the skill reads, anything under method/ or a claim or decision a card cites, re-pins the plugin in the same change, whatever part of the version it moves. The plugin claims discipline, not better step execution: it refuses to treat a [PROPOSED] step as ruled, reads at the pin, and stops when it cannot; it does not claim that a step is performed better with it than without it. That claim rests on the plugin's evals run at its current pin, re-run at each re-pin.
+principal: Emil
+made: |
+  2026-11-08, Round 27 of the claude.ai conversation (verbatim in meta/sessions/2026-11-08-method-plugin/prompt.md and rulings.md), and 2026-11-11, Round 28 of the same rulings.md, Emil's answers in Claude's question dialog on claude.ai, filed by the method-plugin session; amended before landing on 2026-11-19 by Rounds 29 and 30 of the same rulings.md; Emil's landing of the branch is the ratification act
+resolution: |
+  ## Round 27 (claude.ai conversation, 2026-11-08)
+
+  - **Ruled: who installs it, and from where.** "From the repo, for practitioners
+    (Recommended)" (option text: "A Claude Code plugin in decision-driven-design (a skill plus
+    marketplace entry), installable by anyone adopting the method; versioned with the method").
+  - **Ruled: scope.** "The whole method (Recommended)" (option text: "All steps, each run from its
+    step card; refuses to treat [PROPOSED] steps as ruled; step 1 and the demand-flow step first
+    in practice").
+  - **Ruled: holding.** "Thin, reads the repo at a pin (Recommended)" (option text: "The skill
+    carries procedure and discipline; step cards and canon are fetched from the repository at the
+    pinned version, so it never drifts").
+
+  ## Round 28 (2026-11-11, method-plugin rulings.md)
+
+  - **F-1: design and build accepted together.** "Accept both (Recommended)" (option text: "Design
+    and build are separate commits and the design matches the charter; record the missed gate as
+    a finding").
+  - **F-3: the version scheme.** "Yes (Recommended)" (option text: "0.7.0 now; 0.7.0+p.1 for a
+    plugin fix; 0.8.0 when it re-pins to v0.8.0. Claude Code updates on any version-string
+    change").
+  - **F-4: filed.** "File it (Recommended)" (option text: "Thin skill reading at a pin, one entry
+    skill, the version scheme, and the README claiming discipline rather than step quality").
+  - **F-9: the README's opening line** names the current release; the pull request is Emil's to
+    open.
+
+  ## Round 29 (2026-11-19, method-plugin rulings.md)
+
+  - **The hold.** "#74 is held. It does not land at v0.7.0." #84 changed step 1 after v0.7.0, and
+    the plugin reads the step cards at v0.7.0. Landing it then would ship a plugin that teaches a
+    superseded step 1. When the release that carries #84 is tagged, the plugin re-pins to it, its
+    evals are reworked and re-run, and the branch is rebased onto main.
+
+  ## Round 30 (2026-11-19, method-plugin rulings.md)
+
+  - **The release that carries #84 is v0.8.0**, MINOR under DDD-dec-82's first row (a ruled step
+    superseded incompatibly). It is cut in its own session.
+  - **This decision is amended in place** by amendments 1 to 4 of the Round 29 report: the re-pin
+    trigger, evidence by pin, the carrying release, and these rounds. Amendment 5 (DDD-dec-122 in
+    basedOn) is declined: #84 is the occasion, not the basis.
+
+  ## What the plugin claims, and the evidence
+
+  Discipline, not step quality. From the eval table in
+  meta/sessions/2026-11-08-method-plugin/findings.md, **at the pin v0.7.0** (3 runs per arm, with
+  and without the plugin): step 1 on a small example shows no gain, 0.81 to 0.95 with the plugin and 0.86 to 0.90
+  without. The gain is in discipline: a [PROPOSED] step asked as ruled, 1.00 with and 0.75 without;
+  the repository unreachable, 1.00 with and 0.33 without (without the plugin, 2 of 3 runs rebuilt
+  step 1's card from memory); demand flow offered from the PDLC's kinds as a start, 1.00 with and
+  0.75 without. These are evals of an agent on cases written inside the framework: exercised
+  evidence about the plugin's behaviour, none about the method. The claim stands on the evals at
+  the plugin's current pin. They are re-run at each re-pin, and each pin's table is kept in the
+  record, never overwritten.
+
+  ## What is filed
+
+  - `.claude-plugin/marketplace.json`; `plugins/ddd-method/` (plugin.json at 0.7.0, the skill
+    `run` pinned at v0.7.0, README.md, check.py, evals/).
+  - `plugins/ddd-method/check.py` as the `plugin` gate of scripts/ci.py: the marketplace entry and
+    the manifest agree, the version tracks the pin, and the skill holds no claim or decision id and
+    no run of eight words shared with method/.
+
+  ## Relation to earlier decisions
+
+  - **Release.** The plugin pins the newest method release when it lands. Any method release that
+    changes a file the skill reads (anything under method/, or a claim or decision a card cites)
+    re-pins the plugin in the same change, whatever part of the version it moves. No release is cut
+    by this decision.
+  - **Name.** The plugin is ddd-method, not ddd, which is product-cli's tool for product
+    repositories (DDD-dec-100).
+  - **Supersedes nothing.**
+basedOn:
+  - DDD-dec-82
+  - DDD-dec-75
+  - DDD-dec-74
+  - DDD-dec-100
+  - DDD-dec-79
+notes: |
+  Id. At filing (2026-11-11), DDD-dec-119 and DDD-dec-120 are held on the branch
+  claude/zealous-ptolemy-3txf8k, and no branch holds a higher decision, so this takes DDD-dec-121.
+  Re-checked across every origin branch before commit and before push (findings.md).
+
+  Open, not ruled (findings.md): claude plugin validate is not in CI (F-5); where a practitioner's
+  artefacts go in a repository that uses product-cli's .ddd/ graph (F-6); thinness holds for the
+  skill's text, not for the model's memory (F-7); one eval run reported reading at the pin with no
+  git call recorded, not reproduced (F-8).
+
+  Amended before landing, in place, in Round 30 (2026-11-19, method-plugin rulings.md), on the
+  Round 29 report (findings.md, R-1). The occasion was DDD-dec-122 (#84), which superseded step 1
+  after v0.7.0 without adding a card or moving a register, so the MINOR-only re-pin trigger of the
+  first filing would not have re-pinned the plugin. DDD-dec-122 is named here as the occasion. It
+  is not a basis (Round 30, item 2).
+
+  Review trigger. A method release that changes a file the skill reads without re-pinning the
+  plugin; or an eval in which the plugin fills a card from memory.
