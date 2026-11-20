@@ -55,3 +55,12 @@ notes: |
 
   The procedure and its worked example (the acme shop, with the How as the scope):
   meta/sessions/2026-11-18-act-map-scope-and-pull/pull-procedure.md.
+
+  Appended 2026-11-20 (DDD-dec-124; G1 P-9 of meta/sessions/2026-11-20-method-as-act-map/
+  rulings.md). The method is now making an act map in four moves: place an act, then follow the
+  determinable back to the edge. Two lines of this file are read under DDD-dec-124. The region's
+  "A pull is found at the edge first" (Claude's unverified reading of E-4, above) is superseded in
+  order: a pull is found by the trace back from a placed act, and the edge is then asked again by
+  the edge pass inside move 4. The test's "the five-part procedure of step 1" is read as the trace
+  of method/make-an-act-map.md. Neither line is reworded. The statement, falsifier and breaks
+  stand: the statement already places a pull "by a trace back from the request".

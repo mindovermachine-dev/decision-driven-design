@@ -1,0 +1,122 @@
+format: 1
+id: DDD-dec-124
+kind: decision
+statement: |
+  The method is one thing, making an act map, in four moves, each [PROPOSED]: scope the act map; place an act or decision; follow the determinable back to the edge and note the pull; do it again, over every act and decision in the scope and then over each further scope, until the pull sources are identified. Every part of the method is [PROPOSED], step 1 included, which leaves "ruled for test". What steps 2 to 10 held is recorded on the acts and decisions of the map, and in the records kept per act site beside it, as group B of an act description whose group A is the fewest fields that let the trace run. The card method/make-an-act-map.md is live; the cards of steps 1, 1b and 2 to 10 stay as written, each marked not live. This supersedes in part DDD-dec-122 and DDD-dec-118, and supersedes the order of #82's core process for making a map.
+principal: Emil
+made: |
+  2026-11-19 at 13:54 and 13:57 Europe/Berlin, in the planning project (verbatim in issue #88 and meta/sessions/2026-11-20-method-as-act-map/prompt.md), and at G1 of issue #88 on 2026-11-20 at 11:23 UTC, with Q-4 and Q-6 answered at 11:24 UTC (verbatim in meta/sessions/2026-11-20-method-as-act-map/rulings.md); filed by the method-as-act-map session the same day; Emil's landing of the branch is the ratification act
+resolution: |
+  ## Ruled on 2026-11-19, in the planning project
+
+  - **The method (13:54).** "The method now is all proposed and the method as i envision it now
+    is to create an act map. And that process is 1. scope the act map 2. place an act or
+    decision 3. follow the determinable back to the edge and note the pull. 4. do it again
+    untill all maps you can find or think of is mapped and your pull sources are identified."
+  - **Steps 2 to 10 (13:57).** "The method should be updated as well. and steps 2 to 10 is
+    recorded in the acts and decisions. We need to help people then describe the act fully or
+    else they cant find the pull"
+
+  ## Ruled at G1 of #88, 2026-11-20 (rulings.md)
+
+  - **Q-1.** Every part of the method is [PROPOSED], step 1 included.
+  - **Q-2.** Parts 2 to 5 of step 1's first part are superseded. Scope first stands (2026-11-18
+    R-2). No ruling about north is superseded, because none was filed: "start with North" is
+    2026-11-18 E-2, a direction not ruled.
+  - **Q-3.** The records kept per act beside the map are included in "recorded in the acts and
+    decisions".
+  - **Q-4.** Move 4 means both: every act and decision in the scope, including those no trace
+    reached, then each further scope.
+  - **Q-5.** The four moves supersede #82's order for making a map. #82's moves 4 to 6 stay
+    #82's, as the check of a map.
+  - **Q-6.** Fewest first: move 2 needs group A, and group B is filled when known.
+  - **P-1.** One card. **P-2.** The act description, with A-1 (inside the scope) added.
+  - **P-3.** The trace, with step 3 as Emil changed it: do not write an act twice. When inside
+    or outside varies between occurrences, find the axis it varies on. If that axis is declared,
+    they are two act sites at two addresses (DDD-address-02, DDD-ground-06), one inside and one
+    outside. If no declared axis separates them, record a finding for move 1: an axis is missing.
+  - **P-4.** Option A: the edge pass runs inside move 4, after the trace.
+  - **P-5.** The stop, with the card saying it is the principal's judgement.
+  - **P-6.** As Q-4.
+  - **P-7.** T2b's pre-registration is fixed and tests the address claims on a map made by the
+    four moves. Nothing in the method waits on T2b.
+  - **P-8.** No card is deleted, moved or reworded. Each superseded card's first line says it
+    is not live and names the live card.
+  - **P-9.** This decision, with a note appended to DDD-address-09.
+
+  ## What is filed
+
+  - method/make-an-act-map.md, [PROPOSED]: the four moves, the act description (groups A and B),
+    the trace, the edge pass, the stop and a worked example on the lifecycle data.
+  - A first line and a superseding section on method/README.md, on each of the cards of steps 1,
+    1b and 2 to 10, and on the root README.md's status table. Nothing below them is reworded.
+  - A notes entry appended to DDD-address-09.
+  - This session's row in meta/sessions/README.md.
+
+  ## What is not changed
+
+  - No claim's statement, region, falsifier or test. Every claim stays projected.
+  - T2b's pre-registration of 2026-09-27, which is fixed.
+  - Any act or lifecycle data under applications/. The findings the worked example makes on that
+    data are recorded for an issue, not acted on.
+  - DDD-dec-82's mapping, and the versions, roadmap and maturity property that count ten steps.
+    These are listed, each with a draft issue, in the session's breaks.md.
+  - quick-start.md, the plugin of #74, and the texts of #81 and #82.
+  - Canon in the principle repository, and the pin.
+
+  ## Relation to earlier decisions
+
+  - **Supersedes in part DDD-dec-122.** Its "step 1 stays ruled for test, with a [PROPOSED]
+    first part" and the order of parts 2 to 5 of that first part. Its claims, its filing of the
+    act map and its other rulings stand. The pull statement and the gaps table stand, and the
+    new card cites them.
+  - **Supersedes in part DDD-dec-118.** "a step of the method, placed after step 1": there are
+    no steps. Step 1b's content goes to the act description and the moves. Its ruling that each
+    map declares its kinds (as DDD-dec-122 amended it), the PDLC's kinds as a starting point and
+    DDD-flow-01 to -04 stand.
+  - **Reads DDD-dec-74 under this decision.** Its statement stands: the front door states every
+    part of the method at the register it is filed at. Its resolution's "step 1 is ruled for
+    test … it stands or falls on T2b" was the state at its ruling.
+  - **Supersedes** no decision by the supersedes field, because none is wholly replaced, as
+    DDD-dec-122 did.
+  - **Release.** Not cut by this decision or this session. Under DDD-dec-82, step 1's register
+    moving is a MINOR change.
+basedOn:
+  - DDD-dec-122
+  - DDD-dec-118
+  - DDD-dec-74
+  - DDD-dec-82
+  - DDD-address-01
+  - DDD-address-02
+  - DDD-address-06
+  - DDD-address-07
+  - DDD-address-09
+  - DDD-address-11
+  - DDD-ground-01
+  - DDD-ground-02
+  - DDD-ground-05
+  - DDD-ground-06
+  - DDD-frame-13
+notes: |
+  Id. Checked on every branch of both repositories at arrival (10:21 UTC) and again before the
+  proposals (2026-11-20): 67 branches downstream, 27 branches and 18 tags upstream. No
+  DDD-dec-124 file exists anywhere. One stray mention is on main and five other branches:
+  meta/sessions/2026-11-18-canon-lock-file/findings.md, line 313, question W-1 of #83's session,
+  which offered DDD-dec-124 as the alternative id for the agent review waiver. That alternative
+  was not taken: the waiver was filed as DDD-dec-123. The mention names no decision and reserves
+  nothing. DDD-dec-121 is held by #74 and is not used.
+
+  Canon check of P-3's step 3, asked by Emil at G1, against v5.15.2: nothing says otherwise.
+  Two boundaries follow from canon and are written on the card, UNVERIFIED — Emil review. The
+  axis that separates inside from outside is a ground axis, never the occupant (DDD-ground-06;
+  term:act-address: "The occupant is not part of it"). Declaring a missing axis is a second
+  declaration of axes, which makes a second map (DDD-address-07) superseding the first
+  (DDD-ground-06's region), and a wider map that shares the act must split it too, or a limb of
+  DDD-address-07's falsifier fires.
+
+  Open, not ruled here: what evidence a ruling that moves a move from [PROPOSED] to ruled should
+  rest on, now that nothing in the method waits on T2b (Emil's request at G1, for G2). Step 5's
+  ordering problem (DDD-dec-122, K-2) is carried as field B-4's open point.
+
+  Review trigger. The first case mapped with the four moves outside this repository's own data:
+  whether group A finds the pull, and whether a junior engineer can follow the trace.

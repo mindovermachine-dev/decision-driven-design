@@ -1,3 +1,11 @@
+> **Not live.** This card is superseded by [Make an act map](make-an-act-map.md), the live card (`DDD-dec-124`). It stays below as written.
+
+## Superseded `[PROPOSED]`
+
+**This section supersedes the card below** (`DDD-dec-124`, ruled 2026-11-20). The method is now one thing, making an act map, in four moves, and every part of it is `[PROPOSED]`. Step 2 is no longer a step. What it held is recorded on the acts and decisions of the map, or in a record kept per act site beside it, as field B-1 of the act description. Nothing below is reworded.
+
+---
+
 # Step 2 — Anchor authority `[PROPOSED]`
 
 **Register: `[PROPOSED]`.** This step is not ruled, and no claim or decision files it. This card

@@ -1,3 +1,11 @@
+> **Not live.** This card is superseded by [Make an act map](make-an-act-map.md), the live card (`DDD-dec-124`). It stays below as written.
+
+## Superseded `[PROPOSED]`
+
+**This section supersedes the card below** (`DDD-dec-124`, ruled 2026-11-20). The method is now one thing, making an act map, in four moves, and every part of it is `[PROPOSED]`. Step 1 is no longer a step, and it is no longer "ruled for test". Its first part's scope (part 1) is move 1. Its parts 2 to 5 are superseded in order by moves 2 and 3: place an act, then trace back to the edge. The pull statement and the gaps table stand, and the live card cites them. The address and the time index are fields A-4 and B-8 of the act description. Its claims stay projected, and T2b still tests them. Nothing below is reworded.
+
+---
+
 # Step 1 — Map and index acts
 
 **Register: ruled for test, projected.** The step's form is ruled: Emil's rulings R-2 and R-4 to
