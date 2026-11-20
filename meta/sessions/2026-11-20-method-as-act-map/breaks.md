@@ -40,7 +40,9 @@ Varve.
 mapping: what 1.0 means when the method is four moves, and what moves MINOR (a move's register; a
 field of the act description; a card). Ground: `DDD-dec-82`, `-75`, `-124`, `GOVERNANCE.md`
 "Releases". Deliverable: options with their weakest points; the decision; the three texts that
-restate the rule. Out of scope: cutting a release.
+restate the rule. The decision also files Emil's G2 ruling on P-10 (`rulings.md`, G2): a ruling
+that moves a move from `[PROPOSED]` to ruled cites a field report from a case outside the
+framework's own data, with the six points of `proposals-2.md`. Out of scope: cutting a release.
 
 **D-4. #81 follows #88's G1.** A comment for Emil to post or not, not an issue: #88's G1 ruled the
 four moves (Q-2, Q-5). #81's outcome line ("scope, demand, acts") and product-cli's phase order

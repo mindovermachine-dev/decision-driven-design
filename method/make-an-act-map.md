@@ -108,7 +108,9 @@ For someone at first contact.
 5. The act is traced when every reading ends in one of the three. Go on to the next act you placed.
 
 Step 3 is Emil's G1 ruling on P-3 (2026-11-20). Its last two bullets are Claude's reading of
-canon at `v5.15.2`, checked as he asked: `UNVERIFIED — Emil review`.
+canon at `v5.15.2`, checked as he asked. The first of them, that the axis is a ground axis and
+never the occupant, Emil confirmed at G2. The second, on a second map and a wider map splitting
+the act too, is not confirmed: `UNVERIFIED — Emil review`.
 
 ## The edge pass
 
