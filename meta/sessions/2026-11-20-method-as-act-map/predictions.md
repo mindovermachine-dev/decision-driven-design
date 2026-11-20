@@ -15,3 +15,17 @@ Read at `1ecf914` (`main`). The survey covers `method/`, `README.md`, `applicati
 | P-1.5 | Every ruled text that states step 1's register says "ruled for test". None says "reported" || Held. `DDD-dec-74` and `DDD-dec-122` (resolutions) and the cut descriptor `v0.5.0` say "ruled for test". None says reported |
 | P-1.6 | At least one filed claim's region says a pull is found at the edge first. That wording is in tension with the 2026-11-19 move order (place an act, then trace back), and changing it is a change to a claim, which #88 puts out of scope for the statement only || Held, with something not foreseen: `DDD-address-09`'s own notes (line 53) flag the line as Claude's `UNVERIFIED` reading of 2026-11-18 E-4. So the region holds an unverified reading, not a ruling (survey F-2) |
 | P-1.7 | The survey has between 80 and 200 rows || Held. 96 rows |
+
+## Operation 2 — the readings as questions, and the proposals (deliverable 2)
+
+Written before `proposals.md`. Nothing under `core/`, `method/`, `applications/` or `README.md` changes in this operation.
+
+| # | Prediction | Result |
+|---|---|---|
+| P-2.1 | Each of the nine lines of steps 2 to 10 maps onto at least one field of the issue's second group. None needs a field outside that list | |
+| P-2.2 | At least two of the nine lines hold something that is not a field of one act or one decision: a property of the map as a whole, or of the record beside it | |
+| P-2.3 | A trace back run on the lifecycle data, in the SDLC scope from "plan the realisation" (o1b), reaches the edge on at least two readings, and meets at least one act whose ground readings the data does not declare, so the trace cannot run on from it | |
+| P-2.4 | The first group needs more than the two fields the issue names: at least whether the act is inside the scope, which is the scope's to say and not the act's | |
+| P-2.5 | At least one proposal conflicts with a ruling recorded only in an open issue's text, not filed: #82's six-move core process, accepted 2026-11-18 at 13:22 | |
+| P-2.6 | `DDD-dec-124` is still free by file on every branch of both repositories when the proposals are written | |
+| P-2.7 | `python3 scripts/ci.py` passes after the proposals are committed | |
