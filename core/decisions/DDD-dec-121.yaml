@@ -5,7 +5,7 @@ statement: |
   The method is installable as a Claude Code plugin in this repository, ddd-method in the marketplace decision-driven-design (.claude-plugin/marketplace.json at the root, the plugin in plugins/ddd-method/), for anyone adopting the method. The plugin is thin: its one entry skill, /ddd-method:run, carries procedure and discipline only, and reads the method's front (method/README.md), its live card, the sections and files the live card cites, and the canon they cite, from this repository at one pinned method release, from a clone at the tag or otherwise over HTTPS at the tag; when neither is reachable it says so and stops, and never fills from memory. Per-step skills are not added. The plugin's version is the method pin it reads without its v (0.7.0 for v0.7.0); a plugin-only change at the same pin takes a +p.N suffix (0.7.0+p.1), and a re-pin takes the new pin's version (0.8.0 for v0.8.0). Any method release that changes a file the skill reads, anything under method/ or a claim or decision a card cites, re-pins the plugin in the same change, whatever part of the version it moves. The plugin claims discipline, not better execution of the method: it refuses to treat any part of the method as ruled, does not run a card marked not live, reads at the pin, and stops when it cannot; it does not claim that a move is performed better with it than without it. That claim rests on the plugin's evals run at its current pin, re-run at each re-pin.
 principal: Emil
 made: |
-  2026-11-08, Round 27 of the claude.ai conversation (verbatim in meta/sessions/2026-11-08-method-plugin/prompt.md and rulings.md), and 2026-11-11, Round 28 of the same rulings.md, Emil's answers in Claude's question dialog on claude.ai, filed by the method-plugin session; amended before landing on 2026-11-19 by Rounds 29 and 30, and on 2026-11-24 by Rounds 32 and 33, of the same rulings.md; Emil's landing of the branch is the ratification act
+  2026-11-08, Round 27 of the claude.ai conversation (verbatim in meta/sessions/2026-11-08-method-plugin/prompt.md and rulings.md), and 2026-11-11, Round 28 of the same rulings.md, Emil's answers in Claude's question dialog on claude.ai, filed by the method-plugin session; amended before landing on 2026-11-19 by Rounds 29 and 30, and on 2026-11-24 by Rounds 32, 33 and 34, of the same rulings.md; Emil's landing of the branch is the ratification act
 resolution: |
   ## Round 27 (claude.ai conversation, 2026-11-08)
 
@@ -14,7 +14,9 @@ resolution: |
     marketplace entry), installable by anyone adopting the method; versioned with the method").
   - **Ruled: scope.** "The whole method (Recommended)" (option text: "All steps, each run from its
     step card; refuses to treat [PROPOSED] steps as ruled; step 1 and the demand-flow step first
-    in practice").
+    in practice"). **Lapsed:** "step 1 and the demand-flow step first" lapses under DDD-dec-124,
+    since neither step is live (Round 34, amendment 4 of the Round 32 report). The ruling stays
+    here verbatim.
   - **Ruled: holding.** "Thin, reads the repo at a pin (Recommended)" (option text: "The skill
     carries procedure and discipline; step cards and canon are fetched from the repository at the
     pinned version, so it never drifts").
@@ -63,10 +65,20 @@ resolution: |
     page that runs a not-live card.
   - **This decision is amended in place** by amendments 1 to 3 and 5 to 7 of the Round 32 report
     (numbered as in that report's chat reply). Amendment 4, a reading that Round 27's "step 1 and
-    the demand-flow step first" lapses under DDD-dec-124, is not answered in Round 33 and is not
-    applied.
+    the demand-flow step first" lapses under DDD-dec-124, is not answered in Round 33; Round 34
+    answers it.
   - **The pin-tree check**, derived from what the skill reads (Round 31, item 4, as Round 33
     rules).
+
+  ## Round 34 (2026-11-24, method-plugin rulings.md)
+
+  - **Amendment 4: yes.** Round 27's "step 1 and the demand-flow step first" stays verbatim, with
+    a note that it lapses under DDD-dec-124, since neither step is live.
+  - **A not-live card's superseding section may be read.** The skill reads a not-live card's first
+    line and its superseding section, the part DDD-dec-124 filed above the rule line. It never
+    reads or runs what lies below that line, except a section the live card cites. This supersedes
+    Round 33's narrower rule and the first-line narrowing made for it. The live card is not
+    changed.
 
   ## What the plugin claims, and the evidence
 
@@ -128,7 +140,7 @@ notes: |
   first filing would not have re-pinned the plugin. DDD-dec-122 is named here as the occasion. It
   is not a basis (Round 30, item 2).
 
-  Amended before landing a second time, in place, in Round 33 (2026-11-24, method-plugin
+  Amended before landing a second time, in place, in Rounds 33 and 34 (2026-11-24, method-plugin
   rulings.md), on the Round 32 report. The occasion was DDD-dec-124 (#89): the method became one
   live card, and the numbered step cards not live. DDD-dec-124 is named here as the occasion. It is
   not a basis, as Round 30 ruled for DDD-dec-122.

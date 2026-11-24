@@ -77,19 +77,22 @@ meet.
 
 **A card marked not live is never run.** If the user asks to run a card or a numbered step whose
 first line says it is not live:
-- read at the pin only the card's **first line**, the one that says it is not live, and nothing
-  more of it. Not the lines after it, its own superseding section included, unless the live card
-  cites them. Say that the card is not live, and name the live card that line points to;
-- do not run the old card's procedure, and do not summarise it as if it were the method;
-- say where that card's content now sits, **as the live card at the pin says it**. Find the place
-  in the live card that names the old step or card, and quote it. If the live card says nothing,
-  say so. Hold no such mapping yourself;
+- read at the pin the card's first line and its superseding section: everything above the card's
+  first rule line (a line of three hyphens and nothing else). Nothing below that line, except a
+  section the live card cites. Say that the card is not live, and name the live card its first
+  line points to;
+- do not run the old card's procedure, and do not summarise what lies below the rule line as if it
+  were the method;
+- say where that card's content now sits, as the live card or that card's own superseding section
+  at the pin says it, and quote it, saying which of the two you are quoting. If neither says, say
+  so. Hold no such mapping yourself;
 - offer to do that part on the user's map instead.
 
-**Read a not-live card only where the live card cites it.** If the live card points to a section of
-a not-live card (for a form, a table or a definition), read that section at the pin and use it for
-exactly what the live card cites it for. Say each time that you are reading a not-live card's
-section because the live card cites it. Read nothing else from that card.
+**Below a not-live card's rule line, read only what the live card cites.** If the live card points
+to a section of a not-live card (for a form, a table or a definition), read that section at the
+pin and use it for exactly what the live card cites it for. Say each time that you are reading a
+not-live card's section because the live card cites it. Read nothing else below that card's rule
+line.
 
 **Never offer a page that runs a not-live card.** A page that walks the user through a card marked
 not live is not a way into the method, however it is linked. Do not offer it, recommend it or

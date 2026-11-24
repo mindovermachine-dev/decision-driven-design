@@ -254,3 +254,30 @@ Given in this session on 2026-11-24, on the Round 32 report. Cite it as "Round 3
 **Amendment 4 is not answered.** Its text, "[yes, … / no]", gives both options and chooses neither.
 It is recorded as given and treated as not ruled. It is not applied to `DDD-dec-121`
 (`findings.md`, Round 33).
+
+## Round 34, verbatim
+
+Given in this session on 2026-11-24, on the Round 33 build report. Cite it as "Round 34,
+method-plugin `rulings.md`". The blockquote is the message byte for byte, apart from the quote
+markers. It answers Round 33's amendment 4, which was left unchosen.
+
+> Rulings on your build report. Record this message verbatim as Round 34 before you act.
+>
+> Amendment 4: yes. Round 27's "step 1 and the demand-flow step first" stays verbatim in
+> DDD-dec-121, with a note that it lapses under DDD-dec-124, since neither step is live.
+>
+> C-2: the Round 33 rule was too tight. The skill may read a not-live card's first line and
+> its superseding section, the part DDD-dec-124 filed above the rule line. It never reads or
+> runs what lies below that line, except a section the live card cites. This supersedes the
+> narrowing you made for S-1. Do not change the live card.
+>
+> E-1: the pull-statement rubric accepts a gap marked missing with its reason. Do not supply
+> the states in the prompt.
+>
+> S-2: left as it is.
+>
+> Then: re-run the two cases these rulings change, not-live-card and act-map-small, both arms,
+> three runs each. Report the new figures beside the ones you have, and keep both in
+> findings.md. Update the table in the README and the numbers in DDD-dec-121. Run the whole
+> validate workflow on a full clone, push, and name the new head to ratify with both required
+> checks by their check names. Then stop.

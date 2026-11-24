@@ -8,8 +8,8 @@ in Round 28, and Rounds 27 to 33 are filed as
 [`DDD-dec-121`](../../core/decisions/DDD-dec-121.yaml).
 
 **Weakest point.** The plugin is only as thin as the model is obedient. The skill tells Claude to
-read and never to recall, not to run a card marked not live, and to read a not-live card only
-where the live card cites it. The evals check each of these in a few runs. Nothing mechanical
+read and never to recall, not to run a card marked not live, and to read below a not-live card's
+superseding section only where the live card cites it. The evals check each of these in a few runs. Nothing mechanical
 stops a model from answering from memory.
 
 ## Install
@@ -38,9 +38,9 @@ Without a GitHub SSH key, set `CLAUDE_CODE_PLUGIN_PREFER_HTTPS=1` first.
 - **It refuses** to treat any part of the method as ruled, to guess where something an act reads
   comes from, and to declare a map complete. The stop is the principal's.
 - **A card marked not live is never run.** Asked to run one, the plugin says the card is not live,
-  names the live card, and says where that card's content sits only as the live card says it. It
-  reads a not-live card's section only where the live card cites it, and says so. It does not
-  offer a page that runs a not-live card.
+  names the live card, and says where that card's content sits as the live card or that card's
+  own superseding section says it (Round 34). Below that section it reads only what the live card
+  cites, and says so. It does not offer a page that runs a not-live card.
 
 ## The pin, and how the version tracks the method
 

@@ -79,3 +79,12 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 43 | Eval `unreachable` | With ≈ 1.00; without low (rebuilds the method from memory) | **Held** in run 3: 1.00 / 0.44 |
 | 44 | Eval `not-live-card` | With high. Without also high: plain Claude reads the working tree, whose first line says "Not live". The plugin's gain is reading at the pin | **Missed.** The baseline was 0.00 in run 1 and 0.17 in run 2, on clones of an unrebased branch with no "Not live" line, and 0.50 in run 3, on the rebased head. The plugin itself read past the notice in run 2 (S-1) |
 | 45 | Eval `act-map-small` | The weakest. Failures on `pull-statement` and `trace-endings`, with or without the plugin, as on step 1 at `v0.7.0` | **Held in part.** Run 3: 0.81 / 0.63. `pull-statement` failed in every run with the plugin, for a reason in the grader (E-1). `trace-endings` passed |
+
+## Round 34 (2026-11-24)
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 46 | Round 34 copied into `rulings.md` | Byte-exact | **Held** |
+| 47 | The rule line on the not-live cards at `v0.8.0` | The first `---` | **Held.** Line 7 on 1b's card and on 6's |
+| 48 | Re-run `not-live-card` (3 runs per arm) | With ≈ 1.00, now relaying 1b's superseding section and saying it does. Without ≈ 0.5 | |
+| 49 | Re-run `act-map-small` (3 runs per arm) | With rises to ≈ 0.9 to 0.95, as `pull-statement` passes on gaps marked missing with a reason. Without stays ≈ 0.6 to 0.8. `act-description` stays noisy on long files | |
