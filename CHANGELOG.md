@@ -4,6 +4,47 @@
      Edit the release descriptors, not this file. The headings from "## 4.7 — The volume layer (boundary charter)" on are a
      frozen tail, kept byte for byte (canon.yaml, changelog.tail-sha256). -->
 
+## v0.8.0 — The method is making an act map
+
+2026-11-24 · pre-release · descriptor [`releases/v0.8.0.yaml`](releases/v0.8.0.yaml)
+
+**The method is now one thing: making an act map** (`DDD-dec-124`). It has four moves. Scope the
+act map. Place an act or decision. Follow the determinable back to the edge and note the pull.
+Do it again, until your pull sources are identified. The live card is
+`method/make-an-act-map.md`.
+
+**Every part of the method is `[PROPOSED]`.** That means it is written down and not ruled as
+tested. Try it, and do not rely on it. Step 1 is included, so step 1 has left "ruled for test".
+The claims the moves rest on are projected: argued, with falsifiers nobody has met. The method
+stays "ready to try (preview)" (`DDD-dec-74`).
+
+This is a MINOR release (`DDD-dec-82`). Step 1's register moved, and a card was added.
+
+- **The act map, its scope and the pull** (#84; `DDD-dec-122`). Six claims are filed,
+  `DDD-address-06` to `-11`. All six are projected. They define the act map with its scope and
+  index, when a second act map exists, a process and north, the pull, kinds of demand, and the
+  four states. The four states are credited to GitHub user pjarnhus. `DDD-address-02` gains a
+  note, and its statement is unchanged.
+- **The old step cards stay, marked not live** (#84, #89). Each opens with a line that points
+  to the live card. Each carries a superseding section, and nothing below it is reworded.
+  `method/README.md` keeps the ten steps below the live method, as they stood at v0.7.0.
+- **The documents under `applications/` are rewritten for readers** (#73). Each opens by
+  naming its reader, what they can do, and how settled it is, in words (`DDD-dec-95`). The
+  format rulings are re-filed on main (`DDD-dec-94`), and `spec/doc-format.md` follows them.
+  The content does not change, except where a fact was found wrong. Two registers move, by
+  ruling. The How's parts that were "not ruled separately" are ruled (`DDD-dec-119`). Rows 1
+  to 8, 10 and 11 of the PDLC's seam table are ruled (`DDD-dec-120`). Whether adopters may
+  register What kinds stays open.
+- **canon's SDK is pinned** at .NET 10.0.404, with roll-forward disabled (#85). The lock file
+  was regenerated once. Validate now restores locked, as any CI runner does.
+- **The waiver is recorded** (#86; `DDD-dec-123`). The `agent review` requirement was lifted
+  for #85's landing only, and restored straight after.
+
+**What is open.** Issues #90 to #93 propose amendments to the live card. #93 among them proposes
+a different order. None of them is ruled, and the live card does not change until one is. The
+version rule still counts ten steps. Changing that count is #97's, and this release does not
+wait on it.
+
 ## v0.7.0 — Step 1b, map the flow of demand; the PDLC and the SDLC
 
 2026-11-10 · pre-release · descriptor [`releases/v0.7.0.yaml`](releases/v0.7.0.yaml)
