@@ -171,3 +171,47 @@ Given in this session on 2026-11-19, on the Round 30 report. Cite it as "Round 3
 > 5. v0.8.0 is cut after #88 lands. I will tell you when it is tagged. Until then, do nothing
 >    further on this branch. Record this round, run the whole validate workflow, push, and
 >    stop. If the push moves the head, name the new one, and say that it is not for approval.
+
+## Round 32, verbatim
+
+Given in this session on 2026-11-24. Cite it as "Round 32, method-plugin `rulings.md`". The
+blockquote is the message byte for byte, apart from the quote markers.
+
+> The hold on #74 is lifted. Record this message verbatim as Round 32 before you act.
+>
+> v0.8.0 is tagged, on main at e57c5ee. Since your last round the method changed again, as
+> Round 31 said it would. #89 landed DDD-dec-124: the method is one thing, making an act map,
+> in four moves, each [PROPOSED]. The live card is method/make-an-act-map.md. The numbered step
+> cards stay, each marked not live. Read DDD-dec-124, the live card, method/README.md and
+> releases/v0.8.0.yaml at the tag before anything else. Read draft D-1 in
+> meta/sessions/2026-11-20-method-as-act-map/breaks.md, and the note on issue #72.
+>
+> Stop at a gate before you change the skill. Report, with predictions written first:
+>
+> 1. What the plugin becomes when it reads one card and not ten. What /ddd-method:run offers,
+>    what it refuses, and how it treats a not-live card that a user asks to run. Name the
+>    weakest point first, and give a falsifier and what it breaks.
+> 2. Which of your Round 30 work survives as it is (the superseding-section rule, more than one
+>    register, one source for the pin), and which is redone (the step-1-small rework, the
+>    demand-flow-start case, the unreachable case).
+> 3. The eval set you propose for four moves: which cases stay, which go, which are new.
+> 4. What in DDD-dec-121 must change before it lands. It is unlanded, so an amendment in place
+>    is open to me. Propose; do not amend.
+> 5. Whether main's 47 new commits conflict with the branch beyond meta/sessions/README.md.
+>
+> Then, on my rulings:
+> - re-pin to v0.8.0, everywhere the pin check looks;
+> - rewrite the skill and the evals as ruled;
+> - build the pin check ruled in Round 31, with the list of trees derived from what the skill
+>   reads, or failing when the skill reads outside it;
+> - re-run every eval. Add the v0.8.0 table beside the v0.7.0 one and keep the old one;
+> - apply the "source of pull" sentence only if it still exists after the rewrite, and without
+>   calling a reason for a choice a pull;
+> - rebase onto main, with the id check before commit and before push. DDD-dec-124 is now the
+>   highest on main.
+>
+> Known and not ruled: issues #90 to #93 propose amendments to the live card, and #93 a
+> different order. Build for the card at v0.8.0. Do not build for them.
+>
+> Work on a full clone. The gate is the whole validate workflow. At the end, name the head to
+> ratify with both required checks by their check names, and stop.

@@ -383,3 +383,137 @@ round. The list "What remains for the re-pin" above is amended by Round 31:
   the re-pin list that reads step 1 or 1b.
 - **`v0.8.0` is cut after #88 lands.** Nothing further happens on this branch until Emil says it
   is tagged.
+
+## Round 32 (2026-11-24): the gate report, before the skill changes
+
+Read at `v0.8.0`, which peels to `e57c5ee` = `main`: `DDD-dec-124`, `method/make-an-act-map.md`,
+`method/README.md`, `releases/v0.8.0.yaml`, draft D-1 in
+`meta/sessions/2026-11-20-method-as-act-map/breaks.md`, and Emil's note on #72 (2026-11-24). The
+predictions for this report (33 to 38) were written first, in `predictions.md`. **Nothing in the
+plugin is changed in this round.**
+
+### 1. What the plugin becomes, reading one card and not ten
+
+**Weakest point first.** The live card is one card, but it is not self-contained. For the pull
+statement's form, move 3 sends the reader to a section of step 1's card
+(`01-map-and-index-acts.md#the-pull-statement`), and step 1's card is marked not live. So the skill
+must do two things that pull against each other. It must read a not-live card's section where the
+live card cites it. It must refuse to run a not-live card. That line is drawn by the model,
+not by anything mechanical.
+- **Falsifier:** an eval run in which either (a) asked to make an act map, the skill writes no
+  pull statement, or writes one in a form it did not read at the pin, because the form sits on a
+  not-live card; or (b) asked to run "step 1" or "step 6", it runs that card's procedure.
+- **What it breaks:** (a) breaks move 3's artefact, and with it the plugin's one claim, reading at
+  the pin and not from memory. (b) breaks the not-live refusal that D-1 asks for.
+
+**What `/ddd-method:run` offers:**
+- It reads `method/README.md` at the pin. Under the superseding-section rule, the top section
+  governs, so it presents one method, making an act map, in four moves, each at the register the
+  README and card state (all `[PROPOSED]`), with the method's weakest point.
+- The argument becomes a move, `[1-4]`. With none, it starts at move 1.
+- It runs each move from the live card's table of moves by fields, "Value made visible" first. It
+  fills group A of the act description in move 2 and group B "when known", runs the trace and the
+  edge pass, and reads the pull statement's form from the section the card cites. A reading with no
+  known source becomes a finding, never a guess. The stop is left to the principal, who is named.
+- Everything the card links (the claims, `graph/upstream.yaml`, the applications data of the worked
+  example) is read at the pin, as now.
+
+**What it refuses:**
+- Any move treated as ruled. Everything is `[PROPOSED]`, as the card says.
+- Running a card marked not live as a step.
+- Declaring the map complete, or stopping on its own judgement.
+- Filling a reading's source from memory or by guessing.
+- Offering `quick-start.md` as the way in. That page still runs "step 1" and is not marked not live
+  (draft D-2), and the README's link to it sits below the superseding section.
+
+**A not-live card asked to run, such as "run step 6":**
+- It reads the card's first line at the pin. That line says it is not live and names the live card.
+- It says so, and does not run the old card's procedure.
+- It says where that step's content now lives, as the live card says: group B's table names the
+  old step that held each field (step 6 is B-5).
+- It offers to fill that field on an act of the user's map.
+- It quotes a not-live card only where the live card cites a section of it, and says so.
+
+### 2. What of Round 30 survives
+
+| Round 30 work | Verdict |
+|---|---|
+| The superseding-section rule | **Survives as is, and is now load-bearing.** `method/README.md` and all eleven numbered cards carry a superseding section, and the README's is what makes the live card live |
+| More than one register | **Survives in substance, reworded.** It is moot at `v0.8.0`, where every part is `[PROPOSED]`. It is kept generic for when moves are ruled separately (#90 to #93 may change the card). Its wording, "a step can carry", becomes "a part of the method can carry" |
+| One source for the pin (`check.py`, the scaffold reading the `PIN:` line, descriptions with no version) | **Survives as is.** The re-pin is a change of the `PIN:` line plus the literals `check.py` already polices |
+| The `step-1-small` rework | **Goes.** Step 1 is not live. Replaced by a new act-map case (§3) |
+| `demand-flow-start` | **Goes.** 1b is not live, and kinds are now declared in move 1 on a kind axis, starting from built or not built. Its intent moves into the new not-live case and the act-map case |
+| `unreachable` | **Redone.** The prompt asks for the live method. The regex refuses the live card's terms (group A, the trace, the edge pass, the four moves' names) as well as the old ones |
+| `SKILL.md` §2 to §5 (the step table, the step run, demand flow) | **Rewritten** for the moves. The demand-flow section goes, and with it the "source of pull" sentence (see below) |
+
+**The "source of pull" sentence** sits in the demand-flow section, which goes with 1b. After the
+rewrite it does not exist, so Round 32's instruction to apply it does not trigger. The live card
+has no keep, add or drop declaration: move 1 declares the kind axis, starting from built or not
+built.
+
+### 3. The eval set for four moves
+
+**Four cases.** The cost stays as it was, 4 × 3 × 2 runs.
+
+| Case | Status | Prompt, in brief | Expected |
+|---|---|---|---|
+| `move-as-ruled` | Kept, reworked from `proposed-as-ruled` | "Move 3 is settled now; run it as ruled for our billing service" | Refuses, and states `[PROPOSED]` as read at the pin. Graders: refusal (llm), the register (regex), the live card read at the pin (`tool_used`) |
+| `unreachable` | Kept, redone | "What are the moves of the method? Give me the live card" | Says it is unreachable and stops. The regex refuses old and live card terms |
+| `not-live-card` | New (D-1) | "Map the flow of demand in our support process with step 1b" | Says 1b is not live and names the live card. Does not run 1b's procedure. Points to move 1's kind axis. Offers the act map. Graders: an llm rubric; a regex for "not live"; `tool_used` reading `01b` and the live card at the pin |
+| `act-map-small` | New, replacing `step-1-small` | The URL shortener, with the scope in plain words (as now), one reading with no known source planted in the prompt, "make an act map, moves 1 to 3, write it to a file" | Split graders: the scope and the axes first, including the kind axis; group A for the placed act; every reading ending inside, at the edge or at a finding, with the planted one a finding and not a guess; a pull statement in the form step 1's card section gives, which was read at the pin; the stop left to the principal; all moves stated `[PROPOSED]`; an artefact file; `tool_used` reading the live card and `01-…` at the pin |
+
+**Dropped:** `step-1-small` and `demand-flow-start`, which test cards that are not live.
+**Not added:** separate cases for the edge pass and the stop. They are graded inside
+`act-map-small`. A case for #90 to #93 is not added, as Round 32 says.
+
+### 4. What `DDD-dec-121` needs before it lands (proposed, not amended)
+
+1. **The statement's object.** Change "reads the step table, the step cards and the canon they
+   cite" to "reads the method's front, its live card, the sections and files the live card cites,
+   and the canon they cite". Change "refuses to treat a [PROPOSED] step as ruled" to "refuses to
+   treat any part of the method as ruled, and does not run a card marked not live".
+2. **The claim.** Change "does not claim that a step is performed better" to "a move is
+   performed". The `v0.7.0` table stays labelled as it is (Round 30). The `v0.8.0` table is added
+   beside it, and the claim stands on the newest.
+3. **Round 27's scope.** "The whole method … step 1 and the demand-flow step first in practice" is
+   verbatim and stays. A reading is added in the resolution: under `DDD-dec-124`, the whole method
+   is the four moves, and "step 1 and the demand-flow step first" lapses with them. This is
+   `UNVERIFIED — Emil review`: it reads his Round 27 answer under a later ruling.
+4. **`made` and the resolution:** Round 32, and the ruling round that answers this report.
+5. **Notes:** `DDD-dec-124` named as the occasion, not the basis, as Round 30 did for
+   `DDD-dec-122`. Recorded as amended before landing a second time, in that round.
+6. **What is filed:** the pin-tree tie of Round 31, once built.
+7. **Not changed:** the version scheme, which needs nothing. The plugin's version is the pin's,
+   whatever #97 decides about the method's version rule now that there are not ten steps.
+
+### 5. Conflicts with `main`'s 47 commits
+
+**None.**
+- `git merge-tree origin/main HEAD` is clean.
+- A trial rebase in a throwaway worktree replays every commit with no stop, `meta/sessions/README.md`
+  included. Prediction 34 missed.
+
+**What the rebase leaves stale in meaning:**
+- The root README's line 8 would say `v0.7.0`. `main` itself still says `v0.5.0` (draft D-13). At
+  the re-pin it becomes `v0.8.0`.
+- The README's plugin section says the plugin reads "the step cards". It is rewritten with the
+  skill.
+
+### The pin-tree check of Round 31, to be built at the re-pin
+
+**Proposed: derive the list.** The scaffold, or `check.py`, computes the closure of what the skill
+reads at the pin:
+- `method/README.md`;
+- the live card it names;
+- every relative link in the live card, resolved (directories as trees, files as blobs);
+- every claim or decision file the card cites by id;
+- `graph/upstream.yaml`.
+
+The record keeps each path's git object id at the evaluated commit, and the check recomputes the
+closure at the head and compares the ids. A fixed list would already be wrong at `v0.8.0`: the
+card links five targets under `applications/`.
+
+The other option, failing when the skill reads outside a list, needs the reads observed at run
+time, from eval traces, and so it covers only what the evals happen to read. The derived closure
+is chosen. The traces' `git show` paths are reported against it as a cross-check, not a gate.
+`UNVERIFIED`: links that `canon` itself does not resolve.

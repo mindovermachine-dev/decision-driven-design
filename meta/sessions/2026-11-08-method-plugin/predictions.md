@@ -56,3 +56,14 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 30 | The tree before the round | Clean at `6657942`, as on origin | **Held** |
 | 31 | Round 31 copied into `rulings.md` | Byte-exact | **Held** |
 | 32 | The whole validate workflow on the record-only head | Passes, since only records change | **Held.** `scripts/ci.py`: all gates. Both `claude plugin validate --strict` runs pass. Canon, on SDK `10.0.404`: 66 tests, `changelog --check`, `issue-refs --basis` (9 commits from `54dcb95`, Refs on 9) and `check --compare` (every case agrees) |
+
+## Round 32 (2026-11-24): predictions for the gate report, written before checking
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 33 | Round 32 copied into `rulings.md` | Byte-exact | **Held** |
+| 34 | `git merge-tree origin/main HEAD` (47 commits) | Conflicts in `meta/sessions/README.md` and in the root `README.md`: #89 rewrote its status table and the front door, and this branch changed line 8 and added the plugin section | **Missed.** No conflict at all, not even in `meta/sessions/README.md`: `merge-tree` is clean, and a trial rebase in a throwaway worktree replays every commit with no stop. What remains is in the meaning, not the text: line 8 would say `v0.7.0` (`main` still says `v0.5.0`), and the plugin section says "step cards" |
+| 35 | `check.py`'s thinness check against `method/` at `v0.8.0`, including the live card | Still no shared 8-word run, and no id | **Held** |
+| 36 | The first line of each not-live card at `v0.8.0` | All eleven (01, 01b, 02 to 10) say they are not live and name the live card, in one pattern a skill can key on generically | **Held.** Each opens `> **Not live.** This card is superseded by [Make an act map](make-an-act-map.md), the live card (`DDD-dec-124`` |
+| 37 | The files the live card links to at `v0.8.0`, by relative link | About ten to fifteen, spread over `method/`, `applications/`, `core/`, `graph/` and `meta/sessions/`, so a fixed three trees would miss reads | **Missed in part.** Nine link targets: `method/README.md`, `01-map-and-index-acts.md` (the pull statement's form), `../graph/upstream.yaml`, `../core/claims/`, and five under `../applications/`. None is under `meta/sessions/`: rulings are cited by name ("2026-11-18 R-2"), not linked. A fixed three directories would still miss `applications/` |
+| 38 | `SKILL.md` at `d80a102` naming "step" as its unit | §2 to §5 assume numbered steps and a step argument. Most of the procedure must be rewritten, and the Round 30 rules survive only in substance | **Held.** §2 to §5, the README and three of four eval cases are built on numbered steps |
