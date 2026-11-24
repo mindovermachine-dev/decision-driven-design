@@ -1,3 +1,11 @@
+> **Not live.** This card is superseded by [Make an act map](make-an-act-map.md), the live card (`DDD-dec-124`). It stays below as written.
+
+## Superseded `[PROPOSED]`
+
+**This section supersedes the card below** (`DDD-dec-124`, ruled 2026-11-20). The method is now one thing, making an act map, in four moves, and every part of it is `[PROPOSED]`. Step 1b is no longer a step (`DDD-dec-124` supersedes in part `DDD-dec-118`). Owners per decision and their seams are fields B-1 and B-6 of the act description and the scope of move 1, since an owner is a scope (`DDD-dec-117`). Tracing an item end to end is moves 3 and 4. Kinds are read on the kind axis declared in move 1. "Sighting is not entry" stands in the pull statement. `DDD-flow-01` to `-04` stand, projected and scoped to the PDLC. Nothing below is reworded.
+
+---
+
 # Step 1b — Map the flow of demand `[PROPOSED]`
 
 **Register: `[PROPOSED]`.** The step's place and scope are ruled; its content is not. Emil ruled
