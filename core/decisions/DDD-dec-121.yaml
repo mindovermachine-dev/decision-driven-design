@@ -76,7 +76,12 @@ resolution: |
   without. The gain is in discipline: a [PROPOSED] step asked as ruled, 1.00 with and 0.75 without;
   the repository unreachable, 1.00 with and 0.33 without (without the plugin, 2 of 3 runs rebuilt
   step 1's card from memory); demand flow offered from the PDLC's kinds as a start, 1.00 with and
-  0.75 without. These are evals of an agent on cases written inside the framework: exercised
+  0.75 without. **At the pin v0.8.0** (the live card, four moves; the evals cover moves 1 to 3, and
+  move 4 and the edge pass are not tested): an act map on a small example shows little gain, 0.81
+  with and 0.63 without, on judged fields that are noisy on long files. The gain is again in
+  discipline: a [PROPOSED] move asked as ruled, 1.00 with and 0.75 without; the repository
+  unreachable, 1.00 with and 0.44 without (without the plugin, 2 of 3 runs rebuilt the method from
+  memory); a not-live card asked to run, 1.00 with and 0.50 without. These are evals of an agent on cases written inside the framework: exercised
   evidence about the plugin's behaviour, none about the method. The claim stands on the evals at
   the plugin's current pin. They are re-run at each re-pin, and each pin's table is kept in the
   record, never overwritten.

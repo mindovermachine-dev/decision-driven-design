@@ -552,3 +552,86 @@ The version scheme is unchanged, as both lists said.
 **Amendment 4 is not applied.** Round 33 gives it as "[yes, … / no]", both options and no choice.
 It is recorded as given. The resolution's Round 27 section stays verbatim, with no reading added.
 Emil's to answer.
+
+### Evals at `v0.8.0`
+
+Run with `claude plugin eval . -j 4 --scaffold --trust-plugin --allow-tools Bash Write
+--no-publish --keep-temp`: 3 runs per arm, with and without the plugin. Bash ran in the eval's OS
+sandbox. The `v0.7.0` table above stays as that pin's record. **The evals cover moves 1 to 3. Move 4
+and the edge pass are not tested.**
+
+**The table, run 3**, on the rebased, committed head `24264e0`. Its clone carries `main`'s
+not-live cards, so both arms see what a practitioner sees.
+
+| Case | With | Without | Δ |
+|---|---|---|---|
+| `move-as-ruled` | 1.00 | 0.75 | +0.25 |
+| `unreachable` | 1.00 | 0.44 | +0.56 |
+| `not-live-card` | 1.00 | 0.50 | +0.50 |
+| `act-map-small` | 0.81 | 0.63 | +0.19 |
+
+Total: 361 s, $4.98 (list-price estimate). `evals/pin-trees.json` records the 23 files the skill
+reads at `v0.8.0` (`e57c5ee`).
+
+**Runs 1 and 2, kept as they came out:**
+- **Run 1** was on `e8528f1`'s clone, with the working tree before the rewrite:
+  - `act-map-small`: 0.78 / 0.52.
+  - `move-as-ruled`: 0.83 / 0.75.
+  - `not-live-card`: 1.00 / 0.00.
+  - `unreachable`: 1.00 / 0.78.
+- **Run 2** was on `793f0fd`, before the rebase:
+  - `act-map-small`: 0.89 / 0.85.
+  - `move-as-ruled`: 1.00 / 0.83.
+  - `not-live-card`: 0.89 / 0.17.
+  - `unreachable`: 1.00 / 0.67.
+- Their baselines are not comparable. The scaffold clones the committed head, and until the
+  rebase its working tree held the pre-#89 cards, with no "Not live" line. Run 1's baseline also
+  followed the old README to `v0.7.0` and ran 1b there.
+
+**Changes made after seeing results:**
+1. **After run 1,** two grader changes and the commit:
+   - `act-map-small`'s prompt names the file (`./act-map.ttl`), and its `act-description`,
+     `trace-endings` and `pull-statement` graders judge that file. The judge had seen only the
+     reply, and the fields were in the file.
+   - `move-as-ruled`'s rubric allows explaining the card read at the pin. One run refused
+     correctly and was failed for explaining move 3.
+   - The work was committed before re-running, because the scaffold clones the committed head.
+2. **After run 2,** one skill change:
+   - The skill now reads a not-live card's **first line** only. Run 2 showed it relaying 1b's own
+     superseding section in 2 of 3 runs (the `no-1b-sections` grader, added after run 1's traces).
+   - That breaks Round 33: a not-live card is read only where the live card cites it. "Opening
+     lines" was ambiguous, because the superseding section follows the first line directly.
+   - `DDD-dec-124`'s P-8 puts the notice on the first line. In run 3 the rule held in 3 of 3
+     runs.
+
+### What the evals showed that the card or the skill should not be doing
+
+**The skill:**
+- **S-1. It read past a not-live card's notice** (run 2, 2 of 3 runs). Fixed by the first-line
+  rule, and it held in run 3. It was open about it each time ("this is the 1b card's wording, not
+  the live card's").
+- **S-2. It cited an id it had not read** (run 2, one reply). "I did not read that decision's file,
+  so I'm citing it only as the README names it" (`DDD-dec-124`). That is candid, and it is still
+  against "never cite an id you did not read". Not seen in run 3. Not changed: the rule is already
+  in the skill, and one candid instance in twelve runs is a model lapse, not a missing rule.
+
+**The card** (named, not fixed, as Round 33 rules):
+- **C-1. The pull statement's form is on a not-live card.** The evals show the cost. The skill has
+  to say, every time, that it is reading a not-live card's section because the live card cites
+  it.
+- **C-2. The live card never names step 1b.** Under the first-line rule, the skill can only say
+  "the live card never names step 1b", and it did, in run 3. Plain Claude, without the plugin,
+  reads 1b's superseding section and tells the user where 1b's content went. On that point the
+  baseline is more useful than the ruled skill. Either the live card names 1b, as it names old
+  steps 2 to 10, or the ruling lets the skill read a not-live card's own superseding section.
+
+**The evals:**
+- **E-1. `act-map-small`'s judged fields are noisy, and one grader asks for what the prompt does not
+  give.** The judge warns of long files (10 to 22 k characters). `pull-statement` failed in every
+  run with the plugin. The artefacts hold every field, but "specified" and the gap are marked
+  unknown or missing, because the prompt never says what is specified or observed for a customer's
+  request. The skill is doing what it says: it does not guess. The grader asks for a filled gap.
+  The prompt should give those states, or the rubric should accept a gap marked missing with its
+  reason. Not tuned again in this round.
+- **E-2. An environment note.** Some runs printed "read-only file system" for a temp-file redirect
+  inside the sandbox. It affects no grader.

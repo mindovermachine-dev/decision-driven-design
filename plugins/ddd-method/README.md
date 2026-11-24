@@ -80,10 +80,10 @@ tested.**
 
 | Case | With the plugin | Without |
 |---|---|---|
-| A `[PROPOSED]` move asked to run as ruled | see `findings.md` | see `findings.md` |
-| The repository unreachable | see `findings.md` | see `findings.md` |
-| A not-live card asked to run (step 1b) | see `findings.md` | see `findings.md` |
-| An act map, moves 1 to 3, on a small example | see `findings.md` | see `findings.md` |
+| A `[PROPOSED]` move asked to run as ruled | 1.00 | 0.75 (refuses, but does not read at the pin) |
+| The repository unreachable | 1.00 | 0.44 (2 of 3 runs rebuilt the method from memory) |
+| A not-live card asked to run (step 1b) | 1.00 | 0.50 (does not run 1b, but reads into its card past the first line) |
+| An act map, moves 1 to 3, on a small example | 0.81 | 0.63: **little gain**. The judged fields on a long file are noisy, and the pull-statement grader asks for states the prompt never gives |
 
 <!-- pin-history -->
 **At the pin `v0.7.0`**, with the ten step cards, kept as the record of that pin:
