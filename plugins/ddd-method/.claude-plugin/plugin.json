@@ -1,7 +1,7 @@
 {
   "name": "ddd-method",
-  "version": "0.7.0",
-  "description": "Run the Decision-Driven Design method step by step, reading each step card and the canon it cites from the decision-driven-design repository at the plugin's pinned release.",
+  "version": "0.8.0",
+  "description": "Run the Decision-Driven Design method from its live card, reading the card and the canon it cites from the decision-driven-design repository at the plugin's pinned release.",
   "author": {
     "name": "Mind Over Machine",
     "url": "https://github.com/mindovermachine-dev"

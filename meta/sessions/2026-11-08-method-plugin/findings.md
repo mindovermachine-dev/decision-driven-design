@@ -517,3 +517,38 @@ The other option, failing when the skill reads outside a list, needs the reads o
 time, from eval traces, and so it covers only what the evals happen to read. The derived closure
 is chosen. The traces' `git show` paths are reported against it as a cross-check, not a gate.
 `UNVERIFIED`: links that `canon` itself does not resolve.
+
+## Round 33 (2026-11-24): the build
+
+### Named for the card, not fixed here
+
+- **C-1. The live card points to a not-live card for the pull statement's form.** In
+  `method/make-an-act-map.md` at `v0.8.0`, move 3 and "The trace" (step 2) send the reader to
+  `01-map-and-index-acts.md#the-pull-statement`, and step 1's card is marked not live. Under Round
+  33 this is a defect in the card, not in the plugin. The skill reads that section only because
+  the live card cites it, and says so. It is not fixed here.
+- **C-2. The live card does not say where step 1b's content went.** Group B's table names old
+  steps 2 to 10 ("Held by: Old step N"). Nothing on the live card names 1b. Where 1b's content went
+  (owners per decision to B-1 and B-6 and move 1's scope, tracing to moves 3 and 4, kinds to move
+  1's kind axis) is written only in 1b's *own* superseding section. Round 33 rules that the skill
+  reads this from the live card and holds no mapping itself, and that it reads a not-live card only
+  where the live card cites it. So, asked to run 1b, the skill as ruled must say that the live
+  card does not name where 1b's content went, while the answer sits one section away on the card
+  it may not read. The `not-live-card` eval shows how this plays out (§Evals at `v0.8.0`). Either
+  the card should name 1b, or the ruling should let the skill read a not-live card's own
+  superseding section. Emil's to choose.
+
+### Amendment 4, and the numbering of the amendments
+
+My Round 32 report numbered the `DDD-dec-121` amendments twice, differently:
+- **The chat reply:** 1 reads, 2 refuses, 3 "move", 4 the Round 27 lapse, 5 the rounds, 6 the
+  occasion, 7 the pin-tree check.
+- **`findings.md`:** 1 combined reads and refuses, so every later number was one lower.
+
+Round 33's text for its amendment 4 is the chat reply's ("Round 27's 'step 1 and the demand-flow
+step first' lapses"), so its numbers are read as the chat reply's. Applied: 1, 2, 3, 5, 6 and 7.
+The version scheme is unchanged, as both lists said.
+
+**Amendment 4 is not applied.** Round 33 gives it as "[yes, … / no]", both options and no choice.
+It is recorded as given. The resolution's Round 27 section stays verbatim, with no reading added.
+Emil's to answer.

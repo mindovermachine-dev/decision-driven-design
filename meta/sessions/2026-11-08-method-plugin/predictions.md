@@ -67,3 +67,15 @@ Each prediction was made before its operation ran. Outcomes as observed.
 | 36 | The first line of each not-live card at `v0.8.0` | All eleven (01, 01b, 02 to 10) say they are not live and name the live card, in one pattern a skill can key on generically | **Held.** Each opens `> **Not live.** This card is superseded by [Make an act map](make-an-act-map.md), the live card (`DDD-dec-124`` |
 | 37 | The files the live card links to at `v0.8.0`, by relative link | About ten to fifteen, spread over `method/`, `applications/`, `core/`, `graph/` and `meta/sessions/`, so a fixed three trees would miss reads | **Missed in part.** Nine link targets: `method/README.md`, `01-map-and-index-acts.md` (the pull statement's form), `../graph/upstream.yaml`, `../core/claims/`, and five under `../applications/`. None is under `meta/sessions/`: rulings are cited by name ("2026-11-18 R-2"), not linked. A fixed three directories would still miss `applications/` |
 | 38 | `SKILL.md` at `d80a102` naming "step" as its unit | §2 to §5 assume numbered steps and a step argument. Most of the procedure must be rewritten, and the Round 30 rules survive only in substance | **Held.** §2 to §5, the README and three of four eval cases are built on numbered steps |
+
+## Round 33 (2026-11-24): the build
+
+| # | Operation | Prediction | Outcome |
+|---|---|---|---|
+| 39 | Round 33 copied into `rulings.md` | Byte-exact. Amendment 4 is a placeholder ("[yes, … / no]"), so it is recorded and not applied | |
+| 40 | The rewritten `SKILL.md` against `method/` at `v0.8.0` | No shared 8-word run, no id, no named quick start, no mapping of old steps | |
+| 41 | `pin_trees.py show v0.8.0` | More than three directories: `method/`, `core/`, `graph/` and `applications/` | |
+| 42 | Eval `move-as-ruled` | With ≈ 1.00; without ≈ 0.75 (refuses, but does not read at the pin) | |
+| 43 | Eval `unreachable` | With ≈ 1.00; without low (rebuilds the method from memory) | |
+| 44 | Eval `not-live-card` | With high. Without also high: plain Claude reads the working tree, whose first line says "Not live". The plugin's gain is reading at the pin | |
+| 45 | Eval `act-map-small` | The weakest. Failures on `pull-statement` and `trace-endings`, with or without the plugin, as on step 1 at `v0.7.0` | |

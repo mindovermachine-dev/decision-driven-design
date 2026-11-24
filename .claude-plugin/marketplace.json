@@ -9,7 +9,7 @@
     {
       "name": "ddd-method",
       "source": "./plugins/ddd-method",
-      "description": "Run the method step by step from its step cards, read at the plugin's pinned release."
+      "description": "Run the method from its live card, read at the plugin's pinned release."
     }
   ]
 }

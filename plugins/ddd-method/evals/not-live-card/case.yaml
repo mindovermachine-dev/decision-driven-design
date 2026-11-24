@@ -1,4 +1,4 @@
 schema_version: "1.1"
-name: proposed-as-ruled
+name: not-live-card
 context:
   scaffold_script: scaffold.sh

@@ -2,10 +2,10 @@ format: 1
 id: DDD-dec-121
 kind: decision
 statement: |
-  The method is installable as a Claude Code plugin in this repository, ddd-method in the marketplace decision-driven-design (.claude-plugin/marketplace.json at the root, the plugin in plugins/ddd-method/), for anyone adopting the method. The plugin is thin: its one entry skill, /ddd-method:run, carries procedure and discipline only, and reads the step table, the step cards and the canon they cite from this repository at one pinned method release, from a clone at the tag or otherwise over HTTPS at the tag; when neither is reachable it says so and stops, and never fills from memory. Per-step skills are not added. The plugin's version is the method pin it reads without its v (0.7.0 for v0.7.0); a plugin-only change at the same pin takes a +p.N suffix (0.7.0+p.1), and a re-pin takes the new pin's version (0.8.0 for v0.8.0). Any method release that changes a file the skill reads, anything under method/ or a claim or decision a card cites, re-pins the plugin in the same change, whatever part of the version it moves. The plugin claims discipline, not better step execution: it refuses to treat a [PROPOSED] step as ruled, reads at the pin, and stops when it cannot; it does not claim that a step is performed better with it than without it. That claim rests on the plugin's evals run at its current pin, re-run at each re-pin.
+  The method is installable as a Claude Code plugin in this repository, ddd-method in the marketplace decision-driven-design (.claude-plugin/marketplace.json at the root, the plugin in plugins/ddd-method/), for anyone adopting the method. The plugin is thin: its one entry skill, /ddd-method:run, carries procedure and discipline only, and reads the method's front (method/README.md), its live card, the sections and files the live card cites, and the canon they cite, from this repository at one pinned method release, from a clone at the tag or otherwise over HTTPS at the tag; when neither is reachable it says so and stops, and never fills from memory. Per-step skills are not added. The plugin's version is the method pin it reads without its v (0.7.0 for v0.7.0); a plugin-only change at the same pin takes a +p.N suffix (0.7.0+p.1), and a re-pin takes the new pin's version (0.8.0 for v0.8.0). Any method release that changes a file the skill reads, anything under method/ or a claim or decision a card cites, re-pins the plugin in the same change, whatever part of the version it moves. The plugin claims discipline, not better execution of the method: it refuses to treat any part of the method as ruled, does not run a card marked not live, reads at the pin, and stops when it cannot; it does not claim that a move is performed better with it than without it. That claim rests on the plugin's evals run at its current pin, re-run at each re-pin.
 principal: Emil
 made: |
-  2026-11-08, Round 27 of the claude.ai conversation (verbatim in meta/sessions/2026-11-08-method-plugin/prompt.md and rulings.md), and 2026-11-11, Round 28 of the same rulings.md, Emil's answers in Claude's question dialog on claude.ai, filed by the method-plugin session; amended before landing on 2026-11-19 by Rounds 29 and 30 of the same rulings.md; Emil's landing of the branch is the ratification act
+  2026-11-08, Round 27 of the claude.ai conversation (verbatim in meta/sessions/2026-11-08-method-plugin/prompt.md and rulings.md), and 2026-11-11, Round 28 of the same rulings.md, Emil's answers in Claude's question dialog on claude.ai, filed by the method-plugin session; amended before landing on 2026-11-19 by Rounds 29 and 30, and on 2026-11-24 by Rounds 32 and 33, of the same rulings.md; Emil's landing of the branch is the ratification act
 resolution: |
   ## Round 27 (claude.ai conversation, 2026-11-08)
 
@@ -47,6 +47,27 @@ resolution: |
     trigger, evidence by pin, the carrying release, and these rounds. Amendment 5 (DDD-dec-122 in
     basedOn) is declined: #84 is the occasion, not the basis.
 
+  ## Round 32 (2026-11-24, method-plugin rulings.md)
+
+  - **The hold is lifted.** v0.8.0 is tagged on main at e57c5ee. DDD-dec-124 (#89) made the method
+    one thing, making an act map, in four moves, each [PROPOSED], with one live card,
+    method/make-an-act-map.md, and the numbered step cards each marked not live. The plugin
+    re-pins to v0.8.0 and reads one card, not ten.
+
+  ## Round 33 (2026-11-24, method-plugin rulings.md)
+
+  - **The plugin's behaviour.** It offers the live method's moves at their registers; refuses to
+    treat any part as ruled; does not run a card marked not live, and says where that card's
+    content sits only as the live card at the pin says it, holding no such mapping itself; reads a
+    not-live card's section only where the live card cites it, and says so; and does not offer a
+    page that runs a not-live card.
+  - **This decision is amended in place** by amendments 1 to 3 and 5 to 7 of the Round 32 report
+    (numbered as in that report's chat reply). Amendment 4, a reading that Round 27's "step 1 and
+    the demand-flow step first" lapses under DDD-dec-124, is not answered in Round 33 and is not
+    applied.
+  - **The pin-tree check**, derived from what the skill reads (Round 31, item 4, as Round 33
+    rules).
+
   ## What the plugin claims, and the evidence
 
   Discipline, not step quality. From the eval table in
@@ -62,11 +83,14 @@ resolution: |
 
   ## What is filed
 
-  - `.claude-plugin/marketplace.json`; `plugins/ddd-method/` (plugin.json at 0.7.0, the skill
-    `run` pinned at v0.7.0, README.md, check.py, evals/).
+  - `.claude-plugin/marketplace.json`; `plugins/ddd-method/` (plugin.json at 0.8.0, the skill
+    `run` pinned at v0.8.0, README.md, check.py, pin_trees.py, evals/).
   - `plugins/ddd-method/check.py` as the `plugin` gate of scripts/ci.py: the marketplace entry and
-    the manifest agree, the version tracks the pin, and the skill holds no claim or decision id and
-    no run of eight words shared with method/.
+    the manifest agree, the version tracks the pin, the evals and both READMEs name only the pin,
+    and the skill holds no claim or decision id and no run of eight words shared with method/.
+  - `plugins/ddd-method/pin_trees.py` and `evals/pin-trees.json`: the files the skill reads at the
+    pin, derived from the method's front and its live card, each with its git object id at the
+    commit the evals ran on. check.py derives them again at the pin and fails on any difference.
 
   ## Relation to earlier decisions
 
@@ -98,6 +122,11 @@ notes: |
   after v0.7.0 without adding a card or moving a register, so the MINOR-only re-pin trigger of the
   first filing would not have re-pinned the plugin. DDD-dec-122 is named here as the occasion. It
   is not a basis (Round 30, item 2).
+
+  Amended before landing a second time, in place, in Round 33 (2026-11-24, method-plugin
+  rulings.md), on the Round 32 report. The occasion was DDD-dec-124 (#89): the method became one
+  live card, and the numbered step cards not live. DDD-dec-124 is named here as the occasion. It is
+  not a basis, as Round 30 ruled for DDD-dec-122.
 
   Review trigger. A method release that changes a file the skill reads without re-pinning the
   plugin; or an eval in which the plugin fills a card from memory.

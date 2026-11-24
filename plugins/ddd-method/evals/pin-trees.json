@@ -1,0 +1,29 @@
+{
+  "pin": "v0.8.0",
+  "evaluated_commit": "e57c5ee6221c5494a9a8d2696e04269bc01f6277",
+  "paths": {
+    "applications/pdlc/": "220cba4c67ea4c637022843d4060db12b399dc35",
+    "applications/pdlc/graph/acts.ttl": "2fa324d23fd9a9368a61e8496c1ca626af5cb645",
+    "applications/pdlc/pdlc.md": "775420321c4b0c0fa876ee74eadb1f9e76973aab",
+    "applications/sdlc/acts/acts.ttl": "f54eecb96e9ce879b6bf05c04512300923e81bcc",
+    "applications/sdlc/sdlc.md": "3d2ff584d8ab8e9cd7b3dc88b8a78900a7c1ca7c",
+    "core/claims/": "add68866ab3ddf3ea2bb0070311c0fac1aff828f",
+    "core/claims/DDD-address-01.yaml": "8bc4ea6675a8b41d0d7aca4e0a7dd80e3b7aed66",
+    "core/claims/DDD-address-02.yaml": "b8a95f3881f2e7f75d02873205fa5ab79e068574",
+    "core/claims/DDD-address-05.yaml": "66a0420ad2b859d0e21e829e88d5f7e019583f20",
+    "core/claims/DDD-address-06.yaml": "fefbfdd727486d4ae15322cb0d00568da25e9e57",
+    "core/claims/DDD-address-07.yaml": "9cdf338bb5f3c0ea05bf8c45c30f13919cf7aec5",
+    "core/claims/DDD-address-09.yaml": "781ff91fe2bce940b0dd7503de5f86133b13d194",
+    "core/claims/DDD-flow-01.yaml": "996e61a8b2845cbcc3e4ca0c158f6ce5d1f14adc",
+    "core/claims/DDD-flow-03.yaml": "7960a8dbc1941a73952cba1ab515f8606484980e",
+    "core/claims/DDD-flow-04.yaml": "7a243f781f7afde9e0be38c52473593cef1f2b6d",
+    "core/decisions/DDD-dec-114.yaml": "74dab1506318b2c4b1a50aa7450a9fcede31a864",
+    "core/decisions/DDD-dec-122.yaml": "cacd301a61067ee142b5fd5bb4e84a9315e128d4",
+    "core/decisions/DDD-dec-124.yaml": "08f59d8b1e2bd4a8b29785e02e8bcdf00f690703",
+    "core/decisions/DDD-dec-82.yaml": "2e16325f76e80fb893b2f0806b4f36c0ce3e5921",
+    "graph/upstream.yaml": "b4972282800b6d50c7607768c9d8651f9cf36d8c",
+    "method/01-map-and-index-acts.md": "aeef23bf9452b214697d2cddb7918ff6956bdd9f",
+    "method/README.md": "dfed1daee8429ec8ca797b46994f5177ddb18e1e",
+    "method/make-an-act-map.md": "6b1bc69e379545cc2609feeeb718e911fa3ce861"
+  }
+}

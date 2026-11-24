@@ -215,3 +215,42 @@ blockquote is the message byte for byte, apart from the quote markers.
 >
 > Work on a full clone. The gate is the whole validate workflow. At the end, name the head to
 > ratify with both required checks by their check names, and stop.
+
+## Round 33, verbatim
+
+Given in this session on 2026-11-24, on the Round 32 report. Cite it as "Round 33, method-plugin
+`rulings.md`". The blockquote is the message byte for byte, apart from the quote markers.
+
+> Rulings on your Round 32 report. Record this message verbatim as Round 33 before you act.
+>
+> Item 1: accepted, with two changes.
+> - The refusal of quick-start.md becomes general: refuse to offer any page that runs a
+>   not-live card. Do not name the file in the skill.
+> - Where an old step's content now sits is read from the live card at the pin. The skill
+>   holds no such mapping in its own text.
+> The skill reads a not-live card's section only where the live card cites it, and says that
+> it is doing so.
+>
+> Item 3: accepted. Say in the plugin's README, beside the table, that the evals cover moves 1
+> to 3 and that move 4 and the edge pass are not tested.
+>
+> Item 4: amendments 1 to 3 and 5 to 7 are accepted. Amendment 4: [yes, Round 27's "step 1 and
+> the demand-flow step first" lapses under DDD-dec-124 / no]. Amend DDD-dec-121 in place.
+>
+> The pin-tree check: derive the list, as you propose.
+>
+> The live card pointing to a not-live card for the pull statement's form is a defect in the
+> card, not in the plugin. Do not fix it here. Name it in findings.md.
+>
+> Now build, in the order Round 32 gave: re-pin to v0.8.0, rewrite the skill and the evals,
+> build the pin check, re-run every eval with the v0.8.0 table beside the v0.7.0 one, rebase
+> onto main with the id check before commit and before push. Work on a full clone. The gate is
+> the whole validate workflow.
+>
+> Stop when it is done. Report the head to ratify in full, both required checks by their check
+> names, the eval table, and anything the evals showed that the card or the skill should not
+> be doing.
+
+**Amendment 4 is not answered.** Its text, "[yes, … / no]", gives both options and chooses neither.
+It is recorded as given and treated as not ruled. It is not applied to `DDD-dec-121`
+(`findings.md`, Round 33).

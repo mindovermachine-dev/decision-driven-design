@@ -5,7 +5,7 @@ each decision where it is resolved, and say which actor, whether person, program
 each one and who answers for it. This repository is the method's software projection: the step
 cards, the claims they rest on, and the decisions that rule them.
 
-**v0.7.0, a pre-release, is a preview: ready to try, not ready to use (`DDD-dec-74`).** The register of each
+**v0.8.0, a pre-release, is a preview: ready to try, not ready to use (`DDD-dec-74`).** The register of each
 reason below is stated beside it, and the [status table](#status-step-by-step) gives each step's.
 
 ## Why use it
@@ -77,7 +77,7 @@ and cannot name the value it gave them. Running that test is Emil's act, and it 
 ## Run it in Claude Code
 
 The method is also a Claude Code plugin, [`plugins/ddd-method/`](plugins/ddd-method/)
-(`DDD-dec-121`). It claims discipline, not better step execution.
+(`DDD-dec-121`). It claims discipline, not better execution of the method.
 
 ```bash
 claude plugin marketplace add mindovermachine-dev/decision-driven-design
@@ -87,10 +87,11 @@ claude plugin marketplace add mindovermachine-dev/decision-driven-design
 claude plugin install ddd-method@decision-driven-design
 ```
 
-Then run `/ddd-method:run`. The plugin holds no method content. It reads the step cards and the
-claims they cite from this repository at its pin, **`v0.7.0`**, and stops if it cannot. Its version
-tracks the pin (`0.7.0`). Any method release that changes what the skill reads advances both, in
-the same change ([plugin README](plugins/ddd-method/README.md)).
+Then run `/ddd-method:run`. The plugin holds no method content. It reads the method's live card,
+and what the card cites, from this repository at its pin, **`v0.8.0`**, and stops if it cannot.
+It does not run a card marked not live. Its version tracks the pin (`0.8.0`). Any method release
+that changes what the skill reads advances both, in the same change
+([plugin README](plugins/ddd-method/README.md)).
 
 ## Where it is the wrong tool
 

@@ -13,7 +13,12 @@ What it checks:
   3. pin       the skill declares exactly one pin, and every tag the skill names is that pin; the
                PIN line is the pin's one source (DDD-dec-121, Round 30), so every version named in
                the evals (graders, scaffold, descriptions), in this plugin's README and in the root
-               README's plugin section is that pin (a version may carry a +p.N suffix);
+               README's plugin section is that pin (a version may carry a +p.N suffix), except an
+               earlier pin's results kept between <!-- pin-history --> markers in this README;
+  5. trees     the evals ran on what the pin holds: evals/pin-trees.json, written by
+               pin_trees.py record, names the pin and each file the skill reads with its git
+               object id; the closure is derived again at the pin (its tag, or HEAD while the tag
+               is not cut) and must match path for path (Round 31, item 4; Round 33);
   4. thin      the skill holds no claim or decision id, and no run of RUN words in a row appears in
                both the skill and any file under method/ (Round 27: the skill carries procedure
                and discipline; cards and canon are read from the repository at the pin).
@@ -22,6 +27,8 @@ import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parents[2]
 PLUGIN = Path(__file__).resolve().parent
@@ -73,7 +80,12 @@ def main():
     readers.append(PLUGIN / "README.md")
     stray = {}
     for f in readers:
-        other = mentions(f.read_text()) - ({pin[1:]} if pin else set())
+        text = f.read_text()
+        if f == PLUGIN / "README.md":
+            # Earlier pins' eval results are kept as history (Rounds 29 and 32), only between
+            # <!-- pin-history --> and <!-- /pin-history --> in this plugin's README.
+            text = re.sub(r"<!-- pin-history -->.*?<!-- /pin-history -->", "", text, flags=re.S)
+        other = mentions(text) - ({pin[1:]} if pin else set())
         if other:
             stray[str(f.relative_to(ROOT))] = sorted(other)
     root = (ROOT / "README.md").read_text()
@@ -88,6 +100,19 @@ def main():
     report("version" not in entry, "version: not set in the marketplace entry")
     report(bool(version) and pin is not None and version.split("+")[0] == pin[1:],
            f"version: plugin.json {version!r} tracks the pin {pin!r}")
+
+    import pin_trees
+    rec_path = PLUGIN / "evals" / "pin-trees.json"
+    if not rec_path.exists():
+        report(False, "trees: evals/pin-trees.json exists (run pin_trees.py record after the evals)")
+    else:
+        rec = json.loads(rec_path.read_text())
+        report(rec.get("pin") == pin, f"trees: the record is for the pin {rec.get('pin')!r}")
+        at = pin if pin and pin_trees.oid(pin, "method/README.md") else "HEAD"
+        now = pin_trees.closure(at)
+        diff = sorted(p for p in set(now) | set(rec.get("paths", {}))
+                      if now.get(p) != rec.get("paths", {}).get(p))
+        report(not diff, f"trees: the files the skill reads at {at} are the ones the evals ran on {diff[:5]}")
 
     ids = sorted(set(re.findall(r"\bDDD-[a-z]+-\d+\b", skill)))
     report(not ids, f"thin: no claim or decision id in the skill {ids}")
