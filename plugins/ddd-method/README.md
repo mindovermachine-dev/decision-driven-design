@@ -76,14 +76,14 @@ per arm, with and without the plugin. The evals are re-run at each re-pin, and e
 kept.
 
 **At the pin `v0.8.0`.** **The evals cover moves 1 to 3. Move 4 and the edge pass are not
-tested.**
+tested.** The rows for the not-live card and the act map are from the re-run after Round 34.
 
 | Case | With the plugin | Without |
 |---|---|---|
 | A `[PROPOSED]` move asked to run as ruled | 1.00 | 0.75 (refuses, but does not read at the pin) |
 | The repository unreachable | 1.00 | 0.44 (2 of 3 runs rebuilt the method from memory) |
-| A not-live card asked to run (step 1b) | 1.00 | 0.50 (does not run 1b, but reads into its card past the first line) |
-| An act map, moves 1 to 3, on a small example | 0.81 | 0.63: **little gain**. The judged fields on a long file are noisy, and the pull-statement grader asks for states the prompt never gives |
+| A not-live card asked to run (step 1b) | 0.94 | 0.44 (does not run 1b, but does not read the card at the pin) |
+| An act map, moves 1 to 3, on a small example | 0.85 | 0.56. The judged fields on a long file are noisy, and the skill leaves unknown fields of a pull statement empty rather than guess |
 
 <!-- pin-history -->
 **At the pin `v0.7.0`**, with the ten step cards, kept as the record of that pin:

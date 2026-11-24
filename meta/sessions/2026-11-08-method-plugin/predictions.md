@@ -86,5 +86,5 @@ Each prediction was made before its operation ran. Outcomes as observed.
 |---|---|---|---|
 | 46 | Round 34 copied into `rulings.md` | Byte-exact | **Held** |
 | 47 | The rule line on the not-live cards at `v0.8.0` | The first `---` | **Held.** Line 7 on 1b's card and on 6's |
-| 48 | Re-run `not-live-card` (3 runs per arm) | With ≈ 1.00, now relaying 1b's superseding section and saying it does. Without ≈ 0.5 | |
-| 49 | Re-run `act-map-small` (3 runs per arm) | With rises to ≈ 0.9 to 0.95, as `pull-statement` passes on gaps marked missing with a reason. Without stays ≈ 0.6 to 0.8. `act-description` stays noisy on long files | |
+| 48 | Re-run `not-live-card` (3 runs per arm) | With ≈ 1.00, now relaying 1b's superseding section and saying it does. Without ≈ 0.5 | **Held in part.** 0.94 / 0.44. The 0.06 is a grader miss on a quoted shell variable |
+| 49 | Re-run `act-map-small` (3 runs per arm) | With rises to ≈ 0.9 to 0.95, as `pull-statement` passes on gaps marked missing with a reason. Without stays ≈ 0.6 to 0.8. `act-description` stays noisy on long files | **Missed in part.** 0.85 / 0.56. `pull-statement` still failed in 2 of 3 runs with the plugin: a kind left empty, and a reason given only as a comment |

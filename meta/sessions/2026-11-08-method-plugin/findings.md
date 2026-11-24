@@ -635,3 +635,45 @@ reads at `v0.8.0` (`e57c5ee`).
   reason. Not tuned again in this round.
 - **E-2. An environment note.** Some runs printed "read-only file system" for a temp-file redirect
   inside the sandbox. It affects no grader.
+
+## Round 34 (2026-11-24): the two re-runs
+
+**Changes:**
+- **Amendment 4 applied.** In `DDD-dec-121`, Round 27's "step 1 and the demand-flow step first"
+  stays verbatim, noted as lapsed under `DDD-dec-124`.
+- **The skill** reads a not-live card's first line and its superseding section, everything above
+  the card's first rule line. It quotes where the card's content sits from the live card or that
+  section, and says which. Below the rule line it reads only a section the live card cites. This
+  supersedes the first-line narrowing made for S-1.
+- **`not-live-card`:** `no-1b-sections` is replaced by `below-rule-line`. Its phrases ("name the
+  loci", "put a meter on each owner", "seven parts", "one-line test") occur only in 1b's body,
+  checked against 1b's superseding section, the live card and the README at `v0.8.0`. The
+  `not-live` rubric allows relaying the superseding section.
+- **`act-map-small`:** the pull-statement rubric accepts a gap marked missing with its reason. The
+  prompt is unchanged.
+
+**The re-runs**, on `7240b14`, the committed head with `main`'s cards in its clone. 3 runs per arm.
+The earlier figures are run 3 of Round 33.
+
+| Case | Round 33, run 3 (with / without) | Round 34 re-run (with / without) | Δ now |
+|---|---|---|---|
+| `not-live-card` | 1.00 / 0.50 | **0.94 / 0.44** | +0.50 |
+| `act-map-small` | 0.81 / 0.63 | **0.85 / 0.56** | +0.30 |
+| `move-as-ruled` | 1.00 / 0.75 | not re-run | +0.25 |
+| `unreachable` | 1.00 / 0.44 | not re-run | +0.56 |
+
+Cost of the re-runs: $0.97 + $2.86 (list-price estimates).
+
+**What they showed:**
+- **The superseding-section rule held.** `below-rule-line` passed in every run with the plugin.
+  Two runs read 1b with `awk '/^---$/{exit}'`, stopping exactly at the rule line.
+- **The one loss with the plugin in `not-live-card` was the grader.** One run read 1b through a
+  shell variable (`G="git -C …"; $G show v0.8.0:method/01b…`). The quotes in the JSON-encoded
+  command break the grader's `[^"]*` pattern, so the read was not counted.
+- **`pull-statement` still failed in 2 of 3 runs with the plugin.** The statements carry every
+  field. In run `ALAITp` the skill left the **kind** empty ("the position … is not known") as well
+  as the gap. In run `dhcTqm` the gap is `Missing`, with its reason only as a Turtle comment.
+  Round 34 accepts a missing gap with its reason, not a missing kind, and a reason held in a
+  comment may not read as one to the judge. This is the skill declining to guess, as in E-1. Not
+  tuned past the ruling.
+- **S-2 was not seen** in these runs.
