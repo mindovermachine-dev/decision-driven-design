@@ -76,10 +76,10 @@ meet.
   make its claims reported.
 
 **A card marked not live is never run.** If the user asks to run a card or a numbered step whose
-first lines say it is not live:
-- read at the pin only the card's opening lines that say it is not live, and nothing more of it:
-  not its other sections, its own superseding section included, unless the live card cites them.
-  Say that the card is not live, and name the live card those lines point to;
+first line says it is not live:
+- read at the pin only the card's **first line**, the one that says it is not live, and nothing
+  more of it. Not the lines after it, its own superseding section included, unless the live card
+  cites them. Say that the card is not live, and name the live card that line points to;
 - do not run the old card's procedure, and do not summarise it as if it were the method;
 - say where that card's content now sits, **as the live card at the pin says it**. Find the place
   in the live card that names the old step or card, and quote it. If the live card says nothing,
